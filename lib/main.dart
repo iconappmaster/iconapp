@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/routes/router.gr.dart';
+import 'package:logger/logger.dart';
 import 'screens/login_screen.dart';
+
+final logger = Logger();
 
 void main() {
   initLocator();

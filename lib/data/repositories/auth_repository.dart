@@ -6,11 +6,11 @@ abstract class AuthRepository {
   Future<void> signOut();
   Stream<FirebaseUser> onAuthStateChanged();
   Future<void> verifyPhone(
-      String phoneNumber,
+      {String phoneNumber,
       PhoneVerificationCompleted completed,
       PhoneVerificationFailed failed,
       PhoneCodeSent sent,
-      PhoneCodeAutoRetrievalTimeout timeout);
+      PhoneCodeAutoRetrievalTimeout timeout});
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -28,15 +28,16 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> signOut() async => await _auth.signOut();
 
   @override
-  Future<void> verifyPhone(
-      String phoneNumber,
-      PhoneVerificationCompleted completed,
-      PhoneVerificationFailed failed,
-      PhoneCodeSent sent,
-      PhoneCodeAutoRetrievalTimeout timeout) async {
+  Future<void> verifyPhone({
+    String phoneNumber,
+    PhoneVerificationCompleted completed,
+    PhoneVerificationFailed failed,
+    PhoneCodeSent sent,
+    PhoneCodeAutoRetrievalTimeout timeout,
+  }) async {
     _auth.verifyPhoneNumber(
       phoneNumber: phoneNumber,
-      timeout: Duration(minutes: 1),
+      timeout: Duration(minutes: 2),
       verificationCompleted: completed,
       verificationFailed: failed,
       codeSent: sent,
