@@ -22,18 +22,12 @@ final messageSubtitle = GoogleFonts.roboto(
   textStyle: TextStyle(color: Colors.black, letterSpacing: .5, fontSize: 14),
 );
 
-
 // Decorations
-final fieldShadow = BoxDecoration(
-  borderRadius: BorderRadius.circular(30),
-  color: Colors.white,
-);
+final fieldShadow =
+    BoxDecoration(borderRadius: BorderRadius.circular(30), color: Colors.white);
 
 final containerShadow = BoxShadow(
-  color: black.withOpacity(.3),
-  blurRadius: 20,
-  offset: Offset(0, 7),
-);
+    color: black.withOpacity(.3), blurRadius: 20, offset: Offset(0, 7));
 
 // Paddings
 final columnPadding = const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8);

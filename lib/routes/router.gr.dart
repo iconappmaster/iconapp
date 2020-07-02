@@ -16,6 +16,9 @@ import 'package:iconapp/screens/contacts_screen.dart';
 import 'package:iconapp/screens/search_screen.dart';
 import 'package:iconapp/screens/chat_screen.dart';
 import 'package:iconapp/screens/create_group_screen.dart';
+import 'package:iconapp/screens/story_screen.dart';
+import 'package:iconapp/screens/full_video_screen.dart';
+import 'package:iconapp/screens/full_image_screen.dart';
 
 class Router {
   static const loginScreen = '/';
@@ -27,6 +30,9 @@ class Router {
   static const searchScreen = '/search-screen';
   static const chatScreen = '/chat-screen';
   static const createGroupScreen = '/create-group-screen';
+  static const storyScreen = '/story-screen';
+  static const fullVideoScreen = '/full-video-screen';
+  static const fullImageScreen = '/full-image-screen';
   static GlobalKey<NavigatorState> get navigatorKey =>
       getNavigatorKey<Router>();
   static NavigatorState get navigator => navigatorKey.currentState;
@@ -77,6 +83,21 @@ class Router {
       case Router.createGroupScreen:
         return MaterialPageRoute(
           builder: (_) => CreateGroupScreen(),
+          settings: settings,
+        );
+      case Router.storyScreen:
+        return MaterialPageRoute(
+          builder: (_) => StoryScreen(),
+          settings: settings,
+        );
+      case Router.fullVideoScreen:
+        return MaterialPageRoute(
+          builder: (_) => FullVideoScreen(),
+          settings: settings,
+        );
+      case Router.fullImageScreen:
+        return MaterialPageRoute(
+          builder: (_) => FullImageScreen(),
           settings: settings,
         );
       default:

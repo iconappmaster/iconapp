@@ -1,12 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/repositories/auth_repository.dart';
-import 'package:iconapp/main.dart';
 import 'package:mobx/mobx.dart';
 part 'login_store.g.dart';
 
 class LoginStore = _LoginStoreBase with _$LoginStore;
+
+
 
 abstract class _LoginStoreBase with Store {
   AuthRepository _repository;
@@ -25,36 +24,25 @@ abstract class _LoginStoreBase with Store {
   String phone = '';
 
   @observable
-  String _verificationId = '';
-
-  @computed
-  String get getVerificationId => _verificationId;
+  String code = '';
 
   @action
   Future verifyPhone() async {
-    
     if (phone.isEmpty) return;
-
-    await _repository.verifyPhone(
-      phoneNumber: getPhoneNumber,
-      completed: verificationCompleted,
-      failed: (error) => logger.d(error.message),
-      sent: (verificationId, [_]) => _verificationId = verificationId,
-      timeout: (verificationId) => _verificationId = verificationId,
-    );
+    try {
+      await _repository.verifyPhone(getPhoneNumber);
+    } on Exception catch (e) {
+      // TODO
+    }
   }
 
-  final PhoneVerificationCompleted verificationCompleted =
-      (AuthCredential credential) async {
+  Future verifySms() async {
     try {
-      final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-      final fbUser = await firebaseAuth
-          .signInWithCredential(credential)
-          .catchError((e) async => logger.d(e));
-    } catch (e) {
-      logger.d(e);
+      await _repository.verifyCode(getPhoneNumber, code);
+    } on Exception catch (e) {
+      // TODO
     }
-  };
+  }
 
   String get getPhoneNumber => (phoneCode + phone).trim();
 }

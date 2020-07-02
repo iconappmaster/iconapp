@@ -1,23 +1,17 @@
 import 'dart:async';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 
 abstract class AuthRepository {
   Future<bool> isSignIn();
   Future<void> signOut();
-  Stream<FirebaseUser> onAuthStateChanged();
-  Future<void> verifyPhone(
-      {String phoneNumber,
-      PhoneVerificationCompleted completed,
-      PhoneVerificationFailed failed,
-      PhoneCodeSent sent,
-      PhoneCodeAutoRetrievalTimeout timeout});
+  Future<void> verifyPhone(String phone);
+  Future<void> verifyCode(String phone, String code);
 }
 
 class AuthRepositoryImpl implements AuthRepository {
-  final FirebaseAuth _auth;
+  final RestClient restClient;
 
-  AuthRepositoryImpl({FirebaseAuth firebaseAuth})
-      : _auth = firebaseAuth ?? FirebaseAuth.instance;
+  AuthRepositoryImpl({this.restClient});
 
   @override
   Future<bool> isSignIn() async {
@@ -25,35 +19,14 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> signOut() async => await _auth.signOut();
-
-  @override
-  Future<void> verifyPhone({
-    String phoneNumber,
-    PhoneVerificationCompleted completed,
-    PhoneVerificationFailed failed,
-    PhoneCodeSent sent,
-    PhoneCodeAutoRetrievalTimeout timeout,
-  }) async {
-    _auth.verifyPhoneNumber(
-      phoneNumber: phoneNumber,
-      timeout: Duration(minutes: 2),
-      verificationCompleted: completed,
-      verificationFailed: failed,
-      codeSent: sent,
-      codeAutoRetrievalTimeout: timeout,
-    );
+  Future<void> signOut() async {
+    throw UnimplementedError;
   }
 
   @override
-  Stream<FirebaseUser> onAuthStateChanged() {
-    return _auth.onAuthStateChanged;
-  }
+  Future<void> verifyPhone(String phone) async => restClient.verifyPhone(phone);
 
-  a() {
-    onAuthStateChanged().listen((user) {
-      if (user == null) {
-      } else {}
-    });
-  }
+  @override
+  Future<void> verifyCode(String phone, String code) async =>
+      restClient.verifyCode(phone, code);
 }
