@@ -17,6 +17,14 @@ mixin _$OnboardingStore on _OnboardingStoreBase, Store {
     return _$createUserAsyncAction.run(() => super.createUser(user));
   }
 
+  final _$getCurrentUserAsyncAction =
+      AsyncAction('_OnboardingStoreBase.getCurrentUser');
+
+  @override
+  Future<dynamic> getCurrentUser() {
+    return _$getCurrentUserAsyncAction.run(() => super.getCurrentUser());
+  }
+
   @override
   String toString() {
     return '''

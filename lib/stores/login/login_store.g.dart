@@ -54,18 +54,33 @@ mixin _$LoginStore on _LoginStoreBase, Store {
     });
   }
 
-  final _$codeAtom = Atom(name: '_LoginStoreBase.code');
+  final _$smsCodeAtom = Atom(name: '_LoginStoreBase.smsCode');
 
   @override
-  String get code {
-    _$codeAtom.reportRead();
-    return super.code;
+  String get smsCode {
+    _$smsCodeAtom.reportRead();
+    return super.smsCode;
   }
 
   @override
-  set code(String value) {
-    _$codeAtom.reportWrite(value, super.code, () {
-      super.code = value;
+  set smsCode(String value) {
+    _$smsCodeAtom.reportWrite(value, super.smsCode, () {
+      super.smsCode = value;
+    });
+  }
+
+  final _$currentStepAtom = Atom(name: '_LoginStoreBase.currentStep');
+
+  @override
+  int get currentStep {
+    _$currentStepAtom.reportRead();
+    return super.currentStep;
+  }
+
+  @override
+  set currentStep(int value) {
+    _$currentStepAtom.reportWrite(value, super.currentStep, () {
+      super.currentStep = value;
     });
   }
 
@@ -82,7 +97,8 @@ mixin _$LoginStore on _LoginStoreBase, Store {
 isLoading: ${isLoading},
 phoneCode: ${phoneCode},
 phone: ${phone},
-code: ${code}
+smsCode: ${smsCode},
+currentStep: ${currentStep}
     ''';
   }
 }

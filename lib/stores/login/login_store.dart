@@ -1,11 +1,11 @@
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/repositories/auth_repository.dart';
 import 'package:mobx/mobx.dart';
+
+import '../../main.dart';
 part 'login_store.g.dart';
 
 class LoginStore = _LoginStoreBase with _$LoginStore;
-
-
 
 abstract class _LoginStoreBase with Store {
   AuthRepository _repository;
@@ -24,7 +24,10 @@ abstract class _LoginStoreBase with Store {
   String phone = '';
 
   @observable
-  String code = '';
+  String smsCode = '';
+
+  @observable
+  int currentStep = 0;
 
   @action
   Future verifyPhone() async {
@@ -32,15 +35,15 @@ abstract class _LoginStoreBase with Store {
     try {
       await _repository.verifyPhone(getPhoneNumber);
     } on Exception catch (e) {
-      // TODO
+      logger.d(e);
     }
   }
 
   Future verifySms() async {
     try {
-      await _repository.verifyCode(getPhoneNumber, code);
+      await _repository.verifyCode(getPhoneNumber, smsCode);
     } on Exception catch (e) {
-      // TODO
+      logger.d(e);
     }
   }
 

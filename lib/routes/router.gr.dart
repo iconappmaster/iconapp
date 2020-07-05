@@ -19,6 +19,7 @@ import 'package:iconapp/screens/create_group_screen.dart';
 import 'package:iconapp/screens/story_screen.dart';
 import 'package:iconapp/screens/full_video_screen.dart';
 import 'package:iconapp/screens/full_image_screen.dart';
+import 'package:iconapp/data/models/photo_model.dart';
 
 class Router {
   static const loginScreen = '/';
@@ -96,12 +97,29 @@ class Router {
           settings: settings,
         );
       case Router.fullImageScreen:
+        if (hasInvalidArgs<FullImageScreenArguments>(args)) {
+          return misTypedArgsRoute<FullImageScreenArguments>(args);
+        }
+        final typedArgs =
+            args as FullImageScreenArguments ?? FullImageScreenArguments();
         return MaterialPageRoute(
-          builder: (_) => FullImageScreen(),
+          builder: (_) =>
+              FullImageScreen(key: typedArgs.key, photo: typedArgs.photo),
           settings: settings,
         );
       default:
         return unknownRoutePage(settings.name);
     }
   }
+}
+
+//**************************************************************************
+// Arguments holder classes
+//***************************************************************************
+
+//FullImageScreen arguments holder class
+class FullImageScreenArguments {
+  final Key key;
+  final PhotoModel photo;
+  FullImageScreenArguments({this.key, this.photo});
 }

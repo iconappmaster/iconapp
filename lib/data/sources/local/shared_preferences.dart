@@ -5,6 +5,7 @@ enum StorageKey {
   user,
   isDev,
   tabPosition,
+  signedIn,
 }
 
 class SharedPreferencesService {

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 
 abstract class AuthRepository {
@@ -10,18 +11,16 @@ abstract class AuthRepository {
 
 class AuthRepositoryImpl implements AuthRepository {
   final RestClient restClient;
+  final SharedPreferencesService sp;
 
-  AuthRepositoryImpl({this.restClient});
-
-  @override
-  Future<bool> isSignIn() async {
-    throw UnimplementedError;
-  }
+  AuthRepositoryImpl({this.restClient, this.sp});
 
   @override
-  Future<void> signOut() async {
-    throw UnimplementedError;
-  }
+  Future<bool> isSignIn() async =>
+      sp.contains(StorageKey.user) && sp.getBool(StorageKey.signedIn);
+
+  @override
+  Future<void> signOut() async => sp.clear();
 
   @override
   Future<void> verifyPhone(String phone) async => restClient.verifyPhone(phone);

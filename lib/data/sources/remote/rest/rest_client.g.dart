@@ -190,6 +190,27 @@ class _RestClient implements RestClient {
   }
 
   @override
+  likeMessage(chatId, messageId, addLike) async {
+    ArgumentError.checkNotNull(chatId, 'chatId');
+    ArgumentError.checkNotNull(messageId, 'messageId');
+    ArgumentError.checkNotNull(addLike, 'addLike');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = addLike;
+    final Response _result = await _dio.request(
+        'likeMessage/$chatId/$messageId',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = _result.data;
+    return value;
+  }
+
+  @override
   searchCategory(query) async {
     ArgumentError.checkNotNull(query, 'query');
     const _extra = <String, dynamic>{};
@@ -205,6 +226,25 @@ class _RestClient implements RestClient {
         data: _data);
     var value = _result.data
         .map((dynamic i) => CategoryModel.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return value;
+  }
+
+  @override
+  getAllContacts() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response<List<dynamic>> _result = await _dio.request('getAllContats',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    var value = _result.data
+        .map((dynamic i) => UserModel.fromJson(i as Map<String, dynamic>))
         .toList();
     return value;
   }

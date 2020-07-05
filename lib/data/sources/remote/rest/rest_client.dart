@@ -50,9 +50,16 @@ abstract class RestClient {
   @POST('sendMessage/{chatId}')
   Future sendMessage(@Path() String chatId, @Body() MessageModel message);
 
+  @POST('likeMessage/{chatId}/{messageId}')
+  Future likeMessage(@Path() String chatId, @Path() String messageId, @Body() bool addLike);
+
   // SEARCH
   @GET('searchCategory')
   Future<List<CategoryModel>> searchCategory(@Query('query') String query);
+
+  // Contacts
+  @GET('getAllContats')
+  Future<List<UserModel>> getAllContacts();
 }
 
 Dio getDioClient() {
