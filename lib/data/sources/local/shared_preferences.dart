@@ -12,7 +12,7 @@ class SharedPreferencesService {
   SharedPreferences _sharedPreferences;
   List<StorageKey> keepKeysOnVersionUpdate = [StorageKey.user];
   List<StorageKey> keepKeysOnLogout = [];
-
+  
   Future<void> init() async {
     _sharedPreferences = await SharedPreferences.getInstance();
   }

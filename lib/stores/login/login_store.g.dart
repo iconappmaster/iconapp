@@ -9,78 +9,33 @@ part of 'login_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$LoginStore on _LoginStoreBase, Store {
-  final _$isLoadingAtom = Atom(name: '_LoginStoreBase.isLoading');
+  Computed<int> _$currentStepComputed;
 
   @override
-  bool get isLoading {
-    _$isLoadingAtom.reportRead();
-    return super.isLoading;
+  int get currentStep =>
+      (_$currentStepComputed ??= Computed<int>(() => super.currentStep,
+              name: '_LoginStoreBase.currentStep'))
+          .value;
+  Computed<LoginState> _$getStateComputed;
+
+  @override
+  LoginState get getState =>
+      (_$getStateComputed ??= Computed<LoginState>(() => super.getState,
+              name: '_LoginStoreBase.getState'))
+          .value;
+
+  final _$stateAtom = Atom(name: '_LoginStoreBase.state');
+
+  @override
+  LoginState get state {
+    _$stateAtom.reportRead();
+    return super.state;
   }
 
   @override
-  set isLoading(bool value) {
-    _$isLoadingAtom.reportWrite(value, super.isLoading, () {
-      super.isLoading = value;
-    });
-  }
-
-  final _$phoneCodeAtom = Atom(name: '_LoginStoreBase.phoneCode');
-
-  @override
-  String get phoneCode {
-    _$phoneCodeAtom.reportRead();
-    return super.phoneCode;
-  }
-
-  @override
-  set phoneCode(String value) {
-    _$phoneCodeAtom.reportWrite(value, super.phoneCode, () {
-      super.phoneCode = value;
-    });
-  }
-
-  final _$phoneAtom = Atom(name: '_LoginStoreBase.phone');
-
-  @override
-  String get phone {
-    _$phoneAtom.reportRead();
-    return super.phone;
-  }
-
-  @override
-  set phone(String value) {
-    _$phoneAtom.reportWrite(value, super.phone, () {
-      super.phone = value;
-    });
-  }
-
-  final _$smsCodeAtom = Atom(name: '_LoginStoreBase.smsCode');
-
-  @override
-  String get smsCode {
-    _$smsCodeAtom.reportRead();
-    return super.smsCode;
-  }
-
-  @override
-  set smsCode(String value) {
-    _$smsCodeAtom.reportWrite(value, super.smsCode, () {
-      super.smsCode = value;
-    });
-  }
-
-  final _$currentStepAtom = Atom(name: '_LoginStoreBase.currentStep');
-
-  @override
-  int get currentStep {
-    _$currentStepAtom.reportRead();
-    return super.currentStep;
-  }
-
-  @override
-  set currentStep(int value) {
-    _$currentStepAtom.reportWrite(value, super.currentStep, () {
-      super.currentStep = value;
+  set state(LoginState value) {
+    _$stateAtom.reportWrite(value, super.state, () {
+      super.state = value;
     });
   }
 
@@ -91,14 +46,37 @@ mixin _$LoginStore on _LoginStoreBase, Store {
     return _$verifyPhoneAsyncAction.run(() => super.verifyPhone());
   }
 
+  final _$_LoginStoreBaseActionController =
+      ActionController(name: '_LoginStoreBase');
+
+  @override
+  dynamic updatePhone(String phone) {
+    final _$actionInfo = _$_LoginStoreBaseActionController.startAction(
+        name: '_LoginStoreBase.updatePhone');
+    try {
+      return super.updatePhone(phone);
+    } finally {
+      _$_LoginStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic updateCode(String code) {
+    final _$actionInfo = _$_LoginStoreBaseActionController.startAction(
+        name: '_LoginStoreBase.updateCode');
+    try {
+      return super.updateCode(code);
+    } finally {
+      _$_LoginStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
-isLoading: ${isLoading},
-phoneCode: ${phoneCode},
-phone: ${phone},
-smsCode: ${smsCode},
-currentStep: ${currentStep}
+state: ${state},
+currentStep: ${currentStep},
+getState: ${getState}
     ''';
   }
 }

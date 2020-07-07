@@ -1,31 +1,64 @@
 import 'dart:async';
+import 'package:dartz/dartz.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
+import 'package:iconapp/domain/auth/auth_failure.dart';
 
 abstract class AuthRepository {
-  Future<bool> isSignIn();
+  bool isSignIn();
+  bool isOboarding();
   Future<void> signOut();
-  Future<void> verifyPhone(String phone);
-  Future<void> verifyCode(String phone, String code);
+  Future<Either<AuthFailure, Unit>> verifyPhone(String phone);
+  Future<Either<AuthFailure, Unit>> verifyCode(String phone, String code);
 }
 
 class AuthRepositoryImpl implements AuthRepository {
   final RestClient restClient;
   final SharedPreferencesService sp;
 
-  AuthRepositoryImpl({this.restClient, this.sp});
+  AuthRepositoryImpl({
+    @required this.restClient,
+    @required this.sp,
+  });
 
   @override
-  Future<bool> isSignIn() async =>
+  bool isSignIn() =>
       sp.contains(StorageKey.user) && sp.getBool(StorageKey.signedIn);
+
+  @override
+  bool isOboarding() => sp.getBool(StorageKey.isFinishedOnboarding);
 
   @override
   Future<void> signOut() async => sp.clear();
 
   @override
-  Future<void> verifyPhone(String phone) async => restClient.verifyPhone(phone);
+  Future<Either<AuthFailure, Unit>> verifyPhone(String phone) async {
+    try {
+      await restClient.verifyPhone(phone);
+      return right(unit);
+    } on PlatformException catch (e) {
+      if (e.code == 'ERROR_PHONE_ALREADY_IN_USE') {
+        return left(const AuthFailure.phoneAlreadyTaken());
+      } else {
+        return left(const AuthFailure.serverError());
+      }
+    }
+  }
 
   @override
-  Future<void> verifyCode(String phone, String code) async =>
-      restClient.verifyCode(phone, code);
+  Future<Either<AuthFailure, Unit>> verifyCode(
+      String phone, String code) async {
+    try {
+      await restClient.verifyCode(phone, code);
+      return right(unit);
+    } on PlatformException catch (e) {
+      if (e.code == 'ERROR_WRONG_SMS') {
+        return left(const AuthFailure.wrongCode());
+      } else {
+        return left(const AuthFailure.serverError());
+      }
+    }
+  }
 }

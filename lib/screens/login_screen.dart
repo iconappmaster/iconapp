@@ -1,26 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/domain/core/value_validators.dart';
 import 'package:iconapp/stores/login/login_store.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = sl<LoginStore>();
+
     return Scaffold(
-      body: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          Stepper(
-            onStepTapped: (step) => store.currentStep = step,
-            physics: BouncingScrollPhysics(),
-            type: StepperType.vertical,
-            steps: [
-              _buildPhoneStep(store),
-              _buildSmsStep(store),
-            ],
-          ),
-        ],
+      body: Observer(
+        builder: (_) => Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            Stepper(
+              onStepContinue: () {},
+              onStepTapped: (step) => store.state.copyWith(currentStep: step),
+              currentStep: store.currentStep,
+              physics: BouncingScrollPhysics(),
+              type: StepperType.vertical,
+              steps: [
+                _buildPhoneStep(store),
+                _buildSmsStep(store),
+              ],
+            ),
+            if (store.getState.loading) ...[
+              Align(
+                alignment: Alignment.center,
+                child: CircularProgressIndicator(),
+              )
+            ]
+          ],
+        ),
       ),
     );
   }
@@ -31,11 +44,11 @@ class LoginScreen extends StatelessWidget {
       content: Column(
         children: <Widget>[
           TextField(
-            onChanged: (phone) => store.phone = phone,
+            onChanged: (phone) => store.updatePhone(phone),
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
                 helperText: 'Enter only the numbers.',
-                prefixText: store.phoneCode + ' ',
+                prefixText: store.state.phonePrefix + ' ',
                 labelText: 'Phone No.'),
           ),
           Container(
@@ -45,28 +58,15 @@ class LoginScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   textColor: Colors.white,
                   color: black,
-                  onPressed: () {
-                    RegExp e164 = new RegExp(r'^\+[1-9]\d{1,14}$');
-                    if (store.phone.isNotEmpty &&
-                        e164.hasMatch(store.phoneCode + store.phone)) {
-                      store.verifyPhone();
-                      store.currentStep += 1;
-                    }
-                  },
+                  onPressed: () async => await store.verifyPhone(),
                   child: Text('Next')),
               SizedBox(width: 8.0),
-              RaisedButton(
-                  padding: const EdgeInsets.all(8.0),
-                  textColor: Colors.black,
-                  color: Colors.white,
-                  onPressed: () => store.currentStep -= 1,
-                  child: Text('Back')),
             ]),
           )
         ],
       ),
       isActive: store.currentStep >= 0,
-      state: store.currentStep >= 1 ? StepState.complete : StepState.disabled,
+      state: store.currentStep >= 0 ? StepState.complete : StepState.disabled,
     );
   }
 
@@ -75,21 +75,10 @@ class LoginScreen extends StatelessWidget {
       title: Text('Verify Code'),
       content: Column(children: <Widget>[
         TextField(
-            maxLength: 6,
-            onChanged: (sms) => store.smsCode,
+            maxLength: minCodeLength,
+            onChanged: (code) => store.state.copyWith(code: code),
             decoration: InputDecoration(labelText: 'Phone Code'),
             keyboardType: TextInputType.number),
-        FlatButton(
-          padding: EdgeInsets.zero,
-          child: Text.rich(TextSpan(
-              text: 'By clicking Next, you are accepting our ',
-              children: [
-                TextSpan(
-                    text: 'Privacy Policy.',
-                    style: TextStyle(decoration: TextDecoration.underline))
-              ])),
-          onPressed: () {},
-        ),
         Container(
             margin: const EdgeInsets.only(top: 10.0),
             child: Row(children: <Widget>[
@@ -97,19 +86,9 @@ class LoginScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   textColor: Colors.white,
                   color: black,
-                  onPressed: () {
-                    if (store.smsCode.length == 6) {
-                      store.verifySms();
-                    }
-                  },
+                  onPressed: () => store.verifySms(),
                   child: Text('Next')),
               SizedBox(width: 8.0),
-              RaisedButton(
-                  padding: const EdgeInsets.all(8.0),
-                  textColor: Colors.black,
-                  color: Colors.white,
-                  onPressed: () => store.currentStep -= 1,
-                  child: Text('Back')),
             ]))
       ]),
       isActive: store.currentStep >= 0,

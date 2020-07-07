@@ -10,8 +10,12 @@ abstract class _OnboardingStoreBase with Store {
 
   _OnboardingStoreBase({this.userRepository});
 
+  @observable
+  UserModel userModel;
+  
+
   @action
-  Future createUser(UserModel user) async {
+  Future updateUser(UserModel user) async {
     final createdUser = await userRepository.updateUser(user);
     await userRepository.persistUser(createdUser);
   }

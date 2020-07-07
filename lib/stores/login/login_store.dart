@@ -1,8 +1,9 @@
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/repositories/auth_repository.dart';
+import 'package:iconapp/domain/auth/auth_failure.dart';
 import 'package:mobx/mobx.dart';
 
-import '../../main.dart';
+import 'login_state.dart';
 part 'login_store.g.dart';
 
 class LoginStore = _LoginStoreBase with _$LoginStore;
@@ -15,37 +16,71 @@ abstract class _LoginStoreBase with Store {
   }
 
   @observable
-  bool isLoading = false;
+  LoginState state = LoginState.initial();
 
-  @observable
-  String phoneCode = '+972';
+  @computed
+  int get currentStep => state.currentStep;
 
-  @observable
-  String phone = '';
+  @computed
+  LoginState get getState => state;
 
-  @observable
-  String smsCode = '';
+  @action
+  updatePhone(String phone) {
+    state = state.copyWith(phone: phone);
+  }
 
-  @observable
-  int currentStep = 0;
+  @action
+  updateCode(String code) {
+    state = state.copyWith(code: code);
+  }
 
   @action
   Future verifyPhone() async {
-    if (phone.isEmpty) return;
-    try {
-      await _repository.verifyPhone(getPhoneNumber);
-    } on Exception catch (e) {
-      logger.d(e);
-    }
+    state = state.copyWith(loading: true);
+
+    final handleFailure = (AuthFailure failure) {
+      state = state.copyWith(
+          errorMessage: failure.maybeWhen(
+              serverError: () => 'Server error',
+              phoneAlreadyTaken: () => 'phone has been taken',
+              orElse: () => null));
+    };
+
+    final handleSuccess = (_) {
+      var currentStep = state.currentStep;
+      state = state.copyWith(currentStep: currentStep += 1);
+    };
+
+    final fullNumber = state.phonePrefix + state.phone;
+
+    final failureOrSuccess = await _repository.verifyPhone(fullNumber);
+    failureOrSuccess.fold(
+      handleFailure,
+      handleSuccess,
+    );
   }
 
   Future verifySms() async {
-    try {
-      await _repository.verifyCode(getPhoneNumber, smsCode);
-    } on Exception catch (e) {
-      logger.d(e);
-    }
-  }
+    state = state.copyWith(loading: true);
 
-  String get getPhoneNumber => (phoneCode + phone).trim();
+    final handleFailure = (AuthFailure failure) {
+      state = state.copyWith(
+          errorMessage: failure.maybeWhen(
+              wrongCode: () => 'wrong code', orElse: () => null));
+    };
+
+    final handleSuccess = (_) {
+      var currentStep = state.currentStep;
+      state = state.copyWith(currentStep: currentStep += 1);
+    };
+
+    final fullNumber = state.phonePrefix + state.phone;
+    final code = state.code;
+
+    final failureOrSuccess = await _repository.verifyCode(fullNumber, code);
+    failureOrSuccess.fold(
+      handleFailure,
+      handleSuccess,
+    );
+  }
 }
