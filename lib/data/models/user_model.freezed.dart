@@ -16,13 +16,15 @@ class _$UserModelTearOff {
   const _$UserModelTearOff();
 
   _UserModel call(
-      {String firstName,
+      {String id,
+      String firstName,
       String lastName,
       UserGender gender,
       PhotoModel photo,
       DateTime birthday,
       UserRole role}) {
     return _UserModel(
+      id: id,
       firstName: firstName,
       lastName: lastName,
       gender: gender,
@@ -37,6 +39,7 @@ class _$UserModelTearOff {
 const $UserModel = _$UserModelTearOff();
 
 mixin _$UserModel {
+  String get id;
   String get firstName;
   String get lastName;
   UserGender get gender;
@@ -52,7 +55,8 @@ abstract class $UserModelCopyWith<$Res> {
   factory $UserModelCopyWith(UserModel value, $Res Function(UserModel) then) =
       _$UserModelCopyWithImpl<$Res>;
   $Res call(
-      {String firstName,
+      {String id,
+      String firstName,
       String lastName,
       UserGender gender,
       PhotoModel photo,
@@ -69,6 +73,7 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
 
   @override
   $Res call({
+    Object id = freezed,
     Object firstName = freezed,
     Object lastName = freezed,
     Object gender = freezed,
@@ -77,6 +82,7 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
     Object role = freezed,
   }) {
     return _then(_value.copyWith(
+      id: id == freezed ? _value.id : id as String,
       firstName: firstName == freezed ? _value.firstName : firstName as String,
       lastName: lastName == freezed ? _value.lastName : lastName as String,
       gender: gender == freezed ? _value.gender : gender as UserGender,
@@ -93,7 +99,8 @@ abstract class _$UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
       __$UserModelCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String firstName,
+      {String id,
+      String firstName,
       String lastName,
       UserGender gender,
       PhotoModel photo,
@@ -111,6 +118,7 @@ class __$UserModelCopyWithImpl<$Res> extends _$UserModelCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object id = freezed,
     Object firstName = freezed,
     Object lastName = freezed,
     Object gender = freezed,
@@ -119,6 +127,7 @@ class __$UserModelCopyWithImpl<$Res> extends _$UserModelCopyWithImpl<$Res>
     Object role = freezed,
   }) {
     return _then(_UserModel(
+      id: id == freezed ? _value.id : id as String,
       firstName: firstName == freezed ? _value.firstName : firstName as String,
       lastName: lastName == freezed ? _value.lastName : lastName as String,
       gender: gender == freezed ? _value.gender : gender as UserGender,
@@ -132,7 +141,8 @@ class __$UserModelCopyWithImpl<$Res> extends _$UserModelCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_UserModel implements _UserModel {
   const _$_UserModel(
-      {this.firstName,
+      {this.id,
+      this.firstName,
       this.lastName,
       this.gender,
       this.photo,
@@ -142,6 +152,8 @@ class _$_UserModel implements _UserModel {
   factory _$_UserModel.fromJson(Map<String, dynamic> json) =>
       _$_$_UserModelFromJson(json);
 
+  @override
+  final String id;
   @override
   final String firstName;
   @override
@@ -157,13 +169,15 @@ class _$_UserModel implements _UserModel {
 
   @override
   String toString() {
-    return 'UserModel(firstName: $firstName, lastName: $lastName, gender: $gender, photo: $photo, birthday: $birthday, role: $role)';
+    return 'UserModel(id: $id, firstName: $firstName, lastName: $lastName, gender: $gender, photo: $photo, birthday: $birthday, role: $role)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _UserModel &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.firstName, firstName) ||
                 const DeepCollectionEquality()
                     .equals(other.firstName, firstName)) &&
@@ -184,6 +198,7 @@ class _$_UserModel implements _UserModel {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(firstName) ^
       const DeepCollectionEquality().hash(lastName) ^
       const DeepCollectionEquality().hash(gender) ^
@@ -203,7 +218,8 @@ class _$_UserModel implements _UserModel {
 
 abstract class _UserModel implements UserModel {
   const factory _UserModel(
-      {String firstName,
+      {String id,
+      String firstName,
       String lastName,
       UserGender gender,
       PhotoModel photo,
@@ -213,6 +229,8 @@ abstract class _UserModel implements UserModel {
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$_UserModel.fromJson;
 
+  @override
+  String get id;
   @override
   String get firstName;
   @override

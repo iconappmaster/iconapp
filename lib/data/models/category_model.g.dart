@@ -6,15 +6,15 @@ part of 'category_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-CategoryModel _$CategoryModelFromJson(Map<String, dynamic> json) {
-  return CategoryModel(
+_$_CategoryModel _$_$_CategoryModelFromJson(Map<String, dynamic> json) {
+  return _$_CategoryModel(
     id: json['id'] as String,
     title: json['title'] as String,
     url: json['url'] as String,
   );
 }
 
-Map<String, dynamic> _$CategoryModelToJson(CategoryModel instance) =>
+Map<String, dynamic> _$_$_CategoryModelToJson(_$_CategoryModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,

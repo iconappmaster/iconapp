@@ -1,16 +1,14 @@
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'category_model.freezed.dart';
 part 'category_model.g.dart';
 
-@JsonSerializable()
-class CategoryModel {
-  final String id;
-  final String title;
-  final String url;
-
-  CategoryModel({this.id, this.title, this.url});
-
+@freezed
+abstract class CategoryModel with _$CategoryModel {
+  const factory CategoryModel(
+      {final String id, final String title, final String url}) = _CategoryModel;
+  
   factory CategoryModel.fromJson(Map<String, dynamic> json) =>
       _$CategoryModelFromJson(json);
-  Map<String, dynamic> toJson() => _$CategoryModelToJson(this);
 }
+ 

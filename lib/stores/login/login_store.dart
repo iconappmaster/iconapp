@@ -47,8 +47,7 @@ abstract class _LoginStoreBase with Store {
     };
 
     final handleSuccess = (_) {
-      var currentStep = state.currentStep;
-      state = state.copyWith(currentStep: currentStep += 1);
+      
     };
 
     final fullNumber = state.phonePrefix + state.phone;

@@ -6,7 +6,6 @@ import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 
 abstract class UserRepository {
   Future<UserModel> updateUser(UserModel user);
-  Future deleteUser(int id);
   Future persistUser(UserModel user);
   Future<UserModel> getPersistedUser();
 }
@@ -18,13 +17,9 @@ class UserRepositoryImpl implements UserRepository {
   UserRepositoryImpl({this.restClient, this.sp});
 
   @override
-  Future deleteUser(int id) {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<UserModel> updateUser(UserModel userModel) {
-    throw UnimplementedError();
+  Future<UserModel> updateUser(UserModel userModel) async {
+    final user = await restClient.updateUser(userModel.id, userModel);
+    return user;
   }
 
   @override
@@ -34,7 +29,7 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<UserModel> getPersistedUser() async {
-     UserModel user;
+    UserModel user;
     if (sp.contains(StorageKey.user)) {
       final userJson = sp.getString(StorageKey.user);
       user = UserModel.fromJson(jsonDecode(userJson));

@@ -19,18 +19,12 @@ extension ContextExtensions on BuildContext {
   /// Returns same as MediaQuery.of(context).height
   double get heightPx => sizePx.height;
 
-  showToast(String message, [Color color = brightGold]) {
+  showToast(String message, [Color iconColor = darkPurple]) {
     Flushbar(
       message: message,
-      icon: Icon(
-        Icons.info_outline,
-        size: 28.0,
-        color: color,
-      ),
+      icon: Icon(Icons.info_outline, size: 28.0, color: iconColor),
       duration: Duration(seconds: 3),
-      leftBarIndicatorColor: color,
+      leftBarIndicatorColor: iconColor,
     )..show(this);
   }
-  
 }
-

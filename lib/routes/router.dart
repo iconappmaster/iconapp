@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route_annotations.dart';
+
+import 'package:iconapp/screens/camera_screen.dart';
 import 'package:iconapp/screens/chat_screen.dart';
-import 'package:iconapp/screens/contacts_screen.dart';
 import 'package:iconapp/screens/create_group_screen.dart';
 import 'package:iconapp/screens/full_image_screen.dart';
 import 'package:iconapp/screens/full_video_screen.dart';
@@ -12,19 +13,21 @@ import 'package:iconapp/screens/search_screen.dart';
 import 'package:iconapp/screens/settings_screen.dart';
 import 'package:iconapp/screens/story_screen.dart';
 
-@autoRouter
-class $Router {
-  @initial
-  LoginScreen loginScreen;
-  OnboardinScreen onboardinScreen;
-  HomeScreen homeScreen;
-  SettingsScreen settingsScreen;
-  ProfileScreen profileScreen;
-  ContactsScreen contactsScreen;
-  SearchScreen searchScreen;
-  ChatScreen chatScreen;
-  CreateGroupScreen createGroupScreen;
-  StoryScreen storyScreen;
-  FullVideoScreen fullVideoScreen;
-  FullImageScreen fullImageScreen;
-}
+@MaterialAutoRouter(
+  generateNavigationHelperExtension: true,
+  routes: [
+    MaterialRoute(page: LoginScreen, initial: true),
+    MaterialRoute(page: OnboardinScreen),
+    MaterialRoute(page: HomeScreen),
+    MaterialRoute(page: SettingsScreen),
+    MaterialRoute(page: ProfileScreen),
+    MaterialRoute(page: SearchScreen),
+    MaterialRoute(page: ChatScreen),
+    MaterialRoute(page: CreateGroupScreen),
+    MaterialRoute(page: StoryScreen),
+    MaterialRoute(page: FullVideoScreen),
+    MaterialRoute(page: FullImageScreen),
+    MaterialRoute(page: CameraScreen),
+  ],
+)
+class $Router {}

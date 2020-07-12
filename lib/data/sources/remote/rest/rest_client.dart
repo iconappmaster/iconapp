@@ -57,6 +57,9 @@ abstract class RestClient {
   @GET('searchCategory')
   Future<List<CategoryModel>> searchCategory(@Query('query') String query);
 
+  @GET('searchContacts')
+  Future<List<UserModel>> searchContacts(@Query('query') String query);
+
   // Contacts
   @GET('getAllContats')
   Future<List<UserModel>> getAllContacts();

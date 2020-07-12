@@ -21,6 +21,7 @@ class MediaRepositoryImpl implements MediaRepository {
     final originalTask = storageRefOriginal.putFile(image);
     await originalTask.onComplete;
     final originalUrl = await storageRefOriginal.getDownloadURL();
+    
     return originalUrl;
   }
 

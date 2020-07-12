@@ -6,13 +6,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:auto_route/router_utils.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:iconapp/screens/login_screen.dart';
 import 'package:iconapp/screens/onboarding_screen.dart';
 import 'package:iconapp/screens/home_screen.dart';
 import 'package:iconapp/screens/settings_screen.dart';
 import 'package:iconapp/screens/profile_screen.dart';
-import 'package:iconapp/screens/contacts_screen.dart';
 import 'package:iconapp/screens/search_screen.dart';
 import 'package:iconapp/screens/chat_screen.dart';
 import 'package:iconapp/screens/create_group_screen.dart';
@@ -20,102 +19,179 @@ import 'package:iconapp/screens/story_screen.dart';
 import 'package:iconapp/screens/full_video_screen.dart';
 import 'package:iconapp/screens/full_image_screen.dart';
 import 'package:iconapp/data/models/photo_model.dart';
+import 'package:iconapp/screens/camera_screen.dart';
 
-class Router {
-  static const loginScreen = '/';
-  static const onboardinScreen = '/onboardin-screen';
-  static const homeScreen = '/home-screen';
-  static const settingsScreen = '/settings-screen';
-  static const profileScreen = '/profile-screen';
-  static const contactsScreen = '/contacts-screen';
-  static const searchScreen = '/search-screen';
-  static const chatScreen = '/chat-screen';
-  static const createGroupScreen = '/create-group-screen';
-  static const storyScreen = '/story-screen';
-  static const fullVideoScreen = '/full-video-screen';
-  static const fullImageScreen = '/full-image-screen';
-  static GlobalKey<NavigatorState> get navigatorKey =>
-      getNavigatorKey<Router>();
-  static NavigatorState get navigator => navigatorKey.currentState;
-
-  static Route<dynamic> onGenerateRoute(RouteSettings settings) {
-    final args = settings.arguments;
-    switch (settings.name) {
-      case Router.loginScreen:
-        return MaterialPageRoute(
-          builder: (_) => LoginScreen(),
-          settings: settings,
-        );
-      case Router.onboardinScreen:
-        return MaterialPageRoute(
-          builder: (_) => OnboardinScreen(),
-          settings: settings,
-        );
-      case Router.homeScreen:
-        return MaterialPageRoute(
-          builder: (_) => HomeScreen(),
-          settings: settings,
-        );
-      case Router.settingsScreen:
-        return MaterialPageRoute(
-          builder: (_) => SettingsScreen(),
-          settings: settings,
-        );
-      case Router.profileScreen:
-        return MaterialPageRoute(
-          builder: (_) => ProfileScreen(),
-          settings: settings,
-        );
-      case Router.contactsScreen:
-        return MaterialPageRoute(
-          builder: (_) => ContactsScreen(),
-          settings: settings,
-        );
-      case Router.searchScreen:
-        return MaterialPageRoute(
-          builder: (_) => SearchScreen(),
-          settings: settings,
-        );
-      case Router.chatScreen:
-        return MaterialPageRoute(
-          builder: (_) => ChatScreen(),
-          settings: settings,
-        );
-      case Router.createGroupScreen:
-        return MaterialPageRoute(
-          builder: (_) => CreateGroupScreen(),
-          settings: settings,
-        );
-      case Router.storyScreen:
-        return MaterialPageRoute(
-          builder: (_) => StoryScreen(),
-          settings: settings,
-        );
-      case Router.fullVideoScreen:
-        return MaterialPageRoute(
-          builder: (_) => FullVideoScreen(),
-          settings: settings,
-        );
-      case Router.fullImageScreen:
-        if (hasInvalidArgs<FullImageScreenArguments>(args)) {
-          return misTypedArgsRoute<FullImageScreenArguments>(args);
-        }
-        final typedArgs =
-            args as FullImageScreenArguments ?? FullImageScreenArguments();
-        return MaterialPageRoute(
-          builder: (_) =>
-              FullImageScreen(key: typedArgs.key, photo: typedArgs.photo),
-          settings: settings,
-        );
-      default:
-        return unknownRoutePage(settings.name);
-    }
-  }
+class Routes {
+  static const String loginScreen = '/';
+  static const String onboardinScreen = '/onboardin-screen';
+  static const String homeScreen = '/home-screen';
+  static const String settingsScreen = '/settings-screen';
+  static const String profileScreen = '/profile-screen';
+  static const String searchScreen = '/search-screen';
+  static const String chatScreen = '/chat-screen';
+  static const String createGroupScreen = '/create-group-screen';
+  static const String storyScreen = '/story-screen';
+  static const String fullVideoScreen = '/full-video-screen';
+  static const String fullImageScreen = '/full-image-screen';
+  static const String cameraScreen = '/camera-screen';
+  static const all = <String>{
+    loginScreen,
+    onboardinScreen,
+    homeScreen,
+    settingsScreen,
+    profileScreen,
+    searchScreen,
+    chatScreen,
+    createGroupScreen,
+    storyScreen,
+    fullVideoScreen,
+    fullImageScreen,
+    cameraScreen,
+  };
 }
 
-//**************************************************************************
+class Router extends RouterBase {
+  @override
+  List<RouteDef> get routes => _routes;
+  final _routes = <RouteDef>[
+    RouteDef(Routes.loginScreen, page: LoginScreen),
+    RouteDef(Routes.onboardinScreen, page: OnboardinScreen),
+    RouteDef(Routes.homeScreen, page: HomeScreen),
+    RouteDef(Routes.settingsScreen, page: SettingsScreen),
+    RouteDef(Routes.profileScreen, page: ProfileScreen),
+    RouteDef(Routes.searchScreen, page: SearchScreen),
+    RouteDef(Routes.chatScreen, page: ChatScreen),
+    RouteDef(Routes.createGroupScreen, page: CreateGroupScreen),
+    RouteDef(Routes.storyScreen, page: StoryScreen),
+    RouteDef(Routes.fullVideoScreen, page: FullVideoScreen),
+    RouteDef(Routes.fullImageScreen, page: FullImageScreen),
+    RouteDef(Routes.cameraScreen, page: CameraScreen),
+  ];
+  @override
+  Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
+  final _pagesMap = <Type, AutoRouteFactory>{
+    LoginScreen: (RouteData data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => LoginScreen(),
+        settings: data,
+      );
+    },
+    OnboardinScreen: (RouteData data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => OnboardinScreen(),
+        settings: data,
+      );
+    },
+    HomeScreen: (RouteData data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => HomeScreen(),
+        settings: data,
+      );
+    },
+    SettingsScreen: (RouteData data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => SettingsScreen(),
+        settings: data,
+      );
+    },
+    ProfileScreen: (RouteData data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ProfileScreen(),
+        settings: data,
+      );
+    },
+    SearchScreen: (RouteData data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => SearchScreen(),
+        settings: data,
+      );
+    },
+    ChatScreen: (RouteData data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ChatScreen(),
+        settings: data,
+      );
+    },
+    CreateGroupScreen: (RouteData data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => CreateGroupScreen(),
+        settings: data,
+      );
+    },
+    StoryScreen: (RouteData data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => StoryScreen(),
+        settings: data,
+      );
+    },
+    FullVideoScreen: (RouteData data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => FullVideoScreen(),
+        settings: data,
+      );
+    },
+    FullImageScreen: (RouteData data) {
+      var args = data.getArgs<FullImageScreenArguments>(
+          orElse: () => FullImageScreenArguments());
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => FullImageScreen(key: args.key, photo: args.photo),
+        settings: data,
+      );
+    },
+    CameraScreen: (RouteData data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => CameraScreen(),
+        settings: data,
+      );
+    },
+  };
+}
+
+// *************************************************************************
+// Navigation helper methods extension
+// **************************************************************************
+
+extension RouterNavigationHelperMethods on ExtendedNavigatorState {
+  Future<dynamic> pushLoginScreen() => pushNamed<dynamic>(Routes.loginScreen);
+
+  Future<dynamic> pushOnboardinScreen() =>
+      pushNamed<dynamic>(Routes.onboardinScreen);
+
+  Future<dynamic> pushHomeScreen() => pushNamed<dynamic>(Routes.homeScreen);
+
+  Future<dynamic> pushSettingsScreen() =>
+      pushNamed<dynamic>(Routes.settingsScreen);
+
+  Future<dynamic> pushProfileScreen() =>
+      pushNamed<dynamic>(Routes.profileScreen);
+
+  Future<dynamic> pushSearchScreen() => pushNamed<dynamic>(Routes.searchScreen);
+
+  Future<dynamic> pushChatScreen() => pushNamed<dynamic>(Routes.chatScreen);
+
+  Future<dynamic> pushCreateGroupScreen() =>
+      pushNamed<dynamic>(Routes.createGroupScreen);
+
+  Future<dynamic> pushStoryScreen() => pushNamed<dynamic>(Routes.storyScreen);
+
+  Future<dynamic> pushFullVideoScreen() =>
+      pushNamed<dynamic>(Routes.fullVideoScreen);
+
+  Future<dynamic> pushFullImageScreen({
+    Key key,
+    PhotoModel photo,
+  }) =>
+      pushNamed<dynamic>(
+        Routes.fullImageScreen,
+        arguments: FullImageScreenArguments(key: key, photo: photo),
+      );
+
+  Future<dynamic> pushCameraScreen() => pushNamed<dynamic>(Routes.cameraScreen);
+}
+
+// *************************************************************************
 // Arguments holder classes
-//***************************************************************************
+// **************************************************************************
 
 //FullImageScreen arguments holder class
 class FullImageScreenArguments {

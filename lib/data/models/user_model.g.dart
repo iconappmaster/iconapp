@@ -8,6 +8,7 @@ part of 'user_model.dart';
 
 _$_UserModel _$_$_UserModelFromJson(Map<String, dynamic> json) {
   return _$_UserModel(
+    id: json['id'] as String,
     firstName: json['firstName'] as String,
     lastName: json['lastName'] as String,
     gender: _$enumDecodeNullable(_$UserGenderEnumMap, json['gender']),
@@ -23,6 +24,7 @@ _$_UserModel _$_$_UserModelFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$_$_UserModelToJson(_$_UserModel instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'firstName': instance.firstName,
       'lastName': instance.lastName,
       'gender': _$UserGenderEnumMap[instance.gender],

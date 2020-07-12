@@ -12,6 +12,7 @@ import 'screens/login_screen.dart';
 final logger = Logger();
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   initLocator();
   await initSharedPreferences();
   runApp(MyApp());
@@ -27,9 +28,7 @@ class MyApp extends StatelessWidget {
     final store = sl<AuthStore>();
     store.checkCurrentAuthState();
     return MaterialApp(
-      initialRoute: Router.loginScreen,
-      onGenerateRoute: Router.onGenerateRoute,
-      navigatorKey: Router.navigatorKey,
+      onGenerateRoute: Router(),
       title: 'Icon',
       theme: ThemeData(
           primarySwatch: Colors.blue,
