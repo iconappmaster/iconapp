@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="427" height="509" viewBox="0 0 427 509">
+    <defs>
+        <linearGradient id="prefix__a" x1="88.584%" x2="21.125%" y1="32.612%" y2="46.964%">
+            <stop offset="0%" stop-color="#A16D32"/>
+            <stop offset="56.401%" stop-color="#F8E889"/>
+            <stop offset="76.021%" stop-color="#D6BA66"/>
+            <stop offset="100%" stop-color="#E7B866"/>
+        </linearGradient>
+        <linearGradient id="prefix__b" x1="91.967%" x2="1.564%" y1="0%" y2="81.65%">
+            <stop offset="0%" stop-color="#A16D32"/>
+            <stop offset="56.401%" stop-color="#F8E889"/>
+            <stop offset="76.021%" stop-color="#D6BA66"/>
+            <stop offset="100%" stop-color="#E7B866"/>
+        </linearGradient>
+        <linearGradient id="prefix__c" x1="85.151%" x2="14.849%" y1="0%" y2="100%">
+            <stop offset="0%" stop-color="#A16D32"/>
+            <stop offset="49.574%" stop-color="#F8E889"/>
+            <stop offset="76.021%" stop-color="#D6BA66"/>
+            <stop offset="100%" stop-color="#E7B866"/>
+        </linearGradient>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <text fill="#FFF" font-family=".SFNSDisplay, .SF NS Display" font-size="80">
+            <tspan x="123.57" y="502.063">icon</tspan>
+        </text>
+        <path fill="url(#prefix__a)" d="M0 157.443L426.429 157.443 81.84 408.912 132.645 253.326z"/>
+        <path fill="url(#prefix__b)" d="M172.154 132.549L214.316 0 256.479 132.549 232.397 132.549 214.316 83.601 195.409 132.549z"/>
+        <path fill="url(#prefix__c)" d="M306.015 276.114L346.243 408.912 234.896 326.821 256.479 311.158 301.137 346.76 283.886 291.268z"/>
+    </g>
+</svg>

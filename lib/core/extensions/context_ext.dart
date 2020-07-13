@@ -19,7 +19,7 @@ extension ContextExtensions on BuildContext {
   /// Returns same as MediaQuery.of(context).height
   double get heightPx => sizePx.height;
 
-  showToast(String message, [Color iconColor = darkPurple]) {
+  showToast(String message, [Color iconColor = white]) {
     Flushbar(
       message: message,
       icon: Icon(Icons.info_outline, size: 28.0, color: iconColor),

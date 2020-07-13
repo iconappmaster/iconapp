@@ -11,12 +11,14 @@ import 'package:iconapp/screens/onboarding_screen.dart';
 import 'package:iconapp/screens/profile_screen.dart';
 import 'package:iconapp/screens/search_screen.dart';
 import 'package:iconapp/screens/settings_screen.dart';
+import 'package:iconapp/screens/splash_screen.dart';
 import 'package:iconapp/screens/story_screen.dart';
 
 @MaterialAutoRouter(
   generateNavigationHelperExtension: true,
   routes: [
-    MaterialRoute(page: LoginScreen, initial: true),
+    MaterialRoute(page: SplashScreen, initial: true),
+    MaterialRoute(page: LoginScreen),
     MaterialRoute(page: OnboardinScreen),
     MaterialRoute(page: HomeScreen),
     MaterialRoute(page: SettingsScreen),

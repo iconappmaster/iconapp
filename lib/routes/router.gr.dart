@@ -7,6 +7,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:iconapp/screens/splash_screen.dart';
 import 'package:iconapp/screens/login_screen.dart';
 import 'package:iconapp/screens/onboarding_screen.dart';
 import 'package:iconapp/screens/home_screen.dart';
@@ -22,7 +23,8 @@ import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/screens/camera_screen.dart';
 
 class Routes {
-  static const String loginScreen = '/';
+  static const String splashScreen = '/';
+  static const String loginScreen = '/login-screen';
   static const String onboardinScreen = '/onboardin-screen';
   static const String homeScreen = '/home-screen';
   static const String settingsScreen = '/settings-screen';
@@ -35,6 +37,7 @@ class Routes {
   static const String fullImageScreen = '/full-image-screen';
   static const String cameraScreen = '/camera-screen';
   static const all = <String>{
+    splashScreen,
     loginScreen,
     onboardinScreen,
     homeScreen,
@@ -54,6 +57,7 @@ class Router extends RouterBase {
   @override
   List<RouteDef> get routes => _routes;
   final _routes = <RouteDef>[
+    RouteDef(Routes.splashScreen, page: SplashScreen),
     RouteDef(Routes.loginScreen, page: LoginScreen),
     RouteDef(Routes.onboardinScreen, page: OnboardinScreen),
     RouteDef(Routes.homeScreen, page: HomeScreen),
@@ -70,6 +74,12 @@ class Router extends RouterBase {
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, AutoRouteFactory>{
+    SplashScreen: (RouteData data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => SplashScreen(),
+        settings: data,
+      );
+    },
     LoginScreen: (RouteData data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => LoginScreen(),
@@ -152,6 +162,8 @@ class Router extends RouterBase {
 // **************************************************************************
 
 extension RouterNavigationHelperMethods on ExtendedNavigatorState {
+  Future<dynamic> pushSplashScreen() => pushNamed<dynamic>(Routes.splashScreen);
+
   Future<dynamic> pushLoginScreen() => pushNamed<dynamic>(Routes.loginScreen);
 
   Future<dynamic> pushOnboardinScreen() =>
