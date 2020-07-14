@@ -54,6 +54,11 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  
+  assets:
+    - assets/animations/
+    - assets/images/
+    - assets/translations/
   fonts:
     - family: RubikBold
       fonts:
@@ -65,10 +70,6 @@ flutter:
       fonts:
         - asset: assets/fonts/Rubik-Medium.ttf
 
-assets:
-    - assets/videos/
-    - assets/animations/
-    - assets/images/
-    - assets/translations/
+
 
   

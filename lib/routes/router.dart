@@ -7,7 +7,9 @@ import 'package:iconapp/screens/full_image_screen.dart';
 import 'package:iconapp/screens/full_video_screen.dart';
 import 'package:iconapp/screens/home_screen.dart';
 import 'package:iconapp/screens/login_screen.dart';
-import 'package:iconapp/screens/onboarding_screen.dart';
+import 'package:iconapp/screens/onboarding_code.dart';
+import 'package:iconapp/screens/onboarding_phone.dart';
+import 'package:iconapp/screens/onboarding_profile.dart';
 import 'package:iconapp/screens/profile_screen.dart';
 import 'package:iconapp/screens/search_screen.dart';
 import 'package:iconapp/screens/settings_screen.dart';
@@ -19,7 +21,9 @@ import 'package:iconapp/screens/story_screen.dart';
   routes: [
     MaterialRoute(page: SplashScreen, initial: true),
     MaterialRoute(page: LoginScreen),
-    MaterialRoute(page: OnboardinScreen),
+    MaterialRoute(page: OnboardingPhone),
+    MaterialRoute(page: OnboardingCode),
+    MaterialRoute(page: OnboardingProfile),
     MaterialRoute(page: HomeScreen),
     MaterialRoute(page: SettingsScreen),
     MaterialRoute(page: ProfileScreen),

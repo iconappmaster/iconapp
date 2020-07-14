@@ -27,4 +27,8 @@ extension ContextExtensions on BuildContext {
       leftBarIndicatorColor: iconColor,
     )..show(this);
   }
+
+  statusbarHeight() => MediaQuery.of(this).padding.top;
+
+  heightPlusStatusbarPerc(double height) => heightPx * height + statusbarHeight();
 }

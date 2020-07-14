@@ -3,7 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/routes/router.gr.dart';
-import 'package:iconapp/stores/auth/auth_store.dart';
+
 import 'package:logger/logger.dart';
 import 'data/sources/local/shared_preferences.dart';
 import 'generated/codegen_loader.g.dart';
@@ -32,8 +32,7 @@ Future<void> initSharedPreferences() async =>
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final store = sl<AuthStore>();
-    store.checkCurrentAuthState();
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       localizationsDelegates: context.localizationDelegates,

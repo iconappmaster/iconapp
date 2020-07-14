@@ -9,7 +9,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:iconapp/screens/splash_screen.dart';
 import 'package:iconapp/screens/login_screen.dart';
-import 'package:iconapp/screens/onboarding_screen.dart';
+import 'package:iconapp/screens/onboarding_phone.dart';
+import 'package:iconapp/screens/onboarding_code.dart';
+import 'package:iconapp/screens/onboarding_profile.dart';
 import 'package:iconapp/screens/home_screen.dart';
 import 'package:iconapp/screens/settings_screen.dart';
 import 'package:iconapp/screens/profile_screen.dart';
@@ -25,7 +27,9 @@ import 'package:iconapp/screens/camera_screen.dart';
 class Routes {
   static const String splashScreen = '/';
   static const String loginScreen = '/login-screen';
-  static const String onboardinScreen = '/onboardin-screen';
+  static const String onboardingPhone = '/onboarding-phone';
+  static const String onboardingCode = '/onboarding-code';
+  static const String onboardingProfile = '/onboarding-profile';
   static const String homeScreen = '/home-screen';
   static const String settingsScreen = '/settings-screen';
   static const String profileScreen = '/profile-screen';
@@ -39,7 +43,9 @@ class Routes {
   static const all = <String>{
     splashScreen,
     loginScreen,
-    onboardinScreen,
+    onboardingPhone,
+    onboardingCode,
+    onboardingProfile,
     homeScreen,
     settingsScreen,
     profileScreen,
@@ -59,7 +65,9 @@ class Router extends RouterBase {
   final _routes = <RouteDef>[
     RouteDef(Routes.splashScreen, page: SplashScreen),
     RouteDef(Routes.loginScreen, page: LoginScreen),
-    RouteDef(Routes.onboardinScreen, page: OnboardinScreen),
+    RouteDef(Routes.onboardingPhone, page: OnboardingPhone),
+    RouteDef(Routes.onboardingCode, page: OnboardingCode),
+    RouteDef(Routes.onboardingProfile, page: OnboardingProfile),
     RouteDef(Routes.homeScreen, page: HomeScreen),
     RouteDef(Routes.settingsScreen, page: SettingsScreen),
     RouteDef(Routes.profileScreen, page: ProfileScreen),
@@ -86,9 +94,21 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    OnboardinScreen: (RouteData data) {
+    OnboardingPhone: (RouteData data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => OnboardinScreen(),
+        builder: (context) => OnboardingPhone(),
+        settings: data,
+      );
+    },
+    OnboardingCode: (RouteData data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => OnboardingCode(),
+        settings: data,
+      );
+    },
+    OnboardingProfile: (RouteData data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => OnboardingProfile(),
         settings: data,
       );
     },
@@ -166,8 +186,14 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
 
   Future<dynamic> pushLoginScreen() => pushNamed<dynamic>(Routes.loginScreen);
 
-  Future<dynamic> pushOnboardinScreen() =>
-      pushNamed<dynamic>(Routes.onboardinScreen);
+  Future<dynamic> pushOnboardingPhone() =>
+      pushNamed<dynamic>(Routes.onboardingPhone);
+
+  Future<dynamic> pushOnboardingCode() =>
+      pushNamed<dynamic>(Routes.onboardingCode);
+
+  Future<dynamic> pushOnboardingProfile() =>
+      pushNamed<dynamic>(Routes.onboardingProfile);
 
   Future<dynamic> pushHomeScreen() => pushNamed<dynamic>(Routes.homeScreen);
 

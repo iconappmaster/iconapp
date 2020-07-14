@@ -5,8 +5,8 @@ class HebrewText extends StatelessWidget {
     this.text, {
     Key key,
     this.style,
-    this.textAlign,
-    this.maxLines = 1,
+    this.textAlign = TextAlign.center,
+    this.maxLines,
     this.overflow,
     this.padding = const EdgeInsets.all(0),
   }) : super(key: key);

@@ -12,10 +12,19 @@ class CodegenLoader extends AssetLoader{
   }
 
     static const Map<String,dynamic> he_HE = {
-  "loginTitle": "שלום"
+  "action_continue": "המשך",
+  "policy": {
+    "terms": "כניסה לאפליקציה מהווה אישור ",
+    "link": "לתנאי השימוש",
+    "prefix": " שלנו"
+  },
+  "onboarding": {
+    "phoneTitle": "כדי להתחבר לקבוצות הצ׳אט אנחנו\nצריכים את מספר הטלפון שלך",
+    "phoneSubtitle": "מה מספר הטלפון שלך?"
+  }
 };
   static const Map<String,dynamic> en_US = {
-  "loginTitle": "Hello"
+  "action_continue": "continue"
 };
   static const Map<String, Map<String,dynamic>> mapLocales = {"he_HE": he_HE, "en_US": en_US};
 }

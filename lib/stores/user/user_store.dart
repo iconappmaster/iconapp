@@ -7,13 +7,13 @@ import 'package:iconapp/stores/media/media_store.dart';
 import 'package:mobx/mobx.dart';
 part 'onboarding_store.g.dart';
 
-class OnboardingStore = _OnboardingStoreBase with _$OnboardingStore;
+class UserStore = _UserStoreBase with _$OnboardingStore;
 
-abstract class _OnboardingStoreBase with Store {
+abstract class _UserStoreBase with Store {
   UserRepository _userRepository;
   MediaStore _mediaStore;
 
-  _OnboardingStoreBase() {
+  _UserStoreBase() {
     _userRepository = sl<UserRepository>();
     _mediaStore = sl<MediaStore>();
   }

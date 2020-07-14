@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:iconapp/core/theme.dart';
 import '../../core/extensions/context_ext.dart';
 import 'hebrew_input_text.dart';
+import '../../generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class NextButton extends StatelessWidget {
   final Function onClick;
@@ -13,22 +15,23 @@ class NextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 70,
-      width: context.widthPx * .8,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [purpleFont, purpleFont],
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onClick,
+        child: Container(
+          height: context.heightPx * .094,
+          width: context.widthPx * .81,
+          decoration: BoxDecoration(
+              color: cornflower, borderRadius: BorderRadius.circular(2.7)),
+          child: Center(
+            child: HebrewText(
+              LocaleKeys.action_continue.tr(),
+              style: button,
+            ),
+          ),
         ),
       ),
-      child: Center(
-          child: HebrewText(
-        'המשך',
-        style: TextStyle(
-          color: white,
-          fontSize: 20,
-        ),
-      )),
     );
   }
 }
