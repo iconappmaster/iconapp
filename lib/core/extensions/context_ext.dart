@@ -30,5 +30,8 @@ extension ContextExtensions on BuildContext {
 
   statusbarHeight() => MediaQuery.of(this).padding.top;
 
-  heightPlusStatusbarPerc(double height) => heightPx * height + statusbarHeight();
+  heightPlusStatusbarPerc(double height) =>
+      heightPx * height + statusbarHeight();
+
+  unFocus() => FocusScope.of(this).requestFocus(new FocusNode());
 }

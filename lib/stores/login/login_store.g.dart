@@ -9,12 +9,32 @@ part of 'login_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$LoginStore on _LoginStoreBase, Store {
-  Computed<int> _$currentStepComputed;
+  Computed<String> _$displayCountdownComputed;
 
   @override
-  int get currentStep =>
-      (_$currentStepComputed ??= Computed<int>(() => super.currentStep,
-              name: '_LoginStoreBase.currentStep'))
+  String get displayCountdown => (_$displayCountdownComputed ??=
+          Computed<String>(() => super.displayCountdown,
+              name: '_LoginStoreBase.displayCountdown'))
+      .value;
+  Computed<bool> _$counterReachedZeroComputed;
+
+  @override
+  bool get counterReachedZero => (_$counterReachedZeroComputed ??=
+          Computed<bool>(() => super.counterReachedZero,
+              name: '_LoginStoreBase.counterReachedZero'))
+      .value;
+  Computed<bool> _$isIdleComputed;
+
+  @override
+  bool get isIdle => (_$isIdleComputed ??=
+          Computed<bool>(() => super.isIdle, name: '_LoginStoreBase.isIdle'))
+      .value;
+  Computed<bool> _$numberValidComputed;
+
+  @override
+  bool get numberValid =>
+      (_$numberValidComputed ??= Computed<bool>(() => super.numberValid,
+              name: '_LoginStoreBase.numberValid'))
           .value;
   Computed<LoginState> _$getStateComputed;
 
@@ -23,6 +43,22 @@ mixin _$LoginStore on _LoginStoreBase, Store {
       (_$getStateComputed ??= Computed<LoginState>(() => super.getState,
               name: '_LoginStoreBase.getState'))
           .value;
+
+  final _$_currentCountDownAtom =
+      Atom(name: '_LoginStoreBase._currentCountDown');
+
+  @override
+  int get _currentCountDown {
+    _$_currentCountDownAtom.reportRead();
+    return super._currentCountDown;
+  }
+
+  @override
+  set _currentCountDown(int value) {
+    _$_currentCountDownAtom.reportWrite(value, super._currentCountDown, () {
+      super._currentCountDown = value;
+    });
+  }
 
   final _$stateAtom = Atom(name: '_LoginStoreBase.state');
 
@@ -46,6 +82,20 @@ mixin _$LoginStore on _LoginStoreBase, Store {
     return _$verifyPhoneAsyncAction.run(() => super.verifyPhone());
   }
 
+  final _$verifySmsAsyncAction = AsyncAction('_LoginStoreBase.verifySms');
+
+  @override
+  Future<dynamic> verifySms() {
+    return _$verifySmsAsyncAction.run(() => super.verifySms());
+  }
+
+  final _$sendAgainAsyncAction = AsyncAction('_LoginStoreBase.sendAgain');
+
+  @override
+  Future<dynamic> sendAgain() {
+    return _$sendAgainAsyncAction.run(() => super.sendAgain());
+  }
+
   final _$_LoginStoreBaseActionController =
       ActionController(name: '_LoginStoreBase');
 
@@ -55,6 +105,17 @@ mixin _$LoginStore on _LoginStoreBase, Store {
         name: '_LoginStoreBase.updatePhone');
     try {
       return super.updatePhone(phone);
+    } finally {
+      _$_LoginStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic updatePhonePrefix(String prefix) {
+    final _$actionInfo = _$_LoginStoreBaseActionController.startAction(
+        name: '_LoginStoreBase.updatePhonePrefix');
+    try {
+      return super.updatePhonePrefix(prefix);
     } finally {
       _$_LoginStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -75,7 +136,10 @@ mixin _$LoginStore on _LoginStoreBase, Store {
   String toString() {
     return '''
 state: ${state},
-currentStep: ${currentStep},
+displayCountdown: ${displayCountdown},
+counterReachedZero: ${counterReachedZero},
+isIdle: ${isIdle},
+numberValid: ${numberValid},
 getState: ${getState}
     ''';
   }

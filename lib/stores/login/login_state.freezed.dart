@@ -13,19 +13,19 @@ class _$LoginStateTearOff {
   const _$LoginStateTearOff();
 
   _LoginState call(
-      {@required String phone,
-      @required String phonePrefix,
+      {@required String prefix,
+      @required String phone,
       @required String code,
       @required bool loading,
-      @required int currentStep,
-      @required String errorMessage}) {
+      @required String errorMessage,
+      @required PhoneOnboardingState phonePageState}) {
     return _LoginState(
+      prefix: prefix,
       phone: phone,
-      phonePrefix: phonePrefix,
       code: code,
       loading: loading,
-      currentStep: currentStep,
       errorMessage: errorMessage,
+      phonePageState: phonePageState,
     );
   }
 }
@@ -34,12 +34,12 @@ class _$LoginStateTearOff {
 const $LoginState = _$LoginStateTearOff();
 
 mixin _$LoginState {
+  String get prefix;
   String get phone;
-  String get phonePrefix;
   String get code;
   bool get loading;
-  int get currentStep;
   String get errorMessage;
+  PhoneOnboardingState get phonePageState;
 
   $LoginStateCopyWith<LoginState> get copyWith;
 }
@@ -49,12 +49,12 @@ abstract class $LoginStateCopyWith<$Res> {
           LoginState value, $Res Function(LoginState) then) =
       _$LoginStateCopyWithImpl<$Res>;
   $Res call(
-      {String phone,
-      String phonePrefix,
+      {String prefix,
+      String phone,
       String code,
       bool loading,
-      int currentStep,
-      String errorMessage});
+      String errorMessage,
+      PhoneOnboardingState phonePageState});
 }
 
 class _$LoginStateCopyWithImpl<$Res> implements $LoginStateCopyWith<$Res> {
@@ -66,24 +66,24 @@ class _$LoginStateCopyWithImpl<$Res> implements $LoginStateCopyWith<$Res> {
 
   @override
   $Res call({
+    Object prefix = freezed,
     Object phone = freezed,
-    Object phonePrefix = freezed,
     Object code = freezed,
     Object loading = freezed,
-    Object currentStep = freezed,
     Object errorMessage = freezed,
+    Object phonePageState = freezed,
   }) {
     return _then(_value.copyWith(
+      prefix: prefix == freezed ? _value.prefix : prefix as String,
       phone: phone == freezed ? _value.phone : phone as String,
-      phonePrefix:
-          phonePrefix == freezed ? _value.phonePrefix : phonePrefix as String,
       code: code == freezed ? _value.code : code as String,
       loading: loading == freezed ? _value.loading : loading as bool,
-      currentStep:
-          currentStep == freezed ? _value.currentStep : currentStep as int,
       errorMessage: errorMessage == freezed
           ? _value.errorMessage
           : errorMessage as String,
+      phonePageState: phonePageState == freezed
+          ? _value.phonePageState
+          : phonePageState as PhoneOnboardingState,
     ));
   }
 }
@@ -94,12 +94,12 @@ abstract class _$LoginStateCopyWith<$Res> implements $LoginStateCopyWith<$Res> {
       __$LoginStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String phone,
-      String phonePrefix,
+      {String prefix,
+      String phone,
       String code,
       bool loading,
-      int currentStep,
-      String errorMessage});
+      String errorMessage,
+      PhoneOnboardingState phonePageState});
 }
 
 class __$LoginStateCopyWithImpl<$Res> extends _$LoginStateCopyWithImpl<$Res>
@@ -113,59 +113,59 @@ class __$LoginStateCopyWithImpl<$Res> extends _$LoginStateCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object prefix = freezed,
     Object phone = freezed,
-    Object phonePrefix = freezed,
     Object code = freezed,
     Object loading = freezed,
-    Object currentStep = freezed,
     Object errorMessage = freezed,
+    Object phonePageState = freezed,
   }) {
     return _then(_LoginState(
+      prefix: prefix == freezed ? _value.prefix : prefix as String,
       phone: phone == freezed ? _value.phone : phone as String,
-      phonePrefix:
-          phonePrefix == freezed ? _value.phonePrefix : phonePrefix as String,
       code: code == freezed ? _value.code : code as String,
       loading: loading == freezed ? _value.loading : loading as bool,
-      currentStep:
-          currentStep == freezed ? _value.currentStep : currentStep as int,
       errorMessage: errorMessage == freezed
           ? _value.errorMessage
           : errorMessage as String,
+      phonePageState: phonePageState == freezed
+          ? _value.phonePageState
+          : phonePageState as PhoneOnboardingState,
     ));
   }
 }
 
 class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
   const _$_LoginState(
-      {@required this.phone,
-      @required this.phonePrefix,
+      {@required this.prefix,
+      @required this.phone,
       @required this.code,
       @required this.loading,
-      @required this.currentStep,
-      @required this.errorMessage})
-      : assert(phone != null),
-        assert(phonePrefix != null),
+      @required this.errorMessage,
+      @required this.phonePageState})
+      : assert(prefix != null),
+        assert(phone != null),
         assert(code != null),
         assert(loading != null),
-        assert(currentStep != null),
-        assert(errorMessage != null);
+        assert(errorMessage != null),
+        assert(phonePageState != null);
 
   @override
-  final String phone;
+  final String prefix;
   @override
-  final String phonePrefix;
+  final String phone;
   @override
   final String code;
   @override
   final bool loading;
   @override
-  final int currentStep;
-  @override
   final String errorMessage;
+  @override
+  final PhoneOnboardingState phonePageState;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'LoginState(phone: $phone, phonePrefix: $phonePrefix, code: $code, loading: $loading, currentStep: $currentStep, errorMessage: $errorMessage)';
+    return 'LoginState(prefix: $prefix, phone: $phone, code: $code, loading: $loading, errorMessage: $errorMessage, phonePageState: $phonePageState)';
   }
 
   @override
@@ -173,45 +173,44 @@ class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'LoginState'))
+      ..add(DiagnosticsProperty('prefix', prefix))
       ..add(DiagnosticsProperty('phone', phone))
-      ..add(DiagnosticsProperty('phonePrefix', phonePrefix))
       ..add(DiagnosticsProperty('code', code))
       ..add(DiagnosticsProperty('loading', loading))
-      ..add(DiagnosticsProperty('currentStep', currentStep))
-      ..add(DiagnosticsProperty('errorMessage', errorMessage));
+      ..add(DiagnosticsProperty('errorMessage', errorMessage))
+      ..add(DiagnosticsProperty('phonePageState', phonePageState));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _LoginState &&
+            (identical(other.prefix, prefix) ||
+                const DeepCollectionEquality().equals(other.prefix, prefix)) &&
             (identical(other.phone, phone) ||
                 const DeepCollectionEquality().equals(other.phone, phone)) &&
-            (identical(other.phonePrefix, phonePrefix) ||
-                const DeepCollectionEquality()
-                    .equals(other.phonePrefix, phonePrefix)) &&
             (identical(other.code, code) ||
                 const DeepCollectionEquality().equals(other.code, code)) &&
             (identical(other.loading, loading) ||
                 const DeepCollectionEquality()
                     .equals(other.loading, loading)) &&
-            (identical(other.currentStep, currentStep) ||
-                const DeepCollectionEquality()
-                    .equals(other.currentStep, currentStep)) &&
             (identical(other.errorMessage, errorMessage) ||
                 const DeepCollectionEquality()
-                    .equals(other.errorMessage, errorMessage)));
+                    .equals(other.errorMessage, errorMessage)) &&
+            (identical(other.phonePageState, phonePageState) ||
+                const DeepCollectionEquality()
+                    .equals(other.phonePageState, phonePageState)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(prefix) ^
       const DeepCollectionEquality().hash(phone) ^
-      const DeepCollectionEquality().hash(phonePrefix) ^
       const DeepCollectionEquality().hash(code) ^
       const DeepCollectionEquality().hash(loading) ^
-      const DeepCollectionEquality().hash(currentStep) ^
-      const DeepCollectionEquality().hash(errorMessage);
+      const DeepCollectionEquality().hash(errorMessage) ^
+      const DeepCollectionEquality().hash(phonePageState);
 
   @override
   _$LoginStateCopyWith<_LoginState> get copyWith =>
@@ -220,25 +219,25 @@ class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
 
 abstract class _LoginState implements LoginState {
   const factory _LoginState(
-      {@required String phone,
-      @required String phonePrefix,
+      {@required String prefix,
+      @required String phone,
       @required String code,
       @required bool loading,
-      @required int currentStep,
-      @required String errorMessage}) = _$_LoginState;
+      @required String errorMessage,
+      @required PhoneOnboardingState phonePageState}) = _$_LoginState;
 
   @override
-  String get phone;
+  String get prefix;
   @override
-  String get phonePrefix;
+  String get phone;
   @override
   String get code;
   @override
   bool get loading;
   @override
-  int get currentStep;
-  @override
   String get errorMessage;
+  @override
+  PhoneOnboardingState get phonePageState;
   @override
   _$LoginStateCopyWith<_LoginState> get copyWith;
 }

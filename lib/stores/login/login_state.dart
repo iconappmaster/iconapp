@@ -5,19 +5,24 @@ part 'login_state.freezed.dart';
 @freezed
 abstract class LoginState with _$LoginState {
   const factory LoginState({
+    @required String prefix,
     @required String phone,
-    @required String phonePrefix,
     @required String code,
     @required bool loading,
-    @required int currentStep,
     @required String errorMessage,
+    @required PhoneOnboardingState phonePageState,
   }) = _LoginState;
 
   factory LoginState.initial() => LoginState(
-      phone: '',
-      code: '',
-      phonePrefix: '+927',
-      loading: false,
-      currentStep: 0,
-      errorMessage: '');
+        prefix: '',
+        phone: '',
+        code: '',
+        loading: false,
+        errorMessage: '',
+        phonePageState: PhoneOnboardingState.idle,
+      );
 }
+
+/// [idle] is when the user didn't sent the number
+/// [sent] is when the user already sent the number and waiting for SMS
+enum PhoneOnboardingState { idle, sent }

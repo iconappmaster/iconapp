@@ -20,11 +20,24 @@ class CodegenLoader extends AssetLoader{
   },
   "onboarding": {
     "phoneTitle": "כדי להתחבר לקבוצות הצ׳אט אנחנו\nצריכים את מספר הטלפון שלך",
-    "phoneSubtitle": "מה מספר הטלפון שלך?"
+    "phoneSubtitle": "מה מספר הטלפון שלך?",
+    "onboarding_enter_code": "הזן/י את הקוד שנשלח אליך ב- SMS",
+    "phone_counting": "הקוד יגיע בעוד {} שניות"
   }
 };
   static const Map<String,dynamic> en_US = {
-  "action_continue": "continue"
+  "action_continue": "continue",
+  "policy": {
+    "terms": "bla ",
+    "link": "bla",
+    "prefix": " bla"
+  },
+  "onboarding": {
+    "phoneTitle": "bla",
+    "phoneSubtitle": "bla",
+    "onboarding_enter_code": "bla",
+    "phone_counting": "bla"
+  }
 };
   static const Map<String, Map<String,dynamic>> mapLocales = {"he_HE": he_HE, "en_US": en_US};
 }

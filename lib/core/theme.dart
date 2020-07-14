@@ -30,12 +30,13 @@ const button = TextStyle(
     color: white,
     fontSize: 24.3,
     letterSpacing: 0.18);
+    const pinCode = TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 26.7);
 const nameWhite =
     TextStyle(fontFamily: _fontRubikBold, color: white, fontSize: 18);
 const nameDark =
     TextStyle(fontFamily: _fontRubikMedium, color: purpleFont, fontSize: 18);
-const loginBigText =
-    TextStyle(fontFamily: _fontRubikBold, color: white, fontSize: 17.3, height: 1.3);
+const loginBigText = TextStyle(
+    fontFamily: _fontRubikBold, color: white, fontSize: 17.3, height: 1.3);
 const fieldInput =
     TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 17.3);
 const status =

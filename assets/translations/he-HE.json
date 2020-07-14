@@ -7,6 +7,8 @@
     },
     "onboarding" : {
         "phoneTitle" : "כדי להתחבר לקבוצות הצ׳אט אנחנו\nצריכים את מספר הטלפון שלך",
-        "phoneSubtitle" : "מה מספר הטלפון שלך?"
+        "phoneSubtitle" : "מה מספר הטלפון שלך?",
+        "onboarding_enter_code" : "הזן/י את הקוד שנשלח אליך ב- SMS",
+        "phone_counting" : "הקוד יגיע בעוד {} שניות"
     }
 }

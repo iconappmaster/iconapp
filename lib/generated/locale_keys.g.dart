@@ -8,6 +8,8 @@ abstract class  LocaleKeys {
   static const policy = 'policy';
   static const onboarding_phoneTitle = 'onboarding.phoneTitle';
   static const onboarding_phoneSubtitle = 'onboarding.phoneSubtitle';
+  static const onboarding_onboarding_enter_code = 'onboarding.onboarding_enter_code';
+  static const onboarding_phone_counting = 'onboarding.phone_counting';
   static const onboarding = 'onboarding';
 
 }

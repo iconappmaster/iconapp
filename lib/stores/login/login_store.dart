@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/repositories/auth_repository.dart';
 import 'package:iconapp/domain/auth/auth_failure.dart';
@@ -8,8 +10,22 @@ part 'login_store.g.dart';
 
 class LoginStore = _LoginStoreBase with _$LoginStore;
 
+const defaultCountTimeSec = 17;
+
 abstract class _LoginStoreBase with Store {
   AuthRepository _repository;
+
+  Timer _timer;
+
+  @observable
+  int _currentCountDown = 0;
+
+  @computed
+  String get displayCountdown =>
+      (defaultCountTimeSec - _currentCountDown).toString();
+
+  @computed
+  bool get counterReachedZero => _currentCountDown == 0;
 
   _LoginStoreBase() {
     _repository = sl<AuthRepository>();
@@ -19,7 +35,10 @@ abstract class _LoginStoreBase with Store {
   LoginState state = LoginState.initial();
 
   @computed
-  int get currentStep => state.currentStep;
+  bool get isIdle => state.phonePageState == PhoneOnboardingState.idle;
+
+  @computed
+  bool get numberValid => state.prefix.length == 3 && state.phone.length >= 7;
 
   @computed
   LoginState get getState => state;
@@ -30,35 +49,44 @@ abstract class _LoginStoreBase with Store {
   }
 
   @action
+  updatePhonePrefix(String prefix) {
+    state = state.copyWith(prefix: prefix);
+  }
+
+  @action
   updateCode(String code) {
     state = state.copyWith(code: code);
   }
 
   @action
   Future verifyPhone() async {
-    state = state.copyWith(loading: true);
-
-    final handleFailure = (AuthFailure failure) {
-      state = state.copyWith(
-          errorMessage: failure.maybeWhen(
-              serverError: () => 'Server error',
-              phoneAlreadyTaken: () => 'phone has been taken',
-              orElse: () => null));
-    };
-
-    final handleSuccess = (_) {
-      
-    };
-
-    final fullNumber = state.phonePrefix + state.phone;
-
-    final failureOrSuccess = await _repository.verifyPhone(fullNumber);
-    failureOrSuccess.fold(
-      handleFailure,
-      handleSuccess,
+    startCountDown();
+    state = state.copyWith(
+      loading: true,
+      phonePageState: PhoneOnboardingState.sent,
     );
+
+    // final handleFailure = (AuthFailure failure) {
+    //   state = state.copyWith(
+    //       phonePageState: PhoneOnboardingState.idle,
+    //       errorMessage: failure.maybeWhen(
+    //           serverError: () => 'Server error',
+    //           phoneAlreadyTaken: () => 'phone has been taken',
+    //           orElse: () => null));
+    // };
+
+    // final handleSuccess = (_) {};
+
+    // final fullNumber = state.prefix + state.phone;
+
+    // final failureOrSuccess = await _repository.verifyPhone(fullNumber);
+    // failureOrSuccess.fold(
+    //   handleFailure,
+    //   handleSuccess,
+    // );
   }
 
+  @action
   Future verifySms() async {
     state = state.copyWith(loading: true);
 
@@ -68,12 +96,9 @@ abstract class _LoginStoreBase with Store {
               wrongCode: () => 'wrong code', orElse: () => null));
     };
 
-    final handleSuccess = (_) {
-      var currentStep = state.currentStep;
-      state = state.copyWith(currentStep: currentStep += 1);
-    };
+    final handleSuccess = (_) {};
 
-    final fullNumber = state.phonePrefix + state.phone;
+    final fullNumber = state.prefix + state.phone;
     final code = state.code;
 
     final failureOrSuccess = await _repository.verifyCode(fullNumber, code);
@@ -81,5 +106,33 @@ abstract class _LoginStoreBase with Store {
       handleFailure,
       handleSuccess,
     );
+  }
+
+  @action
+  Future sendAgain() async {
+    state = state.copyWith(
+      phonePageState: PhoneOnboardingState.idle,
+      code: '',
+    );
+  }
+
+  void startCountDown() {
+    if (_timer == null) {
+      _timer = Timer.periodic(
+        Duration(seconds: 1),
+        (time) {
+          _currentCountDown = time.tick;
+          if (time.tick == defaultCountTimeSec) {
+            time.cancel();
+          }
+        },
+      );
+    }
+  }
+
+  void dispose() {
+    state = LoginState.initial();
+    _currentCountDown = 0;
+    _timer = null;
   }
 }

@@ -17,9 +17,12 @@ void main() async {
   runApp(
     EasyLocalization(
       useOnlyLangCode: false,
-      supportedLocales: [Locale('he', "HE"), Locale('en, "US')],
+      supportedLocales: [
+        Locale('he', 'HE'),
+        Locale('en', 'US'),
+      ],
       path: 'assets/translations',
-      fallbackLocale: Locale('he', "HE"),
+      fallbackLocale: Locale('he', 'HE'),
       assetLoader: CodegenLoader(),
       child: MyApp(),
     ),
@@ -29,10 +32,20 @@ void main() async {
 Future<void> initSharedPreferences() async =>
     await sl<SharedPreferencesService>().init();
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void didChangeDependencies() {
+    context.locale = Locale('he', 'HE');
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       localizationsDelegates: context.localizationDelegates,

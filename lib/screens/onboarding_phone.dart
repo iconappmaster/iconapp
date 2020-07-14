@@ -1,61 +1,238 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/stores/login/login_store.dart';
+import 'package:iconapp/widgets/global/focus_aware.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/next_button.dart';
 import 'package:iconapp/widgets/onboarding/onboarding_appbar.dart';
+import 'package:pin_code_fields/models/pin_theme.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import '../core/extensions/context_ext.dart';
 import '../generated/locale_keys.g.dart';
+import 'dart:ui' as ui;
 import 'package:easy_localization/easy_localization.dart';
 
-class OnboardingPhone extends StatelessWidget {
+class OnboardingPhone extends StatefulWidget {
+  @override
+  _OnboardingPhoneState createState() => _OnboardingPhoneState();
+}
+
+class _OnboardingPhoneState extends State<OnboardingPhone> {
   @override
   Widget build(BuildContext context) {
     final store = sl<LoginStore>();
+
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(gradient: purpleGradient),
-        child: Stack(
-          fit: StackFit.expand,
-          alignment: Alignment.topCenter,
-          children: <Widget>[
-            OnboardingAppbar(),
-            Positioned(
-              top: context.heightPlusStatusbarPerc(.447),
-              child: NextButton(
-                onClick: () => '',
-              ),
+      body: FocusAwareWidget(
+        child: Observer(
+          builder: (_) => Container(
+            decoration: BoxDecoration(gradient: purpleGradient),
+            child: Stack(
+              fit: StackFit.expand,
+              alignment: Alignment.topCenter,
+              children: <Widget>[
+                OnboardingAppbar(),
+                _OnboardingPhoneTitle(),
+                _OnboardingPhoneSubtitle(store: store),
+                PhoneNumberInput(store: store),
+                _CheckSign(store: store),
+                _SmsCounter(store: store),
+                _PinCode(store: store),
+                Visibility(
+                  visible: store.isIdle,
+                  child: Positioned(
+                      top: context.heightPlusStatusbarPerc(.447),
+                      child: NextButton(
+                          enabled: store.numberValid,
+                          onClick: () {
+                            context.unFocus();
+                            store.verifyPhone();
+                          })),
+                ),
+                _SendAgain(store: store),
+              ],
             ),
-            Positioned(
-              top: context.heightPlusStatusbarPerc(.134),
-              child: HebrewText(
-                LocaleKeys.onboarding_phoneTitle.tr(),
-                style: loginBigText,
-              ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SendAgain extends StatelessWidget {
+  final LoginStore store;
+
+  const _SendAgain({Key key, @required this.store}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Visibility(
+      visible: !store.isIdle,
+      child: Positioned(
+        top: context.heightPlusStatusbarPerc(.444),
+        child: RichText(
+          text: TextSpan(children: [
+            TextSpan(text: 'לא קיבלתי את הקוד. ', style: loginSmallText),
+            TextSpan(
+                text: 'שלח שוב',
+                style: smallLine.copyWith(
+                    decoration: TextDecoration.underline,
+                    fontWeight: FontWeight.normal),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () async => store.sendAgain()),
+          ]),
+        ),
+      ),
+    );
+  }
+}
+
+class _SmsCounter extends StatelessWidget {
+  final LoginStore store;
+
+  const _SmsCounter({
+    Key key,
+    @required this.store,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Observer(
+      builder: (_) => Visibility(
+        visible: !store.isIdle,
+        child: Positioned(
+          top: context.heightPlusStatusbarPerc(.408),
+          child: HebrewText(
+            LocaleKeys.onboarding_phone_counting
+                .tr(args: [store.displayCountdown]),
+            style: loginSmallText,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _PinCode extends StatelessWidget {
+  final LoginStore store;
+
+  const _PinCode({
+    Key key,
+    @required this.store,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Visibility(
+      visible: !store.isIdle,
+      child: Positioned(
+        top: context.heightPlusStatusbarPerc(.323),
+        child: Container(
+          width: context.widthPx * .686,
+          child: Directionality(
+            textDirection: ui.TextDirection.ltr,
+            child: PinCodeTextField(
+              length: 6,
+              animationType: AnimationType.slide,
+              obsecureText: false,
+              pinTheme: PinTheme(
+                  borderWidth: .7,
+                  inactiveColor: cornflower,
+                  selectedColor: Colors.transparent,
+                  selectedFillColor: cornflower,
+                  inactiveFillColor: Colors.transparent,
+                  shape: PinCodeFieldShape.underline,
+                  disabledColor: cornflower,
+                  activeColor: cornflower,
+                  fieldWidth: 40,
+                  activeFillColor: Colors.transparent),
+              textStyle: pinCode,
+              textInputAction: TextInputAction.done,
+              textInputType: TextInputType.phone,
+              animationDuration: Duration(milliseconds: 300),
+              backgroundColor: Colors.transparent,
+              enableActiveFill: true,
+
+              onChanged: (code) => store.updateCode(code),
+              // onCompleted: (v) => store.verifySms(),
+              // errorAnimationController: errorController,
+              // controller: textEditingController,
+
+              // beforeTextPaste: (text) {
+              //   print("Allowing to paste $text");
+              //   //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
+              //   //but you can show anything you want here, like your pop up saying wrong paste format or etc
+              //   return true;
+              // },
             ),
-            Positioned(
-              top: context.heightPlusStatusbarPerc(.221),
-              child: HebrewText(
-                LocaleKeys.onboarding_phoneSubtitle.tr(),
-                style: loginSmallText,
-              ),
-            ),
-            Positioned(
-              top: context.heightPlusStatusbarPerc(.272),
-              child: PhoneNumberInput(),
-            ),
-            Positioned(
-              top: context.heightPlusStatusbarPerc(.22),
-              right: context.widthPx * .134,
-              child: SvgPicture.asset(
-                'assets/images/check.svg',
-                height: context.heightPlusStatusbarPerc(.047),
-                width: context.widthPx * .083,
-              ),
-            ),
-          ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _OnboardingPhoneSubtitle extends StatelessWidget {
+  const _OnboardingPhoneSubtitle({
+    Key key,
+    @required this.store,
+  }) : super(key: key);
+
+  final LoginStore store;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: store.isIdle
+          ? context.heightPlusStatusbarPerc(.221)
+          : context.heightPlusStatusbarPerc(.29),
+      child: HebrewText(
+        store.isIdle
+            ? LocaleKeys.onboarding_phoneSubtitle.tr()
+            : LocaleKeys.onboarding_onboarding_enter_code.tr(),
+        style: loginSmallText,
+      ),
+    );
+  }
+}
+
+class _OnboardingPhoneTitle extends StatelessWidget {
+  const _OnboardingPhoneTitle({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: context.heightPlusStatusbarPerc(.134),
+      child: HebrewText(
+        LocaleKeys.onboarding_phoneTitle.tr(),
+        style: loginBigText,
+      ),
+    );
+  }
+}
+
+class _CheckSign extends StatelessWidget {
+  const _CheckSign({
+    Key key,
+    @required this.store,
+  }) : super(key: key);
+
+  final LoginStore store;
+
+  @override
+  Widget build(BuildContext context) {
+    return Visibility(
+      visible: !store.isIdle,
+      child: Positioned(
+        top: context.heightPlusStatusbarPerc(.212),
+        right: context.widthPx * .155,
+        child: Image.asset(
+          'assets/images/check.png',
+          width: context.widthPx * .086,
         ),
       ),
     );
@@ -63,6 +240,9 @@ class OnboardingPhone extends StatelessWidget {
 }
 
 class PhoneNumberInput extends StatefulWidget {
+  final LoginStore store;
+
+  const PhoneNumberInput({Key key, @required this.store}) : super(key: key);
   @override
   _PhoneNumberInputState createState() => _PhoneNumberInputState();
 }
@@ -92,31 +272,41 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
         ),
       ),
     );
-    return Wrap(
-      direction: Axis.horizontal,
-      children: <Widget>[
-        _buildPhone(context, inputDecor),
-        SizedBox(width: context.widthPx * .04),
-        _buildPrefix(context, inputDecor),
-      ],
-    );
+    return AnimatedPositioned(
+        curve: Curves.easeInOut,
+        duration: const Duration(milliseconds: 700),
+        top: widget.store.isIdle
+            ? context.heightPlusStatusbarPerc(.272)
+            : context.heightPlusStatusbarPerc(.2),
+        child: Wrap(
+          direction: Axis.horizontal,
+          children: <Widget>[
+            _buildPhone(context, inputDecor, widget.store),
+            SizedBox(width: context.widthPx * .04),
+            _buildPrefix(context, inputDecor, widget.store),
+          ],
+        ));
   }
 
-  Container _buildPhone(BuildContext context, InputDecoration inputDecor) {
+  Widget _buildPhone(
+      BuildContext context, InputDecoration inputDecor, LoginStore store) {
     return Container(
       width: context.widthPx * .29,
       child: TextField(
         focusNode: phoneFocus,
-        maxLength: 9,
+        maxLength: 7,
         textAlign: TextAlign.left,
         decoration: inputDecor,
-        style: phoneNumber,
+        style: phoneNumber.copyWith(
+            color: store.isIdle ? white : white.withOpacity(.4)),
+        onChanged: (phone) => store.updatePhone(phone),
         keyboardType: TextInputType.phone,
       ),
     );
   }
 
-  Container _buildPrefix(BuildContext context, InputDecoration inputDecor) {
+  Widget _buildPrefix(
+      BuildContext context, InputDecoration inputDecor, LoginStore store) {
     return Container(
       width: context.widthPx * .155,
       child: TextField(
@@ -128,10 +318,12 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
         maxLength: 3,
         maxLengthEnforced: true,
         decoration: inputDecor,
-        style: phoneNumber,
+        style: phoneNumber.copyWith(
+            color: store.isIdle ? white : white.withOpacity(.4)),
         onChanged: (prefix) {
           if (prefix.length == 3) {
             prefixFocus.unfocus();
+            store.updatePhonePrefix(prefix);
             FocusScope.of(context).requestFocus(phoneFocus);
           }
         },

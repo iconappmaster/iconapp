@@ -1,3 +1,14 @@
 {
-    "action_continue": "continue"
+    "action_continue": "continue",
+    "policy" : {
+        "terms":"bla ",
+        "link": "bla",
+        "prefix": " bla"
+    },
+    "onboarding" : {
+        "phoneTitle" : "bla",
+        "phoneSubtitle" : "bla",
+        "onboarding_enter_code" : "bla",
+        "phone_counting" : "bla"
+    }
 }

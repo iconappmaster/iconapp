@@ -9,11 +9,11 @@
             <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="3"/>
             <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"/>
         </filter>
-        <circle id="prefix__b" cx="44.625" cy="44.625" r="44.625"/>
+        <circle id="prefix__b" cx="46.625" cy="46.625" r="44.625"/>
     </defs>
-    <g fill="none" fill-rule="evenodd" transform="translate(8 8)">
+    <g fill="none" fill-rule="evenodd" transform="translate(6 6)">
         <use fill="#000" filter="url(#prefix__a)" xlink:href="#prefix__b"/>
         <use stroke="#725DFF" stroke-width="2.38" xlink:href="#prefix__b"/>
-        <path fill="#FFF" stroke="#FFF" stroke-linejoin="round" stroke-width="4.165" d="M28.924 38.056L41.568 25.618 43.977 27.987 33.741 38.056 60.326 62.089 57.918 64.458z" transform="rotate(-90 44.625 45.038)"/>
+        <path fill="#FFF" stroke="#FFF" stroke-linejoin="round" stroke-width="4.165" d="M31 39.438L43.645 27 46.053 29.369 35.817 39.438 62.403 63.471 59.994 65.84z" transform="rotate(-90 46.701 46.42)"/>
     </g>
 </svg>
