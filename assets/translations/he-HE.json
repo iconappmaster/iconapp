@@ -9,6 +9,12 @@
         "phoneTitle" : "כדי להתחבר לקבוצות הצ׳אט אנחנו\nצריכים את מספר הטלפון שלך",
         "phoneSubtitle" : "מה מספר הטלפון שלך?",
         "onboarding_enter_code" : "הזן/י את הקוד שנשלח אליך ב- SMS",
-        "phone_counting" : "הקוד יגיע בעוד {} שניות"
+        "phone_counting" : "הקוד יגיע בעוד {} שניות",
+        "phone_too_short" : "אנא הקלד/י מספר טלפון בן 7 ספרות.",
+        "profile_name" : "שם מלא",
+        "profile_age" : "גיל",
+        "profile_female" : "אישה",
+        "profile_male" : "גבר",
+        "profile_other" : "אחר"
     }
 }

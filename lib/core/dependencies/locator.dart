@@ -2,13 +2,16 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:iconapp/data/repositories/auth_repository.dart';
 import 'package:iconapp/data/repositories/chat_repository.dart';
+import 'package:iconapp/data/repositories/media_repository.dart';
 import 'package:iconapp/data/repositories/search_repository.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 import 'package:iconapp/stores/auth/auth_store.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/login/login_store.dart';
+import 'package:iconapp/stores/media/media_store.dart';
 import 'package:iconapp/stores/socket/socket_manager.dart';
+import 'package:image_picker/image_picker.dart';
 
 final sl = GetIt.I;
 
@@ -36,6 +39,10 @@ void initLocator() {
   sl.registerLazySingleton<SearchRepository>(
       () => SearchRepositoryImpl(restClient: sl()));
 
+  // Media
+  sl.registerLazySingleton<MediaStore>(() => MediaStore());
+  sl.registerLazySingleton<MediaRepository>(() => MediaRepositoryImpl());
+  sl.registerLazySingleton<ImagePicker>(() => ImagePicker());
   // Home
 
   // Onboarding

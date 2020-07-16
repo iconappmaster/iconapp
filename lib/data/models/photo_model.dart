@@ -1,16 +1,17 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'photo_model.g.dart';
+part 'photo_model.freezed.dart';
 
-@JsonSerializable()
-class PhotoModel {
-  final String id;
-  final String url;
-  final String description;
-
-  PhotoModel(this.id, this.url, this.description);
+@freezed
+abstract class PhotoModel with _$PhotoModel {
+  const factory PhotoModel({
+    String id,
+    String url,
+    String description,
+  }) = _PhotoModel;
 
   factory PhotoModel.fromJson(Map<String, dynamic> json) =>
       _$PhotoModelFromJson(json);
-  Map<String, dynamic> toJson() => _$PhotoModelToJson(this);
 }

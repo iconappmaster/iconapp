@@ -18,7 +18,8 @@ class _$LoginStateTearOff {
       @required String code,
       @required bool loading,
       @required String errorMessage,
-      @required PhoneOnboardingState phonePageState}) {
+      @required PhoneOnboardingState phonePageState,
+      @required UserModel userModel}) {
     return _LoginState(
       prefix: prefix,
       phone: phone,
@@ -26,6 +27,7 @@ class _$LoginStateTearOff {
       loading: loading,
       errorMessage: errorMessage,
       phonePageState: phonePageState,
+      userModel: userModel,
     );
   }
 }
@@ -40,6 +42,7 @@ mixin _$LoginState {
   bool get loading;
   String get errorMessage;
   PhoneOnboardingState get phonePageState;
+  UserModel get userModel;
 
   $LoginStateCopyWith<LoginState> get copyWith;
 }
@@ -54,7 +57,8 @@ abstract class $LoginStateCopyWith<$Res> {
       String code,
       bool loading,
       String errorMessage,
-      PhoneOnboardingState phonePageState});
+      PhoneOnboardingState phonePageState,
+      UserModel userModel});
 }
 
 class _$LoginStateCopyWithImpl<$Res> implements $LoginStateCopyWith<$Res> {
@@ -72,6 +76,7 @@ class _$LoginStateCopyWithImpl<$Res> implements $LoginStateCopyWith<$Res> {
     Object loading = freezed,
     Object errorMessage = freezed,
     Object phonePageState = freezed,
+    Object userModel = freezed,
   }) {
     return _then(_value.copyWith(
       prefix: prefix == freezed ? _value.prefix : prefix as String,
@@ -84,6 +89,8 @@ class _$LoginStateCopyWithImpl<$Res> implements $LoginStateCopyWith<$Res> {
       phonePageState: phonePageState == freezed
           ? _value.phonePageState
           : phonePageState as PhoneOnboardingState,
+      userModel:
+          userModel == freezed ? _value.userModel : userModel as UserModel,
     ));
   }
 }
@@ -99,7 +106,8 @@ abstract class _$LoginStateCopyWith<$Res> implements $LoginStateCopyWith<$Res> {
       String code,
       bool loading,
       String errorMessage,
-      PhoneOnboardingState phonePageState});
+      PhoneOnboardingState phonePageState,
+      UserModel userModel});
 }
 
 class __$LoginStateCopyWithImpl<$Res> extends _$LoginStateCopyWithImpl<$Res>
@@ -119,6 +127,7 @@ class __$LoginStateCopyWithImpl<$Res> extends _$LoginStateCopyWithImpl<$Res>
     Object loading = freezed,
     Object errorMessage = freezed,
     Object phonePageState = freezed,
+    Object userModel = freezed,
   }) {
     return _then(_LoginState(
       prefix: prefix == freezed ? _value.prefix : prefix as String,
@@ -131,6 +140,8 @@ class __$LoginStateCopyWithImpl<$Res> extends _$LoginStateCopyWithImpl<$Res>
       phonePageState: phonePageState == freezed
           ? _value.phonePageState
           : phonePageState as PhoneOnboardingState,
+      userModel:
+          userModel == freezed ? _value.userModel : userModel as UserModel,
     ));
   }
 }
@@ -142,13 +153,15 @@ class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
       @required this.code,
       @required this.loading,
       @required this.errorMessage,
-      @required this.phonePageState})
+      @required this.phonePageState,
+      @required this.userModel})
       : assert(prefix != null),
         assert(phone != null),
         assert(code != null),
         assert(loading != null),
         assert(errorMessage != null),
-        assert(phonePageState != null);
+        assert(phonePageState != null),
+        assert(userModel != null);
 
   @override
   final String prefix;
@@ -162,10 +175,12 @@ class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
   final String errorMessage;
   @override
   final PhoneOnboardingState phonePageState;
+  @override
+  final UserModel userModel;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'LoginState(prefix: $prefix, phone: $phone, code: $code, loading: $loading, errorMessage: $errorMessage, phonePageState: $phonePageState)';
+    return 'LoginState(prefix: $prefix, phone: $phone, code: $code, loading: $loading, errorMessage: $errorMessage, phonePageState: $phonePageState, userModel: $userModel)';
   }
 
   @override
@@ -178,7 +193,8 @@ class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
       ..add(DiagnosticsProperty('code', code))
       ..add(DiagnosticsProperty('loading', loading))
       ..add(DiagnosticsProperty('errorMessage', errorMessage))
-      ..add(DiagnosticsProperty('phonePageState', phonePageState));
+      ..add(DiagnosticsProperty('phonePageState', phonePageState))
+      ..add(DiagnosticsProperty('userModel', userModel));
   }
 
   @override
@@ -199,7 +215,10 @@ class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
                     .equals(other.errorMessage, errorMessage)) &&
             (identical(other.phonePageState, phonePageState) ||
                 const DeepCollectionEquality()
-                    .equals(other.phonePageState, phonePageState)));
+                    .equals(other.phonePageState, phonePageState)) &&
+            (identical(other.userModel, userModel) ||
+                const DeepCollectionEquality()
+                    .equals(other.userModel, userModel)));
   }
 
   @override
@@ -210,7 +229,8 @@ class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
       const DeepCollectionEquality().hash(code) ^
       const DeepCollectionEquality().hash(loading) ^
       const DeepCollectionEquality().hash(errorMessage) ^
-      const DeepCollectionEquality().hash(phonePageState);
+      const DeepCollectionEquality().hash(phonePageState) ^
+      const DeepCollectionEquality().hash(userModel);
 
   @override
   _$LoginStateCopyWith<_LoginState> get copyWith =>
@@ -224,7 +244,8 @@ abstract class _LoginState implements LoginState {
       @required String code,
       @required bool loading,
       @required String errorMessage,
-      @required PhoneOnboardingState phonePageState}) = _$_LoginState;
+      @required PhoneOnboardingState phonePageState,
+      @required UserModel userModel}) = _$_LoginState;
 
   @override
   String get prefix;
@@ -238,6 +259,8 @@ abstract class _LoginState implements LoginState {
   String get errorMessage;
   @override
   PhoneOnboardingState get phonePageState;
+  @override
+  UserModel get userModel;
   @override
   _$LoginStateCopyWith<_LoginState> get copyWith;
 }

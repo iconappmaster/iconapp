@@ -16,10 +16,6 @@ class _$AuthFailureTearOff {
     return const ServerError();
   }
 
-  PhoneAlreadyTaken phoneAlreadyTaken() {
-    return const PhoneAlreadyTaken();
-  }
-
   WrongCode wrongCode() {
     return const WrongCode();
   }
@@ -32,26 +28,22 @@ mixin _$AuthFailure {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result serverError(),
-    @required Result phoneAlreadyTaken(),
     @required Result wrongCode(),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result serverError(),
-    Result phoneAlreadyTaken(),
     Result wrongCode(),
     @required Result orElse(),
   });
   @optionalTypeArgs
   Result map<Result extends Object>({
     @required Result serverError(ServerError value),
-    @required Result phoneAlreadyTaken(PhoneAlreadyTaken value),
     @required Result wrongCode(WrongCode value),
   });
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
     Result serverError(ServerError value),
-    Result phoneAlreadyTaken(PhoneAlreadyTaken value),
     Result wrongCode(WrongCode value),
     @required Result orElse(),
   });
@@ -107,11 +99,9 @@ class _$ServerError implements ServerError {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result serverError(),
-    @required Result phoneAlreadyTaken(),
     @required Result wrongCode(),
   }) {
     assert(serverError != null);
-    assert(phoneAlreadyTaken != null);
     assert(wrongCode != null);
     return serverError();
   }
@@ -120,7 +110,6 @@ class _$ServerError implements ServerError {
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result serverError(),
-    Result phoneAlreadyTaken(),
     Result wrongCode(),
     @required Result orElse(),
   }) {
@@ -135,11 +124,9 @@ class _$ServerError implements ServerError {
   @optionalTypeArgs
   Result map<Result extends Object>({
     @required Result serverError(ServerError value),
-    @required Result phoneAlreadyTaken(PhoneAlreadyTaken value),
     @required Result wrongCode(WrongCode value),
   }) {
     assert(serverError != null);
-    assert(phoneAlreadyTaken != null);
     assert(wrongCode != null);
     return serverError(this);
   }
@@ -148,7 +135,6 @@ class _$ServerError implements ServerError {
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
     Result serverError(ServerError value),
-    Result phoneAlreadyTaken(PhoneAlreadyTaken value),
     Result wrongCode(WrongCode value),
     @required Result orElse(),
   }) {
@@ -162,100 +148,6 @@ class _$ServerError implements ServerError {
 
 abstract class ServerError implements AuthFailure {
   const factory ServerError() = _$ServerError;
-}
-
-abstract class $PhoneAlreadyTakenCopyWith<$Res> {
-  factory $PhoneAlreadyTakenCopyWith(
-          PhoneAlreadyTaken value, $Res Function(PhoneAlreadyTaken) then) =
-      _$PhoneAlreadyTakenCopyWithImpl<$Res>;
-}
-
-class _$PhoneAlreadyTakenCopyWithImpl<$Res>
-    extends _$AuthFailureCopyWithImpl<$Res>
-    implements $PhoneAlreadyTakenCopyWith<$Res> {
-  _$PhoneAlreadyTakenCopyWithImpl(
-      PhoneAlreadyTaken _value, $Res Function(PhoneAlreadyTaken) _then)
-      : super(_value, (v) => _then(v as PhoneAlreadyTaken));
-
-  @override
-  PhoneAlreadyTaken get _value => super._value as PhoneAlreadyTaken;
-}
-
-class _$PhoneAlreadyTaken implements PhoneAlreadyTaken {
-  const _$PhoneAlreadyTaken();
-
-  @override
-  String toString() {
-    return 'AuthFailure.phoneAlreadyTaken()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) || (other is PhoneAlreadyTaken);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result serverError(),
-    @required Result phoneAlreadyTaken(),
-    @required Result wrongCode(),
-  }) {
-    assert(serverError != null);
-    assert(phoneAlreadyTaken != null);
-    assert(wrongCode != null);
-    return phoneAlreadyTaken();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result serverError(),
-    Result phoneAlreadyTaken(),
-    Result wrongCode(),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (phoneAlreadyTaken != null) {
-      return phoneAlreadyTaken();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result serverError(ServerError value),
-    @required Result phoneAlreadyTaken(PhoneAlreadyTaken value),
-    @required Result wrongCode(WrongCode value),
-  }) {
-    assert(serverError != null);
-    assert(phoneAlreadyTaken != null);
-    assert(wrongCode != null);
-    return phoneAlreadyTaken(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result serverError(ServerError value),
-    Result phoneAlreadyTaken(PhoneAlreadyTaken value),
-    Result wrongCode(WrongCode value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (phoneAlreadyTaken != null) {
-      return phoneAlreadyTaken(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class PhoneAlreadyTaken implements AuthFailure {
-  const factory PhoneAlreadyTaken() = _$PhoneAlreadyTaken;
 }
 
 abstract class $WrongCodeCopyWith<$Res> {
@@ -292,11 +184,9 @@ class _$WrongCode implements WrongCode {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result serverError(),
-    @required Result phoneAlreadyTaken(),
     @required Result wrongCode(),
   }) {
     assert(serverError != null);
-    assert(phoneAlreadyTaken != null);
     assert(wrongCode != null);
     return wrongCode();
   }
@@ -305,7 +195,6 @@ class _$WrongCode implements WrongCode {
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result serverError(),
-    Result phoneAlreadyTaken(),
     Result wrongCode(),
     @required Result orElse(),
   }) {
@@ -320,11 +209,9 @@ class _$WrongCode implements WrongCode {
   @optionalTypeArgs
   Result map<Result extends Object>({
     @required Result serverError(ServerError value),
-    @required Result phoneAlreadyTaken(PhoneAlreadyTaken value),
     @required Result wrongCode(WrongCode value),
   }) {
     assert(serverError != null);
-    assert(phoneAlreadyTaken != null);
     assert(wrongCode != null);
     return wrongCode(this);
   }
@@ -333,7 +220,6 @@ class _$WrongCode implements WrongCode {
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
     Result serverError(ServerError value),
-    Result phoneAlreadyTaken(PhoneAlreadyTaken value),
     Result wrongCode(WrongCode value),
     @required Result orElse(),
   }) {

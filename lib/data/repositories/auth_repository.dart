@@ -38,12 +38,8 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       await restClient.verifyPhone(phone);
       return right(unit);
-    } on PlatformException catch (e) {
-      if (e.code == 'ERROR_PHONE_ALREADY_IN_USE') {
-        return left(const AuthFailure.phoneAlreadyTaken());
-      } else {
-        return left(const AuthFailure.serverError());
-      }
+    } on PlatformException catch (_) {
+      return left(const AuthFailure.serverError());
     }
   }
 

@@ -10,8 +10,7 @@ abstract class MediaRepository {
 
 class MediaRepositoryImpl implements MediaRepository {
   @override
-  Future<String> uploadSinglePhoto(
-      File image, String firebasePath, String fileName) async {
+  Future<String> uploadSinglePhoto(File image, String firebasePath, String fileName) async {
     final storage = FirebaseStorage(storageBucket: firebaseStorageBucket);
 
     // upload original photo

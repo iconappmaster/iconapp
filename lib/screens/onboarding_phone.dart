@@ -1,12 +1,14 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/login/login_store.dart';
-import 'package:iconapp/widgets/global/focus_aware.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/next_button.dart';
+import 'package:iconapp/widgets/onboarding/base_onboarding_widget.dart';
 import 'package:iconapp/widgets/onboarding/onboarding_appbar.dart';
 import 'package:pin_code_fields/models/pin_theme.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -25,39 +27,47 @@ class _OnboardingPhoneState extends State<OnboardingPhone> {
   Widget build(BuildContext context) {
     final store = sl<LoginStore>();
 
-    return Scaffold(
-      body: FocusAwareWidget(
-        child: Observer(
-          builder: (_) => Container(
-            decoration: BoxDecoration(gradient: purpleGradient),
-            child: Stack(
-              fit: StackFit.expand,
-              alignment: Alignment.topCenter,
-              children: <Widget>[
-                OnboardingAppbar(),
-                _OnboardingPhoneTitle(),
-                _OnboardingPhoneSubtitle(store: store),
-                PhoneNumberInput(store: store),
-                _CheckSign(store: store),
-                _SmsCounter(store: store),
-                _PinCode(store: store),
-                Visibility(
-                  visible: store.isIdle,
-                  child: Positioned(
-                      top: context.heightPlusStatusbarPerc(.447),
-                      child: NextButton(
-                          enabled: store.numberValid,
-                          onClick: () {
-                            context.unFocus();
-                            store.verifyPhone();
-                          })),
-                ),
-                _SendAgain(store: store),
-              ],
-            ),
-          ),
+    return OnboardingWidget(
+      child: Observer(
+        builder: (_) => Stack(
+          fit: StackFit.expand,
+          alignment: Alignment.topCenter,
+          children: <Widget>[
+            OnboardingAppbar(),
+            _OnboardingPhoneTitle(),
+            _OnboardingPhoneSubtitle(store: store),
+            PhoneNumberInput(store: store),
+            _CheckSign(store: store),
+            _SmsCounter(store: store),
+            _PinCode(store: store),
+            _nextButton(store, context),
+            _SendAgain(store: store),
+          ],
         ),
       ),
+    );
+  }
+
+  @override
+  void dispose() {
+    sl<LoginStore>().dispose();
+    super.dispose();
+  }
+
+  Visibility _nextButton(LoginStore store, BuildContext context) {
+    return Visibility(
+      visible: store.isIdle,
+      child: Positioned(
+          top: context.heightPlusStatusbarPerc(.447),
+          child: NextButton(
+            enabled: store.numberValid,
+            onClick: () {
+              context.unFocus();
+              store.verifyPhone();
+            },
+            onError: () => context.showErrorFlushbar(
+                message: LocaleKeys.onboarding_phone_too_short.tr()),
+          )),
     );
   }
 }
@@ -154,18 +164,10 @@ class _PinCode extends StatelessWidget {
               animationDuration: Duration(milliseconds: 300),
               backgroundColor: Colors.transparent,
               enableActiveFill: true,
-
               onChanged: (code) => store.updateCode(code),
               // onCompleted: (v) => store.verifySms(),
-              // errorAnimationController: errorController,
-              // controller: textEditingController,
-
-              // beforeTextPaste: (text) {
-              //   print("Allowing to paste $text");
-              //   //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-              //   //but you can show anything you want here, like your pop up saying wrong paste format or etc
-              //   return true;
-              // },
+              onCompleted: (v) => ExtendedNavigator.of(context)
+                  .pushNamed(Routes.onboardingProfile),
             ),
           ),
         ),

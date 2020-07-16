@@ -9,15 +9,12 @@ part of 'user_model.dart';
 _$_UserModel _$_$_UserModelFromJson(Map<String, dynamic> json) {
   return _$_UserModel(
     id: json['id'] as String,
-    firstName: json['firstName'] as String,
-    lastName: json['lastName'] as String,
+    fullName: json['fullName'] as String,
     gender: _$enumDecodeNullable(_$UserGenderEnumMap, json['gender']),
     photo: json['photo'] == null
         ? null
         : PhotoModel.fromJson(json['photo'] as Map<String, dynamic>),
-    birthday: json['birthday'] == null
-        ? null
-        : DateTime.parse(json['birthday'] as String),
+    age: json['age'] as int,
     role: _$enumDecodeNullable(_$UserRoleEnumMap, json['role']),
   );
 }
@@ -25,11 +22,10 @@ _$_UserModel _$_$_UserModelFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$_$_UserModelToJson(_$_UserModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'firstName': instance.firstName,
-      'lastName': instance.lastName,
+      'fullName': instance.fullName,
       'gender': _$UserGenderEnumMap[instance.gender],
       'photo': instance.photo,
-      'birthday': instance.birthday?.toIso8601String(),
+      'age': instance.age,
       'role': _$UserRoleEnumMap[instance.role],
     };
 
@@ -68,9 +64,11 @@ T _$enumDecodeNullable<T>(
 const _$UserGenderEnumMap = {
   UserGender.male: 'male',
   UserGender.female: 'female',
+  UserGender.other: 'other',
 };
 
 const _$UserRoleEnumMap = {
   UserRole.admin: 'admin',
+  UserRole.icon: 'icon',
   UserRole.viewer: 'viewer',
 };

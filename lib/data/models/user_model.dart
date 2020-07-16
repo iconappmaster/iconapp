@@ -8,16 +8,15 @@ part 'user_model.freezed.dart';
 abstract class UserModel with _$UserModel {
   const factory UserModel(
       {String id,
-      String firstName,
-      String lastName,
+      String fullName,
       UserGender gender,
       PhotoModel photo,
-      DateTime birthday,
+      int age,
       UserRole role}) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
 }
 
-enum UserGender { male, female }
-enum UserRole { admin, viewer }
+enum UserGender { male, female, other }
+enum UserRole { admin, icon, viewer }

@@ -11,6 +11,8 @@ const strongPink = Color(0xFFff0072);
 const white = Color(0xFFffffff);
 const uiTintColorFill = Color(0xFF00aeaa);
 const cornflower = Color(0xFF725dff);
+const pastelRed = Color(0xFFf44343);
+const plusBorder = Color(0xFF352158);
 
 // Font Sizes
 const _fontRubikBold = "RubikBold";
@@ -19,6 +21,12 @@ const _fontRubikMedium = "RubikMedium";
 
 // Font Colors
 const purpleFont = Color(0xFF251f4d);
+
+const flushbar = TextStyle(
+    fontFamily: _fontRubikRegular,
+    color: white,
+    fontSize: 16.7,
+    letterSpacing: 1.1);
 
 const phoneNumber = TextStyle(
     fontFamily: _fontRubikRegular,
@@ -30,7 +38,8 @@ const button = TextStyle(
     color: white,
     fontSize: 24.3,
     letterSpacing: 0.18);
-    const pinCode = TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 26.7);
+const pinCode =
+    TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 26.7);
 const nameWhite =
     TextStyle(fontFamily: _fontRubikBold, color: white, fontSize: 18);
 const nameDark =

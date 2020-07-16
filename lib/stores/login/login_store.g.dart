@@ -9,6 +9,13 @@ part of 'login_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$LoginStore on _LoginStoreBase, Store {
+  Computed<SexType> _$getSexTypeComputed;
+
+  @override
+  SexType get getSexType =>
+      (_$getSexTypeComputed ??= Computed<SexType>(() => super.getSexType,
+              name: '_LoginStoreBase.getSexType'))
+          .value;
   Computed<String> _$displayCountdownComputed;
 
   @override
@@ -22,6 +29,20 @@ mixin _$LoginStore on _LoginStoreBase, Store {
   bool get counterReachedZero => (_$counterReachedZeroComputed ??=
           Computed<bool>(() => super.counterReachedZero,
               name: '_LoginStoreBase.counterReachedZero'))
+      .value;
+  Computed<UserModel> _$getUserComputed;
+
+  @override
+  UserModel get getUser =>
+      (_$getUserComputed ??= Computed<UserModel>(() => super.getUser,
+              name: '_LoginStoreBase.getUser'))
+          .value;
+  Computed<bool> _$isUserImageAvailableComputed;
+
+  @override
+  bool get isUserImageAvailable => (_$isUserImageAvailableComputed ??=
+          Computed<bool>(() => super.isUserImageAvailable,
+              name: '_LoginStoreBase.isUserImageAvailable'))
       .value;
   Computed<bool> _$isIdleComputed;
 
@@ -60,6 +81,21 @@ mixin _$LoginStore on _LoginStoreBase, Store {
     });
   }
 
+  final _$selectedSexAtom = Atom(name: '_LoginStoreBase.selectedSex');
+
+  @override
+  SexType get selectedSex {
+    _$selectedSexAtom.reportRead();
+    return super.selectedSex;
+  }
+
+  @override
+  set selectedSex(SexType value) {
+    _$selectedSexAtom.reportWrite(value, super.selectedSex, () {
+      super.selectedSex = value;
+    });
+  }
+
   final _$stateAtom = Atom(name: '_LoginStoreBase.state');
 
   @override
@@ -73,6 +109,23 @@ mixin _$LoginStore on _LoginStoreBase, Store {
     _$stateAtom.reportWrite(value, super.state, () {
       super.state = value;
     });
+  }
+
+  final _$showUserPhotoAsyncAction =
+      AsyncAction('_LoginStoreBase.showUserPhoto');
+
+  @override
+  Future<dynamic> showUserPhoto(PickedFile file) {
+    return _$showUserPhotoAsyncAction.run(() => super.showUserPhoto(file));
+  }
+
+  final _$uploadAndShowUserPhotoAsyncAction =
+      AsyncAction('_LoginStoreBase.uploadAndShowUserPhoto');
+
+  @override
+  Future<dynamic> uploadAndShowUserPhoto(PickedFile file) {
+    return _$uploadAndShowUserPhotoAsyncAction
+        .run(() => super.uploadAndShowUserPhoto(file));
   }
 
   final _$verifyPhoneAsyncAction = AsyncAction('_LoginStoreBase.verifyPhone');
@@ -98,6 +151,39 @@ mixin _$LoginStore on _LoginStoreBase, Store {
 
   final _$_LoginStoreBaseActionController =
       ActionController(name: '_LoginStoreBase');
+
+  @override
+  dynamic setSexType(SexType sexType) {
+    final _$actionInfo = _$_LoginStoreBaseActionController.startAction(
+        name: '_LoginStoreBase.setSexType');
+    try {
+      return super.setSexType(sexType);
+    } finally {
+      _$_LoginStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic updateUserName(String fullName) {
+    final _$actionInfo = _$_LoginStoreBaseActionController.startAction(
+        name: '_LoginStoreBase.updateUserName');
+    try {
+      return super.updateUserName(fullName);
+    } finally {
+      _$_LoginStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic updateUserAge(String age) {
+    final _$actionInfo = _$_LoginStoreBaseActionController.startAction(
+        name: '_LoginStoreBase.updateUserAge');
+    try {
+      return super.updateUserAge(age);
+    } finally {
+      _$_LoginStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   dynamic updatePhone(String phone) {
@@ -135,9 +221,13 @@ mixin _$LoginStore on _LoginStoreBase, Store {
   @override
   String toString() {
     return '''
+selectedSex: ${selectedSex},
 state: ${state},
+getSexType: ${getSexType},
 displayCountdown: ${displayCountdown},
 counterReachedZero: ${counterReachedZero},
+getUser: ${getUser},
+isUserImageAvailable: ${isUserImageAvailable},
 isIdle: ${isIdle},
 numberValid: ${numberValid},
 getState: ${getState}

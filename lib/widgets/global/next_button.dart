@@ -6,11 +6,12 @@ import '../../generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class NextButton extends StatelessWidget {
-  final Function onClick;
+  final Function onClick, onError;
   final bool enabled;
   const NextButton({
     Key key,
     @required this.onClick,
+    this.onError,
     this.enabled = true,
   }) : super(key: key);
 
@@ -26,7 +27,7 @@ class NextButton extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: enabled ? onClick : () => {},
+          onTap: enabled ? onClick : onError,
           child: Center(
             child: HebrewText(
               LocaleKeys.action_continue.tr(),

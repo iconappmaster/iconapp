@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:iconapp/data/models/user_model.dart';
 part 'login_state.freezed.dart';
 
 @freezed
@@ -11,6 +12,7 @@ abstract class LoginState with _$LoginState {
     @required bool loading,
     @required String errorMessage,
     @required PhoneOnboardingState phonePageState,
+    @required UserModel userModel,
   }) = _LoginState;
 
   factory LoginState.initial() => LoginState(
@@ -20,6 +22,7 @@ abstract class LoginState with _$LoginState {
         loading: false,
         errorMessage: '',
         phonePageState: PhoneOnboardingState.idle,
+        userModel: UserModel(),
       );
 }
 
