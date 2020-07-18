@@ -1,7 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:iconapp/routes/router.gr.dart';
+import 'package:iconapp/stores/auth/auth_store.dart';
 import '../core/extensions/string_ext.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
@@ -15,9 +17,12 @@ import 'package:iconapp/widgets/onboarding/onboarding_appbar.dart';
 import '../core/extensions/context_ext.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+final _key = GlobalKey<FormState>();
+
 class OnboardingProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final store = sl<LoginStore>();
     return OnboardingWidget(
       child: Observer(
         builder: (_) => Stack(
@@ -27,17 +32,26 @@ class OnboardingProfile extends StatelessWidget {
             PersonAvatar(),
             PersonDetails(),
             SexPicker(),
-            _nextButton(context),
+            _nextButton(context, store),
           ],
         ),
       ),
     );
   }
 
-  Widget _nextButton(BuildContext context) {
+  Widget _nextButton(BuildContext ctx, LoginStore store) {
     return Positioned(
-        top: context.heightPlusStatusbarPerc(.506),
-        child: NextButton(onClick: () => {}));
+      top: ctx.heightPlusStatusbarPerc(.526),
+      child: NextButton(
+        onClick: () async {
+          if (_key.currentState.validate()) {
+            sl<AuthStore>().finishedOnboardin();
+            ExtendedNavigator.of(ctx).pushNamedAndRemoveUntil(
+                Routes.splashScreen, (Route<dynamic> route) => false);
+          }
+        },
+      ),
+    );
   }
 }
 
@@ -49,12 +63,7 @@ class PersonAvatar extends StatelessWidget {
       builder: (_) => Positioned(
         top: context.heightPlusStatusbarPerc(.138),
         child: GestureDetector(
-          onTap: () async {
-            final imagePicker = sl<ImagePicker>();
-            final pickedFile =
-                await imagePicker.getImage(source: ImageSource.gallery);
-            await store.showUserPhoto(pickedFile);
-          },
+          onTap: () async => await store.pickPhoto(),
           child: Container(
             width: 80,
             height: 80,
@@ -102,34 +111,45 @@ class PersonAvatar extends StatelessWidget {
 }
 
 class PersonDetails extends StatelessWidget {
-  const PersonDetails({
-    Key key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     final store = sl<LoginStore>();
     return Positioned(
       top: context.heightPlusStatusbarPerc(.294),
-      child: Container(
-        height: context.heightPlusStatusbarPerc(.052),
-        width: context.widthPx * .79,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Container(
-                width: context.widthPx * .547,
-                child: ProfileInput(
-                    title: LocaleKeys.onboarding_profile_name.tr(),
-                    onChange: (name) => store.updateUserName)),
-            Container(
-                width: context.widthPx * .207,
-                child: ProfileInput(
-                    maxLength: 2,
-                    keyboardType: TextInputType.number,
-                    title: LocaleKeys.onboarding_profile_age.tr(),
-                    onChange: (age) => store.updateUserAge))
-          ],
+      child: Form(
+        key: _key,
+        child: Container(
+          width: context.widthPx * .79,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Container(
+                  width: context.widthPx * .547,
+                  child: ProfileInput(
+                      validator: (value) {
+                        if (store.validateUserName()) {
+                          return null;
+                        }
+                        return 'ציין שם ושם משפחה';
+                      },
+                      title: LocaleKeys.onboarding_profile_name.tr(),
+                      onChange: (name) => store.updateUserName(name))),
+              Container(
+                  width: context.widthPx * .207,
+                  child: ProfileInput(
+                      validator: (value) {
+                        if (store.validateUserAge()) {
+                          return null;
+                        }
+                        return 'מעל גיל 10';
+                      },
+                      maxLength: 2,
+                      keyboardType: TextInputType.number,
+                      title: LocaleKeys.onboarding_profile_age.tr(),
+                      onChange: (age) =>
+                          store.updateUserAge(int.tryParse(age))))
+            ],
+          ),
         ),
       ),
     );
@@ -141,12 +161,14 @@ class ProfileInput extends StatelessWidget {
   final Function(String) onChange;
   final TextInputType keyboardType;
   final int maxLength;
+  final FormFieldValidator<String> validator;
   const ProfileInput({
     Key key,
     @required this.title,
     @required this.onChange,
     this.keyboardType = TextInputType.text,
     this.maxLength,
+    this.validator,
   }) : super(key: key);
 
   @override
@@ -155,16 +177,15 @@ class ProfileInput extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         HebrewText(title, style: fieldLabel),
-        TextField(
+        TextFormField(
+            key: key,
+            validator: validator,
             maxLength: maxLength,
             keyboardType: keyboardType,
             decoration: InputDecoration(
                 counterText: '',
                 enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: cornflower,
-                  ),
-                ),
+                    borderSide: BorderSide(color: cornflower)),
                 border: UnderlineInputBorder(
                   borderSide: BorderSide(color: cornflower, width: .7),
                 )),
@@ -190,7 +211,7 @@ class _SexPickerState extends State<SexPicker> {
     final gap = SizedBox(width: context.widthPx * .05);
     return Observer(
       builder: (_) => Positioned(
-        top: context.heightPlusStatusbarPerc(.41),
+        top: context.heightPlusStatusbarPerc(.45),
         child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,

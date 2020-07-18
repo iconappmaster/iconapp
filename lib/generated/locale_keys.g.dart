@@ -16,6 +16,8 @@ abstract class  LocaleKeys {
   static const onboarding_profile_female = 'onboarding.profile_female';
   static const onboarding_profile_male = 'onboarding.profile_male';
   static const onboarding_profile_other = 'onboarding.profile_other';
+  static const onboarding_wrong_name = 'onboarding.wrong_name';
+  static const onboarding_wrong_age = 'onboarding.wrong_age';
   static const onboarding = 'onboarding';
 
 }

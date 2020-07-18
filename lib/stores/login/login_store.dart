@@ -5,6 +5,7 @@ import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/repositories/auth_repository.dart';
 import 'package:iconapp/domain/auth/auth_failure.dart';
+import 'package:iconapp/domain/core/value_validators.dart';
 import 'package:iconapp/screens/onboarding_profile.dart';
 import 'package:iconapp/stores/media/media_store.dart';
 import 'package:image_picker/image_picker.dart';
@@ -61,30 +62,47 @@ abstract class _LoginStoreBase with Store {
   LoginState get getState => state;
 
   @action
-  setSexType(SexType sexType) {
-    this.selectedSex = sexType;
+  bool validateUserAge() {
+    final age = getUser.age ?? 0;
+    return validateAge(age);
   }
 
   @action
-  Future showUserPhoto(PickedFile file) async {
-    // first update with local file
-    var photo = PhotoModel(url: file.path);
+  bool validateUserName() {
+    final name = getUser.fullName ?? '';
+    return validateName(name);
+  }
+
+  @action
+  Future pickPhoto([bool upload = false]) async {
+    // pick photo and show localy
+    final imagePicker = sl<ImagePicker>();
+    final file = await imagePicker.getImage(source: ImageSource.gallery);
+    final photo = PhotoModel(url: file.path);
     final user = getUser.copyWith(photo: photo);
+
     state = state.copyWith(
+      loading: upload,
       userModel: user,
     );
+
+    if (upload) {
+      // upload photo to firebase
+      final url = await _mediaStore.uploadPhoto(File(file.path), '');
+
+      // show photo from remote and update local photo to firebase link
+      state = state.copyWith(
+        loading: false,
+        userModel: getUser.copyWith(
+          photo: photo.copyWith(url: url),
+        ),
+      );
+    }
   }
 
   @action
-  Future uploadAndShowUserPhoto(PickedFile file) async {
-    state = state.copyWith(loading: true);
-
-    final fileName = '${DateTime.now().millisecondsSinceEpoch}.png';
-    final filePath = File(file.path);
-    final url = await _mediaStore.uploadPhoto(filePath, '', fileName);
-
-    final user = getUser.copyWith(photo: PhotoModel(url: url));
-    state = state.copyWith(loading: false, userModel: user);
+  setSexType(SexType sexType) {
+    this.selectedSex = sexType;
   }
 
   @action
@@ -93,8 +111,8 @@ abstract class _LoginStoreBase with Store {
   }
 
   @action
-  updateUserAge(String age) {
-    state = state.copyWith(userModel: getUser.copyWith(fullName: age));
+  updateUserAge(int age) {
+    state = state.copyWith(userModel: getUser.copyWith(age: age));
   }
 
   @action
@@ -115,28 +133,25 @@ abstract class _LoginStoreBase with Store {
   @action
   Future verifyPhone() async {
     startCountDown();
+
     state = state.copyWith(
       loading: true,
       phonePageState: PhoneOnboardingState.sent,
     );
 
-    final handleFailure = (AuthFailure failure) {
-      state = state.copyWith(
-          phonePageState: PhoneOnboardingState.idle,
-          errorMessage: failure.maybeWhen(
-            serverError: () => 'Server error',
-            orElse: () => null,
-          ));
-    };
-
-    final handleSuccess = (_) {};
-
-    final fullNumber = state.prefix + state.phone;
-
-    final failureOrSuccess = await _repository.verifyPhone(fullNumber);
+    final failureOrSuccess =
+        await _repository.verifyPhone(state.prefix + state.phone);
     failureOrSuccess.fold(
-      handleFailure,
-      handleSuccess,
+      (failure) {
+        state = state.copyWith(
+            loading: false,
+            phonePageState: PhoneOnboardingState.idle,
+            errorMessage: failure.maybeWhen(
+              serverError: () => 'Server error',
+              orElse: () => null,
+            ));
+      },
+      (success) => print('success'),
     );
   }
 

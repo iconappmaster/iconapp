@@ -30,7 +30,7 @@ class RollingSwitch extends StatefulWidget {
       this.colorOff = Colors.transparent,
       this.iconOff = '',
       this.iconOn = '',
-      this.animationDuration = const Duration(milliseconds: 600),
+      this.animationDuration = const Duration(milliseconds: 750),
       this.onTap,
       this.onSwipe,
       this.onChanged});
@@ -141,11 +141,14 @@ class _RollingSwitchState extends State<RollingSwitch>
     );
   }
 
-  Center _buildBackgroundText() {
-    return Center(
-      child: HebrewText(
-        widget.text,
-        style: genderIconText,
+  Widget _buildBackgroundText() {
+    return Transform.translate(
+      offset: turnState ? Offset(value + 7, 0) : Offset(value - 7, 0),
+      child: Center(
+        child: HebrewText(
+          widget.text,
+          style: genderIconText,
+        ),
       ),
     );
   }

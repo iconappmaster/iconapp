@@ -38,3 +38,4 @@ abstract class ValueObject<T> {
   @override
   String toString() => 'Value($value)';
 }
+ 

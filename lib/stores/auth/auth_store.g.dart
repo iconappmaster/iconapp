@@ -31,6 +31,14 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
+  final _$finishedOnboardinAsyncAction =
+      AsyncAction('_AuthStoreBase.finishedOnboardin');
+
+  @override
+  Future<dynamic> finishedOnboardin() {
+    return _$finishedOnboardinAsyncAction.run(() => super.finishedOnboardin());
+  }
+
   final _$_AuthStoreBaseActionController =
       ActionController(name: '_AuthStoreBase');
 

@@ -28,7 +28,9 @@ class CodegenLoader extends AssetLoader{
     "profile_age": "גיל",
     "profile_female": "אישה",
     "profile_male": "גבר",
-    "profile_other": "אחר"
+    "profile_other": "אחר",
+    "wrong_name": "אנא ציין שם ושם משפחה",
+    "wrong_age": ""
   }
 };
   static const Map<String,dynamic> en_US = {

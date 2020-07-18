@@ -21,6 +21,12 @@ abstract class _AuthStoreBase with Store {
   AuthState get state => authState;
 
   @action
+  Future finishedOnboardin() async {
+    await _repository.setSignIn();
+    authState = AuthState.authenticated();
+  }
+
+  @action
   void checkCurrentAuthState() {
     final isSignedIn = _repository.isSignIn();
     if (isSignedIn) {

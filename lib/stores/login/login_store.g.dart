@@ -111,21 +111,11 @@ mixin _$LoginStore on _LoginStoreBase, Store {
     });
   }
 
-  final _$showUserPhotoAsyncAction =
-      AsyncAction('_LoginStoreBase.showUserPhoto');
+  final _$pickPhotoAsyncAction = AsyncAction('_LoginStoreBase.pickPhoto');
 
   @override
-  Future<dynamic> showUserPhoto(PickedFile file) {
-    return _$showUserPhotoAsyncAction.run(() => super.showUserPhoto(file));
-  }
-
-  final _$uploadAndShowUserPhotoAsyncAction =
-      AsyncAction('_LoginStoreBase.uploadAndShowUserPhoto');
-
-  @override
-  Future<dynamic> uploadAndShowUserPhoto(PickedFile file) {
-    return _$uploadAndShowUserPhotoAsyncAction
-        .run(() => super.uploadAndShowUserPhoto(file));
+  Future<dynamic> pickPhoto([bool upload = false]) {
+    return _$pickPhotoAsyncAction.run(() => super.pickPhoto(upload));
   }
 
   final _$verifyPhoneAsyncAction = AsyncAction('_LoginStoreBase.verifyPhone');
@@ -153,6 +143,28 @@ mixin _$LoginStore on _LoginStoreBase, Store {
       ActionController(name: '_LoginStoreBase');
 
   @override
+  bool validateUserAge() {
+    final _$actionInfo = _$_LoginStoreBaseActionController.startAction(
+        name: '_LoginStoreBase.validateUserAge');
+    try {
+      return super.validateUserAge();
+    } finally {
+      _$_LoginStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  bool validateUserName() {
+    final _$actionInfo = _$_LoginStoreBaseActionController.startAction(
+        name: '_LoginStoreBase.validateUserName');
+    try {
+      return super.validateUserName();
+    } finally {
+      _$_LoginStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic setSexType(SexType sexType) {
     final _$actionInfo = _$_LoginStoreBaseActionController.startAction(
         name: '_LoginStoreBase.setSexType');
@@ -175,7 +187,7 @@ mixin _$LoginStore on _LoginStoreBase, Store {
   }
 
   @override
-  dynamic updateUserAge(String age) {
+  dynamic updateUserAge(int age) {
     final _$actionInfo = _$_LoginStoreBaseActionController.startAction(
         name: '_LoginStoreBase.updateUserAge');
     try {

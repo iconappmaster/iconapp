@@ -14,7 +14,8 @@ abstract class _MediaStoreBase with Store {
     _repository = sl<MediaRepository>();
   }
 
-  Future<String> uploadPhoto(File original, String path, String fileName) async {
+  Future<String> uploadPhoto(File original, String path) async {
+    final fileName = '${DateTime.now().millisecondsSinceEpoch}.png';
     final photoUrl = await _repository.uploadSinglePhoto(original, path, fileName);
     return photoUrl;
   }

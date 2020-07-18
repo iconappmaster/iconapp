@@ -13,3 +13,13 @@ Either<ValueFailure<String>, String> validateNumberLength(
     return left(ValueFailure.shortNumber(failedValue: number));
   }
 }
+
+const minAge = 10;
+
+bool validateAge(int age) => age >= minAge;
+
+bool validateName(String name) {
+  final words = name.split(' ');
+  return words.length > 1 && !words.any((word) => word.length == 0);
+  // return (name.trim().contains(' ') && name.trim().length > 0);
+}

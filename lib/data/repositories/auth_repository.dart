@@ -10,6 +10,7 @@ abstract class AuthRepository {
   bool isSignIn();
   bool isOboarding();
   Future<void> signOut();
+  Future<void> setSignIn([bool isFinished = true]);
   Future<Either<AuthFailure, Unit>> verifyPhone(String phone);
   Future<Either<AuthFailure, Unit>> verifyCode(String phone, String code);
 }
@@ -25,7 +26,14 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   bool isSignIn() =>
-      sp.contains(StorageKey.user) && sp.getBool(StorageKey.signedIn);
+      // sp.contains(StorageKey.user) && sp.getBool(StorageKey.signedIn);
+      sp.getBool(StorageKey.signedIn);
+
+  @override
+  Future<void> setSignIn([bool signedIn = true]) {
+    // return sp.setBool(StorageKey.isFinishedOnboarding, isFinished);
+    return sp.setBool(StorageKey.signedIn, signedIn);
+  }
 
   @override
   bool isOboarding() => sp.getBool(StorageKey.isFinishedOnboarding);

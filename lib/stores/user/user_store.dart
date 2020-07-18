@@ -24,7 +24,7 @@ abstract class _UserStoreBase with Store {
   @action
   Future<String> uploadUserPhoto(
       File original, String path, String fileName) async {
-    return await _mediaStore.uploadPhoto(original, path, fileName);
+    return await _mediaStore.uploadPhoto(original, path);
   }
 
   @action
