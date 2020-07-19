@@ -41,7 +41,8 @@ dependencies:
   image_picker: ^0.6.7+2
   easy_localization: ^2.3.2
   pin_code_fields: ^3.1.2
-  
+  device_simulator: ^0.9.6
+  modal_bottom_sheet: ^0.2.0+1
 
 dev_dependencies:
   flutter_test:

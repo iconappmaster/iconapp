@@ -139,20 +139,20 @@ abstract class _LoginStoreBase with Store {
       phonePageState: PhoneOnboardingState.sent,
     );
 
-    final failureOrSuccess =
-        await _repository.verifyPhone(state.prefix + state.phone);
-    failureOrSuccess.fold(
-      (failure) {
-        state = state.copyWith(
-            loading: false,
-            phonePageState: PhoneOnboardingState.idle,
-            errorMessage: failure.maybeWhen(
-              serverError: () => 'Server error',
-              orElse: () => null,
-            ));
-      },
-      (success) => print('success'),
-    );
+    // final failureOrSuccess =
+    //     await _repository.verifyPhone(state.prefix + state.phone);
+    // failureOrSuccess.fold(
+    //   (failure) {
+    //     state = state.copyWith(
+    //         loading: false,
+    //         phonePageState: PhoneOnboardingState.idle,
+    //         errorMessage: failure.maybeWhen(
+    //           serverError: () => 'Server error',
+    //           orElse: () => null,
+    //         ));
+    //   },
+    //   (success) => print('success'),
+    // );
   }
 
   @action

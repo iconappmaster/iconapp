@@ -23,12 +23,12 @@ class OnboardingProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = sl<LoginStore>();
-    return OnboardingWidget(
+    return BaseGradientWidget(
       child: Observer(
         builder: (_) => Stack(
           alignment: Alignment.topCenter,
           children: <Widget>[
-            OnboardingAppbar(),
+            IconAppbar(),
             PersonAvatar(),
             PersonDetails(),
             SexPicker(),

@@ -59,6 +59,8 @@ abstract class $LoginStateCopyWith<$Res> {
       String errorMessage,
       PhoneOnboardingState phonePageState,
       UserModel userModel});
+
+  $UserModelCopyWith<$Res> get userModel;
 }
 
 class _$LoginStateCopyWithImpl<$Res> implements $LoginStateCopyWith<$Res> {
@@ -93,6 +95,16 @@ class _$LoginStateCopyWithImpl<$Res> implements $LoginStateCopyWith<$Res> {
           userModel == freezed ? _value.userModel : userModel as UserModel,
     ));
   }
+
+  @override
+  $UserModelCopyWith<$Res> get userModel {
+    if (_value.userModel == null) {
+      return null;
+    }
+    return $UserModelCopyWith<$Res>(_value.userModel, (value) {
+      return _then(_value.copyWith(userModel: value));
+    });
+  }
 }
 
 abstract class _$LoginStateCopyWith<$Res> implements $LoginStateCopyWith<$Res> {
@@ -108,6 +120,9 @@ abstract class _$LoginStateCopyWith<$Res> implements $LoginStateCopyWith<$Res> {
       String errorMessage,
       PhoneOnboardingState phonePageState,
       UserModel userModel});
+
+  @override
+  $UserModelCopyWith<$Res> get userModel;
 }
 
 class __$LoginStateCopyWithImpl<$Res> extends _$LoginStateCopyWithImpl<$Res>

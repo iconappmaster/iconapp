@@ -4,7 +4,10 @@ import 'package:iconapp/screens/onboarding_phone.dart';
 import 'package:iconapp/widgets/global/back_button.dart';
 import '../../core/extensions/context_ext.dart';
 
-class OnboardingAppbar extends StatelessWidget {
+class IconAppbar extends StatelessWidget {
+  final bool showBack;
+
+  const IconAppbar({Key key, this.showBack = true}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final padding = EdgeInsets.fromLTRB(
@@ -22,9 +25,11 @@ class OnboardingAppbar extends StatelessWidget {
           height: context.heightPx * .099,
           width: double.infinity,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: showBack
+                ? MainAxisAlignment.spaceBetween
+                : MainAxisAlignment.end,
             children: <Widget>[
-              IconBackButton(),
+              if (showBack) IconBackButton(),
               SvgPicture.asset(
                 'assets/images/white_logo.svg',
                 height: 23.7,

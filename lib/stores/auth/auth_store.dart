@@ -31,8 +31,8 @@ abstract class _AuthStoreBase with Store {
     final isSignedIn = _repository.isSignIn();
     if (isSignedIn) {
       authState = _repository.isOboarding()
-          ? AuthState.authenticated()
-          : AuthState.onboarding();
+          ? AuthState.onboarding()
+          : AuthState.authenticated();
     } else {
       authState = AuthState.unauthenticated();
     }

@@ -58,6 +58,8 @@ abstract class $UserModelCopyWith<$Res> {
       PhotoModel photo,
       int age,
       UserRole role});
+
+  $PhotoModelCopyWith<$Res> get photo;
 }
 
 class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
@@ -85,6 +87,16 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
       role: role == freezed ? _value.role : role as UserRole,
     ));
   }
+
+  @override
+  $PhotoModelCopyWith<$Res> get photo {
+    if (_value.photo == null) {
+      return null;
+    }
+    return $PhotoModelCopyWith<$Res>(_value.photo, (value) {
+      return _then(_value.copyWith(photo: value));
+    });
+  }
 }
 
 abstract class _$UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
@@ -99,6 +111,9 @@ abstract class _$UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
       PhotoModel photo,
       int age,
       UserRole role});
+
+  @override
+  $PhotoModelCopyWith<$Res> get photo;
 }
 
 class __$UserModelCopyWithImpl<$Res> extends _$UserModelCopyWithImpl<$Res>

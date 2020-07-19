@@ -27,13 +27,13 @@ class _OnboardingPhoneState extends State<OnboardingPhone> {
   Widget build(BuildContext context) {
     final store = sl<LoginStore>();
 
-    return OnboardingWidget(
+    return BaseGradientWidget(
       child: Observer(
         builder: (_) => Stack(
           fit: StackFit.expand,
           alignment: Alignment.topCenter,
           children: <Widget>[
-            OnboardingAppbar(),
+            IconAppbar(),
             _OnboardingPhoneTitle(),
             _OnboardingPhoneSubtitle(store: store),
             PhoneNumberInput(store: store),

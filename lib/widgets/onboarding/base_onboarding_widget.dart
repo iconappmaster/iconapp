@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/widgets/global/focus_aware.dart';
 
-class OnboardingWidget extends StatelessWidget {
+class BaseGradientWidget extends StatelessWidget {
   final Widget child;
 
-  const OnboardingWidget({Key key, @required this.child}) : super(key: key);
+  const BaseGradientWidget({Key key, @required this.child}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
