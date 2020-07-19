@@ -338,10 +338,10 @@ class BlueDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Divider(
-      color: cornflower,
+      color: darkBlueGrey,
       endIndent: 0,
       indent: 0,
-      height: .3,
+      thickness: 1,
     );
   }
 }

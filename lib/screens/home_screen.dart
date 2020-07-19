@@ -2,9 +2,11 @@ import 'package:device_simulator/device_simulator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/widgets/global/focus_aware.dart';
+import 'package:iconapp/widgets/bottomsheet/bottom_sheet_content.dart';
+import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+import 'package:iconapp/widgets/home/stories_widget.dart';
+import 'package:iconapp/widgets/onboarding/base_onboarding_widget.dart';
 import 'package:iconapp/widgets/onboarding/onboarding_appbar.dart';
 import '../core/extensions/context_ext.dart';
 
@@ -13,325 +15,140 @@ const debugEnableDeviceSimulator = false;
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final closedBottomSheetSize = .1315;
+    final openedBottomSheetSie = .83;
     return DeviceSimulator(
       enable: debugEnableDeviceSimulator,
-      child: FocusAwareWidget(
-        child: Container(
-          decoration: BoxDecoration(gradient: purpleGradient),
-          child: Observer(
-            builder: (_) => Stack(
-              alignment: Alignment.topCenter,
-              children: <Widget>[
-                IconAppbar(showBack: false),
-                DraggableScrollableSheet(
-                  initialChildSize: 0.1315,
-                  minChildSize: 0.1315,
-                  maxChildSize: .8,
-                  builder: (BuildContext context,
-                      ScrollController scrollController) {
-                    return SingleChildScrollView(
-                      controller: scrollController,
-                      child:
-                          CustomScrollViewContent(controller: scrollController),
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// Content of the DraggableBottomSheet's child SingleChildScrollView
-class CustomScrollViewContent extends StatefulWidget {
-  final ScrollController controller;
-
-  const CustomScrollViewContent({Key key, @required this.controller})
-      : super(key: key);
-
-  @override
-  _CustomScrollViewContentState createState() =>
-      _CustomScrollViewContentState();
-}
-
-class _CustomScrollViewContentState extends State<CustomScrollViewContent> {
-  bool _showFab = true;
-
-  void handleScroll() async {
-    widget.controller.addListener(() {
-      if (widget.controller.position.userScrollDirection ==
-          ScrollDirection.reverse) {
-        print('up');
-        hideFloationButton();
-      } else {
-        showFloationButton();
-        print('down');
-      }
-    });
-  }
-
-  @override
-  void initState() {
-    handleScroll();
-    super.initState();
-  }
-
-  void showFloationButton() {
-    setState(() {
-      _showFab = true;
-    });
-  }
-
-  void hideFloationButton() {
-    setState(() {
-      _showFab = false;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(children: [
-      Container(
-        margin: EdgeInsets.only(top: context.heightPlusStatusbarPerc(.00)),
-        child: Card(
-          elevation: 0.0,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(13.3)),
-          margin: const EdgeInsets.all(0),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(24),
-            ),
-            child: CustomInnerContent(),
-          ),
-        ),
-      ),
-      Visibility(
-        visible: _showFab,
-        child: Positioned(
-          left: context.widthPx * .069,
-          child: SizedBox(
-            height: 53,
-            width: 53,
-            child: FloatingActionButton(
-              elevation: 3,
-              child: SvgPicture.asset(
-                'assets/images/plus.svg',
-                height: 20.3,
-                width: 20.3,
-              ),
-              backgroundColor: cornflower,
-              onPressed: () {},
-            ),
-          ),
-        ),
-      )
-    ]);
-  }
-
-  @override
-  void dispose() {
-    widget.controller.removeListener(() {});
-    super.dispose();
-  }
-}
-
-class CustomInnerContent extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Container(
-          height: context.heightPlusStatusbarPerc(.109),
-          child: Stack(
+      child: BaseGradientWidget(
+        child: Observer(
+          builder: (_) => Stack(
+            alignment: Alignment.topCenter,
             children: <Widget>[
-              Positioned(
-                top: 16,
-                right: 35,
-                child: IconButton(
-                  icon: SvgPicture.asset(
-                    'assets/images/icon_search.svg',
-                    height: 35,
-                    width: 19.3,
-                  ),
-                  onPressed: () {},
-                ),
+              IconAppbar(showBack: false),
+              StoriesWidget(),
+              RecentChatsList(),
+              DraggableScrollableSheet(
+                initialChildSize: closedBottomSheetSize,
+                minChildSize: closedBottomSheetSize,
+                maxChildSize: openedBottomSheetSie,
+                builder:
+                    (BuildContext context, ScrollController scrollController) {
+                  return SingleChildScrollView(
+                      physics: PageScrollPhysics(),
+                      controller: scrollController,
+                      child: BottomSheetContent());
+                },
               ),
-              Positioned(
-                top: 16,
-                right: 109,
-                child: IconButton(
-                  icon: SvgPicture.asset(
-                    'assets/images/category_filter.svg',
-                    height: 35,
-                    width: 19.3,
-                  ),
-                  onPressed: () {},
-                ),
-              )
             ],
           ),
         ),
-        // CustomExploreBerlin(),
-        // SizedBox(height: 16),
-        // CustomHorizontallyScrollingRestaurants(),
-        // SizedBox(height: 24),
-        // CustomFeaturedListsText(),
-        // SizedBox(height: 16),
-        CustomFeaturedItemsGrid(),
-        SizedBox(height: 24),
-        CustomRecentPhotosText(),
-        SizedBox(height: 16),
-        CustomRecentPhotoLarge(),
-        SizedBox(height: 12),
-        CustomRecentPhotosSmall(),
-        SizedBox(height: 16),
-      ],
+      ),
     );
   }
 }
 
-class CustomExploreBerlin extends StatelessWidget {
+class RecentChatsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text("Explore Berlin",
-            style: TextStyle(fontSize: 22, color: Colors.black45)),
-        SizedBox(width: 8),
-        Container(
-          height: 24,
-          width: 24,
-          child: Icon(Icons.arrow_forward_ios, size: 12, color: Colors.black54),
-          decoration: BoxDecoration(
-              color: Colors.grey[200], borderRadius: BorderRadius.circular(16)),
+    return Positioned(
+      top: context.heightPlusStatusbarPerc(.249),
+      child: Container(
+        height: context.heightPx - context.heightPlusStatusbarPerc(.2),
+        width: context.widthPx,
+        child: ListView.builder(
+          padding: EdgeInsets.only(bottom: context.heightPlusStatusbarPerc(.2)),
+          physics: BouncingScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return RecentChatItem();
+          },
+          itemCount: 20,
         ),
-      ],
+      ),
     );
   }
 }
 
-class CustomHorizontallyScrollingRestaurants extends StatelessWidget {
+class RecentChatItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 16),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            CustomRestaurantCategory(),
-            SizedBox(width: 12),
-            CustomRestaurantCategory(),
-            SizedBox(width: 12),
-            CustomRestaurantCategory(),
-            SizedBox(width: 12),
-            CustomRestaurantCategory(),
-            SizedBox(width: 12),
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onLongPress: () => print('open chat'),
+        child: Container(
+          height: 81.7,
+          padding: EdgeInsets.only(
+            right: 8.7,
+            left: 15.7,
+          ),
+          margin: EdgeInsets.symmetric(vertical: 5, horizontal: 9.3),
+          width: context.widthPx,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4.8), color: darkIndigo2),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              _buildAvatar(),
+              SizedBox(width: 10.7),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    HebrewText('האח הגדול', style: nameWhite),
+                    SizedBox(height: 4),
+                    HebrewText('נטלי דדון: שבוע טוב לכולם!', style: nameWhite),
+                  ],
+                ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  HebrewText('10:37', style: timeOfMessage),
+                  SizedBox(height: 8.7),
+                  _MessageCounter(count: 2)
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Container _buildAvatar() {
+    return Container(
+      height: 56,
+      width: 56,
+      decoration: BoxDecoration(color: white, shape: BoxShape.circle),
+    );
+  }
+}
+
+class _MessageCounter extends StatelessWidget {
+  final int count;
+  const _MessageCounter({
+    Key key,
+    @required this.count,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 20.7,
+      width: 20.7,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: LinearGradient(
+          colors: [
+            lightishRed,
+            pinkRed,
           ],
         ),
       ),
-    );
-  }
-}
-
-class CustomFeaturedListsText extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 16),
-      //only to left align the text
-      child: Row(
-        children: <Widget>[
-          Text("Featured Lists", style: TextStyle(fontSize: 14))
-        ],
-      ),
-    );
-  }
-}
-
-class CustomFeaturedItemsGrid extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: GridView.count(
-        //to avoid scrolling conflict with the dragging sheet
-        physics: NeverScrollableScrollPhysics(),
-        padding: const EdgeInsets.all(0),
-        crossAxisCount: 2,
-        mainAxisSpacing: 12,
-        crossAxisSpacing: 12,
-        shrinkWrap: true,
-        children: <Widget>[
-          CustomFeaturedItem(),
-          CustomFeaturedItem(),
-          CustomFeaturedItem(),
-          CustomFeaturedItem(),
-        ],
-      ),
-    );
-  }
-}
-
-class CustomRecentPhotosText extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 16),
-      child: Row(
-        children: <Widget>[
-          Text("Recent Photos", style: TextStyle(fontSize: 14)),
-        ],
-      ),
-    );
-  }
-}
-
-class CustomRecentPhotoLarge extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: CustomFeaturedItem(),
-    );
-  }
-}
-
-class CustomRecentPhotosSmall extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return CustomFeaturedItemsGrid();
-  }
-}
-
-class CustomRestaurantCategory extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 100,
-      width: 100,
-      decoration: BoxDecoration(
-        color: Colors.grey[500],
-        borderRadius: BorderRadius.circular(8),
-      ),
-    );
-  }
-}
-
-class CustomFeaturedItem extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 200,
-      decoration: BoxDecoration(
-        color: Colors.grey[500],
-        borderRadius: BorderRadius.circular(8),
+      child: Center(
+        child: HebrewText(count.toString(), style: newMessageNumber),
       ),
     );
   }

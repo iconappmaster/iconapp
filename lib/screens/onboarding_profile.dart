@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/auth/auth_store.dart';
+import 'package:iconapp/widgets/global/plus_circle.dart';
 import '../core/extensions/string_ext.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
@@ -85,22 +86,7 @@ class PersonAvatar extends StatelessWidget {
               ),
               Align(
                 alignment: Alignment.bottomLeft,
-                child: Container(
-                  height: 30,
-                  width: 30,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: cornflower,
-                      border: Border.all(width: 4, color: plusBorder)),
-                  child: Center(
-                    child: SvgPicture.asset(
-                      'assets/images/plus.svg',
-                      color: white,
-                      height: 14.7,
-                      width: 14.7,
-                    ),
-                  ),
-                ),
+                child: PlusCircle(),
               ),
             ]),
           ),
