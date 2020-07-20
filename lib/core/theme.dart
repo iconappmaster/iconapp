@@ -81,10 +81,21 @@ const hint = TextStyle(
     fontSize: 20,
     height: 1.1);
 
+const categoryName = TextStyle(
+    fontFamily: _fontRubikRegular,
+    color: darkBlueGrey,
+    fontSize: 18.3,
+    height: 1);
+
 // Decorations
 
 // Gradients
 final purpleGradient = LinearGradient(colors: [
   grape,
   darkIndigo,
+], begin: Alignment.bottomRight, end: Alignment.topLeft);
+
+final redPinkGradient = LinearGradient(colors: [
+  lightishRed,
+  pinkRed,
 ], begin: Alignment.bottomRight, end: Alignment.topLeft);

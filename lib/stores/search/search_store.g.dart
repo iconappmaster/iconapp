@@ -9,26 +9,42 @@ part of 'search_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$SearchStore on _SearchStoreBase, Store {
-  Computed<List<UserModel>> _$getContactsComputed;
+  Computed<SearchMode> _$getSearchModeComputed;
 
   @override
-  List<UserModel> get getContacts => (_$getContactsComputed ??=
-          Computed<List<UserModel>>(() => super.getContacts,
-              name: '_SearchStoreBase.getContacts'))
+  SearchMode get getSearchMode => (_$getSearchModeComputed ??=
+          Computed<SearchMode>(() => super.getSearchMode,
+              name: '_SearchStoreBase.getSearchMode'))
       .value;
-
-  final _$_contactsAtom = Atom(name: '_SearchStoreBase._contacts');
+  Computed<List<UserModel>> _$getIconsSearchResultsComputed;
 
   @override
-  List<UserModel> get _contacts {
-    _$_contactsAtom.reportRead();
-    return super._contacts;
+  List<UserModel> get getIconsSearchResults =>
+      (_$getIconsSearchResultsComputed ??= Computed<List<UserModel>>(
+              () => super.getIconsSearchResults,
+              name: '_SearchStoreBase.getIconsSearchResults'))
+          .value;
+  Computed<List<CategoryModel>> _$getCategoriesSearchResultsComputed;
+
+  @override
+  List<CategoryModel> get getCategoriesSearchResults =>
+      (_$getCategoriesSearchResultsComputed ??= Computed<List<CategoryModel>>(
+              () => super.getCategoriesSearchResults,
+              name: '_SearchStoreBase.getCategoriesSearchResults'))
+          .value;
+
+  final _$_iconsAtom = Atom(name: '_SearchStoreBase._icons');
+
+  @override
+  List<UserModel> get _icons {
+    _$_iconsAtom.reportRead();
+    return super._icons;
   }
 
   @override
-  set _contacts(List<UserModel> value) {
-    _$_contactsAtom.reportWrite(value, super._contacts, () {
-      super._contacts = value;
+  set _icons(List<UserModel> value) {
+    _$_iconsAtom.reportWrite(value, super._icons, () {
+      super._icons = value;
     });
   }
 
@@ -47,19 +63,27 @@ mixin _$SearchStore on _SearchStoreBase, Store {
     });
   }
 
-  final _$searchModeAtom = Atom(name: '_SearchStoreBase.searchMode');
+  final _$_searchModeAtom = Atom(name: '_SearchStoreBase._searchMode');
 
   @override
-  SearchMode get searchMode {
-    _$searchModeAtom.reportRead();
-    return super.searchMode;
+  SearchMode get _searchMode {
+    _$_searchModeAtom.reportRead();
+    return super._searchMode;
   }
 
   @override
-  set searchMode(SearchMode value) {
-    _$searchModeAtom.reportWrite(value, super.searchMode, () {
-      super.searchMode = value;
+  set _searchMode(SearchMode value) {
+    _$_searchModeAtom.reportWrite(value, super._searchMode, () {
+      super._searchMode = value;
     });
+  }
+
+  final _$setSearchModeAsyncAction =
+      AsyncAction('_SearchStoreBase.setSearchMode');
+
+  @override
+  Future<dynamic> setSearchMode(SearchMode mode) {
+    return _$setSearchModeAsyncAction.run(() => super.setSearchMode(mode));
   }
 
   final _$searchContactsAsyncAction =
@@ -82,8 +106,9 @@ mixin _$SearchStore on _SearchStoreBase, Store {
   @override
   String toString() {
     return '''
-searchMode: ${searchMode},
-getContacts: ${getContacts}
+getSearchMode: ${getSearchMode},
+getIconsSearchResults: ${getIconsSearchResults},
+getCategoriesSearchResults: ${getCategoriesSearchResults}
     ''';
   }
 }

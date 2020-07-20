@@ -15,6 +15,7 @@ import '../core/extensions/context_ext.dart';
 const debugEnableDeviceSimulator = false;
 
 class HomeScreen extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     return DeviceSimulator(
@@ -36,7 +37,11 @@ class HomeScreen extends StatelessWidget {
                       openBottomSheet(context);
                     }
                   },
-                  child: BottomSheetBar(),
+                  child: BottomSheetBar(
+                    isCategoriesSearchOn: false,
+                    isIconSearchOn: false,
+                    onTap: () => openBottomSheet(context),
+                  ),
                 ),
               ),
             ],

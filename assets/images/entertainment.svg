@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="125" height="124" viewBox="0 0 125 124">
+    <defs>
+        <filter id="0fjlafui5a" width="248.8%" height="250.2%" x="-74.4%" y="-75.1%" filterUnits="objectBoundingBox">
+            <feMorphology in="SourceAlpha" operator="dilate" radius=".55" result="shadowSpreadOuter1"/>
+            <feOffset dy="53" in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
+            <feMorphology in="SourceAlpha" radius="1" result="shadowInner"/>
+            <feOffset dy="53" in="shadowInner" result="shadowInner"/>
+            <feComposite in="shadowOffsetOuter1" in2="shadowInner" operator="out" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="66"/>
+            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
+        </filter>
+        <path id="528i4vcdyb" d="M0 0H124.3V123.2H0z"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g stroke="#100A39" stroke-width="5" transform="translate(21 44)">
+            <rect width="48" height="12" x="18" y="26" rx="2"/>
+            <rect width="32" height="12" x="26" y="12" rx="2"/>
+            <rect width="18" height="12" x="33" rx="2"/>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M83.75 31.5L83.75 58.944.5 58.944.25 31.5M84.5 58.5L84.25 31.5"/>
+            <path stroke-linejoin="round" d="M81.39 56.406L67.776 38.917 14.665 38.917 0.5 58.944"/>
+        </g>
+        <path stroke="#100A39" stroke-linejoin="round" stroke-width="5" d="M63 30L55.947 33.708 57.294 25.854 51.587 20.292 59.473 19.146 63 12 66.527 19.146 74.413 20.292 68.706 25.854 70.053 33.708z"/>
+    </g>
+</svg>

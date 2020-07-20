@@ -7,7 +7,7 @@ part 'search_store.g.dart';
 
 class SearchStore = _SearchStoreBase with _$SearchStore;
 
-enum SearchMode { contacts, categories }
+enum SearchMode { icons, categories }
 
 abstract class _SearchStoreBase with Store {
   SearchRepository _repository;
@@ -17,23 +17,34 @@ abstract class _SearchStoreBase with Store {
   }
 
   @observable
-  List<UserModel> _contacts = [];
+  List<UserModel> _icons = [];
 
   @observable
   List<CategoryModel> _categories = [];
 
   @observable
-  SearchMode searchMode = SearchMode.contacts;
+  SearchMode _searchMode = SearchMode.icons;
 
   @computed
-  List<UserModel> get getContacts => _contacts;
+  SearchMode get getSearchMode => _searchMode;
+
+  @computed
+  List<UserModel> get getIconsSearchResults => _icons;
+
+  @computed
+  List<CategoryModel> get getCategoriesSearchResults => _categories;
+
+  @action
+  Future setSearchMode(SearchMode mode) async {
+    _searchMode = mode;
+  }
 
   @action
   Future searchContacts(String query) async {
     final contacts = await _repository.searchContacts(query);
     contacts.fold(
       (error) => print(error),
-      (contacts) => _contacts = contacts,
+      (contacts) => _icons = contacts,
     );
   }
 

@@ -10,6 +10,7 @@ import 'package:iconapp/stores/auth/auth_store.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/login/login_store.dart';
 import 'package:iconapp/stores/media/media_store.dart';
+import 'package:iconapp/stores/search/search_store.dart';
 import 'package:iconapp/stores/socket/socket_manager.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -35,10 +36,6 @@ void initLocator() {
   sl.registerLazySingleton<Dio>(() => getDioClient());
   sl.registerLazySingleton<RestClient>(() => RestClient(sl()));
 
-  // Search
-  sl.registerLazySingleton<SearchRepository>(
-      () => SearchRepositoryImpl(restClient: sl()));
-
   // Media
   sl.registerLazySingleton<MediaStore>(() => MediaStore());
   sl.registerLazySingleton<MediaRepository>(() => MediaRepositoryImpl());
@@ -50,6 +47,8 @@ void initLocator() {
   // Profile
 
   // Search
+  sl.registerLazySingleton<SearchStore>(() => SearchStore());
+  sl.registerLazySingleton<SearchRepository>(() => SearchRepositoryImpl());
 
   // Settings
 
