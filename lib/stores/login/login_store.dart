@@ -31,10 +31,10 @@ abstract class _LoginStoreBase with Store {
   int _currentCountDown = 0;
 
   @observable
-  SexType selectedSex = SexType.male;
+  GenderType _selectedGender = GenderType.male;
 
   @computed
-  SexType get getSexType => selectedSex;
+  GenderType get getGenderType => _selectedGender;
 
   @computed
   String get displayCountdown =>
@@ -101,8 +101,8 @@ abstract class _LoginStoreBase with Store {
   }
 
   @action
-  setSexType(SexType sexType) {
-    this.selectedSex = sexType;
+  setSexType(GenderType sexType) {
+    this._selectedGender = sexType;
   }
 
   @action

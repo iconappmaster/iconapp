@@ -182,7 +182,7 @@ class ProfileInput extends StatelessWidget {
   }
 }
 
-enum SexType { other, male, female }
+enum GenderType { other, male, female }
 
 class SexPicker extends StatefulWidget {
   @override
@@ -203,43 +203,48 @@ class _SexPickerState extends State<SexPicker> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               RollingSwitch(
-                value: store.getSexType == SexType.female,
+                type: GenderType.female,
+                value: store.getGenderType == GenderType.female,
                 iconOn: 'assets/images/female_white.svg',
                 iconOff: 'assets/images/female_purple.svg',
-                onTap: () => setSexType(SexType.female),
+                onTap: () => setGenderType(GenderType.female),
                 text: LocaleKeys.onboarding_profile_female.tr(),
                 colorOff: Colors.transparent,
                 colorOn: cornflower,
-                onChanged: (value) => print(value),
+                onChanged: (value) => print(store.getGenderType),
               ),
               gap,
               RollingSwitch(
-                value: store.getSexType == SexType.male,
+                type: GenderType.male,
+                value: store.getGenderType == GenderType.male,
                 iconOn: 'assets/images/male_white.svg',
                 iconOff: 'assets/images/male_purple.svg',
-                onTap: () => setSexType(SexType.male),
+                onTap: () => setGenderType(GenderType.male),
                 text: LocaleKeys.onboarding_profile_male.tr(),
                 colorOff: Colors.transparent,
                 colorOn: cornflower,
-                onChanged: (value) => print(value),
+                onChanged: (value) => print(store.getGenderType),
               ),
               gap,
               RollingSwitch(
-                value: store.getSexType == SexType.other,
+                type: GenderType.other,
+                value: store.getGenderType == GenderType.other,
                 iconOn: 'assets/images/other_white.svg',
                 iconOff: 'assets/images/other_purple.svg',
-                onTap: () => setSexType(SexType.other),
+                onTap: () => setGenderType(GenderType.other),
                 text: LocaleKeys.onboarding_profile_other.tr(),
                 colorOff: Colors.transparent,
                 colorOn: cornflower,
-                onChanged: (value) => print(value),
+                onChanged: (value) => print(store.getGenderType),
               )
             ]),
       ),
     );
   }
 
-  setSexType(SexType type) {
-    store.setSexType(type);
+  void setGenderType(GenderType type) {
+    if (store.getGenderType != type) {
+      store.setSexType(type);
+    }
   }
 }

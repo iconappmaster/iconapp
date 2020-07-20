@@ -70,8 +70,16 @@ const newMessageNumber =
     TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 11.2);
 const timeOfMessage =
     TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 11);
-const myStory =
-    TextStyle(fontFamily: _fontRubikRegular, color: whiteOpacity30, fontSize: 10.6,);
+const myStory = TextStyle(
+  fontFamily: _fontRubikRegular,
+  color: whiteOpacity30,
+  fontSize: 10.6,
+);
+const hint = TextStyle(
+    fontFamily: _fontRubikRegular,
+    color: darkBlueGrey,
+    fontSize: 20,
+    height: 1.1);
 
 // Decorations
 

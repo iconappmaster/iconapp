@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/widgets/bottomsheet/bottom_sheet_content.dart';
+import 'package:iconapp/widgets/bottomsheet/bs_bar.dart';
+import 'package:iconapp/widgets/bottomsheet/bs_nested_modal.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/home/stories_widget.dart';
 import 'package:iconapp/widgets/onboarding/base_onboarding_widget.dart';
 import 'package:iconapp/widgets/onboarding/onboarding_appbar.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../core/extensions/context_ext.dart';
 
 const debugEnableDeviceSimulator = false;
@@ -15,8 +17,6 @@ const debugEnableDeviceSimulator = false;
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final closedBottomSheetSize = .1315;
-    final openedBottomSheetSie = .83;
     return DeviceSimulator(
       enable: debugEnableDeviceSimulator,
       child: BaseGradientWidget(
@@ -27,23 +27,32 @@ class HomeScreen extends StatelessWidget {
               IconAppbar(showBack: false),
               StoriesWidget(),
               RecentChatsList(),
-              DraggableScrollableSheet(
-                initialChildSize: closedBottomSheetSize,
-                minChildSize: closedBottomSheetSize,
-                maxChildSize: openedBottomSheetSie,
-                builder:
-                    (BuildContext context, ScrollController scrollController) {
-                  return SingleChildScrollView(
-                      physics: PageScrollPhysics(),
-                      controller: scrollController,
-                      child: BottomSheetContent());
-                },
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: GestureDetector(
+                  onTap: () => openBottomSheet(context),
+                  onPanUpdate: (details) {
+                    if (details.delta.dy < 0) {
+                      openBottomSheet(context);
+                    }
+                  },
+                  child: BottomSheetBar(),
+                ),
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void openBottomSheet(BuildContext context) {
+    showCupertinoModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        expand: true,
+        context: context,
+        builder: (context, scrollController) =>
+            NestedSheetModal(scrollController: scrollController));
   }
 }
 

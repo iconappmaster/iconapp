@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/screens/onboarding_profile.dart';
 import 'dart:ui';
 import 'dart:math';
 
@@ -21,7 +22,7 @@ class RollingSwitch extends StatefulWidget {
   final String iconOff;
   final Function onTap;
   final Function onSwipe;
-
+  final GenderType type;
   RollingSwitch(
       {this.value = false,
       this.text = "אישה",
@@ -33,7 +34,8 @@ class RollingSwitch extends StatefulWidget {
       this.animationDuration = const Duration(milliseconds: 750),
       this.onTap,
       this.onSwipe,
-      this.onChanged});
+      this.onChanged,
+      this.type});
 
   @override
   _RollingSwitchState createState() => _RollingSwitchState();
@@ -69,12 +71,14 @@ class _RollingSwitchState extends State<RollingSwitch>
       });
     });
     turnState = widget.value ?? false;
-    _determine();
+    determine();
   }
 
   @override
   Widget build(BuildContext context) {
     Color transitionColor = Color.lerp(widget.colorOff, widget.colorOn, value);
+    print(widget.type);
+
     return GestureDetector(
       onTap: () {
         _action();
@@ -154,10 +158,10 @@ class _RollingSwitchState extends State<RollingSwitch>
   }
 
   _action() {
-    _determine(changeState: true);
+    determine(changeState: true);
   }
 
-  _determine({bool changeState = false}) {
+  determine({bool changeState = false}) {
     setState(() {
       if (changeState) turnState = !turnState;
       (turnState)

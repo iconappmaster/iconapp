@@ -9,13 +9,13 @@ part of 'login_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$LoginStore on _LoginStoreBase, Store {
-  Computed<SexType> _$getSexTypeComputed;
+  Computed<GenderType> _$getGenderTypeComputed;
 
   @override
-  SexType get getSexType =>
-      (_$getSexTypeComputed ??= Computed<SexType>(() => super.getSexType,
-              name: '_LoginStoreBase.getSexType'))
-          .value;
+  GenderType get getGenderType => (_$getGenderTypeComputed ??=
+          Computed<GenderType>(() => super.getGenderType,
+              name: '_LoginStoreBase.getGenderType'))
+      .value;
   Computed<String> _$displayCountdownComputed;
 
   @override
@@ -81,18 +81,18 @@ mixin _$LoginStore on _LoginStoreBase, Store {
     });
   }
 
-  final _$selectedSexAtom = Atom(name: '_LoginStoreBase.selectedSex');
+  final _$_selectedGenderAtom = Atom(name: '_LoginStoreBase._selectedGender');
 
   @override
-  SexType get selectedSex {
-    _$selectedSexAtom.reportRead();
-    return super.selectedSex;
+  GenderType get _selectedGender {
+    _$_selectedGenderAtom.reportRead();
+    return super._selectedGender;
   }
 
   @override
-  set selectedSex(SexType value) {
-    _$selectedSexAtom.reportWrite(value, super.selectedSex, () {
-      super.selectedSex = value;
+  set _selectedGender(GenderType value) {
+    _$_selectedGenderAtom.reportWrite(value, super._selectedGender, () {
+      super._selectedGender = value;
     });
   }
 
@@ -165,7 +165,7 @@ mixin _$LoginStore on _LoginStoreBase, Store {
   }
 
   @override
-  dynamic setSexType(SexType sexType) {
+  dynamic setSexType(GenderType sexType) {
     final _$actionInfo = _$_LoginStoreBaseActionController.startAction(
         name: '_LoginStoreBase.setSexType');
     try {
@@ -233,9 +233,8 @@ mixin _$LoginStore on _LoginStoreBase, Store {
   @override
   String toString() {
     return '''
-selectedSex: ${selectedSex},
 state: ${state},
-getSexType: ${getSexType},
+getGenderType: ${getGenderType},
 displayCountdown: ${displayCountdown},
 counterReachedZero: ${counterReachedZero},
 getUser: ${getUser},
