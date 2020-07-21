@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/screens/onboarding_profile.dart';
+import 'package:iconapp/stores/oboarding/onboarding_store.dart';
 import 'dart:ui';
 import 'dart:math';
 

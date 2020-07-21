@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/auth/auth_store.dart';
+import 'package:iconapp/stores/oboarding/onboarding_store.dart';
 import 'package:iconapp/widgets/global/plus_circle.dart';
 import '../core/extensions/string_ext.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
@@ -59,7 +60,7 @@ class OnboardingProfile extends StatelessWidget {
 class PersonAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final store = sl<LoginStore>();
+    final store = sl<OnboardingStore>();
     return Observer(
       builder: (_) => Positioned(
         top: context.heightPlusStatusbarPerc(.138),
@@ -75,7 +76,8 @@ class PersonAvatar extends StatelessWidget {
                 decoration: BoxDecoration(shape: BoxShape.circle, color: white),
                 child: store.isUserImageAvailable
                     ? CircleAvatar(
-                        backgroundImage: store.getUser.photo.url.showImage())
+                        backgroundImage:
+                            store.getState.userModel.photo.url.showImage())
                     : Center(
                         child: SvgPicture.asset(
                           'assets/images/user_icon.svg',
@@ -99,7 +101,7 @@ class PersonAvatar extends StatelessWidget {
 class PersonDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final store = sl<LoginStore>();
+    final store = sl<OnboardingStore>();
     return Positioned(
       top: context.heightPlusStatusbarPerc(.294),
       child: Form(
@@ -182,15 +184,13 @@ class ProfileInput extends StatelessWidget {
   }
 }
 
-enum GenderType { other, male, female }
-
 class SexPicker extends StatefulWidget {
   @override
   _SexPickerState createState() => _SexPickerState();
 }
 
 class _SexPickerState extends State<SexPicker> {
-  final store = sl<LoginStore>();
+  final store = sl<OnboardingStore>();
 
   @override
   Widget build(BuildContext context) {

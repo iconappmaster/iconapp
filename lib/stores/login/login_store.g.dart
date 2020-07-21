@@ -9,13 +9,6 @@ part of 'login_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$LoginStore on _LoginStoreBase, Store {
-  Computed<GenderType> _$getGenderTypeComputed;
-
-  @override
-  GenderType get getGenderType => (_$getGenderTypeComputed ??=
-          Computed<GenderType>(() => super.getGenderType,
-              name: '_LoginStoreBase.getGenderType'))
-      .value;
   Computed<String> _$displayCountdownComputed;
 
   @override
@@ -37,13 +30,6 @@ mixin _$LoginStore on _LoginStoreBase, Store {
       (_$getUserComputed ??= Computed<UserModel>(() => super.getUser,
               name: '_LoginStoreBase.getUser'))
           .value;
-  Computed<bool> _$isUserImageAvailableComputed;
-
-  @override
-  bool get isUserImageAvailable => (_$isUserImageAvailableComputed ??=
-          Computed<bool>(() => super.isUserImageAvailable,
-              name: '_LoginStoreBase.isUserImageAvailable'))
-      .value;
   Computed<bool> _$isIdleComputed;
 
   @override
@@ -81,21 +67,6 @@ mixin _$LoginStore on _LoginStoreBase, Store {
     });
   }
 
-  final _$_selectedGenderAtom = Atom(name: '_LoginStoreBase._selectedGender');
-
-  @override
-  GenderType get _selectedGender {
-    _$_selectedGenderAtom.reportRead();
-    return super._selectedGender;
-  }
-
-  @override
-  set _selectedGender(GenderType value) {
-    _$_selectedGenderAtom.reportWrite(value, super._selectedGender, () {
-      super._selectedGender = value;
-    });
-  }
-
   final _$stateAtom = Atom(name: '_LoginStoreBase.state');
 
   @override
@@ -109,13 +80,6 @@ mixin _$LoginStore on _LoginStoreBase, Store {
     _$stateAtom.reportWrite(value, super.state, () {
       super.state = value;
     });
-  }
-
-  final _$pickPhotoAsyncAction = AsyncAction('_LoginStoreBase.pickPhoto');
-
-  @override
-  Future<dynamic> pickPhoto([bool upload = false]) {
-    return _$pickPhotoAsyncAction.run(() => super.pickPhoto(upload));
   }
 
   final _$verifyPhoneAsyncAction = AsyncAction('_LoginStoreBase.verifyPhone');
@@ -141,61 +105,6 @@ mixin _$LoginStore on _LoginStoreBase, Store {
 
   final _$_LoginStoreBaseActionController =
       ActionController(name: '_LoginStoreBase');
-
-  @override
-  bool validateUserAge() {
-    final _$actionInfo = _$_LoginStoreBaseActionController.startAction(
-        name: '_LoginStoreBase.validateUserAge');
-    try {
-      return super.validateUserAge();
-    } finally {
-      _$_LoginStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  bool validateUserName() {
-    final _$actionInfo = _$_LoginStoreBaseActionController.startAction(
-        name: '_LoginStoreBase.validateUserName');
-    try {
-      return super.validateUserName();
-    } finally {
-      _$_LoginStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic setSexType(GenderType sexType) {
-    final _$actionInfo = _$_LoginStoreBaseActionController.startAction(
-        name: '_LoginStoreBase.setSexType');
-    try {
-      return super.setSexType(sexType);
-    } finally {
-      _$_LoginStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic updateUserName(String fullName) {
-    final _$actionInfo = _$_LoginStoreBaseActionController.startAction(
-        name: '_LoginStoreBase.updateUserName');
-    try {
-      return super.updateUserName(fullName);
-    } finally {
-      _$_LoginStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic updateUserAge(int age) {
-    final _$actionInfo = _$_LoginStoreBaseActionController.startAction(
-        name: '_LoginStoreBase.updateUserAge');
-    try {
-      return super.updateUserAge(age);
-    } finally {
-      _$_LoginStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
 
   @override
   dynamic updatePhone(String phone) {
@@ -234,11 +143,9 @@ mixin _$LoginStore on _LoginStoreBase, Store {
   String toString() {
     return '''
 state: ${state},
-getGenderType: ${getGenderType},
 displayCountdown: ${displayCountdown},
 counterReachedZero: ${counterReachedZero},
 getUser: ${getUser},
-isUserImageAvailable: ${isUserImageAvailable},
 isIdle: ${isIdle},
 numberValid: ${numberValid},
 getState: ${getState}

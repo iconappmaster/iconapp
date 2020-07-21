@@ -10,6 +10,7 @@ import 'package:iconapp/stores/auth/auth_store.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/login/login_store.dart';
 import 'package:iconapp/stores/media/media_store.dart';
+import 'package:iconapp/stores/oboarding/onboarding_store.dart';
 import 'package:iconapp/stores/search/search_store.dart';
 import 'package:iconapp/stores/socket/socket_manager.dart';
 import 'package:image_picker/image_picker.dart';
@@ -43,7 +44,7 @@ void initLocator() {
   // Home
 
   // Onboarding
-
+  sl.registerLazySingleton<OnboardingStore>(() => OnboardingStore());
   // Profile
 
   // Search
