@@ -1,16 +1,11 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:iconapp/core/dependencies/locator.dart';
-import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/repositories/auth_repository.dart';
 import 'package:iconapp/domain/auth/auth_failure.dart';
-import 'package:iconapp/domain/core/value_validators.dart';
-import 'package:iconapp/screens/onboarding_profile.dart';
-import 'package:iconapp/stores/media/media_store.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
 import 'login_state.dart';
+
 part 'login_store.g.dart';
 
 class LoginStore = _LoginStoreBase with _$LoginStore;
@@ -19,23 +14,18 @@ const defaultCountTimeSec = 17;
 
 abstract class _LoginStoreBase with Store {
   AuthRepository _repository;
-  MediaStore _mediaStore;
   Timer _timer;
 
   _LoginStoreBase() {
     _repository = sl<AuthRepository>();
-    _mediaStore = sl<MediaStore>();
   }
 
   @observable
   int _currentCountDown = 0;
-
+  
   @observable
-  GenderType _selectedGender = GenderType.male;
-
-  @computed
-  GenderType get getGenderType => _selectedGender;
-
+  LoginState state = LoginState.initial();
+ 
   @computed
   String get displayCountdown =>
       (defaultCountTimeSec - _currentCountDown).toString();
@@ -46,11 +36,6 @@ abstract class _LoginStoreBase with Store {
   @computed
   UserModel get getUser => state.userModel;
 
-  @computed
-  bool get isUserImageAvailable => state.userModel?.photo?.url != null ?? false;
-
-  @observable
-  LoginState state = LoginState.initial();
 
   @computed
   bool get isIdle => state.phonePageState == PhoneOnboardingState.idle;
@@ -61,60 +46,7 @@ abstract class _LoginStoreBase with Store {
   @computed
   LoginState get getState => state;
 
-  @action
-  bool validateUserAge() {
-    final age = getUser.age ?? 0;
-    return validateAge(age);
-  }
-
-  @action
-  bool validateUserName() {
-    final name = getUser.fullName ?? '';
-    return validateName(name);
-  }
-
-  @action
-  Future pickPhoto([bool upload = false]) async {
-    // pick photo and show localy
-    final imagePicker = sl<ImagePicker>();
-    final file = await imagePicker.getImage(source: ImageSource.gallery);
-    final photo = PhotoModel(url: file.path);
-    final user = getUser.copyWith(photo: photo);
-
-    state = state.copyWith(
-      loading: upload,
-      userModel: user,
-    );
-
-    if (upload) {
-      // upload photo to firebase
-      final url = await _mediaStore.uploadPhoto(File(file.path), '');
-
-      // show photo from remote and update local photo to firebase link
-      state = state.copyWith(
-        loading: false,
-        userModel: getUser.copyWith(
-          photo: photo.copyWith(url: url),
-        ),
-      );
-    }
-  }
-
-  @action
-  setSexType(GenderType sexType) {
-    this._selectedGender = sexType;
-  }
-
-  @action
-  updateUserName(String fullName) {
-    state = state.copyWith(userModel: getUser.copyWith(fullName: fullName));
-  }
-
-  @action
-  updateUserAge(int age) {
-    state = state.copyWith(userModel: getUser.copyWith(age: age));
-  }
-
+  // 
   @action
   updatePhone(String phone) {
     state = state.copyWith(phone: phone);
@@ -205,3 +137,59 @@ abstract class _LoginStoreBase with Store {
     _timer = null;
   }
 }
+
+
+
+// @action
+  // bool validateUserAge() {
+  //   final age = getUser.age ?? 0;
+  //   return validateAge(age);
+  // }
+
+  // @action
+  // bool validateUserName() {
+  //   final name = getUser.fullName ?? '';
+  //   return validateName(name);
+  // }
+
+  // @action
+  // Future pickPhoto([bool upload = false]) async {
+  //   // pick photo and show localy
+  //   final imagePicker = sl<ImagePicker>();
+  //   final file = await imagePicker.getImage(source: ImageSource.gallery);
+  //   final photo = PhotoModel(url: file.path);
+  //   final user = getUser.copyWith(photo: photo);
+
+  //   state = state.copyWith(
+  //     loading: upload,
+  //     userModel: user,
+  //   );
+
+  //   if (upload) {
+  //     // upload photo to firebase
+  //     final url = await _mediaStore.uploadPhoto(File(file.path), '');
+
+  //     // show photo from remote and update local photo to firebase link
+  //     state = state.copyWith(
+  //       loading: false,
+  //       userModel: getUser.copyWith(
+  //         photo: photo.copyWith(url: url),
+  //       ),
+  //     );
+  //   }
+  // }
+
+  // @action
+  // setSexType(GenderType sexType) {
+  //   this._selectedGender = sexType;
+  // }
+
+  // @action
+  // updateUserName(String fullName) {
+  //   state = state.copyWith(userModel: getUser.copyWith(fullName: fullName));
+  // }
+
+  // @action
+  // updateUserAge(int age) {
+  //   state = state.copyWith(userModel: getUser.copyWith(age: age));
+  // }

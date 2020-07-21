@@ -8,8 +8,8 @@ part of 'user_store.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
-mixin _$OnboardingStore on _UserStoreBase, Store {
-  final _$userModelAtom = Atom(name: '_OnboardingStoreBase.userModel');
+mixin _$UserStore on _UserStoreBase, Store {
+  final _$userModelAtom = Atom(name: '_UserStoreBase.userModel');
 
   @override
   UserModel get userModel {
@@ -25,7 +25,7 @@ mixin _$OnboardingStore on _UserStoreBase, Store {
   }
 
   final _$uploadUserPhotoAsyncAction =
-      AsyncAction('_OnboardingStoreBase.uploadUserPhoto');
+      AsyncAction('_UserStoreBase.uploadUserPhoto');
 
   @override
   Future<String> uploadUserPhoto(File original, String path, String fileName) {
@@ -33,8 +33,7 @@ mixin _$OnboardingStore on _UserStoreBase, Store {
         .run(() => super.uploadUserPhoto(original, path, fileName));
   }
 
-  final _$updateUserAsyncAction =
-      AsyncAction('_OnboardingStoreBase.updateUser');
+  final _$updateUserAsyncAction = AsyncAction('_UserStoreBase.updateUser');
 
   @override
   Future<dynamic> updateUser(UserModel user) {
@@ -42,7 +41,7 @@ mixin _$OnboardingStore on _UserStoreBase, Store {
   }
 
   final _$getCurrentUserAsyncAction =
-      AsyncAction('_OnboardingStoreBase.getCurrentUser');
+      AsyncAction('_UserStoreBase.getCurrentUser');
 
   @override
   Future<dynamic> getCurrentUser() {

@@ -5,9 +5,10 @@ import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/repositories/user_repository.dart';
 import 'package:iconapp/stores/media/media_store.dart';
 import 'package:mobx/mobx.dart';
-part 'onboarding_store.g.dart';
 
-class UserStore = _UserStoreBase with _$OnboardingStore;
+part 'user_store.g.dart';
+
+class UserStore = _UserStoreBase with _$UserStore;
 
 abstract class _UserStoreBase with Store {
   UserRepository _userRepository;
