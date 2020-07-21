@@ -18,11 +18,15 @@ class _SplashScreenState extends State<SplashScreen> {
   AuthStore _store;
 
   @override
+  void initState() { 
+    super.initState();
+    
+  }
+  @override
   void didChangeDependencies() {
+    // TODO should I move it to init?
     _store ??= sl<AuthStore>();
-
     Future.delayed(Duration(seconds: 2), () => _store.checkCurrentAuthState());
-
     super.didChangeDependencies();
   }
 

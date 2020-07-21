@@ -16,7 +16,7 @@ import 'package:iconapp/screens/settings_screen.dart';
 import 'package:iconapp/screens/profile_screen.dart';
 import 'package:iconapp/screens/search_screen.dart';
 import 'package:iconapp/screens/chat_screen.dart';
-import 'package:iconapp/screens/create_group_screen.dart';
+import 'package:iconapp/screens/create_conversation_screen.dart';
 import 'package:iconapp/screens/story_screen.dart';
 import 'package:iconapp/screens/full_video_screen.dart';
 import 'package:iconapp/screens/full_image_screen.dart';

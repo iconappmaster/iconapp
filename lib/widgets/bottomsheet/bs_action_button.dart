@@ -36,7 +36,7 @@ class BottomSheetActionButtons extends StatelessWidget {
                   asset: 'assets/images/icon_search.svg',
                   onTap: () {
                     store.setSearchMode(SearchMode.icons);
-                    onTap();
+                    if(onTap != null) onTap();
                   }),
               BottomSheetIcon(
                 isSelected: isCategoriesSearchOn != null
@@ -46,7 +46,7 @@ class BottomSheetActionButtons extends StatelessWidget {
                 asset: 'assets/images/category_filter.svg',
                 onTap: () {
                   store.setSearchMode(SearchMode.categories);
-                  onTap();
+                  if(onTap != null) onTap();
                 },
               ),
             ],

@@ -1,7 +1,6 @@
 import 'package:device_simulator/device_simulator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/widgets/bottomsheet/bs_bar.dart';
 import 'package:iconapp/widgets/bottomsheet/bs_nested_modal.dart';
@@ -21,8 +20,11 @@ class HomeScreen extends StatelessWidget {
     return DeviceSimulator(
       enable: debugEnableDeviceSimulator,
       child: BaseGradientWidget(
-        child: Observer(
-          builder: (_) => Stack(
+        child:
+        // Observer(
+          // builder: (_) => 
+          
+           Stack(
             alignment: Alignment.topCenter,
             children: <Widget>[
               IconAppbar(showBack: false),
@@ -46,7 +48,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ],
           ),
-        ),
+        // ),
       ),
     );
   }

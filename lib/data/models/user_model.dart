@@ -6,13 +6,15 @@ part 'user_model.freezed.dart';
 
 @freezed
 abstract class UserModel with _$UserModel {
-  const factory UserModel(
-      {String id,
-      String fullName,
-      UserGender gender,
-      PhotoModel photo,
-      int age,
-      UserRole role}) = _UserModel;
+  const factory UserModel({
+    String id,
+    String fullName,
+    UserGender gender,
+    PhotoModel photo,
+    int age,
+    UserRole role,
+    
+  }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);

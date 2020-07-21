@@ -1,19 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="105" height="105" viewBox="0 0 105 105">
-    <defs>
-        <filter id="prefix__a" width="122.8%" height="122.8%" x="-11.4%" y="-11.4%" filterUnits="objectBoundingBox">
-            <feMorphology in="SourceAlpha" operator="dilate" radius="1.19" result="shadowSpreadOuter1"/>
-            <feOffset in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
-            <feMorphology in="SourceAlpha" radius="1.19" result="shadowInner"/>
-            <feOffset in="shadowInner" result="shadowInner"/>
-            <feComposite in="shadowOffsetOuter1" in2="shadowInner" operator="out" result="shadowOffsetOuter1"/>
-            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="3"/>
-            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"/>
-        </filter>
-        <circle id="prefix__b" cx="46.625" cy="46.625" r="44.625"/>
-    </defs>
-    <g fill="none" fill-rule="evenodd" transform="translate(6 6)">
-        <use fill="#000" filter="url(#prefix__a)" xlink:href="#prefix__b"/>
-        <use stroke="#725DFF" stroke-width="2.38" xlink:href="#prefix__b"/>
-        <path fill="#FFF" stroke="#FFF" stroke-linejoin="round" stroke-width="4.165" d="M31 39.438L43.645 27 46.053 29.369 35.817 39.438 62.403 63.471 59.994 65.84z" transform="rotate(-90 46.701 46.42)"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="68" height="68" viewBox="0 0 68 68">
+    <g fill="none" fill-rule="evenodd">
+        <path fill="#FFF" stroke="#FFF" stroke-linejoin="round" stroke-width="3.165" d="M23 28.287L32.261 19 34.025 20.769 26.528 28.287 46 46.231 44.236 48z" transform="rotate(-90 34.5 33.5)"/>
     </g>
 </svg>

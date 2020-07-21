@@ -342,6 +342,7 @@ class BlueDivider extends StatelessWidget {
       endIndent: 0,
       indent: 0,
       thickness: 1,
+      height: 0,
     );
   }
 }
