@@ -25,8 +25,8 @@ class BottomSheetFab extends StatelessWidget {
             width: 20.3,
           ),
           backgroundColor: cornflower,
-          onPressed: () =>
-              ExtendedNavigator.of(context).pushNamed(Routes.createGroupScreen),
+          onPressed: () => ExtendedNavigator.of(context)
+              .pushNamed(Routes.selectContactsScreen),
         ),
       ),
     );

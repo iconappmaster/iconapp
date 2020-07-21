@@ -66,7 +66,7 @@ class _OnboardingPhoneState extends State<OnboardingPhone> {
               store.verifyPhone();
             },
             onError: () => context.showErrorFlushbar(
-                message: LocaleKeys.onboarding_phone_too_short.tr()),
+                message: LocaleKeys.onboarding_phone_tooShort.tr()),
           )),
     );
   }
@@ -115,7 +115,7 @@ class _SmsCounter extends StatelessWidget {
         child: Positioned(
           top: context.heightPlusStatusbarPerc(.408),
           child: HebrewText(
-            LocaleKeys.onboarding_phone_counting
+            LocaleKeys.onboarding_phoneCounting
                 .tr(args: [store.displayCountdown]),
             style: loginSmallText,
           ),
@@ -193,7 +193,7 @@ class _OnboardingPhoneSubtitle extends StatelessWidget {
       child: HebrewText(
         store.isIdle
             ? LocaleKeys.onboarding_phoneSubtitle.tr()
-            : LocaleKeys.onboarding_onboarding_enter_code.tr(),
+            : LocaleKeys.onboarding_enterCode.tr(),
         style: loginSmallText,
       ),
     );
@@ -335,10 +335,14 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
 }
 
 class BlueDivider extends StatelessWidget {
+  final Color color;
+
+  const BlueDivider({Key key, this.color = darkBlueGrey}) : super(key: key);
+  
   @override
   Widget build(BuildContext context) {
     return Divider(
-      color: darkBlueGrey,
+      color: color,
       endIndent: 0,
       indent: 0,
       thickness: 1,

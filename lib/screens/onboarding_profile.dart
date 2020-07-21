@@ -1,12 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/auth/auth_store.dart';
 import 'package:iconapp/stores/oboarding/onboarding_store.dart';
-import 'package:iconapp/widgets/global/plus_circle.dart';
-import '../core/extensions/string_ext.dart';
+import 'package:iconapp/widgets/global/user_avatar.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
@@ -31,7 +29,9 @@ class OnboardingProfile extends StatelessWidget {
           alignment: Alignment.topCenter,
           children: <Widget>[
             IconAppbar(),
-            PersonAvatar(),
+            Positioned(
+                top: context.heightPlusStatusbarPerc(.138),
+                child: UserAvatar(url: store.getState.userModel.photo.url)),
             PersonDetails(),
             SexPicker(),
             _nextButton(context, store),
@@ -52,47 +52,6 @@ class OnboardingProfile extends StatelessWidget {
                 Routes.splashScreen, (Route<dynamic> route) => false);
           }
         },
-      ),
-    );
-  }
-}
-
-class PersonAvatar extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final store = sl<OnboardingStore>();
-    return Observer(
-      builder: (_) => Positioned(
-        top: context.heightPlusStatusbarPerc(.138),
-        child: GestureDetector(
-          onTap: () async => await store.pickPhoto(),
-          child: Container(
-            width: 80,
-            height: 80,
-            child: Stack(children: [
-              Container(
-                height: 75,
-                width: 75,
-                decoration: BoxDecoration(shape: BoxShape.circle, color: white),
-                child: store.isUserImageAvailable
-                    ? CircleAvatar(
-                        backgroundImage:
-                            store.getState.userModel.photo.url.showImage())
-                    : Center(
-                        child: SvgPicture.asset(
-                          'assets/images/user_icon.svg',
-                          height: 37,
-                          width: 37,
-                        ),
-                      ),
-              ),
-              Align(
-                alignment: Alignment.bottomLeft,
-                child: PlusCircle(),
-              ),
-            ]),
-          ),
-        ),
       ),
     );
   }
@@ -120,7 +79,7 @@ class PersonDetails extends StatelessWidget {
                         }
                         return 'ציין שם ושם משפחה';
                       },
-                      title: LocaleKeys.onboarding_profile_name.tr(),
+                      title: LocaleKeys.onboarding_profileName.tr(),
                       onChange: (name) => store.updateUserName(name))),
               Container(
                   width: context.widthPx * .207,
@@ -133,7 +92,7 @@ class PersonDetails extends StatelessWidget {
                       },
                       maxLength: 2,
                       keyboardType: TextInputType.number,
-                      title: LocaleKeys.onboarding_profile_age.tr(),
+                      title: LocaleKeys.onboarding_profileAge.tr(),
                       onChange: (age) =>
                           store.updateUserAge(int.tryParse(age))))
             ],
@@ -150,13 +109,19 @@ class ProfileInput extends StatelessWidget {
   final TextInputType keyboardType;
   final int maxLength;
   final FormFieldValidator<String> validator;
+  final String hint;
+  final TextStyle hintStyle;
+  final TextStyle textStyle;
   const ProfileInput({
     Key key,
-    @required this.title,
+    this.title,
     @required this.onChange,
     this.keyboardType = TextInputType.text,
     this.maxLength,
     this.validator,
+    this.hint,
+    this.hintStyle,
+    this.textStyle = fieldInput,
   }) : super(key: key);
 
   @override
@@ -164,21 +129,24 @@ class ProfileInput extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        HebrewText(title, style: fieldLabel),
+        if (title != null) HebrewText(title, style: fieldLabel),
         TextFormField(
-            key: key,
-            validator: validator,
-            maxLength: maxLength,
-            keyboardType: keyboardType,
-            decoration: InputDecoration(
-                counterText: '',
-                enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: cornflower)),
-                border: UnderlineInputBorder(
-                  borderSide: BorderSide(color: cornflower, width: .7),
-                )),
-            onChanged: onChange,
-            style: fieldInput),
+          key: key,
+          validator: validator,
+          maxLength: maxLength,
+          keyboardType: keyboardType,
+          decoration: InputDecoration(
+              hintStyle: hintStyle,
+              hintText: hint,
+              counterText: '',
+              enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: cornflower)),
+              border: UnderlineInputBorder(
+                borderSide: BorderSide(color: cornflower, width: .7),
+              )),
+          onChanged: onChange,
+          style: textStyle,
+        ),
       ],
     );
   }
@@ -208,7 +176,7 @@ class _SexPickerState extends State<SexPicker> {
                 iconOn: 'assets/images/female_white.svg',
                 iconOff: 'assets/images/female_purple.svg',
                 onTap: () => setGenderType(GenderType.female),
-                text: LocaleKeys.onboarding_profile_female.tr(),
+                text: LocaleKeys.onboarding_profileFemale.tr(),
                 colorOff: Colors.transparent,
                 colorOn: cornflower,
                 onChanged: (value) => print(store.getGenderType),
@@ -220,7 +188,7 @@ class _SexPickerState extends State<SexPicker> {
                 iconOn: 'assets/images/male_white.svg',
                 iconOff: 'assets/images/male_purple.svg',
                 onTap: () => setGenderType(GenderType.male),
-                text: LocaleKeys.onboarding_profile_male.tr(),
+                text: LocaleKeys.onboarding_profileMale.tr(),
                 colorOff: Colors.transparent,
                 colorOn: cornflower,
                 onChanged: (value) => print(store.getGenderType),
@@ -232,7 +200,7 @@ class _SexPickerState extends State<SexPicker> {
                 iconOn: 'assets/images/other_white.svg',
                 iconOff: 'assets/images/other_purple.svg',
                 onTap: () => setGenderType(GenderType.other),
-                text: LocaleKeys.onboarding_profile_other.tr(),
+                text: LocaleKeys.onboarding_profileOther.tr(),
                 colorOff: Colors.transparent,
                 colorOn: cornflower,
                 onChanged: (value) => print(store.getGenderType),

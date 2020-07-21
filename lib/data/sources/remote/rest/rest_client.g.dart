@@ -22,7 +22,7 @@ class _RestClient implements RestClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response _result = await _dio.request('verifyPhone',
+    final Response _result = await _dio.request('request_code',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',

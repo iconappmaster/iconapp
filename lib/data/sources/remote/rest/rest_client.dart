@@ -11,14 +11,14 @@ import 'logger_interceptor.dart';
 part 'rest_client.g.dart';
 
 const String baseUrlProd = 'https://implement.com';
-const String baseUrlDev = 'https://implement.com';
+const String baseUrlDev = 'http://iconstaging.herokuapp.com/api/v1/';
 
 @RestApi(baseUrl: baseUrlProd)
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
   // AUTHENTICATION
-  @POST('verifyPhone')
+  @POST('request_code')
   Future verifyPhone(String phone);
 
   @POST('verifyCode')

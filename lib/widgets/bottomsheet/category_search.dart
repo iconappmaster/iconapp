@@ -48,28 +48,11 @@ class CategorySearchItem extends StatelessWidget {
           color: Colors.white,
           child: Row(
             children: <Widget>[
-              Stack(children: [
-                SvgPicture.asset(
-                  'assets/images/entertainment.svg',
-                  height: 41,
-                  width: 61,
-                ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  child: Container(
-                    height: 24,
-                    width: 24,
-                    decoration: BoxDecoration(
-                        border: Border.all(width: 2, color: white),
-                        shape: BoxShape.circle,
-                        gradient: redPinkGradient),
-                    child: Center(
-                      child: SvgPicture.asset('assets/images/check.svg'),
-                    ),
-                  ),
-                )
-              ]),
+              SvgPicture.asset(
+                'assets/images/entertainment.svg',
+                height: 41,
+                width: 61,
+              ),
               SizedBox(width: 14),
               HebrewText('עולם הבידור', style: categoryName),
             ],

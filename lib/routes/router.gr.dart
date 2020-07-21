@@ -16,12 +16,12 @@ import 'package:iconapp/screens/settings_screen.dart';
 import 'package:iconapp/screens/profile_screen.dart';
 import 'package:iconapp/screens/search_screen.dart';
 import 'package:iconapp/screens/chat_screen.dart';
-import 'package:iconapp/screens/create_conversation_screen.dart';
 import 'package:iconapp/screens/story_screen.dart';
 import 'package:iconapp/screens/full_video_screen.dart';
 import 'package:iconapp/screens/full_image_screen.dart';
 import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/screens/camera_screen.dart';
+import 'package:iconapp/screens/create_group.dart';
 
 class Routes {
   static const String splashScreen = '/';
@@ -33,11 +33,13 @@ class Routes {
   static const String profileScreen = '/profile-screen';
   static const String searchScreen = '/search-screen';
   static const String chatScreen = '/chat-screen';
-  static const String createGroupScreen = '/create-group-screen';
   static const String storyScreen = '/story-screen';
   static const String fullVideoScreen = '/full-video-screen';
   static const String fullImageScreen = '/full-image-screen';
   static const String cameraScreen = '/camera-screen';
+  static const String selectContactsScreen = '/select-contacts-screen';
+  static const String selectCategoryScreen = '/select-category-screen';
+  static const String groupNamePhoto = '/group-name-photo';
   static const all = <String>{
     splashScreen,
     loginScreen,
@@ -48,11 +50,13 @@ class Routes {
     profileScreen,
     searchScreen,
     chatScreen,
-    createGroupScreen,
     storyScreen,
     fullVideoScreen,
     fullImageScreen,
     cameraScreen,
+    selectContactsScreen,
+    selectCategoryScreen,
+    groupNamePhoto,
   };
 }
 
@@ -69,11 +73,13 @@ class Router extends RouterBase {
     RouteDef(Routes.profileScreen, page: ProfileScreen),
     RouteDef(Routes.searchScreen, page: SearchScreen),
     RouteDef(Routes.chatScreen, page: ChatScreen),
-    RouteDef(Routes.createGroupScreen, page: CreateGroupScreen),
     RouteDef(Routes.storyScreen, page: StoryScreen),
     RouteDef(Routes.fullVideoScreen, page: FullVideoScreen),
     RouteDef(Routes.fullImageScreen, page: FullImageScreen),
     RouteDef(Routes.cameraScreen, page: CameraScreen),
+    RouteDef(Routes.selectContactsScreen, page: SelectContactsScreen),
+    RouteDef(Routes.selectCategoryScreen, page: SelectCategoryScreen),
+    RouteDef(Routes.groupNamePhoto, page: GroupNamePhoto),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -132,12 +138,6 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    CreateGroupScreen: (RouteData data) {
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => CreateGroupScreen(),
-        settings: data,
-      );
-    },
     StoryScreen: (RouteData data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => StoryScreen(),
@@ -161,6 +161,25 @@ class Router extends RouterBase {
     CameraScreen: (RouteData data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => CameraScreen(),
+        settings: data,
+      );
+    },
+    SelectContactsScreen: (RouteData data) {
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => SelectContactsScreen(),
+        settings: data,
+        fullscreenDialog: true,
+      );
+    },
+    SelectCategoryScreen: (RouteData data) {
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => SelectCategoryScreen(),
+        settings: data,
+      );
+    },
+    GroupNamePhoto: (RouteData data) {
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => GroupNamePhoto(),
         settings: data,
       );
     },
@@ -194,9 +213,6 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
 
   Future<dynamic> pushChatScreen() => pushNamed<dynamic>(Routes.chatScreen);
 
-  Future<dynamic> pushCreateGroupScreen() =>
-      pushNamed<dynamic>(Routes.createGroupScreen);
-
   Future<dynamic> pushStoryScreen() => pushNamed<dynamic>(Routes.storyScreen);
 
   Future<dynamic> pushFullVideoScreen() =>
@@ -212,6 +228,15 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
       );
 
   Future<dynamic> pushCameraScreen() => pushNamed<dynamic>(Routes.cameraScreen);
+
+  Future<dynamic> pushSelectContactsScreen() =>
+      pushNamed<dynamic>(Routes.selectContactsScreen);
+
+  Future<dynamic> pushSelectCategoryScreen() =>
+      pushNamed<dynamic>(Routes.selectCategoryScreen);
+
+  Future<dynamic> pushGroupNamePhoto() =>
+      pushNamed<dynamic>(Routes.groupNamePhoto);
 }
 
 // *************************************************************************

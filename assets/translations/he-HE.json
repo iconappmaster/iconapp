@@ -8,15 +8,23 @@
     "onboarding" : {
         "phoneTitle" : "כדי להתחבר לקבוצות הצ׳אט אנחנו\nצריכים את מספר הטלפון שלך",
         "phoneSubtitle" : "מה מספר הטלפון שלך?",
-        "onboarding_enter_code" : "הזן/י את הקוד שנשלח אליך ב- SMS",
-        "phone_counting" : "הקוד יגיע בעוד {} שניות",
-        "phone_too_short" : "אנא הקלד/י מספר טלפון בן 7 ספרות.",
-        "profile_name" : "שם מלא",
-        "profile_age" : "גיל",
-        "profile_female" : "אישה",
-        "profile_male" : "גבר",
-        "profile_other" : "אחר",
-        "wrong_name" : "אנא ציין שם ושם משפחה",
-        "wrong_age" : ""
+        "enterCode" : "הזן/י את הקוד שנשלח אליך ב- SMS",
+        "phoneCounting" : "הקוד יגיע בעוד {} שניות",
+        "phone_tooShort" : "אנא הקלד/י מספר טלפון בן 7 ספרות.",
+        "profileName" : "שם מלא",
+        "profileAge" : "גיל",
+        "profileFemale" : "אישה",
+        "profileMale" : "גבר",
+        "profileOther" : "אחר",
+        "wrongName" : "אנא ציין שם ושם משפחה",
+        "wrongAge" : ""
+    },
+    "create": {
+        "groupNameHint": "הקלד/י כאן את נושא הקבוצה",   
+        "groupNameDescription": "בחר/י נושא לקבוצה החדשה. כדאי להוסיף גם אייקון.",
+        "groupNameAppbarTitle": "נושא הקבוצה",
+        "groupSelectCategoryAppbarTitle": "בחר/י קטגוריה",
+        "groupSelectContactAppbarTitle": "בחר/י משתתפים לקבוצה"
     }
+
 }

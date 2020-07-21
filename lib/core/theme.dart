@@ -47,57 +47,44 @@ const button = TextStyle(
     letterSpacing: 0.18);
 
 const pinCode =
-    TextStyle(fontFamily: _fontRubikRegular, 
-    color: white, fontSize: 26.7);
+    TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 26.7);
 
 const nameWhite =
-    TextStyle(fontFamily: _fontRubikBold, 
-    color: white, fontSize: 18);
+    TextStyle(fontFamily: _fontRubikBold, color: white, fontSize: 18);
 
 const nameDark =
-    TextStyle(fontFamily: _fontRubikMedium, 
-    color: purpleFont, fontSize: 18);
+    TextStyle(fontFamily: _fontRubikMedium, color: purpleFont, fontSize: 18);
 
 const loginBigText = TextStyle(
-    fontFamily: _fontRubikBold, color: white, 
-    fontSize: 17.3, height: 1.3);
+    fontFamily: _fontRubikBold, color: white, fontSize: 17.3, height: 1.3);
 
 const fieldInput =
-    TextStyle(fontFamily: _fontRubikRegular, 
-    color: white, fontSize: 17.3);
+    TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 17.3);
 
 const status =
-    TextStyle(fontFamily: _fontRubikRegular, 
-    color: purpleFont, fontSize: 15.3);
+    TextStyle(fontFamily: _fontRubikRegular, color: purpleFont, fontSize: 15.3);
 
 const lastWritten =
-    TextStyle(fontFamily: _fontRubikRegular, 
-    color: white, fontSize: 15.3);
+    TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 15.3);
 
 const genderIconText =
-    TextStyle(fontFamily: _fontRubikRegular, 
-    color: white, fontSize: 14.0);
+    TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 14.0);
 
 const smallLine =
-    TextStyle(fontFamily: _fontRubikBold, 
-    color: white, fontSize: 13.3);
+    TextStyle(fontFamily: _fontRubikBold, color: white, fontSize: 13.3);
 
 const fieldLabel =
-    TextStyle(fontFamily: _fontRubikRegular, 
-    color: white, fontSize: 13.3);
+    TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 13.3);
 
 const loginSmallText =
-    TextStyle(fontFamily: _fontRubikRegular, 
-    color: white, fontSize: 12.7);
+    TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 12.7);
 
 const newMessageNumber =
-    TextStyle(fontFamily: _fontRubikRegular, 
-    color: white, fontSize: 11.2);
+    TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 11.2);
 
 const timeOfMessage =
-    TextStyle(fontFamily: _fontRubikRegular, 
-    color: white, fontSize: 11);
-    
+    TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 11);
+
 const myStory = TextStyle(
   fontFamily: _fontRubikRegular,
   color: whiteOpacity30,
@@ -118,6 +105,12 @@ const categoryName = TextStyle(
     color: darkBlueGrey,
     fontSize: 18.3,
     height: 1);
+
+const createCategoryTitle = TextStyle(
+    fontFamily: _fontRubikMedium,
+    color: white,
+    fontSize: 18,
+    );
 
 // Gradients
 final purpleGradient = LinearGradient(colors: [

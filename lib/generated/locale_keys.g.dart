@@ -8,16 +8,22 @@ abstract class  LocaleKeys {
   static const policy = 'policy';
   static const onboarding_phoneTitle = 'onboarding.phoneTitle';
   static const onboarding_phoneSubtitle = 'onboarding.phoneSubtitle';
-  static const onboarding_onboarding_enter_code = 'onboarding.onboarding_enter_code';
-  static const onboarding_phone_counting = 'onboarding.phone_counting';
-  static const onboarding_phone_too_short = 'onboarding.phone_too_short';
-  static const onboarding_profile_name = 'onboarding.profile_name';
-  static const onboarding_profile_age = 'onboarding.profile_age';
-  static const onboarding_profile_female = 'onboarding.profile_female';
-  static const onboarding_profile_male = 'onboarding.profile_male';
-  static const onboarding_profile_other = 'onboarding.profile_other';
-  static const onboarding_wrong_name = 'onboarding.wrong_name';
-  static const onboarding_wrong_age = 'onboarding.wrong_age';
+  static const onboarding_enterCode = 'onboarding.enterCode';
+  static const onboarding_phoneCounting = 'onboarding.phoneCounting';
+  static const onboarding_phone_tooShort = 'onboarding.phone_tooShort';
+  static const onboarding_profileName = 'onboarding.profileName';
+  static const onboarding_profileAge = 'onboarding.profileAge';
+  static const onboarding_profileFemale = 'onboarding.profileFemale';
+  static const onboarding_profileMale = 'onboarding.profileMale';
+  static const onboarding_profileOther = 'onboarding.profileOther';
+  static const onboarding_wrongName = 'onboarding.wrongName';
+  static const onboarding_wrongAge = 'onboarding.wrongAge';
   static const onboarding = 'onboarding';
+  static const create_groupNameHint = 'create.groupNameHint';
+  static const create_groupNameDescription = 'create.groupNameDescription';
+  static const create_groupNameAppbarTitle = 'create.groupNameAppbarTitle';
+  static const create_groupSelectCategoryAppbarTitle = 'create.groupSelectCategoryAppbarTitle';
+  static const create_groupSelectContactAppbarTitle = 'create.groupSelectContactAppbarTitle';
+  static const create = 'create';
 
 }

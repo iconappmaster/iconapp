@@ -7,8 +7,13 @@ import '../../core/extensions/context_ext.dart';
 
 class CreateGroupAppbar extends StatelessWidget {
   final bool showBack;
+  final String title;
 
-  const CreateGroupAppbar({Key key, this.showBack = true}) : super(key: key);
+  const CreateGroupAppbar({
+    Key key,
+    this.showBack = true,
+    @required this.title,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -27,12 +32,12 @@ class CreateGroupAppbar extends StatelessWidget {
               Positioned(
                   top: 51.7,
                   child:
-                      HebrewText('בחר/י משתתפים לקבוצה ', style: fieldLabel)),
+                      HebrewText(title, style: fieldLabel)),
               Positioned(top: 8, right: 26.7, child: IconBackButton()),
             ],
           ),
         ),
-        BlueDivider(),
+        BlueDivider(color: cornflower),
       ],
     );
   }
