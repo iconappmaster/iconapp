@@ -6,7 +6,7 @@ import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/widgets/login/login_background.dart';
 import '../core/extensions/context_ext.dart';
-  import 'package:iconapp/widgets/global/next_button.dart';
+import 'package:iconapp/widgets/global/next_button.dart';
 import '../generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -15,24 +15,23 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
-          fit: StackFit.expand,
-          alignment: Alignment.center,
-          children: <Widget>[
-            LoginBackgroundImage(),
-            Positioned(
-      bottom: context.heightPx * .091,
-      child: NextButton(
-        onClick: () => ExtendedNavigator.of(context)
-            .pushNamed(Routes.onboardingPhone),
+        fit: StackFit.expand,
+        alignment: Alignment.center,
+        children: <Widget>[
+          LoginBackgroundImage(),
+          Positioned(
+            bottom: context.heightPx * .091,
+            child: NextButton(
+                onClick: () => ExtendedNavigator.of(context)
+                    .pushNamed(Routes.onboardingPhone)),
+          ),
+          Positioned(bottom: context.heightPx * .04, child: PrivacyAndTerms()),
+          Positioned(
+              top: context.heightPx * .249,
+              child: SvgPicture.asset('assets/images/welcome_to_icon.svg',
+                  height: context.heightPx * .18)),
+        ],
       ),
-            ),
-            Positioned(bottom: context.heightPx * .04, child: PrivacyAndTerms()),
-            Positioned(
-        top: context.heightPx * .249,
-        child: SvgPicture.asset('assets/images/welcome_to_icon.svg',
-            height: context.heightPx * .18)),
-          ],
-        ),
     );
   }
 }
@@ -54,6 +53,7 @@ class PrivacyAndTerms extends StatelessWidget {
               style: smallLine.copyWith(decoration: TextDecoration.underline),
               recognizer: TapGestureRecognizer()
                 ..onTap = () async {
+                  // TODO route to website
                   // if (await canLaunch(termsOfService)) {
                   //   await launch(termsOfService);
                   // }

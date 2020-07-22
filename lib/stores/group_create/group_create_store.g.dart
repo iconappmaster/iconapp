@@ -94,22 +94,22 @@ mixin _$GroupCreateStore on _GroupCreateStoreBase, Store {
       ActionController(name: '_GroupCreateStoreBase');
 
   @override
-  CreateConversationItemVM getConversationItem(int index) {
+  void addOrRemoveItem(int index) {
     final _$actionInfo = _$_GroupCreateStoreBaseActionController.startAction(
-        name: '_GroupCreateStoreBase.getConversationItem');
+        name: '_GroupCreateStoreBase.addOrRemoveItem');
     try {
-      return super.getConversationItem(index);
+      return super.addOrRemoveItem(index);
     } finally {
       _$_GroupCreateStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void addOrRemoveItem(int index) {
+  CreateItem mapCreateItem(int index) {
     final _$actionInfo = _$_GroupCreateStoreBaseActionController.startAction(
-        name: '_GroupCreateStoreBase.addOrRemoveItem');
+        name: '_GroupCreateStoreBase.mapCreateItem');
     try {
-      return super.addOrRemoveItem(index);
+      return super.mapCreateItem(index);
     } finally {
       _$_GroupCreateStoreBaseActionController.endAction(_$actionInfo);
     }

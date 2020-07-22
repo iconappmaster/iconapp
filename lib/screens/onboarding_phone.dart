@@ -135,6 +135,18 @@ class _PinCode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pinTheme = PinTheme(
+        borderWidth: .7,
+        inactiveColor: cornflower,
+        selectedColor: Colors.transparent,
+        selectedFillColor: cornflower,
+        inactiveFillColor: Colors.transparent,
+        shape: PinCodeFieldShape.underline,
+        disabledColor: cornflower,
+        activeColor: cornflower,
+        fieldWidth: 40,
+        activeFillColor: Colors.transparent);
+
     return Visibility(
       visible: !store.isIdle,
       child: Positioned(
@@ -147,17 +159,7 @@ class _PinCode extends StatelessWidget {
               length: 6,
               animationType: AnimationType.slide,
               obsecureText: false,
-              pinTheme: PinTheme(
-                  borderWidth: .7,
-                  inactiveColor: cornflower,
-                  selectedColor: Colors.transparent,
-                  selectedFillColor: cornflower,
-                  inactiveFillColor: Colors.transparent,
-                  shape: PinCodeFieldShape.underline,
-                  disabledColor: cornflower,
-                  activeColor: cornflower,
-                  fieldWidth: 40,
-                  activeFillColor: Colors.transparent),
+              pinTheme: pinTheme,
               textStyle: pinCode,
               textInputAction: TextInputAction.done,
               textInputType: TextInputType.phone,
@@ -165,7 +167,6 @@ class _PinCode extends StatelessWidget {
               backgroundColor: Colors.transparent,
               enableActiveFill: true,
               onChanged: (code) => store.updateCode(code),
-              // onCompleted: (v) => store.verifySms(),
               onCompleted: (v) => ExtendedNavigator.of(context)
                   .pushNamed(Routes.onboardingProfile),
             ),
@@ -338,7 +339,7 @@ class BlueDivider extends StatelessWidget {
   final Color color;
 
   const BlueDivider({Key key, this.color = darkBlueGrey}) : super(key: key);
-  
+
   @override
   Widget build(BuildContext context) {
     return Divider(

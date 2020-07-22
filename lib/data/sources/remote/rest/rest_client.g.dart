@@ -9,7 +9,7 @@ part of 'rest_client.dart';
 class _RestClient implements RestClient {
   _RestClient(this._dio, {this.baseUrl}) {
     ArgumentError.checkNotNull(_dio, '_dio');
-    this.baseUrl ??= 'https://implement.com';
+    this.baseUrl ??= 'http://iconstaging.herokuapp.com/api/v1/';
   }
 
   final Dio _dio;
@@ -20,7 +20,7 @@ class _RestClient implements RestClient {
   verifyPhone(phone) async {
     ArgumentError.checkNotNull(phone, 'phone');
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'phone': phone};
     final _data = <String, dynamic>{};
     final Response _result = await _dio.request('request_code',
         queryParameters: queryParameters,
@@ -39,9 +39,12 @@ class _RestClient implements RestClient {
     ArgumentError.checkNotNull(phone, 'phone');
     ArgumentError.checkNotNull(code, 'code');
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'phone': phone,
+      r'login_code': code
+    };
     final _data = <String, dynamic>{};
-    final Response _result = await _dio.request('verifyCode',
+    final Response _result = await _dio.request('verify_code',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',

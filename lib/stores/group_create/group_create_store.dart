@@ -3,6 +3,7 @@ import 'package:iconapp/data/models/category_model.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/repositories/group_create_repository.dart';
+import 'package:iconapp/domain/create/create_item.dart';
 import 'package:iconapp/widgets/create_conversation/create_group_slelect_widget.dart';
 import 'package:mobx/mobx.dart';
 import 'create_state.dart';
@@ -32,21 +33,6 @@ abstract class _GroupCreateStoreBase with Store {
 
   @computed
   List<CategoryModel> get getCategories => _state.categories;
-
-  @action
-  CreateConversationItemVM getConversationItem(int index) =>
-      CreateConversationItemVM(
-          isSelected: mode == GroupPickMode.icons
-              ? _state.selectedContacts
-                  .any((contact) => contact.id == _state.contacts[index].id)
-              : _state.selectedCategories
-                  .any((id) => id.toString() == _state.categories[index].id),
-          title: mode == GroupPickMode.icons
-              ? _state.contacts[index].fullName ?? ''
-              : _state?.categories[index].title ?? '',
-          url: mode == GroupPickMode.icons
-              ? _state.contacts[index]?.photo?.url ?? ''
-              : _state.categories[index]?.photo?.url);
 
   @computed
   int get getItemCount => mode == GroupPickMode.icons
@@ -104,6 +90,20 @@ abstract class _GroupCreateStoreBase with Store {
 
     return conversation;
   }
+
+  @action
+  CreateItem mapCreateItem(int index) => CreateItem(
+      isSelected: mode == GroupPickMode.icons
+          ? _state.selectedContacts
+              .any((contact) => contact.id == _state.contacts[index].id)
+          : _state.selectedCategories
+              .any((id) => id.toString() == _state.categories[index].id),
+      title: mode == GroupPickMode.icons
+          ? _state.contacts[index].fullName ?? ''
+          : _state?.categories[index].title ?? '',
+      url: mode == GroupPickMode.icons
+          ? _state.contacts[index]?.photo?.url ?? ''
+          : _state.categories[index]?.photo?.url);
 
   // CRUD OPERATIONS
 

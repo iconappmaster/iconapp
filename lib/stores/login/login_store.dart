@@ -71,20 +71,19 @@ abstract class _LoginStoreBase with Store {
       phonePageState: PhoneOnboardingState.sent,
     );
 
-    // final failureOrSuccess =
-    //     await _repository.verifyPhone(state.prefix + state.phone);
-    // failureOrSuccess.fold(
-    //   (failure) {
-    //     state = state.copyWith(
-    //         loading: false,
-    //         phonePageState: PhoneOnboardingState.idle,
-    //         errorMessage: failure.maybeWhen(
-    //           serverError: () => 'Server error',
-    //           orElse: () => null,
-    //         ));
-    //   },
-    //   (success) => print('success'),
-    // );
+    final failureOrSuccess = await _repository.verifyPhone(state.prefix + state.phone);
+    failureOrSuccess.fold(
+      (failure) {
+        state = state.copyWith(
+            loading: false,
+            phonePageState: PhoneOnboardingState.idle,
+            errorMessage: failure.maybeWhen(
+              serverError: () => 'Server error',
+              orElse: () => null,
+            ));
+      },
+      (success) => print('success'),
+    );
   }
 
   @action
@@ -138,58 +137,4 @@ abstract class _LoginStoreBase with Store {
   }
 }
 
-
-
-// @action
-  // bool validateUserAge() {
-  //   final age = getUser.age ?? 0;
-  //   return validateAge(age);
-  // }
-
-  // @action
-  // bool validateUserName() {
-  //   final name = getUser.fullName ?? '';
-  //   return validateName(name);
-  // }
-
-  // @action
-  // Future pickPhoto([bool upload = false]) async {
-  //   // pick photo and show localy
-  //   final imagePicker = sl<ImagePicker>();
-  //   final file = await imagePicker.getImage(source: ImageSource.gallery);
-  //   final photo = PhotoModel(url: file.path);
-  //   final user = getUser.copyWith(photo: photo);
-
-  //   state = state.copyWith(
-  //     loading: upload,
-  //     userModel: user,
-  //   );
-
-  //   if (upload) {
-  //     // upload photo to firebase
-  //     final url = await _mediaStore.uploadPhoto(File(file.path), '');
-
-  //     // show photo from remote and update local photo to firebase link
-  //     state = state.copyWith(
-  //       loading: false,
-  //       userModel: getUser.copyWith(
-  //         photo: photo.copyWith(url: url),
-  //       ),
-  //     );
-  //   }
-  // }
-
-  // @action
-  // setSexType(GenderType sexType) {
-  //   this._selectedGender = sexType;
-  // }
-
-  // @action
-  // updateUserName(String fullName) {
-  //   state = state.copyWith(userModel: getUser.copyWith(fullName: fullName));
-  // }
-
-  // @action
-  // updateUserAge(int age) {
-  //   state = state.copyWith(userModel: getUser.copyWith(age: age));
-  // }
+ 

@@ -13,16 +13,16 @@ part 'rest_client.g.dart';
 const String baseUrlProd = 'https://implement.com';
 const String baseUrlDev = 'http://iconstaging.herokuapp.com/api/v1/';
 
-@RestApi(baseUrl: baseUrlProd)
+@RestApi(baseUrl: baseUrlDev)
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
   // AUTHENTICATION
   @POST('request_code')
-  Future verifyPhone(String phone);
+  Future verifyPhone(@Query('phone') String phone);
 
-  @POST('verifyCode')
-  Future verifyCode(String phone, String code);
+  @POST('verify_code')
+  Future verifyCode(@Query('phone') String phone, @Query('login_code') String code);
 
   // USERS
   @POST('updateUser/{id}')

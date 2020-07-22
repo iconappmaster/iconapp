@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/domain/create/create_item.dart';
 import 'package:iconapp/stores/group_create/group_create_store.dart';
 import 'package:iconapp/widgets/create/create_app_bar.dart';
 import 'package:iconapp/widgets/global/check_circle.dart';
@@ -57,9 +58,8 @@ class _CreateGroupSelectWidgetState extends State<CreateGroupSelectWidget> {
                 child: ListView.builder(
                   physics: BouncingScrollPhysics(),
                   itemBuilder: (context, index) => CreateConversationItem(
-                      model: store.getConversationItem(index),
-                      onTap: () =>
-                          setState(() => store.addOrRemoveItem(index))),
+                      model: store.mapCreateItem(index),
+                      onTap: () => setState(() => store.addOrRemoveItem(index))),
                   itemCount: store.getItemCount,
                 ),
               ),
@@ -93,21 +93,9 @@ class _CreateGroupSelectWidgetState extends State<CreateGroupSelectWidget> {
   }
 }
 
-class CreateConversationItemVM {
-  final String title;
-  final String url;
-  final bool isSelected;
-
-  CreateConversationItemVM({
-    @required this.title,
-    @required this.url,
-    @required this.isSelected,
-  });
-}
-
 // THIS ITEM CONTAINS AN IMAGE AND A TITLE FOR CREATE GROUP ITEM
 class CreateConversationItem extends StatelessWidget {
-  final CreateConversationItemVM model;
+  final CreateItem model;
   final Function onTap;
 
   const CreateConversationItem({
