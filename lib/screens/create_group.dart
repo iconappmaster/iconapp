@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/routes/router.gr.dart';
+import 'package:iconapp/stores/group_create/group_create_store.dart';
 import 'package:iconapp/widgets/create/create_app_bar.dart';
 import 'package:iconapp/widgets/create_conversation/create_group_slelect_widget.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
@@ -12,12 +13,6 @@ import 'package:iconapp/widgets/onboarding/base_onboarding_widget.dart';
 import '../core/extensions/context_ext.dart';
 import 'onboarding_profile.dart';
 import 'package:easy_localization/easy_localization.dart';
-
-// REMOVE THAT WHEN CONNECTED TO THE BACKEND
-final urlIconMock =
-    'https://www.ynet.co.il/PicServer3/2013/12/15/5039627/5304521585699490490no.jpg';
-final urlCategoryMock =
-    'https://cdn4.vectorstock.com/i/thumb-large/65/78/porridge-bowl-flat-longshadow-square-icon-vector-7666578.jpg';
 
 class SelectContactsScreen extends StatelessWidget {
   @override

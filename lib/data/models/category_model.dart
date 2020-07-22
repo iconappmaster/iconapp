@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:iconapp/data/models/photo_model.dart';
 
 part 'category_model.freezed.dart';
 part 'category_model.g.dart';
@@ -6,7 +7,7 @@ part 'category_model.g.dart';
 @freezed
 abstract class CategoryModel with _$CategoryModel {
   const factory CategoryModel(
-      {final String id, final String title, final String url}) = _CategoryModel;
+      {final String id, final String title, final PhotoModel photo}) = _CategoryModel;
   
   factory CategoryModel.fromJson(Map<String, dynamic> json) =>
       _$CategoryModelFromJson(json);

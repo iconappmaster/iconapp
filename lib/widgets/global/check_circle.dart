@@ -4,12 +4,15 @@ import 'package:iconapp/core/theme.dart';
 
 /// use this feature on a multi-select list when you want to mark
 /// an item checked
+
+const circleSize = 24.0;
+
 class CheckCircle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 24,
-      width: 24,
+      height: circleSize,
+      width: circleSize,
       decoration: BoxDecoration(
           border: Border.all(width: 2, color: white),
           shape: BoxShape.circle,

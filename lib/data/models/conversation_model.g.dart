@@ -8,16 +8,16 @@ part of 'conversation_model.dart';
 
 ConversationModel _$ConversationModelFromJson(Map<String, dynamic> json) {
   return ConversationModel(
-    (json['messages'] as List)
+    messages: (json['messages'] as List)
         ?.map((e) =>
             e == null ? null : MessageModel.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    (json['participant'] as List)
+    participant: (json['participant'] as List)
         ?.map((e) =>
             e == null ? null : UserModel.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    json['title'] as String,
-    json['onlineUsers'] as int,
+    title: json['title'] as String,
+    onlineUsers: json['onlineUsers'] as int,
   );
 }
 

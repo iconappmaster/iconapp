@@ -16,7 +16,7 @@ class _$CreateStateTearOff {
       {@required bool loading,
       @required List<UserModel> contacts,
       @required List<UserModel> selectedContacts,
-      @required List<int> categories,
+      @required List<CategoryModel> categories,
       @required List<int> selectedCategories}) {
     return _CreateState(
       loading: loading,
@@ -35,7 +35,7 @@ mixin _$CreateState {
   bool get loading;
   List<UserModel> get contacts;
   List<UserModel> get selectedContacts;
-  List<int> get categories;
+  List<CategoryModel> get categories;
   List<int> get selectedCategories;
 
   $CreateStateCopyWith<CreateState> get copyWith;
@@ -49,7 +49,7 @@ abstract class $CreateStateCopyWith<$Res> {
       {bool loading,
       List<UserModel> contacts,
       List<UserModel> selectedContacts,
-      List<int> categories,
+      List<CategoryModel> categories,
       List<int> selectedCategories});
 }
 
@@ -75,8 +75,9 @@ class _$CreateStateCopyWithImpl<$Res> implements $CreateStateCopyWith<$Res> {
       selectedContacts: selectedContacts == freezed
           ? _value.selectedContacts
           : selectedContacts as List<UserModel>,
-      categories:
-          categories == freezed ? _value.categories : categories as List<int>,
+      categories: categories == freezed
+          ? _value.categories
+          : categories as List<CategoryModel>,
       selectedCategories: selectedCategories == freezed
           ? _value.selectedCategories
           : selectedCategories as List<int>,
@@ -94,7 +95,7 @@ abstract class _$CreateStateCopyWith<$Res>
       {bool loading,
       List<UserModel> contacts,
       List<UserModel> selectedContacts,
-      List<int> categories,
+      List<CategoryModel> categories,
       List<int> selectedCategories});
 }
 
@@ -122,8 +123,9 @@ class __$CreateStateCopyWithImpl<$Res> extends _$CreateStateCopyWithImpl<$Res>
       selectedContacts: selectedContacts == freezed
           ? _value.selectedContacts
           : selectedContacts as List<UserModel>,
-      categories:
-          categories == freezed ? _value.categories : categories as List<int>,
+      categories: categories == freezed
+          ? _value.categories
+          : categories as List<CategoryModel>,
       selectedCategories: selectedCategories == freezed
           ? _value.selectedCategories
           : selectedCategories as List<int>,
@@ -151,7 +153,7 @@ class _$_CreateState implements _CreateState {
   @override
   final List<UserModel> selectedContacts;
   @override
-  final List<int> categories;
+  final List<CategoryModel> categories;
   @override
   final List<int> selectedCategories;
 
@@ -200,7 +202,7 @@ abstract class _CreateState implements CreateState {
       {@required bool loading,
       @required List<UserModel> contacts,
       @required List<UserModel> selectedContacts,
-      @required List<int> categories,
+      @required List<CategoryModel> categories,
       @required List<int> selectedCategories}) = _$_CreateState;
 
   @override
@@ -210,7 +212,7 @@ abstract class _CreateState implements CreateState {
   @override
   List<UserModel> get selectedContacts;
   @override
-  List<int> get categories;
+  List<CategoryModel> get categories;
   @override
   List<int> get selectedCategories;
   @override

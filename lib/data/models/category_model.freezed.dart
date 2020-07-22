@@ -15,11 +15,11 @@ CategoryModel _$CategoryModelFromJson(Map<String, dynamic> json) {
 class _$CategoryModelTearOff {
   const _$CategoryModelTearOff();
 
-  _CategoryModel call({String id, String title, String url}) {
+  _CategoryModel call({String id, String title, PhotoModel photo}) {
     return _CategoryModel(
       id: id,
       title: title,
-      url: url,
+      photo: photo,
     );
   }
 }
@@ -30,7 +30,7 @@ const $CategoryModel = _$CategoryModelTearOff();
 mixin _$CategoryModel {
   String get id;
   String get title;
-  String get url;
+  PhotoModel get photo;
 
   Map<String, dynamic> toJson();
   $CategoryModelCopyWith<CategoryModel> get copyWith;
@@ -40,7 +40,9 @@ abstract class $CategoryModelCopyWith<$Res> {
   factory $CategoryModelCopyWith(
           CategoryModel value, $Res Function(CategoryModel) then) =
       _$CategoryModelCopyWithImpl<$Res>;
-  $Res call({String id, String title, String url});
+  $Res call({String id, String title, PhotoModel photo});
+
+  $PhotoModelCopyWith<$Res> get photo;
 }
 
 class _$CategoryModelCopyWithImpl<$Res>
@@ -55,13 +57,23 @@ class _$CategoryModelCopyWithImpl<$Res>
   $Res call({
     Object id = freezed,
     Object title = freezed,
-    Object url = freezed,
+    Object photo = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as String,
       title: title == freezed ? _value.title : title as String,
-      url: url == freezed ? _value.url : url as String,
+      photo: photo == freezed ? _value.photo : photo as PhotoModel,
     ));
+  }
+
+  @override
+  $PhotoModelCopyWith<$Res> get photo {
+    if (_value.photo == null) {
+      return null;
+    }
+    return $PhotoModelCopyWith<$Res>(_value.photo, (value) {
+      return _then(_value.copyWith(photo: value));
+    });
   }
 }
 
@@ -71,7 +83,10 @@ abstract class _$CategoryModelCopyWith<$Res>
           _CategoryModel value, $Res Function(_CategoryModel) then) =
       __$CategoryModelCopyWithImpl<$Res>;
   @override
-  $Res call({String id, String title, String url});
+  $Res call({String id, String title, PhotoModel photo});
+
+  @override
+  $PhotoModelCopyWith<$Res> get photo;
 }
 
 class __$CategoryModelCopyWithImpl<$Res>
@@ -88,19 +103,19 @@ class __$CategoryModelCopyWithImpl<$Res>
   $Res call({
     Object id = freezed,
     Object title = freezed,
-    Object url = freezed,
+    Object photo = freezed,
   }) {
     return _then(_CategoryModel(
       id: id == freezed ? _value.id : id as String,
       title: title == freezed ? _value.title : title as String,
-      url: url == freezed ? _value.url : url as String,
+      photo: photo == freezed ? _value.photo : photo as PhotoModel,
     ));
   }
 }
 
 @JsonSerializable()
 class _$_CategoryModel implements _CategoryModel {
-  const _$_CategoryModel({this.id, this.title, this.url});
+  const _$_CategoryModel({this.id, this.title, this.photo});
 
   factory _$_CategoryModel.fromJson(Map<String, dynamic> json) =>
       _$_$_CategoryModelFromJson(json);
@@ -110,11 +125,11 @@ class _$_CategoryModel implements _CategoryModel {
   @override
   final String title;
   @override
-  final String url;
+  final PhotoModel photo;
 
   @override
   String toString() {
-    return 'CategoryModel(id: $id, title: $title, url: $url)';
+    return 'CategoryModel(id: $id, title: $title, photo: $photo)';
   }
 
   @override
@@ -125,8 +140,8 @@ class _$_CategoryModel implements _CategoryModel {
                 const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.title, title) ||
                 const DeepCollectionEquality().equals(other.title, title)) &&
-            (identical(other.url, url) ||
-                const DeepCollectionEquality().equals(other.url, url)));
+            (identical(other.photo, photo) ||
+                const DeepCollectionEquality().equals(other.photo, photo)));
   }
 
   @override
@@ -134,7 +149,7 @@ class _$_CategoryModel implements _CategoryModel {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(title) ^
-      const DeepCollectionEquality().hash(url);
+      const DeepCollectionEquality().hash(photo);
 
   @override
   _$CategoryModelCopyWith<_CategoryModel> get copyWith =>
@@ -147,7 +162,7 @@ class _$_CategoryModel implements _CategoryModel {
 }
 
 abstract class _CategoryModel implements CategoryModel {
-  const factory _CategoryModel({String id, String title, String url}) =
+  const factory _CategoryModel({String id, String title, PhotoModel photo}) =
       _$_CategoryModel;
 
   factory _CategoryModel.fromJson(Map<String, dynamic> json) =
@@ -158,7 +173,7 @@ abstract class _CategoryModel implements CategoryModel {
   @override
   String get title;
   @override
-  String get url;
+  PhotoModel get photo;
   @override
   _$CategoryModelCopyWith<_CategoryModel> get copyWith;
 }

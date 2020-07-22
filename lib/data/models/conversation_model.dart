@@ -12,9 +12,10 @@ class ConversationModel {
   final int onlineUsers;
 
   ConversationModel(
-      this.messages, this.participant, this.title, this.onlineUsers);
+      {this.messages, this.participant, this.title, this.onlineUsers});
 
   factory ConversationModel.fromJson(Map<String, dynamic> json) =>
       _$ConversationModelFromJson(json);
+
   Map<String, dynamic> toJson() => _$ConversationModelToJson(this);
 }

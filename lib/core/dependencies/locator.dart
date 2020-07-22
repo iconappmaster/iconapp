@@ -2,12 +2,14 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:iconapp/data/repositories/auth_repository.dart';
 import 'package:iconapp/data/repositories/chat_repository.dart';
+import 'package:iconapp/data/repositories/group_create_repository.dart';
 import 'package:iconapp/data/repositories/media_repository.dart';
 import 'package:iconapp/data/repositories/search_repository.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 import 'package:iconapp/stores/auth/auth_store.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
+import 'package:iconapp/stores/group_create/group_create_store.dart';
 import 'package:iconapp/stores/login/login_store.dart';
 import 'package:iconapp/stores/media/media_store.dart';
 import 'package:iconapp/stores/oboarding/onboarding_store.dart';
@@ -57,4 +59,9 @@ void initLocator() {
   sl.registerLazySingleton<ChatStore>(() => ChatStore());
   sl.registerLazySingleton<ChatRepository>(
       () => ChatRepositoryImpl(restClient: sl()));
+
+  // Group Creation
+  sl.registerLazySingleton<GroupCreateStore>(() => GroupCreateStore());
+  sl.registerLazySingleton<GroupCreateRepository>(() => GroupCreateRepositoryImpl());
+
 }
