@@ -12,7 +12,7 @@ abstract class AuthRepository {
   Future<void> signOut();
   Future<void> setSignIn([bool isFinished = true]);
   Future<Either<AuthFailure, Unit>> verifyPhone(String phone);
-  Future<Either<AuthFailure, Unit>> verifyCode(String phone, String code);
+  Future verifyCode(String phone, String code);
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -52,17 +52,17 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<AuthFailure, Unit>> verifyCode(
+  Future verifyCode(
       String phone, String code) async {
-    try {
-      await restClient.verifyCode(phone, code);
-      return right(unit);
-    } on PlatformException catch (e) {
-      if (e.code == 'ERROR_WRONG_SMS') {
-        return left(const AuthFailure.wrongCode());
-      } else {
-        return left(const AuthFailure.serverError());
-      }
-    }
+    // try {
+      return await restClient.verifyCode(phone, code);
+      // return right(unit);
+    // } on PlatformException catch (e) {
+      // if (e.code == 'ERROR_WRONG_SMS') {
+        // return left(const AuthFailure.wrongCode());
+      // } else {
+        // return left(const AuthFailure.serverError());
+      // }
+    // }
   }
 }

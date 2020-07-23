@@ -15,10 +15,12 @@ PhotoModel _$PhotoModelFromJson(Map<String, dynamic> json) {
 class _$PhotoModelTearOff {
   const _$PhotoModelTearOff();
 
-  _PhotoModel call({String id, String url, String description}) {
+  _PhotoModel call(
+      {String id, String url, String thumbnail, String description}) {
     return _PhotoModel(
       id: id,
       url: url,
+      thumbnail: thumbnail,
       description: description,
     );
   }
@@ -30,6 +32,7 @@ const $PhotoModel = _$PhotoModelTearOff();
 mixin _$PhotoModel {
   String get id;
   String get url;
+  String get thumbnail;
   String get description;
 
   Map<String, dynamic> toJson();
@@ -40,7 +43,7 @@ abstract class $PhotoModelCopyWith<$Res> {
   factory $PhotoModelCopyWith(
           PhotoModel value, $Res Function(PhotoModel) then) =
       _$PhotoModelCopyWithImpl<$Res>;
-  $Res call({String id, String url, String description});
+  $Res call({String id, String url, String thumbnail, String description});
 }
 
 class _$PhotoModelCopyWithImpl<$Res> implements $PhotoModelCopyWith<$Res> {
@@ -54,11 +57,13 @@ class _$PhotoModelCopyWithImpl<$Res> implements $PhotoModelCopyWith<$Res> {
   $Res call({
     Object id = freezed,
     Object url = freezed,
+    Object thumbnail = freezed,
     Object description = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as String,
       url: url == freezed ? _value.url : url as String,
+      thumbnail: thumbnail == freezed ? _value.thumbnail : thumbnail as String,
       description:
           description == freezed ? _value.description : description as String,
     ));
@@ -70,7 +75,7 @@ abstract class _$PhotoModelCopyWith<$Res> implements $PhotoModelCopyWith<$Res> {
           _PhotoModel value, $Res Function(_PhotoModel) then) =
       __$PhotoModelCopyWithImpl<$Res>;
   @override
-  $Res call({String id, String url, String description});
+  $Res call({String id, String url, String thumbnail, String description});
 }
 
 class __$PhotoModelCopyWithImpl<$Res> extends _$PhotoModelCopyWithImpl<$Res>
@@ -86,11 +91,13 @@ class __$PhotoModelCopyWithImpl<$Res> extends _$PhotoModelCopyWithImpl<$Res>
   $Res call({
     Object id = freezed,
     Object url = freezed,
+    Object thumbnail = freezed,
     Object description = freezed,
   }) {
     return _then(_PhotoModel(
       id: id == freezed ? _value.id : id as String,
       url: url == freezed ? _value.url : url as String,
+      thumbnail: thumbnail == freezed ? _value.thumbnail : thumbnail as String,
       description:
           description == freezed ? _value.description : description as String,
     ));
@@ -99,7 +106,7 @@ class __$PhotoModelCopyWithImpl<$Res> extends _$PhotoModelCopyWithImpl<$Res>
 
 @JsonSerializable()
 class _$_PhotoModel implements _PhotoModel {
-  const _$_PhotoModel({this.id, this.url, this.description});
+  const _$_PhotoModel({this.id, this.url, this.thumbnail, this.description});
 
   factory _$_PhotoModel.fromJson(Map<String, dynamic> json) =>
       _$_$_PhotoModelFromJson(json);
@@ -109,11 +116,13 @@ class _$_PhotoModel implements _PhotoModel {
   @override
   final String url;
   @override
+  final String thumbnail;
+  @override
   final String description;
 
   @override
   String toString() {
-    return 'PhotoModel(id: $id, url: $url, description: $description)';
+    return 'PhotoModel(id: $id, url: $url, thumbnail: $thumbnail, description: $description)';
   }
 
   @override
@@ -124,6 +133,9 @@ class _$_PhotoModel implements _PhotoModel {
                 const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.url, url) ||
                 const DeepCollectionEquality().equals(other.url, url)) &&
+            (identical(other.thumbnail, thumbnail) ||
+                const DeepCollectionEquality()
+                    .equals(other.thumbnail, thumbnail)) &&
             (identical(other.description, description) ||
                 const DeepCollectionEquality()
                     .equals(other.description, description)));
@@ -134,6 +146,7 @@ class _$_PhotoModel implements _PhotoModel {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(url) ^
+      const DeepCollectionEquality().hash(thumbnail) ^
       const DeepCollectionEquality().hash(description);
 
   @override
@@ -147,8 +160,11 @@ class _$_PhotoModel implements _PhotoModel {
 }
 
 abstract class _PhotoModel implements PhotoModel {
-  const factory _PhotoModel({String id, String url, String description}) =
-      _$_PhotoModel;
+  const factory _PhotoModel(
+      {String id,
+      String url,
+      String thumbnail,
+      String description}) = _$_PhotoModel;
 
   factory _PhotoModel.fromJson(Map<String, dynamic> json) =
       _$_PhotoModel.fromJson;
@@ -157,6 +173,8 @@ abstract class _PhotoModel implements PhotoModel {
   String get id;
   @override
   String get url;
+  @override
+  String get thumbnail;
   @override
   String get description;
   @override

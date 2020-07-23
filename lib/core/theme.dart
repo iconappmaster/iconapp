@@ -19,6 +19,8 @@ const darkBlueGrey = Color(0xFF251f4d);
 const lightishRed = Color(0xFFf2414e);
 const pinkRed = Color(0xFFe02554);
 const avatarRing = Color(0xFF0F0A36);
+const paleGrey = Color(0xFFf2f3f4);
+const dusk = Color(0xFF545471);
 
 // Font Sizes
 const _fontRubikBold = "RubikBold";
@@ -91,6 +93,9 @@ const myStory = TextStyle(
   fontSize: 10.6,
 );
 
+const chatCompose =
+    TextStyle(fontFamily: _fontRubikRegular, color: dusk, fontSize: 15.9);
+
 const hint = TextStyle(
     fontFamily: _fontRubikRegular,
     color: darkBlueGrey,
@@ -107,10 +112,10 @@ const categoryName = TextStyle(
     height: 1);
 
 const createCategoryTitle = TextStyle(
-    fontFamily: _fontRubikMedium,
-    color: white,
-    fontSize: 18,
-    );
+  fontFamily: _fontRubikMedium,
+  color: white,
+  fontSize: 18,
+);
 
 // Gradients
 final purpleGradient = LinearGradient(colors: [

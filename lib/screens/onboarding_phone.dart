@@ -5,6 +5,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/routes/router.gr.dart';
+import 'package:iconapp/stores/auth/auth_state.dart';
+import 'package:iconapp/stores/auth/auth_store.dart';
 import 'package:iconapp/stores/login/login_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/next_button.dart';
@@ -134,7 +136,7 @@ class _PinCode extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext ctx) {
     final pinTheme = PinTheme(
         borderWidth: .7,
         inactiveColor: cornflower,
@@ -150,9 +152,9 @@ class _PinCode extends StatelessWidget {
     return Visibility(
       visible: !store.isIdle,
       child: Positioned(
-        top: context.heightPlusStatusbarPerc(.323),
+        top: ctx.heightPlusStatusbarPerc(.323),
         child: Container(
-          width: context.widthPx * .686,
+          width: ctx.widthPx * .686,
           child: Directionality(
             textDirection: ui.TextDirection.ltr,
             child: PinCodeTextField(
@@ -167,8 +169,18 @@ class _PinCode extends StatelessWidget {
               backgroundColor: Colors.transparent,
               enableActiveFill: true,
               onChanged: (code) => store.updateCode(code),
-              onCompleted: (v) => ExtendedNavigator.of(context)
-                  .pushNamed(Routes.onboardingProfile),
+              onCompleted: (v) async {
+                final successFailure = await store.verifySms();
+                successFailure.fold(
+                  (error) => error.when(
+                      serverError: () => ctx.showErrorFlushbar(
+                          message: 'תקלה בשרת, אנא נסה שנית'),
+                      wrongCode: () => ctx.showErrorFlushbar(
+                          message: 'קוד שגוי, אנא נסה שנית')),
+                  (success) =>
+                      ExtendedNavigator.of(ctx).pushOnboardingProfile(),
+                );
+              },
             ),
           ),
         ),

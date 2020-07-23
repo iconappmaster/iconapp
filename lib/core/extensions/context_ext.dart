@@ -42,6 +42,7 @@ extension ContextExtensions on BuildContext {
     ).show(this);
   }
 
+  
   statusbarHeight() => MediaQuery.of(this).padding.top;
 
   heightPlusStatusbarPerc(double height) =>

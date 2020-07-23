@@ -31,7 +31,7 @@ class OnboardingProfile extends StatelessWidget {
             IconAppbar(),
             Positioned(
                 top: context.heightPlusStatusbarPerc(.138),
-                child: UserAvatar(url: store.getState.userModel.photo.url)),
+                child: UserAvatar(url: store.getState?.userModel?.photo?.url ?? '')),
             PersonDetails(),
             SexPicker(),
             _nextButton(context, store),

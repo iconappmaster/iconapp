@@ -92,7 +92,7 @@ mixin _$LoginStore on _LoginStoreBase, Store {
   final _$verifySmsAsyncAction = AsyncAction('_LoginStoreBase.verifySms');
 
   @override
-  Future<dynamic> verifySms() {
+  Future<Either<AuthFailure, Unit>> verifySms() {
     return _$verifySmsAsyncAction.run(() => super.verifySms());
   }
 

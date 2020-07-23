@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/repositories/auth_repository.dart';
@@ -22,10 +24,10 @@ abstract class _LoginStoreBase with Store {
 
   @observable
   int _currentCountDown = 0;
-  
+
   @observable
   LoginState state = LoginState.initial();
- 
+
   @computed
   String get displayCountdown =>
       (defaultCountTimeSec - _currentCountDown).toString();
@@ -36,7 +38,6 @@ abstract class _LoginStoreBase with Store {
   @computed
   UserModel get getUser => state.userModel;
 
-
   @computed
   bool get isIdle => state.phonePageState == PhoneOnboardingState.idle;
 
@@ -46,7 +47,7 @@ abstract class _LoginStoreBase with Store {
   @computed
   LoginState get getState => state;
 
-  // 
+  //
   @action
   updatePhone(String phone) {
     state = state.copyWith(phone: phone);
@@ -71,7 +72,8 @@ abstract class _LoginStoreBase with Store {
       phonePageState: PhoneOnboardingState.sent,
     );
 
-    final failureOrSuccess = await _repository.verifyPhone(state.prefix + state.phone);
+    final failureOrSuccess =
+        await _repository.verifyPhone(state.prefix + state.phone);
     failureOrSuccess.fold(
       (failure) {
         state = state.copyWith(
@@ -87,25 +89,22 @@ abstract class _LoginStoreBase with Store {
   }
 
   @action
-  Future verifySms() async {
+  Future<Either<AuthFailure, Unit>> verifySms() async {
     state = state.copyWith(loading: true);
-
-    final handleFailure = (AuthFailure failure) {
-      state = state.copyWith(
-          errorMessage: failure.maybeWhen(
-              wrongCode: () => 'wrong code', orElse: () => null));
-    };
-
-    final handleSuccess = (_) {};
 
     final fullNumber = state.prefix + state.phone;
     final code = state.code;
 
-    final failureOrSuccess = await _repository.verifyCode(fullNumber, code);
-    failureOrSuccess.fold(
-      handleFailure,
-      handleSuccess,
-    );
+    try {
+      await _repository.verifyCode(fullNumber, code);
+      return right(unit);
+    } on DioError catch (error) {
+      if (error.response.data['error'] == "ERROR_WRONG_SMS") {
+        return left(const AuthFailure.wrongCode());
+      } else {
+        return left(const AuthFailure.serverError());
+      }
+    }
   }
 
   @action
@@ -136,5 +135,3 @@ abstract class _LoginStoreBase with Store {
     _timer = null;
   }
 }
-
- 

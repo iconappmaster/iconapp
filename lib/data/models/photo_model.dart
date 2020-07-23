@@ -9,6 +9,7 @@ abstract class PhotoModel with _$PhotoModel {
   const factory PhotoModel({
     String id,
     String url,
+    String thumbnail,
     String description,
   }) = _PhotoModel;
 

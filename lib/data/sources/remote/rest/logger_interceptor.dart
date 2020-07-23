@@ -32,6 +32,7 @@ class LoggingInterceptors extends Interceptor {
     logger.e(
         "${dioError.response != null ? dioError.response.data : 'Unknown Error'}");
     logger.e("<-- End error");
+    return dioError;
   }
 
   @override

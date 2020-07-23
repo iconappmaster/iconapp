@@ -16,6 +16,7 @@ import 'package:iconapp/screens/settings_screen.dart';
 import 'package:iconapp/screens/profile_screen.dart';
 import 'package:iconapp/screens/search_screen.dart';
 import 'package:iconapp/screens/chat_screen.dart';
+import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/screens/story_screen.dart';
 import 'package:iconapp/screens/full_video_screen.dart';
 import 'package:iconapp/screens/full_image_screen.dart';
@@ -133,8 +134,11 @@ class Router extends RouterBase {
       );
     },
     ChatScreen: (RouteData data) {
+      var args = data.getArgs<ChatScreenArguments>(
+          orElse: () => ChatScreenArguments());
       return MaterialPageRoute<dynamic>(
-        builder: (context) => ChatScreen(),
+        builder: (context) =>
+            ChatScreen(key: args.key, conversation: args.conversation),
         settings: data,
       );
     },
@@ -211,7 +215,14 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
 
   Future<dynamic> pushSearchScreen() => pushNamed<dynamic>(Routes.searchScreen);
 
-  Future<dynamic> pushChatScreen() => pushNamed<dynamic>(Routes.chatScreen);
+  Future<dynamic> pushChatScreen({
+    Key key,
+    ConversationModel conversation,
+  }) =>
+      pushNamed<dynamic>(
+        Routes.chatScreen,
+        arguments: ChatScreenArguments(key: key, conversation: conversation),
+      );
 
   Future<dynamic> pushStoryScreen() => pushNamed<dynamic>(Routes.storyScreen);
 
@@ -242,6 +253,13 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
 // *************************************************************************
 // Arguments holder classes
 // **************************************************************************
+
+//ChatScreen arguments holder class
+class ChatScreenArguments {
+  final Key key;
+  final ConversationModel conversation;
+  ChatScreenArguments({this.key, this.conversation});
+}
 
 //FullImageScreen arguments holder class
 class FullImageScreenArguments {

@@ -4,7 +4,6 @@ import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/repositories/group_create_repository.dart';
 import 'package:iconapp/domain/create/create_item.dart';
-import 'package:iconapp/widgets/create_conversation/create_group_slelect_widget.dart';
 import 'package:mobx/mobx.dart';
 import 'create_state.dart';
 import 'package:vibration/vibration.dart';
