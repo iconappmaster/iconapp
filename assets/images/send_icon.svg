@@ -1,19 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="252" height="252" viewBox="0 0 252 252">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48" height="48" viewBox="0 0 48 48">
     <defs>
-        <filter id="dhte1v3bca" width="324.8%" height="324.8%" x="-112.4%" y="-112.4%" filterUnits="objectBoundingBox">
-            <feOffset dy="14" in="SourceAlpha" result="shadowOffsetOuter1"/>
-            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="26"/>
-            <feColorMatrix in="shadowBlurOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.18 0"/>
-            <feMerge>
-                <feMergeNode in="shadowMatrixOuter1"/>
-                <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-        </filter>
-        <path id="eg6u79vewb" d="M51.341 33.424L12.83 52.67c-2.595 1.297-5.295-1.486-4.027-4.025 0 0 4.773-9.639 6.086-12.164 1.313-2.525 2.816-2.962 16.773-4.765.516-.067.94-.457.94-.977s-.424-.91-.94-.977c-13.957-1.804-15.46-2.24-16.773-4.765-1.313-2.524-6.086-12.164-6.086-12.164-1.268-2.538 1.432-5.322 4.027-4.025L51.34 28.057c2.212 1.104 2.212 4.262 0 5.367"/>
+        <path id="6gd3tbpvva" d="M5.35 45.19c-2.595 1.298-5.295-1.485-4.027-4.024 0 0 4.773-9.639 6.086-12.164 1.313-2.525 2.816-2.962 16.773-4.765.516-.067.94-.457.94-.977s-.424-.91-.94-.977c-13.957-1.804-15.46-2.24-16.773-4.765C6.096 14.994 1.323 5.354 1.323 5.354.055 2.816 2.755.032 5.35 1.329L43.86 20.577c2.212 1.104 2.212 4.262 0 5.367L5.35 45.19z"/>
     </defs>
-    <g fill="none" fill-rule="evenodd" filter="url(#dhte1v3bca)" transform="translate(73.36 69.42)">
-        <g transform="translate(21.2 25.44)">
-            <use fill="#FFF" fill-rule="nonzero" transform="rotate(-180 30.74 30.74)" xlink:href="#eg6u79vewb"/>
-        </g>
+    <g fill="none" fill-rule="evenodd" transform="translate(.56 .86)">
+        <use fill="#FFF" fill-rule="nonzero" transform="rotate(-180 23.26 23.26)" xlink:href="#6gd3tbpvva"/>
     </g>
 </svg>

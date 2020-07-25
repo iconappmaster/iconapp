@@ -3,9 +3,10 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/models/user_model.dart';
-import 'package:iconapp/data/repositories/auth_repository.dart';
+import 'package:iconapp/data/repositories/login_repository.dart';
 import 'package:iconapp/domain/auth/auth_failure.dart';
 import 'package:mobx/mobx.dart';
+import '../user/user_store.dart';
 import 'login_state.dart';
 
 part 'login_store.g.dart';
@@ -15,11 +16,13 @@ class LoginStore = _LoginStoreBase with _$LoginStore;
 const defaultCountTimeSec = 17;
 
 abstract class _LoginStoreBase with Store {
-  AuthRepository _repository;
+  LoginRepository _repository;
+  UserStore _userStore;
   Timer _timer;
 
   _LoginStoreBase() {
-    _repository = sl<AuthRepository>();
+    _repository = sl<LoginRepository>();
+    _userStore = sl<UserStore>();
   }
 
   @observable
@@ -47,7 +50,6 @@ abstract class _LoginStoreBase with Store {
   @computed
   LoginState get getState => state;
 
-  //
   @action
   updatePhone(String phone) {
     state = state.copyWith(phone: phone);
@@ -72,8 +74,8 @@ abstract class _LoginStoreBase with Store {
       phonePageState: PhoneOnboardingState.sent,
     );
 
-    final failureOrSuccess =
-        await _repository.verifyPhone(state.prefix + state.phone);
+    final failureOrSuccess = await _repository.verifyPhone(state.prefix + state.phone);
+   
     failureOrSuccess.fold(
       (failure) {
         state = state.copyWith(
@@ -84,26 +86,29 @@ abstract class _LoginStoreBase with Store {
               orElse: () => null,
             ));
       },
-      (success) => print('success'),
+      (_) => print('success'),
     );
   }
 
   @action
-  Future<Either<AuthFailure, Unit>> verifySms() async {
+  Future<Either<AuthFailure, bool>> verifySms() async {
     state = state.copyWith(loading: true);
 
     final fullNumber = state.prefix + state.phone;
     final code = state.code;
 
     try {
-      await _repository.verifyCode(fullNumber, code);
-      return right(unit);
+      final user = await _repository.verifyCode(fullNumber, code);
+      final saved = await _userStore.persistUser(user);
+      return right(saved);
     } on DioError catch (error) {
       if (error.response.data['error'] == "ERROR_WRONG_SMS") {
         return left(const AuthFailure.wrongCode());
       } else {
         return left(const AuthFailure.serverError());
       }
+    } finally {
+        state = state.copyWith(loading: false);
     }
   }
 

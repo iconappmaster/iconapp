@@ -44,7 +44,8 @@ class _RestClient implements RestClient {
       r'login_code': code
     };
     final _data = <String, dynamic>{};
-    final Response _result = await _dio.request('verify_code',
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'verify_code',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -52,20 +53,18 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = _result.data;
+    final value = UserModel.fromJson(_result.data);
     return value;
   }
 
   @override
-  updateUser(id, user) async {
-    ArgumentError.checkNotNull(id, 'id');
+  updateUser(user) async {
     ArgumentError.checkNotNull(user, 'user');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(user?.toJson() ?? <String, dynamic>{});
-    final Response<Map<String, dynamic>> _result = await _dio.request(
-        'updateUser/$id',
+    final Response<Map<String, dynamic>> _result = await _dio.request('user',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',

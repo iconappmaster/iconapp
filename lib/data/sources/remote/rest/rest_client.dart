@@ -22,11 +22,11 @@ abstract class RestClient {
   Future verifyPhone(@Query('phone') String phone);
 
   @POST('verify_code')
-  Future verifyCode(@Query('phone') String phone, @Query('login_code') String code);
+  Future<UserModel> verifyCode(@Query('phone') String phone, @Query('login_code') String code);
 
   // USERS
-  @POST('updateUser/{id}')
-  Future<UserModel> updateUser(@Path() String id, @Body() UserModel user);
+  @POST('user')
+  Future<UserModel> updateUser(@Body() UserModel user);
 
   // HOME
   @GET('getHome/{id}')

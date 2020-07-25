@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/routes/router.gr.dart';
-import 'package:iconapp/stores/auth/auth_store.dart';
 import 'package:iconapp/stores/oboarding/onboarding_store.dart';
 import 'package:iconapp/widgets/global/user_avatar.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
@@ -47,7 +46,8 @@ class OnboardingProfile extends StatelessWidget {
       child: NextButton(
         onClick: () async {
           if (_key.currentState.validate()) {
-            sl<AuthStore>().finishedOnboardin();
+
+            // sl<LoginStore>().finishedOnboardin();
             ExtendedNavigator.of(ctx).pushNamedAndRemoveUntil(
                 Routes.splashScreen, (Route<dynamic> route) => false);
           }
@@ -74,9 +74,7 @@ class PersonDetails extends StatelessWidget {
                   width: context.widthPx * .547,
                   child: ProfileInput(
                       validator: (value) {
-                        if (store.validateUserName()) {
-                          return null;
-                        }
+                        if (store.validateUserName()) return null;
                         return 'ציין שם ושם משפחה';
                       },
                       title: LocaleKeys.onboarding_profileName.tr(),
@@ -85,16 +83,13 @@ class PersonDetails extends StatelessWidget {
                   width: context.widthPx * .207,
                   child: ProfileInput(
                       validator: (value) {
-                        if (store.validateUserAge()) {
-                          return null;
-                        }
+                        if (store.validateUserAge()) return null;
                         return 'מעל גיל 10';
                       },
                       maxLength: 2,
                       keyboardType: TextInputType.number,
                       title: LocaleKeys.onboarding_profileAge.tr(),
-                      onChange: (age) =>
-                          store.updateUserAge(int.tryParse(age))))
+                      onChange: (age) => store.updateUserAge(int.tryParse(age))))
             ],
           ),
         ),

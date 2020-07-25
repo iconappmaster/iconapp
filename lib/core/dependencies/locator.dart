@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:iconapp/data/repositories/auth_repository.dart';
 import 'package:iconapp/data/repositories/chat_repository.dart';
 import 'package:iconapp/data/repositories/group_create_repository.dart';
+import 'package:iconapp/data/repositories/login_repository.dart';
 import 'package:iconapp/data/repositories/media_repository.dart';
 import 'package:iconapp/data/repositories/search_repository.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
@@ -17,9 +18,16 @@ import 'package:iconapp/stores/search/search_store.dart';
 import 'package:iconapp/stores/socket/socket_manager.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../data/repositories/user_repository.dart';
+import '../../stores/user/user_store.dart';
+
 final sl = GetIt.I;
 
 void initLocator() {
+
+  // LOGIN
+   sl.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(restClient: sl()));
+
   // Socket
   sl.registerLazySingleton<SocketStore>(() => SocketStore());
 
@@ -63,5 +71,12 @@ void initLocator() {
   // Group Creation
   sl.registerLazySingleton<GroupCreateStore>(() => GroupCreateStore());
   sl.registerLazySingleton<GroupCreateRepository>(() => GroupCreateRepositoryImpl());
+
+  // User
+   sl.registerLazySingleton<UserStore>(() => UserStore());
+   sl.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(
+     restClient: sl(),
+     sp: sl(),
+   ));
 
 }

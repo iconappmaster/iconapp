@@ -7,13 +7,16 @@ part 'user_model.freezed.dart';
 @freezed
 abstract class UserModel with _$UserModel {
   const factory UserModel({
-    String id,
+    int id,
     String fullName,
+    String phone,
+    String email,
     UserGender gender,
     PhotoModel photo,
     int age,
-    UserRole role,
-    
+    UserType role,
+    String pushToken,
+    bool isPushEnabled,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
@@ -21,4 +24,4 @@ abstract class UserModel with _$UserModel {
 }
 
 enum UserGender { male, female, other }
-enum UserRole { admin, icon, viewer }
+enum UserType { admin, icon, viewer }

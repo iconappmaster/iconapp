@@ -1,8 +1,8 @@
+import 'package:mobx/mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/repositories/auth_repository.dart';
-
-import 'package:mobx/mobx.dart';
 import 'package:iconapp/stores/auth/auth_state.dart';
+
 part 'auth_store.g.dart';
 
 class AuthStore = _AuthStoreBase with _$AuthStore;

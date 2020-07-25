@@ -16,19 +16,27 @@ class _$UserModelTearOff {
   const _$UserModelTearOff();
 
   _UserModel call(
-      {String id,
+      {int id,
       String fullName,
+      String phone,
+      String email,
       UserGender gender,
       PhotoModel photo,
       int age,
-      UserRole role}) {
+      UserType role,
+      String pushToken,
+      bool isPushEnabled}) {
     return _UserModel(
       id: id,
       fullName: fullName,
+      phone: phone,
+      email: email,
       gender: gender,
       photo: photo,
       age: age,
       role: role,
+      pushToken: pushToken,
+      isPushEnabled: isPushEnabled,
     );
   }
 }
@@ -37,12 +45,16 @@ class _$UserModelTearOff {
 const $UserModel = _$UserModelTearOff();
 
 mixin _$UserModel {
-  String get id;
+  int get id;
   String get fullName;
+  String get phone;
+  String get email;
   UserGender get gender;
   PhotoModel get photo;
   int get age;
-  UserRole get role;
+  UserType get role;
+  String get pushToken;
+  bool get isPushEnabled;
 
   Map<String, dynamic> toJson();
   $UserModelCopyWith<UserModel> get copyWith;
@@ -52,12 +64,16 @@ abstract class $UserModelCopyWith<$Res> {
   factory $UserModelCopyWith(UserModel value, $Res Function(UserModel) then) =
       _$UserModelCopyWithImpl<$Res>;
   $Res call(
-      {String id,
+      {int id,
       String fullName,
+      String phone,
+      String email,
       UserGender gender,
       PhotoModel photo,
       int age,
-      UserRole role});
+      UserType role,
+      String pushToken,
+      bool isPushEnabled});
 
   $PhotoModelCopyWith<$Res> get photo;
 }
@@ -73,18 +89,28 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
   $Res call({
     Object id = freezed,
     Object fullName = freezed,
+    Object phone = freezed,
+    Object email = freezed,
     Object gender = freezed,
     Object photo = freezed,
     Object age = freezed,
     Object role = freezed,
+    Object pushToken = freezed,
+    Object isPushEnabled = freezed,
   }) {
     return _then(_value.copyWith(
-      id: id == freezed ? _value.id : id as String,
+      id: id == freezed ? _value.id : id as int,
       fullName: fullName == freezed ? _value.fullName : fullName as String,
+      phone: phone == freezed ? _value.phone : phone as String,
+      email: email == freezed ? _value.email : email as String,
       gender: gender == freezed ? _value.gender : gender as UserGender,
       photo: photo == freezed ? _value.photo : photo as PhotoModel,
       age: age == freezed ? _value.age : age as int,
-      role: role == freezed ? _value.role : role as UserRole,
+      role: role == freezed ? _value.role : role as UserType,
+      pushToken: pushToken == freezed ? _value.pushToken : pushToken as String,
+      isPushEnabled: isPushEnabled == freezed
+          ? _value.isPushEnabled
+          : isPushEnabled as bool,
     ));
   }
 
@@ -105,12 +131,16 @@ abstract class _$UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
       __$UserModelCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String id,
+      {int id,
       String fullName,
+      String phone,
+      String email,
       UserGender gender,
       PhotoModel photo,
       int age,
-      UserRole role});
+      UserType role,
+      String pushToken,
+      bool isPushEnabled});
 
   @override
   $PhotoModelCopyWith<$Res> get photo;
@@ -128,18 +158,28 @@ class __$UserModelCopyWithImpl<$Res> extends _$UserModelCopyWithImpl<$Res>
   $Res call({
     Object id = freezed,
     Object fullName = freezed,
+    Object phone = freezed,
+    Object email = freezed,
     Object gender = freezed,
     Object photo = freezed,
     Object age = freezed,
     Object role = freezed,
+    Object pushToken = freezed,
+    Object isPushEnabled = freezed,
   }) {
     return _then(_UserModel(
-      id: id == freezed ? _value.id : id as String,
+      id: id == freezed ? _value.id : id as int,
       fullName: fullName == freezed ? _value.fullName : fullName as String,
+      phone: phone == freezed ? _value.phone : phone as String,
+      email: email == freezed ? _value.email : email as String,
       gender: gender == freezed ? _value.gender : gender as UserGender,
       photo: photo == freezed ? _value.photo : photo as PhotoModel,
       age: age == freezed ? _value.age : age as int,
-      role: role == freezed ? _value.role : role as UserRole,
+      role: role == freezed ? _value.role : role as UserType,
+      pushToken: pushToken == freezed ? _value.pushToken : pushToken as String,
+      isPushEnabled: isPushEnabled == freezed
+          ? _value.isPushEnabled
+          : isPushEnabled as bool,
     ));
   }
 }
@@ -147,15 +187,28 @@ class __$UserModelCopyWithImpl<$Res> extends _$UserModelCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_UserModel implements _UserModel {
   const _$_UserModel(
-      {this.id, this.fullName, this.gender, this.photo, this.age, this.role});
+      {this.id,
+      this.fullName,
+      this.phone,
+      this.email,
+      this.gender,
+      this.photo,
+      this.age,
+      this.role,
+      this.pushToken,
+      this.isPushEnabled});
 
   factory _$_UserModel.fromJson(Map<String, dynamic> json) =>
       _$_$_UserModelFromJson(json);
 
   @override
-  final String id;
+  final int id;
   @override
   final String fullName;
+  @override
+  final String phone;
+  @override
+  final String email;
   @override
   final UserGender gender;
   @override
@@ -163,11 +216,15 @@ class _$_UserModel implements _UserModel {
   @override
   final int age;
   @override
-  final UserRole role;
+  final UserType role;
+  @override
+  final String pushToken;
+  @override
+  final bool isPushEnabled;
 
   @override
   String toString() {
-    return 'UserModel(id: $id, fullName: $fullName, gender: $gender, photo: $photo, age: $age, role: $role)';
+    return 'UserModel(id: $id, fullName: $fullName, phone: $phone, email: $email, gender: $gender, photo: $photo, age: $age, role: $role, pushToken: $pushToken, isPushEnabled: $isPushEnabled)';
   }
 
   @override
@@ -179,6 +236,10 @@ class _$_UserModel implements _UserModel {
             (identical(other.fullName, fullName) ||
                 const DeepCollectionEquality()
                     .equals(other.fullName, fullName)) &&
+            (identical(other.phone, phone) ||
+                const DeepCollectionEquality().equals(other.phone, phone)) &&
+            (identical(other.email, email) ||
+                const DeepCollectionEquality().equals(other.email, email)) &&
             (identical(other.gender, gender) ||
                 const DeepCollectionEquality().equals(other.gender, gender)) &&
             (identical(other.photo, photo) ||
@@ -186,7 +247,13 @@ class _$_UserModel implements _UserModel {
             (identical(other.age, age) ||
                 const DeepCollectionEquality().equals(other.age, age)) &&
             (identical(other.role, role) ||
-                const DeepCollectionEquality().equals(other.role, role)));
+                const DeepCollectionEquality().equals(other.role, role)) &&
+            (identical(other.pushToken, pushToken) ||
+                const DeepCollectionEquality()
+                    .equals(other.pushToken, pushToken)) &&
+            (identical(other.isPushEnabled, isPushEnabled) ||
+                const DeepCollectionEquality()
+                    .equals(other.isPushEnabled, isPushEnabled)));
   }
 
   @override
@@ -194,10 +261,14 @@ class _$_UserModel implements _UserModel {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(fullName) ^
+      const DeepCollectionEquality().hash(phone) ^
+      const DeepCollectionEquality().hash(email) ^
       const DeepCollectionEquality().hash(gender) ^
       const DeepCollectionEquality().hash(photo) ^
       const DeepCollectionEquality().hash(age) ^
-      const DeepCollectionEquality().hash(role);
+      const DeepCollectionEquality().hash(role) ^
+      const DeepCollectionEquality().hash(pushToken) ^
+      const DeepCollectionEquality().hash(isPushEnabled);
 
   @override
   _$UserModelCopyWith<_UserModel> get copyWith =>
@@ -211,20 +282,28 @@ class _$_UserModel implements _UserModel {
 
 abstract class _UserModel implements UserModel {
   const factory _UserModel(
-      {String id,
+      {int id,
       String fullName,
+      String phone,
+      String email,
       UserGender gender,
       PhotoModel photo,
       int age,
-      UserRole role}) = _$_UserModel;
+      UserType role,
+      String pushToken,
+      bool isPushEnabled}) = _$_UserModel;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$_UserModel.fromJson;
 
   @override
-  String get id;
+  int get id;
   @override
   String get fullName;
+  @override
+  String get phone;
+  @override
+  String get email;
   @override
   UserGender get gender;
   @override
@@ -232,7 +311,11 @@ abstract class _UserModel implements UserModel {
   @override
   int get age;
   @override
-  UserRole get role;
+  UserType get role;
+  @override
+  String get pushToken;
+  @override
+  bool get isPushEnabled;
   @override
   _$UserModelCopyWith<_UserModel> get copyWith;
 }

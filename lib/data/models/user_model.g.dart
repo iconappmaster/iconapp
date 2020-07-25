@@ -8,14 +8,18 @@ part of 'user_model.dart';
 
 _$_UserModel _$_$_UserModelFromJson(Map<String, dynamic> json) {
   return _$_UserModel(
-    id: json['id'] as String,
+    id: json['id'] as int,
     fullName: json['fullName'] as String,
+    phone: json['phone'] as String,
+    email: json['email'] as String,
     gender: _$enumDecodeNullable(_$UserGenderEnumMap, json['gender']),
     photo: json['photo'] == null
         ? null
         : PhotoModel.fromJson(json['photo'] as Map<String, dynamic>),
     age: json['age'] as int,
-    role: _$enumDecodeNullable(_$UserRoleEnumMap, json['role']),
+    role: _$enumDecodeNullable(_$UserTypeEnumMap, json['role']),
+    pushToken: json['pushToken'] as String,
+    isPushEnabled: json['isPushEnabled'] as bool,
   );
 }
 
@@ -23,10 +27,14 @@ Map<String, dynamic> _$_$_UserModelToJson(_$_UserModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'fullName': instance.fullName,
+      'phone': instance.phone,
+      'email': instance.email,
       'gender': _$UserGenderEnumMap[instance.gender],
       'photo': instance.photo,
       'age': instance.age,
-      'role': _$UserRoleEnumMap[instance.role],
+      'role': _$UserTypeEnumMap[instance.role],
+      'pushToken': instance.pushToken,
+      'isPushEnabled': instance.isPushEnabled,
     };
 
 T _$enumDecode<T>(
@@ -67,8 +75,8 @@ const _$UserGenderEnumMap = {
   UserGender.other: 'other',
 };
 
-const _$UserRoleEnumMap = {
-  UserRole.admin: 'admin',
-  UserRole.icon: 'icon',
-  UserRole.viewer: 'viewer',
+const _$UserTypeEnumMap = {
+  UserType.admin: 'admin',
+  UserType.icon: 'icon',
+  UserType.viewer: 'viewer',
 };

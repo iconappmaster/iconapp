@@ -23,7 +23,7 @@ class GroupCreateRepositoryImpl implements GroupCreateRepository {
     final users = List.generate(
         20,
         (index) => UserModel(
-            id: index.toString(),
+            id: index,
             fullName: 'עידן איילון', photo: PhotoModel(url: urlIconMock)));
 
     return Future.value(users);

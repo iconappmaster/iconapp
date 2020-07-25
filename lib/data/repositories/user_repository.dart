@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
@@ -14,11 +15,11 @@ class UserRepositoryImpl implements UserRepository {
   RestClient restClient;
   final SharedPreferencesService sp;
 
-  UserRepositoryImpl({this.restClient, this.sp});
+  UserRepositoryImpl({@required this.restClient,@required this.sp});
 
   @override
   Future<UserModel> updateUser(UserModel userModel) async {
-    final user = await restClient.updateUser(userModel.id, userModel);
+    final user = await restClient.updateUser(userModel);
     return user;
   }
 
