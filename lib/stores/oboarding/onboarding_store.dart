@@ -2,33 +2,29 @@ import 'dart:io';
 
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/models/photo_model.dart';
+import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/domain/core/value_validators.dart';
+import 'package:iconapp/stores/login/login_store.dart';
 import 'package:iconapp/stores/media/media_store.dart';
+import 'package:iconapp/stores/user/user_store.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
-
 import 'onboarding_state.dart';
 part 'onboarding_store.g.dart';
-
-enum GenderType { other, male, female }
 
 class OnboardingStore = _OnboardingStoreBase with _$OnboardingStore;
 
 abstract class _OnboardingStoreBase with Store {
   MediaStore _mediaStore;
+  UserStore _userStore;
 
   _OnboardingStoreBase() {
     _mediaStore = sl<MediaStore>();
+    _userStore = sl<UserStore>();
   }
 
   @observable
-  GenderType _selectedGender = GenderType.male;
-
-  @observable
   OnboardingState _state = OnboardingState.initial();
-
-  @computed
-  GenderType get getGenderType => _selectedGender;
 
   @computed
   OnboardingState get getState => _state;
@@ -67,7 +63,9 @@ abstract class _OnboardingStoreBase with Store {
 
     if (upload) {
       // upload photo to firebase
-      final url = await _mediaStore.uploadPhoto(File(file.path), '');
+      final phone = sl<LoginStore>().state.phone;
+
+      final url = await _mediaStore.uploadPhoto(File(file.path), phone);
 
       // show photo from remote and update local photo to firebase link
       _state = _state.copyWith(
@@ -81,22 +79,35 @@ abstract class _OnboardingStoreBase with Store {
 
   @action
   Future createUser() async {
-    
+    // perform update user (it will save it again with the user returned from
+    // the server).
+
+    try {
+      _state = _state.copyWith(loading: true);
+      final user = _state.userModel;
+
+      /// update the user with [Age, Gender, Fullname]
+      final createUser = await _userStore.updateUser(user);
+    } on Exception catch (e) {
+      print(e);
+    }
   }
 
   @action
-  void setSexType(GenderType sexType) {
-    this._selectedGender = sexType;
+  void updateUserGender(UserGender gender) {
+    final user = _state.userModel.copyWith(gender: gender);
+    _state = _state.copyWith(userModel: user);
   }
 
   @action
   void updateUserName(String fullName) {
-    _state = _state.copyWith(
-        userModel: _state.userModel.copyWith(fullName: fullName));
+    final user = _state.userModel.copyWith(fullName: fullName);
+    _state = _state.copyWith(userModel: user);
   }
 
   @action
   void updateUserAge(int age) {
-    _state = _state.copyWith(userModel: _state.userModel.copyWith(age: age));
+    final user = _state.userModel.copyWith(age: age);
+    _state = _state.copyWith(userModel: user);
   }
 }

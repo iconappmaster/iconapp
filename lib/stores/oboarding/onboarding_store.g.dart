@@ -9,13 +9,6 @@ part of 'onboarding_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$OnboardingStore on _OnboardingStoreBase, Store {
-  Computed<GenderType> _$getGenderTypeComputed;
-
-  @override
-  GenderType get getGenderType => (_$getGenderTypeComputed ??=
-          Computed<GenderType>(() => super.getGenderType,
-              name: '_OnboardingStoreBase.getGenderType'))
-      .value;
   Computed<OnboardingState> _$getStateComputed;
 
   @override
@@ -37,22 +30,6 @@ mixin _$OnboardingStore on _OnboardingStoreBase, Store {
           Computed<bool>(() => super.isUserImageAvailable,
               name: '_OnboardingStoreBase.isUserImageAvailable'))
       .value;
-
-  final _$_selectedGenderAtom =
-      Atom(name: '_OnboardingStoreBase._selectedGender');
-
-  @override
-  GenderType get _selectedGender {
-    _$_selectedGenderAtom.reportRead();
-    return super._selectedGender;
-  }
-
-  @override
-  set _selectedGender(GenderType value) {
-    _$_selectedGenderAtom.reportWrite(value, super._selectedGender, () {
-      super._selectedGender = value;
-    });
-  }
 
   final _$_stateAtom = Atom(name: '_OnboardingStoreBase._state');
 
@@ -110,11 +87,11 @@ mixin _$OnboardingStore on _OnboardingStoreBase, Store {
   }
 
   @override
-  void setSexType(GenderType sexType) {
+  void updateUserGender(UserGender gender) {
     final _$actionInfo = _$_OnboardingStoreBaseActionController.startAction(
-        name: '_OnboardingStoreBase.setSexType');
+        name: '_OnboardingStoreBase.updateUserGender');
     try {
-      return super.setSexType(sexType);
+      return super.updateUserGender(gender);
     } finally {
       _$_OnboardingStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -145,7 +122,6 @@ mixin _$OnboardingStore on _OnboardingStoreBase, Store {
   @override
   String toString() {
     return '''
-getGenderType: ${getGenderType},
 getState: ${getState},
 getUserPhoto: ${getUserPhoto},
 isUserImageAvailable: ${isUserImageAvailable}

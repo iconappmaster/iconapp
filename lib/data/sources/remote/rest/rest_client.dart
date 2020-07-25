@@ -22,11 +22,13 @@ abstract class RestClient {
   Future verifyPhone(@Query('phone') String phone);
 
   @POST('verify_code')
-  Future<UserModel> verifyCode(@Query('phone') String phone, @Query('login_code') String code);
+  Future<UserModel> verifyCode(
+      @Query('phone') String phone, @Query('login_code') String code);
 
   // USERS
-  @POST('user')
-  Future<UserModel> updateUser(@Body() UserModel user);
+  @POST('user/')
+  Future<UserModel> updateUser(
+      @Body() UserModel user, @Query('token') String token);
 
   // HOME
   @GET('getHome/{id}')
@@ -51,7 +53,8 @@ abstract class RestClient {
   Future sendMessage(@Path() String chatId, @Body() MessageModel message);
 
   @POST('likeMessage/{chatId}/{messageId}')
-  Future likeMessage(@Path() String chatId, @Path() String messageId, @Body() bool addLike);
+  Future likeMessage(
+      @Path() String chatId, @Path() String messageId, @Body() bool addLike);
 
   // SEARCH
   @GET('searchCategory')

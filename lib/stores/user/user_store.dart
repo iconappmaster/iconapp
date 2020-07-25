@@ -20,15 +20,14 @@ abstract class _UserStoreBase with Store {
   _UserStoreBase() {
     _userRepository = sl<UserRepository>();
     _mediaStore = sl<MediaStore>();
-    _prefs = sl<SharedPreferencesService>();
-    
+    _prefs = sl<SharedPreferencesService>(); 
   }
 
   @observable
   UserModel userModel = UserModel();
 
   @computed
-  String get getToken => userModel?.pushToken ?? '';
+  String get getToken => userModel?.sessionToken ?? '';
 
   @action
   Future<String> uploadUserPhoto(
@@ -42,9 +41,9 @@ abstract class _UserStoreBase with Store {
   }
 
   @action
-  Future updateUser(UserModel user) async {
+  Future<bool> updateUser(UserModel user) async {
     final createdUser = await _userRepository.updateUser(user);
-    await _userRepository.persistUser(createdUser);
+    return await _userRepository.persistUser(createdUser);
   }
 
   @action

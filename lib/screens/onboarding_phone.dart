@@ -17,6 +17,10 @@ import '../generated/locale_keys.g.dart';
 import 'dart:ui' as ui;
 import 'package:easy_localization/easy_localization.dart';
 
+/// [OnboardingPhone] used to verify the user with [Phone] number and
+/// an [SMS] code that is being sent.
+/// The store for this page is [LoginStore] that manages the [Timer], [VerifyPhone]
+/// call and [VerifyCode] that returns the user with the [Token].
 class OnboardingPhone extends StatefulWidget {
   @override
   _OnboardingPhoneState createState() => _OnboardingPhoneState();
@@ -48,15 +52,9 @@ class _OnboardingPhoneState extends State<OnboardingPhone> {
     );
   }
 
-  @override
-  void dispose() {
-    sl<LoginStore>().dispose();
-    super.dispose();
-  }
-
-  Visibility _nextButton(LoginStore store, BuildContext context) {
+  Widget _nextButton(LoginStore store, BuildContext context) {
     return Visibility(
-      visible: store.isIdle,
+      visible: store.isPhoneMode,
       child: Positioned(
           top: context.heightPlusStatusbarPerc(.447),
           child: NextButton(
@@ -70,6 +68,12 @@ class _OnboardingPhoneState extends State<OnboardingPhone> {
           )),
     );
   }
+
+  @override
+  void dispose() {
+    sl<LoginStore>().dispose();
+    super.dispose();
+  }
 }
 
 class _SendAgain extends StatelessWidget {
@@ -79,7 +83,7 @@ class _SendAgain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Visibility(
-      visible: !store.isIdle,
+      visible: store.isPinCodeMode,
       child: Positioned(
         top: context.heightPlusStatusbarPerc(.444),
         child: RichText(
@@ -111,7 +115,7 @@ class _SmsCounter extends StatelessWidget {
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) => Visibility(
-        visible: !store.isIdle,
+        visible: store.isPinCodeMode,
         child: Positioned(
           top: context.heightPlusStatusbarPerc(.408),
           child: HebrewText(
@@ -148,7 +152,7 @@ class _PinCode extends StatelessWidget {
         activeFillColor: Colors.transparent);
 
     return Visibility(
-      visible: !store.isIdle,
+      visible: store.isPinCodeMode,
       child: Positioned(
         top: ctx.heightPlusStatusbarPerc(.323),
         child: Container(
@@ -174,7 +178,7 @@ class _PinCode extends StatelessWidget {
                       serverError: () => ctx.showErrorFlushbar(
                           message: LocaleKeys.general_server_error),
                       wrongCode: () => ctx.showErrorFlushbar(
-                          message: LocaleKeys.onboarding_wrongName)),
+                          message: LocaleKeys.onboarding_wrongCode.tr())),
                   (success) =>
                       ExtendedNavigator.of(ctx).pushOnboardingProfile(),
                 );
@@ -198,11 +202,11 @@ class _OnboardingPhoneSubtitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: store.isIdle
+      top: store.isPhoneMode
           ? context.heightPlusStatusbarPerc(.221)
           : context.heightPlusStatusbarPerc(.29),
       child: HebrewText(
-        store.isIdle
+        store.isPhoneMode
             ? LocaleKeys.onboarding_phoneSubtitle.tr()
             : LocaleKeys.onboarding_enterCode.tr(),
         style: loginSmallText,
@@ -239,7 +243,7 @@ class _CheckSign extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Visibility(
-      visible: !store.isIdle,
+      visible: store.isPinCodeMode,
       child: Positioned(
         top: context.heightPlusStatusbarPerc(.212),
         right: context.widthPx * .155,
@@ -288,7 +292,7 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
     return AnimatedPositioned(
         curve: Curves.easeInOut,
         duration: const Duration(milliseconds: 700),
-        top: widget.store.isIdle
+        top: widget.store.isPhoneMode
             ? context.heightPlusStatusbarPerc(.272)
             : context.heightPlusStatusbarPerc(.2),
         child: Wrap(
@@ -311,7 +315,7 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
         textAlign: TextAlign.left,
         decoration: inputDecor,
         style: phoneNumber.copyWith(
-            color: store.isIdle ? white : white.withOpacity(.4)),
+            color: store.isPhoneMode ? white : white.withOpacity(.4)),
         onChanged: (phone) => store.updatePhone(phone),
         keyboardType: TextInputType.phone,
       ),
@@ -332,7 +336,7 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
         maxLengthEnforced: true,
         decoration: inputDecor,
         style: phoneNumber.copyWith(
-            color: store.isIdle ? white : white.withOpacity(.4)),
+            color: store.isPhoneMode ? white : white.withOpacity(.4)),
         onChanged: (prefix) {
           if (prefix.length == 3) {
             prefixFocus.unfocus();

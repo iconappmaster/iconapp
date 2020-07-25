@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/stores/oboarding/onboarding_store.dart';
+import 'package:iconapp/data/models/user_model.dart';
+import 'package:iconapp/screens/onboarding_profile.dart';
 import 'dart:ui';
 import 'dart:math';
-
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 
 class RollingSwitch extends StatefulWidget {
   @required
-  final bool value;
+  // final bool value;
   @required
   final Function(bool) onChanged;
   final String text;
-
   final Color colorOn;
   final Color colorOff;
   final double textSize;
@@ -22,20 +21,20 @@ class RollingSwitch extends StatefulWidget {
   final String iconOff;
   final Function onTap;
   final Function onSwipe;
-  final GenderType type;
-  RollingSwitch(
-      {this.value = false,
-      this.text = "אישה",
-      this.textSize = 14.0,
-      this.colorOn = cornflower,
-      this.colorOff = Colors.transparent,
-      this.iconOff = '',
-      this.iconOn = '',
-      this.animationDuration = const Duration(milliseconds: 750),
-      this.onTap,
-      this.onSwipe,
-      this.onChanged,
-      this.type});
+  final UserGender gender;
+  RollingSwitch({
+    this.text = "אישה",
+    this.textSize = 14.0,
+    this.colorOn = cornflower,
+    this.colorOff = Colors.transparent,
+    this.iconOff = '',
+    this.iconOn = '',
+    this.animationDuration = const Duration(milliseconds: 750),
+    this.onTap,
+    this.onSwipe,
+    this.onChanged,
+    this.gender,
+  });
 
   @override
   _RollingSwitchState createState() => _RollingSwitchState();
@@ -70,22 +69,27 @@ class _RollingSwitchState extends State<RollingSwitch>
         value = animation.value;
       });
     });
-    turnState = widget.value ?? false;
-    determine();
+  }
+
+  void setCurrentGender() {
+    genderMap.forEach((key, value) => genderMap[key] = false);
+    genderMap[widget.gender] = true;
   }
 
   @override
   Widget build(BuildContext context) {
     Color transitionColor = Color.lerp(widget.colorOff, widget.colorOn, value);
-    print(widget.type);
+
+    // check if need to change state
+    determine();
 
     return GestureDetector(
       onTap: () {
-        _action();
+        setCurrentGender();
         if (widget.onTap != null) widget.onTap();
       },
       onPanEnd: (details) {
-        _action();
+        setCurrentGender();
         if (widget.onSwipe != null) widget.onSwipe();
       },
       child: Container(
@@ -157,17 +161,10 @@ class _RollingSwitchState extends State<RollingSwitch>
     );
   }
 
-  _action() {
-    determine(changeState: true);
-  }
-
-  determine({bool changeState = false}) {
+  determine() {
     setState(() {
-      if (changeState) turnState = !turnState;
-      (turnState)
-          ? animationController.forward()
-          : animationController.reverse();
-
+      turnState = genderMap[widget.gender];
+      turnState ? animationController.forward() : animationController.reverse();
       widget.onChanged(turnState);
     });
   }

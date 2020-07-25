@@ -51,7 +51,7 @@ mixin _$UserStore on _UserStoreBase, Store {
   final _$updateUserAsyncAction = AsyncAction('_UserStoreBase.updateUser');
 
   @override
-  Future<dynamic> updateUser(UserModel user) {
+  Future<bool> updateUser(UserModel user) {
     return _$updateUserAsyncAction.run(() => super.updateUser(user));
   }
 

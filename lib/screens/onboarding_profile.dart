@@ -1,13 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/oboarding/onboarding_store.dart';
 import 'package:iconapp/widgets/global/user_avatar.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
-import 'package:iconapp/stores/login/login_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/next_button.dart';
 import 'package:iconapp/widgets/global/rolling_switch.dart';
@@ -31,7 +31,7 @@ class OnboardingProfile extends StatelessWidget {
             Positioned(
               top: context.heightPlusStatusbarPerc(.138),
               child: UserAvatar(
-                onTap: () async => await store.pickPhoto(),
+                onTap: () async => await store.pickPhoto(true),
                 url: store.getUserPhoto,
               ),
             ),
@@ -157,62 +157,68 @@ class SexPicker extends StatefulWidget {
   _SexPickerState createState() => _SexPickerState();
 }
 
+Map<UserGender, bool> genderMap = {
+  UserGender.female: false,
+  UserGender.male: true,
+  UserGender.other: false,
+};
+
 class _SexPickerState extends State<SexPicker> {
   final store = sl<OnboardingStore>();
 
   @override
   Widget build(BuildContext context) {
     final gap = SizedBox(width: context.widthPx * .05);
+
     return Observer(
-      builder: (_) => Positioned(
-        top: context.heightPlusStatusbarPerc(.45),
-        child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              RollingSwitch(
-                type: GenderType.female,
-                value: store.getGenderType == GenderType.female,
-                iconOn: 'assets/images/female_white.svg',
-                iconOff: 'assets/images/female_purple.svg',
-                onTap: () => setGenderType(GenderType.female),
-                text: LocaleKeys.onboarding_profileFemale.tr(),
-                colorOff: Colors.transparent,
-                colorOn: cornflower,
-                onChanged: (value) => print(store.getGenderType),
-              ),
-              gap,
-              RollingSwitch(
-                type: GenderType.male,
-                value: store.getGenderType == GenderType.male,
-                iconOn: 'assets/images/male_white.svg',
-                iconOff: 'assets/images/male_purple.svg',
-                onTap: () => setGenderType(GenderType.male),
-                text: LocaleKeys.onboarding_profileMale.tr(),
-                colorOff: Colors.transparent,
-                colorOn: cornflower,
-                onChanged: (value) => print(store.getGenderType),
-              ),
-              gap,
-              RollingSwitch(
-                type: GenderType.other,
-                value: store.getGenderType == GenderType.other,
-                iconOn: 'assets/images/other_white.svg',
-                iconOff: 'assets/images/other_purple.svg',
-                onTap: () => setGenderType(GenderType.other),
-                text: LocaleKeys.onboarding_profileOther.tr(),
-                colorOff: Colors.transparent,
-                colorOn: cornflower,
-                onChanged: (value) => print(store.getGenderType),
-              )
-            ]),
-      ),
+      builder: (_) {
+        return Positioned(
+          top: context.heightPlusStatusbarPerc(.45),
+          child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                RollingSwitch(
+                  onTap: () => setState(() {}),
+                  gender: UserGender.female,
+                  // value: store.getGenderType == GenderType.female,
+                  iconOn: 'assets/images/female_white.svg',
+                  iconOff: 'assets/images/female_purple.svg',
+                  text: LocaleKeys.onboarding_profileFemale.tr(),
+                  colorOff: Colors.transparent,
+                  colorOn: cornflower,
+                  onChanged: (value) => genderMap[UserGender.female] = value,
+                ),
+                gap,
+                RollingSwitch(
+                  onTap: () => setState(() {}),
+                  gender: UserGender.male,
+                  // value: store.getGenderType == UserGender.male,
+                  iconOn: 'assets/images/male_white.svg',
+                  iconOff: 'assets/images/male_purple.svg',
+                  text: LocaleKeys.onboarding_profileMale.tr(),
+                  colorOff: Colors.transparent,
+                  colorOn: cornflower,
+                  onChanged: (value) => genderMap[UserGender.male] = value,
+                ),
+                gap,
+                RollingSwitch(
+                  onTap: () => setState(() {}),
+                  gender: UserGender.other,
+                  // value: store.getGenderType == UserGender.other,
+                  iconOn: 'assets/images/other_white.svg',
+                  iconOff: 'assets/images/other_purple.svg',
+                  // onTap: () => setGenderType(GenderType.other),
+                  text: LocaleKeys.onboarding_profileOther.tr(),
+                  colorOff: Colors.transparent,
+                  colorOn: cornflower,
+                  onChanged: (value) => genderMap[UserGender.other] = value,
+                )
+              ]),
+        );
+      },
     );
   }
 
-  void setGenderType(GenderType type) {
-    if (store.getGenderType != type) {
-      store.setSexType(type);
-    }
-  }
+  
 }

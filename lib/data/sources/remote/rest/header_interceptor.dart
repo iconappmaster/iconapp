@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/stores/user/user_store.dart';
 
 class HeaderInterceptor extends Interceptor {
   final Dio dio;
@@ -12,7 +14,7 @@ class HeaderInterceptor extends Interceptor {
   @override
   Future<FutureOr> onRequest(RequestOptions options) async {
     // GET TOKEN
-    final token = '';
+    final token = sl<UserStore>().getToken;
     addHeaders(options, token);
     return options;
   }
@@ -45,4 +47,5 @@ class HeaderInterceptor extends Interceptor {
 void addHeaders(RequestOptions options, String token) {
   options.headers['content-Type'] = 'application/json';
   options.headers['Authorization'] = "Bearer " + token ?? '';
+  // options.queryParameters = {'token' : token};
 }

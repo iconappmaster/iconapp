@@ -16,6 +16,8 @@ abstract class OnboardingState with _$OnboardingState {
   factory OnboardingState.initial() => OnboardingState(
         loading: false,
         errorMessage: '',
-        userModel: UserModel(),
+        userModel: UserModel(
+          gender: UserGender.male
+        ),
       );
 }

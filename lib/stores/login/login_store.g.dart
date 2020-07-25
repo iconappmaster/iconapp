@@ -23,12 +23,20 @@ mixin _$LoginStore on _LoginStoreBase, Store {
           Computed<bool>(() => super.counterReachedZero,
               name: '_LoginStoreBase.counterReachedZero'))
       .value;
-  Computed<bool> _$isIdleComputed;
+  Computed<bool> _$isPhoneModeComputed;
 
   @override
-  bool get isIdle => (_$isIdleComputed ??=
-          Computed<bool>(() => super.isIdle, name: '_LoginStoreBase.isIdle'))
-      .value;
+  bool get isPhoneMode =>
+      (_$isPhoneModeComputed ??= Computed<bool>(() => super.isPhoneMode,
+              name: '_LoginStoreBase.isPhoneMode'))
+          .value;
+  Computed<bool> _$isPinCodeModeComputed;
+
+  @override
+  bool get isPinCodeMode =>
+      (_$isPinCodeModeComputed ??= Computed<bool>(() => super.isPinCodeMode,
+              name: '_LoginStoreBase.isPinCodeMode'))
+          .value;
   Computed<bool> _$numberValidComputed;
 
   @override
@@ -138,7 +146,8 @@ mixin _$LoginStore on _LoginStoreBase, Store {
 state: ${state},
 displayCountdown: ${displayCountdown},
 counterReachedZero: ${counterReachedZero},
-isIdle: ${isIdle},
+isPhoneMode: ${isPhoneMode},
+isPinCodeMode: ${isPinCodeMode},
 numberValid: ${numberValid},
 getState: ${getState}
     ''';

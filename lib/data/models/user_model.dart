@@ -17,6 +17,7 @@ abstract class UserModel with _$UserModel {
     UserType role,
     String pushToken,
     bool isPushEnabled,
+    String sessionToken,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>

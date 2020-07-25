@@ -10,6 +10,7 @@ import 'login_state.dart';
 
 part 'login_store.g.dart';
 
+// CHANGE NAME TO - OnboardinPhoneStore
 class LoginStore = _LoginStoreBase with _$LoginStore;
 
 const defaultCountTimeSec = 17;
@@ -38,7 +39,10 @@ abstract class _LoginStoreBase with Store {
   bool get counterReachedZero => _currentCountDown == 0;
 
   @computed
-  bool get isIdle => state.phonePageState == PhoneOnboardingState.idle;
+  bool get isPhoneMode => state.phonePageState == PhoneOnboardingState.idle;
+
+  @computed
+  bool get isPinCodeMode => state.phonePageState == PhoneOnboardingState.sent;
 
   @computed
   bool get numberValid => state.prefix.length == 3 && state.phone.length >= 7;
@@ -70,8 +74,7 @@ abstract class _LoginStoreBase with Store {
       phonePageState: PhoneOnboardingState.sent,
     );
 
-    final failureOrSuccess =
-        await _repository.verifyPhone(state.prefix + state.phone);
+    final failureOrSuccess = await _repository.verifyPhone(state.prefix + state.phone);
 
     failureOrSuccess.fold(
       (failure) {
@@ -79,11 +82,17 @@ abstract class _LoginStoreBase with Store {
             loading: false,
             phonePageState: PhoneOnboardingState.idle,
             errorMessage: failure.maybeWhen(
-              serverError: () => 'Server error',
+              serverError: () => 'תקלה בשרת',
               orElse: () => null,
             ));
       },
-      (_) => print('success'),
+      (_) {
+        /// Success
+        state = state.copyWith(
+          loading: false,
+          phonePageState: PhoneOnboardingState.sent,
+        );
+      },
     );
   }
 
@@ -96,8 +105,9 @@ abstract class _LoginStoreBase with Store {
 
     try {
       final user = await _repository.verifyCode(fullNumber, code);
-      final saved = await _userStore.persistUser(user);
-      return right(saved);
+      final success = await _userStore.persistUser(user);
+      _userStore.userModel = user;
+      return right(success);
     } on DioError catch (error) {
       if (error.response.data['error'] == "ERROR_WRONG_SMS") {
         return left(const AuthFailure.wrongCode());
