@@ -23,6 +23,13 @@ mixin _$OnboardingStore on _OnboardingStoreBase, Store {
       (_$getStateComputed ??= Computed<OnboardingState>(() => super.getState,
               name: '_OnboardingStoreBase.getState'))
           .value;
+  Computed<String> _$getUserPhotoComputed;
+
+  @override
+  String get getUserPhoto =>
+      (_$getUserPhotoComputed ??= Computed<String>(() => super.getUserPhoto,
+              name: '_OnboardingStoreBase.getUserPhoto'))
+          .value;
   Computed<bool> _$isUserImageAvailableComputed;
 
   @override
@@ -47,18 +54,18 @@ mixin _$OnboardingStore on _OnboardingStoreBase, Store {
     });
   }
 
-  final _$stateAtom = Atom(name: '_OnboardingStoreBase.state');
+  final _$_stateAtom = Atom(name: '_OnboardingStoreBase._state');
 
   @override
-  OnboardingState get state {
-    _$stateAtom.reportRead();
-    return super.state;
+  OnboardingState get _state {
+    _$_stateAtom.reportRead();
+    return super._state;
   }
 
   @override
-  set state(OnboardingState value) {
-    _$stateAtom.reportWrite(value, super.state, () {
-      super.state = value;
+  set _state(OnboardingState value) {
+    _$_stateAtom.reportWrite(value, super._state, () {
+      super._state = value;
     });
   }
 
@@ -67,6 +74,14 @@ mixin _$OnboardingStore on _OnboardingStoreBase, Store {
   @override
   Future<dynamic> pickPhoto([bool upload = false]) {
     return _$pickPhotoAsyncAction.run(() => super.pickPhoto(upload));
+  }
+
+  final _$createUserAsyncAction =
+      AsyncAction('_OnboardingStoreBase.createUser');
+
+  @override
+  Future<dynamic> createUser() {
+    return _$createUserAsyncAction.run(() => super.createUser());
   }
 
   final _$_OnboardingStoreBaseActionController =
@@ -130,9 +145,9 @@ mixin _$OnboardingStore on _OnboardingStoreBase, Store {
   @override
   String toString() {
     return '''
-state: ${state},
 getGenderType: ${getGenderType},
 getState: ${getState},
+getUserPhoto: ${getUserPhoto},
 isUserImageAvailable: ${isUserImageAvailable}
     ''';
   }

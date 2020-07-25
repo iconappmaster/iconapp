@@ -23,13 +23,6 @@ mixin _$LoginStore on _LoginStoreBase, Store {
           Computed<bool>(() => super.counterReachedZero,
               name: '_LoginStoreBase.counterReachedZero'))
       .value;
-  Computed<UserModel> _$getUserComputed;
-
-  @override
-  UserModel get getUser =>
-      (_$getUserComputed ??= Computed<UserModel>(() => super.getUser,
-              name: '_LoginStoreBase.getUser'))
-          .value;
   Computed<bool> _$isIdleComputed;
 
   @override
@@ -145,7 +138,6 @@ mixin _$LoginStore on _LoginStoreBase, Store {
 state: ${state},
 displayCountdown: ${displayCountdown},
 counterReachedZero: ${counterReachedZero},
-getUser: ${getUser},
 isIdle: ${isIdle},
 numberValid: ${numberValid},
 getState: ${getState}

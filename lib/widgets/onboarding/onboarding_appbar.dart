@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:iconapp/screens/onboarding_phone.dart';
 import 'package:iconapp/widgets/global/back_button.dart';
+import 'package:iconapp/widgets/global/blue_divider.dart';
 import '../../core/extensions/context_ext.dart';
 
 class IconAppbar extends StatelessWidget {

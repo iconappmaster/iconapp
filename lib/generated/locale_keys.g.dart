@@ -6,6 +6,8 @@ abstract class  LocaleKeys {
   static const policy_link = 'policy.link';
   static const policy_prefix = 'policy.prefix';
   static const policy = 'policy';
+  static const general_server_error = 'general.server_error';
+  static const general = 'general';
   static const onboarding_phoneTitle = 'onboarding.phoneTitle';
   static const onboarding_phoneSubtitle = 'onboarding.phoneSubtitle';
   static const onboarding_enterCode = 'onboarding.enterCode';
@@ -18,6 +20,7 @@ abstract class  LocaleKeys {
   static const onboarding_profileOther = 'onboarding.profileOther';
   static const onboarding_wrongName = 'onboarding.wrongName';
   static const onboarding_wrongAge = 'onboarding.wrongAge';
+  static const onboarding_wrongCode = 'onboarding.wrongCode';
   static const onboarding = 'onboarding';
   static const create_groupNameHint = 'create.groupNameHint';
   static const create_groupNameDescription = 'create.groupNameDescription';

@@ -62,6 +62,9 @@ class GroupNamePhoto extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     UserAvatar(
+                      onTap: () {
+                        // TODO DO SOMETHING!
+                      },
                       url: null,
                       placeholder: 'assets/images/camera_icon.svg',
                     ),

@@ -42,6 +42,9 @@ class CodegenLoader extends AssetLoader{
 };
   static const Map<String,dynamic> en_US = {
   "action_continue": "continue",
+  "general": {
+    "server_error": "תקלה בשרת, אנא נסה שנית"
+  },
   "policy": {
     "terms": "bla ",
     "link": "bla",
@@ -51,7 +54,8 @@ class CodegenLoader extends AssetLoader{
     "phoneTitle": "bla",
     "phoneSubtitle": "bla",
     "onboarding_enter_code": "bla",
-    "phone_counting": "bla"
+    "phone_counting": "bla",
+    "wrongCode": "קוד שגוי, אנא נסה שנית"
   }
 };
   static const Map<String, Map<String,dynamic>> mapLocales = {"he_HE": he_HE, "en_US": en_US};

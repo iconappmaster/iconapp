@@ -172,9 +172,9 @@ class _PinCode extends StatelessWidget {
                 successFailure.fold(
                   (error) => error.when(
                       serverError: () => ctx.showErrorFlushbar(
-                          message: 'תקלה בשרת, אנא נסה שנית'),
+                          message: LocaleKeys.general_server_error),
                       wrongCode: () => ctx.showErrorFlushbar(
-                          message: 'קוד שגוי, אנא נסה שנית')),
+                          message: LocaleKeys.onboarding_wrongName)),
                   (success) =>
                       ExtendedNavigator.of(ctx).pushOnboardingProfile(),
                 );
@@ -341,23 +341,6 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
           }
         },
       ),
-    );
-  }
-}
-
-class BlueDivider extends StatelessWidget {
-  final Color color;
-
-  const BlueDivider({Key key, this.color = darkBlueGrey}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Divider(
-      color: color,
-      endIndent: 0,
-      indent: 0,
-      thickness: 1,
-      height: 0,
     );
   }
 }

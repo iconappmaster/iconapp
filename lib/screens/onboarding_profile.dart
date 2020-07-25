@@ -21,7 +21,7 @@ final _key = GlobalKey<FormState>();
 class OnboardingProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final store = sl<LoginStore>();
+    final store = sl<OnboardingStore>();
     return BaseGradientWidget(
       child: Observer(
         builder: (_) => Stack(
@@ -29,8 +29,12 @@ class OnboardingProfile extends StatelessWidget {
           children: <Widget>[
             IconAppbar(),
             Positioned(
-                top: context.heightPlusStatusbarPerc(.138),
-                child: UserAvatar(url: store.getState?.userModel?.photo?.url ?? '')),
+              top: context.heightPlusStatusbarPerc(.138),
+              child: UserAvatar(
+                onTap: () async => await store.pickPhoto(),
+                url: store.getUserPhoto,
+              ),
+            ),
             PersonDetails(),
             SexPicker(),
             _nextButton(context, store),
@@ -40,14 +44,14 @@ class OnboardingProfile extends StatelessWidget {
     );
   }
 
-  Widget _nextButton(BuildContext ctx, LoginStore store) {
+  Widget _nextButton(BuildContext ctx, OnboardingStore store) {
     return Positioned(
       top: ctx.heightPlusStatusbarPerc(.526),
       child: NextButton(
         onClick: () async {
           if (_key.currentState.validate()) {
-
             // sl<LoginStore>().finishedOnboardin();
+            store.createUser();
             ExtendedNavigator.of(ctx).pushNamedAndRemoveUntil(
                 Routes.splashScreen, (Route<dynamic> route) => false);
           }
@@ -89,7 +93,8 @@ class PersonDetails extends StatelessWidget {
                       maxLength: 2,
                       keyboardType: TextInputType.number,
                       title: LocaleKeys.onboarding_profileAge.tr(),
-                      onChange: (age) => store.updateUserAge(int.tryParse(age))))
+                      onChange: (age) =>
+                          store.updateUserAge(int.tryParse(age))))
             ],
           ),
         ),

@@ -25,26 +25,30 @@ abstract class _OnboardingStoreBase with Store {
   GenderType _selectedGender = GenderType.male;
 
   @observable
-  OnboardingState state = OnboardingState.initial();
+  OnboardingState _state = OnboardingState.initial();
 
   @computed
   GenderType get getGenderType => _selectedGender;
 
   @computed
-  OnboardingState get getState => state;
+  OnboardingState get getState => _state;
 
   @computed
-  bool get isUserImageAvailable => state.userModel?.photo?.url != null ?? false;
+  String get getUserPhoto => _state?.userModel?.photo?.url;
+
+  @computed
+  bool get isUserImageAvailable =>
+      _state.userModel?.photo?.url != null ?? false;
 
   @action
   bool validateUserAge() {
-    final age = state.userModel.age ?? 0;
+    final age = _state.userModel.age ?? 0;
     return validateAge(age);
   }
 
   @action
   bool validateUserName() {
-    final name = state.userModel.fullName ?? '';
+    final name = _state.userModel.fullName ?? '';
     return validateName(name);
   }
 
@@ -54,9 +58,9 @@ abstract class _OnboardingStoreBase with Store {
     final imagePicker = sl<ImagePicker>();
     final file = await imagePicker.getImage(source: ImageSource.gallery);
     final photo = PhotoModel(url: file.path);
-    final user = state.userModel.copyWith(photo: photo);
+    final user = _state.userModel.copyWith(photo: photo);
 
-    state = state.copyWith(
+    _state = _state.copyWith(
       loading: upload,
       userModel: user,
     );
@@ -66,13 +70,18 @@ abstract class _OnboardingStoreBase with Store {
       final url = await _mediaStore.uploadPhoto(File(file.path), '');
 
       // show photo from remote and update local photo to firebase link
-      state = state.copyWith(
+      _state = _state.copyWith(
         loading: false,
-        userModel: state.userModel.copyWith(
+        userModel: _state.userModel.copyWith(
           photo: photo.copyWith(url: url),
         ),
       );
     }
+  }
+
+  @action
+  Future createUser() async {
+    
   }
 
   @action
@@ -82,12 +91,12 @@ abstract class _OnboardingStoreBase with Store {
 
   @action
   void updateUserName(String fullName) {
-    state =
-        state.copyWith(userModel: state.userModel.copyWith(fullName: fullName));
+    _state = _state.copyWith(
+        userModel: _state.userModel.copyWith(fullName: fullName));
   }
 
   @action
   void updateUserAge(int age) {
-    state = state.copyWith(userModel: state.userModel.copyWith(age: age));
+    _state = _state.copyWith(userModel: _state.userModel.copyWith(age: age));
   }
 }

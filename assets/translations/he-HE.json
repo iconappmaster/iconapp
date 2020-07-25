@@ -1,30 +1,33 @@
 {
     "action_continue": "המשך",
-    "policy" : {
-        "terms":"כניסה לאפליקציה מהווה אישור ",
+    "policy": {
+        "terms": "כניסה לאפליקציה מהווה אישור ",
         "link": "לתנאי השימוש",
         "prefix": " שלנו"
     },
-    "onboarding" : {
-        "phoneTitle" : "כדי להתחבר לקבוצות הצ׳אט אנחנו\nצריכים את מספר הטלפון שלך",
-        "phoneSubtitle" : "מה מספר הטלפון שלך?",
-        "enterCode" : "הזן/י את הקוד שנשלח אליך ב- SMS",
-        "phoneCounting" : "הקוד יגיע בעוד {} שניות",
-        "phone_tooShort" : "אנא הקלד/י מספר טלפון בן 7 ספרות.",
-        "profileName" : "שם מלא",
-        "profileAge" : "גיל",
-        "profileFemale" : "אישה",
-        "profileMale" : "גבר",
-        "profileOther" : "אחר",
-        "wrongName" : "אנא ציין שם ושם משפחה",
-        "wrongAge" : ""
+    "general": {
+        "server_error": "תקלה בשרת, אנא נסה שנית"
+    },
+    "onboarding": {
+        "phoneTitle": "כדי להתחבר לקבוצות הצ׳אט אנחנו\nצריכים את מספר הטלפון שלך",
+        "phoneSubtitle": "מה מספר הטלפון שלך?",
+        "enterCode": "הזן/י את הקוד שנשלח אליך ב- SMS",
+        "phoneCounting": "הקוד יגיע בעוד {} שניות",
+        "phone_tooShort": "אנא הקלד/י מספר טלפון בן 7 ספרות.",
+        "profileName": "שם מלא",
+        "profileAge": "גיל",
+        "profileFemale": "אישה",
+        "profileMale": "גבר",
+        "profileOther": "אחר",
+        "wrongName": "אנא ציין שם ושם משפחה",
+        "wrongAge": "מעל גיל 10",
+        "wrongCode": "קוד שגוי, אנא נסה שנית"
     },
     "create": {
-        "groupNameHint": "הקלד/י כאן את נושא הקבוצה",   
+        "groupNameHint": "הקלד/י כאן את נושא הקבוצה",
         "groupNameDescription": "בחר/י נושא לקבוצה החדשה. כדאי להוסיף גם אייקון.",
         "groupNameAppbarTitle": "נושא הקבוצה",
         "groupSelectCategoryAppbarTitle": "בחר/י קטגוריה",
         "groupSelectContactAppbarTitle": "בחר/י משתתפים לקבוצה"
     }
-
 }

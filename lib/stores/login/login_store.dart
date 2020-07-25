@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
-import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/repositories/login_repository.dart';
 import 'package:iconapp/domain/auth/auth_failure.dart';
 import 'package:mobx/mobx.dart';
@@ -39,9 +38,6 @@ abstract class _LoginStoreBase with Store {
   bool get counterReachedZero => _currentCountDown == 0;
 
   @computed
-  UserModel get getUser => state.userModel;
-
-  @computed
   bool get isIdle => state.phonePageState == PhoneOnboardingState.idle;
 
   @computed
@@ -74,8 +70,9 @@ abstract class _LoginStoreBase with Store {
       phonePageState: PhoneOnboardingState.sent,
     );
 
-    final failureOrSuccess = await _repository.verifyPhone(state.prefix + state.phone);
-   
+    final failureOrSuccess =
+        await _repository.verifyPhone(state.prefix + state.phone);
+
     failureOrSuccess.fold(
       (failure) {
         state = state.copyWith(
@@ -108,7 +105,7 @@ abstract class _LoginStoreBase with Store {
         return left(const AuthFailure.serverError());
       }
     } finally {
-        state = state.copyWith(loading: false);
+      state = state.copyWith(loading: false);
     }
   }
 

@@ -1,5 +1,6 @@
 {
     "action_continue": "continue",
+
     "policy" : {
         "terms":"bla ",
         "link": "bla",
@@ -10,5 +11,7 @@
         "phoneSubtitle" : "bla",
         "onboarding_enter_code" : "bla",
         "phone_counting" : "bla"
+       
+        
     }
 }

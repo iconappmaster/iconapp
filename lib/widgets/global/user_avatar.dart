@@ -2,24 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:iconapp/core/theme.dart';
 import '../../core/extensions/string_ext.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:iconapp/core/dependencies/locator.dart';
-import 'package:iconapp/stores/oboarding/onboarding_store.dart';
 import 'package:iconapp/widgets/global/plus_circle.dart';
 
 class UserAvatar extends StatelessWidget {
   final String placeholder, url;
+  final Function onTap;
 
   const UserAvatar({
     Key key,
     this.placeholder = 'assets/images/user_icon.svg',
     @required this.url,
+    @required this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final store = sl<OnboardingStore>();
     return GestureDetector(
-      onTap: () async => await store.pickPhoto(),
+      onTap: onTap,
       child: Container(
         width: 80,
         height: 80,
