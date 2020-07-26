@@ -16,26 +16,33 @@ mixin _$ChatStore on _ChatStoreBase, Store {
           Computed<List<MessageModel>>(() => super.getMessages,
               name: '_ChatStoreBase.getMessages'))
       .value;
-
-  final _$messagesAtom = Atom(name: '_ChatStoreBase.messages');
+  Computed<bool> _$shouldHideActionsComputed;
 
   @override
-  List<MessageModel> get messages {
-    _$messagesAtom.reportRead();
-    return super.messages;
+  bool get shouldHideActions => (_$shouldHideActionsComputed ??= Computed<bool>(
+          () => super.shouldHideActions,
+          name: '_ChatStoreBase.shouldHideActions'))
+      .value;
+
+  final _$_stateAtom = Atom(name: '_ChatStoreBase._state');
+
+  @override
+  ChatState get _state {
+    _$_stateAtom.reportRead();
+    return super._state;
   }
 
   @override
-  set messages(List<MessageModel> value) {
-    _$messagesAtom.reportWrite(value, super.messages, () {
-      super.messages = value;
+  set _state(ChatState value) {
+    _$_stateAtom.reportWrite(value, super._state, () {
+      super._state = value;
     });
   }
 
   final _$likeMessageAsyncAction = AsyncAction('_ChatStoreBase.likeMessage');
 
   @override
-  Future<MessageModel> likeMessage(String chatId, String messageId) {
+  Future<dynamic> likeMessage(String chatId, String messageId) {
     return _$likeMessageAsyncAction
         .run(() => super.likeMessage(chatId, messageId));
   }
@@ -44,17 +51,55 @@ mixin _$ChatStore on _ChatStoreBase, Store {
       AsyncAction('_ChatStoreBase.sendTextMessage');
 
   @override
-  Future<MessageModel> sendTextMessage(String chatId, String message,
+  Future<dynamic> sendTextMessage(String chatId, String message,
       [MessageType type = MessageType.text]) {
     return _$sendTextMessageAsyncAction
         .run(() => super.sendTextMessage(chatId, message, type));
   }
 
+  final _$takeShotAsyncAction = AsyncAction('_ChatStoreBase.takeShot');
+
+  @override
+  Future<dynamic> takeShot(ImageSource source) {
+    return _$takeShotAsyncAction.run(() => super.takeShot(source));
+  }
+
+  final _$sendVideoMessageAsyncAction =
+      AsyncAction('_ChatStoreBase.sendVideoMessage');
+
+  @override
+  Future<dynamic> sendVideoMessage(ImageSource source) {
+    return _$sendVideoMessageAsyncAction
+        .run(() => super.sendVideoMessage(source));
+  }
+
+  final _$sendAudioMessageAsyncAction =
+      AsyncAction('_ChatStoreBase.sendAudioMessage');
+
+  @override
+  Future<dynamic> sendAudioMessage() {
+    return _$sendAudioMessageAsyncAction.run(() => super.sendAudioMessage());
+  }
+
+  final _$_ChatStoreBaseActionController =
+      ActionController(name: '_ChatStoreBase');
+
+  @override
+  dynamic updateInputMessage(String input) {
+    final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
+        name: '_ChatStoreBase.updateInputMessage');
+    try {
+      return super.updateInputMessage(input);
+    } finally {
+      _$_ChatStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
-messages: ${messages},
-getMessages: ${getMessages}
+getMessages: ${getMessages},
+shouldHideActions: ${shouldHideActions}
     ''';
   }
 }

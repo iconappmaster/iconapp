@@ -46,6 +46,13 @@ class _OnboardingPhoneState extends State<OnboardingPhone> {
             _PinCode(store: store),
             _nextButton(store, context),
             _SendAgain(store: store),
+            if (store.state.loading)
+              Positioned(
+                top: context.heightPlusStatusbarPerc(.644),
+                child: CircularProgressIndicator(
+                  backgroundColor: strongPink,
+                ),
+              ),
           ],
         ),
       ),

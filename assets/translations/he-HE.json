@@ -29,5 +29,8 @@
         "groupNameAppbarTitle": "נושא הקבוצה",
         "groupSelectCategoryAppbarTitle": "בחר/י קטגוריה",
         "groupSelectContactAppbarTitle": "בחר/י משתתפים לקבוצה"
+    },
+    "chat": {
+        "messageInputHint": "הקלד/י הודעה"
     }
 }

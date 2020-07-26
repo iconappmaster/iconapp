@@ -65,7 +65,7 @@ class _RestClient implements RestClient {
     final queryParameters = <String, dynamic>{r'token': token};
     final _data = <String, dynamic>{};
     _data.addAll(user?.toJson() ?? <String, dynamic>{});
-    final Response<Map<String, dynamic>> _result = await _dio.request('user/',
+    final Response<Map<String, dynamic>> _result = await _dio.request('user',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',

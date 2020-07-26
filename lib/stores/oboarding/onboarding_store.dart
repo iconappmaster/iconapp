@@ -1,10 +1,7 @@
-import 'dart:io';
-
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/domain/core/value_validators.dart';
-import 'package:iconapp/stores/login/login_store.dart';
 import 'package:iconapp/stores/media/media_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:image_picker/image_picker.dart';
@@ -63,9 +60,7 @@ abstract class _OnboardingStoreBase with Store {
 
     if (upload) {
       // upload photo to firebase
-      final phone = sl<LoginStore>().state.phone;
-
-      final url = await _mediaStore.uploadPhoto(File(file.path), phone);
+      final url = await _mediaStore.uploadPhoto(ImageSource.gallery);
 
       // show photo from remote and update local photo to firebase link
       _state = _state.copyWith(
@@ -82,15 +77,15 @@ abstract class _OnboardingStoreBase with Store {
     // perform update user (it will save it again with the user returned from
     // the server).
 
-    try {
-      _state = _state.copyWith(loading: true);
-      final user = _state.userModel;
+    // try {
+    //   _state = _state.copyWith(loading: true);
+    //   final user = _state.userModel;
 
-      /// update the user with [Age, Gender, Fullname]
-      final createUser = await _userStore.updateUser(user);
-    } on Exception catch (e) {
-      print(e);
-    }
+    //   /// update the user with [Age, Gender, Fullname]
+    //   final createUser = await _userStore.updateUser(user);
+    // } on DioError catch (e) {
+    //   print(e);
+    // }
   }
 
   @action

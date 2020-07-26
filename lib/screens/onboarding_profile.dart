@@ -179,9 +179,9 @@ class _SexPickerState extends State<SexPicker> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 RollingSwitch(
-                  onTap: () => setState(() {}),
+                  onTap: _updateUI,
+                  onSwipe: _updateUI,
                   gender: UserGender.female,
-                  // value: store.getGenderType == GenderType.female,
                   iconOn: 'assets/images/female_white.svg',
                   iconOff: 'assets/images/female_purple.svg',
                   text: LocaleKeys.onboarding_profileFemale.tr(),
@@ -191,9 +191,9 @@ class _SexPickerState extends State<SexPicker> {
                 ),
                 gap,
                 RollingSwitch(
-                  onTap: () => setState(() {}),
+                  onTap: _updateUI,
+                  onSwipe: _updateUI,
                   gender: UserGender.male,
-                  // value: store.getGenderType == UserGender.male,
                   iconOn: 'assets/images/male_white.svg',
                   iconOff: 'assets/images/male_purple.svg',
                   text: LocaleKeys.onboarding_profileMale.tr(),
@@ -203,12 +203,11 @@ class _SexPickerState extends State<SexPicker> {
                 ),
                 gap,
                 RollingSwitch(
-                  onTap: () => setState(() {}),
+                  onTap: _updateUI,
+                  onSwipe: _updateUI,
                   gender: UserGender.other,
-                  // value: store.getGenderType == UserGender.other,
                   iconOn: 'assets/images/other_white.svg',
                   iconOff: 'assets/images/other_purple.svg',
-                  // onTap: () => setGenderType(GenderType.other),
                   text: LocaleKeys.onboarding_profileOther.tr(),
                   colorOff: Colors.transparent,
                   colorOn: cornflower,
@@ -220,5 +219,8 @@ class _SexPickerState extends State<SexPicker> {
     );
   }
 
-  
+  _updateUI() => setState(() {
+        final selectedGender = genderMap.entries.firstWhere((g) => g.value);
+        store.updateUserGender(selectedGender.key);
+      });
 }

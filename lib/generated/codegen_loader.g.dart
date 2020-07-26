@@ -18,6 +18,9 @@ class CodegenLoader extends AssetLoader{
     "link": "לתנאי השימוש",
     "prefix": " שלנו"
   },
+  "general": {
+    "server_error": "תקלה בשרת, אנא נסה שנית"
+  },
   "onboarding": {
     "phoneTitle": "כדי להתחבר לקבוצות הצ׳אט אנחנו\nצריכים את מספר הטלפון שלך",
     "phoneSubtitle": "מה מספר הטלפון שלך?",
@@ -30,7 +33,8 @@ class CodegenLoader extends AssetLoader{
     "profileMale": "גבר",
     "profileOther": "אחר",
     "wrongName": "אנא ציין שם ושם משפחה",
-    "wrongAge": ""
+    "wrongAge": "מעל גיל 10",
+    "wrongCode": "קוד שגוי, אנא נסה שנית"
   },
   "create": {
     "groupNameHint": "הקלד/י כאן את נושא הקבוצה",
@@ -38,13 +42,13 @@ class CodegenLoader extends AssetLoader{
     "groupNameAppbarTitle": "נושא הקבוצה",
     "groupSelectCategoryAppbarTitle": "בחר/י קטגוריה",
     "groupSelectContactAppbarTitle": "בחר/י משתתפים לקבוצה"
+  },
+  "chat": {
+    "messageInputHint": "הקלד/י הודעה"
   }
 };
   static const Map<String,dynamic> en_US = {
   "action_continue": "continue",
-  "general": {
-    "server_error": "תקלה בשרת, אנא נסה שנית"
-  },
   "policy": {
     "terms": "bla ",
     "link": "bla",
@@ -54,8 +58,7 @@ class CodegenLoader extends AssetLoader{
     "phoneTitle": "bla",
     "phoneSubtitle": "bla",
     "onboarding_enter_code": "bla",
-    "phone_counting": "bla",
-    "wrongCode": "קוד שגוי, אנא נסה שנית"
+    "phone_counting": "bla"
   }
 };
   static const Map<String, Map<String,dynamic>> mapLocales = {"he_HE": he_HE, "en_US": en_US};

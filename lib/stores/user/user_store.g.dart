@@ -32,15 +32,6 @@ mixin _$UserStore on _UserStoreBase, Store {
     });
   }
 
-  final _$uploadUserPhotoAsyncAction =
-      AsyncAction('_UserStoreBase.uploadUserPhoto');
-
-  @override
-  Future<String> uploadUserPhoto(File original, String path, String fileName) {
-    return _$uploadUserPhotoAsyncAction
-        .run(() => super.uploadUserPhoto(original, path, fileName));
-  }
-
   final _$persistUserAsyncAction = AsyncAction('_UserStoreBase.persistUser');
 
   @override

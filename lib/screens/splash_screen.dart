@@ -18,16 +18,10 @@ class _SplashScreenState extends State<SplashScreen> {
   AuthStore _store;
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
-    
-  }
-  @override
-  void didChangeDependencies() {
-    // TODO should I move it to init?
-    _store ??= sl<AuthStore>();
+    _store = sl<AuthStore>();
     Future.delayed(Duration(seconds: 2), () => _store.checkCurrentAuthState());
-    super.didChangeDependencies();
   }
 
   @override
@@ -37,7 +31,8 @@ class _SplashScreenState extends State<SplashScreen> {
         return _store.authState.maybeWhen(
             onboarding: () => OnboardingPhone(),
             authenticated: () => HomeScreen(),
-            unauthenticated: () => LoginScreen(),
+            // unauthenticated: () => LoginScreen(), // <<<<<====== UNOD
+            unauthenticated: () => HomeScreen(),   // <<<<<====== REMOVE
             orElse: () => SplashContent());
       },
     );

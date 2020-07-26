@@ -26,7 +26,7 @@ abstract class RestClient {
       @Query('phone') String phone, @Query('login_code') String code);
 
   // USERS
-  @POST('user/')
+  @POST('user')
   Future<UserModel> updateUser(
       @Body() UserModel user, @Query('token') String token);
 

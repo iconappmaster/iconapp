@@ -1,3 +1,4 @@
+import 'package:chat_pickers/chat_pickers.dart';
 import 'package:flutter/material.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
@@ -5,6 +6,7 @@ import 'package:iconapp/widgets/chat/message_composer.dart';
 import 'package:iconapp/widgets/global/blue_divider.dart';
 import 'package:iconapp/widgets/home/stories_widget.dart';
 import '../widgets/chat/chat_appbar.dart';
+import '../core/extensions/context_ext.dart';
 
 class ChatScreen extends StatelessWidget {
   final ConversationModel conversation;
@@ -14,25 +16,27 @@ class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-          colors: [grape, darkIndigo],
-          begin: Alignment.bottomCenter,
-          end: Alignment.topCenter,
-        )),
-        child: Column(
-          children: <Widget>[
-            ChatAppBar(),
-            BlueDivider(color: cornflower),
-            Padding(
-                padding: const EdgeInsets.symmetric(vertical: 24.0),
-                child: StoriesWidget()),
-            ChatList(),
-            MessageComposer(),
-          ],
+      body: Stack(children: [
+        Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+            colors: [grape, darkIndigo],
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+          )),
+          child: Column(
+            children: <Widget>[
+              ChatAppBar(),
+              BlueDivider(color: cornflower),
+              Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 24.0),
+                  child: StoriesWidget()),
+              ChatList(),
+              MessageComposer(),
+            ],
+          ),
         ),
-      ),
+      ]),
     );
   }
 }
