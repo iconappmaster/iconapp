@@ -16,27 +16,26 @@ mixin _$AuthStore on _AuthStoreBase, Store {
           Computed<AuthState>(() => super.state, name: '_AuthStoreBase.state'))
       .value;
 
-  final _$authStateAtom = Atom(name: '_AuthStoreBase.authState');
+  final _$_authStateAtom = Atom(name: '_AuthStoreBase._authState');
 
   @override
-  AuthState get authState {
-    _$authStateAtom.reportRead();
-    return super.authState;
+  AuthState get _authState {
+    _$_authStateAtom.reportRead();
+    return super._authState;
   }
 
   @override
-  set authState(AuthState value) {
-    _$authStateAtom.reportWrite(value, super.authState, () {
-      super.authState = value;
+  set _authState(AuthState value) {
+    _$_authStateAtom.reportWrite(value, super._authState, () {
+      super._authState = value;
     });
   }
 
-  final _$finishedOnboardinAsyncAction =
-      AsyncAction('_AuthStoreBase.finishedOnboardin');
+  final _$setSignedInAsyncAction = AsyncAction('_AuthStoreBase.setSignedIn');
 
   @override
-  Future<dynamic> finishedOnboardin() {
-    return _$finishedOnboardinAsyncAction.run(() => super.finishedOnboardin());
+  Future<dynamic> setSignedIn() {
+    return _$setSignedInAsyncAction.run(() => super.setSignedIn());
   }
 
   final _$_AuthStoreBaseActionController =
@@ -56,7 +55,6 @@ mixin _$AuthStore on _AuthStoreBase, Store {
   @override
   String toString() {
     return '''
-authState: ${authState},
 state: ${state}
     ''';
   }

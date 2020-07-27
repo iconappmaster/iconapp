@@ -9,6 +9,7 @@ abstract class LoginState with _$LoginState {
     @required String prefix,
     @required String phone,
     @required String code,
+    @required String countryCode,
     @required bool loading,
     @required String errorMessage,
     @required PhoneOnboardingState phonePageState,
@@ -16,6 +17,7 @@ abstract class LoginState with _$LoginState {
   }) = _LoginState;
 
   factory LoginState.initial() => LoginState(
+        countryCode: '972',
         prefix: '',
         phone: '',
         code: '',

@@ -58,13 +58,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  updateUser(user, token) async {
-    ArgumentError.checkNotNull(user, 'user');
-    ArgumentError.checkNotNull(token, 'token');
+  updateUser(userModel) async {
+    ArgumentError.checkNotNull(userModel, 'userModel');
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'token': token};
+    final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(user?.toJson() ?? <String, dynamic>{});
+    _data.addAll(userModel?.toJson() ?? <String, dynamic>{});
     final Response<Map<String, dynamic>> _result = await _dio.request('user',
         queryParameters: queryParameters,
         options: RequestOptions(

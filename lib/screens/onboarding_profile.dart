@@ -16,7 +16,7 @@ import 'package:iconapp/widgets/onboarding/onboarding_appbar.dart';
 import '../core/extensions/context_ext.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-final _key = GlobalKey<FormState>();
+final _formValidatorKey = GlobalKey<FormState>();
 
 class OnboardingProfile extends StatelessWidget {
   @override
@@ -48,12 +48,12 @@ class OnboardingProfile extends StatelessWidget {
     return Positioned(
       top: ctx.heightPlusStatusbarPerc(.526),
       child: NextButton(
-        onClick: () async {
-          if (_key.currentState.validate()) {
-            // sl<LoginStore>().finishedOnboardin();
-            store.createUser();
-            ExtendedNavigator.of(ctx).pushNamedAndRemoveUntil(
-                Routes.splashScreen, (Route<dynamic> route) => false);
+        onClick: () {
+          if (_formValidatorKey.currentState.validate()) {
+            store.createUser().then((result) => result.fold(
+                (error) => ctx.showErrorFlushbar(message: LocaleKeys.general_server_error),
+                (success) => ExtendedNavigator.of(ctx).pushNamedAndRemoveUntil(
+                    Routes.splashScreen, (Route<dynamic> route) => false)));
           }
         },
       ),
@@ -68,7 +68,7 @@ class PersonDetails extends StatelessWidget {
     return Positioned(
       top: context.heightPlusStatusbarPerc(.294),
       child: Form(
-        key: _key,
+        key: _formValidatorKey,
         child: Container(
           width: context.widthPx * .79,
           child: Row(
@@ -77,6 +77,8 @@ class PersonDetails extends StatelessWidget {
               Container(
                   width: context.widthPx * .547,
                   child: ProfileInput(
+                      hint: 'שם ושם משפחה',
+                      hintStyle: personalDetailsHint,
                       validator: (value) {
                         if (store.validateUserName()) return null;
                         return 'ציין שם ושם משפחה';
@@ -86,6 +88,8 @@ class PersonDetails extends StatelessWidget {
               Container(
                   width: context.widthPx * .207,
                   child: ProfileInput(
+                      hint: '10-99',
+                      hintStyle: personalDetailsHint,
                       validator: (value) {
                         if (store.validateUserAge()) return null;
                         return 'מעל גיל 10';
@@ -170,52 +174,48 @@ class _SexPickerState extends State<SexPicker> {
   Widget build(BuildContext context) {
     final gap = SizedBox(width: context.widthPx * .05);
 
-    return Observer(
-      builder: (_) {
-        return Positioned(
-          top: context.heightPlusStatusbarPerc(.45),
-          child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RollingSwitch(
-                  onTap: _updateUI,
-                  onSwipe: _updateUI,
-                  gender: UserGender.female,
-                  iconOn: 'assets/images/female_white.svg',
-                  iconOff: 'assets/images/female_purple.svg',
-                  text: LocaleKeys.onboarding_profileFemale.tr(),
-                  colorOff: Colors.transparent,
-                  colorOn: cornflower,
-                  onChanged: (value) => genderMap[UserGender.female] = value,
-                ),
-                gap,
-                RollingSwitch(
-                  onTap: _updateUI,
-                  onSwipe: _updateUI,
-                  gender: UserGender.male,
-                  iconOn: 'assets/images/male_white.svg',
-                  iconOff: 'assets/images/male_purple.svg',
-                  text: LocaleKeys.onboarding_profileMale.tr(),
-                  colorOff: Colors.transparent,
-                  colorOn: cornflower,
-                  onChanged: (value) => genderMap[UserGender.male] = value,
-                ),
-                gap,
-                RollingSwitch(
-                  onTap: _updateUI,
-                  onSwipe: _updateUI,
-                  gender: UserGender.other,
-                  iconOn: 'assets/images/other_white.svg',
-                  iconOff: 'assets/images/other_purple.svg',
-                  text: LocaleKeys.onboarding_profileOther.tr(),
-                  colorOff: Colors.transparent,
-                  colorOn: cornflower,
-                  onChanged: (value) => genderMap[UserGender.other] = value,
-                )
-              ]),
-        );
-      },
+    return Positioned(
+      top: context.heightPlusStatusbarPerc(.45),
+      child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            RollingSwitch(
+              onTap: _updateUI,
+              onSwipe: _updateUI,
+              gender: UserGender.female,
+              iconOn: 'assets/images/female_white.svg',
+              iconOff: 'assets/images/female_purple.svg',
+              text: LocaleKeys.onboarding_profileFemale.tr(),
+              colorOff: Colors.transparent,
+              colorOn: cornflower,
+              onChanged: (value) => genderMap[UserGender.female] = value,
+            ),
+            gap,
+            RollingSwitch(
+              onTap: _updateUI,
+              onSwipe: _updateUI,
+              gender: UserGender.male,
+              iconOn: 'assets/images/male_white.svg',
+              iconOff: 'assets/images/male_purple.svg',
+              text: LocaleKeys.onboarding_profileMale.tr(),
+              colorOff: Colors.transparent,
+              colorOn: cornflower,
+              onChanged: (value) => genderMap[UserGender.male] = value,
+            ),
+            gap,
+            RollingSwitch(
+              onTap: _updateUI,
+              onSwipe: _updateUI,
+              gender: UserGender.other,
+              iconOn: 'assets/images/other_white.svg',
+              iconOff: 'assets/images/other_purple.svg',
+              text: LocaleKeys.onboarding_profileOther.tr(),
+              colorOff: Colors.transparent,
+              colorOn: cornflower,
+              onChanged: (value) => genderMap[UserGender.other] = value,
+            )
+          ]),
     );
   }
 

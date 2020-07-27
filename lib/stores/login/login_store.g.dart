@@ -68,18 +68,18 @@ mixin _$LoginStore on _LoginStoreBase, Store {
     });
   }
 
-  final _$stateAtom = Atom(name: '_LoginStoreBase.state');
+  final _$_stateAtom = Atom(name: '_LoginStoreBase._state');
 
   @override
-  LoginState get state {
-    _$stateAtom.reportRead();
-    return super.state;
+  LoginState get _state {
+    _$_stateAtom.reportRead();
+    return super._state;
   }
 
   @override
-  set state(LoginState value) {
-    _$stateAtom.reportWrite(value, super.state, () {
-      super.state = value;
+  set _state(LoginState value) {
+    _$_stateAtom.reportWrite(value, super._state, () {
+      super._state = value;
     });
   }
 
@@ -108,7 +108,7 @@ mixin _$LoginStore on _LoginStoreBase, Store {
       ActionController(name: '_LoginStoreBase');
 
   @override
-  dynamic updatePhone(String phone) {
+  void updatePhone(String phone) {
     final _$actionInfo = _$_LoginStoreBaseActionController.startAction(
         name: '_LoginStoreBase.updatePhone');
     try {
@@ -119,7 +119,18 @@ mixin _$LoginStore on _LoginStoreBase, Store {
   }
 
   @override
-  dynamic updatePhonePrefix(String prefix) {
+  void updateCountryCode(String countryCode) {
+    final _$actionInfo = _$_LoginStoreBaseActionController.startAction(
+        name: '_LoginStoreBase.updateCountryCode');
+    try {
+      return super.updateCountryCode(countryCode);
+    } finally {
+      _$_LoginStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void updatePhonePrefix(String prefix) {
     final _$actionInfo = _$_LoginStoreBaseActionController.startAction(
         name: '_LoginStoreBase.updatePhonePrefix');
     try {
@@ -130,7 +141,7 @@ mixin _$LoginStore on _LoginStoreBase, Store {
   }
 
   @override
-  dynamic updateCode(String code) {
+  void updateCode(String code) {
     final _$actionInfo = _$_LoginStoreBaseActionController.startAction(
         name: '_LoginStoreBase.updateCode');
     try {
@@ -143,7 +154,6 @@ mixin _$LoginStore on _LoginStoreBase, Store {
   @override
   String toString() {
     return '''
-state: ${state},
 displayCountdown: ${displayCountdown},
 counterReachedZero: ${counterReachedZero},
 isPhoneMode: ${isPhoneMode},

@@ -8,7 +8,7 @@ part of 'photo_model.dart';
 
 _$_PhotoModel _$_$_PhotoModelFromJson(Map<String, dynamic> json) {
   return _$_PhotoModel(
-    id: json['id'] as String,
+    id: json['id'] as int,
     url: json['url'] as String,
     thumbnail: json['thumbnail'] as String,
     description: json['description'] as String,

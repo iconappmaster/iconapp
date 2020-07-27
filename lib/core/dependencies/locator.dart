@@ -10,6 +10,7 @@ import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 import 'package:iconapp/stores/auth/auth_store.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
+import 'package:iconapp/stores/chat_settings/chat_settings_store.dart';
 import 'package:iconapp/stores/group_create/group_create_store.dart';
 import 'package:iconapp/stores/login/login_store.dart';
 import 'package:iconapp/stores/media/media_store.dart';
@@ -65,6 +66,7 @@ void initLocator() {
 
   // Chat
   sl.registerLazySingleton<ChatStore>(() => ChatStore());
+  sl.registerLazySingleton<ChatSettingsStore>(() => ChatSettingsStore());
   sl.registerLazySingleton<ChatRepository>(
       () => ChatRepositoryImpl(restClient: sl()));
 

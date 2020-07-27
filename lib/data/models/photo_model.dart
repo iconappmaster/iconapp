@@ -7,7 +7,7 @@ part 'photo_model.freezed.dart';
 @freezed
 abstract class PhotoModel with _$PhotoModel {
   const factory PhotoModel({
-    String id,
+    int id,
     String url,
     String thumbnail,
     String description,

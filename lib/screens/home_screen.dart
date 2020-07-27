@@ -22,11 +22,7 @@ class HomeScreen extends StatelessWidget {
     return DeviceSimulator(
       enable: debugEnableDeviceSimulator,
       child: BaseGradientWidget(
-        child:
-            // Observer(
-            // builder: (_) =>
-
-            Stack(
+        child: Stack(
           alignment: Alignment.topCenter,
           children: <Widget>[
             IconAppbar(showBack: false),

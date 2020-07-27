@@ -1,11 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
-import 'package:iconapp/stores/user/user_store.dart';
 
 abstract class UserRepository {
   Future<UserModel> updateUser(UserModel user);
@@ -21,9 +19,9 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<UserModel> updateUser(UserModel userModel) async {
-    // TODO GET RID OF THE TOKEN IN THE REQ
+    
     final user =
-        await restClient.updateUser(userModel, sl<UserStore>().getToken);
+        await restClient.updateUser(userModel);
     return user;
   }
 

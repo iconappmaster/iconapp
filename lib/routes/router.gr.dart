@@ -17,6 +17,7 @@ import 'package:iconapp/screens/profile_screen.dart';
 import 'package:iconapp/screens/search_screen.dart';
 import 'package:iconapp/screens/chat_screen.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
+import 'package:iconapp/screens/chat_settings_screen.dart';
 import 'package:iconapp/screens/story_screen.dart';
 import 'package:iconapp/screens/full_video_screen.dart';
 import 'package:iconapp/screens/full_image_screen.dart';
@@ -34,6 +35,7 @@ class Routes {
   static const String profileScreen = '/profile-screen';
   static const String searchScreen = '/search-screen';
   static const String chatScreen = '/chat-screen';
+  static const String chatSettings = '/chat-settings';
   static const String storyScreen = '/story-screen';
   static const String fullVideoScreen = '/full-video-screen';
   static const String fullImageScreen = '/full-image-screen';
@@ -51,6 +53,7 @@ class Routes {
     profileScreen,
     searchScreen,
     chatScreen,
+    chatSettings,
     storyScreen,
     fullVideoScreen,
     fullImageScreen,
@@ -74,6 +77,7 @@ class Router extends RouterBase {
     RouteDef(Routes.profileScreen, page: ProfileScreen),
     RouteDef(Routes.searchScreen, page: SearchScreen),
     RouteDef(Routes.chatScreen, page: ChatScreen),
+    RouteDef(Routes.chatSettings, page: ChatSettings),
     RouteDef(Routes.storyScreen, page: StoryScreen),
     RouteDef(Routes.fullVideoScreen, page: FullVideoScreen),
     RouteDef(Routes.fullImageScreen, page: FullImageScreen),
@@ -140,6 +144,13 @@ class Router extends RouterBase {
         builder: (context) =>
             ChatScreen(key: args.key, conversation: args.conversation),
         settings: data,
+      );
+    },
+    ChatSettings: (RouteData data) {
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => ChatSettings(),
+        settings: data,
+        fullscreenDialog: true,
       );
     },
     StoryScreen: (RouteData data) {
@@ -223,6 +234,8 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
         Routes.chatScreen,
         arguments: ChatScreenArguments(key: key, conversation: conversation),
       );
+
+  Future<dynamic> pushChatSettings() => pushNamed<dynamic>(Routes.chatSettings);
 
   Future<dynamic> pushStoryScreen() => pushNamed<dynamic>(Routes.storyScreen);
 

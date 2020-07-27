@@ -46,7 +46,7 @@ class _OnboardingPhoneState extends State<OnboardingPhone> {
             _PinCode(store: store),
             _nextButton(store, context),
             _SendAgain(store: store),
-            if (store.state.loading)
+            if (store.getState.loading)
               Positioned(
                 top: context.heightPlusStatusbarPerc(.644),
                 child: CircularProgressIndicator(
@@ -167,6 +167,7 @@ class _PinCode extends StatelessWidget {
           child: Directionality(
             textDirection: ui.TextDirection.ltr,
             child: PinCodeTextField(
+              autoFocus: true,
               length: 6,
               animationType: AnimationType.slide,
               obsecureText: false,
@@ -253,7 +254,7 @@ class _CheckSign extends StatelessWidget {
       visible: store.isPinCodeMode,
       child: Positioned(
         top: context.heightPlusStatusbarPerc(.212),
-        right: context.widthPx * .155,
+        right: context.widthPx * .06,
         child: Image.asset(
           'assets/images/check.png',
           width: context.widthPx * .086,
@@ -273,8 +274,10 @@ class PhoneNumberInput extends StatefulWidget {
 
 class _PhoneNumberInputState extends State<PhoneNumberInput> {
   final prefixController = TextEditingController(text: '05');
+  final _countryCodeController = TextEditingController(text: '972');
   final phoneFocus = FocusNode();
   final prefixFocus = FocusNode();
+  final countryCodeFocus = FocusNode();
 
   @override
   void initState() {
@@ -308,6 +311,8 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
             _buildPhone(context, inputDecor, widget.store),
             SizedBox(width: context.widthPx * .04),
             _buildPrefix(context, inputDecor, widget.store),
+            SizedBox(width: context.widthPx * .04),
+            _countryCode(context, inputDecor, widget.store),
           ],
         ));
   }
@@ -330,7 +335,10 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
   }
 
   Widget _buildPrefix(
-      BuildContext context, InputDecoration inputDecor, LoginStore store) {
+    BuildContext context,
+    InputDecoration inputDecor,
+    LoginStore store,
+  ) {
     return Container(
       width: context.widthPx * .155,
       child: TextField(
@@ -351,6 +359,39 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
             FocusScope.of(context).requestFocus(phoneFocus);
           }
         },
+      ),
+    );
+  }
+
+  Widget _countryCode(
+    BuildContext context,
+    InputDecoration inputDecor,
+    LoginStore store,
+  ) {
+    final style = phoneNumber.copyWith(
+        color: store.isPhoneMode ? white : white.withOpacity(.4));
+    return Container(
+      width: context.widthPx * .155,
+      child: Directionality(
+        textDirection: ui.TextDirection.ltr,
+        child: TextField(
+          focusNode: countryCodeFocus,
+          autofocus: false,
+          keyboardType: TextInputType.phone,
+          textAlign: TextAlign.left,
+          maxLength: 3,
+          controller: _countryCodeController,
+          maxLengthEnforced: true,
+          decoration: inputDecor.copyWith(prefixText: '+', prefixStyle: style),
+          style: style,
+          onChanged: (countryCode) {
+            if (countryCode.length == 3) {
+              prefixFocus.unfocus();
+              store.updateCountryCode(countryCode);
+              FocusScope.of(context).requestFocus(prefixFocus);
+            }
+          },
+        ),
       ),
     );
   }

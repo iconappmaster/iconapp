@@ -15,8 +15,7 @@ PhotoModel _$PhotoModelFromJson(Map<String, dynamic> json) {
 class _$PhotoModelTearOff {
   const _$PhotoModelTearOff();
 
-  _PhotoModel call(
-      {String id, String url, String thumbnail, String description}) {
+  _PhotoModel call({int id, String url, String thumbnail, String description}) {
     return _PhotoModel(
       id: id,
       url: url,
@@ -30,7 +29,7 @@ class _$PhotoModelTearOff {
 const $PhotoModel = _$PhotoModelTearOff();
 
 mixin _$PhotoModel {
-  String get id;
+  int get id;
   String get url;
   String get thumbnail;
   String get description;
@@ -43,7 +42,7 @@ abstract class $PhotoModelCopyWith<$Res> {
   factory $PhotoModelCopyWith(
           PhotoModel value, $Res Function(PhotoModel) then) =
       _$PhotoModelCopyWithImpl<$Res>;
-  $Res call({String id, String url, String thumbnail, String description});
+  $Res call({int id, String url, String thumbnail, String description});
 }
 
 class _$PhotoModelCopyWithImpl<$Res> implements $PhotoModelCopyWith<$Res> {
@@ -61,7 +60,7 @@ class _$PhotoModelCopyWithImpl<$Res> implements $PhotoModelCopyWith<$Res> {
     Object description = freezed,
   }) {
     return _then(_value.copyWith(
-      id: id == freezed ? _value.id : id as String,
+      id: id == freezed ? _value.id : id as int,
       url: url == freezed ? _value.url : url as String,
       thumbnail: thumbnail == freezed ? _value.thumbnail : thumbnail as String,
       description:
@@ -75,7 +74,7 @@ abstract class _$PhotoModelCopyWith<$Res> implements $PhotoModelCopyWith<$Res> {
           _PhotoModel value, $Res Function(_PhotoModel) then) =
       __$PhotoModelCopyWithImpl<$Res>;
   @override
-  $Res call({String id, String url, String thumbnail, String description});
+  $Res call({int id, String url, String thumbnail, String description});
 }
 
 class __$PhotoModelCopyWithImpl<$Res> extends _$PhotoModelCopyWithImpl<$Res>
@@ -95,7 +94,7 @@ class __$PhotoModelCopyWithImpl<$Res> extends _$PhotoModelCopyWithImpl<$Res>
     Object description = freezed,
   }) {
     return _then(_PhotoModel(
-      id: id == freezed ? _value.id : id as String,
+      id: id == freezed ? _value.id : id as int,
       url: url == freezed ? _value.url : url as String,
       thumbnail: thumbnail == freezed ? _value.thumbnail : thumbnail as String,
       description:
@@ -112,7 +111,7 @@ class _$_PhotoModel implements _PhotoModel {
       _$_$_PhotoModelFromJson(json);
 
   @override
-  final String id;
+  final int id;
   @override
   final String url;
   @override
@@ -161,7 +160,7 @@ class _$_PhotoModel implements _PhotoModel {
 
 abstract class _PhotoModel implements PhotoModel {
   const factory _PhotoModel(
-      {String id,
+      {int id,
       String url,
       String thumbnail,
       String description}) = _$_PhotoModel;
@@ -170,7 +169,7 @@ abstract class _PhotoModel implements PhotoModel {
       _$_PhotoModel.fromJson;
 
   @override
-  String get id;
+  int get id;
   @override
   String get url;
   @override

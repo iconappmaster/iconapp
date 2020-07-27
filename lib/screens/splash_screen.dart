@@ -15,24 +15,24 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  AuthStore _store;
+  AuthStore _authStore;
 
   @override
   void initState() {
     super.initState();
-    _store = sl<AuthStore>();
-    Future.delayed(Duration(seconds: 2), () => _store.checkCurrentAuthState());
+    _authStore = sl<AuthStore>();
+    Future.delayed(
+        Duration(seconds: 2), () => _authStore.checkCurrentAuthState());
   }
 
   @override
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) {
-        return _store.authState.maybeWhen(
+        return _authStore.state.maybeWhen(
             onboarding: () => OnboardingPhone(),
             authenticated: () => HomeScreen(),
-            // unauthenticated: () => LoginScreen(), // <<<<<====== UNOD
-            unauthenticated: () => HomeScreen(),   // <<<<<====== REMOVE
+            unauthenticated: () => LoginScreen(),
             orElse: () => SplashContent());
       },
     );

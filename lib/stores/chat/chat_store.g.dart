@@ -23,6 +23,13 @@ mixin _$ChatStore on _ChatStoreBase, Store {
           () => super.shouldHideActions,
           name: '_ChatStoreBase.shouldHideActions'))
       .value;
+  Computed<bool> _$showMessageComposerComputed;
+
+  @override
+  bool get showMessageComposer => (_$showMessageComposerComputed ??=
+          Computed<bool>(() => super.showMessageComposer,
+              name: '_ChatStoreBase.showMessageComposer'))
+      .value;
 
   final _$_stateAtom = Atom(name: '_ChatStoreBase._state');
 
@@ -99,7 +106,8 @@ mixin _$ChatStore on _ChatStoreBase, Store {
   String toString() {
     return '''
 getMessages: ${getMessages},
-shouldHideActions: ${shouldHideActions}
+shouldHideActions: ${shouldHideActions},
+showMessageComposer: ${showMessageComposer}
     ''';
   }
 }

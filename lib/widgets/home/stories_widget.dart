@@ -6,11 +6,15 @@ import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import '../../core/extensions/context_ext.dart';
 
 class StoriesWidget extends StatelessWidget {
+  final EdgeInsets margin;
+
+  const StoriesWidget({Key key, this.margin}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Positioned(
         top: context.heightPlusStatusbarPerc(.128),
         child: Container(
+          margin: margin,
           height: context.heightPlusStatusbarPerc(.12),
           width: context.widthPx,
           child: ListView.builder(
@@ -38,7 +42,6 @@ class StoryItem extends StatelessWidget {
       children: [
         Column(
           children: <Widget>[
-            
             // Outter circle
             Container(
               margin: EdgeInsets.symmetric(horizontal: 10),
@@ -52,7 +55,6 @@ class StoryItem extends StatelessWidget {
                   width: 52.3,
                   child: CircleAvatar(
                     backgroundColor: white,
-                    
                   ),
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
@@ -63,11 +65,6 @@ class StoryItem extends StatelessWidget {
                 ),
               ),
             ),
-
-
-
-
-
 
             // Name
             SizedBox(height: 8),

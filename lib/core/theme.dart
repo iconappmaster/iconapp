@@ -21,7 +21,10 @@ const pinkRed = Color(0xFFe02554);
 const avatarRing = Color(0xFF0F0A36);
 const paleGrey = Color(0xFFf2f3f4);
 const dusk = Color(0xFF545471);
-
+const blueBerry = Color(0xFF5c4eaa);
+const blueyGrey = Color(0xFF95a2c0);
+const switchThumb = Color(0xFF97A2BD);
+const deepRed = Color(0xFFbb0000);
 // Font Sizes
 const _fontRubikBold = "RubikBold";
 const _fontRubikRegular = "RubikRagular";
@@ -35,6 +38,18 @@ const flushbar = TextStyle(
     color: white,
     fontSize: 16.7,
     letterSpacing: 1.1);
+
+const chatSettings = TextStyle(
+  fontFamily: _fontRubikRegular,
+  color: darkIndigo,
+  fontSize: 16.7,
+);
+
+const addParticipent = TextStyle(
+  fontFamily: _fontRubikRegular,
+  color: darkIndigo2,
+  fontSize: 16.7,
+);
 
 const phoneNumber = TextStyle(
     fontFamily: _fontRubikRegular,
@@ -93,6 +108,13 @@ const myStory = TextStyle(
   fontSize: 10.6,
 );
 
+const settingsButton = TextStyle(
+  fontFamily: _fontRubikRegular,
+  color: cornflower,
+  fontSize: 10.8,
+  letterSpacing: .08,
+);
+
 const chatCompose =
     TextStyle(fontFamily: _fontRubikRegular, color: dusk, fontSize: 15.9);
 
@@ -116,6 +138,12 @@ const createCategoryTitle = TextStyle(
   color: white,
   fontSize: 18,
 );
+
+const personalDetailsHint = TextStyle(
+    fontFamily: _fontRubikMedium,
+    color: blueBerry,
+    fontSize: 17.3,
+    height: 1.3);
 
 // Gradients
 final purpleGradient = LinearGradient(colors: [

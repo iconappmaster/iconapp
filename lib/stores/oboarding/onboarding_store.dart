@@ -1,7 +1,10 @@
+import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/domain/core/value_validators.dart';
+import 'package:iconapp/stores/auth/auth_store.dart';
 import 'package:iconapp/stores/media/media_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,10 +17,12 @@ class OnboardingStore = _OnboardingStoreBase with _$OnboardingStore;
 abstract class _OnboardingStoreBase with Store {
   MediaStore _mediaStore;
   UserStore _userStore;
+  AuthStore _authStore;
 
   _OnboardingStoreBase() {
     _mediaStore = sl<MediaStore>();
     _userStore = sl<UserStore>();
+    _authStore = sl<AuthStore>();
   }
 
   @observable
@@ -73,19 +78,22 @@ abstract class _OnboardingStoreBase with Store {
   }
 
   @action
-  Future createUser() async {
-    // perform update user (it will save it again with the user returned from
-    // the server).
+  Future<Either<Exception, bool>> createUser() async {
+    try {
+      _state = _state.copyWith(loading: true);
+      final user = _state.userModel;
+      final saved = await _userStore.updateUser(user);
 
-    // try {
-    //   _state = _state.copyWith(loading: true);
-    //   final user = _state.userModel;
+      if (saved) {
+        _authStore.setSignedIn();
+      }
 
-    //   /// update the user with [Age, Gender, Fullname]
-    //   final createUser = await _userStore.updateUser(user);
-    // } on DioError catch (e) {
-    //   print(e);
-    // }
+      return right(saved);
+    } on DioError catch (e) {
+      return left(e);
+    } finally {
+      _state = _state.copyWith(loading: false);
+    }
   }
 
   @action

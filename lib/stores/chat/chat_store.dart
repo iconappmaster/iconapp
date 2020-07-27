@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/models/message_model.dart';
+import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/repositories/chat_repository.dart';
 import 'package:iconapp/stores/chat/chat_state.dart';
 import 'package:iconapp/stores/media/media_store.dart';
+import 'package:iconapp/stores/user/user_store.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
 part 'chat_store.g.dart';
@@ -13,9 +15,11 @@ class ChatStore = _ChatStoreBase with _$ChatStore;
 abstract class _ChatStoreBase with Store {
   ChatRepository _repository;
   MediaStore _mediaStore;
+  UserStore _userStore;
 
   _ChatStoreBase() {
     _repository = sl<ChatRepository>();
+    _userStore = sl<UserStore>();
     _mediaStore = sl<MediaStore>();
   }
 
@@ -27,6 +31,9 @@ abstract class _ChatStoreBase with Store {
 
   @computed
   bool get shouldHideActions => _state.inputMessage.isNotEmpty;
+
+  @computed
+  bool get showMessageComposer => _userStore?.userModel?.role != UserType?.viewer ?? true;
 
   // MESSAGE ACTIONS!
 

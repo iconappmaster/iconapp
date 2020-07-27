@@ -45,7 +45,6 @@ class HeaderInterceptor extends Interceptor {
 }
 
 void addHeaders(RequestOptions options, String token) {
-  options.headers['content-Type'] = 'application/json';
+  // options.headers['content-Type'] = 'application/json';
   options.headers['Authorization'] = "Bearer " + token ?? '';
-  // options.queryParameters = {'token' : token};
 }

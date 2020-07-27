@@ -57,7 +57,7 @@ mixin _$OnboardingStore on _OnboardingStoreBase, Store {
       AsyncAction('_OnboardingStoreBase.createUser');
 
   @override
-  Future<dynamic> createUser() {
+  Future<Either<Exception, bool>> createUser() {
     return _$createUserAsyncAction.run(() => super.createUser());
   }
 

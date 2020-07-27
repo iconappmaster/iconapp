@@ -16,6 +16,7 @@ class _$LoginStateTearOff {
       {@required String prefix,
       @required String phone,
       @required String code,
+      @required String countryCode,
       @required bool loading,
       @required String errorMessage,
       @required PhoneOnboardingState phonePageState,
@@ -24,6 +25,7 @@ class _$LoginStateTearOff {
       prefix: prefix,
       phone: phone,
       code: code,
+      countryCode: countryCode,
       loading: loading,
       errorMessage: errorMessage,
       phonePageState: phonePageState,
@@ -39,6 +41,7 @@ mixin _$LoginState {
   String get prefix;
   String get phone;
   String get code;
+  String get countryCode;
   bool get loading;
   String get errorMessage;
   PhoneOnboardingState get phonePageState;
@@ -55,6 +58,7 @@ abstract class $LoginStateCopyWith<$Res> {
       {String prefix,
       String phone,
       String code,
+      String countryCode,
       bool loading,
       String errorMessage,
       PhoneOnboardingState phonePageState,
@@ -75,6 +79,7 @@ class _$LoginStateCopyWithImpl<$Res> implements $LoginStateCopyWith<$Res> {
     Object prefix = freezed,
     Object phone = freezed,
     Object code = freezed,
+    Object countryCode = freezed,
     Object loading = freezed,
     Object errorMessage = freezed,
     Object phonePageState = freezed,
@@ -84,6 +89,8 @@ class _$LoginStateCopyWithImpl<$Res> implements $LoginStateCopyWith<$Res> {
       prefix: prefix == freezed ? _value.prefix : prefix as String,
       phone: phone == freezed ? _value.phone : phone as String,
       code: code == freezed ? _value.code : code as String,
+      countryCode:
+          countryCode == freezed ? _value.countryCode : countryCode as String,
       loading: loading == freezed ? _value.loading : loading as bool,
       errorMessage: errorMessage == freezed
           ? _value.errorMessage
@@ -116,6 +123,7 @@ abstract class _$LoginStateCopyWith<$Res> implements $LoginStateCopyWith<$Res> {
       {String prefix,
       String phone,
       String code,
+      String countryCode,
       bool loading,
       String errorMessage,
       PhoneOnboardingState phonePageState,
@@ -139,6 +147,7 @@ class __$LoginStateCopyWithImpl<$Res> extends _$LoginStateCopyWithImpl<$Res>
     Object prefix = freezed,
     Object phone = freezed,
     Object code = freezed,
+    Object countryCode = freezed,
     Object loading = freezed,
     Object errorMessage = freezed,
     Object phonePageState = freezed,
@@ -148,6 +157,8 @@ class __$LoginStateCopyWithImpl<$Res> extends _$LoginStateCopyWithImpl<$Res>
       prefix: prefix == freezed ? _value.prefix : prefix as String,
       phone: phone == freezed ? _value.phone : phone as String,
       code: code == freezed ? _value.code : code as String,
+      countryCode:
+          countryCode == freezed ? _value.countryCode : countryCode as String,
       loading: loading == freezed ? _value.loading : loading as bool,
       errorMessage: errorMessage == freezed
           ? _value.errorMessage
@@ -166,6 +177,7 @@ class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
       {@required this.prefix,
       @required this.phone,
       @required this.code,
+      @required this.countryCode,
       @required this.loading,
       @required this.errorMessage,
       @required this.phonePageState,
@@ -173,6 +185,7 @@ class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
       : assert(prefix != null),
         assert(phone != null),
         assert(code != null),
+        assert(countryCode != null),
         assert(loading != null),
         assert(errorMessage != null),
         assert(phonePageState != null),
@@ -185,6 +198,8 @@ class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
   @override
   final String code;
   @override
+  final String countryCode;
+  @override
   final bool loading;
   @override
   final String errorMessage;
@@ -195,7 +210,7 @@ class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'LoginState(prefix: $prefix, phone: $phone, code: $code, loading: $loading, errorMessage: $errorMessage, phonePageState: $phonePageState, userModel: $userModel)';
+    return 'LoginState(prefix: $prefix, phone: $phone, code: $code, countryCode: $countryCode, loading: $loading, errorMessage: $errorMessage, phonePageState: $phonePageState, userModel: $userModel)';
   }
 
   @override
@@ -206,6 +221,7 @@ class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
       ..add(DiagnosticsProperty('prefix', prefix))
       ..add(DiagnosticsProperty('phone', phone))
       ..add(DiagnosticsProperty('code', code))
+      ..add(DiagnosticsProperty('countryCode', countryCode))
       ..add(DiagnosticsProperty('loading', loading))
       ..add(DiagnosticsProperty('errorMessage', errorMessage))
       ..add(DiagnosticsProperty('phonePageState', phonePageState))
@@ -222,6 +238,9 @@ class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
                 const DeepCollectionEquality().equals(other.phone, phone)) &&
             (identical(other.code, code) ||
                 const DeepCollectionEquality().equals(other.code, code)) &&
+            (identical(other.countryCode, countryCode) ||
+                const DeepCollectionEquality()
+                    .equals(other.countryCode, countryCode)) &&
             (identical(other.loading, loading) ||
                 const DeepCollectionEquality()
                     .equals(other.loading, loading)) &&
@@ -242,6 +261,7 @@ class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
       const DeepCollectionEquality().hash(prefix) ^
       const DeepCollectionEquality().hash(phone) ^
       const DeepCollectionEquality().hash(code) ^
+      const DeepCollectionEquality().hash(countryCode) ^
       const DeepCollectionEquality().hash(loading) ^
       const DeepCollectionEquality().hash(errorMessage) ^
       const DeepCollectionEquality().hash(phonePageState) ^
@@ -257,6 +277,7 @@ abstract class _LoginState implements LoginState {
       {@required String prefix,
       @required String phone,
       @required String code,
+      @required String countryCode,
       @required bool loading,
       @required String errorMessage,
       @required PhoneOnboardingState phonePageState,
@@ -268,6 +289,8 @@ abstract class _LoginState implements LoginState {
   String get phone;
   @override
   String get code;
+  @override
+  String get countryCode;
   @override
   bool get loading;
   @override

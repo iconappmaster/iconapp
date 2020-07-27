@@ -79,6 +79,6 @@ const _$UserGenderEnumMap = {
 
 const _$UserTypeEnumMap = {
   UserType.admin: 'admin',
-  UserType.icon: 'icon',
+  UserType.editor: 'editor',
   UserType.viewer: 'viewer',
 };

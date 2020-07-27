@@ -15,26 +15,22 @@ abstract class _AuthStoreBase with Store {
   }
 
   @observable
-  AuthState authState = AuthState.initial();
+  AuthState _authState = AuthState.initial();
 
   @computed
-  AuthState get state => authState;
+  AuthState get state => _authState;
 
   @action
-  Future finishedOnboardin() async {
+  Future setSignedIn() async {
     await _repository.setSignIn();
-    authState = AuthState.authenticated();
+    _authState = AuthState.authenticated();
   }
 
   @action
   void checkCurrentAuthState() {
     final isSignedIn = _repository.isSignIn();
-    if (isSignedIn) {
-      authState = _repository.isOboarding()
-          ? AuthState.onboarding()
-          : AuthState.authenticated();
-    } else {
-      authState = AuthState.unauthenticated();
-    }
+
+    _authState =
+        isSignedIn ? AuthState.authenticated() : AuthState.unauthenticated();
   }
 }

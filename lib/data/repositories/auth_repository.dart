@@ -24,12 +24,10 @@ class AuthRepositoryImpl implements AuthRepository {
    // TODO UPDATE THIS TO CHECK USER ALSO
   @override
   bool isSignIn() =>
-      // sp.contains(StorageKey.user) && sp.getBool(StorageKey.signedIn);
       sp.getBool(StorageKey.signedIn);
 
   @override
   Future<void> setSignIn([bool signedIn = true]) {
-    // return sp.setBool(StorageKey.isFinishedOnboarding, isFinished);
     return sp.setBool(StorageKey.signedIn, signedIn);
   }
 

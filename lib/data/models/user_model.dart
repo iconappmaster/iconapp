@@ -25,4 +25,4 @@ abstract class UserModel with _$UserModel {
 }
 
 enum UserGender { male, female, other }
-enum UserType { admin, icon, viewer }
+enum UserType { admin, editor, viewer }

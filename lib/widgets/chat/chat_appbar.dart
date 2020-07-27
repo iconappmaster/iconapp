@@ -1,6 +1,7 @@
-
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:iconapp/routes/router.gr.dart';
 import '../../core/extensions/context_ext.dart';
 import '../../core/theme.dart';
 import '../global/hebrew_input_text.dart';
@@ -28,8 +29,17 @@ class ChatAppBar extends StatelessWidget {
                 ],
               ),
             ),
-            IconButton(icon: SvgPicture.asset('assets/images/star.svg', height: 26, width: 26), onPressed: () {  },),
-            IconButton(icon: SvgPicture.asset('assets/images/dots.svg', height: 26, width: 26), onPressed: () {}),
+            IconButton(
+              icon: SvgPicture.asset('assets/images/star.svg',
+                  height: 26, width: 26),
+              onPressed: () {},
+            ),
+            IconButton(
+              icon: SvgPicture.asset('assets/images/dots.svg',
+                  height: 26, width: 26),
+              onPressed: () =>
+                  ExtendedNavigator.of(context).pushNamed(Routes.chatSettings),
+            ),
           ],
         ),
       ),

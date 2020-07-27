@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route_annotations.dart';
 
 import 'package:iconapp/screens/camera_screen.dart';
 import 'package:iconapp/screens/chat_screen.dart';
+import 'package:iconapp/screens/chat_settings_screen.dart';
 import 'package:iconapp/screens/create_group.dart';
 import 'package:iconapp/screens/full_image_screen.dart';
 import 'package:iconapp/screens/full_video_screen.dart';
@@ -27,6 +28,7 @@ import 'package:iconapp/screens/story_screen.dart';
     MaterialRoute(page: ProfileScreen),
     MaterialRoute(page: SearchScreen),
     MaterialRoute(page: ChatScreen),
+    CupertinoRoute(page: ChatSettings,fullscreenDialog: true),
     MaterialRoute(page: StoryScreen),
     MaterialRoute(page: FullVideoScreen),
     MaterialRoute(page: FullImageScreen),

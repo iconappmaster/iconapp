@@ -29,7 +29,7 @@ abstract class _LoginStoreBase with Store {
   int _currentCountDown = 0;
 
   @observable
-  LoginState state = LoginState.initial();
+  LoginState _state = LoginState.initial();
 
   @computed
   String get displayCountdown =>
@@ -39,46 +39,53 @@ abstract class _LoginStoreBase with Store {
   bool get counterReachedZero => _currentCountDown == 0;
 
   @computed
-  bool get isPhoneMode => state.phonePageState == PhoneOnboardingState.idle;
+  bool get isPhoneMode => _state.phonePageState == PhoneOnboardingState.idle;
 
   @computed
-  bool get isPinCodeMode => state.phonePageState == PhoneOnboardingState.sent;
+  bool get isPinCodeMode => _state.phonePageState == PhoneOnboardingState.sent;
 
   @computed
-  bool get numberValid => state.prefix.length == 3 && state.phone.length >= 7;
+  bool get numberValid => _state.prefix.length == 3 && _state.phone.length >= 7;
 
   @computed
-  LoginState get getState => state;
+  LoginState get getState => _state;
 
   @action
-  updatePhone(String phone) {
-    state = state.copyWith(phone: phone);
+  void updatePhone(String phone) {
+    _state = _state.copyWith(phone: phone);
   }
 
   @action
-  updatePhonePrefix(String prefix) {
-    state = state.copyWith(prefix: prefix);
+  void updateCountryCode(String countryCode) {
+    _state = _state.copyWith(countryCode: countryCode);
   }
 
   @action
-  updateCode(String code) {
-    state = state.copyWith(code: code);
+  void updatePhonePrefix(String prefix) {
+    _state = _state.copyWith(prefix: prefix);
+  }
+
+  @action
+  void updateCode(String code) {
+    _state = _state.copyWith(code: code);
   }
 
   @action
   Future verifyPhone() async {
     startCountDown();
 
-    state = state.copyWith(
+    _state = _state.copyWith(
       loading: true,
       phonePageState: PhoneOnboardingState.sent,
     );
 
-    final failureOrSuccess = await _repository.verifyPhone(state.prefix + state.phone);
+    final failureOrSuccess = await _repository.verifyPhone(
+      "+" + _state.countryCode + _state.prefix + _state.phone,
+    );
 
     failureOrSuccess.fold(
       (failure) {
-        state = state.copyWith(
+        _state = _state.copyWith(
             loading: false,
             phonePageState: PhoneOnboardingState.idle,
             errorMessage: failure.maybeWhen(
@@ -88,7 +95,7 @@ abstract class _LoginStoreBase with Store {
       },
       (_) {
         /// Success
-        state = state.copyWith(
+        _state = _state.copyWith(
           loading: false,
           phonePageState: PhoneOnboardingState.sent,
         );
@@ -98,10 +105,10 @@ abstract class _LoginStoreBase with Store {
 
   @action
   Future<Either<AuthFailure, bool>> verifySms() async {
-    state = state.copyWith(loading: true);
+    _state = _state.copyWith(loading: true);
 
-    final fullNumber = state.prefix + state.phone;
-    final code = state.code;
+    final fullNumber = _state.prefix + _state.phone;
+    final code = _state.code;
 
     try {
       final user = await _repository.verifyCode(fullNumber, code);
@@ -115,13 +122,13 @@ abstract class _LoginStoreBase with Store {
         return left(const AuthFailure.serverError());
       }
     } finally {
-      state = state.copyWith(loading: false);
+      _state = _state.copyWith(loading: false);
     }
   }
 
   @action
   Future sendAgain() async {
-    state = state.copyWith(
+    _state = _state.copyWith(
       phonePageState: PhoneOnboardingState.idle,
       code: '',
     );
@@ -142,8 +149,9 @@ abstract class _LoginStoreBase with Store {
   }
 
   void dispose() {
-    state = LoginState.initial();
+    _state = LoginState.initial();
     _currentCountDown = 0;
+    _timer.cancel();
     _timer = null;
   }
 }
