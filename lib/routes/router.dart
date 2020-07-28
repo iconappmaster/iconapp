@@ -6,6 +6,7 @@ import 'package:iconapp/screens/chat_settings_screen.dart';
 import 'package:iconapp/screens/create_group.dart';
 import 'package:iconapp/screens/full_image_screen.dart';
 import 'package:iconapp/screens/full_video_screen.dart';
+import 'package:iconapp/screens/group_name_screen.dart';
 import 'package:iconapp/screens/home_screen.dart';
 import 'package:iconapp/screens/login_screen.dart';
 import 'package:iconapp/screens/onboarding_phone.dart';
@@ -28,11 +29,12 @@ import 'package:iconapp/screens/story_screen.dart';
     MaterialRoute(page: ProfileScreen),
     MaterialRoute(page: SearchScreen),
     MaterialRoute(page: ChatScreen),
-    CupertinoRoute(page: ChatSettings,fullscreenDialog: true),
+    CupertinoRoute(page: ChatSettings, fullscreenDialog: true),
     MaterialRoute(page: StoryScreen),
     MaterialRoute(page: FullVideoScreen),
     MaterialRoute(page: FullImageScreen),
     MaterialRoute(page: CameraScreen),
+    MaterialRoute(page: GroupNameScreen),
     CupertinoRoute(page: SelectContactsScreen, fullscreenDialog: true),
     CupertinoRoute(page: SelectCategoryScreen),
     CupertinoRoute(page: GroupNamePhoto),

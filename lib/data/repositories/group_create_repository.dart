@@ -35,7 +35,7 @@ class GroupCreateRepositoryImpl implements GroupCreateRepository {
       20,
       (index) => CategoryModel(
           id: index.toString(),
-          title: 'קטגוריה',
+          name: 'קטגוריה',
           photo: PhotoModel(description: 'בישול', url: urlCategoryMock)),
     );
     return Future.value(categories);

@@ -31,11 +31,13 @@ class ChatScreen extends StatelessWidget {
             )),
             child: Column(
               children: <Widget>[
-                ChatAppBar(),
+                ChatAppbar(
+                  title: 'האח הגדול',
+                  subtitle: '12,000 משתתפים',
+                ),
                 BlueDivider(color: cornflower),
                 StoriesWidget(margin: storiesMargin),
                 ChatList(),
-                
                 store.showMessageComposer
                     ? MessageComposer()
                     : ComposerViewOnly()

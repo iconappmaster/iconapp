@@ -15,10 +15,10 @@ CategoryModel _$CategoryModelFromJson(Map<String, dynamic> json) {
 class _$CategoryModelTearOff {
   const _$CategoryModelTearOff();
 
-  _CategoryModel call({String id, String title, PhotoModel photo}) {
+  _CategoryModel call({String id, String name, PhotoModel photo}) {
     return _CategoryModel(
       id: id,
-      title: title,
+      name: name,
       photo: photo,
     );
   }
@@ -29,7 +29,7 @@ const $CategoryModel = _$CategoryModelTearOff();
 
 mixin _$CategoryModel {
   String get id;
-  String get title;
+  String get name;
   PhotoModel get photo;
 
   Map<String, dynamic> toJson();
@@ -40,7 +40,7 @@ abstract class $CategoryModelCopyWith<$Res> {
   factory $CategoryModelCopyWith(
           CategoryModel value, $Res Function(CategoryModel) then) =
       _$CategoryModelCopyWithImpl<$Res>;
-  $Res call({String id, String title, PhotoModel photo});
+  $Res call({String id, String name, PhotoModel photo});
 
   $PhotoModelCopyWith<$Res> get photo;
 }
@@ -56,12 +56,12 @@ class _$CategoryModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object id = freezed,
-    Object title = freezed,
+    Object name = freezed,
     Object photo = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as String,
-      title: title == freezed ? _value.title : title as String,
+      name: name == freezed ? _value.name : name as String,
       photo: photo == freezed ? _value.photo : photo as PhotoModel,
     ));
   }
@@ -83,7 +83,7 @@ abstract class _$CategoryModelCopyWith<$Res>
           _CategoryModel value, $Res Function(_CategoryModel) then) =
       __$CategoryModelCopyWithImpl<$Res>;
   @override
-  $Res call({String id, String title, PhotoModel photo});
+  $Res call({String id, String name, PhotoModel photo});
 
   @override
   $PhotoModelCopyWith<$Res> get photo;
@@ -102,12 +102,12 @@ class __$CategoryModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object id = freezed,
-    Object title = freezed,
+    Object name = freezed,
     Object photo = freezed,
   }) {
     return _then(_CategoryModel(
       id: id == freezed ? _value.id : id as String,
-      title: title == freezed ? _value.title : title as String,
+      name: name == freezed ? _value.name : name as String,
       photo: photo == freezed ? _value.photo : photo as PhotoModel,
     ));
   }
@@ -115,7 +115,7 @@ class __$CategoryModelCopyWithImpl<$Res>
 
 @JsonSerializable()
 class _$_CategoryModel implements _CategoryModel {
-  const _$_CategoryModel({this.id, this.title, this.photo});
+  const _$_CategoryModel({this.id, this.name, this.photo});
 
   factory _$_CategoryModel.fromJson(Map<String, dynamic> json) =>
       _$_$_CategoryModelFromJson(json);
@@ -123,13 +123,13 @@ class _$_CategoryModel implements _CategoryModel {
   @override
   final String id;
   @override
-  final String title;
+  final String name;
   @override
   final PhotoModel photo;
 
   @override
   String toString() {
-    return 'CategoryModel(id: $id, title: $title, photo: $photo)';
+    return 'CategoryModel(id: $id, name: $name, photo: $photo)';
   }
 
   @override
@@ -138,8 +138,8 @@ class _$_CategoryModel implements _CategoryModel {
         (other is _CategoryModel &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.title, title) ||
-                const DeepCollectionEquality().equals(other.title, title)) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.photo, photo) ||
                 const DeepCollectionEquality().equals(other.photo, photo)));
   }
@@ -148,7 +148,7 @@ class _$_CategoryModel implements _CategoryModel {
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(title) ^
+      const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(photo);
 
   @override
@@ -162,7 +162,7 @@ class _$_CategoryModel implements _CategoryModel {
 }
 
 abstract class _CategoryModel implements CategoryModel {
-  const factory _CategoryModel({String id, String title, PhotoModel photo}) =
+  const factory _CategoryModel({String id, String name, PhotoModel photo}) =
       _$_CategoryModel;
 
   factory _CategoryModel.fromJson(Map<String, dynamic> json) =
@@ -171,7 +171,7 @@ abstract class _CategoryModel implements CategoryModel {
   @override
   String get id;
   @override
-  String get title;
+  String get name;
   @override
   PhotoModel get photo;
   @override

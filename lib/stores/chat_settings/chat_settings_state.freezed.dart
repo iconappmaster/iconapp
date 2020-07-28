@@ -123,7 +123,7 @@ class __$ChatStateCopyWithImpl<$Res>
   }
 }
 
-class _$_ChatState implements _ChatState {
+class _$_ChatState with DiagnosticableTreeMixin implements _ChatState {
   const _$_ChatState(
       {@required this.loading,
       @required this.notifications,
@@ -144,8 +144,19 @@ class _$_ChatState implements _ChatState {
   final List<UserModel> participants;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ChatSettingsState(loading: $loading, notifications: $notifications, background: $background, participants: $participants)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ChatSettingsState'))
+      ..add(DiagnosticsProperty('loading', loading))
+      ..add(DiagnosticsProperty('notifications', notifications))
+      ..add(DiagnosticsProperty('background', background))
+      ..add(DiagnosticsProperty('participants', participants));
   }
 
   @override

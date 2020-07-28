@@ -55,8 +55,8 @@ abstract class RestClient {
       @Path() String chatId, @Path() String messageId, @Body() bool addLike);
 
   // SEARCH
-  @GET('searchCategory')
-  Future<List<CategoryModel>> searchCategory(@Query('query') String query);
+  @GET('categories')
+  Future<List<CategoryModel>> searchCategory(@Query('searchString') String searchString);
 
   @GET('searchContacts')
   Future<List<UserModel>> searchContacts(@Query('query') String query);

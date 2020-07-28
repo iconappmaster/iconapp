@@ -8,7 +8,7 @@ part 'category_model.g.dart';
 abstract class CategoryModel with _$CategoryModel {
   const factory CategoryModel({
     final String id,
-    final String title,
+    final String name,
     final PhotoModel photo,
   }) = _CategoryModel;
 

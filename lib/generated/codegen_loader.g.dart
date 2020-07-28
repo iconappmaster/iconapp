@@ -41,7 +41,8 @@ class CodegenLoader extends AssetLoader{
     "groupNameDescription": "בחר/י נושא לקבוצה החדשה. כדאי להוסיף גם אייקון.",
     "groupNameAppbarTitle": "נושא הקבוצה",
     "groupSelectCategoryAppbarTitle": "בחר/י קטגוריה",
-    "groupSelectContactAppbarTitle": "בחר/י משתתפים לקבוצה"
+    "groupSelectContactAppbarTitle": "בחר/י משתתפים לקבוצה",
+    "newGroupTitle": "יצירת קבוצה חדשה"
   },
   "chat": {
     "messageInputHint": "הקלד/י הודעה"

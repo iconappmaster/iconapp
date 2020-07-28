@@ -108,6 +108,12 @@ const myStory = TextStyle(
   fontSize: 10.6,
 );
 
+const settingsAppbarTitle = TextStyle(
+  fontFamily: _fontRubikBold,
+  color: white,
+  fontSize: 22.3,
+);
+
 const settingsButton = TextStyle(
   fontFamily: _fontRubikRegular,
   color: cornflower,
@@ -144,6 +150,14 @@ const personalDetailsHint = TextStyle(
     color: blueBerry,
     fontSize: 17.3,
     height: 1.3);
+
+const changeColorTitle = TextStyle(
+    fontFamily: _fontRubikBold,
+    color: avatarRing,
+    fontSize: 17.3,
+    height: 1.3);
+
+  
 
 // Gradients
 final purpleGradient = LinearGradient(colors: [

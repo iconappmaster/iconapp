@@ -8,10 +8,10 @@ import 'package:iconapp/stores/group_create/group_create_store.dart';
 import 'package:iconapp/widgets/create/create_app_bar.dart';
 import 'package:iconapp/widgets/create_conversation/create_group_slelect_widget.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+import 'package:iconapp/widgets/global/input_box.dart';
 import 'package:iconapp/widgets/global/user_avatar.dart';
 import 'package:iconapp/widgets/onboarding/base_onboarding_widget.dart';
 import '../core/extensions/context_ext.dart';
-import 'onboarding_profile.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class SelectContactsScreen extends StatelessWidget {
@@ -71,7 +71,7 @@ class GroupNamePhoto extends StatelessWidget {
                     SizedBox(width: 12.7),
                     Container(
                       width: context.widthPx * .596,
-                      child: ProfileInput(
+                      child: InputText(
                         hintStyle: flushbar,
                         textStyle: flushbar,
                         hint: LocaleKeys.create_groupNameHint.tr(),

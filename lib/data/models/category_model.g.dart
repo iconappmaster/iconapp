@@ -9,7 +9,7 @@ part of 'category_model.dart';
 _$_CategoryModel _$_$_CategoryModelFromJson(Map<String, dynamic> json) {
   return _$_CategoryModel(
     id: json['id'] as String,
-    title: json['title'] as String,
+    name: json['name'] as String,
     photo: json['photo'] == null
         ? null
         : PhotoModel.fromJson(json['photo'] as Map<String, dynamic>),
@@ -19,6 +19,6 @@ _$_CategoryModel _$_$_CategoryModelFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$_$_CategoryModelToJson(_$_CategoryModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'title': instance.title,
+      'name': instance.name,
       'photo': instance.photo,
     };

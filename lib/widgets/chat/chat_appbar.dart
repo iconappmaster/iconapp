@@ -7,7 +7,15 @@ import '../../core/theme.dart';
 import '../global/hebrew_input_text.dart';
 import 'chat_back_button.dart';
 
-class ChatAppBar extends StatelessWidget {
+class ChatAppbar extends StatelessWidget {
+  final String title, subtitle;
+
+  const ChatAppbar({
+    Key key,
+    @required this.title,
+    @required this.subtitle,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,8 +32,8 @@ class ChatAppBar extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  HebrewText('האח הגדול', style: loginBigText),
-                  HebrewText('12,000 משתתפים', style: fieldLabel),
+                  HebrewText(title, style: loginBigText),
+                  HebrewText(subtitle, style: fieldLabel),
                 ],
               ),
             ),

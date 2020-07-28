@@ -78,11 +78,14 @@ abstract class _OnboardingStoreBase with Store {
   }
 
   @action
-  Future<Either<Exception, bool>> createUser() async {
+  Future<Either<Exception, bool>> upadteUser() async {
     try {
-      _state = _state.copyWith(loading: true);
-      final user = _state.userModel;
-      final saved = await _userStore.updateUser(user);
+      _state = _state.copyWith(
+        loading: true,
+        userModel: _userStore.userModel,
+      );
+
+      final saved = await _userStore.updateUser(_state.userModel);
 
       if (saved) {
         _authStore.setSignedIn();

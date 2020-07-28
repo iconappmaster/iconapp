@@ -4,11 +4,11 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/oboarding/onboarding_store.dart';
+import 'package:iconapp/widgets/global/input_box.dart';
 import 'package:iconapp/widgets/global/user_avatar.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
-import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/next_button.dart';
 import 'package:iconapp/widgets/global/rolling_switch.dart';
 import 'package:iconapp/widgets/onboarding/base_onboarding_widget.dart';
@@ -29,12 +29,10 @@ class OnboardingProfile extends StatelessWidget {
           children: <Widget>[
             IconAppbar(),
             Positioned(
-              top: context.heightPlusStatusbarPerc(.138),
-              child: UserAvatar(
-                onTap: () async => await store.pickPhoto(true),
-                url: store.getUserPhoto,
-              ),
-            ),
+                top: context.heightPlusStatusbarPerc(.138),
+                child: UserAvatar(
+                    onTap: () async => await store.pickPhoto(true),
+                    url: store.getUserPhoto)),
             PersonDetails(),
             SexPicker(),
             _nextButton(context, store),
@@ -50,8 +48,9 @@ class OnboardingProfile extends StatelessWidget {
       child: NextButton(
         onClick: () {
           if (_formValidatorKey.currentState.validate()) {
-            store.createUser().then((result) => result.fold(
-                (error) => ctx.showErrorFlushbar(message: LocaleKeys.general_server_error),
+            store.upadteUser().then((result) => result.fold(
+                (error) => ctx.showErrorFlushbar(
+                    message: LocaleKeys.general_server_error),
                 (success) => ExtendedNavigator.of(ctx).pushNamedAndRemoveUntil(
                     Routes.splashScreen, (Route<dynamic> route) => false)));
           }
@@ -76,7 +75,7 @@ class PersonDetails extends StatelessWidget {
             children: <Widget>[
               Container(
                   width: context.widthPx * .547,
-                  child: ProfileInput(
+                  child: InputText(
                       hint: 'שם ושם משפחה',
                       hintStyle: personalDetailsHint,
                       validator: (value) {
@@ -87,7 +86,7 @@ class PersonDetails extends StatelessWidget {
                       onChange: (name) => store.updateUserName(name))),
               Container(
                   width: context.widthPx * .207,
-                  child: ProfileInput(
+                  child: InputText(
                       hint: '10-99',
                       hintStyle: personalDetailsHint,
                       validator: (value) {
@@ -103,55 +102,6 @@ class PersonDetails extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class ProfileInput extends StatelessWidget {
-  final String title;
-  final Function(String) onChange;
-  final TextInputType keyboardType;
-  final int maxLength;
-  final FormFieldValidator<String> validator;
-  final String hint;
-  final TextStyle hintStyle;
-  final TextStyle textStyle;
-  const ProfileInput({
-    Key key,
-    this.title,
-    @required this.onChange,
-    this.keyboardType = TextInputType.text,
-    this.maxLength,
-    this.validator,
-    this.hint,
-    this.hintStyle,
-    this.textStyle = fieldInput,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        if (title != null) HebrewText(title, style: fieldLabel),
-        TextFormField(
-          key: key,
-          validator: validator,
-          maxLength: maxLength,
-          keyboardType: keyboardType,
-          decoration: InputDecoration(
-              hintStyle: hintStyle,
-              hintText: hint,
-              counterText: '',
-              enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: cornflower)),
-              border: UnderlineInputBorder(
-                borderSide: BorderSide(color: cornflower, width: .7),
-              )),
-          onChanged: onChange,
-          style: textStyle,
-        ),
-      ],
     );
   }
 }

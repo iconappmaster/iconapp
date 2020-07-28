@@ -9,6 +9,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../core/theme.dart';
 import '../../core/extensions/context_ext.dart';
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 class MessageComposer extends StatefulWidget {
   @override
@@ -17,9 +18,25 @@ class MessageComposer extends StatefulWidget {
 
 class _MessageComposerState extends State<MessageComposer> {
   bool showEmoji = false;
+  bool keyboardVisible = false;
+  int subscriberId = 0;
+  TextEditingController _controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    subscriberId = KeyboardVisibilityNotification().addNewListener(
+      onChange: (bool visible) {
+        setState(() {
+          keyboardVisible = visible;
+        });
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    final store = sl<ChatStore>();
     return ListView(
       shrinkWrap: true,
       children: <Widget>[
@@ -45,10 +62,8 @@ class _MessageComposerState extends State<MessageComposer> {
                   ComposeActionButtons(),
                   Row(
                     children: <Widget>[
-                      EmojiButton(
-                        onTap: () => setState(() => showEmoji = !showEmoji),
-                      ),
-                      ComposerInput(),
+                      EmojiButton(onTap: () => _onEmojiButtonTap(context)),
+                      ComposerInput(controller: _controller),
                       SendButton(),
                     ],
                   ),
@@ -62,26 +77,61 @@ class _MessageComposerState extends State<MessageComposer> {
           child: AnimatedContainer(
             duration: Duration(milliseconds: 750),
             curve: Curves.linearToEaseOut,
-            height: showEmoji ? context.heightPlusStatusbarPerc(.4) : 0,
-            child: EmojiPicker(
-              bgColor: Colors.white,
-              hintText: 'חפש אימוג׳ים',
-              buttonMode: ButtonMode.MATERIAL,
-              rows: 3,
-              columns: 7,
-              numRecommended: 10,
-              onEmojiSelected: (emoji, category) {
-                print(emoji);
-              },
+            height: showEmoji && !keyboardVisible
+                ? context.heightPlusStatusbarPerc(.4)
+                : 0,
+            child: WillPopScope(
+              onWillPop: _onWillPop,
+              child: EmojiPicker(
+                bgColor: Colors.white,
+                bgBarColor: Colors.white,
+                indicatorColor: cornflower,
+                hintText: 'חפש אימוג׳ים',
+                buttonMode: ButtonMode.MATERIAL,
+                rows: 3,
+                columns: 7,
+                numRecommended: 10,
+                onEmojiSelected: (text, category) {
+                  _controller.text = _controller.text + text.emoji;
+                  store.updateInputMessage(_controller.text);
+                },
+              ),
             ),
           ),
         ),
       ],
     );
   }
+
+  void _onEmojiButtonTap(BuildContext context) {
+    return setState(() {
+      context.unFocus();
+      showEmoji = !showEmoji;
+    });
+  }
+
+  Future<bool> _onWillPop() async {
+    //FIXME
+    setState(() {
+      if (showEmoji) {
+        showEmoji = !showEmoji;
+      }
+    });
+
+    return showEmoji;
+  }
+
+  @override
+  void dispose() {
+    KeyboardVisibilityNotification().removeListener(subscriberId);
+    super.dispose();
+  }
 }
 
 class ComposerInput extends StatelessWidget {
+  final TextEditingController controller;
+
+  const ComposerInput({Key key, @required this.controller}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
@@ -92,6 +142,7 @@ class ComposerInput extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(left: 60.0),
         child: TextFormField(
+          controller: controller,
           key: key,
           maxLines: null,
           decoration: InputDecoration(
@@ -100,7 +151,9 @@ class ComposerInput extends StatelessWidget {
               focusedBorder: transparentBorder,
               enabledBorder: transparentBorder,
               border: transparentBorder),
-          onChanged: (input) => store.updateInputMessage(input),
+          onChanged: (input) {
+            return store.updateInputMessage(input);
+          },
           style: chatCompose,
         ),
       ),

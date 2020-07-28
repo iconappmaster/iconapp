@@ -4,11 +4,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/domain/create/create_item.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/group_create/group_create_store.dart';
 import 'package:iconapp/widgets/create/create_app_bar.dart';
 import 'package:iconapp/widgets/global/check_circle.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import '../../core/extensions/context_ext.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 /// This Widget is used to select [Icons, Categories] from a list
 class CreateGroupSelectWidget extends StatefulWidget {
@@ -53,13 +55,16 @@ class _CreateGroupSelectWidgetState extends State<CreateGroupSelectWidget> {
         Observer(
           builder: (_) => Column(
             children: <Widget>[
-              CreateGroupAppbar(title: widget.appbarTitle),
+              CreateGroupAppbar(
+                  title: LocaleKeys.create_newGroupTitle.tr(),
+                  subtitle: widget.appbarTitle),
               Expanded(
                 child: ListView.builder(
                   physics: BouncingScrollPhysics(),
                   itemBuilder: (context, index) => CreateConversationItem(
                       model: store.mapCreateItem(index),
-                      onTap: () => setState(() => store.addOrRemoveItem(index))),
+                      onTap: () =>
+                          setState(() => store.addOrRemoveItem(index))),
                   itemCount: store.getItemCount,
                 ),
               ),

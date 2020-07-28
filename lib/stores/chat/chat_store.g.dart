@@ -9,6 +9,13 @@ part of 'chat_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ChatStore on _ChatStoreBase, Store {
+  Computed<ChatState> _$getStateComputed;
+
+  @override
+  ChatState get getState =>
+      (_$getStateComputed ??= Computed<ChatState>(() => super.getState,
+              name: '_ChatStoreBase.getState'))
+          .value;
   Computed<List<MessageModel>> _$getMessagesComputed;
 
   @override
@@ -44,6 +51,15 @@ mixin _$ChatStore on _ChatStoreBase, Store {
     _$_stateAtom.reportWrite(value, super._state, () {
       super._state = value;
     });
+  }
+
+  final _$updateGroupNameAsyncAction =
+      AsyncAction('_ChatStoreBase.updateGroupName');
+
+  @override
+  Future<dynamic> updateGroupName(String groupName) {
+    return _$updateGroupNameAsyncAction
+        .run(() => super.updateGroupName(groupName));
   }
 
   final _$likeMessageAsyncAction = AsyncAction('_ChatStoreBase.likeMessage');
@@ -105,6 +121,7 @@ mixin _$ChatStore on _ChatStoreBase, Store {
   @override
   String toString() {
     return '''
+getState: ${getState},
 getMessages: ${getMessages},
 shouldHideActions: ${shouldHideActions},
 showMessageComposer: ${showMessageComposer}

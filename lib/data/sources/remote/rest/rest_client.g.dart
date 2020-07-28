@@ -213,12 +213,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  searchCategory(query) async {
-    ArgumentError.checkNotNull(query, 'query');
+  searchCategory(searchString) async {
+    ArgumentError.checkNotNull(searchString, 'searchString');
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'query': query};
+    final queryParameters = <String, dynamic>{r'searchString': searchString};
     final _data = <String, dynamic>{};
-    final Response<List<dynamic>> _result = await _dio.request('searchCategory',
+    final Response<List<dynamic>> _result = await _dio.request('categories',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',

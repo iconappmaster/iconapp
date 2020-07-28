@@ -8,11 +8,13 @@ import '../../core/extensions/context_ext.dart';
 class CreateGroupAppbar extends StatelessWidget {
   final bool showBack;
   final String title;
+  final String subtitle;
 
   const CreateGroupAppbar({
     Key key,
     this.showBack = true,
     @required this.title,
+    this.subtitle,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -26,13 +28,10 @@ class CreateGroupAppbar extends StatelessWidget {
             alignment: Alignment.topCenter,
             children: <Widget>[
               Positioned(
-                  top: 20.7,
-                  child:
-                      HebrewText('יצירת קבוצה חדשה', style: createGroupTitle)),
-              Positioned(
-                  top: 51.7,
-                  child:
-                      HebrewText(title, style: fieldLabel)),
+                  top: 20.7, child: HebrewText(title, style: createGroupTitle)),
+              if (subtitle != null)
+                Positioned(
+                    top: 51.7, child: HebrewText(subtitle, style: fieldLabel)),
               Positioned(top: 8, right: 26.7, child: IconBackButton()),
             ],
           ),

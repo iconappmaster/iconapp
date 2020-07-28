@@ -27,13 +27,16 @@ abstract class _ChatStoreBase with Store {
   ChatState _state = ChatState.initial();
 
   @computed
+  ChatState get getState => _state;
+  @computed
   List<MessageModel> get getMessages => _state.conversation.messages;
 
   @computed
   bool get shouldHideActions => _state.inputMessage.isNotEmpty;
 
   @computed
-  bool get showMessageComposer => _userStore?.userModel?.role != UserType?.viewer ?? true;
+  bool get showMessageComposer =>
+      _userStore?.userModel?.role != UserType?.viewer ?? true;
 
   // MESSAGE ACTIONS!
 
@@ -41,6 +44,9 @@ abstract class _ChatStoreBase with Store {
   updateInputMessage(String input) {
     _state = _state.copyWith(inputMessage: input);
   }
+
+  @action
+  Future updateGroupName(String groupName) async {}
 
   @action
   Future likeMessage(String chatId, String messageId) async {

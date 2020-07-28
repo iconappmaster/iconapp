@@ -27,6 +27,7 @@ abstract class  LocaleKeys {
   static const create_groupNameAppbarTitle = 'create.groupNameAppbarTitle';
   static const create_groupSelectCategoryAppbarTitle = 'create.groupSelectCategoryAppbarTitle';
   static const create_groupSelectContactAppbarTitle = 'create.groupSelectContactAppbarTitle';
+  static const create_newGroupTitle = 'create.newGroupTitle';
   static const create = 'create';
   static const chat_messageInputHint = 'chat.messageInputHint';
   static const chat = 'chat';

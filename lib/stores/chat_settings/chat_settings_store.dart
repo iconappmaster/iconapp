@@ -38,4 +38,4 @@ abstract class _ChatSettingsStoreBase with Store {
   Future fetchParticipents() async {}
 }
 
-enum ChatBackground { blue, green, purple }
+

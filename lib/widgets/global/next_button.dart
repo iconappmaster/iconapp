@@ -8,18 +8,22 @@ import 'package:easy_localization/easy_localization.dart';
 class NextButton extends StatelessWidget {
   final Function onClick, onError;
   final bool enabled;
+  final String title;
+  final double height;
   const NextButton({
     Key key,
     @required this.onClick,
     this.onError,
     this.enabled = true,
+    this.title,
+    this.height,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: Duration(milliseconds: 250),
-      height: context.heightPx * .094,
+      height: height ?? context.heightPx * .094,
       width: context.widthPx * .81,
       decoration: BoxDecoration(
           color: enabled ? cornflower : cornflower.withOpacity(.3),
@@ -30,7 +34,7 @@ class NextButton extends StatelessWidget {
           onTap: enabled ? onClick : onError,
           child: Center(
             child: HebrewText(
-              LocaleKeys.action_continue.tr(),
+              title ?? LocaleKeys.action_continue.tr(),
               style: button,
             ),
           ),

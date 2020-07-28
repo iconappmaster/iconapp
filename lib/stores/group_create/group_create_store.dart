@@ -99,7 +99,7 @@ abstract class _GroupCreateStoreBase with Store {
               .any((id) => id.toString() == _state.categories[index].id),
       title: mode == GroupPickMode.icons
           ? _state.contacts[index].fullName ?? ''
-          : _state?.categories[index].title ?? '',
+          : _state?.categories[index].name ?? '',
       url: mode == GroupPickMode.icons
           ? _state.contacts[index]?.photo?.url ?? ''
           : _state.categories[index]?.photo?.url);
