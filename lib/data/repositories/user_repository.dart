@@ -27,7 +27,7 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<bool> persistUser(UserModel user) async {
-    return await sp.setString(StorageKey.user, jsonEncode(user.toJson()));
+    return sp.setString(StorageKey.user, jsonEncode(user.toJson()));
   }
 
   @override

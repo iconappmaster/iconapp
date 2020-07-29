@@ -2,14 +2,12 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
- 
 
 abstract class AuthRepository {
   bool isSignIn();
   bool isOboarding();
   Future<void> signOut();
   Future<void> setSignIn([bool isFinished = true]);
-  
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -21,10 +19,8 @@ class AuthRepositoryImpl implements AuthRepository {
     @required this.sp,
   });
 
-   // TODO UPDATE THIS TO CHECK USER ALSO
   @override
-  bool isSignIn() =>
-      sp.getBool(StorageKey.signedIn);
+  bool isSignIn() => sp.getBool(StorageKey.signedIn);
 
   @override
   Future<void> setSignIn([bool signedIn = true]) {
@@ -36,5 +32,4 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<void> signOut() async => sp.clear();
-
 }

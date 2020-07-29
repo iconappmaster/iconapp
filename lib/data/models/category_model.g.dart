@@ -8,7 +8,7 @@ part of 'category_model.dart';
 
 _$_CategoryModel _$_$_CategoryModelFromJson(Map<String, dynamic> json) {
   return _$_CategoryModel(
-    id: json['id'] as String,
+    id: json['id'] as int,
     name: json['name'] as String,
     photo: json['photo'] == null
         ? null

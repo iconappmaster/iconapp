@@ -12,13 +12,13 @@ class MediaRepositoryImpl implements MediaRepository {
   @override
   Future<String> uploadSinglePhoto(
       File image, String path, String fileName) async {
-    final photoPath = path + "/photos/";
+    final photoPath = "$path/photos/";
     return await upload(photoPath, fileName, image);
   }
 
   @override
   Future<String> uploadVideo(File video, String path, String fileName) async {
-    final videoPath = path + "/video/";
+    final videoPath = "$path/photos/";
     return await upload(videoPath, fileName, video);
   }
 

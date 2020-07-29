@@ -33,7 +33,7 @@ class _NestedSheetModalState extends State<NestedSheetModal> {
       (_) => searchStore.getSearchMode,
       (mode) {
         pagerController.animateToPage(mode == SearchMode.categories ? 1 : 0,
-            duration: Duration(milliseconds: 250), curve: Curves.easeIn);
+            duration: const Duration(milliseconds: 250), curve: Curves.easeIn);
       },
     );
 

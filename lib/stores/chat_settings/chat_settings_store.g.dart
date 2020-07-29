@@ -9,14 +9,6 @@ part of 'chat_settings_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
-  Computed<bool> _$notificationStateComputed;
-
-  @override
-  bool get notificationState => (_$notificationStateComputed ??= Computed<bool>(
-          () => super.notificationState,
-          name: '_ChatSettingsStoreBase.notificationState'))
-      .value;
-
   final _$_stateAtom = Atom(name: '_ChatSettingsStoreBase._state');
 
   @override
@@ -30,15 +22,6 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
     _$_stateAtom.reportWrite(value, super._state, () {
       super._state = value;
     });
-  }
-
-  final _$updateNotificationStateAsyncAction =
-      AsyncAction('_ChatSettingsStoreBase.updateNotificationState');
-
-  @override
-  Future<dynamic> updateNotificationState(bool value) {
-    return _$updateNotificationStateAsyncAction
-        .run(() => super.updateNotificationState(value));
   }
 
   final _$changeChatBackgroundAsyncAction =
@@ -101,7 +84,7 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
   @override
   String toString() {
     return '''
-notificationState: ${notificationState}
+
     ''';
   }
 }

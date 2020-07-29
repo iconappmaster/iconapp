@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named
+// ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
 
 part of 'category_model.dart';
 
@@ -15,7 +15,8 @@ CategoryModel _$CategoryModelFromJson(Map<String, dynamic> json) {
 class _$CategoryModelTearOff {
   const _$CategoryModelTearOff();
 
-  _CategoryModel call({String id, String name, PhotoModel photo}) {
+// ignore: unused_element
+  _CategoryModel call({int id, String name, PhotoModel photo}) {
     return _CategoryModel(
       id: id,
       name: name,
@@ -28,7 +29,7 @@ class _$CategoryModelTearOff {
 const $CategoryModel = _$CategoryModelTearOff();
 
 mixin _$CategoryModel {
-  String get id;
+  int get id;
   String get name;
   PhotoModel get photo;
 
@@ -40,7 +41,7 @@ abstract class $CategoryModelCopyWith<$Res> {
   factory $CategoryModelCopyWith(
           CategoryModel value, $Res Function(CategoryModel) then) =
       _$CategoryModelCopyWithImpl<$Res>;
-  $Res call({String id, String name, PhotoModel photo});
+  $Res call({int id, String name, PhotoModel photo});
 
   $PhotoModelCopyWith<$Res> get photo;
 }
@@ -60,7 +61,7 @@ class _$CategoryModelCopyWithImpl<$Res>
     Object photo = freezed,
   }) {
     return _then(_value.copyWith(
-      id: id == freezed ? _value.id : id as String,
+      id: id == freezed ? _value.id : id as int,
       name: name == freezed ? _value.name : name as String,
       photo: photo == freezed ? _value.photo : photo as PhotoModel,
     ));
@@ -83,7 +84,7 @@ abstract class _$CategoryModelCopyWith<$Res>
           _CategoryModel value, $Res Function(_CategoryModel) then) =
       __$CategoryModelCopyWithImpl<$Res>;
   @override
-  $Res call({String id, String name, PhotoModel photo});
+  $Res call({int id, String name, PhotoModel photo});
 
   @override
   $PhotoModelCopyWith<$Res> get photo;
@@ -106,7 +107,7 @@ class __$CategoryModelCopyWithImpl<$Res>
     Object photo = freezed,
   }) {
     return _then(_CategoryModel(
-      id: id == freezed ? _value.id : id as String,
+      id: id == freezed ? _value.id : id as int,
       name: name == freezed ? _value.name : name as String,
       photo: photo == freezed ? _value.photo : photo as PhotoModel,
     ));
@@ -121,7 +122,7 @@ class _$_CategoryModel implements _CategoryModel {
       _$_$_CategoryModelFromJson(json);
 
   @override
-  final String id;
+  final int id;
   @override
   final String name;
   @override
@@ -162,14 +163,14 @@ class _$_CategoryModel implements _CategoryModel {
 }
 
 abstract class _CategoryModel implements CategoryModel {
-  const factory _CategoryModel({String id, String name, PhotoModel photo}) =
+  const factory _CategoryModel({int id, String name, PhotoModel photo}) =
       _$_CategoryModel;
 
   factory _CategoryModel.fromJson(Map<String, dynamic> json) =
       _$_CategoryModel.fromJson;
 
   @override
-  String get id;
+  int get id;
   @override
   String get name;
   @override

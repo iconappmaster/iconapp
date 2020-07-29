@@ -9,6 +9,13 @@ part of 'search_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$SearchStore on _SearchStoreBase, Store {
+  Computed<bool> _$isLoadingComputed;
+
+  @override
+  bool get isLoading =>
+      (_$isLoadingComputed ??= Computed<bool>(() => super.isLoading,
+              name: '_SearchStoreBase.isLoading'))
+          .value;
   Computed<SearchMode> _$getSearchModeComputed;
 
   @override
@@ -16,22 +23,35 @@ mixin _$SearchStore on _SearchStoreBase, Store {
           Computed<SearchMode>(() => super.getSearchMode,
               name: '_SearchStoreBase.getSearchMode'))
       .value;
-  Computed<List<UserModel>> _$getIconsSearchResultsComputed;
+  Computed<List<UserModel>> _$getIconsComputed;
 
   @override
-  List<UserModel> get getIconsSearchResults =>
-      (_$getIconsSearchResultsComputed ??= Computed<List<UserModel>>(
-              () => super.getIconsSearchResults,
-              name: '_SearchStoreBase.getIconsSearchResults'))
+  List<UserModel> get getIcons =>
+      (_$getIconsComputed ??= Computed<List<UserModel>>(() => super.getIcons,
+              name: '_SearchStoreBase.getIcons'))
           .value;
-  Computed<List<CategoryModel>> _$getCategoriesSearchResultsComputed;
+  Computed<List<CategoryModel>> _$getCategoriesComputed;
 
   @override
-  List<CategoryModel> get getCategoriesSearchResults =>
-      (_$getCategoriesSearchResultsComputed ??= Computed<List<CategoryModel>>(
-              () => super.getCategoriesSearchResults,
-              name: '_SearchStoreBase.getCategoriesSearchResults'))
-          .value;
+  List<CategoryModel> get getCategories => (_$getCategoriesComputed ??=
+          Computed<List<CategoryModel>>(() => super.getCategories,
+              name: '_SearchStoreBase.getCategories'))
+      .value;
+
+  final _$_loadingAtom = Atom(name: '_SearchStoreBase._loading');
+
+  @override
+  bool get _loading {
+    _$_loadingAtom.reportRead();
+    return super._loading;
+  }
+
+  @override
+  set _loading(bool value) {
+    _$_loadingAtom.reportWrite(value, super._loading, () {
+      super._loading = value;
+    });
+  }
 
   final _$_iconsAtom = Atom(name: '_SearchStoreBase._icons');
 
@@ -86,14 +106,6 @@ mixin _$SearchStore on _SearchStoreBase, Store {
     return _$setSearchModeAsyncAction.run(() => super.setSearchMode(mode));
   }
 
-  final _$searchContactsAsyncAction =
-      AsyncAction('_SearchStoreBase.searchContacts');
-
-  @override
-  Future<dynamic> searchContacts(String query) {
-    return _$searchContactsAsyncAction.run(() => super.searchContacts(query));
-  }
-
   final _$searchCategoriesAsyncAction =
       AsyncAction('_SearchStoreBase.searchCategories');
 
@@ -103,12 +115,34 @@ mixin _$SearchStore on _SearchStoreBase, Store {
         .run(() => super.searchCategories(query));
   }
 
+  final _$searchIconsAsyncAction = AsyncAction('_SearchStoreBase.searchIcons');
+
+  @override
+  Future<dynamic> searchIcons(String query) {
+    return _$searchIconsAsyncAction.run(() => super.searchIcons(query));
+  }
+
+  final _$_SearchStoreBaseActionController =
+      ActionController(name: '_SearchStoreBase');
+
+  @override
+  dynamic search(String query) {
+    final _$actionInfo = _$_SearchStoreBaseActionController.startAction(
+        name: '_SearchStoreBase.search');
+    try {
+      return super.search(query);
+    } finally {
+      _$_SearchStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
+isLoading: ${isLoading},
 getSearchMode: ${getSearchMode},
-getIconsSearchResults: ${getIconsSearchResults},
-getCategoriesSearchResults: ${getCategoriesSearchResults}
+getIcons: ${getIcons},
+getCategories: ${getCategories}
     ''';
   }
 }

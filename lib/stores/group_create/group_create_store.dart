@@ -3,6 +3,7 @@ import 'package:iconapp/data/models/category_model.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/repositories/group_create_repository.dart';
+import 'package:iconapp/data/repositories/search_repository.dart';
 import 'package:iconapp/domain/create/create_item.dart';
 import 'package:mobx/mobx.dart';
 import 'create_state.dart';
@@ -15,10 +16,12 @@ class GroupCreateStore = _GroupCreateStoreBase with _$GroupCreateStore;
 enum GroupPickMode { icons, categories }
 
 abstract class _GroupCreateStoreBase with Store {
-  GroupCreateRepository _repository;
+  GroupCreateRepository _groupCreateRepository;
+  SearchRepository _searchRepository;
 
   _GroupCreateStoreBase() {
-    _repository = sl<GroupCreateRepository>();
+    _groupCreateRepository = sl<GroupCreateRepository>();
+    _searchRepository = sl<SearchRepository>();
   }
 
   @observable
@@ -49,13 +52,12 @@ abstract class _GroupCreateStoreBase with Store {
   @action
   Future init() async {
     _state = _state.copyWith(loading: true);
-    // todo add error handling
-    final contacts = await _repository.getIconContacts();
-    final categories = await _repository.getCategories();
+    final categoriesResult = await _searchRepository.searchCategories('');
+    final categoriesList = categoriesResult.getOrElse(() => []);
 
     _state = _state.copyWith(
-      categories: categories,
-      contacts: contacts,
+      categories: categoriesList,
+      contacts: [],
       loading: false,
     );
   }
@@ -67,10 +69,9 @@ abstract class _GroupCreateStoreBase with Store {
     switch (mode) {
       case GroupPickMode.icons:
         final icon = _state.contacts[index];
-        _state.selectedContacts.any((i) => i.id == icon.id)
+        _state.selectedContacts.any((contact) => contact.id == icon.id)
             ? removeIconContact(icon)
             : addIconContact(icon);
-        print(_state.selectedContacts);
         break;
 
       case GroupPickMode.categories:
@@ -85,7 +86,7 @@ abstract class _GroupCreateStoreBase with Store {
     final categories = _state.selectedCategories;
 
     final conversation =
-        await _repository.createConversation(contacts, categories);
+        await _groupCreateRepository.createConversation(contacts, categories);
 
     return conversation;
   }

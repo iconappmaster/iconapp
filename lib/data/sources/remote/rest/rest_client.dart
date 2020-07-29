@@ -58,12 +58,9 @@ abstract class RestClient {
   @GET('categories')
   Future<List<CategoryModel>> searchCategory(@Query('searchString') String searchString);
 
-  @GET('searchContacts')
-  Future<List<UserModel>> searchContacts(@Query('query') String query);
-
-  // Contacts
-  @GET('getAllContats')
-  Future<List<UserModel>> getAllContacts();
+  @GET('icons')
+  Future<List<UserModel>> searchContacts(@Query('searchString') String query);
+ 
 }
 
 Dio getDioClient() {

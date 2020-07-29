@@ -37,7 +37,7 @@ class SearchBar extends StatelessWidget {
                   child: Material(
                     color: white,
                     child: TextField(
-                      onChanged: (search) => print('search'),
+                      onChanged: (query) =>  store.search(query),
                       decoration: InputDecoration(
                         enabledBorder: transparentBorder,
                         border: transparentBorder,

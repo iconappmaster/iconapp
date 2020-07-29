@@ -1,4 +1,4 @@
-import 'package:iconapp/stores/chat_settings/chat_settings_state.dart';
+import 'package:iconapp/stores/chat_settings/c_settings_state.dart';
 import 'package:mobx/mobx.dart';
 part 'chat_settings_store.g.dart';
 
@@ -8,13 +8,13 @@ abstract class _ChatSettingsStoreBase with Store {
   @observable
   ChatSettingsState _state = ChatSettingsState.initial();
 
-  @computed
-  bool get notificationState => _state.notifications;
+  // @computed
+  // bool get notificationState => _state.notifications;
 
-  @action
-  Future updateNotificationState(bool value) async {
-    _state = _state.copyWith(notifications: value);
-  }
+  // @action
+  // Future updateNotificationState(bool value) async {
+  //   _state = _state.copyWith(notifications: value);
+  // }
 
   @action
   Future changeChatBackground(ChatBackground background) async {}
@@ -38,4 +38,5 @@ abstract class _ChatSettingsStoreBase with Store {
   Future fetchParticipents() async {}
 }
 
+enum ChatBackground { blue, green, purple }
 

@@ -236,28 +236,9 @@ class _RestClient implements RestClient {
   searchContacts(query) async {
     ArgumentError.checkNotNull(query, 'query');
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'query': query};
+    final queryParameters = <String, dynamic>{r'searchString': query};
     final _data = <String, dynamic>{};
-    final Response<List<dynamic>> _result = await _dio.request('searchContacts',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'GET',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    var value = _result.data
-        .map((dynamic i) => UserModel.fromJson(i as Map<String, dynamic>))
-        .toList();
-    return value;
-  }
-
-  @override
-  getAllContacts() async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    final Response<List<dynamic>> _result = await _dio.request('getAllContats',
+    final Response<List<dynamic>> _result = await _dio.request('icons',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',

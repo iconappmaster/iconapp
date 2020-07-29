@@ -71,7 +71,7 @@ class RecentChatsList extends StatelessWidget {
         width: context.widthPx,
         child: ListView.builder(
           padding: EdgeInsets.only(bottom: context.heightPlusStatusbarPerc(.2)),
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           shrinkWrap: true,
           itemBuilder: (context, index) {
             return RecentChatItem(onTap: () {

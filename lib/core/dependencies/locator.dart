@@ -25,9 +25,9 @@ import '../../stores/user/user_store.dart';
 final sl = GetIt.I;
 
 void initLocator() {
-
   // LOGIN
-   sl.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(restClient: sl()));
+  sl.registerLazySingleton<LoginRepository>(
+      () => LoginRepositoryImpl(restClient: sl()));
 
   // Socket
   sl.registerLazySingleton<SocketStore>(() => SocketStore());
@@ -60,7 +60,11 @@ void initLocator() {
 
   // Search
   sl.registerLazySingleton<SearchStore>(() => SearchStore());
-  sl.registerLazySingleton<SearchRepository>(() => SearchRepositoryImpl());
+  sl.registerLazySingleton<SearchRepository>(
+    () => SearchRepositoryImpl(
+      restClient: sl(),
+    ),
+  );
 
   // Settings
 
@@ -72,13 +76,13 @@ void initLocator() {
 
   // Group Creation
   sl.registerLazySingleton<GroupCreateStore>(() => GroupCreateStore());
-  sl.registerLazySingleton<GroupCreateRepository>(() => GroupCreateRepositoryImpl());
+  sl.registerLazySingleton<GroupCreateRepository>(
+      () => GroupCreateRepositoryImpl(sl()));
 
   // User
-   sl.registerLazySingleton<UserStore>(() => UserStore());
-   sl.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(
-     restClient: sl(),
-     sp: sl(),
-   ));
-
+  sl.registerLazySingleton<UserStore>(() => UserStore());
+  sl.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(
+        restClient: sl(),
+        sp: sl(),
+      ));
 }

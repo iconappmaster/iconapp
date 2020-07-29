@@ -83,7 +83,7 @@ abstract class _ChatStoreBase with Store {
 
   @action
   Future takeShot(ImageSource source) async {
-    final imageUrl = await _mediaStore.uploadPhoto(source);
+    // final imageUrl = await _mediaStore.uploadPhoto(source);
   }
 
   @action

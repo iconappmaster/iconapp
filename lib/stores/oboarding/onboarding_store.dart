@@ -107,7 +107,7 @@ abstract class _OnboardingStoreBase with Store {
 
   @action
   void updateUserName(String fullName) {
-    final user = _state.userModel.copyWith(fullName: fullName);
+    final user = _state.userModel.copyWith(fullName: fullName.trim());
     _state = _state.copyWith(userModel: user);
   }
 

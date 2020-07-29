@@ -14,7 +14,12 @@ abstract class _SearchStoreBase with Store {
 
   _SearchStoreBase() {
     _repository = sl<SearchRepository>();
+    searchCategories('');
+    searchIcons('');
   }
+
+  @observable
+  bool _loading = false;
 
   @observable
   List<UserModel> _icons = [];
@@ -26,26 +31,20 @@ abstract class _SearchStoreBase with Store {
   SearchMode _searchMode = SearchMode.icons;
 
   @computed
+  bool get isLoading => _loading;
+
+  @computed
   SearchMode get getSearchMode => _searchMode;
 
   @computed
-  List<UserModel> get getIconsSearchResults => _icons;
+  List<UserModel> get getIcons => _icons;
 
   @computed
-  List<CategoryModel> get getCategoriesSearchResults => _categories;
+  List<CategoryModel> get getCategories => _categories ?? [];
 
   @action
   Future setSearchMode(SearchMode mode) async {
     _searchMode = mode;
-  }
-
-  @action
-  Future searchContacts(String query) async {
-    final contacts = await _repository.searchContacts(query);
-    contacts.fold(
-      (error) => print(error),
-      (contacts) => _icons = contacts,
-    );
   }
 
   @action
@@ -55,5 +54,26 @@ abstract class _SearchStoreBase with Store {
       (error) => print(error),
       (categories) => _categories = categories,
     );
+  }
+
+  @action
+  Future searchIcons(String query) async {
+    final icons = await _repository.searchIcons(query);
+    icons.fold(
+      (error) => print(error),
+      (contacts) => _icons = contacts,
+    );
+  }
+
+  @action
+  search(String query) {
+    switch (_searchMode) {
+      case SearchMode.icons:
+        searchIcons(query);
+        break;
+      case SearchMode.categories:
+        searchCategories(query);
+        break;
+    }
   }
 }

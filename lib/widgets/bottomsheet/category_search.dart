@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/data/models/category_model.dart';
+import 'package:iconapp/stores/search/search_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+import 'package:iconapp/widgets/global/network_photo.dart';
 
 class CategorySearchWidget extends StatelessWidget {
   final ScrollController controller;
@@ -15,26 +19,29 @@ class CategorySearchWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      controller: controller,
-      itemBuilder: (context, index) {
-        return CategorySearchItem(onTap: onCategoryTapped);
-      },
-      itemCount: 12,
+    final store = sl<SearchStore>();
+    return Observer(
+      builder: (_) => ListView.builder(
+        controller: controller,
+        itemBuilder: (context, index) {
+          final category = store.getCategories[index];
+          return CategorySearchItem(
+            category: category,
+            onTap: onCategoryTapped,
+          );
+        },
+        itemCount: store.getCategories.length,
+      ),
     );
   }
 }
 
 class CategorySearchItem extends StatelessWidget {
-  const CategorySearchItem({
-    Key key,
-    @required this.onTap,
-    this.image,
-    this.title,
-  }) : super(key: key);
+  const CategorySearchItem(
+      {Key key, @required this.onTap, @required this.category})
+      : super(key: key);
 
-  final String image;
-  final String title;
+  final CategoryModel category;
   final Function onTap;
 
   @override
@@ -48,13 +55,13 @@ class CategorySearchItem extends StatelessWidget {
           color: Colors.white,
           child: Row(
             children: <Widget>[
-              SvgPicture.asset(
-                'assets/images/entertainment.svg',
+              NetworkPhoto(
+                url: category.photo.url,
                 height: 41,
                 width: 61,
               ),
               SizedBox(width: 14),
-              HebrewText('עולם הבידור', style: categoryName),
+              HebrewText(category.name, style: categoryName),
             ],
           ),
         ),

@@ -1,7 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named
+// ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
 
-part of 'chat_settings_state.dart';
+part of 'c_settings_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -12,15 +12,14 @@ T _$identity<T>(T value) => value;
 class _$ChatSettingsStateTearOff {
   const _$ChatSettingsStateTearOff();
 
-  _ChatState call(
+// ignore: unused_element
+  _CreateState call(
       {@required bool loading,
       @required bool notifications,
-      @required ChatBackground background,
       @required List<UserModel> participants}) {
-    return _ChatState(
+    return _CreateState(
       loading: loading,
       notifications: notifications,
-      background: background,
       participants: participants,
     );
   }
@@ -32,7 +31,6 @@ const $ChatSettingsState = _$ChatSettingsStateTearOff();
 mixin _$ChatSettingsState {
   bool get loading;
   bool get notifications;
-  ChatBackground get background;
   List<UserModel> get participants;
 
   $ChatSettingsStateCopyWith<ChatSettingsState> get copyWith;
@@ -42,11 +40,7 @@ abstract class $ChatSettingsStateCopyWith<$Res> {
   factory $ChatSettingsStateCopyWith(
           ChatSettingsState value, $Res Function(ChatSettingsState) then) =
       _$ChatSettingsStateCopyWithImpl<$Res>;
-  $Res call(
-      {bool loading,
-      bool notifications,
-      ChatBackground background,
-      List<UserModel> participants});
+  $Res call({bool loading, bool notifications, List<UserModel> participants});
 }
 
 class _$ChatSettingsStateCopyWithImpl<$Res>
@@ -61,7 +55,6 @@ class _$ChatSettingsStateCopyWithImpl<$Res>
   $Res call({
     Object loading = freezed,
     Object notifications = freezed,
-    Object background = freezed,
     Object participants = freezed,
   }) {
     return _then(_value.copyWith(
@@ -69,9 +62,6 @@ class _$ChatSettingsStateCopyWithImpl<$Res>
       notifications: notifications == freezed
           ? _value.notifications
           : notifications as bool,
-      background: background == freezed
-          ? _value.background
-          : background as ChatBackground,
       participants: participants == freezed
           ? _value.participants
           : participants as List<UserModel>,
@@ -79,43 +69,36 @@ class _$ChatSettingsStateCopyWithImpl<$Res>
   }
 }
 
-abstract class _$ChatStateCopyWith<$Res>
+abstract class _$CreateStateCopyWith<$Res>
     implements $ChatSettingsStateCopyWith<$Res> {
-  factory _$ChatStateCopyWith(
-          _ChatState value, $Res Function(_ChatState) then) =
-      __$ChatStateCopyWithImpl<$Res>;
+  factory _$CreateStateCopyWith(
+          _CreateState value, $Res Function(_CreateState) then) =
+      __$CreateStateCopyWithImpl<$Res>;
   @override
-  $Res call(
-      {bool loading,
-      bool notifications,
-      ChatBackground background,
-      List<UserModel> participants});
+  $Res call({bool loading, bool notifications, List<UserModel> participants});
 }
 
-class __$ChatStateCopyWithImpl<$Res>
+class __$CreateStateCopyWithImpl<$Res>
     extends _$ChatSettingsStateCopyWithImpl<$Res>
-    implements _$ChatStateCopyWith<$Res> {
-  __$ChatStateCopyWithImpl(_ChatState _value, $Res Function(_ChatState) _then)
-      : super(_value, (v) => _then(v as _ChatState));
+    implements _$CreateStateCopyWith<$Res> {
+  __$CreateStateCopyWithImpl(
+      _CreateState _value, $Res Function(_CreateState) _then)
+      : super(_value, (v) => _then(v as _CreateState));
 
   @override
-  _ChatState get _value => super._value as _ChatState;
+  _CreateState get _value => super._value as _CreateState;
 
   @override
   $Res call({
     Object loading = freezed,
     Object notifications = freezed,
-    Object background = freezed,
     Object participants = freezed,
   }) {
-    return _then(_ChatState(
+    return _then(_CreateState(
       loading: loading == freezed ? _value.loading : loading as bool,
       notifications: notifications == freezed
           ? _value.notifications
           : notifications as bool,
-      background: background == freezed
-          ? _value.background
-          : background as ChatBackground,
       participants: participants == freezed
           ? _value.participants
           : participants as List<UserModel>,
@@ -123,15 +106,13 @@ class __$ChatStateCopyWithImpl<$Res>
   }
 }
 
-class _$_ChatState with DiagnosticableTreeMixin implements _ChatState {
-  const _$_ChatState(
+class _$_CreateState implements _CreateState {
+  const _$_CreateState(
       {@required this.loading,
       @required this.notifications,
-      @required this.background,
       @required this.participants})
       : assert(loading != null),
         assert(notifications != null),
-        assert(background != null),
         assert(participants != null);
 
   @override
@@ -139,39 +120,23 @@ class _$_ChatState with DiagnosticableTreeMixin implements _ChatState {
   @override
   final bool notifications;
   @override
-  final ChatBackground background;
-  @override
   final List<UserModel> participants;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ChatSettingsState(loading: $loading, notifications: $notifications, background: $background, participants: $participants)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'ChatSettingsState'))
-      ..add(DiagnosticsProperty('loading', loading))
-      ..add(DiagnosticsProperty('notifications', notifications))
-      ..add(DiagnosticsProperty('background', background))
-      ..add(DiagnosticsProperty('participants', participants));
+  String toString() {
+    return 'ChatSettingsState(loading: $loading, notifications: $notifications, participants: $participants)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _ChatState &&
+        (other is _CreateState &&
             (identical(other.loading, loading) ||
                 const DeepCollectionEquality()
                     .equals(other.loading, loading)) &&
             (identical(other.notifications, notifications) ||
                 const DeepCollectionEquality()
                     .equals(other.notifications, notifications)) &&
-            (identical(other.background, background) ||
-                const DeepCollectionEquality()
-                    .equals(other.background, background)) &&
             (identical(other.participants, participants) ||
                 const DeepCollectionEquality()
                     .equals(other.participants, participants)));
@@ -182,29 +147,25 @@ class _$_ChatState with DiagnosticableTreeMixin implements _ChatState {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(loading) ^
       const DeepCollectionEquality().hash(notifications) ^
-      const DeepCollectionEquality().hash(background) ^
       const DeepCollectionEquality().hash(participants);
 
   @override
-  _$ChatStateCopyWith<_ChatState> get copyWith =>
-      __$ChatStateCopyWithImpl<_ChatState>(this, _$identity);
+  _$CreateStateCopyWith<_CreateState> get copyWith =>
+      __$CreateStateCopyWithImpl<_CreateState>(this, _$identity);
 }
 
-abstract class _ChatState implements ChatSettingsState {
-  const factory _ChatState(
+abstract class _CreateState implements ChatSettingsState {
+  const factory _CreateState(
       {@required bool loading,
       @required bool notifications,
-      @required ChatBackground background,
-      @required List<UserModel> participants}) = _$_ChatState;
+      @required List<UserModel> participants}) = _$_CreateState;
 
   @override
   bool get loading;
   @override
   bool get notifications;
   @override
-  ChatBackground get background;
-  @override
   List<UserModel> get participants;
   @override
-  _$ChatStateCopyWith<_ChatState> get copyWith;
+  _$CreateStateCopyWith<_CreateState> get copyWith;
 }
