@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:iconapp/data/models/category_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';

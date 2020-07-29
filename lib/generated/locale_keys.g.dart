@@ -7,6 +7,7 @@ abstract class  LocaleKeys {
   static const policy_prefix = 'policy.prefix';
   static const policy = 'policy';
   static const general_server_error = 'general.server_error';
+  static const general_iGotIt = 'general.iGotIt';
   static const general = 'general';
   static const onboarding_phoneTitle = 'onboarding.phoneTitle';
   static const onboarding_phoneSubtitle = 'onboarding.phoneSubtitle';
@@ -29,6 +30,9 @@ abstract class  LocaleKeys {
   static const create_groupSelectContactAppbarTitle = 'create.groupSelectContactAppbarTitle';
   static const create_newGroupTitle = 'create.newGroupTitle';
   static const create = 'create';
+  static const welcome_title = 'welcome.title';
+  static const welcome_content = 'welcome.content';
+  static const welcome = 'welcome';
   static const chat_messageInputHint = 'chat.messageInputHint';
   static const chat = 'chat';
 

@@ -51,46 +51,32 @@ abstract class _OnboardingStoreBase with Store {
   }
 
   @action
-  Future pickPhoto([bool upload = false]) async {
-    // pick photo and show localy
-    final imagePicker = sl<ImagePicker>();
-    final file = await imagePicker.getImage(source: ImageSource.gallery);
-    final photo = PhotoModel(url: file.path);
-    final user = _state.userModel.copyWith(photo: photo);
-
-    _state = _state.copyWith(
-      loading: upload,
-      userModel: user,
-    );
-
-    if (upload) {
-      // upload photo to firebase
+  Future pickAndUploadPhoto() async {
+    _state = _state.copyWith(loading: true);
+    try {
       final url = await _mediaStore.uploadPhoto(ImageSource.gallery);
 
-      // show photo from remote and update local photo to firebase link
       _state = _state.copyWith(
         loading: false,
         userModel: _state.userModel.copyWith(
-          photo: photo.copyWith(url: url),
+          photo: PhotoModel(url: url),
         ),
       );
+    } on Exception catch (_) {
+      print('cant pick photo');
+    } finally {
+      _state = _state.copyWith(loading: false);
     }
   }
 
   @action
   Future<Either<Exception, bool>> upadteUser() async {
     try {
+      final phone = _userStore.userModel.phone;
       _state = _state.copyWith(
-        loading: true,
-        userModel: _userStore.userModel,
-      );
-
+          loading: true, userModel: _state.userModel.copyWith(phone: phone));
       final saved = await _userStore.updateUser(_state.userModel);
-
-      if (saved) {
-        _authStore.setSignedIn();
-      }
-
+      if (saved) _authStore.setSignedIn();
       return right(saved);
     } on DioError catch (e) {
       return left(e);

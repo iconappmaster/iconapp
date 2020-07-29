@@ -2,13 +2,17 @@ import 'package:auto_route/auto_route.dart';
 import 'package:device_simulator/device_simulator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/routes/router.gr.dart';
+import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/widgets/bottomsheet/bs_bar.dart';
 import 'package:iconapp/widgets/bottomsheet/bs_nested_modal.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/home/stories_widget.dart';
+import 'package:iconapp/widgets/home/welcome_dialog.dart';
 import 'package:iconapp/widgets/onboarding/base_onboarding_widget.dart';
 import 'package:iconapp/widgets/onboarding/onboarding_appbar.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -19,32 +23,36 @@ const debugEnableDeviceSimulator = false;
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final store = sl<HomeStore>();
     return DeviceSimulator(
       enable: debugEnableDeviceSimulator,
       child: BaseGradientWidget(
-        child: Stack(
-          alignment: Alignment.topCenter,
-          children: <Widget>[
-            IconAppbar(showBack: false),
-            StoriesWidget(),
-            RecentChatsList(),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: GestureDetector(
-                onTap: () => openBottomSheet(context),
-                onPanUpdate: (details) {
-                  if (details.delta.dy < 0) {
-                    openBottomSheet(context);
-                  }
-                },
-                child: BottomSheetBar(
-                  isCategoriesSearchOn: false,
-                  isIconSearchOn: false,
+        child: Observer(
+          builder: (_) => Stack(
+            alignment: Alignment.topCenter,
+            children: <Widget>[
+              IconAppbar(showBack: false),
+              StoriesWidget(),
+              RecentChatsList(),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: GestureDetector(
                   onTap: () => openBottomSheet(context),
+                  onPanUpdate: (details) {
+                    if (details.delta.dy < 0) {
+                      openBottomSheet(context);
+                    }
+                  },
+                  child: BottomSheetBar(
+                    isCategoriesSearchOn: false,
+                    isIconSearchOn: false,
+                    onTap: () => openBottomSheet(context),
+                  ),
                 ),
               ),
-            ),
-          ],
+              if (store.showWelcomeDialog) WelcomeDialog(),
+            ],
+          ),
         ),
         // ),
       ),

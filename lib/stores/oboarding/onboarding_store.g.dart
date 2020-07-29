@@ -46,11 +46,13 @@ mixin _$OnboardingStore on _OnboardingStoreBase, Store {
     });
   }
 
-  final _$pickPhotoAsyncAction = AsyncAction('_OnboardingStoreBase.pickPhoto');
+  final _$pickAndUploadPhotoAsyncAction =
+      AsyncAction('_OnboardingStoreBase.pickAndUploadPhoto');
 
   @override
-  Future<dynamic> pickPhoto([bool upload = false]) {
-    return _$pickPhotoAsyncAction.run(() => super.pickPhoto(upload));
+  Future<dynamic> pickAndUploadPhoto() {
+    return _$pickAndUploadPhotoAsyncAction
+        .run(() => super.pickAndUploadPhoto());
   }
 
   final _$upadteUserAsyncAction =

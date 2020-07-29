@@ -19,7 +19,8 @@ class CodegenLoader extends AssetLoader{
     "prefix": " שלנו"
   },
   "general": {
-    "server_error": "תקלה בשרת, אנא נסה שנית"
+    "server_error": "תקלה בשרת, אנא נסה שנית",
+    "iGotIt": "הבנתי, תודה!"
   },
   "onboarding": {
     "phoneTitle": "כדי להתחבר לקבוצות הצ׳אט אנחנו\nצריכים את מספר הטלפון שלך",
@@ -43,6 +44,10 @@ class CodegenLoader extends AssetLoader{
     "groupSelectCategoryAppbarTitle": "בחר/י קטגוריה",
     "groupSelectContactAppbarTitle": "בחר/י משתתפים לקבוצה",
     "newGroupTitle": "יצירת קבוצה חדשה"
+  },
+  "welcome": {
+    "title": "ברוכים הבאים לאייקון",
+    "content": "קבוצת הצ׳אט שלנו מנוהלת על ידי האייקונים\nעצמם, אשר כותבים ומובילים את התוכן שאתם\nצופים בו באפליקציה, מצ׳וטטים, מצלמים\nתמונות וסרטונים ומקליטים את קולם כדי שתשמעו אותם\n\nמהיום, שוייכת לקבוצות האייקונים האהובה עליך.\nביכולתך להשפיע על ההודעות בצ׳אט באמצעות,\nמלחיצה על פרצופונים ורגשונים, כך שהם יוכלו לדעת כמה אהבה ותמיכה הם מקבלים ממך."
   },
   "chat": {
     "messageInputHint": "הקלד/י הודעה"

@@ -12,6 +12,7 @@ import 'package:iconapp/stores/auth/auth_store.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/chat_settings/chat_settings_store.dart';
 import 'package:iconapp/stores/group_create/group_create_store.dart';
+import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/stores/login/login_store.dart';
 import 'package:iconapp/stores/media/media_store.dart';
 import 'package:iconapp/stores/oboarding/onboarding_store.dart';
@@ -52,11 +53,12 @@ void initLocator() {
   sl.registerLazySingleton<MediaStore>(() => MediaStore());
   sl.registerLazySingleton<MediaRepository>(() => MediaRepositoryImpl());
   sl.registerLazySingleton<ImagePicker>(() => ImagePicker());
+
   // Home
+  sl.registerLazySingleton<HomeStore>(() => HomeStore());
 
   // Onboarding
   sl.registerLazySingleton<OnboardingStore>(() => OnboardingStore());
-  // Profile
 
   // Search
   sl.registerLazySingleton<SearchStore>(() => SearchStore());
@@ -65,8 +67,6 @@ void initLocator() {
       restClient: sl(),
     ),
   );
-
-  // Settings
 
   // Chat
   sl.registerLazySingleton<ChatStore>(() => ChatStore());

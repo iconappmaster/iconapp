@@ -31,7 +31,10 @@ class OnboardingProfile extends StatelessWidget {
             Positioned(
                 top: context.heightPlusStatusbarPerc(.138),
                 child: UserAvatar(
-                    onTap: () async => await store.pickPhoto(true),
+                    showLoading: store.getState.loading,
+                    onTap: () async {
+                      store.pickAndUploadPhoto();
+                    },
                     url: store.getUserPhoto)),
             PersonDetails(),
             SexPicker(),

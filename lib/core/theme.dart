@@ -145,6 +145,18 @@ const createCategoryTitle = TextStyle(
   fontSize: 18,
 );
 
+const dialogTitle = TextStyle(
+  fontFamily: _fontRubikBold,
+  color: white,
+  fontSize: 18,
+);
+
+const dialogContent = TextStyle(
+  fontFamily: _fontRubikRegular,
+  color: white,
+  fontSize: 14.7,
+);
+
 const personalDetailsHint = TextStyle(
     fontFamily: _fontRubikMedium,
     color: blueBerry,
@@ -168,4 +180,11 @@ final purpleGradient = LinearGradient(colors: [
 final redPinkGradient = LinearGradient(colors: [
   lightishRed,
   pinkRed,
+], begin: Alignment.bottomRight, end: Alignment.topLeft);
+
+
+
+final dialogGradient = LinearGradient(colors: [
+  darkBlueGrey,
+  darkIndigo,
 ], begin: Alignment.bottomRight, end: Alignment.topLeft);
