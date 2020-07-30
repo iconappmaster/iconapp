@@ -22,14 +22,16 @@ class NestedSheetModal extends StatefulWidget {
 }
 
 class _NestedSheetModalState extends State<NestedSheetModal> {
-  PageController pagerController = PageController();
+  PageController pagerController;
   SearchStore searchStore;
   ReactionDisposer _disposer;
 
   @override
   void initState() {
     searchStore = sl<SearchStore>();
-
+    pagerController = PageController(
+        initialPage:
+            searchStore.getSearchMode == SearchMode.categories ? 1 : 0);
     _disposer = reaction<SearchMode>(
       (_) => searchStore.getSearchMode,
       (mode) {
@@ -43,8 +45,8 @@ class _NestedSheetModalState extends State<NestedSheetModal> {
 
   @override
   void dispose() {
-    pagerController.removeListener(() {});
-    _disposer?.call();
+    // pagerController.removeListener(() {});
+    // _disposer?.call();
     super.dispose();
   }
 
@@ -77,11 +79,8 @@ class _NestedSheetModalState extends State<NestedSheetModal> {
               physics: NeverScrollableScrollPhysics(),
               children: <Widget>[
                 IconsSearchWidget(
-                  controller: widget.scrollController,
-                  onIconTapped: () => print(
-                    'on icon tapped',
-                  ),
-                ),
+                    controller: widget.scrollController,
+                    onIconTapped: () => print('on icon tapped')),
                 CategorySearchWidget(
                   controller: widget.scrollController,
                   onCategoryTapped: () => print('need to set category tapped'),

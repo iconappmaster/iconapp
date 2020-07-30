@@ -113,7 +113,7 @@ abstract class _LoginStoreBase with Store {
     try {
       final user = await _repository.verifyCode(fullNumber, code);
       final success = await _userStore.persistUser(user);
-      _userStore.userModel = user;
+      _userStore.setUser(user);
       return right(success);
     } on DioError catch (error) {
       if (error.response.data['error'] == "ERROR_WRONG_SMS") {

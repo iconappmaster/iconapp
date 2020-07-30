@@ -5,6 +5,9 @@ import 'package:iconapp/data/repositories/media_repository.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
+import 'dart:io' as Io;
+import 'package:image/image.dart';
+
 part 'media_store.g.dart';
 
 class MediaStore = _MediaStoreBase with _$MediaStore;
@@ -23,7 +26,8 @@ abstract class _MediaStoreBase with Store {
   Future<String> uploadPhoto(ImageSource source) async {
     final pickedFile = await _imagePicker.getImage(source: source);
     final file = File(pickedFile.path);
-    return await _repository.uploadSinglePhoto(file, getPath, getFileName);
+    final imagePath = await _repository.uploadSinglePhoto(file, getPath, getFileName);
+    return imagePath;
   }
 
   Future<String> uploadVideo(ImageSource source) async {
@@ -32,6 +36,6 @@ abstract class _MediaStoreBase with Store {
     return await _repository.uploadVideo(file, getPath, getFileName);
   }
 
-  String get getPath => _userStore.userModel.phone;
+  String get getPath => _userStore.getUser.phone;
   String get getFileName => '${DateTime.now().millisecondsSinceEpoch}.png';
 }

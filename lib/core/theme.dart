@@ -134,10 +134,7 @@ const createGroupTitle = TextStyle(
     fontFamily: _fontRubikBold, color: white, fontSize: 20, height: 1.1);
 
 const categoryName = TextStyle(
-    fontFamily: _fontRubikBold,
-    color: darkBlueGrey,
-    fontSize: 18.3,
-    height: 1);
+    fontFamily: _fontRubikBold, color: darkBlueGrey, fontSize: 18.3, height: 1);
 
 const createCategoryTitle = TextStyle(
   fontFamily: _fontRubikMedium,
@@ -164,12 +161,14 @@ const personalDetailsHint = TextStyle(
     height: 1.3);
 
 const changeColorTitle = TextStyle(
-    fontFamily: _fontRubikBold,
-    color: avatarRing,
-    fontSize: 17.3,
-    height: 1.3);
+    fontFamily: _fontRubikBold, color: avatarRing, fontSize: 17.3, height: 1.3);
 
-  
+const drawerName = TextStyle(
+  fontFamily: _fontRubikRegular,
+  color: white,
+  fontSize: 17.7,
+  height: 1.0,
+);
 
 // Gradients
 final purpleGradient = LinearGradient(colors: [
@@ -181,8 +180,6 @@ final redPinkGradient = LinearGradient(colors: [
   lightishRed,
   pinkRed,
 ], begin: Alignment.bottomRight, end: Alignment.topLeft);
-
-
 
 final dialogGradient = LinearGradient(colors: [
   darkBlueGrey,

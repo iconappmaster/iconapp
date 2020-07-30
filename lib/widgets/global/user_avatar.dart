@@ -8,6 +8,7 @@ class UserAvatar extends StatelessWidget {
   final String placeholder, url;
   final Function onTap;
   final bool showLoading;
+  final bool showPlus;
 
   const UserAvatar({
     Key key,
@@ -15,6 +16,7 @@ class UserAvatar extends StatelessWidget {
     @required this.url,
     @required this.onTap,
     this.showLoading = false,
+    this.showPlus = true,
   }) : super(key: key);
 
   @override
@@ -38,16 +40,16 @@ class UserAvatar extends StatelessWidget {
               ),
               child: url != null && url.isNotEmpty
                   ? CircleAvatar(
-                    backgroundColor: white,
-                    backgroundImage: url.showImage())
+                      backgroundColor: white, backgroundImage: url.showImage())
                   : Center(
                       child:
                           SvgPicture.asset(placeholder, height: 37, width: 37)),
             ),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: PlusCircle(),
-            ),
+            if (showPlus)
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: PlusCircle(),
+              ),
           ]),
         ),
       ]),

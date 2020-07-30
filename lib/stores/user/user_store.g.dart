@@ -16,19 +16,26 @@ mixin _$UserStore on _UserStoreBase, Store {
       (_$getTokenComputed ??= Computed<String>(() => super.getToken,
               name: '_UserStoreBase.getToken'))
           .value;
-
-  final _$userModelAtom = Atom(name: '_UserStoreBase.userModel');
+  Computed<UserModel> _$getUserComputed;
 
   @override
-  UserModel get userModel {
-    _$userModelAtom.reportRead();
-    return super.userModel;
+  UserModel get getUser =>
+      (_$getUserComputed ??= Computed<UserModel>(() => super.getUser,
+              name: '_UserStoreBase.getUser'))
+          .value;
+
+  final _$_userModelAtom = Atom(name: '_UserStoreBase._userModel');
+
+  @override
+  UserModel get _userModel {
+    _$_userModelAtom.reportRead();
+    return super._userModel;
   }
 
   @override
-  set userModel(UserModel value) {
-    _$userModelAtom.reportWrite(value, super.userModel, () {
-      super.userModel = value;
+  set _userModel(UserModel value) {
+    _$_userModelAtom.reportWrite(value, super._userModel, () {
+      super._userModel = value;
     });
   }
 
@@ -46,19 +53,40 @@ mixin _$UserStore on _UserStoreBase, Store {
     return _$updateUserAsyncAction.run(() => super.updateUser(user));
   }
 
-  final _$getCurrentUserAsyncAction =
-      AsyncAction('_UserStoreBase.getCurrentUser');
+  final _$getPersistentUserAsyncAction =
+      AsyncAction('_UserStoreBase.getPersistentUser');
 
   @override
-  Future<dynamic> getCurrentUser() {
-    return _$getCurrentUserAsyncAction.run(() => super.getCurrentUser());
+  Future<UserModel> getPersistentUser() {
+    return _$getPersistentUserAsyncAction.run(() => super.getPersistentUser());
+  }
+
+  final _$initAsyncAction = AsyncAction('_UserStoreBase.init');
+
+  @override
+  Future<dynamic> init() {
+    return _$initAsyncAction.run(() => super.init());
+  }
+
+  final _$_UserStoreBaseActionController =
+      ActionController(name: '_UserStoreBase');
+
+  @override
+  void setUser(UserModel user) {
+    final _$actionInfo = _$_UserStoreBaseActionController.startAction(
+        name: '_UserStoreBase.setUser');
+    try {
+      return super.setUser(user);
+    } finally {
+      _$_UserStoreBaseActionController.endAction(_$actionInfo);
+    }
   }
 
   @override
   String toString() {
     return '''
-userModel: ${userModel},
-getToken: ${getToken}
+getToken: ${getToken},
+getUser: ${getUser}
     ''';
   }
 }

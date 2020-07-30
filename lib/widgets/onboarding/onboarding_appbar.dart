@@ -5,15 +5,18 @@ import 'package:iconapp/widgets/global/blue_divider.dart';
 import '../../core/extensions/context_ext.dart';
 
 class IconAppbar extends StatelessWidget {
-  final bool showBack;
+  final bool spaceBetween, showBack;
+  final Widget widget;
 
-  const IconAppbar({Key key, this.showBack = true}) : super(key: key);
+  const IconAppbar(
+      {Key key, this.spaceBetween = true, this.showBack = false, this.widget})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     final padding = EdgeInsets.fromLTRB(
       context.widthPx * .052,
       context.heightPx * .031,
-      context.widthPx * .074,
+      context.widthPx * .031,
       context.heightPx * .031,
     );
 
@@ -25,11 +28,12 @@ class IconAppbar extends StatelessWidget {
           height: context.heightPx * .099,
           width: double.infinity,
           child: Row(
-            mainAxisAlignment: showBack
+            mainAxisAlignment: spaceBetween
                 ? MainAxisAlignment.spaceBetween
                 : MainAxisAlignment.end,
             children: <Widget>[
-              if (showBack) IconBackButton(),
+              if (showBack && spaceBetween) IconBackButton(),
+              if (widget != null) widget,
               SvgPicture.asset(
                 'assets/images/white_logo.svg',
                 height: 23.7,

@@ -16,13 +16,17 @@ abstract class _UserStoreBase with Store {
   _UserStoreBase() {
     _userRepository = sl<UserRepository>();
     _prefs = sl<SharedPreferencesService>();
+    init();
   }
 
   @observable
-  UserModel userModel = UserModel();
+  UserModel _userModel = UserModel();
 
   @computed
-  String get getToken => userModel?.sessionToken ?? '';
+  String get getToken => _userModel?.sessionToken ?? '';
+
+  @computed
+  UserModel get getUser => _userModel;
 
   @action
   Future<bool> persistUser(UserModel user) async {
@@ -36,7 +40,18 @@ abstract class _UserStoreBase with Store {
   }
 
   @action
-  Future getCurrentUser() async {
+  Future<UserModel> getPersistentUser() async {
     return await _userRepository.getPersistedUser();
+  }
+
+  @action
+  void setUser(UserModel user) {
+    _userModel = user;
+  }
+
+  @action
+  Future init() async {
+    final persistnetUser = await _userRepository.getPersistedUser();
+    _userModel = persistnetUser;
   }
 }

@@ -36,7 +36,7 @@ abstract class _ChatStoreBase with Store {
 
   @computed
   bool get showMessageComposer =>
-      _userStore?.userModel?.role != UserType?.viewer ?? true;
+      _userStore?.getUser?.role != UserType?.viewer ?? true;
 
   // MESSAGE ACTIONS!
 

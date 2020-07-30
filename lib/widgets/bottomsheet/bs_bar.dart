@@ -7,12 +7,12 @@ import 'bs_fab.dart';
 
 class BottomSheetBar extends StatelessWidget {
   final Function onTap;
-  final bool isIconSearchOn, isCategoriesSearchOn;
+  final bool showIconsSelected, showCategoriesSelected;
   const BottomSheetBar({
     Key key,
     this.onTap,
-    this.isIconSearchOn,
-    this.isCategoriesSearchOn,
+    this.showIconsSelected,
+    this.showCategoriesSelected,
   }) : super(key: key);
 
   @override
@@ -32,8 +32,8 @@ class BottomSheetBar extends StatelessWidget {
                   color: white),
               child: BottomSheetActionButtons(
                 onTap: onTap,
-                isCategoriesSearchOn: isCategoriesSearchOn,
-                isIconSearchOn: isIconSearchOn,
+                isCategoriesSearchOn: showCategoriesSelected,
+                isIconSearchOn: showIconsSelected,
               ),
             ),
           ),
