@@ -3,7 +3,6 @@ import 'package:iconapp/data/models/category_model.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
-import 'package:iconapp/data/models/home_model.dart';
 import 'package:iconapp/data/models/create_group_req.dart';
 import 'package:retrofit/retrofit.dart';
 import 'header_interceptor.dart';
@@ -28,9 +27,16 @@ abstract class RestClient {
   @POST('user')
   Future<UserModel> updateUser(@Body() UserModel userModel);
 
+  // SEARCH
+  @GET('categories')
+  Future<List<CategoryModel>> searchCategory(@Query('searchString') String searchString);
+
+  @GET('icons')
+  Future<List<UserModel>> searchContacts(@Query('searchString') String query);
+ 
   // HOME
-  @GET('getHome/{id}')
-  Future<HomeModel> getHome(@Path() String id);
+  @GET('conversations')
+  Future<List<CategoryModel>> getConversations();
 
   // GROUPS
   @POST('createGroup')
@@ -54,13 +60,6 @@ abstract class RestClient {
   Future likeMessage(
       @Path() String chatId, @Path() String messageId, @Body() bool addLike);
 
-  // SEARCH
-  @GET('categories')
-  Future<List<CategoryModel>> searchCategory(@Query('searchString') String searchString);
-
-  @GET('icons')
-  Future<List<UserModel>> searchContacts(@Query('searchString') String query);
- 
 }
 
 Dio getDioClient() {

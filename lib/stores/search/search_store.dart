@@ -14,8 +14,7 @@ abstract class _SearchStoreBase with Store {
 
   _SearchStoreBase() {
     _repository = sl<SearchRepository>();
-    searchCategories('');
-    searchIcons('');
+    showAll();
   }
 
   @observable
@@ -63,6 +62,12 @@ abstract class _SearchStoreBase with Store {
       (error) => print(error),
       (contacts) => _icons = contacts,
     );
+  }
+
+  @action
+  void showAll() {
+    searchCategories('');
+    searchIcons('');
   }
 
   @action

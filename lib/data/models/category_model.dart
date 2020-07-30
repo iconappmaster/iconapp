@@ -10,6 +10,7 @@ abstract class CategoryModel with _$CategoryModel {
     final int id,
     final String name,
     final PhotoModel photo,
+    final PhotoModel backgroundPhoto,
   }) = _CategoryModel;
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) =>

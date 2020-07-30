@@ -24,7 +24,6 @@ class BottomSheetActionButtons extends StatelessWidget {
       height: context.heightPlusStatusbarPerc(.109),
       child: Observer(
         builder: (_) {
-          print(store.getSearchMode == SearchMode.categories);
           return Stack(
             alignment: Alignment.center,
             children: <Widget>[

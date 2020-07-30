@@ -126,6 +126,17 @@ mixin _$SearchStore on _SearchStoreBase, Store {
       ActionController(name: '_SearchStoreBase');
 
   @override
+  void showAll() {
+    final _$actionInfo = _$_SearchStoreBaseActionController.startAction(
+        name: '_SearchStoreBase.showAll');
+    try {
+      return super.showAll();
+    } finally {
+      _$_SearchStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic search(String query) {
     final _$actionInfo = _$_SearchStoreBaseActionController.startAction(
         name: '_SearchStoreBase.search');

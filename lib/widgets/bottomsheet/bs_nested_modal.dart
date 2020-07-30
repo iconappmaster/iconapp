@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/stores/search/search_store.dart';
+import 'package:iconapp/widgets/global/measure_size.dart';
 import 'package:mobx/mobx.dart';
 import '../../core/extensions/context_ext.dart';
 import 'bs_bar.dart';
@@ -49,35 +50,44 @@ class _NestedSheetModalState extends State<NestedSheetModal> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: context.heightPx * .08),
-      child: NestedScrollView(
-        controller: ScrollController(),
-        physics: ScrollPhysics(parent: PageScrollPhysics()),
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  BottomSheetBar(),
-                  SearchBar(),
-                ],
+    final searchStore = sl<SearchStore>();
+    return MeasureSize(
+      onChange: (size) => searchStore.showAll(),
+      child: Container(
+        margin: EdgeInsets.only(top: context.heightPx * .08),
+        child: NestedScrollView(
+          controller: ScrollController(),
+          physics: ScrollPhysics(parent: PageScrollPhysics()),
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    BottomSheetBar(),
+                    SearchBar(),
+                  ],
+                ),
               ),
+            ];
+          },
+          body: Container(
+            color: white,
+            child: PageView(
+              controller: pagerController,
+              physics: NeverScrollableScrollPhysics(),
+              children: <Widget>[
+                IconsSearchWidget(
+                  controller: widget.scrollController,
+                  onIconTapped: () => print(
+                    'on icon tapped',
+                  ),
+                ),
+                CategorySearchWidget(
+                  controller: widget.scrollController,
+                  onCategoryTapped: () => print('need to set category tapped'),
+                ),
+              ],
             ),
-          ];
-        },
-        body: Container(
-          color: white,
-          child: PageView(
-            controller: pagerController,
-            physics: NeverScrollableScrollPhysics(),
-            children: <Widget>[
-              IconsSearchWidget(controller: widget.scrollController),
-              CategorySearchWidget(
-                controller: widget.scrollController,
-                onCategoryTapped: () => {print('asd')},
-              ),
-            ],
           ),
         ),
       ),

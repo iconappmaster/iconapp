@@ -13,6 +13,9 @@ _$_CategoryModel _$_$_CategoryModelFromJson(Map<String, dynamic> json) {
     photo: json['photo'] == null
         ? null
         : PhotoModel.fromJson(json['photo'] as Map<String, dynamic>),
+    backgroundPhoto: json['backgroundPhoto'] == null
+        ? null
+        : PhotoModel.fromJson(json['backgroundPhoto'] as Map<String, dynamic>),
   );
 }
 
@@ -21,4 +24,5 @@ Map<String, dynamic> _$_$_CategoryModelToJson(_$_CategoryModel instance) =>
       'id': instance.id,
       'name': instance.name,
       'photo': instance.photo,
+      'backgroundPhoto': instance.backgroundPhoto,
     };

@@ -77,13 +77,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  getHome(id) async {
-    ArgumentError.checkNotNull(id, 'id');
+  searchCategory(searchString) async {
+    ArgumentError.checkNotNull(searchString, 'searchString');
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'searchString': searchString};
     final _data = <String, dynamic>{};
-    final Response<Map<String, dynamic>> _result = await _dio.request(
-        'getHome/$id',
+    final Response<List<dynamic>> _result = await _dio.request('categories',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',
@@ -91,7 +90,48 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = HomeModel.fromJson(_result.data);
+    var value = _result.data
+        .map((dynamic i) => CategoryModel.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return value;
+  }
+
+  @override
+  searchContacts(query) async {
+    ArgumentError.checkNotNull(query, 'query');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'searchString': query};
+    final _data = <String, dynamic>{};
+    final Response<List<dynamic>> _result = await _dio.request('icons',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    var value = _result.data
+        .map((dynamic i) => UserModel.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return value;
+  }
+
+  @override
+  getConversations() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response<List<dynamic>> _result = await _dio.request('conversations',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    var value = _result.data
+        .map((dynamic i) => CategoryModel.fromJson(i as Map<String, dynamic>))
+        .toList();
     return value;
   }
 
@@ -209,46 +249,6 @@ class _RestClient implements RestClient {
             baseUrl: baseUrl),
         data: _data);
     final value = _result.data;
-    return value;
-  }
-
-  @override
-  searchCategory(searchString) async {
-    ArgumentError.checkNotNull(searchString, 'searchString');
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'searchString': searchString};
-    final _data = <String, dynamic>{};
-    final Response<List<dynamic>> _result = await _dio.request('categories',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'GET',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    var value = _result.data
-        .map((dynamic i) => CategoryModel.fromJson(i as Map<String, dynamic>))
-        .toList();
-    return value;
-  }
-
-  @override
-  searchContacts(query) async {
-    ArgumentError.checkNotNull(query, 'query');
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'searchString': query};
-    final _data = <String, dynamic>{};
-    final Response<List<dynamic>> _result = await _dio.request('icons',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'GET',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    var value = _result.data
-        .map((dynamic i) => UserModel.fromJson(i as Map<String, dynamic>))
-        .toList();
     return value;
   }
 }

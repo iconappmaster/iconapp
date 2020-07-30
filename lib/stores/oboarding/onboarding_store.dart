@@ -73,8 +73,7 @@ abstract class _OnboardingStoreBase with Store {
   Future<Either<Exception, bool>> upadteUser() async {
     try {
       final phone = _userStore.userModel.phone;
-      _state = _state.copyWith(
-          loading: true, userModel: _state.userModel.copyWith(phone: phone));
+      _state = _state.copyWith(loading: true, userModel: _state.userModel.copyWith(phone: phone));
       final saved = await _userStore.updateUser(_state.userModel);
       if (saved) _authStore.setSignedIn();
       return right(saved);

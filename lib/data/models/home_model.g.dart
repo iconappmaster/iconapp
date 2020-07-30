@@ -12,11 +12,6 @@ HomeModel _$HomeModelFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : StoryModel.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    hotCategories: (json['hotCategories'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CategoryModel.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
     categories: (json['categories'] as List)
         ?.map((e) => e == null
             ? null
@@ -28,5 +23,4 @@ HomeModel _$HomeModelFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$HomeModelToJson(HomeModel instance) => <String, dynamic>{
       'stories': instance.stories,
       'categories': instance.categories,
-      'hotCategories': instance.hotCategories,
     };

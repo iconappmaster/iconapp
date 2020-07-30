@@ -16,6 +16,35 @@ mixin _$HomeStore on _HomeStoreBase, Store {
           () => super.showWelcomeDialog,
           name: '_HomeStoreBase.showWelcomeDialog'))
       .value;
+  Computed<bool> _$isLoadingComputed;
+
+  @override
+  bool get isLoading =>
+      (_$isLoadingComputed ??= Computed<bool>(() => super.isLoading,
+              name: '_HomeStoreBase.isLoading'))
+          .value;
+  Computed<List<CategoryModel>> _$conversationsComputed;
+
+  @override
+  List<CategoryModel> get conversations => (_$conversationsComputed ??=
+          Computed<List<CategoryModel>>(() => super.conversations,
+              name: '_HomeStoreBase.conversations'))
+      .value;
+
+  final _$_stateAtom = Atom(name: '_HomeStoreBase._state');
+
+  @override
+  HomeState get _state {
+    _$_stateAtom.reportRead();
+    return super._state;
+  }
+
+  @override
+  set _state(HomeState value) {
+    _$_stateAtom.reportWrite(value, super._state, () {
+      super._state = value;
+    });
+  }
 
   final _$_showWelcomeDialogAtom =
       Atom(name: '_HomeStoreBase._showWelcomeDialog');
@@ -33,6 +62,13 @@ mixin _$HomeStore on _HomeStoreBase, Store {
     });
   }
 
+  final _$getHomeAsyncAction = AsyncAction('_HomeStoreBase.getHome');
+
+  @override
+  Future<Either<ServerError, Unit>> getHome() {
+    return _$getHomeAsyncAction.run(() => super.getHome());
+  }
+
   final _$hideWelcomeDialogAsyncAction =
       AsyncAction('_HomeStoreBase.hideWelcomeDialog');
 
@@ -44,7 +80,9 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   @override
   String toString() {
     return '''
-showWelcomeDialog: ${showWelcomeDialog}
+showWelcomeDialog: ${showWelcomeDialog},
+isLoading: ${isLoading},
+conversations: ${conversations}
     ''';
   }
 }

@@ -16,7 +16,6 @@ import 'package:iconapp/screens/settings_screen.dart';
 import 'package:iconapp/screens/profile_screen.dart';
 import 'package:iconapp/screens/search_screen.dart';
 import 'package:iconapp/screens/chat_screen.dart';
-import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/screens/chat_settings_screen.dart';
 import 'package:iconapp/screens/story_screen.dart';
 import 'package:iconapp/screens/full_video_screen.dart';
@@ -145,8 +144,7 @@ class Router extends RouterBase {
       var args = data.getArgs<ChatScreenArguments>(
           orElse: () => ChatScreenArguments());
       return MaterialPageRoute<dynamic>(
-        builder: (context) =>
-            ChatScreen(key: args.key, conversation: args.conversation),
+        builder: (context) => ChatScreen(key: args.key, id: args.id),
         settings: data,
       );
     },
@@ -238,11 +236,11 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
 
   Future<dynamic> pushChatScreen({
     Key key,
-    ConversationModel conversation,
+    int id,
   }) =>
       pushNamed<dynamic>(
         Routes.chatScreen,
-        arguments: ChatScreenArguments(key: key, conversation: conversation),
+        arguments: ChatScreenArguments(key: key, id: id),
       );
 
   Future<dynamic> pushChatSettings() => pushNamed<dynamic>(Routes.chatSettings);
@@ -283,8 +281,8 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
 //ChatScreen arguments holder class
 class ChatScreenArguments {
   final Key key;
-  final ConversationModel conversation;
-  ChatScreenArguments({this.key, this.conversation});
+  final int id;
+  ChatScreenArguments({this.key, this.id});
 }
 
 //FullImageScreen arguments holder class

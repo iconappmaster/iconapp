@@ -11,9 +11,9 @@ import 'package:iconapp/widgets/home/stories_widget.dart';
 import '../widgets/chat/chat_appbar.dart';
 
 class ChatScreen extends StatelessWidget {
-  final ConversationModel conversation;
+  final int id;
 
-  const ChatScreen({Key key, this.conversation}) : super(key: key);
+  const ChatScreen({Key key, this.id}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

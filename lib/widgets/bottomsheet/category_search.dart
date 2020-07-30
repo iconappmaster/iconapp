@@ -57,8 +57,8 @@ class CategorySearchItem extends StatelessWidget {
             children: <Widget>[
               NetworkPhoto(
                 url: category.photo.url,
-                height: 41,
-                width: 61,
+                height: 41.3,
+                width: 41.3,
               ),
               SizedBox(width: 14),
               HebrewText(category.name, style: categoryName),

@@ -134,7 +134,7 @@ const createGroupTitle = TextStyle(
     fontFamily: _fontRubikBold, color: white, fontSize: 20, height: 1.1);
 
 const categoryName = TextStyle(
-    fontFamily: _fontRubikRegular,
+    fontFamily: _fontRubikBold,
     color: darkBlueGrey,
     fontSize: 18.3,
     height: 1);

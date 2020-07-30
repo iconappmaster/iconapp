@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/user_model.dart';
@@ -8,35 +9,36 @@ import 'package:iconapp/widgets/global/network_photo.dart';
 
 class IconsSearchWidget extends StatelessWidget {
   final ScrollController controller;
-  final Function onTap;
+  final Function onIconTapped;
   const IconsSearchWidget({
     Key key,
     @required this.controller,
-    this.onTap,
+    @required this.onIconTapped,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final store = sl<SearchStore>();
-    return ListView.builder(
-      controller: controller,
-      itemBuilder: (context, index) {
-        final icon = store.getIcons[index];
-        return IconSearchItem(icon: icon, onTap: onTap);
-      },
-      itemCount: store.getIcons.length,
+    return Observer(
+      builder: (_) => ListView.builder(
+        controller: controller,
+        itemBuilder: (context, index) {
+          final icon = store.getIcons[index];
+          return IconSearchItem(icon: icon, onTap: onIconTapped);
+        },
+        itemCount: store.getIcons.length,
+      ),
     );
   }
 }
 
 class IconSearchItem extends StatelessWidget {
-  final UserModel user;
+  final UserModel icon;
 
   const IconSearchItem({
     Key key,
-    @required UserModel icon,
     @required this.onTap,
-    this.user,
+    this.icon,
   }) : super(key: key);
 
   final Function onTap;
@@ -52,17 +54,17 @@ class IconSearchItem extends StatelessWidget {
           child: Row(
             children: <Widget>[
               NetworkPhoto(
-                url: user.photo.url ?? '',
+                url: icon?.photo?.url ?? '',
                 radius: BorderRadius.circular(5.3),
-                height: 41,
-                width: 41,
+                height: 41.3,
+                width: 41.3,
               ),
               SizedBox(width: 14),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  HebrewText(user.fullName, style: categoryName),
+                  HebrewText(icon?.fullName ?? '', style: categoryName),
                 ],
               ),
             ],
