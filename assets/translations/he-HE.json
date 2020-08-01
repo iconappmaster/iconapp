@@ -28,9 +28,10 @@
         "groupNameHint": "הקלד/י כאן את נושא הקבוצה",
         "groupNameDescription": "בחר/י נושא לקבוצה החדשה. כדאי להוסיף גם אייקון.",
         "groupNameAppbarTitle": "נושא הקבוצה",
-        "groupSelectCategoryAppbarTitle": "בחר/י קטגוריה",
-        "groupSelectContactAppbarTitle": "בחר/י משתתפים לקבוצה",
-        "newGroupTitle": "יצירת קבוצה חדשה"
+        "categoriesSubtitle": "בחר/י קטגוריה",
+        "iconSubtitle": "בחר/י משתתפים לקבוצה",
+        "newGroupTitle": "יצירת קבוצה חדשה",
+        "iconValidation" : "יש לבחור יותר ממשתתף אחד"
     },
     "welcome": {
         "title": "ברוכים הבאים לאייקון",

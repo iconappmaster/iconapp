@@ -37,7 +37,7 @@ class _OnboardingPhoneState extends State<OnboardingPhone> {
           fit: StackFit.expand,
           alignment: Alignment.topCenter,
           children: <Widget>[
-            IconAppbar(),
+            IconAppbar(showBack: true),
             _OnboardingPhoneTitle(),
             _OnboardingPhoneSubtitle(store: store),
             PhoneNumberInput(store: store),

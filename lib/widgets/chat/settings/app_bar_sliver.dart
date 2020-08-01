@@ -69,7 +69,7 @@ class ChatSettingsAppBar implements SliverPersistentHeaderDelegate {
                   width: 16.3,
                 ),
                 onPressed: () => ExtendedNavigator.of(context)
-                    .pushNamed(Routes.groupNameScreen),
+                    .pushNamed(Routes.createDetailsScreen),
               )),
         ],
       ),

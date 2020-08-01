@@ -3,7 +3,8 @@ import 'package:auto_route/auto_route_annotations.dart';
 import 'package:iconapp/screens/camera_screen.dart';
 import 'package:iconapp/screens/chat_screen.dart';
 import 'package:iconapp/screens/chat_settings_screen.dart';
-import 'package:iconapp/screens/create_group.dart';
+import 'package:iconapp/screens/create_categories_screen.dart';
+import 'package:iconapp/screens/create_icons_screen.dart';
 import 'package:iconapp/screens/full_image_screen.dart';
 import 'package:iconapp/screens/full_video_screen.dart';
 import 'package:iconapp/screens/group_name_screen.dart';
@@ -34,10 +35,10 @@ import 'package:iconapp/screens/story_screen.dart';
     MaterialRoute(page: FullVideoScreen),
     MaterialRoute(page: FullImageScreen),
     MaterialRoute(page: CameraScreen),
-    MaterialRoute(page: GroupNameScreen),
-    CupertinoRoute(page: SelectContactsScreen, fullscreenDialog: true),
-    CupertinoRoute(page: SelectCategoryScreen),
-    CupertinoRoute(page: GroupNamePhoto),
+    CupertinoRoute(page: CreateIconScreen, fullscreenDialog: true),
+    CupertinoRoute(page: CreateCategoryScreen),
+    MaterialRoute(page: CreateDetailsScreen),
+    // CupertinoRoute(page: CreateDetailsScreen),
   ],
 )
 class $Router {}

@@ -5,8 +5,6 @@ import 'package:iconapp/data/repositories/media_repository.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
-import 'dart:io' as Io;
-import 'package:image/image.dart';
 
 part 'media_store.g.dart';
 

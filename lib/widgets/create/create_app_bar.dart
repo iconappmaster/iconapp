@@ -9,12 +9,14 @@ class CreateGroupAppbar extends StatelessWidget {
   final bool showBack;
   final String title;
   final String subtitle;
+  final Function onBackTap;
 
   const CreateGroupAppbar({
     Key key,
     this.showBack = true,
     @required this.title,
     this.subtitle,
+    this.onBackTap,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,12 @@ class CreateGroupAppbar extends StatelessWidget {
               if (subtitle != null)
                 Positioned(
                     top: 51.7, child: HebrewText(subtitle, style: fieldLabel)),
-              Positioned(top: 8, right: 26.7, child: IconBackButton()),
+              Positioned(
+                  top: 8,
+                  right: 26.7,
+                  child: IconBackButton(
+                    onBackTap: onBackTap,
+                  )),
             ],
           ),
         ),

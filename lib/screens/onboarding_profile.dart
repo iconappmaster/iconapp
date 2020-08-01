@@ -49,6 +49,7 @@ class OnboardingProfile extends StatelessWidget {
     return Positioned(
       top: ctx.heightPlusStatusbarPerc(.526),
       child: NextButton(
+        enabled: !store.getState.loading,
         onClick: () {
           if (_formValidatorKey.currentState.validate()) {
             store.upadteUser().then((result) => result.fold(

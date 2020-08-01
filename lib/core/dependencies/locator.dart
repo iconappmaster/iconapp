@@ -12,7 +12,8 @@ import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 import 'package:iconapp/stores/auth/auth_store.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/chat_settings/chat_settings_store.dart';
-import 'package:iconapp/stores/group_create/group_create_store.dart';
+import 'package:iconapp/stores/create/create_category_store.dart';
+import 'package:iconapp/stores/create/create_icon_store.dart';
 import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/stores/login/login_store.dart';
 import 'package:iconapp/stores/media/media_store.dart';
@@ -57,27 +58,33 @@ void initLocator() {
 
   // Home
   sl.registerLazySingleton<HomeStore>(() => HomeStore());
-  sl.registerLazySingleton<HomeRepository>(() => HomeRepositoryImpl(restClient: sl()));
+  sl.registerLazySingleton<HomeRepository>(
+      () => HomeRepositoryImpl(restClient: sl()));
 
   // Onboarding
   sl.registerLazySingleton<OnboardingStore>(() => OnboardingStore());
 
   // Search
   sl.registerLazySingleton<SearchStore>(() => SearchStore());
-  sl.registerLazySingleton<SearchRepository>(() => SearchRepositoryImpl(restClient: sl()),
+  sl.registerLazySingleton<SearchRepository>(
+    () => SearchRepositoryImpl(restClient: sl()),
   );
 
   // Chat
   sl.registerLazySingleton<ChatStore>(() => ChatStore());
   sl.registerLazySingleton<ChatSettingsStore>(() => ChatSettingsStore());
-  sl.registerLazySingleton<ChatRepository>(() => ChatRepositoryImpl(restClient: sl()));
+  sl.registerLazySingleton<ChatRepository>(
+      () => ChatRepositoryImpl(restClient: sl()));
 
-  // Group Creation
-  sl.registerLazySingleton<GroupCreateStore>(() => GroupCreateStore());
-  sl.registerLazySingleton<GroupCreateRepository>(
-      () => GroupCreateRepositoryImpl(sl()));
+  // Conversation create
+  sl.registerLazySingleton<CreateCategoryStore>(() => CreateCategoryStore());
+  sl.registerLazySingleton<CreateIconStore>(() => CreateIconStore());
+  sl.registerLazySingleton<CreateRepository>(() => GroupCreateRepositoryImpl(sl()));
 
   // User
   sl.registerLazySingleton<UserStore>(() => UserStore());
-  sl.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(restClient: sl(), sp: sl(),));
+  sl.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(
+        restClient: sl(),
+        sp: sl(),
+      ));
 }

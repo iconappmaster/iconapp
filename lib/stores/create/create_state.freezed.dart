@@ -15,15 +15,11 @@ class _$CreateStateTearOff {
 // ignore: unused_element
   _CreateState call(
       {@required bool loading,
-      @required List<UserModel> contacts,
-      @required List<UserModel> selectedContacts,
-      @required List<CategoryModel> categories,
+      @required List<UserModel> selectedIcons,
       @required List<int> selectedCategories}) {
     return _CreateState(
       loading: loading,
-      contacts: contacts,
-      selectedContacts: selectedContacts,
-      categories: categories,
+      selectedIcons: selectedIcons,
       selectedCategories: selectedCategories,
     );
   }
@@ -34,9 +30,7 @@ const $CreateState = _$CreateStateTearOff();
 
 mixin _$CreateState {
   bool get loading;
-  List<UserModel> get contacts;
-  List<UserModel> get selectedContacts;
-  List<CategoryModel> get categories;
+  List<UserModel> get selectedIcons;
   List<int> get selectedCategories;
 
   $CreateStateCopyWith<CreateState> get copyWith;
@@ -48,9 +42,7 @@ abstract class $CreateStateCopyWith<$Res> {
       _$CreateStateCopyWithImpl<$Res>;
   $Res call(
       {bool loading,
-      List<UserModel> contacts,
-      List<UserModel> selectedContacts,
-      List<CategoryModel> categories,
+      List<UserModel> selectedIcons,
       List<int> selectedCategories});
 }
 
@@ -64,21 +56,14 @@ class _$CreateStateCopyWithImpl<$Res> implements $CreateStateCopyWith<$Res> {
   @override
   $Res call({
     Object loading = freezed,
-    Object contacts = freezed,
-    Object selectedContacts = freezed,
-    Object categories = freezed,
+    Object selectedIcons = freezed,
     Object selectedCategories = freezed,
   }) {
     return _then(_value.copyWith(
       loading: loading == freezed ? _value.loading : loading as bool,
-      contacts:
-          contacts == freezed ? _value.contacts : contacts as List<UserModel>,
-      selectedContacts: selectedContacts == freezed
-          ? _value.selectedContacts
-          : selectedContacts as List<UserModel>,
-      categories: categories == freezed
-          ? _value.categories
-          : categories as List<CategoryModel>,
+      selectedIcons: selectedIcons == freezed
+          ? _value.selectedIcons
+          : selectedIcons as List<UserModel>,
       selectedCategories: selectedCategories == freezed
           ? _value.selectedCategories
           : selectedCategories as List<int>,
@@ -94,9 +79,7 @@ abstract class _$CreateStateCopyWith<$Res>
   @override
   $Res call(
       {bool loading,
-      List<UserModel> contacts,
-      List<UserModel> selectedContacts,
-      List<CategoryModel> categories,
+      List<UserModel> selectedIcons,
       List<int> selectedCategories});
 }
 
@@ -112,21 +95,14 @@ class __$CreateStateCopyWithImpl<$Res> extends _$CreateStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object loading = freezed,
-    Object contacts = freezed,
-    Object selectedContacts = freezed,
-    Object categories = freezed,
+    Object selectedIcons = freezed,
     Object selectedCategories = freezed,
   }) {
     return _then(_CreateState(
       loading: loading == freezed ? _value.loading : loading as bool,
-      contacts:
-          contacts == freezed ? _value.contacts : contacts as List<UserModel>,
-      selectedContacts: selectedContacts == freezed
-          ? _value.selectedContacts
-          : selectedContacts as List<UserModel>,
-      categories: categories == freezed
-          ? _value.categories
-          : categories as List<CategoryModel>,
+      selectedIcons: selectedIcons == freezed
+          ? _value.selectedIcons
+          : selectedIcons as List<UserModel>,
       selectedCategories: selectedCategories == freezed
           ? _value.selectedCategories
           : selectedCategories as List<int>,
@@ -137,30 +113,22 @@ class __$CreateStateCopyWithImpl<$Res> extends _$CreateStateCopyWithImpl<$Res>
 class _$_CreateState implements _CreateState {
   const _$_CreateState(
       {@required this.loading,
-      @required this.contacts,
-      @required this.selectedContacts,
-      @required this.categories,
+      @required this.selectedIcons,
       @required this.selectedCategories})
       : assert(loading != null),
-        assert(contacts != null),
-        assert(selectedContacts != null),
-        assert(categories != null),
+        assert(selectedIcons != null),
         assert(selectedCategories != null);
 
   @override
   final bool loading;
   @override
-  final List<UserModel> contacts;
-  @override
-  final List<UserModel> selectedContacts;
-  @override
-  final List<CategoryModel> categories;
+  final List<UserModel> selectedIcons;
   @override
   final List<int> selectedCategories;
 
   @override
   String toString() {
-    return 'CreateState(loading: $loading, contacts: $contacts, selectedContacts: $selectedContacts, categories: $categories, selectedCategories: $selectedCategories)';
+    return 'CreateState(loading: $loading, selectedIcons: $selectedIcons, selectedCategories: $selectedCategories)';
   }
 
   @override
@@ -170,15 +138,9 @@ class _$_CreateState implements _CreateState {
             (identical(other.loading, loading) ||
                 const DeepCollectionEquality()
                     .equals(other.loading, loading)) &&
-            (identical(other.contacts, contacts) ||
+            (identical(other.selectedIcons, selectedIcons) ||
                 const DeepCollectionEquality()
-                    .equals(other.contacts, contacts)) &&
-            (identical(other.selectedContacts, selectedContacts) ||
-                const DeepCollectionEquality()
-                    .equals(other.selectedContacts, selectedContacts)) &&
-            (identical(other.categories, categories) ||
-                const DeepCollectionEquality()
-                    .equals(other.categories, categories)) &&
+                    .equals(other.selectedIcons, selectedIcons)) &&
             (identical(other.selectedCategories, selectedCategories) ||
                 const DeepCollectionEquality()
                     .equals(other.selectedCategories, selectedCategories)));
@@ -188,9 +150,7 @@ class _$_CreateState implements _CreateState {
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(loading) ^
-      const DeepCollectionEquality().hash(contacts) ^
-      const DeepCollectionEquality().hash(selectedContacts) ^
-      const DeepCollectionEquality().hash(categories) ^
+      const DeepCollectionEquality().hash(selectedIcons) ^
       const DeepCollectionEquality().hash(selectedCategories);
 
   @override
@@ -201,19 +161,13 @@ class _$_CreateState implements _CreateState {
 abstract class _CreateState implements CreateState {
   const factory _CreateState(
       {@required bool loading,
-      @required List<UserModel> contacts,
-      @required List<UserModel> selectedContacts,
-      @required List<CategoryModel> categories,
+      @required List<UserModel> selectedIcons,
       @required List<int> selectedCategories}) = _$_CreateState;
 
   @override
   bool get loading;
   @override
-  List<UserModel> get contacts;
-  @override
-  List<UserModel> get selectedContacts;
-  @override
-  List<CategoryModel> get categories;
+  List<UserModel> get selectedIcons;
   @override
   List<int> get selectedCategories;
   @override

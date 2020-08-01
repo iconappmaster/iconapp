@@ -45,8 +45,8 @@ class _NestedSheetModalState extends State<NestedSheetModal> {
 
   @override
   void dispose() {
-    // pagerController.removeListener(() {});
-    // _disposer?.call();
+    pagerController.removeListener(() {});
+    _disposer?.call();
     super.dispose();
   }
 

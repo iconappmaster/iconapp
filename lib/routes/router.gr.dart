@@ -22,8 +22,10 @@ import 'package:iconapp/screens/full_video_screen.dart';
 import 'package:iconapp/screens/full_image_screen.dart';
 import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/screens/camera_screen.dart';
+import 'package:iconapp/screens/create_icons_screen.dart';
+import 'package:iconapp/screens/create_categories_screen.dart';
+import 'package:iconapp/stores/search/search_store.dart';
 import 'package:iconapp/screens/group_name_screen.dart';
-import 'package:iconapp/screens/create_group.dart';
 
 class Routes {
   static const String splashScreen = '/';
@@ -40,10 +42,9 @@ class Routes {
   static const String fullVideoScreen = '/full-video-screen';
   static const String fullImageScreen = '/full-image-screen';
   static const String cameraScreen = '/camera-screen';
-  static const String groupNameScreen = '/group-name-screen';
-  static const String selectContactsScreen = '/select-contacts-screen';
-  static const String selectCategoryScreen = '/select-category-screen';
-  static const String groupNamePhoto = '/group-name-photo';
+  static const String createIconScreen = '/create-icon-screen';
+  static const String createCategoryScreen = '/create-category-screen';
+  static const String createDetailsScreen = '/create-details-screen';
   static const all = <String>{
     splashScreen,
     loginScreen,
@@ -59,10 +60,9 @@ class Routes {
     fullVideoScreen,
     fullImageScreen,
     cameraScreen,
-    groupNameScreen,
-    selectContactsScreen,
-    selectCategoryScreen,
-    groupNamePhoto,
+    createIconScreen,
+    createCategoryScreen,
+    createDetailsScreen,
   };
 }
 
@@ -84,10 +84,9 @@ class Router extends RouterBase {
     RouteDef(Routes.fullVideoScreen, page: FullVideoScreen),
     RouteDef(Routes.fullImageScreen, page: FullImageScreen),
     RouteDef(Routes.cameraScreen, page: CameraScreen),
-    RouteDef(Routes.groupNameScreen, page: GroupNameScreen),
-    RouteDef(Routes.selectContactsScreen, page: SelectContactsScreen),
-    RouteDef(Routes.selectCategoryScreen, page: SelectCategoryScreen),
-    RouteDef(Routes.groupNamePhoto, page: GroupNamePhoto),
+    RouteDef(Routes.createIconScreen, page: CreateIconScreen),
+    RouteDef(Routes.createCategoryScreen, page: CreateCategoryScreen),
+    RouteDef(Routes.createDetailsScreen, page: CreateDetailsScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -181,28 +180,24 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    GroupNameScreen: (RouteData data) {
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => GroupNameScreen(),
-        settings: data,
-      );
-    },
-    SelectContactsScreen: (RouteData data) {
+    CreateIconScreen: (RouteData data) {
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => SelectContactsScreen(),
+        builder: (context) => CreateIconScreen(),
         settings: data,
         fullscreenDialog: true,
       );
     },
-    SelectCategoryScreen: (RouteData data) {
+    CreateCategoryScreen: (RouteData data) {
+      var args = data.getArgs<CreateCategoryScreenArguments>(nullOk: false);
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => SelectCategoryScreen(),
+        builder: (context) =>
+            CreateCategoryScreen(key: args.key, store: args.store),
         settings: data,
       );
     },
-    GroupNamePhoto: (RouteData data) {
-      return CupertinoPageRoute<dynamic>(
-        builder: (context) => GroupNamePhoto(),
+    CreateDetailsScreen: (RouteData data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => CreateDetailsScreen(),
         settings: data,
       );
     },
@@ -261,17 +256,20 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
 
   Future<dynamic> pushCameraScreen() => pushNamed<dynamic>(Routes.cameraScreen);
 
-  Future<dynamic> pushGroupNameScreen() =>
-      pushNamed<dynamic>(Routes.groupNameScreen);
+  Future<dynamic> pushCreateIconScreen() =>
+      pushNamed<dynamic>(Routes.createIconScreen);
 
-  Future<dynamic> pushSelectContactsScreen() =>
-      pushNamed<dynamic>(Routes.selectContactsScreen);
+  Future<dynamic> pushCreateCategoryScreen({
+    Key key,
+    @required SearchStore store,
+  }) =>
+      pushNamed<dynamic>(
+        Routes.createCategoryScreen,
+        arguments: CreateCategoryScreenArguments(key: key, store: store),
+      );
 
-  Future<dynamic> pushSelectCategoryScreen() =>
-      pushNamed<dynamic>(Routes.selectCategoryScreen);
-
-  Future<dynamic> pushGroupNamePhoto() =>
-      pushNamed<dynamic>(Routes.groupNamePhoto);
+  Future<dynamic> pushCreateDetailsScreen() =>
+      pushNamed<dynamic>(Routes.createDetailsScreen);
 }
 
 // *************************************************************************
@@ -290,4 +288,11 @@ class FullImageScreenArguments {
   final Key key;
   final PhotoModel photo;
   FullImageScreenArguments({this.key, this.photo});
+}
+
+//CreateCategoryScreen arguments holder class
+class CreateCategoryScreenArguments {
+  final Key key;
+  final SearchStore store;
+  CreateCategoryScreenArguments({this.key, @required this.store});
 }

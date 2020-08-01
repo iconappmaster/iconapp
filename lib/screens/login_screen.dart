@@ -53,10 +53,7 @@ class PrivacyAndTerms extends StatelessWidget {
               style: smallLine.copyWith(decoration: TextDecoration.underline),
               recognizer: TapGestureRecognizer()
                 ..onTap = () async {
-                  // TODO route to website
-                  // if (await canLaunch(termsOfService)) {
-                  //   await launch(termsOfService);
-                  // }
+                   // open dialog - need to be designed
                 }),
           TextSpan(text: LocaleKeys.policy_prefix.tr(), style: smallLine)
         ]),

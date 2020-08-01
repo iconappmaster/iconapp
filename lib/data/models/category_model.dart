@@ -4,6 +4,7 @@ import 'package:iconapp/data/models/photo_model.dart';
 part 'category_model.freezed.dart';
 part 'category_model.g.dart';
 
+/// Used for category search
 @freezed
 abstract class CategoryModel with _$CategoryModel {
   const factory CategoryModel({
