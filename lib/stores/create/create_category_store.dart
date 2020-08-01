@@ -10,14 +10,14 @@ class CreateCategoryStore = _CreateCategoryStoreBase with _$CreateCategoryStore;
 
 abstract class _CreateCategoryStoreBase with Store {
   _CreateCategoryStoreBase() {
-    _categories = sl<SearchStore>()?.getCategories ?? [];
+    _init();
   }
 
   @observable
-  List<CategoryModel> _selected = [];
+  ObservableList<CategoryModel> _categories = ObservableList.of([]);
 
   @observable
-  List<CategoryModel> _categories = [];
+  ObservableList<CategoryModel> _selected = ObservableList.of([]);
 
   @computed
   List<CategoryModel> get getCategories => _categories;
@@ -26,15 +26,26 @@ abstract class _CreateCategoryStoreBase with Store {
   List<CategoryModel> get getSelectedCategories => _selected;
 
   @computed
-  int get getItemCount => _categories.length;
+  bool get isValid => getSelectedCategories.length > 0;
+
+  @computed
+  int get count => _categories.length;
 
   @action
-  void addOrRemoveItem(CategoryModel category) {
-    Vibration.vibrate();
-    if (_selected.contains(category)) {
-      _selected.remove(category);
-    } else {
-      _selected.add(category);
-    }
+  _init() async {
+    final categories = await sl<SearchStore>()?.searchCategories('');
+    final result = categories.getOrElse(() => []);
+    _categories.addAll(result);
+  }
+
+  @action
+  Future updateSelected(CategoryModel category) async {
+    await Vibration.vibrate();
+    
+    
+    _selected.contains(category)
+        ? _selected.remove(category)
+        : _selected.add(category);
+    print('categories ${_selected.length}');
   }
 }

@@ -20,10 +20,32 @@ class CreateConversationItem extends StatefulWidget {
   _CreateConversationItemState createState() => _CreateConversationItemState();
 }
 
-class _CreateConversationItemState extends State<CreateConversationItem> {
+class _CreateConversationItemState extends State<CreateConversationItem>
+    with SingleTickerProviderStateMixin {
+  AnimationController _controller;
+  Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+        vsync: this, duration: Duration(milliseconds: 250), value: 0.1);
+    _animation =
+        CurvedAnimation(parent: _controller, curve: Curves.bounceInOut);
+  }
+
   bool isSelected = false;
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    isSelected ? _controller.forward() : _controller.reverse();
+
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -46,11 +68,11 @@ class _CreateConversationItemState extends State<CreateConversationItem> {
                 child: Stack(
                   children: [
                     NetworkPhoto(url: widget.url, height: 41, width: 41),
-                    if (isSelected)
-                      Align(
-                        alignment: Alignment.bottomLeft,
-                        child: CheckCircle(),
-                      ),
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: ScaleTransition(
+                          scale: _animation, child: CheckCircle()),
+                    ),
                   ],
                 ),
               ),

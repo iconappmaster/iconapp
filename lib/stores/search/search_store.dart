@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/models/category_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
@@ -47,21 +48,38 @@ abstract class _SearchStoreBase with Store {
   }
 
   @action
-  Future searchCategories(String query) async {
-    final categories = await _repository.searchCategories(query);
-    categories.fold(
-      (error) => print(error),
-      (categories) => _categories = categories,
-    );
+  Future<Either<ServerError, List<CategoryModel>>> searchCategories(
+      String query) async {
+    try {
+      final categories = await _repository.searchCategories(query);
+
+      return categories.fold(
+        (error) => left(error),
+        (categories) {
+          _categories = categories;
+          return right(categories);
+        },
+      );
+    } on Exception catch (e) {
+      return left(e);
+    }
   }
 
   @action
-  Future searchIcons(String query) async {
-    final icons = await _repository.searchIcons(query);
-    icons.fold(
-      (error) => print(error),
-      (contacts) => _icons = contacts,
-    );
+  Future<Either<ServerError, List<UserModel>>> searchIcons(String query) async {
+    try {
+      final icons = await _repository.searchIcons(query);
+
+      return icons.fold(
+        (error) => left(error),
+        (icons) {
+          _icons = icons;
+          return right(icons);
+        },
+      );
+    } on Exception catch (e) {
+      return left(e);
+    }
   }
 
   @action

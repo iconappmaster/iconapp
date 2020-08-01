@@ -39,13 +39,13 @@ mixin _$CreateIconStore on _CreateIconStoreBase, Store {
   final _$_iconsAtom = Atom(name: '_CreateIconStoreBase._icons');
 
   @override
-  List<UserModel> get _icons {
+  ObservableList<UserModel> get _icons {
     _$_iconsAtom.reportRead();
     return super._icons;
   }
 
   @override
-  set _icons(List<UserModel> value) {
+  set _icons(ObservableList<UserModel> value) {
     _$_iconsAtom.reportWrite(value, super._icons, () {
       super._icons = value;
     });
@@ -66,11 +66,18 @@ mixin _$CreateIconStore on _CreateIconStoreBase, Store {
     });
   }
 
+  final _$_initAsyncAction = AsyncAction('_CreateIconStoreBase._init');
+
+  @override
+  Future _init() {
+    return _$_initAsyncAction.run(() => super._init());
+  }
+
   final _$updateSelectedAsyncAction =
       AsyncAction('_CreateIconStoreBase.updateSelected');
 
   @override
-  Future updateSelected(UserModel icon) {
+  Future<dynamic> updateSelected(UserModel icon) {
     return _$updateSelectedAsyncAction.run(() => super.updateSelected(icon));
   }
 

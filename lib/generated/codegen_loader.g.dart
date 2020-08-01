@@ -44,7 +44,8 @@ class CodegenLoader extends AssetLoader{
     "categoriesSubtitle": "בחר/י קטגוריה",
     "iconSubtitle": "בחר/י משתתפים לקבוצה",
     "newGroupTitle": "יצירת קבוצה חדשה",
-    "iconValidation": "יש לבחור יותר ממשתתף אחד"
+    "iconValidation": "יש לבחור יותר מאייקון אחד",
+    "categoryValidation": "יש לבחור יותר מקטגוריה אחת"
   },
   "welcome": {
     "title": "ברוכים הבאים לאייקון",

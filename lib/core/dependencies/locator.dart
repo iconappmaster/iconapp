@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:iconapp/data/repositories/auth_repository.dart';
 import 'package:iconapp/data/repositories/chat_repository.dart';
-import 'package:iconapp/data/repositories/group_create_repository.dart';
+import 'package:iconapp/data/repositories/create_repository.dart';
 import 'package:iconapp/data/repositories/home_repository.dart';
 import 'package:iconapp/data/repositories/login_repository.dart';
 import 'package:iconapp/data/repositories/media_repository.dart';
@@ -13,6 +13,7 @@ import 'package:iconapp/stores/auth/auth_store.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/chat_settings/chat_settings_store.dart';
 import 'package:iconapp/stores/create/create_category_store.dart';
+import 'package:iconapp/stores/create/create_details_store.dart';
 import 'package:iconapp/stores/create/create_icon_store.dart';
 import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/stores/login/login_store.dart';
@@ -70,6 +71,7 @@ void initLocator() {
     () => SearchRepositoryImpl(restClient: sl()),
   );
 
+
   // Chat
   sl.registerLazySingleton<ChatStore>(() => ChatStore());
   sl.registerLazySingleton<ChatSettingsStore>(() => ChatSettingsStore());
@@ -79,6 +81,7 @@ void initLocator() {
   // Conversation create
   sl.registerLazySingleton<CreateCategoryStore>(() => CreateCategoryStore());
   sl.registerLazySingleton<CreateIconStore>(() => CreateIconStore());
+  sl.registerLazySingleton<CreateDetailsStore>(() => CreateDetailsStore());
   sl.registerLazySingleton<CreateRepository>(() => GroupCreateRepositoryImpl(sl()));
 
   // User

@@ -110,7 +110,8 @@ mixin _$SearchStore on _SearchStoreBase, Store {
       AsyncAction('_SearchStoreBase.searchCategories');
 
   @override
-  Future<dynamic> searchCategories(String query) {
+  Future<Either<ServerError, List<CategoryModel>>> searchCategories(
+      String query) {
     return _$searchCategoriesAsyncAction
         .run(() => super.searchCategories(query));
   }
@@ -118,7 +119,7 @@ mixin _$SearchStore on _SearchStoreBase, Store {
   final _$searchIconsAsyncAction = AsyncAction('_SearchStoreBase.searchIcons');
 
   @override
-  Future<dynamic> searchIcons(String query) {
+  Future<Either<ServerError, List<UserModel>>> searchIcons(String query) {
     return _$searchIconsAsyncAction.run(() => super.searchIcons(query));
   }
 

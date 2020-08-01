@@ -10,12 +10,11 @@ class CreateIconStore = _CreateIconStoreBase with _$CreateIconStore;
 
 abstract class _CreateIconStoreBase with Store {
   _CreateIconStoreBase() {
-    final icons = sl<SearchStore>()?.getIcons ?? [];
-    _icons.addAll(icons);
+    _init();
   }
 
   @observable
-  List<UserModel> _icons = [];
+  ObservableList<UserModel> _icons = ObservableList.of([]);
 
   @observable
   ObservableList<UserModel> _selected = ObservableList.of([]);
@@ -32,13 +31,17 @@ abstract class _CreateIconStoreBase with Store {
   @computed
   int get count => _icons.length;
 
-  // @action
-  // bool isSelected(UserModel icon) => getSelectedIcons.contains(icon);
-  // getSelectedIcons.any((i) => i.id == icon.id);
+  @action
+  _init() async {
+    final icons = await sl<SearchStore>()?.searchIcons('');
+    final result = icons.getOrElse(() => []);
+    _icons.addAll(result);
+  }
 
   @action
   Future updateSelected(UserModel icon) async {
     await Vibration.vibrate();
     _selected.contains(icon) ? _selected.remove(icon) : _selected.add(icon);
+    print('icons ${_selected.length}');
   }
 }

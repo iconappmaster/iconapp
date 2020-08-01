@@ -4,10 +4,11 @@ import 'package:iconapp/screens/camera_screen.dart';
 import 'package:iconapp/screens/chat_screen.dart';
 import 'package:iconapp/screens/chat_settings_screen.dart';
 import 'package:iconapp/screens/create_categories_screen.dart';
+import 'package:iconapp/screens/create_details_screen.dart';
 import 'package:iconapp/screens/create_icons_screen.dart';
 import 'package:iconapp/screens/full_image_screen.dart';
 import 'package:iconapp/screens/full_video_screen.dart';
-import 'package:iconapp/screens/group_name_screen.dart';
+import 'package:iconapp/screens/rename_conversation.dart';
 import 'package:iconapp/screens/home_screen.dart';
 import 'package:iconapp/screens/login_screen.dart';
 import 'package:iconapp/screens/onboarding_phone.dart';
@@ -37,8 +38,8 @@ import 'package:iconapp/screens/story_screen.dart';
     MaterialRoute(page: CameraScreen),
     CupertinoRoute(page: CreateIconScreen, fullscreenDialog: true),
     CupertinoRoute(page: CreateCategoryScreen),
-    MaterialRoute(page: CreateDetailsScreen),
-    // CupertinoRoute(page: CreateDetailsScreen),
+    MaterialRoute(page: RenameConversation),
+    CupertinoRoute(page: CreateDetailsScreen),
   ],
 )
 class $Router {}

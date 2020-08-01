@@ -24,56 +24,63 @@ mixin _$CreateCategoryStore on _CreateCategoryStoreBase, Store {
               () => super.getSelectedCategories,
               name: '_CreateCategoryStoreBase.getSelectedCategories'))
           .value;
-  Computed<int> _$getItemCountComputed;
+  Computed<bool> _$isValidComputed;
 
   @override
-  int get getItemCount =>
-      (_$getItemCountComputed ??= Computed<int>(() => super.getItemCount,
-              name: '_CreateCategoryStoreBase.getItemCount'))
-          .value;
-
-  final _$_selectedAtom = Atom(name: '_CreateCategoryStoreBase._selected');
+  bool get isValid => (_$isValidComputed ??= Computed<bool>(() => super.isValid,
+          name: '_CreateCategoryStoreBase.isValid'))
+      .value;
+  Computed<int> _$countComputed;
 
   @override
-  List<CategoryModel> get _selected {
-    _$_selectedAtom.reportRead();
-    return super._selected;
-  }
-
-  @override
-  set _selected(List<CategoryModel> value) {
-    _$_selectedAtom.reportWrite(value, super._selected, () {
-      super._selected = value;
-    });
-  }
+  int get count => (_$countComputed ??= Computed<int>(() => super.count,
+          name: '_CreateCategoryStoreBase.count'))
+      .value;
 
   final _$_categoriesAtom = Atom(name: '_CreateCategoryStoreBase._categories');
 
   @override
-  List<CategoryModel> get _categories {
+  ObservableList<CategoryModel> get _categories {
     _$_categoriesAtom.reportRead();
     return super._categories;
   }
 
   @override
-  set _categories(List<CategoryModel> value) {
+  set _categories(ObservableList<CategoryModel> value) {
     _$_categoriesAtom.reportWrite(value, super._categories, () {
       super._categories = value;
     });
   }
 
-  final _$_CreateCategoryStoreBaseActionController =
-      ActionController(name: '_CreateCategoryStoreBase');
+  final _$_selectedAtom = Atom(name: '_CreateCategoryStoreBase._selected');
 
   @override
-  void addOrRemoveItem(CategoryModel category) {
-    final _$actionInfo = _$_CreateCategoryStoreBaseActionController.startAction(
-        name: '_CreateCategoryStoreBase.addOrRemoveItem');
-    try {
-      return super.addOrRemoveItem(category);
-    } finally {
-      _$_CreateCategoryStoreBaseActionController.endAction(_$actionInfo);
-    }
+  CategoryModel get _selected {
+    _$_selectedAtom.reportRead();
+    return super._selected;
+  }
+
+  @override
+  set _selected(CategoryModel value) {
+    _$_selectedAtom.reportWrite(value, super._selected, () {
+      super._selected = value;
+    });
+  }
+
+  final _$_initAsyncAction = AsyncAction('_CreateCategoryStoreBase._init');
+
+  @override
+  Future _init() {
+    return _$_initAsyncAction.run(() => super._init());
+  }
+
+  final _$updateSelectedAsyncAction =
+      AsyncAction('_CreateCategoryStoreBase.updateSelected');
+
+  @override
+  Future<dynamic> updateSelected(CategoryModel category) {
+    return _$updateSelectedAsyncAction
+        .run(() => super.updateSelected(category));
   }
 
   @override
@@ -81,7 +88,8 @@ mixin _$CreateCategoryStore on _CreateCategoryStoreBase, Store {
     return '''
 getCategories: ${getCategories},
 getSelectedCategories: ${getSelectedCategories},
-getItemCount: ${getItemCount}
+isValid: ${isValid},
+count: ${count}
     ''';
   }
 }

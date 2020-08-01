@@ -24,8 +24,8 @@ import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/screens/camera_screen.dart';
 import 'package:iconapp/screens/create_icons_screen.dart';
 import 'package:iconapp/screens/create_categories_screen.dart';
-import 'package:iconapp/stores/search/search_store.dart';
-import 'package:iconapp/screens/group_name_screen.dart';
+import 'package:iconapp/screens/rename_conversation.dart';
+import 'package:iconapp/screens/create_details_screen.dart';
 
 class Routes {
   static const String splashScreen = '/';
@@ -44,6 +44,7 @@ class Routes {
   static const String cameraScreen = '/camera-screen';
   static const String createIconScreen = '/create-icon-screen';
   static const String createCategoryScreen = '/create-category-screen';
+  static const String renameConversation = '/rename-conversation';
   static const String createDetailsScreen = '/create-details-screen';
   static const all = <String>{
     splashScreen,
@@ -62,6 +63,7 @@ class Routes {
     cameraScreen,
     createIconScreen,
     createCategoryScreen,
+    renameConversation,
     createDetailsScreen,
   };
 }
@@ -86,6 +88,7 @@ class Router extends RouterBase {
     RouteDef(Routes.cameraScreen, page: CameraScreen),
     RouteDef(Routes.createIconScreen, page: CreateIconScreen),
     RouteDef(Routes.createCategoryScreen, page: CreateCategoryScreen),
+    RouteDef(Routes.renameConversation, page: RenameConversation),
     RouteDef(Routes.createDetailsScreen, page: CreateDetailsScreen),
   ];
   @override
@@ -188,15 +191,19 @@ class Router extends RouterBase {
       );
     },
     CreateCategoryScreen: (RouteData data) {
-      var args = data.getArgs<CreateCategoryScreenArguments>(nullOk: false);
       return CupertinoPageRoute<dynamic>(
-        builder: (context) =>
-            CreateCategoryScreen(key: args.key, store: args.store),
+        builder: (context) => CreateCategoryScreen(),
+        settings: data,
+      );
+    },
+    RenameConversation: (RouteData data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => RenameConversation(),
         settings: data,
       );
     },
     CreateDetailsScreen: (RouteData data) {
-      return MaterialPageRoute<dynamic>(
+      return CupertinoPageRoute<dynamic>(
         builder: (context) => CreateDetailsScreen(),
         settings: data,
       );
@@ -259,14 +266,11 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
   Future<dynamic> pushCreateIconScreen() =>
       pushNamed<dynamic>(Routes.createIconScreen);
 
-  Future<dynamic> pushCreateCategoryScreen({
-    Key key,
-    @required SearchStore store,
-  }) =>
-      pushNamed<dynamic>(
-        Routes.createCategoryScreen,
-        arguments: CreateCategoryScreenArguments(key: key, store: store),
-      );
+  Future<dynamic> pushCreateCategoryScreen() =>
+      pushNamed<dynamic>(Routes.createCategoryScreen);
+
+  Future<dynamic> pushRenameConversation() =>
+      pushNamed<dynamic>(Routes.renameConversation);
 
   Future<dynamic> pushCreateDetailsScreen() =>
       pushNamed<dynamic>(Routes.createDetailsScreen);
@@ -288,11 +292,4 @@ class FullImageScreenArguments {
   final Key key;
   final PhotoModel photo;
   FullImageScreenArguments({this.key, this.photo});
-}
-
-//CreateCategoryScreen arguments holder class
-class CreateCategoryScreenArguments {
-  final Key key;
-  final SearchStore store;
-  CreateCategoryScreenArguments({this.key, @required this.store});
 }
