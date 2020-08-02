@@ -16,6 +16,13 @@ mixin _$CreateDetailsStore on _CreateDetailsStoreBase, Store {
           Computed<String>(() => super.getSelectedPhoto,
               name: '_CreateDetailsStoreBase.getSelectedPhoto'))
       .value;
+  Computed<String> _$groupNameComputed;
+
+  @override
+  String get groupName =>
+      (_$groupNameComputed ??= Computed<String>(() => super.groupName,
+              name: '_CreateDetailsStoreBase.groupName'))
+          .value;
 
   final _$_groupNameAtom = Atom(name: '_CreateDetailsStoreBase._groupName');
 
@@ -94,10 +101,22 @@ mixin _$CreateDetailsStore on _CreateDetailsStoreBase, Store {
   }
 
   @override
+  void clear() {
+    final _$actionInfo = _$_CreateDetailsStoreBaseActionController.startAction(
+        name: '_CreateDetailsStoreBase.clear');
+    try {
+      return super.clear();
+    } finally {
+      _$_CreateDetailsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 isLoading: ${isLoading},
-getSelectedPhoto: ${getSelectedPhoto}
+getSelectedPhoto: ${getSelectedPhoto},
+groupName: ${groupName}
     ''';
   }
 }

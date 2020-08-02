@@ -27,6 +27,9 @@ abstract class _HomeStoreBase with Store {
   HomeState _state = HomeState.initial();
 
   @observable
+  ObservableList<CategoryModel> _categories = ObservableList.of([]);
+
+  @observable
   bool _showWelcomeDialog = true;
 
   @computed
@@ -36,14 +39,27 @@ abstract class _HomeStoreBase with Store {
   bool get isLoading => _state.loading;
 
   @computed
-  List<CategoryModel> get conversations => _state.categories;
+  // List<CategoryModel> get conversations => _state.categories;
+  List<CategoryModel> get conversations => _categories;
+
+  @action
+  void addConversation(CategoryModel category) {
+    // var clone = _state.categories;
+    // clone.add(category);
+    // _state = _state.copyWith(categories: clone);
+    _categories.add(category);
+  }
 
   @action
   Future<Either<ServerError, Unit>> getHome() async {
     try {
-      _state = _state.copyWith(loading: true);
+      // _state = _state.copyWith(loading: true);
+      // final categories = await _repository.getHome();
+      // _state = _state.copyWith(categories: categories);
       final categories = await _repository.getHome();
-      _state = _state.copyWith(categories: categories);
+      _categories.clear();
+      _categories.addAll(categories);
+
       return right(unit);
     } on ServerError catch (e) {
       return left(e);

@@ -1,11 +1,13 @@
-import 'dart:io';
-
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/data/models/create_group_req.dart';
+import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/data/repositories/create_repository.dart';
 import 'package:iconapp/data/repositories/search_repository.dart';
 import 'package:iconapp/stores/create/create_category_store.dart';
 import 'package:iconapp/stores/create/create_icon_store.dart';
+import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/stores/media/media_store.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
@@ -17,6 +19,7 @@ abstract class _CreateDetailsStoreBase with Store {
   CreateRepository _repository;
   CreateIconStore _iconStore;
   CreateCategoryStore _categoryStore;
+  HomeStore _homeStore;
   MediaStore _mediaStore;
 
   _CreateDetailsStoreBase() {
@@ -24,6 +27,7 @@ abstract class _CreateDetailsStoreBase with Store {
     _iconStore = sl<CreateIconStore>();
     _categoryStore = sl<CreateCategoryStore>();
     _mediaStore = sl<MediaStore>();
+    _homeStore = sl<HomeStore>();
   }
   @observable
   String _groupName = '';
@@ -36,6 +40,9 @@ abstract class _CreateDetailsStoreBase with Store {
 
   @computed
   String get getSelectedPhoto => _selectedPhoto;
+
+  @computed
+  String get groupName => _groupName;
 
   @action
   void updateGroupName(String name) {
@@ -59,14 +66,32 @@ abstract class _CreateDetailsStoreBase with Store {
       isLoading = true;
 
       final icons = _iconStore.getSelectedIcons;
-      final categories = _categoryStore.getSelectedCategories;
+      final category = _categoryStore.getSelectedCategory;
 
-      // final result = await _repository.createConversation(contacts, categoriesIds);
+      final req = CreateGroupReq(
+        categoryId: category.id,
+        users: icons,
+        photo: PhotoModel(url: _selectedPhoto),
+        name: _groupName,
+      );
+
+      final conversation = await _repository.createConversation(req);
+
+      _homeStore.addConversation(conversation);
+      // await _homeStore.getHome();
+
       return right(unit);
     } on ServerError catch (e) {
       return left(e);
     } finally {
       isLoading = false;
     }
+  }
+
+  @action
+  void clear() {
+    _groupName = '';
+    _selectedPhoto = '';
+    
   }
 }

@@ -46,6 +46,21 @@ mixin _$HomeStore on _HomeStoreBase, Store {
     });
   }
 
+  final _$_categoriesAtom = Atom(name: '_HomeStoreBase._categories');
+
+  @override
+  ObservableList<CategoryModel> get _categories {
+    _$_categoriesAtom.reportRead();
+    return super._categories;
+  }
+
+  @override
+  set _categories(ObservableList<CategoryModel> value) {
+    _$_categoriesAtom.reportWrite(value, super._categories, () {
+      super._categories = value;
+    });
+  }
+
   final _$_showWelcomeDialogAtom =
       Atom(name: '_HomeStoreBase._showWelcomeDialog');
 
@@ -75,6 +90,20 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   @override
   Future<dynamic> hideWelcomeDialog() {
     return _$hideWelcomeDialogAsyncAction.run(() => super.hideWelcomeDialog());
+  }
+
+  final _$_HomeStoreBaseActionController =
+      ActionController(name: '_HomeStoreBase');
+
+  @override
+  void addConversation(CategoryModel category) {
+    final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
+        name: '_HomeStoreBase.addConversation');
+    try {
+      return super.addConversation(category);
+    } finally {
+      _$_HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
   }
 
   @override

@@ -7,12 +7,12 @@ part 'home_state.freezed.dart';
 @freezed
 abstract class HomeState with _$HomeState {
   const factory HomeState({
-    @required List<CategoryModel> categories,
+    // @required List<CategoryModel> categories,
     @required bool loading,
   }) = _HomeState;
 
   factory HomeState.initial() => HomeState(
         loading: false,
-        categories: []
+        // categories: []
       );
 }

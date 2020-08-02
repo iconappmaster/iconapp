@@ -13,10 +13,8 @@ class _$HomeStateTearOff {
   const _$HomeStateTearOff();
 
 // ignore: unused_element
-  _HomeState call(
-      {@required List<CategoryModel> categories, @required bool loading}) {
+  _HomeState call({@required bool loading}) {
     return _HomeState(
-      categories: categories,
       loading: loading,
     );
   }
@@ -26,7 +24,6 @@ class _$HomeStateTearOff {
 const $HomeState = _$HomeStateTearOff();
 
 mixin _$HomeState {
-  List<CategoryModel> get categories;
   bool get loading;
 
   $HomeStateCopyWith<HomeState> get copyWith;
@@ -35,7 +32,7 @@ mixin _$HomeState {
 abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res>;
-  $Res call({List<CategoryModel> categories, bool loading});
+  $Res call({bool loading});
 }
 
 class _$HomeStateCopyWithImpl<$Res> implements $HomeStateCopyWith<$Res> {
@@ -47,13 +44,9 @@ class _$HomeStateCopyWithImpl<$Res> implements $HomeStateCopyWith<$Res> {
 
   @override
   $Res call({
-    Object categories = freezed,
     Object loading = freezed,
   }) {
     return _then(_value.copyWith(
-      categories: categories == freezed
-          ? _value.categories
-          : categories as List<CategoryModel>,
       loading: loading == freezed ? _value.loading : loading as bool,
     ));
   }
@@ -64,7 +57,7 @@ abstract class _$HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
           _HomeState value, $Res Function(_HomeState) then) =
       __$HomeStateCopyWithImpl<$Res>;
   @override
-  $Res call({List<CategoryModel> categories, bool loading});
+  $Res call({bool loading});
 }
 
 class __$HomeStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
@@ -77,31 +70,23 @@ class __$HomeStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object categories = freezed,
     Object loading = freezed,
   }) {
     return _then(_HomeState(
-      categories: categories == freezed
-          ? _value.categories
-          : categories as List<CategoryModel>,
       loading: loading == freezed ? _value.loading : loading as bool,
     ));
   }
 }
 
 class _$_HomeState with DiagnosticableTreeMixin implements _HomeState {
-  const _$_HomeState({@required this.categories, @required this.loading})
-      : assert(categories != null),
-        assert(loading != null);
+  const _$_HomeState({@required this.loading}) : assert(loading != null);
 
-  @override
-  final List<CategoryModel> categories;
   @override
   final bool loading;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'HomeState(categories: $categories, loading: $loading)';
+    return 'HomeState(loading: $loading)';
   }
 
   @override
@@ -109,7 +94,6 @@ class _$_HomeState with DiagnosticableTreeMixin implements _HomeState {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'HomeState'))
-      ..add(DiagnosticsProperty('categories', categories))
       ..add(DiagnosticsProperty('loading', loading));
   }
 
@@ -117,18 +101,13 @@ class _$_HomeState with DiagnosticableTreeMixin implements _HomeState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _HomeState &&
-            (identical(other.categories, categories) ||
-                const DeepCollectionEquality()
-                    .equals(other.categories, categories)) &&
             (identical(other.loading, loading) ||
                 const DeepCollectionEquality().equals(other.loading, loading)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(categories) ^
-      const DeepCollectionEquality().hash(loading);
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(loading);
 
   @override
   _$HomeStateCopyWith<_HomeState> get copyWith =>
@@ -136,12 +115,8 @@ class _$_HomeState with DiagnosticableTreeMixin implements _HomeState {
 }
 
 abstract class _HomeState implements HomeState {
-  const factory _HomeState(
-      {@required List<CategoryModel> categories,
-      @required bool loading}) = _$_HomeState;
+  const factory _HomeState({@required bool loading}) = _$_HomeState;
 
-  @override
-  List<CategoryModel> get categories;
   @override
   bool get loading;
   @override

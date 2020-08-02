@@ -70,7 +70,7 @@ class _OnboardingPhoneState extends State<OnboardingPhone> {
               context.unFocus();
               store.verifyPhone();
             },
-            onError: () => context.showErrorFlushbar(
+            onError: () => context.showFlushbar(
                 message: LocaleKeys.onboarding_phone_tooShort.tr()),
           )),
     );
@@ -183,9 +183,9 @@ class _PinCode extends StatelessWidget {
                 final successFailure = await store.verifySms();
                 successFailure.fold(
                   (error) => error.when(
-                      serverError: () => ctx.showErrorFlushbar(
+                      serverError: () => ctx.showFlushbar(
                           message: LocaleKeys.general_server_error),
-                      wrongCode: () => ctx.showErrorFlushbar(
+                      wrongCode: () => ctx.showFlushbar(
                           message: LocaleKeys.onboarding_wrongCode.tr())),
                   (success) =>
                       ExtendedNavigator.of(ctx).pushOnboardingProfile(),

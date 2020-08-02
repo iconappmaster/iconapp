@@ -17,16 +17,16 @@ abstract class _CreateCategoryStoreBase with Store {
   ObservableList<CategoryModel> _categories = ObservableList.of([]);
 
   @observable
-  ObservableList<CategoryModel> _selected = ObservableList.of([]);
+  CategoryModel _selectedCategory;
 
   @computed
   List<CategoryModel> get getCategories => _categories;
 
   @computed
-  List<CategoryModel> get getSelectedCategories => _selected;
+  CategoryModel get getSelectedCategory => _selectedCategory;
 
   @computed
-  bool get isValid => getSelectedCategories.length > 0;
+  bool get isValid => _selectedCategory != null;
 
   @computed
   int get count => _categories.length;
@@ -41,11 +41,11 @@ abstract class _CreateCategoryStoreBase with Store {
   @action
   Future updateSelected(CategoryModel category) async {
     await Vibration.vibrate();
-    
-    
-    _selected.contains(category)
-        ? _selected.remove(category)
-        : _selected.add(category);
-    print('categories ${_selected.length}');
+    _selectedCategory = category;
+  }
+
+  @action
+  void clear() {
+    _selectedCategory = null;
   }
 }

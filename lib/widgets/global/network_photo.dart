@@ -6,55 +6,71 @@ import 'package:flutter_svg/svg.dart';
 class NetworkPhoto extends StatelessWidget {
   final String url;
   final double height, width;
-  final BorderRadiusGeometry radius;
+  final String placeHolder;
+  final double placeHolderPadding;
 
   const NetworkPhoto({
     Key key,
     @required this.url,
-    this.height = 70.0,
-    this.width = 70.0,
-    this.radius,
+    @required this.height,
+    @required this.width,
+    this.placeHolderPadding = 20,
+    this.placeHolder,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return url.endsWith('.svg')
-        ? ClipRRect(
-            borderRadius: radius ?? BorderRadius.circular(5),
-            child: SvgPicture.network(
-              url,
-              placeholderBuilder: (_) => PhotoPlaceHolder(),
-              fit: BoxFit.cover,
-              height: height,
-              width: width,
-            ))
-        : ClipRRect(
-            borderRadius: radius ?? BorderRadius.circular(5),
-            child: CachedNetworkImage(
-              height: height,
-              width: width,
-              fit: BoxFit.cover,
-              imageUrl: url,
-              placeholder: (_, url) => PhotoPlaceHolder(),
-            ));
+        ? SvgPicture.network(
+            url,
+            height: height,
+            width: width,
+            fit: BoxFit.cover,
+            placeholderBuilder: (_) => placeHolder != null
+                ? Container(
+                    padding: EdgeInsets.all(placeHolderPadding),
+                    child: PhotoPlaceHolder(
+                        height: height, width: width, placeHolder: placeHolder))
+                : Container(),
+          )
+        : CachedNetworkImage(
+            fadeOutDuration: Duration(milliseconds: 0),
+            progressIndicatorBuilder: (context, url, progress) =>
+                Center(child: CircularProgressIndicator()),
+            height: height,
+            width: width,
+            fit: BoxFit.cover,
+            imageUrl: url,
+            placeholder: (_, url) {
+              return placeHolder != null
+                  ? PhotoPlaceHolder(
+                      height: height, width: width, placeHolder: placeHolder)
+                  : Container();
+            },
+          );
   }
 }
 
 class PhotoPlaceHolder extends StatelessWidget {
-  final double size;
+  final double width;
+  final double height;
   final String placeHolder;
 
   const PhotoPlaceHolder({
     Key key,
-    this.size = 70,
-    this.placeHolder = 'assets/images/placeholder.svg',
+    @required this.height,
+    @required this.width,
+    @required this.placeHolder,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return SvgPicture.asset(
-      placeHolder,
-      height: size,
-      width: size,
+    return Center(
+      child: SvgPicture.asset(
+        placeHolder,
+        height: width,
+        width: height,
+        fit: BoxFit.cover,
+      ),
     );
   }
 }

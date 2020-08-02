@@ -16,14 +16,13 @@ mixin _$CreateCategoryStore on _CreateCategoryStoreBase, Store {
           Computed<List<CategoryModel>>(() => super.getCategories,
               name: '_CreateCategoryStoreBase.getCategories'))
       .value;
-  Computed<List<CategoryModel>> _$getSelectedCategoriesComputed;
+  Computed<CategoryModel> _$getSelectedCategoryComputed;
 
   @override
-  List<CategoryModel> get getSelectedCategories =>
-      (_$getSelectedCategoriesComputed ??= Computed<List<CategoryModel>>(
-              () => super.getSelectedCategories,
-              name: '_CreateCategoryStoreBase.getSelectedCategories'))
-          .value;
+  CategoryModel get getSelectedCategory => (_$getSelectedCategoryComputed ??=
+          Computed<CategoryModel>(() => super.getSelectedCategory,
+              name: '_CreateCategoryStoreBase.getSelectedCategory'))
+      .value;
   Computed<bool> _$isValidComputed;
 
   @override
@@ -52,18 +51,19 @@ mixin _$CreateCategoryStore on _CreateCategoryStoreBase, Store {
     });
   }
 
-  final _$_selectedAtom = Atom(name: '_CreateCategoryStoreBase._selected');
+  final _$_selectedCategoryAtom =
+      Atom(name: '_CreateCategoryStoreBase._selectedCategory');
 
   @override
-  CategoryModel get _selected {
-    _$_selectedAtom.reportRead();
-    return super._selected;
+  CategoryModel get _selectedCategory {
+    _$_selectedCategoryAtom.reportRead();
+    return super._selectedCategory;
   }
 
   @override
-  set _selected(CategoryModel value) {
-    _$_selectedAtom.reportWrite(value, super._selected, () {
-      super._selected = value;
+  set _selectedCategory(CategoryModel value) {
+    _$_selectedCategoryAtom.reportWrite(value, super._selectedCategory, () {
+      super._selectedCategory = value;
     });
   }
 
@@ -83,11 +83,25 @@ mixin _$CreateCategoryStore on _CreateCategoryStoreBase, Store {
         .run(() => super.updateSelected(category));
   }
 
+  final _$_CreateCategoryStoreBaseActionController =
+      ActionController(name: '_CreateCategoryStoreBase');
+
+  @override
+  void clear() {
+    final _$actionInfo = _$_CreateCategoryStoreBaseActionController.startAction(
+        name: '_CreateCategoryStoreBase.clear');
+    try {
+      return super.clear();
+    } finally {
+      _$_CreateCategoryStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
 getCategories: ${getCategories},
-getSelectedCategories: ${getSelectedCategories},
+getSelectedCategory: ${getSelectedCategory},
 isValid: ${isValid},
 count: ${count}
     ''';

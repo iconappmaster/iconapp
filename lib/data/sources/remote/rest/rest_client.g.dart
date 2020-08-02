@@ -142,7 +142,8 @@ class _RestClient implements RestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(groupReq?.toJson() ?? <String, dynamic>{});
-    final Response _result = await _dio.request('createGroup',
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'conversations',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -150,7 +151,7 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = _result.data;
+    final value = CategoryModel.fromJson(_result.data);
     return value;
   }
 

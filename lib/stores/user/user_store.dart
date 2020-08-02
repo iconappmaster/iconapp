@@ -18,6 +18,7 @@ abstract class _UserStoreBase with Store {
     _prefs = sl<SharedPreferencesService>();
     init();
   }
+ 
 
   @observable
   UserModel _userModel = UserModel();

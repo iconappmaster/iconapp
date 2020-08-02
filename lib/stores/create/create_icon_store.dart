@@ -42,6 +42,10 @@ abstract class _CreateIconStoreBase with Store {
   Future updateSelected(UserModel icon) async {
     await Vibration.vibrate();
     _selected.contains(icon) ? _selected.remove(icon) : _selected.add(icon);
-    print('icons ${_selected.length}');
+  }
+
+  @action
+  void clear() {
+    _selected.clear();
   }
 }

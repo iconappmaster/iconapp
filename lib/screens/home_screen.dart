@@ -27,11 +27,11 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
           key: _scaffoldKey,
           drawer: HomeDrawer(),
-          body: FocusAwareWidget(
-            child: Container(
-              decoration: BoxDecoration(gradient: purpleGradient),
-              child: Observer(
-                builder: (_) => Stack(
+          body: Observer(
+            builder: (_) => FocusAwareWidget(
+              child: Container(
+                decoration: BoxDecoration(gradient: purpleGradient),
+                child: Stack(
                   alignment: Alignment.topCenter,
                   children: <Widget>[
                     IconAppbar(widget: DrawerIcon(scaffoldKey: _scaffoldKey)),

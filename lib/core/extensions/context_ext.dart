@@ -27,14 +27,15 @@ extension ContextExtensions on BuildContext {
     )..show(this);
   }
 
-  showErrorFlushbar({
+  showFlushbar({
     @required String message,
-    String title,
+    Color color = pastelRed,
+    String title, 
   }) {
     return Flushbar(
       padding: EdgeInsets.fromLTRB(11, 10, 11, 10),
       title: title,
-      backgroundColor: pastelRed,
+      backgroundColor: color,
       flushbarStyle: FlushbarStyle.FLOATING,
       margin: EdgeInsets.fromLTRB(34, 34, 34, 34),
       duration: Duration(seconds: 2),

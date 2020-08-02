@@ -28,7 +28,7 @@ class CreateNextBotton extends StatelessWidget {
             if (isValid) {
               onTap();
             } else {
-              context.showErrorFlushbar(message: validationText);
+              context.showFlushbar(message: validationText);
             }
           }),
     );

@@ -12,8 +12,8 @@ class PlusCircle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 30,
-      width: 30,
+      height: 38,
+      width: 38,
       decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: cornflower,

@@ -53,12 +53,13 @@ class IconSearchItem extends StatelessWidget {
           color: Colors.white,
           child: Row(
             children: <Widget>[
-              NetworkPhoto(
-                url: icon?.photo?.url ?? '',
-                radius: BorderRadius.circular(5.3),
-                height: 41.3,
-                width: 41.3,
-              ),
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(5.3),
+                  child: NetworkPhoto(
+                    url: icon?.photo?.url ?? '',
+                    height: 41.3,
+                    width: 41.3,
+                  )),
               SizedBox(width: 14),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

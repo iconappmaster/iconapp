@@ -7,6 +7,7 @@ import 'package:iconapp/data/models/category_model.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+import 'package:iconapp/widgets/global/network_photo.dart';
 import '../../core/extensions/context_ext.dart';
 
 class ConversationsList extends StatelessWidget {
@@ -66,7 +67,15 @@ class ConversationItem extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              _buildAvatar(),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: NetworkPhoto(
+                  placeHolderPadding: 20,
+                  url: model?.photo?.url ?? '',
+                  height: 56,
+                  width: 56,
+                ),
+              ),
               SizedBox(width: 10.7),
               Expanded(
                 child: Column(
@@ -91,14 +100,6 @@ class ConversationItem extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Container _buildAvatar() {
-    return Container(
-      height: 56,
-      width: 56,
-      decoration: BoxDecoration(color: white, shape: BoxShape.circle),
     );
   }
 }

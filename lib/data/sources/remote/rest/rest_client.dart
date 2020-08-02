@@ -39,8 +39,8 @@ abstract class RestClient {
   Future<List<CategoryModel>> getConversations();
 
   // GROUPS
-  @POST('createGroup')
-  Future createGroup(@Body() CreateGroupReq groupReq);
+  @POST('conversations')
+  Future<CategoryModel> createGroup(@Body() CreateGroupReq groupReq);
 
   @PUT('updateGroup/{id}')
   Future updateGroup(

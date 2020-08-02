@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/stores/user/user_store.dart';
@@ -17,7 +18,11 @@ class DrawerIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.menu, color: Colors.white),
+      icon: SvgPicture.asset(
+        'assets/images/menu_icon.svg',
+        height: 26,
+        width: 26,
+      ),
       onPressed: () => _scaffoldKey.currentState.openDrawer(),
     );
   }
@@ -40,18 +45,21 @@ class HomeDrawer extends StatelessWidget {
           children: <Widget>[
             SizedBox(height: 39.3),
             DrawerHeader(
-                child: Container(
-                    height: 280,
-                    child: Column(children: <Widget>[
-                      UserAvatar(
+              child: Container(
+                height: 280,
+                child: Column(
+                  children: <Widget>[
+                    UserAvatar(
                         showPlus: false,
                         url: store.getUser?.photo?.url ?? '',
-                        onTap: () => print('tap'),
-                      ),
-                      SizedBox(height: 12.3),
-                      HebrewText(store.getUser?.fullName ?? 'Name',
-                          style: drawerName)
-                    ]))),
+                        onTap: () => print('tap')),
+                    SizedBox(height: 12.3),
+                    HebrewText(store.getUser?.fullName ?? 'Name',
+                        style: drawerName)
+                  ],
+                ),
+              ),
+            ),
             _drawerDivider,
             DrawerItem(text: 'הפרופיל שלי', onTap: () {}),
             DrawerItem(text: 'נתוני פעילות הקבוצה', onTap: () {}),

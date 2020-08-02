@@ -1,9 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
+import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/create/create_details_store.dart';
 import 'package:iconapp/widgets/create/create_app_bar.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
@@ -14,6 +16,7 @@ import '../core/extensions/context_ext.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class CreateDetailsScreen extends StatelessWidget {
+  final _key = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     final store = sl<CreateDetailsStore>();
@@ -38,16 +41,23 @@ class CreateDetailsScreen extends StatelessWidget {
                         onTap: () => store.selectGroupPhoto(),
                         url: store.getSelectedPhoto,
                         placeholder: 'assets/images/camera_icon.svg',
+                        placeHolderPadding: 20,
                       ),
                       SizedBox(width: 12.7),
-                      Container(
-                        width: context.widthPx * .596,
-                        child: InputText(
-                            hintStyle: flushbar,
-                            textStyle: flushbar,
-                            hint: LocaleKeys.create_groupNameHint.tr(),
-                            keyboardType: TextInputType.text,
-                            onChange: (name) => store.updateGroupName(name)),
+                      Form(
+                        key: _key,
+                        child: Container(
+                          width: context.widthPx * .596,
+                          child: InputText(
+                              validator: (name) => name.isEmpty
+                                  ? 'נושא הקבוצה לא יכול להיות ריק'
+                                  : null,
+                              hintStyle: flushbar,
+                              textStyle: flushbar,
+                              hint: LocaleKeys.create_groupNameHint.tr(),
+                              keyboardType: TextInputType.text,
+                              onChange: (name) => store.updateGroupName(name)),
+                        ),
                       ),
                     ],
                   ),
@@ -68,10 +78,10 @@ class CreateDetailsScreen extends StatelessWidget {
               child: FloatingActionButton(
                   child: SvgPicture.asset('assets/images/go_arrow.svg',
                       height: 16.3, width: 16.3),
-                  backgroundColor: cornflower,
-                  onPressed: () {
-                    if (!store.isLoading) {
-                      store.createGroup();
+                  backgroundColor: store.isLoading ? whiteOpacity30 : cornflower,
+                  onPressed: () async {
+                    if (_key.currentState.validate() && !store.isLoading) {
+                      await _handleSuccess(store, context);
                     }
                   }),
             ),
@@ -79,5 +89,12 @@ class CreateDetailsScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future _handleSuccess(CreateDetailsStore store, BuildContext context) async {
+    await store.createGroup();
+    await context.showFlushbar(
+        color: uiTintColorFill, message: '${store.groupName} נוצרה');
+    ExtendedNavigator.of(context).popUntilPath(Routes.splashScreen);
   }
 }

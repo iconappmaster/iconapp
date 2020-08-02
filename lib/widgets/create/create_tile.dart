@@ -4,23 +4,25 @@ import 'package:iconapp/widgets/global/check_circle.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
 
-class CreateConversationItem extends StatefulWidget {
+class CreateConversationTile extends StatefulWidget {
   final String title;
   final String url;
   final Function onTap;
+  final bool selected;
 
-  const CreateConversationItem({
+  const CreateConversationTile({
     Key key,
     @required this.onTap,
     @required this.title,
     @required this.url,
+    this.selected = false,
   }) : super(key: key);
 
   @override
-  _CreateConversationItemState createState() => _CreateConversationItemState();
+  _CreateConversationTileState createState() => _CreateConversationTileState();
 }
 
-class _CreateConversationItemState extends State<CreateConversationItem>
+class _CreateConversationTileState extends State<CreateConversationTile>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
   Animation<double> _animation;
@@ -56,33 +58,34 @@ class _CreateConversationItemState extends State<CreateConversationItem>
           });
         },
         child: Container(
+          decoration: BoxDecoration(
+              color: darkIndigo2, borderRadius: BorderRadius.circular(5.3)),
           padding: EdgeInsets.symmetric(horizontal: 17.3, vertical: 15.3),
           margin: EdgeInsets.symmetric(horizontal: 21.7, vertical: 4.85),
           height: 72,
-          color: darkIndigo2,
-          child: Row(
-            children: <Widget>[
-              Container(
-                height: 48,
-                width: 48,
-                child: Stack(
-                  children: [
-                    NetworkPhoto(url: widget.url, height: 41, width: 41),
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: ScaleTransition(
-                          scale: _animation, child: CheckCircle()),
-                    ),
-                  ],
+          child: Stack(children: [
+            Row(
+              children: <Widget>[
+                ClipRRect(
+                    borderRadius: BorderRadius.circular(5.3),
+                    child:
+                        NetworkPhoto(url: widget.url, height: 41, width: 41)),
+                SizedBox(width: 19.7),
+                HebrewText(
+                  widget.title,
+                  style: createCategoryTitle,
                 ),
+              ],
+            ),
+            Positioned(
+              right:28,
+              bottom: 0,
+              child: ScaleTransition(
+                scale: _animation,
+                child: CheckCircle(),
               ),
-              SizedBox(width: 19.7),
-              HebrewText(
-                widget.title,
-                style: createCategoryTitle,
-              ),
-            ],
-          ),
+            ),
+          ]),
         ),
       ),
     );

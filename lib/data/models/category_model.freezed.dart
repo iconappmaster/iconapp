@@ -17,9 +17,14 @@ class _$CategoryModelTearOff {
 
 // ignore: unused_element
   _CategoryModel call(
-      {int id, String name, PhotoModel photo, PhotoModel backgroundPhoto}) {
+      {int id,
+      int categoryId,
+      String name,
+      PhotoModel photo,
+      PhotoModel backgroundPhoto}) {
     return _CategoryModel(
       id: id,
+      categoryId: categoryId,
       name: name,
       photo: photo,
       backgroundPhoto: backgroundPhoto,
@@ -32,6 +37,7 @@ const $CategoryModel = _$CategoryModelTearOff();
 
 mixin _$CategoryModel {
   int get id;
+  int get categoryId;
   String get name;
   PhotoModel get photo;
   PhotoModel get backgroundPhoto;
@@ -45,7 +51,11 @@ abstract class $CategoryModelCopyWith<$Res> {
           CategoryModel value, $Res Function(CategoryModel) then) =
       _$CategoryModelCopyWithImpl<$Res>;
   $Res call(
-      {int id, String name, PhotoModel photo, PhotoModel backgroundPhoto});
+      {int id,
+      int categoryId,
+      String name,
+      PhotoModel photo,
+      PhotoModel backgroundPhoto});
 
   $PhotoModelCopyWith<$Res> get photo;
   $PhotoModelCopyWith<$Res> get backgroundPhoto;
@@ -62,12 +72,14 @@ class _$CategoryModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object id = freezed,
+    Object categoryId = freezed,
     Object name = freezed,
     Object photo = freezed,
     Object backgroundPhoto = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as int,
+      categoryId: categoryId == freezed ? _value.categoryId : categoryId as int,
       name: name == freezed ? _value.name : name as String,
       photo: photo == freezed ? _value.photo : photo as PhotoModel,
       backgroundPhoto: backgroundPhoto == freezed
@@ -104,7 +116,11 @@ abstract class _$CategoryModelCopyWith<$Res>
       __$CategoryModelCopyWithImpl<$Res>;
   @override
   $Res call(
-      {int id, String name, PhotoModel photo, PhotoModel backgroundPhoto});
+      {int id,
+      int categoryId,
+      String name,
+      PhotoModel photo,
+      PhotoModel backgroundPhoto});
 
   @override
   $PhotoModelCopyWith<$Res> get photo;
@@ -125,12 +141,14 @@ class __$CategoryModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object id = freezed,
+    Object categoryId = freezed,
     Object name = freezed,
     Object photo = freezed,
     Object backgroundPhoto = freezed,
   }) {
     return _then(_CategoryModel(
       id: id == freezed ? _value.id : id as int,
+      categoryId: categoryId == freezed ? _value.categoryId : categoryId as int,
       name: name == freezed ? _value.name : name as String,
       photo: photo == freezed ? _value.photo : photo as PhotoModel,
       backgroundPhoto: backgroundPhoto == freezed
@@ -143,13 +161,15 @@ class __$CategoryModelCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_CategoryModel implements _CategoryModel {
   const _$_CategoryModel(
-      {this.id, this.name, this.photo, this.backgroundPhoto});
+      {this.id, this.categoryId, this.name, this.photo, this.backgroundPhoto});
 
   factory _$_CategoryModel.fromJson(Map<String, dynamic> json) =>
       _$_$_CategoryModelFromJson(json);
 
   @override
   final int id;
+  @override
+  final int categoryId;
   @override
   final String name;
   @override
@@ -159,7 +179,7 @@ class _$_CategoryModel implements _CategoryModel {
 
   @override
   String toString() {
-    return 'CategoryModel(id: $id, name: $name, photo: $photo, backgroundPhoto: $backgroundPhoto)';
+    return 'CategoryModel(id: $id, categoryId: $categoryId, name: $name, photo: $photo, backgroundPhoto: $backgroundPhoto)';
   }
 
   @override
@@ -168,6 +188,9 @@ class _$_CategoryModel implements _CategoryModel {
         (other is _CategoryModel &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.categoryId, categoryId) ||
+                const DeepCollectionEquality()
+                    .equals(other.categoryId, categoryId)) &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.photo, photo) ||
@@ -181,6 +204,7 @@ class _$_CategoryModel implements _CategoryModel {
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(categoryId) ^
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(photo) ^
       const DeepCollectionEquality().hash(backgroundPhoto);
@@ -198,6 +222,7 @@ class _$_CategoryModel implements _CategoryModel {
 abstract class _CategoryModel implements CategoryModel {
   const factory _CategoryModel(
       {int id,
+      int categoryId,
       String name,
       PhotoModel photo,
       PhotoModel backgroundPhoto}) = _$_CategoryModel;
@@ -207,6 +232,8 @@ abstract class _CategoryModel implements CategoryModel {
 
   @override
   int get id;
+  @override
+  int get categoryId;
   @override
   String get name;
   @override

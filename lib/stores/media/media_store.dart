@@ -23,9 +23,13 @@ abstract class _MediaStoreBase with Store {
 
   Future<String> uploadPhoto(ImageSource source) async {
     final pickedFile = await _imagePicker.getImage(source: source);
-    final file = File(pickedFile.path);
-    final imagePath = await _repository.uploadSinglePhoto(file, getPath, getFileName);
-    return imagePath;
+    if (pickedFile != null) {
+      final file = File(pickedFile.path);
+      final imagePath =
+          await _repository.uploadSinglePhoto(file, getPath, getFileName);
+      return imagePath;
+    }
+    return '';
   }
 
   Future<String> uploadVideo(ImageSource source) async {

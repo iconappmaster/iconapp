@@ -31,11 +31,12 @@ class OnboardingProfile extends StatelessWidget {
             Positioned(
                 top: context.heightPlusStatusbarPerc(.138),
                 child: UserAvatar(
+                    placeholder: 'assets/images/user_icon.svg',
                     showLoading: store.getState.loading,
                     onTap: () async {
                       store.pickAndUploadPhoto();
                     },
-                    url: store.getUserPhoto)),
+                    url: store?.getUserPhoto ?? '')),
             PersonDetails(),
             SexPicker(),
             _nextButton(context, store),
@@ -53,8 +54,8 @@ class OnboardingProfile extends StatelessWidget {
         onClick: () {
           if (_formValidatorKey.currentState.validate()) {
             store.upadteUser().then((result) => result.fold(
-                (error) => ctx.showErrorFlushbar(
-                    message: LocaleKeys.general_server_error),
+                (error) =>
+                    ctx.showFlushbar(message: LocaleKeys.general_server_error),
                 (success) => ExtendedNavigator.of(ctx).pushNamedAndRemoveUntil(
                     Routes.splashScreen, (Route<dynamic> route) => false)));
           }

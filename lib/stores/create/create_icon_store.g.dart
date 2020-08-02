@@ -81,6 +81,20 @@ mixin _$CreateIconStore on _CreateIconStoreBase, Store {
     return _$updateSelectedAsyncAction.run(() => super.updateSelected(icon));
   }
 
+  final _$_CreateIconStoreBaseActionController =
+      ActionController(name: '_CreateIconStoreBase');
+
+  @override
+  void clear() {
+    final _$actionInfo = _$_CreateIconStoreBaseActionController.startAction(
+        name: '_CreateIconStoreBase.clear');
+    try {
+      return super.clear();
+    } finally {
+      _$_CreateIconStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
