@@ -37,5 +37,7 @@ abstract class  LocaleKeys {
   static const welcome = 'welcome';
   static const chat_messageInputHint = 'chat.messageInputHint';
   static const chat = 'chat';
+  static const disconnect_content = 'disconnect.content';
+  static const disconnect = 'disconnect';
 
 }

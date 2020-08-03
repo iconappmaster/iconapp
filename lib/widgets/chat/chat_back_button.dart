@@ -1,12 +1,13 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
-import '../../core/theme.dart';
+import 'package:iconapp/widgets/global/network_photo.dart';
 
 class ChatBackButton extends StatelessWidget {
+  final String url;
+
   const ChatBackButton({
     Key key,
+    @required this.url,
   }) : super(key: key);
 
   @override
@@ -18,14 +19,13 @@ class ChatBackButton extends StatelessWidget {
           SvgPicture.asset('assets/images/back_arrow.svg',
               height: 16.3, width: 16.3),
           SizedBox(width: 5.3),
-          Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: white,
-            ),
-            height: 48,
-            width: 48,
-          )
+          ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+              child: NetworkPhoto(
+                url: url,
+                height: 48,
+                width: 48,
+              ))
         ],
       ),
     );

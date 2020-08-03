@@ -1,3 +1,4 @@
+import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:mobx/mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/repositories/auth_repository.dart';
@@ -9,9 +10,11 @@ class AuthStore = _AuthStoreBase with _$AuthStore;
 
 abstract class _AuthStoreBase with Store {
   AuthRepository _repository;
+  SharedPreferencesService _sharedPreferencesService;
 
   _AuthStoreBase() {
     _repository = sl<AuthRepository>();
+    _sharedPreferencesService = sl<SharedPreferencesService>();
   }
 
   @observable
@@ -32,5 +35,11 @@ abstract class _AuthStoreBase with Store {
 
     _authState =
         isSignedIn ? AuthState.authenticated() : AuthState.unauthenticated();
+  }
+
+  @action
+  Future logout() async {
+    await _sharedPreferencesService.clear();
+    _authState = AuthState.unauthenticated();
   }
 }

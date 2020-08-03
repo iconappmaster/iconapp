@@ -200,7 +200,7 @@ class _RestClient implements RestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final Response<Map<String, dynamic>> _result = await _dio.request(
-        'getConversaion/$id',
+        'conversaion/$id',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',
@@ -208,7 +208,7 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = ConversationModel.fromJson(_result.data);
+    final value = CategoryModel.fromJson(_result.data);
     return value;
   }
 

@@ -3,12 +3,17 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
+import 'package:iconapp/screens/chat_screen.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../core/theme.dart';
 
 class MessageComposer extends StatefulWidget {
+  final ScrollController scrollController;
+
+  const MessageComposer({Key key, @required this.scrollController})
+      : super(key: key);
   @override
   _MessageComposerState createState() => _MessageComposerState();
 }
@@ -22,6 +27,7 @@ class _MessageComposerState extends State<MessageComposer> {
   @override
   Widget build(BuildContext context) {
     return ListView(
+      padding: EdgeInsets.all(0),
       shrinkWrap: true,
       children: <Widget>[
         Container(
@@ -47,7 +53,10 @@ class _MessageComposerState extends State<MessageComposer> {
                   Row(
                     children: <Widget>[
                       ComposerInput(controller: _controller),
-                      SendButton(),
+                      SendButton(
+                        textEditcontroller: _controller,
+                        scrollController: widget.scrollController,
+                      ),
                     ],
                   ),
                 ],
@@ -83,9 +92,7 @@ class ComposerInput extends StatelessWidget {
               focusedBorder: transparentBorder,
               enabledBorder: transparentBorder,
               border: transparentBorder),
-          onChanged: (input) {
-            return store.updateInputMessage(input);
-          },
+          onChanged: (input) => store.updateInputMessage(input),
           style: chatCompose,
         ),
       ),
@@ -147,7 +154,16 @@ class ComposeActionButtons extends StatelessWidget {
 }
 
 class SendButton extends StatelessWidget {
+  final TextEditingController textEditcontroller;
+  final ScrollController scrollController;
   static double size = 37.7;
+
+  const SendButton({
+    Key key,
+    @required this.textEditcontroller,
+    @required this.scrollController,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
@@ -157,34 +173,45 @@ class SendButton extends StatelessWidget {
         child: SizedBox(
           height: size,
           width: size,
-          child: FloatingActionButton(
-            elevation: 0,
-            onPressed: () {},
-            backgroundColor: cornflower,
-            child: AnimatedSwitcher(
-              duration: Duration(milliseconds: 250),
-              transitionBuilder: (child, animation) => ScaleTransition(
-                scale: animation,
-                child: child,
+          child: GestureDetector(
+            onPanDown: (details) {
+              if (!isMessageMode()) {
+                store.sendAudioMessage();
+              }
+            },
+            child: FloatingActionButton(
+              elevation: 0,
+              onPressed: () async {
+                if (isMessageMode()) {
+                  await store.sendTextMessage();
+                  textEditcontroller.clear();
+                  chatListKey.currentState
+                      .insertItem(0, duration: Duration(milliseconds: 250));
+                  scrollController.jumpTo(0);
+                }
+              },
+              backgroundColor: cornflower,
+              child: AnimatedSwitcher(
+                duration: Duration(milliseconds: 250),
+                transitionBuilder: (child, animation) => ScaleTransition(
+                  scale: animation,
+                  child: child,
+                ),
+                child: store.shouldHideActions
+                    ? SvgPicture.asset('assets/images/send_icon.svg',
+                        key: const Key('send'), height: 15.3, width: 15.3)
+                    : SvgPicture.asset('assets/images/microphone.svg',
+                        color: white,
+                        key: const Key('mic'),
+                        height: 15.3,
+                        width: 15.3),
               ),
-              child: store.shouldHideActions
-                  ? SvgPicture.asset(
-                      'assets/images/send_icon.svg',
-                      key: const Key('send'),
-                      height: 15.3,
-                      width: 15.3,
-                    )
-                  : SvgPicture.asset(
-                      'assets/images/microphone.svg',
-                      color: white,
-                      key: const Key('mic'),
-                      height: 15.3,
-                      width: 15.3,
-                    ),
             ),
           ),
         ),
       ),
     );
   }
+
+  bool isMessageMode() => textEditcontroller.text.isNotEmpty;
 }

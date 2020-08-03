@@ -53,6 +53,21 @@ mixin _$ChatStore on _ChatStoreBase, Store {
     });
   }
 
+  final _$_messagesAtom = Atom(name: '_ChatStoreBase._messages');
+
+  @override
+  ObservableList<MessageModel> get _messages {
+    _$_messagesAtom.reportRead();
+    return super._messages;
+  }
+
+  @override
+  set _messages(ObservableList<MessageModel> value) {
+    _$_messagesAtom.reportWrite(value, super._messages, () {
+      super._messages = value;
+    });
+  }
+
   final _$updateGroupNameAsyncAction =
       AsyncAction('_ChatStoreBase.updateGroupName');
 
@@ -74,10 +89,17 @@ mixin _$ChatStore on _ChatStoreBase, Store {
       AsyncAction('_ChatStoreBase.sendTextMessage');
 
   @override
-  Future<dynamic> sendTextMessage(String chatId, String message,
-      [MessageType type = MessageType.text]) {
-    return _$sendTextMessageAsyncAction
-        .run(() => super.sendTextMessage(chatId, message, type));
+  Future<dynamic> sendTextMessage() {
+    return _$sendTextMessageAsyncAction.run(() => super.sendTextMessage());
+  }
+
+  final _$sendPhotoMessageAsyncAction =
+      AsyncAction('_ChatStoreBase.sendPhotoMessage');
+
+  @override
+  Future<dynamic> sendPhotoMessage(String photoUrl) {
+    return _$sendPhotoMessageAsyncAction
+        .run(() => super.sendPhotoMessage(photoUrl));
   }
 
   final _$takeShotAsyncAction = AsyncAction('_ChatStoreBase.takeShot');
@@ -104,6 +126,13 @@ mixin _$ChatStore on _ChatStoreBase, Store {
     return _$sendAudioMessageAsyncAction.run(() => super.sendAudioMessage());
   }
 
+  final _$initAsyncAction = AsyncAction('_ChatStoreBase.init');
+
+  @override
+  Future<dynamic> init(CategoryModel conversation) {
+    return _$initAsyncAction.run(() => super.init(conversation));
+  }
+
   final _$_ChatStoreBaseActionController =
       ActionController(name: '_ChatStoreBase');
 
@@ -113,6 +142,17 @@ mixin _$ChatStore on _ChatStoreBase, Store {
         name: '_ChatStoreBase.updateInputMessage');
     try {
       return super.updateInputMessage(input);
+    } finally {
+      _$_ChatStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void dispose() {
+    final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
+        name: '_ChatStoreBase.dispose');
+    try {
+      return super.dispose();
     } finally {
       _$_ChatStoreBaseActionController.endAction(_$actionInfo);
     }

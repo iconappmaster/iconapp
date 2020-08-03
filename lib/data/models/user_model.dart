@@ -14,10 +14,11 @@ abstract class UserModel with _$UserModel {
     UserGender gender,
     PhotoModel photo,
     int age,
-    UserType role,
+    bool isIcon,
     String pushToken,
     bool isPushEnabled,
     String sessionToken,
+    UserRole role,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
@@ -25,4 +26,4 @@ abstract class UserModel with _$UserModel {
 }
 
 enum UserGender { male, female, other }
-enum UserType { admin, editor, viewer }
+enum UserRole { viewer, admin, contributor }

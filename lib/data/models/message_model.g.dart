@@ -65,5 +65,7 @@ const _$MessageTypeEnumMap = {
   MessageType.text: 'text',
   MessageType.photo: 'photo',
   MessageType.video: 'video',
-  MessageType.audio: 'audio',
+  MessageType.voice: 'voice',
+  MessageType.system: 'system',
+  MessageType.replay: 'replay',
 };

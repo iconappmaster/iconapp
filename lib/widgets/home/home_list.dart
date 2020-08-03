@@ -31,7 +31,8 @@ class ConversationsList extends StatelessWidget {
                   model: conversation,
                   onTap: () {
                     ExtendedNavigator.of(context).pushNamed(Routes.chatScreen,
-                        arguments: ChatScreenArguments(id: conversation.id));
+                        arguments:
+                            ChatScreenArguments(conversation: conversation));
                   });
             },
             itemCount: store.conversations.length,

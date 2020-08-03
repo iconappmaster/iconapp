@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:flutter/material.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/models/create_group_req.dart';
 import 'package:iconapp/data/models/photo_model.dart';
@@ -92,6 +91,5 @@ abstract class _CreateDetailsStoreBase with Store {
   void clear() {
     _groupName = '';
     _selectedPhoto = '';
-    
   }
 }

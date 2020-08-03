@@ -1,3 +1,4 @@
+import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/stores/chat_settings/c_settings_state.dart';
 import 'package:mobx/mobx.dart';
 part 'chat_settings_store.g.dart';
@@ -8,22 +9,14 @@ abstract class _ChatSettingsStoreBase with Store {
   @observable
   ChatSettingsState _state = ChatSettingsState.initial();
 
-  // @computed
-  // bool get notificationState => _state.notifications;
-
-  // @action
-  // Future updateNotificationState(bool value) async {
-  //   _state = _state.copyWith(notifications: value);
-  // }
-
   @action
   Future changeChatBackground(ChatBackground background) async {}
 
   @action
-  Future setUserAsGroupAdmin(int userId) async {}
+  Future makeUserAdmin(UserModel userId) async {}
 
   @action
-  Future removeUser(int userId) async {}
+  Future removeUser(UserModel userId) async {}
 
   @action
   Future addUser(int userId) async {}
@@ -39,4 +32,3 @@ abstract class _ChatSettingsStoreBase with Store {
 }
 
 enum ChatBackground { blue, green, purple }
-

@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:iconapp/data/models/category_model.dart';
-import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/models/create_group_req.dart';
@@ -9,10 +8,10 @@ import 'header_interceptor.dart';
 import 'logger_interceptor.dart';
 part 'rest_client.g.dart';
 
-const String baseUrlProd = 'https://implement.com';
-const String baseUrlDev = 'http://iconstaging.herokuapp.com/api/v1/';
+const String baseUrlProd = 'http://iconproduction.herokuapp.com/api/v1/';
+const String baseUrlStaging = 'http://iconstaging.herokuapp.com/api/v1/';
 
-@RestApi(baseUrl: baseUrlDev)
+@RestApi(baseUrl: baseUrlStaging)
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
@@ -21,7 +20,8 @@ abstract class RestClient {
   Future verifyPhone(@Query('phone') String phone);
 
   @POST('verify_code')
-  Future<UserModel> verifyCode(@Query('phone') String phone, @Query('login_code') String code);
+  Future<UserModel> verifyCode(
+      @Query('phone') String phone, @Query('login_code') String code);
 
   // USERS
   @POST('user')
@@ -29,11 +29,12 @@ abstract class RestClient {
 
   // SEARCH
   @GET('categories')
-  Future<List<CategoryModel>> searchCategory(@Query('searchString') String searchString);
+  Future<List<CategoryModel>> searchCategory(
+      @Query('searchString') String searchString);
 
   @GET('icons')
   Future<List<UserModel>> searchContacts(@Query('searchString') String query);
- 
+
   // HOME
   @GET('conversations')
   Future<List<CategoryModel>> getConversations();
@@ -50,8 +51,8 @@ abstract class RestClient {
   Future deleteGroup(@Path() id);
 
   // CHAT
-  @GET('getConversaion/{id}')
-  Future<ConversationModel> getConversaion(@Path() String id);
+  @GET('conversaion/{id}')
+  Future<CategoryModel> getConversaion(@Path() int id);
 
   @POST('sendMessage/{chatId}')
   Future sendMessage(@Path() String chatId, @Body() MessageModel message);
@@ -59,7 +60,6 @@ abstract class RestClient {
   @POST('likeMessage/{chatId}/{messageId}')
   Future likeMessage(
       @Path() String chatId, @Path() String messageId, @Body() bool addLike);
-
 }
 
 Dio getDioClient() {

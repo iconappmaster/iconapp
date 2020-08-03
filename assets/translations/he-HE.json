@@ -31,8 +31,8 @@
         "categoriesSubtitle": "בחר/י קטגוריה",
         "iconSubtitle": "בחר/י משתתפים לקבוצה",
         "newGroupTitle": "יצירת קבוצה חדשה",
-        "iconValidation" : "יש לבחור יותר מאייקון אחד",
-        "categoryValidation" : "יש לבחור יותר מקטגוריה אחת"
+        "iconValidation": "יש לבחור יותר מאייקון אחד",
+        "categoryValidation": "יש לבחור יותר מקטגוריה אחת"
     },
     "welcome": {
         "title": "ברוכים הבאים לאייקון",
@@ -40,5 +40,8 @@
     },
     "chat": {
         "messageInputHint": "הקלד/י הודעה"
+    },
+    "disconnect": {
+        "content": "אנחנו נתגעגע אלייך, {} {} {} רוצה לצאת מכל הצ׳אטים שלך?"
     }
 }

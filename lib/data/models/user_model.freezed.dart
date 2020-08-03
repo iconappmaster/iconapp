@@ -24,10 +24,11 @@ class _$UserModelTearOff {
       UserGender gender,
       PhotoModel photo,
       int age,
-      UserType role,
+      bool isIcon,
       String pushToken,
       bool isPushEnabled,
-      String sessionToken}) {
+      String sessionToken,
+      UserRole role}) {
     return _UserModel(
       id: id,
       fullName: fullName,
@@ -36,10 +37,11 @@ class _$UserModelTearOff {
       gender: gender,
       photo: photo,
       age: age,
-      role: role,
+      isIcon: isIcon,
       pushToken: pushToken,
       isPushEnabled: isPushEnabled,
       sessionToken: sessionToken,
+      role: role,
     );
   }
 }
@@ -55,10 +57,11 @@ mixin _$UserModel {
   UserGender get gender;
   PhotoModel get photo;
   int get age;
-  UserType get role;
+  bool get isIcon;
   String get pushToken;
   bool get isPushEnabled;
   String get sessionToken;
+  UserRole get role;
 
   Map<String, dynamic> toJson();
   $UserModelCopyWith<UserModel> get copyWith;
@@ -75,10 +78,11 @@ abstract class $UserModelCopyWith<$Res> {
       UserGender gender,
       PhotoModel photo,
       int age,
-      UserType role,
+      bool isIcon,
       String pushToken,
       bool isPushEnabled,
-      String sessionToken});
+      String sessionToken,
+      UserRole role});
 
   $PhotoModelCopyWith<$Res> get photo;
 }
@@ -99,10 +103,11 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
     Object gender = freezed,
     Object photo = freezed,
     Object age = freezed,
-    Object role = freezed,
+    Object isIcon = freezed,
     Object pushToken = freezed,
     Object isPushEnabled = freezed,
     Object sessionToken = freezed,
+    Object role = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as int,
@@ -112,7 +117,7 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
       gender: gender == freezed ? _value.gender : gender as UserGender,
       photo: photo == freezed ? _value.photo : photo as PhotoModel,
       age: age == freezed ? _value.age : age as int,
-      role: role == freezed ? _value.role : role as UserType,
+      isIcon: isIcon == freezed ? _value.isIcon : isIcon as bool,
       pushToken: pushToken == freezed ? _value.pushToken : pushToken as String,
       isPushEnabled: isPushEnabled == freezed
           ? _value.isPushEnabled
@@ -120,6 +125,7 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
       sessionToken: sessionToken == freezed
           ? _value.sessionToken
           : sessionToken as String,
+      role: role == freezed ? _value.role : role as UserRole,
     ));
   }
 
@@ -147,10 +153,11 @@ abstract class _$UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
       UserGender gender,
       PhotoModel photo,
       int age,
-      UserType role,
+      bool isIcon,
       String pushToken,
       bool isPushEnabled,
-      String sessionToken});
+      String sessionToken,
+      UserRole role});
 
   @override
   $PhotoModelCopyWith<$Res> get photo;
@@ -173,10 +180,11 @@ class __$UserModelCopyWithImpl<$Res> extends _$UserModelCopyWithImpl<$Res>
     Object gender = freezed,
     Object photo = freezed,
     Object age = freezed,
-    Object role = freezed,
+    Object isIcon = freezed,
     Object pushToken = freezed,
     Object isPushEnabled = freezed,
     Object sessionToken = freezed,
+    Object role = freezed,
   }) {
     return _then(_UserModel(
       id: id == freezed ? _value.id : id as int,
@@ -186,7 +194,7 @@ class __$UserModelCopyWithImpl<$Res> extends _$UserModelCopyWithImpl<$Res>
       gender: gender == freezed ? _value.gender : gender as UserGender,
       photo: photo == freezed ? _value.photo : photo as PhotoModel,
       age: age == freezed ? _value.age : age as int,
-      role: role == freezed ? _value.role : role as UserType,
+      isIcon: isIcon == freezed ? _value.isIcon : isIcon as bool,
       pushToken: pushToken == freezed ? _value.pushToken : pushToken as String,
       isPushEnabled: isPushEnabled == freezed
           ? _value.isPushEnabled
@@ -194,6 +202,7 @@ class __$UserModelCopyWithImpl<$Res> extends _$UserModelCopyWithImpl<$Res>
       sessionToken: sessionToken == freezed
           ? _value.sessionToken
           : sessionToken as String,
+      role: role == freezed ? _value.role : role as UserRole,
     ));
   }
 }
@@ -208,10 +217,11 @@ class _$_UserModel implements _UserModel {
       this.gender,
       this.photo,
       this.age,
-      this.role,
+      this.isIcon,
       this.pushToken,
       this.isPushEnabled,
-      this.sessionToken});
+      this.sessionToken,
+      this.role});
 
   factory _$_UserModel.fromJson(Map<String, dynamic> json) =>
       _$_$_UserModelFromJson(json);
@@ -231,17 +241,19 @@ class _$_UserModel implements _UserModel {
   @override
   final int age;
   @override
-  final UserType role;
+  final bool isIcon;
   @override
   final String pushToken;
   @override
   final bool isPushEnabled;
   @override
   final String sessionToken;
+  @override
+  final UserRole role;
 
   @override
   String toString() {
-    return 'UserModel(id: $id, fullName: $fullName, phone: $phone, email: $email, gender: $gender, photo: $photo, age: $age, role: $role, pushToken: $pushToken, isPushEnabled: $isPushEnabled, sessionToken: $sessionToken)';
+    return 'UserModel(id: $id, fullName: $fullName, phone: $phone, email: $email, gender: $gender, photo: $photo, age: $age, isIcon: $isIcon, pushToken: $pushToken, isPushEnabled: $isPushEnabled, sessionToken: $sessionToken, role: $role)';
   }
 
   @override
@@ -263,8 +275,8 @@ class _$_UserModel implements _UserModel {
                 const DeepCollectionEquality().equals(other.photo, photo)) &&
             (identical(other.age, age) ||
                 const DeepCollectionEquality().equals(other.age, age)) &&
-            (identical(other.role, role) ||
-                const DeepCollectionEquality().equals(other.role, role)) &&
+            (identical(other.isIcon, isIcon) ||
+                const DeepCollectionEquality().equals(other.isIcon, isIcon)) &&
             (identical(other.pushToken, pushToken) ||
                 const DeepCollectionEquality()
                     .equals(other.pushToken, pushToken)) &&
@@ -273,7 +285,9 @@ class _$_UserModel implements _UserModel {
                     .equals(other.isPushEnabled, isPushEnabled)) &&
             (identical(other.sessionToken, sessionToken) ||
                 const DeepCollectionEquality()
-                    .equals(other.sessionToken, sessionToken)));
+                    .equals(other.sessionToken, sessionToken)) &&
+            (identical(other.role, role) ||
+                const DeepCollectionEquality().equals(other.role, role)));
   }
 
   @override
@@ -286,10 +300,11 @@ class _$_UserModel implements _UserModel {
       const DeepCollectionEquality().hash(gender) ^
       const DeepCollectionEquality().hash(photo) ^
       const DeepCollectionEquality().hash(age) ^
-      const DeepCollectionEquality().hash(role) ^
+      const DeepCollectionEquality().hash(isIcon) ^
       const DeepCollectionEquality().hash(pushToken) ^
       const DeepCollectionEquality().hash(isPushEnabled) ^
-      const DeepCollectionEquality().hash(sessionToken);
+      const DeepCollectionEquality().hash(sessionToken) ^
+      const DeepCollectionEquality().hash(role);
 
   @override
   _$UserModelCopyWith<_UserModel> get copyWith =>
@@ -310,10 +325,11 @@ abstract class _UserModel implements UserModel {
       UserGender gender,
       PhotoModel photo,
       int age,
-      UserType role,
+      bool isIcon,
       String pushToken,
       bool isPushEnabled,
-      String sessionToken}) = _$_UserModel;
+      String sessionToken,
+      UserRole role}) = _$_UserModel;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$_UserModel.fromJson;
@@ -333,13 +349,15 @@ abstract class _UserModel implements UserModel {
   @override
   int get age;
   @override
-  UserType get role;
+  bool get isIcon;
   @override
   String get pushToken;
   @override
   bool get isPushEnabled;
   @override
   String get sessionToken;
+  @override
+  UserRole get role;
   @override
   _$UserModelCopyWith<_UserModel> get copyWith;
 }

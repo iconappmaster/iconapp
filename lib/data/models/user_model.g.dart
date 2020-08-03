@@ -17,10 +17,11 @@ _$_UserModel _$_$_UserModelFromJson(Map<String, dynamic> json) {
         ? null
         : PhotoModel.fromJson(json['photo'] as Map<String, dynamic>),
     age: json['age'] as int,
-    role: _$enumDecodeNullable(_$UserTypeEnumMap, json['role']),
+    isIcon: json['isIcon'] as bool,
     pushToken: json['pushToken'] as String,
     isPushEnabled: json['isPushEnabled'] as bool,
     sessionToken: json['sessionToken'] as String,
+    role: _$enumDecodeNullable(_$UserRoleEnumMap, json['role']),
   );
 }
 
@@ -33,10 +34,11 @@ Map<String, dynamic> _$_$_UserModelToJson(_$_UserModel instance) =>
       'gender': _$UserGenderEnumMap[instance.gender],
       'photo': instance.photo,
       'age': instance.age,
-      'role': _$UserTypeEnumMap[instance.role],
+      'isIcon': instance.isIcon,
       'pushToken': instance.pushToken,
       'isPushEnabled': instance.isPushEnabled,
       'sessionToken': instance.sessionToken,
+      'role': _$UserRoleEnumMap[instance.role],
     };
 
 T _$enumDecode<T>(
@@ -77,8 +79,8 @@ const _$UserGenderEnumMap = {
   UserGender.other: 'other',
 };
 
-const _$UserTypeEnumMap = {
-  UserType.admin: 'admin',
-  UserType.editor: 'editor',
-  UserType.viewer: 'viewer',
+const _$UserRoleEnumMap = {
+  UserRole.viewer: 'viewer',
+  UserRole.admin: 'admin',
+  UserRole.contributor: 'contributor',
 };

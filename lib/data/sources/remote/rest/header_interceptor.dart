@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/main.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 
 class HeaderInterceptor extends Interceptor {
@@ -45,6 +46,6 @@ class HeaderInterceptor extends Interceptor {
 }
 
 void addHeaders(RequestOptions options, String token) {
-  // options.headers['content-Type'] = 'application/json';
   options.headers['Authorization'] = "Bearer " + token ?? '';
+  logger.d('SESSION TOKEN: $token');
 }

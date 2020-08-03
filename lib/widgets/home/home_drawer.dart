@@ -3,8 +3,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/stores/user/user_store.dart';
+import 'package:iconapp/widgets/global/buttons.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/user_avatar.dart';
+import 'package:iconapp/widgets/home/disconnect_dialog.dart';
 
 class DrawerIcon extends StatelessWidget {
   const DrawerIcon({
@@ -29,43 +31,59 @@ class DrawerIcon extends StatelessWidget {
 }
 
 class HomeDrawer extends StatelessWidget {
-  const HomeDrawer({
-    Key key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     final store = sl<UserStore>();
     return Drawer(
       child: Container(
         decoration: BoxDecoration(gradient: dialogGradient),
-        child: ListView(
-          shrinkWrap: true,
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            SizedBox(height: 39.3),
-            DrawerHeader(
-              child: Container(
-                height: 280,
-                child: Column(
-                  children: <Widget>[
-                    UserAvatar(
-                        showPlus: false,
-                        url: store.getUser?.photo?.url ?? '',
-                        onTap: () => print('tap')),
-                    SizedBox(height: 12.3),
-                    HebrewText(store.getUser?.fullName ?? 'Name',
-                        style: drawerName)
-                  ],
+        child: Stack(
+            fit: StackFit.expand,
+            alignment: Alignment.topCenter,
+            children: [
+              ListView(
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                children: <Widget>[
+                  SizedBox(height: 39.3),
+                  DrawerHeader(
+                    child: Container(
+                      height: 280,
+                      child: Column(
+                        children: <Widget>[
+                          UserAvatar(
+                              showPlus: false,
+                              url: store.getUser?.photo?.url ?? '',
+                              onTap: () => print('tap')),
+                          SizedBox(height: 12.3),
+                          HebrewText(store.getUser?.fullName ?? 'Name',
+                              style: drawerName)
+                        ],
+                      ),
+                    ),
+                  ),
+                  _drawerDivider,
+                  DrawerItem(text: 'הפרופיל שלי', onTap: () {}),
+                  DrawerItem(text: 'נתוני פעילות הקבוצה', onTap: () {}),
+                  DrawerItem(text: 'הגדרות', onTap: () {}),
+                ],
+              ),
+              Positioned(
+                bottom: 22.7,
+                child: TransparentButton(
+                  onPressed: () async {
+                    Navigator.pop(context);
+                    await showDialog(
+                      context: context,
+                      child: DisconnectDialog(
+                        height: 250,
+                      ),
+                    );
+                  },
+                  text: 'התנתקות',
                 ),
               ),
-            ),
-            _drawerDivider,
-            DrawerItem(text: 'הפרופיל שלי', onTap: () {}),
-            DrawerItem(text: 'נתוני פעילות הקבוצה', onTap: () {}),
-            DrawerItem(text: 'הגדרות', onTap: () {}),
-          ],
-        ),
+            ]),
       ),
     );
   }

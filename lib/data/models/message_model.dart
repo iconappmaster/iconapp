@@ -25,4 +25,4 @@ class MessageModel {
   Map<String, dynamic> toJson() => _$MessageModelToJson(this);
 }
 
-enum MessageType { text, photo, video, audio }
+enum MessageType { text, photo, video, voice, system, replay }

@@ -53,6 +53,9 @@ class CodegenLoader extends AssetLoader{
   },
   "chat": {
     "messageInputHint": "הקלד/י הודעה"
+  },
+  "disconnect": {
+    "content": "אנחנו נתגעגע אלייך, {} {} {} רוצה לצאת מכל הצ׳אטים שלך?"
   }
 };
   static const Map<String,dynamic> en_US = {

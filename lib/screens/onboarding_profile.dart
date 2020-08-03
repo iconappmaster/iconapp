@@ -27,7 +27,7 @@ class OnboardingProfile extends StatelessWidget {
         builder: (_) => Stack(
           alignment: Alignment.topCenter,
           children: <Widget>[
-            IconAppbar(),
+            IconAppbar(showBack: true),
             Positioned(
                 top: context.heightPlusStatusbarPerc(.138),
                 child: UserAvatar(

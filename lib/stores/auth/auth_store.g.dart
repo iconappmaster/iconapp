@@ -38,6 +38,13 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     return _$setSignedInAsyncAction.run(() => super.setSignedIn());
   }
 
+  final _$logoutAsyncAction = AsyncAction('_AuthStoreBase.logout');
+
+  @override
+  Future<dynamic> logout() {
+    return _$logoutAsyncAction.run(() => super.logout());
+  }
+
   final _$_AuthStoreBaseActionController =
       ActionController(name: '_AuthStoreBase');
 

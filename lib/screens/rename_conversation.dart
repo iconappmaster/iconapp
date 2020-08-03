@@ -31,7 +31,7 @@ class RenameConversation extends StatelessWidget {
                   child: InputText(
                     validator: _groupNameValidation,
                     contentPadding: const EdgeInsets.only(bottom: 20),
-                    initialValue: store.getState?.conversation?.title ?? '',
+                    initialValue: store.getState?.conversation?.name ?? '',
                     onChange: (groupName) => store.updateGroupName(groupName),
                     hint: 'הקלד/י נושא חדש',
                     hintStyle: flushbar,

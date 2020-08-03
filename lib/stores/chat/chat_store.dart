@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/data/models/category_model.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/repositories/chat_repository.dart';
@@ -26,17 +27,20 @@ abstract class _ChatStoreBase with Store {
   @observable
   ChatState _state = ChatState.initial();
 
+  @observable
+  ObservableList<MessageModel> _messages = ObservableList.of([]);
+
   @computed
   ChatState get getState => _state;
+
   @computed
-  List<MessageModel> get getMessages => _state.conversation.messages;
+  List<MessageModel> get getMessages => _messages.reversed.toList();
 
   @computed
   bool get shouldHideActions => _state.inputMessage.isNotEmpty;
 
   @computed
-  bool get showMessageComposer =>
-      _userStore?.getUser?.role != UserType?.viewer ?? true;
+  bool get showMessageComposer => _userStore?.getUser?.isIcon ?? false;
 
   // MESSAGE ACTIONS!
 
@@ -55,22 +59,21 @@ abstract class _ChatStoreBase with Store {
   }
 
   @action
-  Future sendTextMessage(String chatId, String message,
-      [MessageType type = MessageType.text]) async {
+  Future sendTextMessage() async {
     try {
-      if (message.isEmpty) return;
-
       _state = _state.copyWith(loading: true);
 
-      final sendMessage = MessageModel(
-        body: message,
+      final msg = MessageModel(
+        body: _state.inputMessage,
         likeCount: 0,
+        timestamp: DateTime.now().millisecondsSinceEpoch,
         type: MessageType.text,
       );
 
-      final msg = await _repository.sendMessage(chatId, sendMessage);
+      // IMPLEMENT THIS!
+      // final msgRecieved = await _repository.sendMessage(4, msg);
 
-      _state.conversation.messages.add(msg);
+      _messages.add(msg);
     } on DioError catch (e) {
       print(e);
     } finally {
@@ -82,8 +85,29 @@ abstract class _ChatStoreBase with Store {
   }
 
   @action
+  Future sendPhotoMessage(String photoUrl) async {
+    try {
+      final msg = MessageModel(
+        body: photoUrl,
+        likeCount: 0,
+        timestamp: DateTime.now().millisecondsSinceEpoch,
+        type: MessageType.photo,
+      );
+
+      // IMPLEMENT THIS!
+      // final msgRecieved = await _repository.sendMessage(4, msg);
+
+      _messages.add(msg);
+    } on DioError catch (e) {
+      print(e);
+    }
+  }
+
+  @action
   Future takeShot(ImageSource source) async {
-    // final imageUrl = await _mediaStore.uploadPhoto(source);
+    final photoUrl = await _mediaStore.uploadPhoto(source);
+
+    sendPhotoMessage(photoUrl);
   }
 
   @action
@@ -95,4 +119,21 @@ abstract class _ChatStoreBase with Store {
   Future sendAudioMessage() async {}
   // MESSAGE ACTIONS - END
 
+  @action
+  Future init(CategoryModel conversation) async {
+    // Get from memory
+    _state = _state.copyWith(conversation: conversation);
+    _messages.addAll(conversation.messages);
+
+    // Get remote
+    // final remote = await _repository.getConversaion(conversation.categoryId);
+    // _messages.clear();
+    // _messages.addAll(remote.messages);
+  }
+
+  @action
+  void dispose() {
+    _state = ChatState.initial();
+    _messages.clear();
+  }
 }

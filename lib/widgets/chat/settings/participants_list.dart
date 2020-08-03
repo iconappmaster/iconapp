@@ -1,26 +1,30 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/screens/chat_settings_screen.dart';
+import 'package:iconapp/stores/chat_settings/chat_settings_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 
 class ParticipentList extends StatelessWidget {
+  final List<UserModel> users;
+
+  const ParticipentList({Key key, @required this.users}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         ParticipentsListTitle(),
-        ...participants,
-        AddParticipentButton(),
+        ...users.map((u) => ParticipantItem(user: u)).toList(),
+        ParticipentAddButton(),
       ],
     );
   }
 }
 
-class AddParticipentButton extends StatelessWidget {
+class ParticipentAddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -57,6 +61,7 @@ class ParticipantItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final store = sl<ChatSettingsStore>();
     return Container(
       padding: EdgeInsets.only(left: 21, right: 21),
       height: settingsColumnHeight,
@@ -70,25 +75,25 @@ class ParticipantItem extends StatelessWidget {
             children: <Widget>[
               HebrewText(user.fullName, style: nameDark),
               SizedBox(height: 12.3),
-              Row(
-                children: <Widget>[
-                  SettingsActionButton(
-                    textStyle: settingsButton,
-                    onTap: () => print('make admin'),
-                    text: 'הפוך למנהל/ת',
-                    width: 103,
-                    color: cornflower,
-                  ),
-                  SizedBox(width: 12),
-                  SettingsActionButton(
-                    onTap: () => print('remove'),
-                    text: 'הסרה',
-                    width: 60.7,
-                    color: deepRed,
-                    textStyle: settingsButton.copyWith(color: deepRed),
-                  )
-                ],
-              )
+              if (user.role == UserRole.admin)
+                Row(
+                  children: <Widget>[
+                    SettingsActionButton(
+                        textStyle: settingsButton,
+                        onTap: () =>  store.makeUserAdmin(user),
+                        text: 'הפוך למנהל/ת',
+                        width: 103,
+                        color: cornflower),
+                    SizedBox(width: 12),
+                    SettingsActionButton(
+                      onTap: () => store.removeUser(user),
+                      text: 'הסרה',
+                      width: 60.7,
+                      color: deepRed,
+                      textStyle: settingsButton.copyWith(color: deepRed),
+                    )
+                  ],
+                )
             ],
           )
         ],
@@ -165,33 +170,3 @@ class ParticipentsListTitle extends StatelessWidget {
     );
   }
 }
-
-final participants = [
-  ParticipantItem(
-    user: UserModel(fullName: 'גל גדות', photo: PhotoModel(url: galMock)),
-  ),
-  ParticipantItem(
-    user: UserModel(fullName: 'גל גדות', photo: PhotoModel(url: galMock)),
-  ),
-  ParticipantItem(
-    user: UserModel(fullName: 'גל גדות', photo: PhotoModel(url: galMock)),
-  ),
-  ParticipantItem(
-    user: UserModel(fullName: 'גל גדות', photo: PhotoModel(url: galMock)),
-  ),
-  ParticipantItem(
-    user: UserModel(fullName: 'גל גדות', photo: PhotoModel(url: galMock)),
-  ),
-  ParticipantItem(
-    user: UserModel(fullName: 'גל גדות', photo: PhotoModel(url: galMock)),
-  ),
-  ParticipantItem(
-    user: UserModel(fullName: 'גל גדות', photo: PhotoModel(url: galMock)),
-  ),
-  ParticipantItem(
-    user: UserModel(fullName: 'גל גדות', photo: PhotoModel(url: galMock)),
-  ),
-];
-
-final galMock =
-    'https://i.pinimg.com/736x/98/1a/73/981a73e0950ece20dae06ec987d9e375.jpg';

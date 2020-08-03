@@ -35,8 +35,9 @@ class NetworkPhoto extends StatelessWidget {
           )
         : CachedNetworkImage(
             fadeOutDuration: Duration(milliseconds: 0),
-            progressIndicatorBuilder: (context, url, progress) =>
-                Center(child: CircularProgressIndicator()),
+            progressIndicatorBuilder: (context, url, progress) => Center(
+                child: SizedBox(
+                    height: 30, width: 30, child: CircularProgressIndicator())),
             height: height,
             width: width,
             fit: BoxFit.cover,

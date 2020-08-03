@@ -33,20 +33,19 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
         .run(() => super.changeChatBackground(background));
   }
 
-  final _$setUserAsGroupAdminAsyncAction =
-      AsyncAction('_ChatSettingsStoreBase.setUserAsGroupAdmin');
+  final _$makeUserAdminAsyncAction =
+      AsyncAction('_ChatSettingsStoreBase.makeUserAdmin');
 
   @override
-  Future<dynamic> setUserAsGroupAdmin(int userId) {
-    return _$setUserAsGroupAdminAsyncAction
-        .run(() => super.setUserAsGroupAdmin(userId));
+  Future<dynamic> makeUserAdmin(UserModel userId) {
+    return _$makeUserAdminAsyncAction.run(() => super.makeUserAdmin(userId));
   }
 
   final _$removeUserAsyncAction =
       AsyncAction('_ChatSettingsStoreBase.removeUser');
 
   @override
-  Future<dynamic> removeUser(int userId) {
+  Future<dynamic> removeUser(UserModel userId) {
     return _$removeUserAsyncAction.run(() => super.removeUser(userId));
   }
 

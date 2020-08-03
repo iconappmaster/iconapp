@@ -3,21 +3,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/data/models/category_model.dart';
+import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/chat/message_composer.dart';
+import 'package:iconapp/widgets/chat/messages.dart';
 import 'package:iconapp/widgets/global/blue_divider.dart';
 import 'package:iconapp/widgets/home/stories_widget.dart';
 import '../widgets/chat/chat_appbar.dart';
 
-class ChatScreen extends StatelessWidget {
-  final int id;
+class ChatScreen extends StatefulWidget {
+  final CategoryModel conversation;
 
-  const ChatScreen({Key key, this.id}) : super(key: key);
+  const ChatScreen({Key key, this.conversation}) : super(key: key);
+
+  @override
+  _ChatScreenState createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
+  ScrollController _controller = ScrollController();
+  @override
+  void initState() {
+    sl<ChatStore>().init(widget.conversation);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
-    final storiesMargin = const EdgeInsets.symmetric(vertical: 24.0);
+    final storiesMargin = const EdgeInsets.only(top: 24.0);
     return Scaffold(
       body: Observer(
         builder: (_) => Stack(children: [
@@ -30,15 +45,12 @@ class ChatScreen extends StatelessWidget {
             )),
             child: Column(
               children: <Widget>[
-                ChatAppbar(
-                  title: 'האח הגדול',
-                  subtitle: '12,000 משתתפים',
-                ),
+                ChatAppbar(conversation: store.getState.conversation),
                 BlueDivider(color: cornflower),
                 StoriesWidget(margin: storiesMargin),
-                ChatList(),
+                ChatList(scrollController: _controller),
                 store.showMessageComposer
-                    ? MessageComposer()
+                    ? MessageComposer(scrollController: _controller)
                     : ComposerViewOnly()
               ],
             ),
@@ -46,6 +58,12 @@ class ChatScreen extends StatelessWidget {
         ]),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    sl<ChatStore>().dispose();
+    super.dispose();
   }
 }
 
@@ -73,9 +91,45 @@ class ComposerViewOnly extends StatelessWidget {
   }
 }
 
+final chatListKey = GlobalKey<AnimatedListState>();
+
 class ChatList extends StatelessWidget {
+  final ScrollController scrollController;
+
+  const ChatList({Key key, @required this.scrollController}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Expanded(child: Container());
+    final store = sl<ChatStore>();
+    return Observer(
+      builder: (_) => Expanded(
+        child: AnimatedList(
+          key: chatListKey,
+          controller: scrollController,
+          physics: BouncingScrollPhysics(),
+          reverse: true,
+          shrinkWrap: true,
+          initialItemCount: store.getMessages.length,
+          itemBuilder: (context, index, animation) {
+            final message = store.getMessages[index];
+
+            switch (message.type) {
+              case MessageType.text:
+                return TextMessage(message: message, animation: animation);
+              case MessageType.photo:
+              return PhotoMessage(message: message, animation: animation);
+                break;
+              case MessageType.video:
+                break;
+              case MessageType.voice:
+                break;
+              case MessageType.system:
+                break;
+              case MessageType.replay:
+                break;
+            }
+          },
+        ),
+      ),
+    );
   }
 }

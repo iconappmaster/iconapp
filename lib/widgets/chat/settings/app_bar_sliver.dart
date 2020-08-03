@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,6 +6,7 @@ import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/widgets/global/back_button.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+import 'package:iconapp/widgets/global/network_photo.dart';
 
 const appbarHeight = 250.0;
 
@@ -49,7 +49,11 @@ class ChatSettingsAppBar implements SliverPersistentHeaderDelegate {
         children: <Widget>[
           Opacity(
               opacity: .4,
-              child: CachedNetworkImage(imageUrl: url, fit: BoxFit.cover)),
+              child: NetworkPhoto(
+                url: url,
+                height: appbarHeight,
+                width: MediaQuery.of(context).size.width,
+              )),
           Positioned(
               right: 21,
               bottom: 30.7,

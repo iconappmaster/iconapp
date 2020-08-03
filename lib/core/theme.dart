@@ -51,6 +51,13 @@ const addParticipent = TextStyle(
   fontSize: 16.7,
 );
 
+
+const disconnectButton = TextStyle(
+  fontFamily: _fontRubikBold,
+  color: white,
+  fontSize: 16.3,
+);
+
 const phoneNumber = TextStyle(
     fontFamily: _fontRubikRegular,
     color: white,
@@ -123,6 +130,19 @@ const settingsButton = TextStyle(
 
 const chatCompose =
     TextStyle(fontFamily: _fontRubikRegular, color: dusk, fontSize: 15.9);
+
+const chatMessageBody = TextStyle(
+  fontFamily: _fontRubikRegular,
+  color: white,
+  fontSize: 10.7,
+  height: 1.3,
+);
+const chatMessageName = TextStyle(
+  fontFamily: _fontRubikBold ,
+  color: white,
+  fontSize: 10.7,
+  height: 1.3,
+);
 
 const hint = TextStyle(
     fontFamily: _fontRubikRegular,

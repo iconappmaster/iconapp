@@ -15,7 +15,7 @@ class StoriesWidget extends StatelessWidget {
         top: context.heightPlusStatusbarPerc(.128),
         child: Container(
           margin: margin,
-          height: context.heightPlusStatusbarPerc(.12),
+          height: context.heightPlusStatusbarPerc(.08),
           width: context.widthPx,
           child: ListView.builder(
             shrinkWrap: true,

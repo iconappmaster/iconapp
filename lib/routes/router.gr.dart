@@ -16,6 +16,7 @@ import 'package:iconapp/screens/settings_screen.dart';
 import 'package:iconapp/screens/profile_screen.dart';
 import 'package:iconapp/screens/search_screen.dart';
 import 'package:iconapp/screens/chat_screen.dart';
+import 'package:iconapp/data/models/category_model.dart';
 import 'package:iconapp/screens/chat_settings_screen.dart';
 import 'package:iconapp/screens/story_screen.dart';
 import 'package:iconapp/screens/full_video_screen.dart';
@@ -146,13 +147,17 @@ class Router extends RouterBase {
       var args = data.getArgs<ChatScreenArguments>(
           orElse: () => ChatScreenArguments());
       return MaterialPageRoute<dynamic>(
-        builder: (context) => ChatScreen(key: args.key, id: args.id),
+        builder: (context) =>
+            ChatScreen(key: args.key, conversation: args.conversation),
         settings: data,
       );
     },
     ChatSettings: (RouteData data) {
+      var args = data.getArgs<ChatSettingsArguments>(
+          orElse: () => ChatSettingsArguments());
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => ChatSettings(),
+        builder: (context) =>
+            ChatSettings(key: args.key, conversation: args.conversation),
         settings: data,
         fullscreenDialog: true,
       );
@@ -238,14 +243,21 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
 
   Future<dynamic> pushChatScreen({
     Key key,
-    int id,
+    CategoryModel conversation,
   }) =>
       pushNamed<dynamic>(
         Routes.chatScreen,
-        arguments: ChatScreenArguments(key: key, id: id),
+        arguments: ChatScreenArguments(key: key, conversation: conversation),
       );
 
-  Future<dynamic> pushChatSettings() => pushNamed<dynamic>(Routes.chatSettings);
+  Future<dynamic> pushChatSettings({
+    Key key,
+    CategoryModel conversation,
+  }) =>
+      pushNamed<dynamic>(
+        Routes.chatSettings,
+        arguments: ChatSettingsArguments(key: key, conversation: conversation),
+      );
 
   Future<dynamic> pushStoryScreen() => pushNamed<dynamic>(Routes.storyScreen);
 
@@ -283,8 +295,15 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
 //ChatScreen arguments holder class
 class ChatScreenArguments {
   final Key key;
-  final int id;
-  ChatScreenArguments({this.key, this.id});
+  final CategoryModel conversation;
+  ChatScreenArguments({this.key, this.conversation});
+}
+
+//ChatSettings arguments holder class
+class ChatSettingsArguments {
+  final Key key;
+  final CategoryModel conversation;
+  ChatSettingsArguments({this.key, this.conversation});
 }
 
 //FullImageScreen arguments holder class

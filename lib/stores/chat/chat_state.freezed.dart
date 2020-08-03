@@ -16,7 +16,7 @@ class _$ChatStateTearOff {
   _ChatState call(
       {@required bool loading,
       @required String inputMessage,
-      @required ConversationModel conversation}) {
+      @required CategoryModel conversation}) {
     return _ChatState(
       loading: loading,
       inputMessage: inputMessage,
@@ -31,7 +31,7 @@ const $ChatState = _$ChatStateTearOff();
 mixin _$ChatState {
   bool get loading;
   String get inputMessage;
-  ConversationModel get conversation;
+  CategoryModel get conversation;
 
   $ChatStateCopyWith<ChatState> get copyWith;
 }
@@ -39,8 +39,9 @@ mixin _$ChatState {
 abstract class $ChatStateCopyWith<$Res> {
   factory $ChatStateCopyWith(ChatState value, $Res Function(ChatState) then) =
       _$ChatStateCopyWithImpl<$Res>;
-  $Res call(
-      {bool loading, String inputMessage, ConversationModel conversation});
+  $Res call({bool loading, String inputMessage, CategoryModel conversation});
+
+  $CategoryModelCopyWith<$Res> get conversation;
 }
 
 class _$ChatStateCopyWithImpl<$Res> implements $ChatStateCopyWith<$Res> {
@@ -63,8 +64,18 @@ class _$ChatStateCopyWithImpl<$Res> implements $ChatStateCopyWith<$Res> {
           : inputMessage as String,
       conversation: conversation == freezed
           ? _value.conversation
-          : conversation as ConversationModel,
+          : conversation as CategoryModel,
     ));
+  }
+
+  @override
+  $CategoryModelCopyWith<$Res> get conversation {
+    if (_value.conversation == null) {
+      return null;
+    }
+    return $CategoryModelCopyWith<$Res>(_value.conversation, (value) {
+      return _then(_value.copyWith(conversation: value));
+    });
   }
 }
 
@@ -73,8 +84,10 @@ abstract class _$ChatStateCopyWith<$Res> implements $ChatStateCopyWith<$Res> {
           _ChatState value, $Res Function(_ChatState) then) =
       __$ChatStateCopyWithImpl<$Res>;
   @override
-  $Res call(
-      {bool loading, String inputMessage, ConversationModel conversation});
+  $Res call({bool loading, String inputMessage, CategoryModel conversation});
+
+  @override
+  $CategoryModelCopyWith<$Res> get conversation;
 }
 
 class __$ChatStateCopyWithImpl<$Res> extends _$ChatStateCopyWithImpl<$Res>
@@ -98,7 +111,7 @@ class __$ChatStateCopyWithImpl<$Res> extends _$ChatStateCopyWithImpl<$Res>
           : inputMessage as String,
       conversation: conversation == freezed
           ? _value.conversation
-          : conversation as ConversationModel,
+          : conversation as CategoryModel,
     ));
   }
 }
@@ -117,7 +130,7 @@ class _$_ChatState implements _ChatState {
   @override
   final String inputMessage;
   @override
-  final ConversationModel conversation;
+  final CategoryModel conversation;
 
   @override
   String toString() {
@@ -155,14 +168,14 @@ abstract class _ChatState implements ChatState {
   const factory _ChatState(
       {@required bool loading,
       @required String inputMessage,
-      @required ConversationModel conversation}) = _$_ChatState;
+      @required CategoryModel conversation}) = _$_ChatState;
 
   @override
   bool get loading;
   @override
   String get inputMessage;
   @override
-  ConversationModel get conversation;
+  CategoryModel get conversation;
   @override
   _$ChatStateCopyWith<_ChatState> get copyWith;
 }
