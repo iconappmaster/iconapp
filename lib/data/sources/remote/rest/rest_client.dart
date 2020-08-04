@@ -24,12 +24,15 @@ abstract class RestClient {
       @Query('phone') String phone, @Query('login_code') String code);
 
   // USERS
+  @GET('user')
+  Future<UserModel> getUser();
+
   @POST('user')
   Future<UserModel> updateUser(@Body() UserModel userModel);
 
   // SEARCH
   @GET('categories')
-  Future<List<CategoryModel>> searchCategory(
+  Future<List<Conversation>> searchCategory(
       @Query('searchString') String searchString);
 
   @GET('icons')
@@ -37,11 +40,11 @@ abstract class RestClient {
 
   // HOME
   @GET('conversations')
-  Future<List<CategoryModel>> getConversations();
+  Future<List<Conversation>> getConversations();
 
   // GROUPS
   @POST('conversations')
-  Future<CategoryModel> createGroup(@Body() CreateGroupReq groupReq);
+  Future<Conversation> createGroup(@Body() CreateGroupReq groupReq);
 
   @PUT('updateGroup/{id}')
   Future updateGroup(
@@ -52,7 +55,7 @@ abstract class RestClient {
 
   // CHAT
   @GET('conversaion/{id}')
-  Future<CategoryModel> getConversaion(@Path() int id);
+  Future<Conversation> getConversaion(@Path() int id);
 
   @POST('sendMessage/{chatId}')
   Future sendMessage(@Path() String chatId, @Body() MessageModel message);

@@ -12,8 +12,8 @@ class NetworkPhoto extends StatelessWidget {
   const NetworkPhoto({
     Key key,
     @required this.url,
-    @required this.height,
-    @required this.width,
+    this.height,
+    this.width,
     this.placeHolderPadding = 20,
     this.placeHolder,
   }) : super(key: key);

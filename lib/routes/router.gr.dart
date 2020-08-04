@@ -243,7 +243,7 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
 
   Future<dynamic> pushChatScreen({
     Key key,
-    CategoryModel conversation,
+    Conversation conversation,
   }) =>
       pushNamed<dynamic>(
         Routes.chatScreen,
@@ -252,7 +252,7 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
 
   Future<dynamic> pushChatSettings({
     Key key,
-    CategoryModel conversation,
+    Conversation conversation,
   }) =>
       pushNamed<dynamic>(
         Routes.chatSettings,
@@ -295,14 +295,14 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
 //ChatScreen arguments holder class
 class ChatScreenArguments {
   final Key key;
-  final CategoryModel conversation;
+  final Conversation conversation;
   ChatScreenArguments({this.key, this.conversation});
 }
 
 //ChatSettings arguments holder class
 class ChatSettingsArguments {
   final Key key;
-  final CategoryModel conversation;
+  final Conversation conversation;
   ChatSettingsArguments({this.key, this.conversation});
 }
 

@@ -7,7 +7,7 @@ import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 
 abstract class SearchRepository {
   Future<Either<ServerError, List<UserModel>>> searchIcons(String query);
-  Future<Either<ServerError, List<CategoryModel>>> searchCategories(
+  Future<Either<ServerError, List<Conversation>>> searchCategories(
       String query);
 }
 
@@ -17,7 +17,7 @@ class SearchRepositoryImpl implements SearchRepository {
   SearchRepositoryImpl({@required this.restClient});
 
   @override
-  Future<Either<ServerError, List<CategoryModel>>> searchCategories(
+  Future<Either<ServerError, List<Conversation>>> searchCategories(
       String query) async {
     try {
       final result = await restClient.searchCategory(query);

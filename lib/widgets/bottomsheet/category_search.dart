@@ -41,7 +41,7 @@ class CategorySearchItem extends StatelessWidget {
       {Key key, @required this.onTap, @required this.category})
       : super(key: key);
 
-  final CategoryModel category;
+  final Conversation category;
   final Function onTap;
 
   @override

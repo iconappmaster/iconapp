@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/screens/onboarding_phone.dart';
 import 'package:iconapp/stores/auth/auth_store.dart';
+import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/login/login_background.dart';
 import '../core/extensions/context_ext.dart';
 import 'home_screen.dart';
@@ -21,8 +22,8 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     _authStore = sl<AuthStore>();
-    Future.delayed(
-        Duration(seconds: 2), () => _authStore.checkCurrentAuthState());
+    sl<UserStore>().init().then((_) => Future.delayed(
+        Duration(seconds: 1), () => _authStore.checkCurrentAuthState()));
   }
 
   @override

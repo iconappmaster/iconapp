@@ -3,7 +3,7 @@ import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 
 abstract class ChatRepository {
-  Future<CategoryModel> getConversaion(int chatId);
+  Future<Conversation> getConversaion(int chatId);
   Future<MessageModel> sendMessage(int conversationId, MessageModel message);
   Future<MessageModel> likeMessage(String chatId, String messageId);
   Stream<MessageModel> watchMessages();
@@ -15,7 +15,7 @@ class ChatRepositoryImpl implements ChatRepository {
   ChatRepositoryImpl({this.restClient});
 
   @override
-  Future<CategoryModel> getConversaion(int chatId) async {
+  Future<Conversation> getConversaion(int chatId) async {
     return await restClient.getConversaion(chatId);
   }
 

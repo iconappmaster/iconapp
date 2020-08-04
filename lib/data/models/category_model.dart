@@ -8,8 +8,8 @@ part 'category_model.g.dart';
 
 /// Used for category search
 @freezed
-abstract class CategoryModel with _$CategoryModel {
-  const factory CategoryModel({
+abstract class Conversation with _$Conversation {
+  const factory Conversation({
     final int id,
     final int categoryId,
     final UserModel createdBy,
@@ -21,8 +21,9 @@ abstract class CategoryModel with _$CategoryModel {
     final int unreadMessageCount,
     final List<UserModel> users,
     final List<MessageModel> messages,
-  }) = _CategoryModel;
+    final bool isSubscribed,
+  }) = _Conversation;
 
-  factory CategoryModel.fromJson(Map<String, dynamic> json) =>
-      _$CategoryModelFromJson(json);
+  factory Conversation.fromJson(Map<String, dynamic> json) =>
+      _$ConversationFromJson(json);
 }

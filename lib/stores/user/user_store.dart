@@ -16,9 +16,7 @@ abstract class _UserStoreBase with Store {
   _UserStoreBase() {
     _userRepository = sl<UserRepository>();
     _prefs = sl<SharedPreferencesService>();
-    init();
   }
- 
 
   @observable
   UserModel _userModel = UserModel();
@@ -37,7 +35,9 @@ abstract class _UserStoreBase with Store {
   @action
   Future<bool> updateUser(UserModel user) async {
     final createdUser = await _userRepository.updateUser(user);
-    return await _userRepository.persistUser(createdUser);
+    final saved = await _userRepository.persistUser(createdUser);
+    _userModel = createdUser;
+    return saved;
   }
 
   @action
@@ -52,7 +52,15 @@ abstract class _UserStoreBase with Store {
 
   @action
   Future init() async {
-    final persistnetUser = await _userRepository.getPersistedUser();
-    _userModel = persistnetUser;
+    try {
+      final persistnetUser = await _userRepository.getPersistedUser();
+      _userModel = persistnetUser;
+
+      final user = await _userRepository.getRemtoeUser();
+      _userRepository.persistUser(user);
+      _userModel = user;
+    } on Exception catch (e) {
+      print(e);
+    }
   }
 }

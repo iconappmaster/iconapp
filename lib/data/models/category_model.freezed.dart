@@ -8,15 +8,15 @@ part of 'category_model.dart';
 // **************************************************************************
 
 T _$identity<T>(T value) => value;
-CategoryModel _$CategoryModelFromJson(Map<String, dynamic> json) {
-  return _CategoryModel.fromJson(json);
+Conversation _$ConversationFromJson(Map<String, dynamic> json) {
+  return _Conversation.fromJson(json);
 }
 
-class _$CategoryModelTearOff {
-  const _$CategoryModelTearOff();
+class _$ConversationTearOff {
+  const _$ConversationTearOff();
 
 // ignore: unused_element
-  _CategoryModel call(
+  _Conversation call(
       {int id,
       int categoryId,
       UserModel createdBy,
@@ -27,8 +27,9 @@ class _$CategoryModelTearOff {
       MessageModel lastMessage,
       int unreadMessageCount,
       List<UserModel> users,
-      List<MessageModel> messages}) {
-    return _CategoryModel(
+      List<MessageModel> messages,
+      bool isSubscribed}) {
+    return _Conversation(
       id: id,
       categoryId: categoryId,
       createdBy: createdBy,
@@ -40,14 +41,15 @@ class _$CategoryModelTearOff {
       unreadMessageCount: unreadMessageCount,
       users: users,
       messages: messages,
+      isSubscribed: isSubscribed,
     );
   }
 }
 
 // ignore: unused_element
-const $CategoryModel = _$CategoryModelTearOff();
+const $Conversation = _$ConversationTearOff();
 
-mixin _$CategoryModel {
+mixin _$Conversation {
   int get id;
   int get categoryId;
   UserModel get createdBy;
@@ -59,15 +61,16 @@ mixin _$CategoryModel {
   int get unreadMessageCount;
   List<UserModel> get users;
   List<MessageModel> get messages;
+  bool get isSubscribed;
 
   Map<String, dynamic> toJson();
-  $CategoryModelCopyWith<CategoryModel> get copyWith;
+  $ConversationCopyWith<Conversation> get copyWith;
 }
 
-abstract class $CategoryModelCopyWith<$Res> {
-  factory $CategoryModelCopyWith(
-          CategoryModel value, $Res Function(CategoryModel) then) =
-      _$CategoryModelCopyWithImpl<$Res>;
+abstract class $ConversationCopyWith<$Res> {
+  factory $ConversationCopyWith(
+          Conversation value, $Res Function(Conversation) then) =
+      _$ConversationCopyWithImpl<$Res>;
   $Res call(
       {int id,
       int categoryId,
@@ -79,20 +82,21 @@ abstract class $CategoryModelCopyWith<$Res> {
       MessageModel lastMessage,
       int unreadMessageCount,
       List<UserModel> users,
-      List<MessageModel> messages});
+      List<MessageModel> messages,
+      bool isSubscribed});
 
   $UserModelCopyWith<$Res> get createdBy;
   $PhotoModelCopyWith<$Res> get photo;
   $PhotoModelCopyWith<$Res> get backgroundPhoto;
+  $MessageModelCopyWith<$Res> get lastMessage;
 }
 
-class _$CategoryModelCopyWithImpl<$Res>
-    implements $CategoryModelCopyWith<$Res> {
-  _$CategoryModelCopyWithImpl(this._value, this._then);
+class _$ConversationCopyWithImpl<$Res> implements $ConversationCopyWith<$Res> {
+  _$ConversationCopyWithImpl(this._value, this._then);
 
-  final CategoryModel _value;
+  final Conversation _value;
   // ignore: unused_field
-  final $Res Function(CategoryModel) _then;
+  final $Res Function(Conversation) _then;
 
   @override
   $Res call({
@@ -107,6 +111,7 @@ class _$CategoryModelCopyWithImpl<$Res>
     Object unreadMessageCount = freezed,
     Object users = freezed,
     Object messages = freezed,
+    Object isSubscribed = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as int,
@@ -129,6 +134,8 @@ class _$CategoryModelCopyWithImpl<$Res>
       messages: messages == freezed
           ? _value.messages
           : messages as List<MessageModel>,
+      isSubscribed:
+          isSubscribed == freezed ? _value.isSubscribed : isSubscribed as bool,
     ));
   }
 
@@ -161,13 +168,23 @@ class _$CategoryModelCopyWithImpl<$Res>
       return _then(_value.copyWith(backgroundPhoto: value));
     });
   }
+
+  @override
+  $MessageModelCopyWith<$Res> get lastMessage {
+    if (_value.lastMessage == null) {
+      return null;
+    }
+    return $MessageModelCopyWith<$Res>(_value.lastMessage, (value) {
+      return _then(_value.copyWith(lastMessage: value));
+    });
+  }
 }
 
-abstract class _$CategoryModelCopyWith<$Res>
-    implements $CategoryModelCopyWith<$Res> {
-  factory _$CategoryModelCopyWith(
-          _CategoryModel value, $Res Function(_CategoryModel) then) =
-      __$CategoryModelCopyWithImpl<$Res>;
+abstract class _$ConversationCopyWith<$Res>
+    implements $ConversationCopyWith<$Res> {
+  factory _$ConversationCopyWith(
+          _Conversation value, $Res Function(_Conversation) then) =
+      __$ConversationCopyWithImpl<$Res>;
   @override
   $Res call(
       {int id,
@@ -180,7 +197,8 @@ abstract class _$CategoryModelCopyWith<$Res>
       MessageModel lastMessage,
       int unreadMessageCount,
       List<UserModel> users,
-      List<MessageModel> messages});
+      List<MessageModel> messages,
+      bool isSubscribed});
 
   @override
   $UserModelCopyWith<$Res> get createdBy;
@@ -188,17 +206,18 @@ abstract class _$CategoryModelCopyWith<$Res>
   $PhotoModelCopyWith<$Res> get photo;
   @override
   $PhotoModelCopyWith<$Res> get backgroundPhoto;
+  @override
+  $MessageModelCopyWith<$Res> get lastMessage;
 }
 
-class __$CategoryModelCopyWithImpl<$Res>
-    extends _$CategoryModelCopyWithImpl<$Res>
-    implements _$CategoryModelCopyWith<$Res> {
-  __$CategoryModelCopyWithImpl(
-      _CategoryModel _value, $Res Function(_CategoryModel) _then)
-      : super(_value, (v) => _then(v as _CategoryModel));
+class __$ConversationCopyWithImpl<$Res> extends _$ConversationCopyWithImpl<$Res>
+    implements _$ConversationCopyWith<$Res> {
+  __$ConversationCopyWithImpl(
+      _Conversation _value, $Res Function(_Conversation) _then)
+      : super(_value, (v) => _then(v as _Conversation));
 
   @override
-  _CategoryModel get _value => super._value as _CategoryModel;
+  _Conversation get _value => super._value as _Conversation;
 
   @override
   $Res call({
@@ -213,8 +232,9 @@ class __$CategoryModelCopyWithImpl<$Res>
     Object unreadMessageCount = freezed,
     Object users = freezed,
     Object messages = freezed,
+    Object isSubscribed = freezed,
   }) {
-    return _then(_CategoryModel(
+    return _then(_Conversation(
       id: id == freezed ? _value.id : id as int,
       categoryId: categoryId == freezed ? _value.categoryId : categoryId as int,
       createdBy:
@@ -235,13 +255,15 @@ class __$CategoryModelCopyWithImpl<$Res>
       messages: messages == freezed
           ? _value.messages
           : messages as List<MessageModel>,
+      isSubscribed:
+          isSubscribed == freezed ? _value.isSubscribed : isSubscribed as bool,
     ));
   }
 }
 
 @JsonSerializable()
-class _$_CategoryModel implements _CategoryModel {
-  const _$_CategoryModel(
+class _$_Conversation implements _Conversation {
+  const _$_Conversation(
       {this.id,
       this.categoryId,
       this.createdBy,
@@ -252,10 +274,11 @@ class _$_CategoryModel implements _CategoryModel {
       this.lastMessage,
       this.unreadMessageCount,
       this.users,
-      this.messages});
+      this.messages,
+      this.isSubscribed});
 
-  factory _$_CategoryModel.fromJson(Map<String, dynamic> json) =>
-      _$_$_CategoryModelFromJson(json);
+  factory _$_Conversation.fromJson(Map<String, dynamic> json) =>
+      _$_$_ConversationFromJson(json);
 
   @override
   final int id;
@@ -279,16 +302,18 @@ class _$_CategoryModel implements _CategoryModel {
   final List<UserModel> users;
   @override
   final List<MessageModel> messages;
+  @override
+  final bool isSubscribed;
 
   @override
   String toString() {
-    return 'CategoryModel(id: $id, categoryId: $categoryId, createdBy: $createdBy, createAt: $createAt, name: $name, photo: $photo, backgroundPhoto: $backgroundPhoto, lastMessage: $lastMessage, unreadMessageCount: $unreadMessageCount, users: $users, messages: $messages)';
+    return 'Conversation(id: $id, categoryId: $categoryId, createdBy: $createdBy, createAt: $createAt, name: $name, photo: $photo, backgroundPhoto: $backgroundPhoto, lastMessage: $lastMessage, unreadMessageCount: $unreadMessageCount, users: $users, messages: $messages, isSubscribed: $isSubscribed)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _CategoryModel &&
+        (other is _Conversation &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.categoryId, categoryId) ||
@@ -317,7 +342,10 @@ class _$_CategoryModel implements _CategoryModel {
                 const DeepCollectionEquality().equals(other.users, users)) &&
             (identical(other.messages, messages) ||
                 const DeepCollectionEquality()
-                    .equals(other.messages, messages)));
+                    .equals(other.messages, messages)) &&
+            (identical(other.isSubscribed, isSubscribed) ||
+                const DeepCollectionEquality()
+                    .equals(other.isSubscribed, isSubscribed)));
   }
 
   @override
@@ -333,20 +361,21 @@ class _$_CategoryModel implements _CategoryModel {
       const DeepCollectionEquality().hash(lastMessage) ^
       const DeepCollectionEquality().hash(unreadMessageCount) ^
       const DeepCollectionEquality().hash(users) ^
-      const DeepCollectionEquality().hash(messages);
+      const DeepCollectionEquality().hash(messages) ^
+      const DeepCollectionEquality().hash(isSubscribed);
 
   @override
-  _$CategoryModelCopyWith<_CategoryModel> get copyWith =>
-      __$CategoryModelCopyWithImpl<_CategoryModel>(this, _$identity);
+  _$ConversationCopyWith<_Conversation> get copyWith =>
+      __$ConversationCopyWithImpl<_Conversation>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$_$_CategoryModelToJson(this);
+    return _$_$_ConversationToJson(this);
   }
 }
 
-abstract class _CategoryModel implements CategoryModel {
-  const factory _CategoryModel(
+abstract class _Conversation implements Conversation {
+  const factory _Conversation(
       {int id,
       int categoryId,
       UserModel createdBy,
@@ -357,10 +386,11 @@ abstract class _CategoryModel implements CategoryModel {
       MessageModel lastMessage,
       int unreadMessageCount,
       List<UserModel> users,
-      List<MessageModel> messages}) = _$_CategoryModel;
+      List<MessageModel> messages,
+      bool isSubscribed}) = _$_Conversation;
 
-  factory _CategoryModel.fromJson(Map<String, dynamic> json) =
-      _$_CategoryModel.fromJson;
+  factory _Conversation.fromJson(Map<String, dynamic> json) =
+      _$_Conversation.fromJson;
 
   @override
   int get id;
@@ -385,5 +415,7 @@ abstract class _CategoryModel implements CategoryModel {
   @override
   List<MessageModel> get messages;
   @override
-  _$CategoryModelCopyWith<_CategoryModel> get copyWith;
+  bool get isSubscribed;
+  @override
+  _$ConversationCopyWith<_Conversation> get copyWith;
 }

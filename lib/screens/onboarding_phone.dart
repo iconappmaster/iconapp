@@ -184,7 +184,7 @@ class _PinCode extends StatelessWidget {
                 successFailure.fold(
                   (error) => error.when(
                       serverError: () => ctx.showFlushbar(
-                          message: LocaleKeys.general_server_error),
+                          message: LocaleKeys.general_server_error).tr(),
                       wrongCode: () => ctx.showFlushbar(
                           message: LocaleKeys.onboarding_wrongCode.tr())),
                   (success) =>

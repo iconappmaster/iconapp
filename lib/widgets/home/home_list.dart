@@ -4,11 +4,13 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/category_model.dart';
+import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
 import '../../core/extensions/context_ext.dart';
+import '../../core/extensions/int_ext.dart';
 
 class ConversationsList extends StatelessWidget {
   @override
@@ -44,7 +46,7 @@ class ConversationsList extends StatelessWidget {
 }
 
 class ConversationItem extends StatelessWidget {
-  final CategoryModel model; // fix taht
+  final Conversation model; // fix taht
   final Function onTap;
   const ConversationItem({Key key, this.model, @required this.onTap})
       : super(key: key);
@@ -71,6 +73,7 @@ class ConversationItem extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(100),
                 child: NetworkPhoto(
+                  placeHolder: 'assets/images/group_placeholder.svg',
                   placeHolderPadding: 20,
                   url: model?.photo?.url ?? '',
                   height: 56,
@@ -85,16 +88,22 @@ class ConversationItem extends StatelessWidget {
                   children: <Widget>[
                     HebrewText(model.name, style: nameWhite),
                     SizedBox(height: 4),
-                    HebrewText('נטלי דדון: שבוע טוב לכולם!', style: nameWhite),
+                    HebrewText(formatLastMessage(model.lastMessage),
+                        style: lastWritten),
                   ],
                 ),
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  HebrewText('10:37', style: timeOfMessage),
+                  if (model.lastMessage != null)
+                    HebrewText(
+                      model.lastMessage?.timestamp?.humanReadableTime() ?? '',
+                      style: timeOfMessage,
+                    ),
                   SizedBox(height: 8.7),
-                  _MessageCounter(count: 2)
+                  if (model.unreadMessageCount > 0)
+                    _MessageCounter(count: model.unreadMessageCount)
                 ],
               ),
             ],
@@ -103,6 +112,10 @@ class ConversationItem extends StatelessWidget {
       ),
     );
   }
+
+  formatLastMessage(MessageModel conversation) => conversation?.sender == null
+      ? 'קבוצה חדשה'
+      : '${model?.lastMessage?.sender?.fullName}: ${model?.lastMessage?.body ?? ''}';
 }
 
 class _MessageCounter extends StatelessWidget {

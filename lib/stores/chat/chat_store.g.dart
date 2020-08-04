@@ -30,12 +30,12 @@ mixin _$ChatStore on _ChatStoreBase, Store {
           () => super.shouldHideActions,
           name: '_ChatStoreBase.shouldHideActions'))
       .value;
-  Computed<bool> _$showMessageComposerComputed;
+  Computed<ComposerMode> _$getComposerModeComputed;
 
   @override
-  bool get showMessageComposer => (_$showMessageComposerComputed ??=
-          Computed<bool>(() => super.showMessageComposer,
-              name: '_ChatStoreBase.showMessageComposer'))
+  ComposerMode get getComposerMode => (_$getComposerModeComputed ??=
+          Computed<ComposerMode>(() => super.getComposerMode,
+              name: '_ChatStoreBase.getComposerMode'))
       .value;
 
   final _$_stateAtom = Atom(name: '_ChatStoreBase._state');
@@ -68,6 +68,15 @@ mixin _$ChatStore on _ChatStoreBase, Store {
     });
   }
 
+  final _$initConversationAsyncAction =
+      AsyncAction('_ChatStoreBase.initConversation');
+
+  @override
+  Future<dynamic> initConversation(Conversation conversation) {
+    return _$initConversationAsyncAction
+        .run(() => super.initConversation(conversation));
+  }
+
   final _$updateGroupNameAsyncAction =
       AsyncAction('_ChatStoreBase.updateGroupName');
 
@@ -97,16 +106,9 @@ mixin _$ChatStore on _ChatStoreBase, Store {
       AsyncAction('_ChatStoreBase.sendPhotoMessage');
 
   @override
-  Future<dynamic> sendPhotoMessage(String photoUrl) {
+  Future<dynamic> sendPhotoMessage(ImageSource source) {
     return _$sendPhotoMessageAsyncAction
-        .run(() => super.sendPhotoMessage(photoUrl));
-  }
-
-  final _$takeShotAsyncAction = AsyncAction('_ChatStoreBase.takeShot');
-
-  @override
-  Future<dynamic> takeShot(ImageSource source) {
-    return _$takeShotAsyncAction.run(() => super.takeShot(source));
+        .run(() => super.sendPhotoMessage(source));
   }
 
   final _$sendVideoMessageAsyncAction =
@@ -126,22 +128,26 @@ mixin _$ChatStore on _ChatStoreBase, Store {
     return _$sendAudioMessageAsyncAction.run(() => super.sendAudioMessage());
   }
 
-  final _$initAsyncAction = AsyncAction('_ChatStoreBase.init');
-
-  @override
-  Future<dynamic> init(CategoryModel conversation) {
-    return _$initAsyncAction.run(() => super.init(conversation));
-  }
-
   final _$_ChatStoreBaseActionController =
       ActionController(name: '_ChatStoreBase');
 
   @override
-  dynamic updateInputMessage(String input) {
+  void initComposerMode() {
+    final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
+        name: '_ChatStoreBase.initComposerMode');
+    try {
+      return super.initComposerMode();
+    } finally {
+      _$_ChatStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic updateComposerText(String input) {
     final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
         name: '_ChatStoreBase.updateInputMessage');
     try {
-      return super.updateInputMessage(input);
+      return super.updateComposerText(input);
     } finally {
       _$_ChatStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -164,7 +170,7 @@ mixin _$ChatStore on _ChatStoreBase, Store {
 getState: ${getState},
 getMessages: ${getMessages},
 shouldHideActions: ${shouldHideActions},
-showMessageComposer: ${showMessageComposer}
+getComposerMode: ${getComposerMode}
     ''';
   }
 }

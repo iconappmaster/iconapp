@@ -21,13 +21,14 @@ abstract class _HomeStoreBase with Store {
     _showWelcomeDialog =
         _preferencesService.getBool(StorageKey.welcomeDialog, true);
 
+
     getHome();
   }
   @observable
   HomeState _state = HomeState.initial();
 
   @observable
-  ObservableList<CategoryModel> _categories = ObservableList.of([]);
+  ObservableList<Conversation> _categories = ObservableList.of([]);
 
   @observable
   bool _showWelcomeDialog = true;
@@ -40,10 +41,10 @@ abstract class _HomeStoreBase with Store {
 
   @computed
   // List<CategoryModel> get conversations => _state.categories;
-  List<CategoryModel> get conversations => _categories;
+  List<Conversation> get conversations => _categories;
 
   @action
-  void addConversation(CategoryModel category) {
+  void addConversation(Conversation category) {
     // var clone = _state.categories;
     // clone.add(category);
     // _state = _state.copyWith(categories: clone);

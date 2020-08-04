@@ -5,15 +5,17 @@ import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/category_model.dart';
 import 'package:iconapp/data/models/message_model.dart';
+import 'package:iconapp/stores/chat/chat_state.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/chat/message_composer.dart';
 import 'package:iconapp/widgets/chat/messages.dart';
 import 'package:iconapp/widgets/global/blue_divider.dart';
+import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/home/stories_widget.dart';
 import '../widgets/chat/chat_appbar.dart';
 
 class ChatScreen extends StatefulWidget {
-  final CategoryModel conversation;
+  final Conversation conversation;
 
   const ChatScreen({Key key, this.conversation}) : super(key: key);
 
@@ -25,7 +27,7 @@ class _ChatScreenState extends State<ChatScreen> {
   ScrollController _controller = ScrollController();
   @override
   void initState() {
-    sl<ChatStore>().init(widget.conversation);
+    sl<ChatStore>().initConversation(widget.conversation);
     super.initState();
   }
 
@@ -49,15 +51,25 @@ class _ChatScreenState extends State<ChatScreen> {
                 BlueDivider(color: cornflower),
                 StoriesWidget(margin: storiesMargin),
                 ChatList(scrollController: _controller),
-                store.showMessageComposer
-                    ? MessageComposer(scrollController: _controller)
-                    : ComposerViewOnly()
+                _buildComposer(store.getComposerMode),
               ],
             ),
           ),
         ]),
       ),
     );
+  }
+
+  Widget _buildComposer(ComposerMode mode) {
+    switch (mode) {
+      case ComposerMode.viewer:
+        return ViewerSheet();
+      case ComposerMode.icon:
+        return MessageComposer(scrollController: _controller);
+      case ComposerMode.showSubscribe:
+        return SubscriberSheet();
+    }
+    return Container();
   }
 
   @override
@@ -67,7 +79,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 }
 
-class ComposerViewOnly extends StatelessWidget {
+class ViewerSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -86,8 +98,23 @@ class ComposerViewOnly extends StatelessWidget {
         ),
       ),
     );
+  }
+}
 
-    // HebrewText(text)\),
+class SubscriberSheet extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final store = sl<ChatStore>();
+    return Container(
+      color: white,
+      height: 58.7,
+      child: Center(
+          child: FlatButton(
+        child: HebrewText('הצטרפות לקבוצה',
+            style: chatCompose.copyWith(color: cornflower)),
+        onPressed: () => store.subscribeConversation(),
+      )),
+    );
   }
 }
 
@@ -116,17 +143,18 @@ class ChatList extends StatelessWidget {
               case MessageType.text:
                 return TextMessage(message: message, animation: animation);
               case MessageType.photo:
-              return PhotoMessage(message: message, animation: animation);
-                break;
+                return PhotoMessage(message: message, animation: animation);
               case MessageType.video:
-                break;
+                return Container();
               case MessageType.voice:
-                break;
+                return Container();
               case MessageType.system:
-                break;
+                return Container();
               case MessageType.replay:
-                break;
+                return Container();
             }
+
+            return null;
           },
         ),
       ),

@@ -9,7 +9,7 @@ import '../global/hebrew_input_text.dart';
 import 'chat_back_button.dart';
 
 class ChatAppbar extends StatelessWidget {
-  final CategoryModel conversation;
+  final Conversation conversation;
 
   const ChatAppbar({Key key, @required this.conversation}) : super(key: key);
 

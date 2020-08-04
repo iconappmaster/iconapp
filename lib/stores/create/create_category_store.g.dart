@@ -9,18 +9,18 @@ part of 'create_category_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$CreateCategoryStore on _CreateCategoryStoreBase, Store {
-  Computed<List<CategoryModel>> _$getCategoriesComputed;
+  Computed<List<Conversation>> _$getCategoriesComputed;
 
   @override
-  List<CategoryModel> get getCategories => (_$getCategoriesComputed ??=
-          Computed<List<CategoryModel>>(() => super.getCategories,
+  List<Conversation> get getCategories => (_$getCategoriesComputed ??=
+          Computed<List<Conversation>>(() => super.getCategories,
               name: '_CreateCategoryStoreBase.getCategories'))
       .value;
-  Computed<CategoryModel> _$getSelectedCategoryComputed;
+  Computed<Conversation> _$getSelectedCategoryComputed;
 
   @override
-  CategoryModel get getSelectedCategory => (_$getSelectedCategoryComputed ??=
-          Computed<CategoryModel>(() => super.getSelectedCategory,
+  Conversation get getSelectedCategory => (_$getSelectedCategoryComputed ??=
+          Computed<Conversation>(() => super.getSelectedCategory,
               name: '_CreateCategoryStoreBase.getSelectedCategory'))
       .value;
   Computed<bool> _$isValidComputed;
@@ -39,13 +39,13 @@ mixin _$CreateCategoryStore on _CreateCategoryStoreBase, Store {
   final _$_categoriesAtom = Atom(name: '_CreateCategoryStoreBase._categories');
 
   @override
-  ObservableList<CategoryModel> get _categories {
+  ObservableList<Conversation> get _categories {
     _$_categoriesAtom.reportRead();
     return super._categories;
   }
 
   @override
-  set _categories(ObservableList<CategoryModel> value) {
+  set _categories(ObservableList<Conversation> value) {
     _$_categoriesAtom.reportWrite(value, super._categories, () {
       super._categories = value;
     });
@@ -55,13 +55,13 @@ mixin _$CreateCategoryStore on _CreateCategoryStoreBase, Store {
       Atom(name: '_CreateCategoryStoreBase._selectedCategory');
 
   @override
-  CategoryModel get _selectedCategory {
+  Conversation get _selectedCategory {
     _$_selectedCategoryAtom.reportRead();
     return super._selectedCategory;
   }
 
   @override
-  set _selectedCategory(CategoryModel value) {
+  set _selectedCategory(Conversation value) {
     _$_selectedCategoryAtom.reportWrite(value, super._selectedCategory, () {
       super._selectedCategory = value;
     });
@@ -78,7 +78,7 @@ mixin _$CreateCategoryStore on _CreateCategoryStoreBase, Store {
       AsyncAction('_CreateCategoryStoreBase.updateSelected');
 
   @override
-  Future<dynamic> updateSelected(CategoryModel category) {
+  Future<dynamic> updateSelected(Conversation category) {
     return _$updateSelectedAsyncAction
         .run(() => super.updateSelected(category));
   }

@@ -52,7 +52,7 @@ class _MessageComposerState extends State<MessageComposer> {
                   ComposeActionButtons(),
                   Row(
                     children: <Widget>[
-                      ComposerInput(controller: _controller),
+                      Expanded(child: ComposerInput(controller: _controller)),
                       SendButton(
                         textEditcontroller: _controller,
                         scrollController: widget.scrollController,
@@ -79,22 +79,20 @@ class ComposerInput extends StatelessWidget {
 
     final transparentBorder =
         UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent));
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 60.0, right: 10),
-        child: TextFormField(
-          controller: controller,
-          key: key,
-          maxLines: null,
-          decoration: InputDecoration(
-              hintStyle: chatCompose,
-              hintText: LocaleKeys.chat_messageInputHint.tr(),
-              focusedBorder: transparentBorder,
-              enabledBorder: transparentBorder,
-              border: transparentBorder),
-          onChanged: (input) => store.updateInputMessage(input),
-          style: chatCompose,
-        ),
+    return Padding(
+      padding: const EdgeInsets.only(left: 60.0, right: 10),
+      child: TextFormField(
+        controller: controller,
+        key: key,
+        maxLines: null,
+        decoration: InputDecoration(
+            hintStyle: chatCompose,
+            hintText: LocaleKeys.chat_messageInputHint.tr(),
+            focusedBorder: transparentBorder,
+            enabledBorder: transparentBorder,
+            border: transparentBorder),
+        onChanged: (input) => store.updateComposerText(input),
+        style: chatCompose,
       ),
     );
   }
@@ -131,9 +129,9 @@ class ComposeActionButtons extends StatelessWidget {
         child: Row(
           children: <Widget>[
             _buildActionButton('assets/images/camera.svg',
-                () => store.takeShot(ImageSource.camera)),
+                () async => await store.sendPhotoMessage(ImageSource.camera)),
             _buildActionButton('assets/images/photo.svg',
-                () => store.takeShot(ImageSource.gallery)),
+                () => store.sendPhotoMessage(ImageSource.gallery)),
           ],
         ),
       ),

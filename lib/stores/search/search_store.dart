@@ -25,7 +25,7 @@ abstract class _SearchStoreBase with Store {
   List<UserModel> _icons = [];
 
   @observable
-  List<CategoryModel> _categories = [];
+  List<Conversation> _categories = [];
 
   @observable
   SearchMode _searchMode = SearchMode.icons;
@@ -40,7 +40,7 @@ abstract class _SearchStoreBase with Store {
   List<UserModel> get getIcons => _icons;
 
   @computed
-  List<CategoryModel> get getCategories => _categories ?? [];
+  List<Conversation> get getCategories => _categories ?? [];
 
   @action
   Future setSearchMode(SearchMode mode) async {
@@ -48,7 +48,7 @@ abstract class _SearchStoreBase with Store {
   }
 
   @action
-  Future<Either<ServerError, List<CategoryModel>>> searchCategories(
+  Future<Either<ServerError, List<Conversation>>> searchCategories(
       String query) async {
     try {
       final categories = await _repository.searchCategories(query);

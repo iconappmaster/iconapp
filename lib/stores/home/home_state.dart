@@ -1,7 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:iconapp/data/models/category_model.dart';
-
 part 'home_state.freezed.dart';
 
 @freezed

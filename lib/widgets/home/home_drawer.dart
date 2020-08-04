@@ -64,7 +64,8 @@ class HomeDrawer extends StatelessWidget {
                   ),
                   _drawerDivider,
                   DrawerItem(text: 'הפרופיל שלי', onTap: () {}),
-                  DrawerItem(text: 'נתוני פעילות הקבוצה', onTap: () {}),
+                  if (store.getUser.isIcon)
+                    DrawerItem(text: 'נתוני פעילות הקבוצה', onTap: () {}),
                   DrawerItem(text: 'הגדרות', onTap: () {}),
                 ],
               ),

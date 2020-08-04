@@ -9,7 +9,7 @@ import 'package:iconapp/widgets/chat/settings/participants_list.dart';
 const settingsColumnHeight = 80.0;
 
 class ChatSettings extends StatelessWidget {
-  final CategoryModel conversation;
+  final Conversation conversation;
 
   const ChatSettings({Key key, this.conversation}) : super(key: key);
   @override

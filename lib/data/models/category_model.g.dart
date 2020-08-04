@@ -6,8 +6,8 @@ part of 'category_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_CategoryModel _$_$_CategoryModelFromJson(Map<String, dynamic> json) {
-  return _$_CategoryModel(
+_$_Conversation _$_$_ConversationFromJson(Map<String, dynamic> json) {
+  return _$_Conversation(
     id: json['id'] as int,
     categoryId: json['categoryId'] as int,
     createdBy: json['createdBy'] == null
@@ -33,10 +33,11 @@ _$_CategoryModel _$_$_CategoryModelFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : MessageModel.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    isSubscribed: json['isSubscribed'] as bool,
   );
 }
 
-Map<String, dynamic> _$_$_CategoryModelToJson(_$_CategoryModel instance) =>
+Map<String, dynamic> _$_$_ConversationToJson(_$_Conversation instance) =>
     <String, dynamic>{
       'id': instance.id,
       'categoryId': instance.categoryId,
@@ -49,4 +50,5 @@ Map<String, dynamic> _$_$_CategoryModelToJson(_$_CategoryModel instance) =>
       'unreadMessageCount': instance.unreadMessageCount,
       'users': instance.users,
       'messages': instance.messages,
+      'isSubscribed': instance.isSubscribed,
     };

@@ -6,9 +6,9 @@ part of 'message_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-MessageModel _$MessageModelFromJson(Map<String, dynamic> json) {
-  return MessageModel(
-    likeCount: json['likeCount'] as int,
+_$_MessageModel _$_$_MessageModelFromJson(Map<String, dynamic> json) {
+  return _$_MessageModel(
+    id: json['id'] as int,
     timestamp: json['timestamp'] as int,
     body: json['body'] as String,
     wasSeen: json['wasSeen'] as bool,
@@ -16,11 +16,13 @@ MessageModel _$MessageModelFromJson(Map<String, dynamic> json) {
     sender: json['sender'] == null
         ? null
         : UserModel.fromJson(json['sender'] as Map<String, dynamic>),
+    likeCount: json['likeCount'] as int,
   );
 }
 
-Map<String, dynamic> _$MessageModelToJson(MessageModel instance) =>
+Map<String, dynamic> _$_$_MessageModelToJson(_$_MessageModel instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'timestamp': instance.timestamp,
       'body': instance.body,
       'wasSeen': instance.wasSeen,

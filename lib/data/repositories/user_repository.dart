@@ -7,6 +7,7 @@ import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 
 abstract class UserRepository {
   Future<UserModel> updateUser(UserModel user);
+  Future<UserModel> getRemtoeUser();
   Future<bool> persistUser(UserModel user);
   Future<UserModel> getPersistedUser();
 }
@@ -19,9 +20,7 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<UserModel> updateUser(UserModel userModel) async {
-    
-    final user =
-        await restClient.updateUser(userModel);
+    final user = await restClient.updateUser(userModel);
     return user;
   }
 
@@ -38,5 +37,10 @@ class UserRepositoryImpl implements UserRepository {
       user = UserModel.fromJson(jsonDecode(userJson));
     }
     return user;
+  }
+
+  @override
+  Future<UserModel> getRemtoeUser() async {
+    return await restClient.getUser();
   }
 }

@@ -23,11 +23,11 @@ mixin _$HomeStore on _HomeStoreBase, Store {
       (_$isLoadingComputed ??= Computed<bool>(() => super.isLoading,
               name: '_HomeStoreBase.isLoading'))
           .value;
-  Computed<List<CategoryModel>> _$conversationsComputed;
+  Computed<List<Conversation>> _$conversationsComputed;
 
   @override
-  List<CategoryModel> get conversations => (_$conversationsComputed ??=
-          Computed<List<CategoryModel>>(() => super.conversations,
+  List<Conversation> get conversations => (_$conversationsComputed ??=
+          Computed<List<Conversation>>(() => super.conversations,
               name: '_HomeStoreBase.conversations'))
       .value;
 
@@ -49,13 +49,13 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   final _$_categoriesAtom = Atom(name: '_HomeStoreBase._categories');
 
   @override
-  ObservableList<CategoryModel> get _categories {
+  ObservableList<Conversation> get _categories {
     _$_categoriesAtom.reportRead();
     return super._categories;
   }
 
   @override
-  set _categories(ObservableList<CategoryModel> value) {
+  set _categories(ObservableList<Conversation> value) {
     _$_categoriesAtom.reportWrite(value, super._categories, () {
       super._categories = value;
     });
@@ -96,7 +96,7 @@ mixin _$HomeStore on _HomeStoreBase, Store {
       ActionController(name: '_HomeStoreBase');
 
   @override
-  void addConversation(CategoryModel category) {
+  void addConversation(Conversation category) {
     final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
         name: '_HomeStoreBase.addConversation');
     try {

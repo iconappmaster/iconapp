@@ -7,12 +7,18 @@ abstract class ChatState with _$ChatState {
   const factory ChatState({
     @required bool loading,
     @required String inputMessage,
-    @required CategoryModel conversation,
+    @required Conversation conversation,
+    @required ComposerMode composerMode,
   }) = _ChatState;
 
   factory ChatState.initial() => ChatState(
         inputMessage: '',
         loading: false,
-        conversation: CategoryModel(),
+        conversation: Conversation(),
+        composerMode: ComposerMode.viewer
       );
+}
+
+enum ComposerMode {
+  viewer, icon, showSubscribe
 }

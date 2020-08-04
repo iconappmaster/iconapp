@@ -13,9 +13,8 @@ HomeModel _$HomeModelFromJson(Map<String, dynamic> json) {
             e == null ? null : StoryModel.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     categories: (json['categories'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CategoryModel.fromJson(e as Map<String, dynamic>))
+        ?.map((e) =>
+            e == null ? null : Conversation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
 }

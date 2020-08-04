@@ -9,7 +9,7 @@ part 'home_model.g.dart';
 @JsonSerializable()
 class HomeModel {
   final List<StoryModel> stories;
-  final List<CategoryModel> categories;
+  final List<Conversation> categories;
  
 
   HomeModel({this.stories, this.categories});

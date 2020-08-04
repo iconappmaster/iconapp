@@ -21,15 +21,19 @@ abstract class _MediaStoreBase with Store {
     _userStore = sl<UserStore>();
   }
 
-  Future<String> uploadPhoto(ImageSource source) async {
-    final pickedFile = await _imagePicker.getImage(source: source);
-    if (pickedFile != null) {
-      final file = File(pickedFile.path);
-      final imagePath =
+  Future<String> uploadPhoto(ImageSource source, [File file]) async {
+    String result = '';
+
+    if (file != null) {
+      result =
           await _repository.uploadSinglePhoto(file, getPath, getFileName);
-      return imagePath;
+    } else {
+      final pickedFile = await _imagePicker.getImage(source: source);
+      final file = File(pickedFile.path);
+      result = await _repository.uploadSinglePhoto(file, getPath, getFileName);
     }
-    return '';
+
+    return result;
   }
 
   Future<String> uploadVideo(ImageSource source) async {

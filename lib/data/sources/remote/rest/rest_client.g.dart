@@ -58,6 +58,23 @@ class _RestClient implements RestClient {
   }
 
   @override
+  getUser() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response<Map<String, dynamic>> _result = await _dio.request('user',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = UserModel.fromJson(_result.data);
+    return value;
+  }
+
+  @override
   updateUser(userModel) async {
     ArgumentError.checkNotNull(userModel, 'userModel');
     const _extra = <String, dynamic>{};
@@ -91,7 +108,7 @@ class _RestClient implements RestClient {
             baseUrl: baseUrl),
         data: _data);
     var value = _result.data
-        .map((dynamic i) => CategoryModel.fromJson(i as Map<String, dynamic>))
+        .map((dynamic i) => Conversation.fromJson(i as Map<String, dynamic>))
         .toList();
     return value;
   }
@@ -130,7 +147,7 @@ class _RestClient implements RestClient {
             baseUrl: baseUrl),
         data: _data);
     var value = _result.data
-        .map((dynamic i) => CategoryModel.fromJson(i as Map<String, dynamic>))
+        .map((dynamic i) => Conversation.fromJson(i as Map<String, dynamic>))
         .toList();
     return value;
   }
@@ -151,7 +168,7 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = CategoryModel.fromJson(_result.data);
+    final value = Conversation.fromJson(_result.data);
     return value;
   }
 
@@ -208,7 +225,7 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = CategoryModel.fromJson(_result.data);
+    final value = Conversation.fromJson(_result.data);
     return value;
   }
 

@@ -30,11 +30,11 @@ mixin _$SearchStore on _SearchStoreBase, Store {
       (_$getIconsComputed ??= Computed<List<UserModel>>(() => super.getIcons,
               name: '_SearchStoreBase.getIcons'))
           .value;
-  Computed<List<CategoryModel>> _$getCategoriesComputed;
+  Computed<List<Conversation>> _$getCategoriesComputed;
 
   @override
-  List<CategoryModel> get getCategories => (_$getCategoriesComputed ??=
-          Computed<List<CategoryModel>>(() => super.getCategories,
+  List<Conversation> get getCategories => (_$getCategoriesComputed ??=
+          Computed<List<Conversation>>(() => super.getCategories,
               name: '_SearchStoreBase.getCategories'))
       .value;
 
@@ -71,13 +71,13 @@ mixin _$SearchStore on _SearchStoreBase, Store {
   final _$_categoriesAtom = Atom(name: '_SearchStoreBase._categories');
 
   @override
-  List<CategoryModel> get _categories {
+  List<Conversation> get _categories {
     _$_categoriesAtom.reportRead();
     return super._categories;
   }
 
   @override
-  set _categories(List<CategoryModel> value) {
+  set _categories(List<Conversation> value) {
     _$_categoriesAtom.reportWrite(value, super._categories, () {
       super._categories = value;
     });
@@ -110,7 +110,7 @@ mixin _$SearchStore on _SearchStoreBase, Store {
       AsyncAction('_SearchStoreBase.searchCategories');
 
   @override
-  Future<Either<ServerError, List<CategoryModel>>> searchCategories(
+  Future<Either<ServerError, List<Conversation>>> searchCategories(
       String query) {
     return _$searchCategoriesAsyncAction
         .run(() => super.searchCategories(query));
