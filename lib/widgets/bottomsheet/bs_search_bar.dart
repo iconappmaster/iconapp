@@ -11,11 +11,8 @@ class SearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = sl<SearchStore>();
-    final transparentBorder = UnderlineInputBorder(
-      borderSide: BorderSide(
-        color: Colors.transparent,
-      ),
-    );
+    final transparentBorder =
+        UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent));
     return Observer(
       builder: (_) => Container(
         color: white,
@@ -27,17 +24,14 @@ class SearchBar extends StatelessWidget {
             color: white,
             child: Row(
               children: <Widget>[
-                SvgPicture.asset(
-                  'assets/images/search_icon.svg',
-                  height: 37.7,
-                  width: 37.7,
-                ),
+                SvgPicture.asset('assets/images/search_icon.svg',
+                    height: 37.7, width: 37.7),
                 SizedBox(width: 15),
                 Expanded(
                   child: Material(
                     color: white,
                     child: TextField(
-                      onChanged: (query) =>  store.search(query),
+                      onChanged: (query) => store.search(query),
                       decoration: InputDecoration(
                         enabledBorder: transparentBorder,
                         border: transparentBorder,

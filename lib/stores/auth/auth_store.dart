@@ -23,6 +23,9 @@ abstract class _AuthStoreBase with Store {
   @computed
   AuthState get state => _authState;
 
+  @computed
+  bool get isSignedIn => _repository.isSignIn();
+
   @action
   Future setSignedIn() async {
     await _repository.setSignIn();
@@ -37,6 +40,7 @@ abstract class _AuthStoreBase with Store {
         isSignedIn ? AuthState.authenticated() : AuthState.unauthenticated();
   }
 
+  
   @action
   Future logout() async {
     await _sharedPreferencesService.clear();

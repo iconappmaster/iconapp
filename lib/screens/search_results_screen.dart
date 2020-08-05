@@ -1,9 +1,12 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
+import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/results/search_results_store.dart';
 import 'package:iconapp/widgets/global/back_button.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
@@ -49,11 +52,20 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                 physics: BouncingScrollPhysics(),
                 itemCount: store.count,
                 itemBuilder: (_, index) {
+                  
                   final conversation = store.mode == SearchResulsMode.categories
                       ? store.categories[index]
                       : store.icons[index];
-
-                  return SearchResultTile(conversation);
+                  
+                  return SearchResultTile(
+                    conversation: conversation,
+                    onTap: () => ExtendedNavigator.of(context).pushNamed(
+                      Routes.chatScreen,
+                      arguments: ChatScreenArguments(
+                        conversation: conversation,
+                      ),
+                    ),
+                  );
                 },
               )
             ],
@@ -73,34 +85,38 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
 
 class SearchResultTile extends StatelessWidget {
   final Conversation conversation;
+  final Function onTap;
 
-  const SearchResultTile(this.conversation);
+  const SearchResultTile({@required this.conversation, @required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 27, vertical: 10),
-      height: 45,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          ClipRRect(
-              borderRadius: BorderRadius.circular(5.3),
-              child: Material(
-                  color: white,
-                  elevation: 8,
-                  child: NetworkPhoto(
-                    placeHolder: 'assets/images/group_placeholder.svg',
-                    url: conversation.photo?.url ?? '',
-                    height: 41,
-                    width: 41,
-                  ))),
-          SizedBox(width: 14),
-          HebrewText(
-            conversation.name,
-            style: searchResultTile,
-          )
-        ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 27, vertical: 10),
+        height: 45,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            ClipRRect(
+                borderRadius: BorderRadius.circular(5.3),
+                child: Material(
+                    color: white,
+                    elevation: 8,
+                    child: NetworkPhoto(
+                      placeHolder: 'assets/images/group_placeholder.svg',
+                      url: conversation.photo?.url ?? '',
+                      height: 41,
+                      width: 41,
+                    ))),
+            SizedBox(width: 14),
+            HebrewText(
+              conversation.name,
+              style: searchResultTile,
+            )
+          ],
+        ),
       ),
     );
   }

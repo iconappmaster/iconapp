@@ -28,24 +28,28 @@ class BottomSheetActionButtons extends StatelessWidget {
             alignment: Alignment.center,
             children: <Widget>[
               BottomSheetIcon(
-                  isSelected: isIconSearchOn != null
-                      ? isIconSearchOn
-                      : store.getSearchMode == SearchMode.icons,
+                  // isSelected: isIconSearchOn != null
+                  //     ? isIconSearchOn
+                  //     :
+
+                  isSelected: store.getSearchMode == SearchMode.icons,
                   rightPoistion: 13.3,
                   asset: 'assets/images/icon_search.svg',
                   onTap: () {
                     store.setSearchMode(SearchMode.icons);
-                    if(onTap != null) onTap();
+                    if (onTap != null) onTap();
                   }),
               BottomSheetIcon(
-                isSelected: isCategoriesSearchOn != null
-                    ? isCategoriesSearchOn
-                    : store.getSearchMode == SearchMode.categories,
+                // isSelected: isCategoriesSearchOn != null
+                //     ? isCategoriesSearchOn
+                //     :
+
+                isSelected: store.getSearchMode == SearchMode.categories,
                 rightPoistion: 87.3,
                 asset: 'assets/images/category_filter.svg',
                 onTap: () {
                   store.setSearchMode(SearchMode.categories);
-                  if(onTap != null) onTap();
+                  if (onTap != null) onTap();
                 },
               ),
             ],

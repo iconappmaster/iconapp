@@ -40,18 +40,16 @@ class HomeScreen extends StatelessWidget {
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: GestureDetector(
-                        onTap: () => openBottomSheet(context),
-                        onPanUpdate: (details) {
-                          if (details.delta.dy < 0) {
-                            openBottomSheet(context);
-                          }
-                        },
-                        child: BottomSheetBar(
-                          showCategoriesSelected: false,
-                          showIconsSelected: false,
                           onTap: () => openBottomSheet(context),
-                        ),
-                      ),
+                          onPanUpdate: (details) {
+                            if (details.delta.dy < 0) {
+                              openBottomSheet(context);
+                            }
+                          },
+                          child: BottomSheetBar(
+                              showCategoriesSelected: false,
+                              showIconsSelected: false,
+                              onTap: () => openBottomSheet(context))),
                     ),
                     if (store.showWelcomeDialog) WelcomeDialog(),
                     if (store.isLoading)

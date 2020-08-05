@@ -17,7 +17,10 @@ import '../widgets/chat/chat_appbar.dart';
 class ChatScreen extends StatefulWidget {
   final Conversation conversation;
 
-  const ChatScreen({Key key, this.conversation}) : super(key: key);
+  const ChatScreen({
+    Key key,
+    @required this.conversation,
+  }) : super(key: key);
 
   @override
   _ChatScreenState createState() => _ChatScreenState();

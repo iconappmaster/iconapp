@@ -22,8 +22,11 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     _authStore = sl<AuthStore>();
-    sl<UserStore>().init().then((_) => Future.delayed(
-        Duration(seconds: 1), () => _authStore.checkCurrentAuthState()));
+
+    if (_authStore.isSignedIn) sl<UserStore>().init();
+
+    Future.delayed(
+        Duration(seconds: 1), () => _authStore.checkCurrentAuthState());
   }
 
   @override

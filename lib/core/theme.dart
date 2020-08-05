@@ -67,7 +67,7 @@ const disconnectButton = TextStyle(
 const phoneNumber = TextStyle(
     fontFamily: _fontRubikRegular,
     color: white,
-    fontSize: 26.7,
+    fontSize: 20.7,
     letterSpacing: 1.33);
 
 const button = TextStyle(

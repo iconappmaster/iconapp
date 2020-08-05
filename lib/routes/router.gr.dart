@@ -138,8 +138,7 @@ class Router extends RouterBase {
       );
     },
     ChatScreen: (RouteData data) {
-      var args = data.getArgs<ChatScreenArguments>(
-          orElse: () => ChatScreenArguments());
+      var args = data.getArgs<ChatScreenArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
         builder: (context) =>
             ChatScreen(key: args.key, conversation: args.conversation),
@@ -247,7 +246,7 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
 
   Future<dynamic> pushChatScreen({
     Key key,
-    Conversation conversation,
+    @required Conversation conversation,
   }) =>
       pushNamed<dynamic>(
         Routes.chatScreen,
@@ -312,7 +311,7 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
 class ChatScreenArguments {
   final Key key;
   final Conversation conversation;
-  ChatScreenArguments({this.key, this.conversation});
+  ChatScreenArguments({this.key, @required this.conversation});
 }
 
 //ChatSettings arguments holder class

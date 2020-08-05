@@ -34,10 +34,8 @@ class _NestedSheetModalState extends State<NestedSheetModal> {
             searchStore.getSearchMode == SearchMode.categories ? 1 : 0);
     _disposer = reaction<SearchMode>(
       (_) => searchStore.getSearchMode,
-      (mode) {
-        pagerController.animateToPage(mode == SearchMode.categories ? 1 : 0,
-            duration: const Duration(milliseconds: 250), curve: Curves.easeIn);
-      },
+      (mode) =>
+          pagerController.jumpToPage(mode == SearchMode.categories ? 1 : 0),
     );
 
     super.initState();
@@ -59,7 +57,8 @@ class _NestedSheetModalState extends State<NestedSheetModal> {
         margin: EdgeInsets.only(top: context.heightPx * .08),
         child: NestedScrollView(
           controller: ScrollController(),
-          physics: ScrollPhysics(parent: PageScrollPhysics()),
+          physics: ScrollPhysics(
+              parent: PageScrollPhysics()),
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverList(

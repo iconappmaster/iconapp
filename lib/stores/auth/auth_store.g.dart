@@ -15,6 +15,13 @@ mixin _$AuthStore on _AuthStoreBase, Store {
   AuthState get state => (_$stateComputed ??=
           Computed<AuthState>(() => super.state, name: '_AuthStoreBase.state'))
       .value;
+  Computed<bool> _$isSignedInComputed;
+
+  @override
+  bool get isSignedIn =>
+      (_$isSignedInComputed ??= Computed<bool>(() => super.isSignedIn,
+              name: '_AuthStoreBase.isSignedIn'))
+          .value;
 
   final _$_authStateAtom = Atom(name: '_AuthStoreBase._authState');
 
@@ -62,7 +69,8 @@ mixin _$AuthStore on _AuthStoreBase, Store {
   @override
   String toString() {
     return '''
-state: ${state}
+state: ${state},
+isSignedIn: ${isSignedIn}
     ''';
   }
 }
