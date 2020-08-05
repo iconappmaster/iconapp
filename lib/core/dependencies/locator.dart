@@ -19,6 +19,7 @@ import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/stores/login/login_store.dart';
 import 'package:iconapp/stores/media/media_store.dart';
 import 'package:iconapp/stores/oboarding/onboarding_store.dart';
+import 'package:iconapp/stores/results/search_results_store.dart';
 import 'package:iconapp/stores/search/search_store.dart';
 import 'package:iconapp/stores/socket/socket_manager.dart';
 import 'package:image_picker/image_picker.dart';
@@ -90,4 +91,6 @@ void initLocator() {
         restClient: sl(),
         sp: sl(),
       ));
+
+  sl.registerLazySingleton<SearchResultStore>(() => SearchResultStore());
 }

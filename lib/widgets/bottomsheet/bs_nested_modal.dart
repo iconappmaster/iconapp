@@ -64,10 +64,7 @@ class _NestedSheetModalState extends State<NestedSheetModal> {
             return <Widget>[
               SliverList(
                 delegate: SliverChildListDelegate(
-                  [
-                    BottomSheetBar(),
-                    SearchBar(),
-                  ],
+                  [BottomSheetBar(), SearchBar()],
                 ),
               ),
             ];
@@ -78,13 +75,8 @@ class _NestedSheetModalState extends State<NestedSheetModal> {
               controller: pagerController,
               physics: NeverScrollableScrollPhysics(),
               children: <Widget>[
-                IconsSearchWidget(
-                    controller: widget.scrollController,
-                    onIconTapped: () => print('on icon tapped')),
-                CategorySearchWidget(
-                  controller: widget.scrollController,
-                  onCategoryTapped: () => print('need to set category tapped'),
-                ),
+                IconsSearchWidget(controller: widget.scrollController),
+                CategorySearchWidget(controller: widget.scrollController),
               ],
             ),
           ),

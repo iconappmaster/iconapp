@@ -14,7 +14,7 @@ import 'package:iconapp/screens/login_screen.dart';
 import 'package:iconapp/screens/onboarding_phone.dart';
 import 'package:iconapp/screens/onboarding_profile.dart';
 import 'package:iconapp/screens/profile_screen.dart';
-import 'package:iconapp/screens/search_screen.dart';
+import 'package:iconapp/screens/search_results_screen.dart';
 import 'package:iconapp/screens/settings_screen.dart';
 import 'package:iconapp/screens/splash_screen.dart';
 import 'package:iconapp/screens/story_screen.dart';
@@ -29,7 +29,6 @@ import 'package:iconapp/screens/story_screen.dart';
     MaterialRoute(page: HomeScreen),
     MaterialRoute(page: SettingsScreen),
     MaterialRoute(page: ProfileScreen),
-    MaterialRoute(page: SearchScreen),
     MaterialRoute(page: ChatScreen),
     CupertinoRoute(page: ChatSettings, fullscreenDialog: true),
     MaterialRoute(page: StoryScreen),
@@ -40,6 +39,7 @@ import 'package:iconapp/screens/story_screen.dart';
     CupertinoRoute(page: CreateCategoryScreen),
     MaterialRoute(page: RenameConversation),
     CupertinoRoute(page: CreateDetailsScreen),
+    CupertinoRoute(page: SearchResultsScreen),
   ],
 )
 class $Router {}

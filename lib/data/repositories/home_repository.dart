@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:iconapp/data/models/category_model.dart';
+import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 
 abstract class HomeRepository {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/data/models/category_model.dart';
+import 'package:iconapp/data/models/conversation_model.dart';
+import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/chat/settings/app_bar_sliver.dart';
 import 'package:iconapp/widgets/chat/settings/change_background.dart';
 import 'package:iconapp/widgets/chat/settings/notification_settings.dart';
@@ -14,6 +16,14 @@ class ChatSettings extends StatelessWidget {
   const ChatSettings({Key key, this.conversation}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final store = sl<UserStore>();
+
+    final iconSettings = [
+      ChangeBackground(),
+      _SettingsDivider(),
+      ParticipentList(users: conversation.users)
+    ];
+
     return Scaffold(
       body: CustomScrollView(
         physics: BouncingScrollPhysics(),
@@ -29,9 +39,7 @@ class ChatSettings extends StatelessWidget {
               delegate: SliverChildListDelegate([
             NotificationsSettings(),
             _SettingsDivider(),
-            ChangeBackground(),
-            _SettingsDivider(),
-            ParticipentList(users: conversation.users),
+            if (store.getUser.isIcon) ...iconSettings
           ])),
         ],
       ),

@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
-import 'package:iconapp/data/models/category_model.dart';
+import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/repositories/chat_repository.dart';
 import 'package:iconapp/stores/chat/chat_state.dart';
@@ -46,13 +45,14 @@ abstract class _ChatStoreBase with Store {
 
   @action
   Future initConversation(Conversation conversation) async {
-    // get the converstaion from remote
-    final remote = await _repository.getConversaion(conversation.categoryId);
+    // first set the conversation from memory
+    _state = _state.copyWith(conversation: conversation);
 
-    // update the state
-    _state = _state.copyWith(conversation: remote);
+    // then get the remote one and update again
+    // final remote = await _repository.getConversaion(conversation.categoryId);
+    // _state = _state.copyWith(conversation: remote);
 
-    // init the composer
+    // then init the comoser component
     initComposerMode();
 
     // clear and add messages
@@ -63,14 +63,14 @@ abstract class _ChatStoreBase with Store {
 
   @action
   Future subscribeConversation() async {
-    // TODO IMPLEMENT ME - API SHOULD BE DEVELOPED
+    //  IMPLEMENT ME - API SHOULD BE DEVELOPED
   }
 
   @action
   void initComposerMode() {
-    final isIcon = _userStore.getUser.isIcon;
-    final isSubscribed = _state.conversation.isSubscribed;
-    
+    final isIcon = _userStore.getUser.isIcon ?? false;
+    final isSubscribed = _state.conversation.isSubscribed ?? false;
+
     // decide what mode
     final composerMode = isIcon
         ? ComposerMode.icon
@@ -81,7 +81,7 @@ abstract class _ChatStoreBase with Store {
   }
 
   // when the user types listen to the message changes
-  
+
   @action
   updateComposerText(String input) {
     _state = _state.copyWith(inputMessage: input);

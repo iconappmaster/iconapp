@@ -1,4 +1,8 @@
+import 'package:dio/dio.dart';
+
 import 'failures.dart';
+
+class ServerError extends DioError {}
 
 class NotAuthenticatedError extends Error {}
 

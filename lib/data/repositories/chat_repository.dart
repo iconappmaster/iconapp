@@ -1,4 +1,4 @@
-import 'package:iconapp/data/models/category_model.dart';
+import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 

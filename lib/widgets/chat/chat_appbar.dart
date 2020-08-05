@@ -1,20 +1,19 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:iconapp/data/models/category_model.dart';
+import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/routes/router.gr.dart';
+import 'package:iconapp/stores/chat/chat_store.dart';
 import '../../core/extensions/context_ext.dart';
 import '../../core/theme.dart';
 import '../global/hebrew_input_text.dart';
 import 'chat_back_button.dart';
 
 class ChatAppbar extends StatelessWidget {
-  final Conversation conversation;
-
-  const ChatAppbar({Key key, @required this.conversation}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    final store = sl<ChatStore>();
+    final conversation = store.getState.conversation;
     return Container(
       height: context.heightPlusStatusbarPerc(.116),
       child: Padding(
@@ -29,7 +28,7 @@ class ChatAppbar extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  HebrewText(conversation.name, style: loginBigText),
+                  HebrewText(conversation?.name ?? '', style: loginBigText),
                   HebrewText('12,000 משתתפים',
                       style: fieldLabel), // should come from socket
                 ],

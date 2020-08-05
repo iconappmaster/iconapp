@@ -134,6 +134,48 @@ class _RestClient implements RestClient {
   }
 
   @override
+  getConversationByCategoryId(categoryId) async {
+    ArgumentError.checkNotNull(categoryId, 'categoryId');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'categoryId': categoryId};
+    final _data = <String, dynamic>{};
+    final Response<List<dynamic>> _result = await _dio.request(
+        'conversations/get_by_category',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    var value = _result.data
+        .map((dynamic i) => Conversation.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return value;
+  }
+
+  @override
+  getConversationByIconId(iconUserId) async {
+    ArgumentError.checkNotNull(iconUserId, 'iconUserId');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'iconUserId': iconUserId};
+    final _data = <String, dynamic>{};
+    final Response<List<dynamic>> _result = await _dio.request(
+        'conversations/get_by_icon',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    var value = _result.data
+        .map((dynamic i) => Conversation.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return value;
+  }
+
+  @override
   getConversations() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

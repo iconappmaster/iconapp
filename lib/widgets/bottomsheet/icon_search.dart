@@ -9,11 +9,9 @@ import 'package:iconapp/widgets/global/network_photo.dart';
 
 class IconsSearchWidget extends StatelessWidget {
   final ScrollController controller;
-  final Function onIconTapped;
   const IconsSearchWidget({
     Key key,
     @required this.controller,
-    @required this.onIconTapped,
   }) : super(key: key);
 
   @override
@@ -21,12 +19,10 @@ class IconsSearchWidget extends StatelessWidget {
     final store = sl<SearchStore>();
     return Observer(
       builder: (_) => ListView.builder(
-        controller: controller,
-        itemBuilder: (context, index) {
-          final icon = store.getIcons[index];
-          return IconSearchItem(icon: icon, onTap: onIconTapped);
-        },
         itemCount: store.getIcons.length,
+        controller: controller,
+        itemBuilder: (context, index) =>
+            IconSearchItem(icon: store.getIcons[index]),
       ),
     );
   }
@@ -37,16 +33,14 @@ class IconSearchItem extends StatelessWidget {
 
   const IconSearchItem({
     Key key,
-    @required this.onTap,
     this.icon,
   }) : super(key: key);
 
-  final Function onTap;
   @override
   Widget build(BuildContext context) {
     return Material(
       child: InkWell(
-        onTap: onTap,
+        onTap: () {},
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 28.7),
           height: 70,

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/data/models/category_model.dart';
+import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/stores/chat/chat_state.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
@@ -47,7 +47,7 @@ class _ChatScreenState extends State<ChatScreen> {
             )),
             child: Column(
               children: <Widget>[
-                ChatAppbar(conversation: store.getState.conversation),
+                ChatAppbar(),
                 BlueDivider(color: cornflower),
                 StoriesWidget(margin: storiesMargin),
                 ChatList(scrollController: _controller),

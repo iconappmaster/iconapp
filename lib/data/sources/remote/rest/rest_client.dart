@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:iconapp/data/models/category_model.dart';
+import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/models/create_group_req.dart';
@@ -37,6 +37,14 @@ abstract class RestClient {
 
   @GET('icons')
   Future<List<UserModel>> searchContacts(@Query('searchString') String query);
+
+  @GET('conversations/get_by_category')
+  Future<List<Conversation>> getConversationByCategoryId(
+      @Query('categoryId') int categoryId);
+
+  @GET('conversations/get_by_icon')
+  Future<List<Conversation>> getConversationByIconId(
+      @Query('iconUserId') int iconUserId);
 
   // HOME
   @GET('conversations')

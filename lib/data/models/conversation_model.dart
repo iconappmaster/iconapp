@@ -3,10 +3,11 @@ import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 
-part 'category_model.freezed.dart';
-part 'category_model.g.dart';
+part 'conversation_model.freezed.dart';
+part 'conversation_model.g.dart';
 
-/// Used for category search
+
+ 
 @freezed
 abstract class Conversation with _$Conversation {
   const factory Conversation({

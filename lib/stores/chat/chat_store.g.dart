@@ -77,6 +77,15 @@ mixin _$ChatStore on _ChatStoreBase, Store {
         .run(() => super.initConversation(conversation));
   }
 
+  final _$subscribeConversationAsyncAction =
+      AsyncAction('_ChatStoreBase.subscribeConversation');
+
+  @override
+  Future<dynamic> subscribeConversation() {
+    return _$subscribeConversationAsyncAction
+        .run(() => super.subscribeConversation());
+  }
+
   final _$updateGroupNameAsyncAction =
       AsyncAction('_ChatStoreBase.updateGroupName');
 
@@ -145,7 +154,7 @@ mixin _$ChatStore on _ChatStoreBase, Store {
   @override
   dynamic updateComposerText(String input) {
     final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
-        name: '_ChatStoreBase.updateInputMessage');
+        name: '_ChatStoreBase.updateComposerText');
     try {
       return super.updateComposerText(input);
     } finally {

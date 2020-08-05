@@ -1,7 +1,7 @@
 import 'package:iconapp/data/models/story_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import 'category_model.dart';
+import 'conversation_model.dart';
 
 part 'home_model.g.dart';
 

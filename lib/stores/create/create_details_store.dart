@@ -3,7 +3,7 @@ import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/models/create_group_req.dart';
 import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/data/repositories/create_repository.dart';
-import 'package:iconapp/data/repositories/search_repository.dart';
+import 'package:iconapp/domain/core/errors.dart';
 import 'package:iconapp/stores/create/create_category_store.dart';
 import 'package:iconapp/stores/create/create_icon_store.dart';
 import 'package:iconapp/stores/home/home_store.dart';

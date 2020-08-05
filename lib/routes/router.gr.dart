@@ -14,9 +14,8 @@ import 'package:iconapp/screens/onboarding_profile.dart';
 import 'package:iconapp/screens/home_screen.dart';
 import 'package:iconapp/screens/settings_screen.dart';
 import 'package:iconapp/screens/profile_screen.dart';
-import 'package:iconapp/screens/search_screen.dart';
 import 'package:iconapp/screens/chat_screen.dart';
-import 'package:iconapp/data/models/category_model.dart';
+import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/screens/chat_settings_screen.dart';
 import 'package:iconapp/screens/story_screen.dart';
 import 'package:iconapp/screens/full_video_screen.dart';
@@ -27,6 +26,7 @@ import 'package:iconapp/screens/create_icons_screen.dart';
 import 'package:iconapp/screens/create_categories_screen.dart';
 import 'package:iconapp/screens/rename_conversation.dart';
 import 'package:iconapp/screens/create_details_screen.dart';
+import 'package:iconapp/screens/search_results_screen.dart';
 
 class Routes {
   static const String splashScreen = '/';
@@ -36,7 +36,6 @@ class Routes {
   static const String homeScreen = '/home-screen';
   static const String settingsScreen = '/settings-screen';
   static const String profileScreen = '/profile-screen';
-  static const String searchScreen = '/search-screen';
   static const String chatScreen = '/chat-screen';
   static const String chatSettings = '/chat-settings';
   static const String storyScreen = '/story-screen';
@@ -47,6 +46,7 @@ class Routes {
   static const String createCategoryScreen = '/create-category-screen';
   static const String renameConversation = '/rename-conversation';
   static const String createDetailsScreen = '/create-details-screen';
+  static const String searchResultsScreen = '/search-results-screen';
   static const all = <String>{
     splashScreen,
     loginScreen,
@@ -55,7 +55,6 @@ class Routes {
     homeScreen,
     settingsScreen,
     profileScreen,
-    searchScreen,
     chatScreen,
     chatSettings,
     storyScreen,
@@ -66,6 +65,7 @@ class Routes {
     createCategoryScreen,
     renameConversation,
     createDetailsScreen,
+    searchResultsScreen,
   };
 }
 
@@ -80,7 +80,6 @@ class Router extends RouterBase {
     RouteDef(Routes.homeScreen, page: HomeScreen),
     RouteDef(Routes.settingsScreen, page: SettingsScreen),
     RouteDef(Routes.profileScreen, page: ProfileScreen),
-    RouteDef(Routes.searchScreen, page: SearchScreen),
     RouteDef(Routes.chatScreen, page: ChatScreen),
     RouteDef(Routes.chatSettings, page: ChatSettings),
     RouteDef(Routes.storyScreen, page: StoryScreen),
@@ -91,6 +90,7 @@ class Router extends RouterBase {
     RouteDef(Routes.createCategoryScreen, page: CreateCategoryScreen),
     RouteDef(Routes.renameConversation, page: RenameConversation),
     RouteDef(Routes.createDetailsScreen, page: CreateDetailsScreen),
+    RouteDef(Routes.searchResultsScreen, page: SearchResultsScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -134,12 +134,6 @@ class Router extends RouterBase {
     ProfileScreen: (RouteData data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => ProfileScreen(),
-        settings: data,
-      );
-    },
-    SearchScreen: (RouteData data) {
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => SearchScreen(),
         settings: data,
       );
     },
@@ -213,6 +207,18 @@ class Router extends RouterBase {
         settings: data,
       );
     },
+    SearchResultsScreen: (RouteData data) {
+      var args = data.getArgs<SearchResultsScreenArguments>(nullOk: false);
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => SearchResultsScreen(
+          key: args.key,
+          id: args.id,
+          mode: args.mode,
+          name: args.name,
+        ),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -238,8 +244,6 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
 
   Future<dynamic> pushProfileScreen() =>
       pushNamed<dynamic>(Routes.profileScreen);
-
-  Future<dynamic> pushSearchScreen() => pushNamed<dynamic>(Routes.searchScreen);
 
   Future<dynamic> pushChatScreen({
     Key key,
@@ -286,6 +290,18 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
 
   Future<dynamic> pushCreateDetailsScreen() =>
       pushNamed<dynamic>(Routes.createDetailsScreen);
+
+  Future<dynamic> pushSearchResultsScreen({
+    Key key,
+    @required int id,
+    @required SearchResulsMode mode,
+    @required String name,
+  }) =>
+      pushNamed<dynamic>(
+        Routes.searchResultsScreen,
+        arguments: SearchResultsScreenArguments(
+            key: key, id: id, mode: mode, name: name),
+      );
 }
 
 // *************************************************************************
@@ -311,4 +327,14 @@ class FullImageScreenArguments {
   final Key key;
   final PhotoModel photo;
   FullImageScreenArguments({this.key, this.photo});
+}
+
+//SearchResultsScreen arguments holder class
+class SearchResultsScreenArguments {
+  final Key key;
+  final int id;
+  final SearchResulsMode mode;
+  final String name;
+  SearchResultsScreenArguments(
+      {this.key, @required this.id, @required this.mode, @required this.name});
 }

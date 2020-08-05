@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
-import 'package:iconapp/data/models/category_model.dart';
+import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/repositories/home_repository.dart';
-import 'package:iconapp/data/repositories/search_repository.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
+import 'package:iconapp/domain/core/errors.dart';
 import 'package:iconapp/stores/home/home_state.dart';
 import 'package:mobx/mobx.dart';
 part 'home_store.g.dart';
@@ -18,12 +18,15 @@ abstract class _HomeStoreBase with Store {
     _preferencesService = sl<SharedPreferencesService>();
     _repository = sl<HomeRepository>();
 
-    _showWelcomeDialog =
-        _preferencesService.getBool(StorageKey.welcomeDialog, true);
-
-
+    _shouldShowWelcomeDialog();
     getHome();
   }
+
+  void _shouldShowWelcomeDialog() {
+    _showWelcomeDialog =
+        _preferencesService.getBool(StorageKey.welcomeDialog, true);
+  }
+
   @observable
   HomeState _state = HomeState.initial();
 
@@ -40,23 +43,17 @@ abstract class _HomeStoreBase with Store {
   bool get isLoading => _state.loading;
 
   @computed
-  // List<CategoryModel> get conversations => _state.categories;
   List<Conversation> get conversations => _categories;
 
   @action
   void addConversation(Conversation category) {
-    // var clone = _state.categories;
-    // clone.add(category);
-    // _state = _state.copyWith(categories: clone);
     _categories.add(category);
   }
 
   @action
   Future<Either<ServerError, Unit>> getHome() async {
     try {
-      // _state = _state.copyWith(loading: true);
-      // final categories = await _repository.getHome();
-      // _state = _state.copyWith(categories: categories);
+      _state = _state.copyWith(loading: true);
       final categories = await _repository.getHome();
       _categories.clear();
       _categories.addAll(categories);

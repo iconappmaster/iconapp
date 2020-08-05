@@ -1,8 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
-import 'package:iconapp/data/models/category_model.dart';
+import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/repositories/search_repository.dart';
+import 'package:iconapp/domain/core/errors.dart';
 import 'package:mobx/mobx.dart';
 part 'search_store.g.dart';
 

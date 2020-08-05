@@ -2,8 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/routes/router.gr.dart';
+import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/global/back_button.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
@@ -42,6 +44,7 @@ class ChatSettingsAppBar implements SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
+    final store = sl<UserStore>();
     return Container(
       decoration: BoxDecoration(gradient: purpleGradient),
       child: Stack(
@@ -63,18 +66,19 @@ class ChatSettingsAppBar implements SliverPersistentHeaderDelegate {
               bottom: 14.7,
               child: HebrewText(subTitle, style: fieldLabel)),
           Positioned(right: 21, top: 32, child: IconBackButton()),
-          Positioned(
-              left: 21,
-              bottom: 14.7,
-              child: IconButton(
-                icon: SvgPicture.asset(
-                  'assets/images/edit.svg',
-                  height: 16.3,
-                  width: 16.3,
-                ),
-                onPressed: () => ExtendedNavigator.of(context)
-                    .pushNamed(Routes.createDetailsScreen),
-              )),
+          if (store.getUser.isIcon)
+            Positioned(
+                left: 21,
+                bottom: 14.7,
+                child: IconButton(
+                  icon: SvgPicture.asset(
+                    'assets/images/edit.svg',
+                    height: 16.3,
+                    width: 16.3,
+                  ),
+                  onPressed: () => ExtendedNavigator.of(context)
+                      .pushNamed(Routes.createDetailsScreen),
+                )),
         ],
       ),
     );

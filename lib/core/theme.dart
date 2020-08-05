@@ -25,6 +25,7 @@ const blueBerry = Color(0xFF5c4eaa);
 const blueyGrey = Color(0xFF95a2c0);
 const switchThumb = Color(0xFF97A2BD);
 const deepRed = Color(0xFFbb0000);
+const blueberry2 = Color(0xFF473f81);
 // Font Sizes
 const _fontRubikBold = "RubikBold";
 const _fontRubikRegular = "RubikRagular";
@@ -39,6 +40,12 @@ const flushbar = TextStyle(
     fontSize: 16.7,
     letterSpacing: 1.1);
 
+const searchAppBarTitle = TextStyle(
+  fontFamily: _fontRubikBold,
+  color: white,
+  fontSize: 21.3,
+);
+
 const chatSettings = TextStyle(
   fontFamily: _fontRubikRegular,
   color: darkIndigo,
@@ -50,7 +57,6 @@ const addParticipent = TextStyle(
   color: darkIndigo2,
   fontSize: 16.7,
 );
-
 
 const disconnectButton = TextStyle(
   fontFamily: _fontRubikBold,
@@ -78,6 +84,9 @@ const nameWhite =
 
 const nameDark =
     TextStyle(fontFamily: _fontRubikMedium, color: purpleFont, fontSize: 18);
+
+const searchResultTile =
+    TextStyle(fontFamily: _fontRubikMedium, color: darkBlueGrey, fontSize: 18);
 
 const loginBigText = TextStyle(
     fontFamily: _fontRubikBold, color: white, fontSize: 17.3, height: 1.3);
@@ -138,7 +147,7 @@ const chatMessageBody = TextStyle(
   height: 1.3,
 );
 const chatMessageName = TextStyle(
-  fontFamily: _fontRubikBold ,
+  fontFamily: _fontRubikBold,
   color: white,
   fontSize: 10.7,
   height: 1.3,

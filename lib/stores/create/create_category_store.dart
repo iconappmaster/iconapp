@@ -1,5 +1,5 @@
 import 'package:iconapp/core/dependencies/locator.dart';
-import 'package:iconapp/data/models/category_model.dart';
+import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/stores/search/search_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:vibration/vibration.dart';
