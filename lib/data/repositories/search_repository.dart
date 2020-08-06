@@ -25,7 +25,7 @@ class SearchRepositoryImpl implements SearchRepository {
     try {
       final result = await restClient.searchCategory(query);
       return right(result);
-    } on DioError catch (e) {
+    } on ServerError catch (e) {
       return left(e);
     }
   }
@@ -35,7 +35,7 @@ class SearchRepositoryImpl implements SearchRepository {
     try {
       final result = await restClient.searchContacts(query);
       return right(result);
-    } on DioError catch (e) {
+    } on ServerError catch (e) {
       return left(e);
     }
   }

@@ -41,12 +41,28 @@ class LoggingInterceptors extends Interceptor {
         "<-- ${response.statusCode} ${(response.request != null ? (response.request.baseUrl + response.request.path) : 'URL')}");
     print("Headers:");
     response.headers?.forEach((k, v) => print('$k: $v'));
-    printWrapped("Row Response\n${jsonEncode(response.data)}");
+    if (response.data is List<dynamic>) {
+      printPrettyJson(response.data);
+    }
     print("<-- END HTTP");
   }
 }
 
 void printWrapped(String text) {
   final pattern = new RegExp('.{1,800}');
-  pattern.allMatches(text).forEach((match) => print(match.group(0)));
+  pattern.allMatches(text).forEach((match) {
+    JsonEncoder encoder = new JsonEncoder.withIndent('  ');
+    String prettyprint = encoder.convert(match.group(0));
+    logger.v(prettyprint);
+  });
+}
+
+String prettyJson(List<dynamic> json, {int indent = 2}) {
+  var spaces = ' ' * indent;
+  var encoder = JsonEncoder.withIndent(spaces);
+  return encoder.convert(json);
+}
+
+void printPrettyJson(List<dynamic> json, {int indent = 2}) {
+  logger.wtf(prettyJson(json, indent: indent));
 }

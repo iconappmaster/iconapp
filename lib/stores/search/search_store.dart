@@ -61,7 +61,7 @@ abstract class _SearchStoreBase with Store {
           return right(categories);
         },
       );
-    } on Exception catch (e) {
+    } on ServerError catch (e) {
       return left(e);
     }
   }
@@ -78,7 +78,7 @@ abstract class _SearchStoreBase with Store {
           return right(icons);
         },
       );
-    } on Exception catch (e) {
+    } on ServerError catch (e) {
       return left(e);
     }
   }
