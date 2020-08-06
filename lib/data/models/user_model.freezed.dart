@@ -28,7 +28,7 @@ class _$UserModelTearOff {
       String pushToken,
       bool isPushEnabled,
       String sessionToken,
-      UserRole role}) {
+      UserRole userRole}) {
     return _UserModel(
       id: id,
       fullName: fullName,
@@ -41,7 +41,7 @@ class _$UserModelTearOff {
       pushToken: pushToken,
       isPushEnabled: isPushEnabled,
       sessionToken: sessionToken,
-      role: role,
+      userRole: userRole,
     );
   }
 }
@@ -61,7 +61,7 @@ mixin _$UserModel {
   String get pushToken;
   bool get isPushEnabled;
   String get sessionToken;
-  UserRole get role;
+  UserRole get userRole;
 
   Map<String, dynamic> toJson();
   $UserModelCopyWith<UserModel> get copyWith;
@@ -82,7 +82,7 @@ abstract class $UserModelCopyWith<$Res> {
       String pushToken,
       bool isPushEnabled,
       String sessionToken,
-      UserRole role});
+      UserRole userRole});
 
   $PhotoModelCopyWith<$Res> get photo;
 }
@@ -107,7 +107,7 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
     Object pushToken = freezed,
     Object isPushEnabled = freezed,
     Object sessionToken = freezed,
-    Object role = freezed,
+    Object userRole = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as int,
@@ -125,7 +125,7 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
       sessionToken: sessionToken == freezed
           ? _value.sessionToken
           : sessionToken as String,
-      role: role == freezed ? _value.role : role as UserRole,
+      userRole: userRole == freezed ? _value.userRole : userRole as UserRole,
     ));
   }
 
@@ -157,7 +157,7 @@ abstract class _$UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
       String pushToken,
       bool isPushEnabled,
       String sessionToken,
-      UserRole role});
+      UserRole userRole});
 
   @override
   $PhotoModelCopyWith<$Res> get photo;
@@ -184,7 +184,7 @@ class __$UserModelCopyWithImpl<$Res> extends _$UserModelCopyWithImpl<$Res>
     Object pushToken = freezed,
     Object isPushEnabled = freezed,
     Object sessionToken = freezed,
-    Object role = freezed,
+    Object userRole = freezed,
   }) {
     return _then(_UserModel(
       id: id == freezed ? _value.id : id as int,
@@ -202,7 +202,7 @@ class __$UserModelCopyWithImpl<$Res> extends _$UserModelCopyWithImpl<$Res>
       sessionToken: sessionToken == freezed
           ? _value.sessionToken
           : sessionToken as String,
-      role: role == freezed ? _value.role : role as UserRole,
+      userRole: userRole == freezed ? _value.userRole : userRole as UserRole,
     ));
   }
 }
@@ -221,7 +221,7 @@ class _$_UserModel implements _UserModel {
       this.pushToken,
       this.isPushEnabled,
       this.sessionToken,
-      this.role});
+      this.userRole});
 
   factory _$_UserModel.fromJson(Map<String, dynamic> json) =>
       _$_$_UserModelFromJson(json);
@@ -249,11 +249,11 @@ class _$_UserModel implements _UserModel {
   @override
   final String sessionToken;
   @override
-  final UserRole role;
+  final UserRole userRole;
 
   @override
   String toString() {
-    return 'UserModel(id: $id, fullName: $fullName, phone: $phone, email: $email, gender: $gender, photo: $photo, age: $age, isIcon: $isIcon, pushToken: $pushToken, isPushEnabled: $isPushEnabled, sessionToken: $sessionToken, role: $role)';
+    return 'UserModel(id: $id, fullName: $fullName, phone: $phone, email: $email, gender: $gender, photo: $photo, age: $age, isIcon: $isIcon, pushToken: $pushToken, isPushEnabled: $isPushEnabled, sessionToken: $sessionToken, userRole: $userRole)';
   }
 
   @override
@@ -286,8 +286,9 @@ class _$_UserModel implements _UserModel {
             (identical(other.sessionToken, sessionToken) ||
                 const DeepCollectionEquality()
                     .equals(other.sessionToken, sessionToken)) &&
-            (identical(other.role, role) ||
-                const DeepCollectionEquality().equals(other.role, role)));
+            (identical(other.userRole, userRole) ||
+                const DeepCollectionEquality()
+                    .equals(other.userRole, userRole)));
   }
 
   @override
@@ -304,7 +305,7 @@ class _$_UserModel implements _UserModel {
       const DeepCollectionEquality().hash(pushToken) ^
       const DeepCollectionEquality().hash(isPushEnabled) ^
       const DeepCollectionEquality().hash(sessionToken) ^
-      const DeepCollectionEquality().hash(role);
+      const DeepCollectionEquality().hash(userRole);
 
   @override
   _$UserModelCopyWith<_UserModel> get copyWith =>
@@ -329,7 +330,7 @@ abstract class _UserModel implements UserModel {
       String pushToken,
       bool isPushEnabled,
       String sessionToken,
-      UserRole role}) = _$_UserModel;
+      UserRole userRole}) = _$_UserModel;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$_UserModel.fromJson;
@@ -357,7 +358,7 @@ abstract class _UserModel implements UserModel {
   @override
   String get sessionToken;
   @override
-  UserRole get role;
+  UserRole get userRole;
   @override
   _$UserModelCopyWith<_UserModel> get copyWith;
 }

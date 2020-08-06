@@ -17,7 +17,7 @@ class ChatSettingsRepositoryImpl implements ChatSettingsRepository {
 
   @override
   Future<bool> changeColor(int colorIndex) async {
-    
+
   }
 
   @override
@@ -32,6 +32,6 @@ class ChatSettingsRepositoryImpl implements ChatSettingsRepository {
 
   @override
   Future<bool> makeAdmin(UserModel colorIndex) async {
-
+    
   }
 }

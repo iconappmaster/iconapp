@@ -9,8 +9,12 @@ import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/screens/chat_settings_screen.dart';
 import 'package:iconapp/screens/create_icons_screen.dart';
+import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/chat_settings/chat_settings_store.dart';
+import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+
+import '../../../main.dart';
 
 class ParticipentList extends StatelessWidget {
   const ParticipentList({Key key}) : super(key: key);
@@ -22,7 +26,7 @@ class ParticipentList extends StatelessWidget {
       builder: (_) => Column(
         children: <Widget>[
           ParticipentsListTitle(),
-          ...store.users.map((u) => ParticipantItem(user: u)).toList(),
+          ...store.users.map((u) => ParticipantTile(user: u)).toList(),
           ParticipentAddButton(),
         ],
       ),
@@ -65,14 +69,19 @@ class ParticipentAddButton extends StatelessWidget {
   }
 }
 
-class ParticipantItem extends StatelessWidget {
+class ParticipantTile extends StatelessWidget {
   final UserModel user;
 
-  const ParticipantItem({Key key, @required this.user}) : super(key: key);
+  const ParticipantTile({Key key, @required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final store = sl<ChatSettingsStore>();
+    final chatStore = sl<ChatStore>();
+    final settingsStore = sl<ChatSettingsStore>();
+    final userStore = sl<UserStore>();
+
+    final userRole = chatStore.getState.conversation.userRole;
+
     return Container(
       padding: EdgeInsets.only(left: 21, right: 21),
       height: settingsColumnHeight,
@@ -86,23 +95,27 @@ class ParticipantItem extends StatelessWidget {
             children: <Widget>[
               HebrewText(user.fullName, style: nameDark),
               SizedBox(height: 12.3),
-              if (user.role == UserRole.admin)
+              if (userRole == UserRole.admin)
                 Row(
                   children: <Widget>[
-                    SettingsActionButton(
-                        textStyle: settingsButton,
-                        onTap: () => store.makeUserAdmin(user.id),
-                        text: 'הפוך למנהל/ת',
-                        width: 103,
-                        color: cornflower),
+                    // sow make an admin only on contributers
+                    if (user.userRole == UserRole.contributor)
+                      SettingsActionButton(
+                          textStyle: settingsButton,
+                          onTap: () => settingsStore.makeUserAdmin(user.id),
+                          text: 'הפוך למנהל/ת',
+                          width: 103,
+                          color: cornflower),
                     SizedBox(width: 12),
-                    SettingsActionButton(
-                      onTap: () => store.removeUser(user.id),
-                      text: 'הסרה',
-                      width: 60.7,
-                      color: deepRed,
-                      textStyle: settingsButton.copyWith(color: deepRed),
-                    )
+                    // dont show delete on my user
+                    if (userStore.getUser.id != user.id)
+                      SettingsActionButton(
+                        onTap: () => settingsStore.removeUser(user.id),
+                        text: 'הסרה',
+                        width: 60.7,
+                        color: deepRed,
+                        textStyle: settingsButton.copyWith(color: deepRed),
+                      )
                   ],
                 )
             ],

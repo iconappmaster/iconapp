@@ -21,7 +21,7 @@ _$_UserModel _$_$_UserModelFromJson(Map<String, dynamic> json) {
     pushToken: json['pushToken'] as String,
     isPushEnabled: json['isPushEnabled'] as bool,
     sessionToken: json['sessionToken'] as String,
-    role: _$enumDecodeNullable(_$UserRoleEnumMap, json['role']),
+    userRole: _$enumDecodeNullable(_$UserRoleEnumMap, json['userRole']),
   );
 }
 
@@ -38,7 +38,7 @@ Map<String, dynamic> _$_$_UserModelToJson(_$_UserModel instance) =>
       'pushToken': instance.pushToken,
       'isPushEnabled': instance.isPushEnabled,
       'sessionToken': instance.sessionToken,
-      'role': _$UserRoleEnumMap[instance.role],
+      'userRole': _$UserRoleEnumMap[instance.userRole],
     };
 
 T _$enumDecode<T>(
