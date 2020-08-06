@@ -214,3 +214,7 @@ final dialogGradient = LinearGradient(colors: [
   darkBlueGrey,
   darkIndigo,
 ], begin: Alignment.bottomRight, end: Alignment.topLeft);
+
+
+// CHAT COLORS GRADIENTS
+

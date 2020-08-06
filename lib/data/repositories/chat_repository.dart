@@ -1,11 +1,12 @@
-import 'package:iconapp/data/models/conversation_model.dart';
+import 'package:iconapp/data/models/conversation_response.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 
 abstract class ChatRepository {
-  Future<Conversation> getConversaion(int chatId);
+  Future<ConversationResponse> getConversaion(int chatId);
   Future<MessageModel> sendMessage(int conversationId, MessageModel message);
   Future<MessageModel> likeMessage(String chatId, String messageId);
+  Future<ConversationResponse> subscribe(int id);
   Stream<MessageModel> watchMessages();
 }
 
@@ -15,7 +16,7 @@ class ChatRepositoryImpl implements ChatRepository {
   ChatRepositoryImpl({this.restClient});
 
   @override
-  Future<Conversation> getConversaion(int chatId) async {
+  Future<ConversationResponse> getConversaion(int chatId) async {
     return await restClient.getConversaion(chatId);
   }
 
@@ -33,5 +34,10 @@ class ChatRepositoryImpl implements ChatRepository {
   @override
   Stream<MessageModel> watchMessages() {
     throw UnimplementedError();
+  }
+
+  @override
+  Future<ConversationResponse> subscribe(int id) async {
+    return await restClient.subscribe(id);
   }
 }

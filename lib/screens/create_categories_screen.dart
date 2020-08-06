@@ -27,19 +27,20 @@ class CreateCategoryScreen extends StatelessWidget {
                     CreateGroupAppbar(
                         title: LocaleKeys.create_newGroupTitle.tr(),
                         subtitle: LocaleKeys.create_categoriesSubtitle.tr()),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        final category = store.getCategories[index];
-                        
-                        return CreateConversationTile(
-                          key: Key(category.name),
-                          onTap: () => store.updateSelected(category),
-                          title: category.name,
-                          url: category.photo.url,
-                        );
-                      },
-                      itemCount: store.count,
+                    Expanded(
+                      child: ListView.builder(
+                        itemBuilder: (context, index) {
+                          final category = store.getCategories[index];
+
+                          return CreateConversationTile(
+                            key: Key(category.name),
+                            onTap: () => store.updateSelected(category),
+                            title: category.name,
+                            url: category.photo.url,
+                          );
+                        },
+                        itemCount: store.count,
+                      ),
                     )
                   ],
                 ),

@@ -9,6 +9,13 @@ part of 'chat_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ChatStore on _ChatStoreBase, Store {
+  Computed<bool> _$reavealComposerComputed;
+
+  @override
+  bool get reavealComposer =>
+      (_$reavealComposerComputed ??= Computed<bool>(() => super.reavealComposer,
+              name: '_ChatStoreBase.reavealComposer'))
+          .value;
   Computed<ChatState> _$getStateComputed;
 
   @override
@@ -16,6 +23,13 @@ mixin _$ChatStore on _ChatStoreBase, Store {
       (_$getStateComputed ??= Computed<ChatState>(() => super.getState,
               name: '_ChatStoreBase.getState'))
           .value;
+  Computed<Conversation> _$conversationComputed;
+
+  @override
+  Conversation get conversation => (_$conversationComputed ??=
+          Computed<Conversation>(() => super.conversation,
+              name: '_ChatStoreBase.conversation'))
+      .value;
   Computed<List<MessageModel>> _$getMessagesComputed;
 
   @override
@@ -50,6 +64,21 @@ mixin _$ChatStore on _ChatStoreBase, Store {
   set _state(ChatState value) {
     _$_stateAtom.reportWrite(value, super._state, () {
       super._state = value;
+    });
+  }
+
+  final _$_reavealComposerAtom = Atom(name: '_ChatStoreBase._reavealComposer');
+
+  @override
+  bool get _reavealComposer {
+    _$_reavealComposerAtom.reportRead();
+    return super._reavealComposer;
+  }
+
+  @override
+  set _reavealComposer(bool value) {
+    _$_reavealComposerAtom.reportWrite(value, super._reavealComposer, () {
+      super._reavealComposer = value;
     });
   }
 
@@ -163,6 +192,17 @@ mixin _$ChatStore on _ChatStoreBase, Store {
   }
 
   @override
+  void setConversation(ConversationResponse conversation) {
+    final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
+        name: '_ChatStoreBase.setConversation');
+    try {
+      return super.setConversation(conversation);
+    } finally {
+      _$_ChatStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void dispose() {
     final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
         name: '_ChatStoreBase.dispose');
@@ -176,7 +216,9 @@ mixin _$ChatStore on _ChatStoreBase, Store {
   @override
   String toString() {
     return '''
+reavealComposer: ${reavealComposer},
 getState: ${getState},
+conversation: ${conversation},
 getMessages: ${getMessages},
 shouldHideActions: ${shouldHideActions},
 getComposerMode: ${getComposerMode}

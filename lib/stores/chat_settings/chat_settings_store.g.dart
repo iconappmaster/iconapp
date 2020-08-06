@@ -9,6 +9,21 @@ part of 'chat_settings_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
+  Computed<bool> _$isLoadigComputed;
+
+  @override
+  bool get isLoadig =>
+      (_$isLoadigComputed ??= Computed<bool>(() => super.isLoadig,
+              name: '_ChatSettingsStoreBase.isLoadig'))
+          .value;
+  Computed<List<UserModel>> _$usersComputed;
+
+  @override
+  List<UserModel> get users =>
+      (_$usersComputed ??= Computed<List<UserModel>>(() => super.users,
+              name: '_ChatSettingsStoreBase.users'))
+          .value;
+
   final _$_stateAtom = Atom(name: '_ChatSettingsStoreBase._state');
 
   @override
@@ -24,11 +39,41 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
     });
   }
 
+  final _$_isLoadingAtom = Atom(name: '_ChatSettingsStoreBase._isLoading');
+
+  @override
+  bool get _isLoading {
+    _$_isLoadingAtom.reportRead();
+    return super._isLoading;
+  }
+
+  @override
+  set _isLoading(bool value) {
+    _$_isLoadingAtom.reportWrite(value, super._isLoading, () {
+      super._isLoading = value;
+    });
+  }
+
+  final _$_usersAtom = Atom(name: '_ChatSettingsStoreBase._users');
+
+  @override
+  ObservableList<UserModel> get _users {
+    _$_usersAtom.reportRead();
+    return super._users;
+  }
+
+  @override
+  set _users(ObservableList<UserModel> value) {
+    _$_usersAtom.reportWrite(value, super._users, () {
+      super._users = value;
+    });
+  }
+
   final _$changeChatBackgroundAsyncAction =
       AsyncAction('_ChatSettingsStoreBase.changeChatBackground');
 
   @override
-  Future<dynamic> changeChatBackground(ChatBackground background) {
+  Future<dynamic> changeChatBackground(int background) {
     return _$changeChatBackgroundAsyncAction
         .run(() => super.changeChatBackground(background));
   }
@@ -37,7 +82,7 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
       AsyncAction('_ChatSettingsStoreBase.makeUserAdmin');
 
   @override
-  Future<dynamic> makeUserAdmin(UserModel userId) {
+  Future<dynamic> makeUserAdmin(int userId) {
     return _$makeUserAdminAsyncAction.run(() => super.makeUserAdmin(userId));
   }
 
@@ -45,7 +90,7 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
       AsyncAction('_ChatSettingsStoreBase.removeUser');
 
   @override
-  Future<dynamic> removeUser(UserModel userId) {
+  Future<dynamic> removeUser(int userId) {
     return _$removeUserAsyncAction.run(() => super.removeUser(userId));
   }
 
@@ -72,18 +117,25 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
     return _$changeGroupPhotoAsyncAction.run(() => super.changeGroupPhoto());
   }
 
-  final _$fetchParticipentsAsyncAction =
-      AsyncAction('_ChatSettingsStoreBase.fetchParticipents');
+  final _$_ChatSettingsStoreBaseActionController =
+      ActionController(name: '_ChatSettingsStoreBase');
 
   @override
-  Future<dynamic> fetchParticipents() {
-    return _$fetchParticipentsAsyncAction.run(() => super.fetchParticipents());
+  void init() {
+    final _$actionInfo = _$_ChatSettingsStoreBaseActionController.startAction(
+        name: '_ChatSettingsStoreBase.init');
+    try {
+      return super.init();
+    } finally {
+      _$_ChatSettingsStoreBaseActionController.endAction(_$actionInfo);
+    }
   }
 
   @override
   String toString() {
     return '''
-
+isLoadig: ${isLoadig},
+users: ${users}
     ''';
   }
 }

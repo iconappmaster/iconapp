@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/data/models/conversation_model.dart';
+import 'package:iconapp/stores/chat/chat_store.dart';
+import 'package:iconapp/stores/chat_settings/chat_settings_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/chat/settings/app_bar_sliver.dart';
 import 'package:iconapp/widgets/chat/settings/change_background.dart';
@@ -10,38 +12,55 @@ import 'package:iconapp/widgets/chat/settings/participants_list.dart';
 
 const settingsColumnHeight = 80.0;
 
-class ChatSettings extends StatelessWidget {
-  final Conversation conversation;
+class ChatSettingsScreen extends StatefulWidget {
+  const ChatSettingsScreen({
+    Key key,
+  }) : super(key: key);
 
-  const ChatSettings({Key key, this.conversation}) : super(key: key);
+  @override
+  _ChatSettingsScreenState createState() => _ChatSettingsScreenState();
+}
+
+class _ChatSettingsScreenState extends State<ChatSettingsScreen> {
+  @override
+  void initState() {
+    sl<ChatSettingsStore>()..init();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final store = sl<UserStore>();
+    final chatStore = sl<ChatStore>();
+    final conversation = chatStore.conversation;
 
     final iconSettings = [
       ChangeBackground(),
       _SettingsDivider(),
-      ParticipentList(users: conversation.users)
+      ParticipentList(),
     ];
 
-    return Scaffold(
-      body: CustomScrollView(
-        physics: BouncingScrollPhysics(),
-        slivers: <Widget>[
-          SliverPersistentHeader(
-            delegate: ChatSettingsAppBar(
-              url: conversation.photo.url,
-              title: conversation.name,
-              subTitle: conversation.name,
+    return Observer(
+      builder: (_) => Scaffold(
+        body: CustomScrollView(
+          physics: BouncingScrollPhysics(),
+          slivers: <Widget>[
+            SliverPersistentHeader(
+              delegate: ChatSettingsAppBar(
+                  url: conversation?.photo?.url ?? '',
+                  title: conversation?.name ?? '',
+                  subTitle: conversation?.name ?? ''),
             ),
-          ),
-          SliverList(
-              delegate: SliverChildListDelegate([
-            NotificationsSettings(),
-            _SettingsDivider(),
-            if (store.getUser.isIcon) ...iconSettings
-          ])),
-        ],
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  NotificationsSettings(),
+                  _SettingsDivider(),
+                  if (sl<UserStore>().getUser.isIcon) ...iconSettings
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

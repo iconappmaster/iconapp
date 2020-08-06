@@ -78,7 +78,8 @@ class CreateDetailsScreen extends StatelessWidget {
               child: FloatingActionButton(
                   child: SvgPicture.asset('assets/images/go_arrow.svg',
                       height: 16.3, width: 16.3),
-                  backgroundColor: store.isLoading ? whiteOpacity30 : cornflower,
+                  backgroundColor:
+                      store.isLoading ? whiteOpacity30 : cornflower,
                   onPressed: () async {
                     if (_key.currentState.validate() && !store.isLoading) {
                       await _handleSuccess(store, context);
@@ -92,9 +93,12 @@ class CreateDetailsScreen extends StatelessWidget {
   }
 
   Future _handleSuccess(CreateDetailsStore store, BuildContext context) async {
-    await store.createGroup();
-    await context.showFlushbar(
-        color: uiTintColorFill, message: '${store.groupName} נוצרה');
-    ExtendedNavigator.of(context).popUntilPath(Routes.splashScreen);
+    final res = await store.createGroup();
+    res.fold((e) => context.showFlushbar(message: '${store.groupName} קיימת'),
+        (s) async {
+      await context.showFlushbar(
+          color: uiTintColorFill, message: '${store.groupName} נוצרה');
+      ExtendedNavigator.of(context).popUntilPath(Routes.splashScreen);
+    });
   }
 }

@@ -67,9 +67,14 @@ class _CreateConversationTileState extends State<CreateConversationTile>
             Row(
               children: <Widget>[
                 ClipRRect(
-                    borderRadius: BorderRadius.circular(5.3),
-                    child:
-                        NetworkPhoto(url: widget.url, height: 41, width: 41)),
+                  borderRadius: BorderRadius.circular(5.3),
+                  child: NetworkPhoto(
+                    placeHolder: 'assets/images/group_placeholder.svg',
+                    url: widget.url,
+                    height: 41,
+                    width: 41,
+                  ),
+                ),
                 SizedBox(width: 19.7),
                 HebrewText(
                   widget.title,
@@ -78,7 +83,7 @@ class _CreateConversationTileState extends State<CreateConversationTile>
               ],
             ),
             Positioned(
-              right:28,
+              right: 28,
               bottom: 0,
               child: ScaleTransition(
                 scale: _animation,

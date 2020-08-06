@@ -82,7 +82,7 @@ mixin _$CreateDetailsStore on _CreateDetailsStoreBase, Store {
       AsyncAction('_CreateDetailsStoreBase.createGroup');
 
   @override
-  Future<Either<ServerError, Unit>> createGroup() {
+  Future<Either<CreateFailure, Unit>> createGroup() {
     return _$createGroupAsyncAction.run(() => super.createGroup());
   }
 

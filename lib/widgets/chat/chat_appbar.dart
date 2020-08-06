@@ -13,7 +13,7 @@ class ChatAppbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
-    final conversation = store.getState.conversation;
+    final conversation = store.getState?.conversation?.conversation;
     return Container(
       height: context.heightPlusStatusbarPerc(.116),
       child: Padding(
@@ -42,9 +42,8 @@ class ChatAppbar extends StatelessWidget {
             IconButton(
               icon: SvgPicture.asset('assets/images/dots.svg',
                   height: 26, width: 26),
-              onPressed: () => ExtendedNavigator.of(context).pushNamed(
-                  Routes.chatSettings,
-                  arguments: ChatSettingsArguments(conversation: conversation)),
+              onPressed: () => ExtendedNavigator.of(context)
+                  .pushNamed(Routes.chatSettingsScreen),
             ),
           ],
         ),

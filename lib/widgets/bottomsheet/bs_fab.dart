@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/routes/router.gr.dart';
+import 'package:iconapp/screens/create_icons_screen.dart';
 import 'package:iconapp/stores/create/create_category_store.dart';
 import 'package:iconapp/stores/create/create_icon_store.dart';
 import '../../core/extensions/context_ext.dart';
@@ -34,7 +35,10 @@ class BottomSheetFab extends StatelessWidget {
             iconStore.clear();
             categoryStore.clear();
             return ExtendedNavigator.of(context)
-                .pushNamed(Routes.createIconScreen);
+                .pushNamed(Routes.selectIconScreen,
+                    arguments: SelectIconScreenArguments(
+                      mode: SelectIconMode.fromGroup,
+                    ));
           },
         ),
       ),

@@ -56,7 +56,12 @@ class CategorySearchTile extends StatelessWidget {
           color: Colors.white,
           child: Row(
             children: <Widget>[
-              NetworkPhoto(url: category.photo.url, height: 41.3, width: 41.3),
+              NetworkPhoto(
+                url: category.photo.url,
+                height: 41.3,
+                width: 41.3,
+                placeHolder: 'assets/images/group_placeholder.svg',
+              ),
               SizedBox(width: 14),
               HebrewText(
                 category.name,

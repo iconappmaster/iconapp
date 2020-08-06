@@ -16,7 +16,7 @@ class _$ChatStateTearOff {
   _ChatState call(
       {@required bool loading,
       @required String inputMessage,
-      @required Conversation conversation,
+      @required ConversationResponse conversation,
       @required ComposerMode composerMode}) {
     return _ChatState(
       loading: loading,
@@ -33,7 +33,7 @@ const $ChatState = _$ChatStateTearOff();
 mixin _$ChatState {
   bool get loading;
   String get inputMessage;
-  Conversation get conversation;
+  ConversationResponse get conversation;
   ComposerMode get composerMode;
 
   $ChatStateCopyWith<ChatState> get copyWith;
@@ -45,10 +45,10 @@ abstract class $ChatStateCopyWith<$Res> {
   $Res call(
       {bool loading,
       String inputMessage,
-      Conversation conversation,
+      ConversationResponse conversation,
       ComposerMode composerMode});
 
-  $ConversationCopyWith<$Res> get conversation;
+  $ConversationResponseCopyWith<$Res> get conversation;
 }
 
 class _$ChatStateCopyWithImpl<$Res> implements $ChatStateCopyWith<$Res> {
@@ -72,7 +72,7 @@ class _$ChatStateCopyWithImpl<$Res> implements $ChatStateCopyWith<$Res> {
           : inputMessage as String,
       conversation: conversation == freezed
           ? _value.conversation
-          : conversation as Conversation,
+          : conversation as ConversationResponse,
       composerMode: composerMode == freezed
           ? _value.composerMode
           : composerMode as ComposerMode,
@@ -80,11 +80,11 @@ class _$ChatStateCopyWithImpl<$Res> implements $ChatStateCopyWith<$Res> {
   }
 
   @override
-  $ConversationCopyWith<$Res> get conversation {
+  $ConversationResponseCopyWith<$Res> get conversation {
     if (_value.conversation == null) {
       return null;
     }
-    return $ConversationCopyWith<$Res>(_value.conversation, (value) {
+    return $ConversationResponseCopyWith<$Res>(_value.conversation, (value) {
       return _then(_value.copyWith(conversation: value));
     });
   }
@@ -98,11 +98,11 @@ abstract class _$ChatStateCopyWith<$Res> implements $ChatStateCopyWith<$Res> {
   $Res call(
       {bool loading,
       String inputMessage,
-      Conversation conversation,
+      ConversationResponse conversation,
       ComposerMode composerMode});
 
   @override
-  $ConversationCopyWith<$Res> get conversation;
+  $ConversationResponseCopyWith<$Res> get conversation;
 }
 
 class __$ChatStateCopyWithImpl<$Res> extends _$ChatStateCopyWithImpl<$Res>
@@ -127,7 +127,7 @@ class __$ChatStateCopyWithImpl<$Res> extends _$ChatStateCopyWithImpl<$Res>
           : inputMessage as String,
       conversation: conversation == freezed
           ? _value.conversation
-          : conversation as Conversation,
+          : conversation as ConversationResponse,
       composerMode: composerMode == freezed
           ? _value.composerMode
           : composerMode as ComposerMode,
@@ -151,7 +151,7 @@ class _$_ChatState implements _ChatState {
   @override
   final String inputMessage;
   @override
-  final Conversation conversation;
+  final ConversationResponse conversation;
   @override
   final ComposerMode composerMode;
 
@@ -195,7 +195,7 @@ abstract class _ChatState implements ChatState {
   const factory _ChatState(
       {@required bool loading,
       @required String inputMessage,
-      @required Conversation conversation,
+      @required ConversationResponse conversation,
       @required ComposerMode composerMode}) = _$_ChatState;
 
   @override
@@ -203,7 +203,7 @@ abstract class _ChatState implements ChatState {
   @override
   String get inputMessage;
   @override
-  Conversation get conversation;
+  ConversationResponse get conversation;
   @override
   ComposerMode get composerMode;
   @override

@@ -1,9 +1,10 @@
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/models/create_group_req.dart';
 import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/data/repositories/create_repository.dart';
-import 'package:iconapp/domain/core/errors.dart';
+import 'package:iconapp/domain/create/create_failure.dart';
 import 'package:iconapp/stores/create/create_category_store.dart';
 import 'package:iconapp/stores/create/create_icon_store.dart';
 import 'package:iconapp/stores/home/home_store.dart';
@@ -60,7 +61,7 @@ abstract class _CreateDetailsStoreBase with Store {
   }
 
   @action
-  Future<Either<ServerError, Unit>> createGroup() async {
+  Future<Either<CreateFailure, Unit>> createGroup() async {
     try {
       isLoading = true;
 
@@ -76,12 +77,17 @@ abstract class _CreateDetailsStoreBase with Store {
 
       final conversation = await _repository.createConversation(req);
 
-      _homeStore.addConversation(conversation);
+      _homeStore.addConversation(conversation.conversation);
       // await _homeStore.getHome();
 
       return right(unit);
-    } on ServerError catch (e) {
-      return left(e);
+    } on Exception catch (e) {
+      if (e is DioError &&
+          e.response.data['error'] == 'Validation failed: Name has already been taken') {
+        return left(CreateFailure.wrongName());
+      } else {
+        return left(CreateFailure.generalError());
+      }
     } finally {
       isLoading = false;
     }

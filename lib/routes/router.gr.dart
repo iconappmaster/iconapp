@@ -37,12 +37,12 @@ class Routes {
   static const String settingsScreen = '/settings-screen';
   static const String profileScreen = '/profile-screen';
   static const String chatScreen = '/chat-screen';
-  static const String chatSettings = '/chat-settings';
+  static const String chatSettingsScreen = '/chat-settings-screen';
   static const String storyScreen = '/story-screen';
   static const String fullVideoScreen = '/full-video-screen';
   static const String fullImageScreen = '/full-image-screen';
   static const String cameraScreen = '/camera-screen';
-  static const String createIconScreen = '/create-icon-screen';
+  static const String selectIconScreen = '/select-icon-screen';
   static const String createCategoryScreen = '/create-category-screen';
   static const String renameConversation = '/rename-conversation';
   static const String createDetailsScreen = '/create-details-screen';
@@ -56,12 +56,12 @@ class Routes {
     settingsScreen,
     profileScreen,
     chatScreen,
-    chatSettings,
+    chatSettingsScreen,
     storyScreen,
     fullVideoScreen,
     fullImageScreen,
     cameraScreen,
-    createIconScreen,
+    selectIconScreen,
     createCategoryScreen,
     renameConversation,
     createDetailsScreen,
@@ -81,12 +81,12 @@ class Router extends RouterBase {
     RouteDef(Routes.settingsScreen, page: SettingsScreen),
     RouteDef(Routes.profileScreen, page: ProfileScreen),
     RouteDef(Routes.chatScreen, page: ChatScreen),
-    RouteDef(Routes.chatSettings, page: ChatSettings),
+    RouteDef(Routes.chatSettingsScreen, page: ChatSettingsScreen),
     RouteDef(Routes.storyScreen, page: StoryScreen),
     RouteDef(Routes.fullVideoScreen, page: FullVideoScreen),
     RouteDef(Routes.fullImageScreen, page: FullImageScreen),
     RouteDef(Routes.cameraScreen, page: CameraScreen),
-    RouteDef(Routes.createIconScreen, page: CreateIconScreen),
+    RouteDef(Routes.selectIconScreen, page: SelectIconScreen),
     RouteDef(Routes.createCategoryScreen, page: CreateCategoryScreen),
     RouteDef(Routes.renameConversation, page: RenameConversation),
     RouteDef(Routes.createDetailsScreen, page: CreateDetailsScreen),
@@ -145,12 +145,11 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    ChatSettings: (RouteData data) {
-      var args = data.getArgs<ChatSettingsArguments>(
-          orElse: () => ChatSettingsArguments());
+    ChatSettingsScreen: (RouteData data) {
+      var args = data.getArgs<ChatSettingsScreenArguments>(
+          orElse: () => ChatSettingsScreenArguments());
       return CupertinoPageRoute<dynamic>(
-        builder: (context) =>
-            ChatSettings(key: args.key, conversation: args.conversation),
+        builder: (context) => ChatSettingsScreen(key: args.key),
         settings: data,
         fullscreenDialog: true,
       );
@@ -181,9 +180,10 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    CreateIconScreen: (RouteData data) {
+    SelectIconScreen: (RouteData data) {
+      var args = data.getArgs<SelectIconScreenArguments>(nullOk: false);
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => CreateIconScreen(),
+        builder: (context) => SelectIconScreen(key: args.key, mode: args.mode),
         settings: data,
         fullscreenDialog: true,
       );
@@ -253,13 +253,12 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
         arguments: ChatScreenArguments(key: key, conversation: conversation),
       );
 
-  Future<dynamic> pushChatSettings({
+  Future<dynamic> pushChatSettingsScreen({
     Key key,
-    Conversation conversation,
   }) =>
       pushNamed<dynamic>(
-        Routes.chatSettings,
-        arguments: ChatSettingsArguments(key: key, conversation: conversation),
+        Routes.chatSettingsScreen,
+        arguments: ChatSettingsScreenArguments(key: key),
       );
 
   Future<dynamic> pushStoryScreen() => pushNamed<dynamic>(Routes.storyScreen);
@@ -278,8 +277,14 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
 
   Future<dynamic> pushCameraScreen() => pushNamed<dynamic>(Routes.cameraScreen);
 
-  Future<dynamic> pushCreateIconScreen() =>
-      pushNamed<dynamic>(Routes.createIconScreen);
+  Future<dynamic> pushSelectIconScreen({
+    Key key,
+    @required SelectIconMode mode,
+  }) =>
+      pushNamed<dynamic>(
+        Routes.selectIconScreen,
+        arguments: SelectIconScreenArguments(key: key, mode: mode),
+      );
 
   Future<dynamic> pushCreateCategoryScreen() =>
       pushNamed<dynamic>(Routes.createCategoryScreen);
@@ -314,11 +319,10 @@ class ChatScreenArguments {
   ChatScreenArguments({this.key, @required this.conversation});
 }
 
-//ChatSettings arguments holder class
-class ChatSettingsArguments {
+//ChatSettingsScreen arguments holder class
+class ChatSettingsScreenArguments {
   final Key key;
-  final Conversation conversation;
-  ChatSettingsArguments({this.key, this.conversation});
+  ChatSettingsScreenArguments({this.key});
 }
 
 //FullImageScreen arguments holder class
@@ -326,6 +330,13 @@ class FullImageScreenArguments {
   final Key key;
   final PhotoModel photo;
   FullImageScreenArguments({this.key, this.photo});
+}
+
+//SelectIconScreen arguments holder class
+class SelectIconScreenArguments {
+  final Key key;
+  final SelectIconMode mode;
+  SelectIconScreenArguments({this.key, @required this.mode});
 }
 
 //SearchResultsScreen arguments holder class

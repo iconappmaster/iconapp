@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
+import 'package:iconapp/data/models/conversation_response.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/repositories/chat_repository.dart';
 import 'package:iconapp/stores/chat/chat_state.dart';
@@ -29,10 +30,19 @@ abstract class _ChatStoreBase with Store {
   ChatState _state = ChatState.initial();
 
   @observable
+  bool _reavealComposer = false;
+
+  @observable
   ObservableList<MessageModel> _messages = ObservableList.of([]);
 
   @computed
+  bool get reavealComposer => _reavealComposer;
+
+  @computed
   ChatState get getState => _state;
+
+  @computed
+  Conversation get conversation => _state.conversation.conversation;
 
   @computed
   List<MessageModel> get getMessages => _messages.reversed.toList();
@@ -45,39 +55,54 @@ abstract class _ChatStoreBase with Store {
 
   @action
   Future initConversation(Conversation conversation) async {
-    // first set the conversation from memory
-    _state = _state.copyWith(conversation: conversation);
-
-    // then get the remote one and update again
-    // final remote = await _repository.getConversaion(conversation.categoryId);
-    // _state = _state.copyWith(conversation: remote);
-
-    // then init the comoser component
-    initComposerMode();
-
-    // clear and add messages
-    _messages
-      ..clear()
-      ..addAll(conversation.messages);
+    // First get the conversation from memory (what is passed from home) and then
+    // fetch the conversation from remote and update the setate
+    try {
+      _state = _state.copyWith(
+          loading: true,
+          conversation: ConversationResponse(conversation: conversation));
+      final remote = await _repository.getConversaion(conversation.id);
+      _state = _state.copyWith(conversation: remote);
+      initComposerMode();
+      _messages
+        ..clear()
+        ..addAll(conversation.messages);
+    } on Exception catch (e) {
+      print(e); // bad
+    } finally {
+      _state = _state.copyWith(loading: false);
+    }
   }
 
   @action
   Future subscribeConversation() async {
-    //  IMPLEMENT ME - API SHOULD BE DEVELOPED
+    try {
+      _state = _state.copyWith(loading: true);
+      final conversationRes =
+          await _repository.subscribe(_state.conversation.conversation.id);
+      _state = _state.copyWith(conversation: conversationRes);
+      initComposerMode();
+    } on Exception catch (e) {
+      print(e);
+    } finally {
+      _state = _state.copyWith(loading: false);
+    }
   }
 
   @action
   void initComposerMode() {
     final isIcon = _userStore.getUser.isIcon ?? false;
-    final isSubscribed = _state.conversation.isSubscribed ?? false;
+    final isSubscribed =
+        _state.conversation?.conversation?.isSubscribed ?? false;
 
     // decide what mode
     final composerMode = isIcon
         ? ComposerMode.icon
-        : isSubscribed ? ComposerMode.showSubscribe : ComposerMode.viewer;
+        : isSubscribed ? ComposerMode.viewer : ComposerMode.showSubscribe;
 
     // update store state!
     _state = _state.copyWith(composerMode: composerMode);
+    _reavealComposer = true;
   }
 
   // when the user types listen to the message changes
@@ -136,33 +161,6 @@ abstract class _ChatStoreBase with Store {
     );
 
     _messages.add(message);
-
-    // final msgRecieved = await _repository.sendMessage(4, localMsg);
-    // ;
-
-    // try {
-    //   final localMessage = MessageModel(
-    //     body: photoUrl,
-    //     likeCount: 0,
-    //     timestamp: DateTime.now().millisecondsSinceEpoch,
-    //     type: MessageType.photo,
-    //   );
-
-    //   if (photoUrl.startsWith('http')) {
-    //     // final msgRecieved = await _repository.sendMessage(4, localMessage);
-
-    //     // _messages.add(msgRecieved);
-
-    //     // TEMP - change to remote message
-    //     _messages.add(localMessage);
-    //   } else {
-    //     _messages.add(localMessage);
-    //   }
-    // } on DioError catch (e) {
-    //   print(e);
-    // }
-
-    // final url = await _mediaStore.uploadPhoto(source, File(pickedFile.path));
   }
 
   @action
@@ -173,6 +171,11 @@ abstract class _ChatStoreBase with Store {
   @action
   Future sendAudioMessage() async {}
   // MESSAGE ACTIONS - END
+
+  @action
+  void setConversation(ConversationResponse conversation) {
+    _state = _state.copyWith(conversation: conversation);
+  }
 
   @action
   void dispose() {

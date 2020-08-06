@@ -176,6 +176,46 @@ class _RestClient implements RestClient {
   }
 
   @override
+  addUser(conversationId, userId) async {
+    ArgumentError.checkNotNull(conversationId, 'conversationId');
+    ArgumentError.checkNotNull(userId, 'userId');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'userId': userId};
+    final _data = <String, dynamic>{};
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'conversations/$conversationId/add_user',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = ConversationResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  removeUser(conversationId, userId) async {
+    ArgumentError.checkNotNull(conversationId, 'conversationId');
+    ArgumentError.checkNotNull(userId, 'userId');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'userId': userId};
+    final _data = <String, dynamic>{};
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'conversations/$conversationId/remove_user',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = ConversationResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
   getConversations() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -195,7 +235,7 @@ class _RestClient implements RestClient {
   }
 
   @override
-  createGroup(groupReq) async {
+  createConversation(groupReq) async {
     ArgumentError.checkNotNull(groupReq, 'groupReq');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -210,56 +250,18 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = Conversation.fromJson(_result.data);
+    final value = ConversationResponse.fromJson(_result.data);
     return value;
   }
 
   @override
-  updateGroup(id, payload) async {
-    ArgumentError.checkNotNull(id, 'id');
-    ArgumentError.checkNotNull(payload, 'payload');
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(payload ?? <String, dynamic>{});
-    final Response _result = await _dio.request('updateGroup/$id',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'PUT',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    final value = _result.data;
-    return value;
-  }
-
-  @override
-  deleteGroup(id) async {
-    ArgumentError.checkNotNull(id, 'id');
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    final Response _result = await _dio.request('group/$id',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'DELETE',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    final value = _result.data;
-    return value;
-  }
-
-  @override
-  getConversaion(id) async {
-    ArgumentError.checkNotNull(id, 'id');
+  getConversaion(conversationId) async {
+    ArgumentError.checkNotNull(conversationId, 'conversationId');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final Response<Map<String, dynamic>> _result = await _dio.request(
-        'conversaion/$id',
+        'conversations/$conversationId',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',
@@ -267,19 +269,18 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = Conversation.fromJson(_result.data);
+    final value = ConversationResponse.fromJson(_result.data);
     return value;
   }
 
   @override
-  sendMessage(chatId, message) async {
-    ArgumentError.checkNotNull(chatId, 'chatId');
-    ArgumentError.checkNotNull(message, 'message');
+  subscribe(id) async {
+    ArgumentError.checkNotNull(id, 'id');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(message?.toJson() ?? <String, dynamic>{});
-    final Response _result = await _dio.request('sendMessage/$chatId',
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'conversations/$id/subscribe_to_conversation',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -287,28 +288,7 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = _result.data;
-    return value;
-  }
-
-  @override
-  likeMessage(chatId, messageId, addLike) async {
-    ArgumentError.checkNotNull(chatId, 'chatId');
-    ArgumentError.checkNotNull(messageId, 'messageId');
-    ArgumentError.checkNotNull(addLike, 'addLike');
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _data = addLike;
-    final Response _result = await _dio.request(
-        'likeMessage/$chatId/$messageId',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'POST',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    final value = _result.data;
+    final value = ConversationResponse.fromJson(_result.data);
     return value;
   }
 }

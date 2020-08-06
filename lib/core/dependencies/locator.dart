@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:iconapp/data/repositories/auth_repository.dart';
 import 'package:iconapp/data/repositories/chat_repository.dart';
+import 'package:iconapp/data/repositories/chat_settings_repository.dart';
 import 'package:iconapp/data/repositories/create_repository.dart';
 import 'package:iconapp/data/repositories/home_repository.dart';
 import 'package:iconapp/data/repositories/login_repository.dart';
@@ -72,18 +73,18 @@ void initLocator() {
     () => SearchRepositoryImpl(restClient: sl()),
   );
 
-
   // Chat
   sl.registerLazySingleton<ChatStore>(() => ChatStore());
   sl.registerLazySingleton<ChatSettingsStore>(() => ChatSettingsStore());
-  sl.registerLazySingleton<ChatRepository>(
-      () => ChatRepositoryImpl(restClient: sl()));
+  sl.registerLazySingleton<ChatSettingsRepository>(() => ChatSettingsRepositoryImpl(restClient: sl()));
+  sl.registerLazySingleton<ChatRepository>( () => ChatRepositoryImpl(restClient: sl()));
 
   // Conversation create
   sl.registerLazySingleton<CreateCategoryStore>(() => CreateCategoryStore());
   sl.registerLazySingleton<CreateIconStore>(() => CreateIconStore());
   sl.registerLazySingleton<CreateDetailsStore>(() => CreateDetailsStore());
-  sl.registerLazySingleton<CreateRepository>(() => GroupCreateRepositoryImpl(sl()));
+  sl.registerLazySingleton<CreateRepository>(
+      () => GroupCreateRepositoryImpl(sl()));
 
   // User
   sl.registerLazySingleton<UserStore>(() => UserStore());

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
-import 'package:iconapp/data/models/message_model.dart';
+import 'package:iconapp/data/models/conversation_response.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/models/create_group_req.dart';
 import 'package:retrofit/retrofit.dart';
@@ -46,31 +46,28 @@ abstract class RestClient {
   Future<List<Conversation>> getConversationByIconId(
       @Query('iconUserId') int iconUserId);
 
-  // HOME
+  // CONVERSATIONS
+
+  @POST('conversations/{conversationId}/add_user')
+  Future<ConversationResponse> addUser(
+      @Path('conversationId') int conversationId, @Query('userId') int userId);
+
+  @POST('conversations/{conversationId}/remove_user')
+  Future<ConversationResponse> removeUser(
+      @Path('conversationId') int conversationId, @Query('userId') int userId);
+
   @GET('conversations')
   Future<List<Conversation>> getConversations();
 
-  // GROUPS
   @POST('conversations')
-  Future<Conversation> createGroup(@Body() CreateGroupReq groupReq);
+  Future<ConversationResponse> createConversation(@Body() CreateGroupReq groupReq);
 
-  @PUT('updateGroup/{id}')
-  Future updateGroup(
-      @Path('id') String id, @Body() Map<String, dynamic> payload);
+  @GET('conversations/{conversationId}')
+  Future<ConversationResponse> getConversaion(
+      @Path('conversationId') int conversationId);
 
-  @DELETE('group/{id}')
-  Future deleteGroup(@Path() id);
-
-  // CHAT
-  @GET('conversaion/{id}')
-  Future<Conversation> getConversaion(@Path() int id);
-
-  @POST('sendMessage/{chatId}')
-  Future sendMessage(@Path() String chatId, @Body() MessageModel message);
-
-  @POST('likeMessage/{chatId}/{messageId}')
-  Future likeMessage(
-      @Path() String chatId, @Path() String messageId, @Body() bool addLike);
+  @POST('conversations/{conversationId}/subscribe_to_conversation')
+  Future<ConversationResponse> subscribe(@Path('conversationId') int id);
 }
 
 Dio getDioClient() {

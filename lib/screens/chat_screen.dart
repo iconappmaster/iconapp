@@ -17,10 +17,7 @@ import '../widgets/chat/chat_appbar.dart';
 class ChatScreen extends StatefulWidget {
   final Conversation conversation;
 
-  const ChatScreen({
-    Key key,
-    @required this.conversation,
-  }) : super(key: key);
+  const ChatScreen({Key key, @required this.conversation}) : super(key: key);
 
   @override
   _ChatScreenState createState() => _ChatScreenState();
@@ -28,15 +25,19 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   ScrollController _controller = ScrollController();
+
   @override
   void initState() {
-    sl<ChatStore>().initConversation(widget.conversation);
+    final store = sl<ChatStore>();
+    store.initConversation(widget.conversation);
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
+
     final storiesMargin = const EdgeInsets.only(top: 24.0);
     return Scaffold(
       body: Observer(
@@ -44,10 +45,9 @@ class _ChatScreenState extends State<ChatScreen> {
           Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(
-              colors: [grape, darkIndigo],
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-            )),
+                    colors: [grape, darkIndigo],
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter)),
             child: Column(
               children: <Widget>[
                 ChatAppbar(),

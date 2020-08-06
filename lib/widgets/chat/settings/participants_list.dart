@@ -1,25 +1,31 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/user_model.dart';
+import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/screens/chat_settings_screen.dart';
+import 'package:iconapp/screens/create_icons_screen.dart';
 import 'package:iconapp/stores/chat_settings/chat_settings_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 
 class ParticipentList extends StatelessWidget {
-  final List<UserModel> users;
-
-  const ParticipentList({Key key, @required this.users}) : super(key: key);
+  const ParticipentList({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        ParticipentsListTitle(),
-        ...users.map((u) => ParticipantItem(user: u)).toList(),
-        ParticipentAddButton(),
-      ],
+    final store = sl<ChatSettingsStore>();
+
+    return Observer(
+      builder: (_) => Column(
+        children: <Widget>[
+          ParticipentsListTitle(),
+          ...store.users.map((u) => ParticipantItem(user: u)).toList(),
+          ParticipentAddButton(),
+        ],
+      ),
     );
   }
 }
@@ -36,15 +42,20 @@ class ParticipentAddButton extends StatelessWidget {
             height: 37,
             width: 37,
             child: FloatingActionButton(
-              elevation: 2,
-              backgroundColor: cornflower,
-              onPressed: () => print('add'),
-              child: SvgPicture.asset(
-                'assets/images/plus.svg',
-                height: 10,
-                width: 10,
-              ),
-            ),
+                elevation: 2,
+                backgroundColor: cornflower,
+                onPressed: () async {
+                  final id = await ExtendedNavigator.of(context).pushNamed(
+                    Routes.selectIconScreen,
+                    arguments: SelectIconScreenArguments(
+                      mode: SelectIconMode.fromChat,
+                    ),
+                  );
+
+                  sl<ChatSettingsStore>().addUser(id);
+                },
+                child: SvgPicture.asset('assets/images/plus.svg',
+                    height: 15, width: 15)),
           ),
           SizedBox(width: 16),
           HebrewText('הוספת עורכ/ת לקבוצה', style: addParticipent)
@@ -80,13 +91,13 @@ class ParticipantItem extends StatelessWidget {
                   children: <Widget>[
                     SettingsActionButton(
                         textStyle: settingsButton,
-                        onTap: () =>  store.makeUserAdmin(user),
+                        onTap: () => store.makeUserAdmin(user.id),
                         text: 'הפוך למנהל/ת',
                         width: 103,
                         color: cornflower),
                     SizedBox(width: 12),
                     SettingsActionButton(
-                      onTap: () => store.removeUser(user),
+                      onTap: () => store.removeUser(user.id),
                       text: 'הסרה',
                       width: 60.7,
                       color: deepRed,

@@ -57,8 +57,7 @@ class _NestedSheetModalState extends State<NestedSheetModal> {
         margin: EdgeInsets.only(top: context.heightPx * .08),
         child: NestedScrollView(
           controller: ScrollController(),
-          physics: ScrollPhysics(
-              parent: PageScrollPhysics()),
+          physics: ScrollPhysics(parent: PageScrollPhysics()),
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverList(

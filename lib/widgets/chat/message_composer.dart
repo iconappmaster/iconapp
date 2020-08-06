@@ -26,6 +26,7 @@ class _MessageComposerState extends State<MessageComposer> {
 
   @override
   Widget build(BuildContext context) {
+    
     return ListView(
       padding: EdgeInsets.all(0),
       shrinkWrap: true,
