@@ -53,6 +53,7 @@ class ChatSettingsAppBar implements SliverPersistentHeaderDelegate {
           Opacity(
               opacity: .4,
               child: NetworkPhoto(
+                placeHolder: 'assets/images/group_placeholder.svg',
                 url: url,
                 height: appbarHeight,
                 width: MediaQuery.of(context).size.width,

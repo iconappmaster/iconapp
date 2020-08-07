@@ -21,10 +21,14 @@ class ChatBackButton extends StatelessWidget {
           SizedBox(width: 5.3),
           ClipRRect(
               borderRadius: BorderRadius.circular(100),
-              child: NetworkPhoto(
-                url: url,
-                height: 48,
-                width: 48,
+              child: Hero(
+                tag: 'placeholder',
+                child: NetworkPhoto(
+                  placeHolder: 'assets/images/group_placeholder.svg',
+                  url: url,
+                  height: 48,
+                  width: 48,
+                ),
               ))
         ],
       ),

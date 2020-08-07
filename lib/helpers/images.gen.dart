@@ -1,0 +1,35 @@
+class IMG {
+  IMG._();
+  String get backArrowSVG => "assets/images/back_arrow.svg";
+  String get bgJPG => "assets/images/bg.jpg";
+  String get cameraSVG => "assets/images/camera.svg";
+  String get cameraIconSVG => "assets/images/camera_icon.svg";
+  String get categoryFilterSVG => "assets/images/category_filter.svg";
+  String get checkPNG => "assets/images/check.png";
+  String get checkSVG => "assets/images/check.svg";
+  String get dotsSVG => "assets/images/dots.svg";
+  String get editSVG => "assets/images/edit.svg";
+  String get emojiSVG => "assets/images/emoji.svg";
+  String get entertainmentSVG => "assets/images/entertainment.svg";
+  String get femalePurpleSVG => "assets/images/female_purple.svg";
+  String get femaleWhiteSVG => "assets/images/female_white.svg";
+  String get goArrowSVG => "assets/images/go_arrow.svg";
+  String get groupPlaceholderSVG => "assets/images/group_placeholder.svg";
+  String get iconLogoSVG => "assets/images/icon_logo.svg";
+  String get iconSearchSVG => "assets/images/icon_search.svg";
+  String get iconSearchPinkSVG => "assets/images/icon_search_pink.svg";
+  String get malePurpleSVG => "assets/images/male_purple.svg";
+  String get maleWhiteSVG => "assets/images/male_white.svg";
+  String get menuIconSVG => "assets/images/menu_icon.svg";
+  String get microphoneSVG => "assets/images/microphone.svg";
+  String get otherPurpleSVG => "assets/images/other_purple.svg";
+  String get otherWhiteSVG => "assets/images/other_white.svg";
+  String get photoSVG => "assets/images/photo.svg";
+  String get plusSVG => "assets/images/plus.svg";
+  String get searchIconSVG => "assets/images/search_icon.svg";
+  String get sendIconSVG => "assets/images/send_icon.svg";
+  String get starSVG => "assets/images/star.svg";
+  String get userIconSVG => "assets/images/user_icon.svg";
+  String get welcomeToIconSVG => "assets/images/welcome_to_icon.svg";
+  String get whiteLogoSVG => "assets/images/white_logo.svg";
+}

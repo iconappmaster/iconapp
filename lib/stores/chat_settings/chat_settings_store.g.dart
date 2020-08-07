@@ -109,12 +109,13 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
     return _$changeGroupNameAsyncAction.run(() => super.changeGroupName());
   }
 
-  final _$changeGroupPhotoAsyncAction =
-      AsyncAction('_ChatSettingsStoreBase.changeGroupPhoto');
+  final _$changeGroupBackgroundAsyncAction =
+      AsyncAction('_ChatSettingsStoreBase.changeGroupBackground');
 
   @override
-  Future<dynamic> changeGroupPhoto() {
-    return _$changeGroupPhotoAsyncAction.run(() => super.changeGroupPhoto());
+  Future<dynamic> changeGroupBackground() {
+    return _$changeGroupBackgroundAsyncAction
+        .run(() => super.changeGroupBackground());
   }
 
   final _$_ChatSettingsStoreBaseActionController =

@@ -34,14 +34,31 @@ abstract class _ChatSettingsStoreBase with Store {
 
   @action
   Future changeChatBackground(int background) async {}
-
-  @action
-  Future makeUserAdmin(int userId) async {}
-
   @action
   void init() {
     users.clear();
     users.addAll(_chatStore.getState.conversation.conversation.users);
+  }
+
+  @action
+  Future makeUserAdmin(int userId) async {
+    try {
+      _isLoading = true;
+
+      final conversation = await _repository.makeUserAdmin(
+        _chatStore.conversation.id,
+        userId,
+      );
+
+      _chatStore.setConversation(conversation);
+
+      users.clear();
+      users.addAll(conversation.conversation.users);
+    } on Exception catch (e) {
+      print(e);
+    } finally {
+      _isLoading = false;
+    }
   }
 
   @action
@@ -88,8 +105,12 @@ abstract class _ChatSettingsStoreBase with Store {
   }
 
   @action
-  Future changeGroupName() async {}
+  Future changeGroupName() async {
+      
+  }
 
   @action
-  Future changeGroupPhoto() async {}
+  Future changeGroupBackground() async {
+
+  }
 }

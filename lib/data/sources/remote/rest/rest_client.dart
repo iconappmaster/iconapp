@@ -63,11 +63,15 @@ abstract class RestClient {
   Future<ConversationResponse> createConversation(@Body() CreateGroupReq groupReq);
 
   @GET('conversations/{conversationId}')
-  Future<ConversationResponse> getConversaion(
-      @Path('conversationId') int conversationId);
+  Future<ConversationResponse> getConversaion(@Path('conversationId') int conversationId);
 
   @POST('conversations/{conversationId}/subscribe_to_conversation')
   Future<ConversationResponse> subscribe(@Path('conversationId') int id);
+  
+  @POST('conversations/{conversationId}/make_admin')
+  Future<ConversationResponse> makeUserAdmin(@Path('conversationId') int id, @Query('userId') int userId);
+
+
 }
 
 Dio getDioClient() {
