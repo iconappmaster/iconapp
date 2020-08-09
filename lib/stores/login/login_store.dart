@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/repositories/login_repository.dart';
 import 'package:iconapp/domain/auth/auth_failure.dart';
+import 'package:iconapp/domain/auth/auth_success.dart';
 import 'package:mobx/mobx.dart';
 import '../user/user_store.dart';
 import 'login_state.dart';
@@ -104,7 +105,7 @@ abstract class _LoginStoreBase with Store {
   }
 
   @action
-  Future<Either<AuthFailure, bool>> verifySms() async {
+  Future<Either<AuthFailure, AuthSuccess>> verifySms() async {
     _state = _state.copyWith(loading: true);
 
     final fullNumber = _state.prefix + _state.phone;
@@ -112,9 +113,12 @@ abstract class _LoginStoreBase with Store {
 
     try {
       final user = await _repository.verifyCode(fullNumber, code);
-      final success = await _userStore.persistUser(user);
+      await _userStore.persistUser(user);
       _userStore.setUser(user);
-      return right(success);
+
+      return right(user.didCompleteRegistration
+          ? AuthSuccess.navigateHome()
+          : AuthSuccess.navigateProfile());
     } on DioError catch (error) {
       if (error.response.data['error'] == "ERROR_WRONG_SMS") {
         return left(const AuthFailure.wrongCode());

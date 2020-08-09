@@ -48,6 +48,11 @@ abstract class RestClient {
 
   // CONVERSATIONS
 
+  @POST('conversations/{conversationId}')
+  Future<ConversationResponse> updateConversation(
+      @Path('conversationId') int conversationId,
+      @Body() Conversation conversation);
+
   @POST('conversations/{conversationId}/add_user')
   Future<ConversationResponse> addUser(
       @Path('conversationId') int conversationId, @Query('userId') int userId);
@@ -60,18 +65,19 @@ abstract class RestClient {
   Future<List<Conversation>> getConversations();
 
   @POST('conversations')
-  Future<ConversationResponse> createConversation(@Body() CreateGroupReq groupReq);
+  Future<ConversationResponse> createConversation(
+      @Body() CreateGroupReq groupReq);
 
   @GET('conversations/{conversationId}')
-  Future<ConversationResponse> getConversaion(@Path('conversationId') int conversationId);
+  Future<ConversationResponse> getConversaion(
+      @Path('conversationId') int conversationId);
 
   @POST('conversations/{conversationId}/subscribe_to_conversation')
   Future<ConversationResponse> subscribe(@Path('conversationId') int id);
-  
+
   @POST('conversations/{conversationId}/make_admin')
-  Future<ConversationResponse> makeUserAdmin(@Path('conversationId') int id, @Query('userId') int userId);
-
-
+  Future<ConversationResponse> makeUserAdmin(
+      @Path('conversationId') int id, @Query('userId') int userId);
 }
 
 Dio getDioClient() {

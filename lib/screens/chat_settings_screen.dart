@@ -31,6 +31,7 @@ class _ChatSettingsScreenState extends State<ChatSettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final chatStore = sl<ChatStore>();
+    final settingsStore = sl<ChatSettingsStore>();
     final conversation = chatStore.conversation;
 
     final iconSettings = [
@@ -48,7 +49,7 @@ class _ChatSettingsScreenState extends State<ChatSettingsScreen> {
               delegate: ChatSettingsAppBar(
                   url: conversation?.photo?.url ?? '',
                   title: conversation?.name ?? '',
-                  subTitle: conversation?.name ?? ''),
+                  subTitle: settingsStore.getSubtitle),
             ),
             SliverList(
               delegate: SliverChildListDelegate(

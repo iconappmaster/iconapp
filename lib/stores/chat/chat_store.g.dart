@@ -115,15 +115,6 @@ mixin _$ChatStore on _ChatStoreBase, Store {
         .run(() => super.subscribeConversation());
   }
 
-  final _$updateGroupNameAsyncAction =
-      AsyncAction('_ChatStoreBase.updateGroupName');
-
-  @override
-  Future<dynamic> updateGroupName(String groupName) {
-    return _$updateGroupNameAsyncAction
-        .run(() => super.updateGroupName(groupName));
-  }
-
   final _$likeMessageAsyncAction = AsyncAction('_ChatStoreBase.likeMessage');
 
   @override

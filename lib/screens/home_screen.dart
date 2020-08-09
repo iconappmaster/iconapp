@@ -14,6 +14,7 @@ import 'package:iconapp/widgets/home/stories_widget.dart';
 import 'package:iconapp/widgets/home/welcome_dialog.dart';
 import 'package:iconapp/widgets/onboarding/onboarding_appbar.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import '../core/extensions/context_ext.dart';
 
 const debugEnableDeviceSimulator = false;
 
@@ -27,34 +28,43 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
           key: _scaffoldKey,
           drawer: HomeDrawer(),
-          body: Observer(
-            builder: (_) => FocusAwareWidget(
-              child: Container(
-                decoration: BoxDecoration(gradient: purpleGradient),
-                child: Stack(
-                  alignment: Alignment.topCenter,
-                  children: <Widget>[
-                    IconAppbar(widget: DrawerIcon(scaffoldKey: _scaffoldKey)),
-                    StoriesWidget(),
-                    ConversationsList(),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: GestureDetector(
-                          onTap: () => openBottomSheet(context),
-                          onPanUpdate: (details) {
-                            if (details.delta.dy < 0) {
-                              openBottomSheet(context);
-                            }
-                          },
-                          child: BottomSheetBar(
-                              showCategoriesSelected: false,
-                              showIconsSelected: false,
-                              onTap: () => openBottomSheet(context))),
+          body: Container(
+            color: white,
+            child: SafeArea(
+              top: false,
+              child: Observer(
+                builder: (_) => FocusAwareWidget(
+                  child: Container(
+                    decoration: BoxDecoration(gradient: purpleGradient),
+                    child: Stack(
+                      alignment: Alignment.topCenter,
+                      children: <Widget>[
+                        IconAppbar(
+                            widget: DrawerIcon(scaffoldKey: _scaffoldKey)),
+                        Positioned(
+                            top: context.heightPlusStatusbarPerc(.128),
+                            child: StoriesWidget()),
+                        ConversationsList(),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: GestureDetector(
+                              onTap: () => openBottomSheet(context),
+                              onPanUpdate: (details) {
+                                if (details.delta.dy < 0) {
+                                  openBottomSheet(context);
+                                }
+                              },
+                              child: BottomSheetBar(
+                                  showCategoriesSelected: false,
+                                  showIconsSelected: false,
+                                  onTap: () => openBottomSheet(context))),
+                        ),
+                        if (store.showWelcomeDialog) WelcomeDialog(),
+                        if (store.isLoading)
+                          Center(child: CircularProgressIndicator()),
+                      ],
                     ),
-                    if (store.showWelcomeDialog) WelcomeDialog(),
-                    if (store.isLoading)
-                      Center(child: CircularProgressIndicator()),
-                  ],
+                  ),
                 ),
               ),
             ),

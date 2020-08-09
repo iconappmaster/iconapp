@@ -5,6 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/routes/router.gr.dart';
+import 'package:iconapp/stores/auth/auth_store.dart';
 import 'package:iconapp/stores/login/login_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/next_button.dart';
@@ -183,12 +184,15 @@ class _PinCode extends StatelessWidget {
                 final successFailure = await store.verifySms();
                 successFailure.fold(
                   (error) => error.when(
-                      serverError: () => ctx.showFlushbar(
-                          message: LocaleKeys.general_server_error).tr(),
-                      wrongCode: () => ctx.showFlushbar(
-                          message: LocaleKeys.onboarding_wrongCode.tr())),
-                  (success) =>
-                      ExtendedNavigator.of(ctx).pushOnboardingProfile(),
+                    serverError: () => ctx.showFlushbar(message: LocaleKeys.general_server_error) .tr(),
+                    wrongCode: () => ctx.showFlushbar(message: LocaleKeys.onboarding_wrongCode.tr())),
+                  (success) => success.when(
+                    navigateHome: () {
+                      sl<AuthStore>()..setSignedIn()..checkCurrentAuthState();
+                      ExtendedNavigator.of(ctx).pushNamedAndRemoveUntil(Routes.splashScreen, (Route<dynamic> route) => false);
+                    },
+                    navigateProfile: () => ExtendedNavigator.of(ctx).pushOnboardingProfile(),
+                  ),
                 );
               },
             ),
@@ -324,7 +328,7 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
       child: TextField(
         focusNode: phoneFocus,
         maxLength: 7,
-        textAlign: TextAlign.left,
+        textAlign: TextAlign.center,
         decoration: inputDecor,
         style: phoneNumber.copyWith(
             color: store.isPhoneMode ? white : white.withOpacity(.4)),
@@ -345,7 +349,7 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
         focusNode: prefixFocus,
         autofocus: true,
         keyboardType: TextInputType.phone,
-        textAlign: TextAlign.left,
+        textAlign: TextAlign.center,
         controller: prefixController,
         maxLength: 3,
         maxLengthEnforced: true,
@@ -378,7 +382,7 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
           focusNode: countryCodeFocus,
           autofocus: false,
           keyboardType: TextInputType.phone,
-          textAlign: TextAlign.left,
+          textAlign: TextAlign.center,
           maxLength: 3,
           controller: _countryCodeController,
           maxLengthEnforced: true,

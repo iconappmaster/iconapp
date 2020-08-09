@@ -14,6 +14,7 @@ part 'onboarding_store.g.dart';
 
 class OnboardingStore = _OnboardingStoreBase with _$OnboardingStore;
 
+enum OnboardingMode { onboarding, drawer }
 abstract class _OnboardingStoreBase with Store {
   MediaStore _mediaStore;
   UserStore _userStore;

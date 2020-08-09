@@ -26,6 +26,7 @@ const blueyGrey = Color(0xFF95a2c0);
 const switchThumb = Color(0xFF97A2BD);
 const deepRed = Color(0xFFbb0000);
 const blueberry2 = Color(0xFF473f81);
+
 // Font Sizes
 const _fontRubikBold = "RubikBold";
 const _fontRubikRegular = "RubikRagular";
@@ -200,6 +201,9 @@ const drawerName = TextStyle(
 );
 
 // Gradients
+
+// gradient colors
+
 final purpleGradient = LinearGradient(colors: [
   grape,
   darkIndigo,
@@ -215,6 +219,49 @@ final dialogGradient = LinearGradient(colors: [
   darkIndigo,
 ], begin: Alignment.bottomRight, end: Alignment.topLeft);
 
-
 // CHAT COLORS GRADIENTS
 
+
+const pinkish = Color(0xFFe35c67);
+const purpleBlue = Color(0xFF381ce2);
+const cobaltBlue = Color(0xFF002092);
+const topaz = Color(0xFF1ab9c8);
+const pinkRedTwo = Color(0xFFff0467);
+const dustyOrange = Color(0xFFfc7437);
+const darkishBlue = Color(0xFF004b91);
+const apple = Color(0xFF78cc37);
+const softBlue = Color(0xFF5f86ec);
+const purply = Color(0xFF7c4cb0);
+const lightMustard = Color(0xFFfecf60);
+const lighterPurple = Color(0xFF974ef6);
+
+
+final grapeDarkIndigo = LinearGradient(colors: [
+  grape,
+  darkIndigo,
+], begin: Alignment.bottomRight, end: Alignment.topLeft);
+
+final coblatBlueTopaz = LinearGradient(colors: [
+  cobaltBlue,
+  topaz,
+], begin: Alignment.bottomRight, end: Alignment.topLeft);
+
+final pinkRedDustyOrange = LinearGradient(colors: [
+  pinkRedTwo,
+  dustyOrange,
+], begin: Alignment.bottomRight, end: Alignment.topLeft);
+
+final darkishBlueApple = LinearGradient(colors: [
+  darkishBlue,
+  apple,
+], begin: Alignment.bottomRight, end: Alignment.topLeft);
+
+final softBluePurply = LinearGradient(colors: [
+  softBlue,
+  purply,
+], begin: Alignment.bottomRight, end: Alignment.topLeft);
+
+final mustardPurple = LinearGradient(colors: [
+  lightMustard,
+  lighterPurple,
+], begin: Alignment.bottomRight, end: Alignment.topLeft);

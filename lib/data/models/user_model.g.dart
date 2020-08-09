@@ -22,6 +22,7 @@ _$_UserModel _$_$_UserModelFromJson(Map<String, dynamic> json) {
     isPushEnabled: json['isPushEnabled'] as bool,
     sessionToken: json['sessionToken'] as String,
     userRole: _$enumDecodeNullable(_$UserRoleEnumMap, json['userRole']),
+    didCompleteRegistration: json['didCompleteRegistration'] as bool,
   );
 }
 
@@ -39,6 +40,7 @@ Map<String, dynamic> _$_$_UserModelToJson(_$_UserModel instance) =>
       'isPushEnabled': instance.isPushEnabled,
       'sessionToken': instance.sessionToken,
       'userRole': _$UserRoleEnumMap[instance.userRole],
+      'didCompleteRegistration': instance.didCompleteRegistration,
     };
 
 T _$enumDecode<T>(

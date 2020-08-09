@@ -176,6 +176,27 @@ class _RestClient implements RestClient {
   }
 
   @override
+  updateConversation(conversationId, conversation) async {
+    ArgumentError.checkNotNull(conversationId, 'conversationId');
+    ArgumentError.checkNotNull(conversation, 'conversation');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(conversation?.toJson() ?? <String, dynamic>{});
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'conversations/$conversationId',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = ConversationResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
   addUser(conversationId, userId) async {
     ArgumentError.checkNotNull(conversationId, 'conversationId');
     ArgumentError.checkNotNull(userId, 'userId');

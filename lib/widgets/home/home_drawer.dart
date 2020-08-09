@@ -1,7 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/global/buttons.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
@@ -63,7 +65,12 @@ class HomeDrawer extends StatelessWidget {
                     ),
                   ),
                   _drawerDivider,
-                  DrawerItem(text: 'הפרופיל שלי', onTap: () {}),
+                  DrawerItem(
+                      text: 'הפרופיל שלי',
+                      onTap: () {
+                        ExtendedNavigator.of(context)
+                            .pushNamed(Routes.onboardingProfile);
+                      }),
                   if (store.getUser.isIcon)
                     DrawerItem(text: 'נתוני פעילות הקבוצה', onTap: () {}),
                   DrawerItem(text: 'הגדרות', onTap: () {}),
@@ -101,16 +108,20 @@ class DrawerItem extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-            margin: EdgeInsets.symmetric(horizontal: 31.7),
-            alignment: Alignment.centerRight,
-            height: 70,
-            child: HebrewText(text, style: flushbar)),
-        _drawerDivider,
-      ],
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+              margin: EdgeInsets.symmetric(horizontal: 31.7),
+              alignment: Alignment.centerRight,
+              height: 70,
+              child: HebrewText(text, style: flushbar)),
+          _drawerDivider,
+        ],
+      ),
     );
   }
 }

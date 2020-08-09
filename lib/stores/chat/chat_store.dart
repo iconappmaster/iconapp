@@ -112,8 +112,6 @@ abstract class _ChatStoreBase with Store {
     _state = _state.copyWith(inputMessage: input);
   }
 
-  @action
-  Future updateGroupName(String groupName) async {}
 
   @action
   Future likeMessage(String chatId, String messageId) async {

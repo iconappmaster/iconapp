@@ -37,7 +37,7 @@ import 'package:iconapp/screens/story_screen.dart';
     MaterialRoute(page: CameraScreen),
     CupertinoRoute(page: SelectIconScreen, fullscreenDialog: true),
     CupertinoRoute(page: CreateCategoryScreen),
-    MaterialRoute(page: RenameConversation),
+    MaterialRoute(page: EditConversation),
     CupertinoRoute(page: CreateDetailsScreen),
     CupertinoRoute(page: SearchResultsScreen),
   ],

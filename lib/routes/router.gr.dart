@@ -44,7 +44,7 @@ class Routes {
   static const String cameraScreen = '/camera-screen';
   static const String selectIconScreen = '/select-icon-screen';
   static const String createCategoryScreen = '/create-category-screen';
-  static const String renameConversation = '/rename-conversation';
+  static const String editConversation = '/edit-conversation';
   static const String createDetailsScreen = '/create-details-screen';
   static const String searchResultsScreen = '/search-results-screen';
   static const all = <String>{
@@ -63,7 +63,7 @@ class Routes {
     cameraScreen,
     selectIconScreen,
     createCategoryScreen,
-    renameConversation,
+    editConversation,
     createDetailsScreen,
     searchResultsScreen,
   };
@@ -88,7 +88,7 @@ class Router extends RouterBase {
     RouteDef(Routes.cameraScreen, page: CameraScreen),
     RouteDef(Routes.selectIconScreen, page: SelectIconScreen),
     RouteDef(Routes.createCategoryScreen, page: CreateCategoryScreen),
-    RouteDef(Routes.renameConversation, page: RenameConversation),
+    RouteDef(Routes.editConversation, page: EditConversation),
     RouteDef(Routes.createDetailsScreen, page: CreateDetailsScreen),
     RouteDef(Routes.searchResultsScreen, page: SearchResultsScreen),
   ];
@@ -194,9 +194,9 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    RenameConversation: (RouteData data) {
+    EditConversation: (RouteData data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => RenameConversation(),
+        builder: (context) => EditConversation(),
         settings: data,
       );
     },
@@ -289,8 +289,8 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
   Future<dynamic> pushCreateCategoryScreen() =>
       pushNamed<dynamic>(Routes.createCategoryScreen);
 
-  Future<dynamic> pushRenameConversation() =>
-      pushNamed<dynamic>(Routes.renameConversation);
+  Future<dynamic> pushEditConversation() =>
+      pushNamed<dynamic>(Routes.editConversation);
 
   Future<dynamic> pushCreateDetailsScreen() =>
       pushNamed<dynamic>(Routes.createDetailsScreen);

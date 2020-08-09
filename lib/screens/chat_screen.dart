@@ -7,8 +7,10 @@ import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/stores/chat/chat_state.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
+import 'package:iconapp/stores/chat_settings/chat_settings_store.dart';
 import 'package:iconapp/widgets/chat/message_composer.dart';
 import 'package:iconapp/widgets/chat/messages.dart';
+import 'package:iconapp/widgets/chat/settings/change_background.dart';
 import 'package:iconapp/widgets/global/blue_divider.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/home/stories_widget.dart';
@@ -37,6 +39,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
+    final settings = sl<ChatSettingsStore>();
 
     final storiesMargin = const EdgeInsets.only(top: 24.0);
     return Scaffold(
@@ -44,10 +47,7 @@ class _ChatScreenState extends State<ChatScreen> {
         builder: (_) => Stack(children: [
           Container(
             decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [grape, darkIndigo],
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter)),
+                gradient: gradientList[settings.getSelectedColor]),
             child: Column(
               children: <Widget>[
                 ChatAppbar(),

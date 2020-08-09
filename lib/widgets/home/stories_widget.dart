@@ -11,22 +11,20 @@ class StoriesWidget extends StatelessWidget {
   const StoriesWidget({Key key, this.margin}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-        top: context.heightPlusStatusbarPerc(.128),
-        child: Container(
-          margin: margin,
-          height: context.heightPlusStatusbarPerc(.08),
-          width: context.widthPx,
-          child: ListView.builder(
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            physics: BouncingScrollPhysics(),
-            itemBuilder: (context, index) {
-              return StoryItem(name: 'נטלי דדון');
-            },
-            itemCount: 10,
-          ),
-        ));
+    return Container(
+      margin: margin,
+      height: context.heightPlusStatusbarPerc(.09),
+      width: context.widthPx,
+      child: ListView.builder(
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        physics: BouncingScrollPhysics(),
+        itemBuilder: (context, index) {
+          return StoryItem(name: 'נטלי דדון');
+        },
+        itemCount: 10,
+      ),
+    );
   }
 }
 

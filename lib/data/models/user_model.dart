@@ -19,6 +19,7 @@ abstract class UserModel with _$UserModel {
     bool isPushEnabled,
     String sessionToken,
     UserRole userRole,
+    bool didCompleteRegistration,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>

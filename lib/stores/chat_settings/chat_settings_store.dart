@@ -1,8 +1,9 @@
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/data/models/conversation_model.dart';
+import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/repositories/chat_settings_repository.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
-import 'package:iconapp/stores/chat_settings/c_settings_state.dart';
 import 'package:mobx/mobx.dart';
 part 'chat_settings_store.g.dart';
 
@@ -18,22 +19,32 @@ abstract class _ChatSettingsStoreBase with Store {
   }
 
   @observable
-  ChatSettingsState _state = ChatSettingsState.initial();
+  bool _isLoading = false;
 
   @observable
-  bool _isLoading = false;
+  int _selectedColor = 0;
 
   @observable
   ObservableList<UserModel> _users = ObservableList.of([]);
 
   @computed
+  int get getSelectedColor => _selectedColor;
+
+  @computed
   bool get isLoadig => _isLoading;
+
+  @computed
+  String get getSubtitle =>
+      'הקבוצה נוצרה על ידי ${_chatStore.conversation?.createdBy?.fullName ?? ''}, ${_chatStore.conversation.createAt}';
 
   @computed
   List<UserModel> get users => _users;
 
   @action
-  Future changeChatBackground(int background) async {}
+  Future changeBackground(int colorIndex) async {
+    _selectedColor = colorIndex;
+  }
+
   @action
   void init() {
     users.clear();
@@ -105,12 +116,43 @@ abstract class _ChatSettingsStoreBase with Store {
   }
 
   @action
-  Future changeGroupName() async {
-      
+  Future changeGroupName(String groupName) async {
+    try {
+      final chatStore = sl<ChatStore>();
+      _isLoading = true;
+
+      final conversation = await _repository.updateName(
+        chatStore.conversation.id,
+        Conversation(name: groupName),
+      );
+
+      chatStore.setConversation(conversation);
+    } on Exception catch (e) {
+      print(e);
+    } finally {
+      _isLoading = false;
+    }
   }
 
   @action
-  Future changeGroupBackground() async {
+  Future changeConversationPhoto(String url) async {
+    try {
+      final chatStore = sl<ChatStore>();
+      _isLoading = true;
 
+      final conversation = await _repository.updateName(
+        chatStore.conversation.id,
+        Conversation(photo: PhotoModel(url: url)),
+      );
+
+      chatStore.setConversation(conversation);
+    } on Exception catch (e) {
+      print(e);
+    } finally {
+      _isLoading = false;
+    }
   }
+
+  @action
+  Future changeGroupBackground() async {}
 }

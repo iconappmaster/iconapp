@@ -5,12 +5,13 @@ import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
+import 'package:iconapp/stores/chat_settings/chat_settings_store.dart';
 import 'package:iconapp/widgets/create/create_app_bar.dart';
 import 'package:iconapp/widgets/global/input_box.dart';
 import 'package:iconapp/widgets/onboarding/base_onboarding_widget.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class RenameConversation extends StatelessWidget {
+class EditConversation extends StatelessWidget {
   final _key = GlobalKey<FormState>();
 
   @override
@@ -33,7 +34,8 @@ class RenameConversation extends StatelessWidget {
                     contentPadding: const EdgeInsets.only(bottom: 20),
                     initialValue:
                         store.getState?.conversation?.conversation?.name ?? '',
-                    onChange: (groupName) => store.updateGroupName(groupName),
+                    onChange: (groupName) =>
+                        sl<ChatSettingsStore>().changeGroupName(groupName),
                     hint: 'הקלד/י נושא חדש',
                     hintStyle: flushbar,
                     textStyle: flushbar,

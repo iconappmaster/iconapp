@@ -1,3 +1,4 @@
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:mobx/mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
@@ -40,9 +41,11 @@ abstract class _AuthStoreBase with Store {
         isSignedIn ? AuthState.authenticated() : AuthState.unauthenticated();
   }
 
-  
   @action
   Future logout() async {
+    final manager = new DefaultCacheManager();
+    manager.emptyCache();
+    
     await _sharedPreferencesService.clear();
     _authState = AuthState.unauthenticated();
   }

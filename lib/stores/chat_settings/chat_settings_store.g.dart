@@ -9,12 +9,26 @@ part of 'chat_settings_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
+  Computed<int> _$getSelectedColorComputed;
+
+  @override
+  int get getSelectedColor => (_$getSelectedColorComputed ??= Computed<int>(
+          () => super.getSelectedColor,
+          name: '_ChatSettingsStoreBase.getSelectedColor'))
+      .value;
   Computed<bool> _$isLoadigComputed;
 
   @override
   bool get isLoadig =>
       (_$isLoadigComputed ??= Computed<bool>(() => super.isLoadig,
               name: '_ChatSettingsStoreBase.isLoadig'))
+          .value;
+  Computed<String> _$getSubtitleComputed;
+
+  @override
+  String get getSubtitle =>
+      (_$getSubtitleComputed ??= Computed<String>(() => super.getSubtitle,
+              name: '_ChatSettingsStoreBase.getSubtitle'))
           .value;
   Computed<List<UserModel>> _$usersComputed;
 
@@ -23,21 +37,6 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
       (_$usersComputed ??= Computed<List<UserModel>>(() => super.users,
               name: '_ChatSettingsStoreBase.users'))
           .value;
-
-  final _$_stateAtom = Atom(name: '_ChatSettingsStoreBase._state');
-
-  @override
-  ChatSettingsState get _state {
-    _$_stateAtom.reportRead();
-    return super._state;
-  }
-
-  @override
-  set _state(ChatSettingsState value) {
-    _$_stateAtom.reportWrite(value, super._state, () {
-      super._state = value;
-    });
-  }
 
   final _$_isLoadingAtom = Atom(name: '_ChatSettingsStoreBase._isLoading');
 
@@ -51,6 +50,22 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
   set _isLoading(bool value) {
     _$_isLoadingAtom.reportWrite(value, super._isLoading, () {
       super._isLoading = value;
+    });
+  }
+
+  final _$_selectedColorAtom =
+      Atom(name: '_ChatSettingsStoreBase._selectedColor');
+
+  @override
+  int get _selectedColor {
+    _$_selectedColorAtom.reportRead();
+    return super._selectedColor;
+  }
+
+  @override
+  set _selectedColor(int value) {
+    _$_selectedColorAtom.reportWrite(value, super._selectedColor, () {
+      super._selectedColor = value;
     });
   }
 
@@ -69,13 +84,13 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
     });
   }
 
-  final _$changeChatBackgroundAsyncAction =
-      AsyncAction('_ChatSettingsStoreBase.changeChatBackground');
+  final _$changeBackgroundAsyncAction =
+      AsyncAction('_ChatSettingsStoreBase.changeBackground');
 
   @override
-  Future<dynamic> changeChatBackground(int background) {
-    return _$changeChatBackgroundAsyncAction
-        .run(() => super.changeChatBackground(background));
+  Future<dynamic> changeBackground(int colorIndex) {
+    return _$changeBackgroundAsyncAction
+        .run(() => super.changeBackground(colorIndex));
   }
 
   final _$makeUserAdminAsyncAction =
@@ -105,8 +120,18 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
       AsyncAction('_ChatSettingsStoreBase.changeGroupName');
 
   @override
-  Future<dynamic> changeGroupName() {
-    return _$changeGroupNameAsyncAction.run(() => super.changeGroupName());
+  Future<dynamic> changeGroupName(String groupName) {
+    return _$changeGroupNameAsyncAction
+        .run(() => super.changeGroupName(groupName));
+  }
+
+  final _$changeConversationPhotoAsyncAction =
+      AsyncAction('_ChatSettingsStoreBase.changeConversationPhoto');
+
+  @override
+  Future<dynamic> changeConversationPhoto(String url) {
+    return _$changeConversationPhotoAsyncAction
+        .run(() => super.changeConversationPhoto(url));
   }
 
   final _$changeGroupBackgroundAsyncAction =
@@ -135,7 +160,9 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
   @override
   String toString() {
     return '''
+getSelectedColor: ${getSelectedColor},
 isLoadig: ${isLoadig},
+getSubtitle: ${getSubtitle},
 users: ${users}
     ''';
   }

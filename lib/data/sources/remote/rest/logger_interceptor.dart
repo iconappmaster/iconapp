@@ -43,6 +43,8 @@ class LoggingInterceptors extends Interceptor {
     response.headers?.forEach((k, v) => print('$k: $v'));
     if (response.data is List<dynamic>) {
       printPrettyJson(response.data);
+    } else {
+      printWrapped(jsonEncode(response.data));
     }
     print("<-- END HTTP");
   }

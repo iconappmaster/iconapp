@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/screens/chat_settings_screen.dart';
@@ -39,27 +40,24 @@ class ColorSelectButton extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5)),
               contentPadding: EdgeInsets.all(16),
               elevation: 10,
-              title: HebrewText('צבע רקע', style: changeColorTitle),
+              title: HebrewText('בחר/י צבע רקע', style: changeColorTitle),
               content: Container(
                 height: 300,
                 child: Stack(
                   children: <Widget>[
                     Container(
-                      height: 200,
-                      width: 300,
-                      child: ColorPicker(onBackgroundChanged: (index) {
-                        print(index);
-                        selectedColorIndex = index;
-                        store.changeChatBackground(index);
-                        // ExtendedNavigator.of(context).pop();
-                      }),
-                    ),
+                        padding: EdgeInsets.all(8),
+                        height: 200,
+                        width: 300,
+                        child: ColorPicker(
+                            onBackgroundChanged: (index) =>
+                                store.changeBackground(index))),
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: NextButton(
                         height: 60,
                         onClick: () => Navigator.pop(context),
-                        title: 'אישור',
+                        title: 'סגור',
                       ),
                     ),
                   ],
@@ -67,13 +65,15 @@ class ColorSelectButton extends StatelessWidget {
               ),
             ));
       },
-      child: Container(
-        margin: EdgeInsets.only(left: 10),
-        height: 40,
-        width: 40,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          gradient: purpleGradient,
+      child: Observer(
+        builder: (_) => Container(
+          margin: EdgeInsets.only(left: 10),
+          height: 40,
+          width: 40,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            gradient: gradientList[store.getSelectedColor],
+          ),
         ),
       ),
     );
@@ -92,7 +92,10 @@ class ColorPicker extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3, childAspectRatio: 1),
+          crossAxisSpacing: 20,
+          mainAxisSpacing: 20,
+          crossAxisCount: 3,
+          childAspectRatio: 1),
       physics: BouncingScrollPhysics(),
       itemCount: gradientList.length,
       itemBuilder: (context, index) {
@@ -102,11 +105,11 @@ class ColorPicker extends StatelessWidget {
             onBackgroundChanged(index);
           },
           child: Container(
-            height: 80,
-            width: 80,
+            height: 60,
+            width: 60,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
-              gradient: convertIndexToGradient(index),
+              gradient: gradientList[index],
             ),
           ),
         );
@@ -116,30 +119,10 @@ class ColorPicker extends StatelessWidget {
 }
 
 final gradientList = [
-  purpleGradient,
-  redPinkGradient,
-  purpleGradient,
-  redPinkGradient,
-  purpleGradient,
-  redPinkGradient
+  grapeDarkIndigo,
+  coblatBlueTopaz,
+  pinkRedDustyOrange,
+  darkishBlueApple,
+  softBluePurply,
+  mustardPurple
 ];
-
-int selectedColorIndex = 0;
-
-Gradient convertIndexToGradient(int colorIndex) {
-  switch (colorIndex) {
-    case 0:
-      return purpleGradient;
-    case 1:
-      return purpleGradient;
-    case 2:
-      return purpleGradient;
-    case 3:
-      return purpleGradient;
-    case 4:
-      return purpleGradient;
-    case 5:
-  }
-
-  return null;
-}

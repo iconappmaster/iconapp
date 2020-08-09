@@ -13,26 +13,9 @@ abstract class ChatSettingsState with _$ChatSettingsState {
 
   factory ChatSettingsState.initial() => ChatSettingsState(
         loading: false,
-//       background: ChatBackground.purple,
         notifications: true,
         participants: [],
       );
 }
-
-// @freezed
-// abstract class ChatSettingsState with _$ChatSettingsState {
-//   const factory ChatSettingsState({
-//     @required bool loading,
-//     @required bool notifications,
-//     @required ChatBackground background,
-//     @required List<UserModel> participants,
-//   }) = _ChatSettingsState;
-
-//   factory ChatSettingsState.initial() => ChatSettingsState(
-//       loading: false,
-//       background: ChatBackground.purple,
-//       notifications: true,
-//       participants: []);
-// }
-
+ 
 enum ChatBackground { blue, green, purple }
