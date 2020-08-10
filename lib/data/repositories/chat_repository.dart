@@ -1,13 +1,16 @@
 import 'package:iconapp/data/models/conversation_response.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
+import '../../core/extensions/string_ext.dart';
 
 abstract class ChatRepository {
   Future<ConversationResponse> getConversaion(int chatId);
-  Future<MessageModel> sendMessage(int conversationId, MessageModel message);
-  Future<MessageModel> likeMessage(String chatId, String messageId);
+  Future<ConversationResponse> sendMessage(
+      int conversationId, MessageModel message);
   Future<ConversationResponse> subscribe(int id);
+  Future<MessageModel> likeMessage(String chatId, String messageId);
   Stream<MessageModel> watchMessages();
+  Stream<ConversationResponse> pinConversation();
 }
 
 class ChatRepositoryImpl implements ChatRepository {
@@ -21,14 +24,20 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
+  Future<ConversationResponse> subscribe(int id) async {
+    return await restClient.subscribe(id);
+  }
+
+  @override
   Future<MessageModel> likeMessage(String chatId, String messamessamessageId) {
     throw UnimplementedError();
   }
 
   @override
-  Future<MessageModel> sendMessage(
+  Future<ConversationResponse> sendMessage(
       int conversationId, MessageModel message) async {
-    return MessageModel();
+    return await restClient.sendMessage(
+        conversationId, message.body, message.type.toString().parseEnum());
   }
 
   @override
@@ -37,7 +46,7 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<ConversationResponse> subscribe(int id) async {
-    return await restClient.subscribe(id);
+  Stream<ConversationResponse> pinConversation() {
+    throw UnimplementedError();
   }
 }

@@ -13,6 +13,7 @@ class CodegenLoader extends AssetLoader{
 
     static const Map<String,dynamic> he_HE = {
   "action_continue": "המשך",
+  "action_save": "שמור",
   "policy": {
     "terms": "כניסה לאפליקציה מהווה אישור ",
     "link": "לתנאי השימוש",
@@ -45,7 +46,9 @@ class CodegenLoader extends AssetLoader{
     "iconSubtitle": "בחר/י משתתפים לקבוצה",
     "newGroupTitle": "יצירת קבוצה חדשה",
     "iconValidation": "יש לבחור יותר מאייקון אחד",
-    "categoryValidation": "יש לבחור יותר מקטגוריה אחת"
+    "categoryValidation": "יש לבחור יותר מקטגוריה אחת",
+    "addUser": "הוספת משתתף",
+    "chooseUserToGroup": "בחר/י משתתף לקבוצה"
   },
   "welcome": {
     "title": "ברוכים הבאים לאייקון",

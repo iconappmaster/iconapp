@@ -9,13 +9,6 @@ part of 'chat_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ChatStore on _ChatStoreBase, Store {
-  Computed<bool> _$reavealComposerComputed;
-
-  @override
-  bool get reavealComposer =>
-      (_$reavealComposerComputed ??= Computed<bool>(() => super.reavealComposer,
-              name: '_ChatStoreBase.reavealComposer'))
-          .value;
   Computed<ChatState> _$getStateComputed;
 
   @override
@@ -67,21 +60,6 @@ mixin _$ChatStore on _ChatStoreBase, Store {
     });
   }
 
-  final _$_reavealComposerAtom = Atom(name: '_ChatStoreBase._reavealComposer');
-
-  @override
-  bool get _reavealComposer {
-    _$_reavealComposerAtom.reportRead();
-    return super._reavealComposer;
-  }
-
-  @override
-  set _reavealComposer(bool value) {
-    _$_reavealComposerAtom.reportWrite(value, super._reavealComposer, () {
-      super._reavealComposer = value;
-    });
-  }
-
   final _$_messagesAtom = Atom(name: '_ChatStoreBase._messages');
 
   @override
@@ -97,22 +75,21 @@ mixin _$ChatStore on _ChatStoreBase, Store {
     });
   }
 
-  final _$initConversationAsyncAction =
-      AsyncAction('_ChatStoreBase.initConversation');
+  final _$fetchMessagesAndSubscribeAsyncAction =
+      AsyncAction('_ChatStoreBase.fetchMessagesAndSubscribe');
 
   @override
-  Future<dynamic> initConversation(Conversation conversation) {
-    return _$initConversationAsyncAction
-        .run(() => super.initConversation(conversation));
+  Future<dynamic> fetchMessagesAndSubscribe() {
+    return _$fetchMessagesAndSubscribeAsyncAction
+        .run(() => super.fetchMessagesAndSubscribe());
   }
 
-  final _$subscribeConversationAsyncAction =
-      AsyncAction('_ChatStoreBase.subscribeConversation');
+  final _$pinConversationAsyncAction =
+      AsyncAction('_ChatStoreBase.pinConversation');
 
   @override
-  Future<dynamic> subscribeConversation() {
-    return _$subscribeConversationAsyncAction
-        .run(() => super.subscribeConversation());
+  Future<dynamic> pinConversation() {
+    return _$pinConversationAsyncAction.run(() => super.pinConversation());
   }
 
   final _$likeMessageAsyncAction = AsyncAction('_ChatStoreBase.likeMessage');
@@ -161,11 +138,33 @@ mixin _$ChatStore on _ChatStoreBase, Store {
       ActionController(name: '_ChatStoreBase');
 
   @override
-  void initComposerMode() {
+  void initConversation(Conversation conversation) {
     final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
-        name: '_ChatStoreBase.initComposerMode');
+        name: '_ChatStoreBase.initConversation');
     try {
-      return super.initComposerMode();
+      return super.initConversation(conversation);
+    } finally {
+      _$_ChatStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void initMessages() {
+    final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
+        name: '_ChatStoreBase.initMessages');
+    try {
+      return super.initMessages();
+    } finally {
+      _$_ChatStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void determineComposerMode() {
+    final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
+        name: '_ChatStoreBase.determineComposerMode');
+    try {
+      return super.determineComposerMode();
     } finally {
       _$_ChatStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -207,7 +206,6 @@ mixin _$ChatStore on _ChatStoreBase, Store {
   @override
   String toString() {
     return '''
-reavealComposer: ${reavealComposer},
 getState: ${getState},
 conversation: ${conversation},
 getMessages: ${getMessages},

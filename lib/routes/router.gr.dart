@@ -13,15 +13,12 @@ import 'package:iconapp/screens/onboarding_phone.dart';
 import 'package:iconapp/screens/onboarding_profile.dart';
 import 'package:iconapp/screens/home_screen.dart';
 import 'package:iconapp/screens/settings_screen.dart';
-import 'package:iconapp/screens/profile_screen.dart';
 import 'package:iconapp/screens/chat_screen.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/screens/chat_settings_screen.dart';
-import 'package:iconapp/screens/story_screen.dart';
 import 'package:iconapp/screens/full_video_screen.dart';
 import 'package:iconapp/screens/full_image_screen.dart';
 import 'package:iconapp/data/models/photo_model.dart';
-import 'package:iconapp/screens/camera_screen.dart';
 import 'package:iconapp/screens/create_icons_screen.dart';
 import 'package:iconapp/screens/create_categories_screen.dart';
 import 'package:iconapp/screens/rename_conversation.dart';
@@ -35,13 +32,10 @@ class Routes {
   static const String onboardingProfile = '/onboarding-profile';
   static const String homeScreen = '/home-screen';
   static const String settingsScreen = '/settings-screen';
-  static const String profileScreen = '/profile-screen';
   static const String chatScreen = '/chat-screen';
   static const String chatSettingsScreen = '/chat-settings-screen';
-  static const String storyScreen = '/story-screen';
   static const String fullVideoScreen = '/full-video-screen';
   static const String fullImageScreen = '/full-image-screen';
-  static const String cameraScreen = '/camera-screen';
   static const String selectIconScreen = '/select-icon-screen';
   static const String createCategoryScreen = '/create-category-screen';
   static const String editConversation = '/edit-conversation';
@@ -54,13 +48,10 @@ class Routes {
     onboardingProfile,
     homeScreen,
     settingsScreen,
-    profileScreen,
     chatScreen,
     chatSettingsScreen,
-    storyScreen,
     fullVideoScreen,
     fullImageScreen,
-    cameraScreen,
     selectIconScreen,
     createCategoryScreen,
     editConversation,
@@ -79,13 +70,10 @@ class Router extends RouterBase {
     RouteDef(Routes.onboardingProfile, page: OnboardingProfile),
     RouteDef(Routes.homeScreen, page: HomeScreen),
     RouteDef(Routes.settingsScreen, page: SettingsScreen),
-    RouteDef(Routes.profileScreen, page: ProfileScreen),
     RouteDef(Routes.chatScreen, page: ChatScreen),
     RouteDef(Routes.chatSettingsScreen, page: ChatSettingsScreen),
-    RouteDef(Routes.storyScreen, page: StoryScreen),
     RouteDef(Routes.fullVideoScreen, page: FullVideoScreen),
     RouteDef(Routes.fullImageScreen, page: FullImageScreen),
-    RouteDef(Routes.cameraScreen, page: CameraScreen),
     RouteDef(Routes.selectIconScreen, page: SelectIconScreen),
     RouteDef(Routes.createCategoryScreen, page: CreateCategoryScreen),
     RouteDef(Routes.editConversation, page: EditConversation),
@@ -114,8 +102,9 @@ class Router extends RouterBase {
       );
     },
     OnboardingProfile: (RouteData data) {
+      var args = data.getArgs<OnboardingProfileArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
-        builder: (context) => OnboardingProfile(),
+        builder: (context) => OnboardingProfile(key: args.key, mode: args.mode),
         settings: data,
       );
     },
@@ -128,12 +117,6 @@ class Router extends RouterBase {
     SettingsScreen: (RouteData data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => SettingsScreen(),
-        settings: data,
-      );
-    },
-    ProfileScreen: (RouteData data) {
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => ProfileScreen(),
         settings: data,
       );
     },
@@ -154,12 +137,6 @@ class Router extends RouterBase {
         fullscreenDialog: true,
       );
     },
-    StoryScreen: (RouteData data) {
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => StoryScreen(),
-        settings: data,
-      );
-    },
     FullVideoScreen: (RouteData data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => FullVideoScreen(),
@@ -171,12 +148,6 @@ class Router extends RouterBase {
           orElse: () => FullImageScreenArguments());
       return MaterialPageRoute<dynamic>(
         builder: (context) => FullImageScreen(key: args.key, photo: args.photo),
-        settings: data,
-      );
-    },
-    CameraScreen: (RouteData data) {
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => CameraScreen(),
         settings: data,
       );
     },
@@ -233,16 +204,19 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
   Future<dynamic> pushOnboardingPhone() =>
       pushNamed<dynamic>(Routes.onboardingPhone);
 
-  Future<dynamic> pushOnboardingProfile() =>
-      pushNamed<dynamic>(Routes.onboardingProfile);
+  Future<dynamic> pushOnboardingProfile({
+    Key key,
+    @required OnboardingMode mode,
+  }) =>
+      pushNamed<dynamic>(
+        Routes.onboardingProfile,
+        arguments: OnboardingProfileArguments(key: key, mode: mode),
+      );
 
   Future<dynamic> pushHomeScreen() => pushNamed<dynamic>(Routes.homeScreen);
 
   Future<dynamic> pushSettingsScreen() =>
       pushNamed<dynamic>(Routes.settingsScreen);
-
-  Future<dynamic> pushProfileScreen() =>
-      pushNamed<dynamic>(Routes.profileScreen);
 
   Future<dynamic> pushChatScreen({
     Key key,
@@ -261,8 +235,6 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
         arguments: ChatSettingsScreenArguments(key: key),
       );
 
-  Future<dynamic> pushStoryScreen() => pushNamed<dynamic>(Routes.storyScreen);
-
   Future<dynamic> pushFullVideoScreen() =>
       pushNamed<dynamic>(Routes.fullVideoScreen);
 
@@ -274,8 +246,6 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
         Routes.fullImageScreen,
         arguments: FullImageScreenArguments(key: key, photo: photo),
       );
-
-  Future<dynamic> pushCameraScreen() => pushNamed<dynamic>(Routes.cameraScreen);
 
   Future<dynamic> pushSelectIconScreen({
     Key key,
@@ -311,6 +281,13 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
 // *************************************************************************
 // Arguments holder classes
 // **************************************************************************
+
+//OnboardingProfile arguments holder class
+class OnboardingProfileArguments {
+  final Key key;
+  final OnboardingMode mode;
+  OnboardingProfileArguments({this.key, @required this.mode});
+}
 
 //ChatScreen arguments holder class
 class ChatScreenArguments {

@@ -72,7 +72,7 @@ class TextMessage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               HebrewText(
-                message.sender?.fullName ?? 'נטלי דדון',
+                message.sender?.fullName ?? '',
                 style: chatMessageName,
                 textAlign: TextAlign.start,
               ),

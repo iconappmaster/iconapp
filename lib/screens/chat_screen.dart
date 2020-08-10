@@ -30,8 +30,10 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void initState() {
-    final store = sl<ChatStore>();
-    store.initConversation(widget.conversation);
+    sl<ChatStore>()
+      ..initConversation(widget.conversation)
+      ..determineComposerMode()
+      ..fetchMessagesAndSubscribe();
 
     super.initState();
   }
@@ -40,7 +42,6 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
     final settings = sl<ChatSettingsStore>();
-
     final storiesMargin = const EdgeInsets.only(top: 24.0);
     return Scaffold(
       body: Observer(
@@ -115,7 +116,7 @@ class SubscriberSheet extends StatelessWidget {
           child: FlatButton(
         child: HebrewText('הצטרפות לקבוצה',
             style: chatCompose.copyWith(color: cornflower)),
-        onPressed: () => store.subscribeConversation(),
+        onPressed: () => store.fetchMessagesAndSubscribe(),
       )),
     );
   }
@@ -130,6 +131,9 @@ class ChatList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
+    
+    store.initMessages();
+    
     return Observer(
       builder: (_) => Expanded(
         child: AnimatedList(
@@ -140,24 +144,25 @@ class ChatList extends StatelessWidget {
           shrinkWrap: true,
           initialItemCount: store.getMessages.length,
           itemBuilder: (context, index, animation) {
-            final message = store.getMessages[index];
-
-            switch (message.type) {
-              case MessageType.text:
-                return TextMessage(message: message, animation: animation);
-              case MessageType.photo:
-                return PhotoMessage(message: message, animation: animation);
-              case MessageType.video:
-                return Container();
-              case MessageType.voice:
-                return Container();
-              case MessageType.system:
-                return Container();
-              case MessageType.replay:
-                return Container();
+            if (store.getMessages.isNotEmpty) {
+              final message = store?.getMessages[index];
+              switch (message.type) {
+                case MessageType.text:
+                  return TextMessage(message: message, animation: animation);
+                case MessageType.photo:
+                  return PhotoMessage(message: message, animation: animation);
+                case MessageType.video:
+                  return Container();
+                case MessageType.voice:
+                  return Container();
+                case MessageType.system:
+                  return Container();
+                case MessageType.replay:
+                  return Container();
+              }
             }
 
-            return null;
+            return Container();
           },
         ),
       ),

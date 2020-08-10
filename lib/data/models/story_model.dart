@@ -7,12 +7,14 @@ part 'story_model.g.dart';
 
 @JsonSerializable()
 class StoryModel {
+  final PhotoModel photo;
   final UserModel user;
-  final List<PhotoModel> photos;
+  final List<PhotoModel> stories;
 
   StoryModel({
+    @required this.photo,
     @required this.user,
-    @required this.photos,
+    @required this.stories,
   });
 
   factory StoryModel.fromJson(Map<String, dynamic> json) =>

@@ -41,11 +41,11 @@ class LoggingInterceptors extends Interceptor {
         "<-- ${response.statusCode} ${(response.request != null ? (response.request.baseUrl + response.request.path) : 'URL')}");
     print("Headers:");
     response.headers?.forEach((k, v) => print('$k: $v'));
-    if (response.data is List<dynamic>) {
-      printPrettyJson(response.data);
-    } else {
-      printWrapped(jsonEncode(response.data));
-    }
+    // if (response.data is List<dynamic>) {
+    // printPrettyJson(response.data);
+    // } else {
+    printWrapped(jsonEncode(response.data));
+    // }
     print("<-- END HTTP");
   }
 }

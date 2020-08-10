@@ -14,7 +14,6 @@ part 'onboarding_store.g.dart';
 
 class OnboardingStore = _OnboardingStoreBase with _$OnboardingStore;
 
-enum OnboardingMode { onboarding, drawer }
 abstract class _OnboardingStoreBase with Store {
   MediaStore _mediaStore;
   UserStore _userStore;
@@ -74,7 +73,8 @@ abstract class _OnboardingStoreBase with Store {
   Future<Either<Exception, bool>> upadteUser() async {
     try {
       final phone = _userStore.getUser.phone;
-      _state = _state.copyWith(loading: true, userModel: _state.userModel.copyWith(phone: phone));
+      _state = _state.copyWith(
+          loading: true, userModel: _state.userModel.copyWith(phone: phone));
       final saved = await _userStore.updateUser(_state.userModel);
       if (saved) _authStore.setSignedIn();
       return right(saved);
@@ -100,6 +100,11 @@ abstract class _OnboardingStoreBase with Store {
   @action
   void updateUserAge(int age) {
     final user = _state.userModel.copyWith(age: age);
+    _state = _state.copyWith(userModel: user);
+  }
+
+  @action
+  void initPersonalDetails(UserModel user) {
     _state = _state.copyWith(userModel: user);
   }
 }

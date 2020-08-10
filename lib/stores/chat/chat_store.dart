@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
@@ -11,6 +10,7 @@ import 'package:iconapp/stores/media/media_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
+
 part 'chat_store.g.dart';
 
 class ChatStore = _ChatStoreBase with _$ChatStore;
@@ -30,13 +30,7 @@ abstract class _ChatStoreBase with Store {
   ChatState _state = ChatState.initial();
 
   @observable
-  bool _reavealComposer = false;
-
-  @observable
-  ObservableList<MessageModel> _messages = ObservableList.of([]);
-
-  @computed
-  bool get reavealComposer => _reavealComposer;
+  ObservableList<MessageModel> _messages = ObservableList();
 
   @computed
   ChatState get getState => _state;
@@ -54,34 +48,23 @@ abstract class _ChatStoreBase with Store {
   ComposerMode get getComposerMode => _state.composerMode;
 
   @action
-  Future initConversation(Conversation conversation) async {
-    // First get the conversation from memory (what is passed from home) and then
-    // fetch the conversation from remote and update the setate
-    try {
-      _state = _state.copyWith(
-          loading: true,
-          conversation: ConversationResponse(conversation: conversation));
-      final remote = await _repository.getConversaion(conversation.id);
-      _state = _state.copyWith(conversation: remote);
-      initComposerMode();
-      _messages
-        ..clear()
-        ..addAll(conversation.messages);
-    } on Exception catch (e) {
-      print(e); // bad
-    } finally {
-      _state = _state.copyWith(loading: false);
-    }
+  void initConversation(Conversation conversation) {
+    _state = _state.copyWith(
+      conversation: ConversationResponse(
+        conversation: conversation,
+      ),
+    );
   }
 
   @action
-  Future subscribeConversation() async {
+  Future fetchMessagesAndSubscribe() async {
     try {
       _state = _state.copyWith(loading: true);
-      final conversationRes =
-          await _repository.subscribe(_state.conversation.conversation.id);
+
+      final conversationRes = await _repository.subscribe(conversation.id);
       _state = _state.copyWith(conversation: conversationRes);
-      initComposerMode();
+      determineComposerMode();
+      initMessages();
     } on Exception catch (e) {
       print(e);
     } finally {
@@ -90,10 +73,30 @@ abstract class _ChatStoreBase with Store {
   }
 
   @action
-  void initComposerMode() {
+  Future pinConversation() async {
+    try {
+      _state = _state.copyWith(loading: true);
+
+      final conversationRes = await _repository.pinConversation();
+      // TODO IMPLEMENT
+      print(conversationRes);
+    } on Exception catch (e) {
+      print(e);
+    } finally {
+      _state = _state.copyWith(loading: false);
+    }
+  }
+
+  @action
+  void initMessages() {
+    if (_messages.isNotEmpty) _messages.clear();
+    _messages.addAll(conversation.messages);
+  }
+
+  @action
+  void determineComposerMode() {
     final isIcon = _userStore.getUser.isIcon ?? false;
-    final isSubscribed =
-        _state.conversation?.conversation?.isSubscribed ?? false;
+    final isSubscribed = conversation?.isSubscribed ?? false;
 
     // decide what mode
     final composerMode = isIcon
@@ -102,7 +105,6 @@ abstract class _ChatStoreBase with Store {
 
     // update store state!
     _state = _state.copyWith(composerMode: composerMode);
-    _reavealComposer = true;
   }
 
   // when the user types listen to the message changes
@@ -111,7 +113,6 @@ abstract class _ChatStoreBase with Store {
   updateComposerText(String input) {
     _state = _state.copyWith(inputMessage: input);
   }
-
 
   @action
   Future likeMessage(String chatId, String messageId) async {
@@ -125,23 +126,23 @@ abstract class _ChatStoreBase with Store {
       _state = _state.copyWith(loading: true);
 
       final msg = MessageModel(
+        sender: _userStore.getUser,
         body: _state.inputMessage,
         likeCount: 0,
         timestamp: DateTime.now().millisecondsSinceEpoch,
         type: MessageType.text,
       );
 
-      // IMPLEMENT THIS!
-      // final msgRecieved = await _repository.sendMessage(4, msg);
+      final msgRecieved = await _repository.sendMessage(
+        conversation.id,
+        msg,
+      );
 
-      _messages.add(msg);
+      _messages.add(msgRecieved.conversation.lastMessage);
     } on DioError catch (e) {
       print(e);
     } finally {
-      _state = _state.copyWith(
-        loading: false,
-        inputMessage: '',
-      );
+      _state = _state.copyWith(loading: false, inputMessage: '');
     }
   }
 
@@ -151,7 +152,6 @@ abstract class _ChatStoreBase with Store {
     final pickedFile = await sl<ImagePicker>().getImage(source: source);
 
     var message = MessageModel(
-      id: Random().nextInt(100),
       body: pickedFile.path,
       likeCount: 0,
       timestamp: DateTime.now().millisecondsSinceEpoch,

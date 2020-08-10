@@ -5,6 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/routes/router.gr.dart';
+import 'package:iconapp/screens/onboarding_profile.dart';
 import 'package:iconapp/stores/auth/auth_store.dart';
 import 'package:iconapp/stores/login/login_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
@@ -184,14 +185,22 @@ class _PinCode extends StatelessWidget {
                 final successFailure = await store.verifySms();
                 successFailure.fold(
                   (error) => error.when(
-                    serverError: () => ctx.showFlushbar(message: LocaleKeys.general_server_error) .tr(),
-                    wrongCode: () => ctx.showFlushbar(message: LocaleKeys.onboarding_wrongCode.tr())),
+                      serverError: () => ctx
+                          .showFlushbar(
+                              message: LocaleKeys.general_server_error)
+                          .tr(),
+                      wrongCode: () => ctx.showFlushbar(
+                          message: LocaleKeys.onboarding_wrongCode.tr())),
                   (success) => success.when(
                     navigateHome: () {
-                      sl<AuthStore>()..setSignedIn()..checkCurrentAuthState();
-                      ExtendedNavigator.of(ctx).pushNamedAndRemoveUntil(Routes.splashScreen, (Route<dynamic> route) => false);
+                      sl<AuthStore>()
+                        ..setSignedIn()
+                        ..checkCurrentAuthState();
+                      ExtendedNavigator.of(ctx).pushNamedAndRemoveUntil(
+                          Routes.splashScreen, (Route<dynamic> route) => false);
                     },
-                    navigateProfile: () => ExtendedNavigator.of(ctx).pushOnboardingProfile(),
+                    navigateProfile: () => ExtendedNavigator.of(ctx)
+                        .pushOnboardingProfile(mode: OnboardingMode.onboarding),
                   ),
                 );
               },
@@ -368,10 +377,7 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
   }
 
   Widget _countryCode(
-    BuildContext context,
-    InputDecoration inputDecor,
-    LoginStore store,
-  ) {
+      BuildContext context, InputDecoration inputDecor, LoginStore store) {
     final style = phoneNumber.copyWith(
         color: store.isPhoneMode ? white : white.withOpacity(.4));
     return Container(

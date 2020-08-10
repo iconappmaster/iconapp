@@ -332,4 +332,28 @@ class _RestClient implements RestClient {
     final value = ConversationResponse.fromJson(_result.data);
     return value;
   }
+
+  @override
+  sendMessage(id, body, type) async {
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(body, 'body');
+    ArgumentError.checkNotNull(type, 'type');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'body': body,
+      r'message_type': type
+    };
+    final _data = <String, dynamic>{};
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'conversations/$id/send_message',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = ConversationResponse.fromJson(_result.data);
+    return value;
+  }
 }

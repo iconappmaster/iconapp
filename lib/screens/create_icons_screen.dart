@@ -32,8 +32,12 @@ class SelectIconScreen extends StatelessWidget {
               Column(
                 children: <Widget>[
                   CreateGroupAppbar(
-                      title: isFromChat ? "הוספת מששתף" : LocaleKeys.create_newGroupTitle.tr(),
-                      subtitle:isFromChat? "בחר/י משתתף לקבוצה": LocaleKeys.create_iconSubtitle.tr()),
+                      title: isFromChat
+                          ? LocaleKeys.create_addUser.tr()
+                          : LocaleKeys.create_newGroupTitle.tr(),
+                      subtitle: isFromChat
+                          ? LocaleKeys.create_chooseUserToGroup.tr()
+                          : LocaleKeys.create_iconSubtitle.tr()),
                   Expanded(
                     child: ListView.builder(
                       itemCount: store.count,

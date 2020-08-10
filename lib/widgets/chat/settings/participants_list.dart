@@ -14,7 +14,6 @@ import 'package:iconapp/stores/chat_settings/chat_settings_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 
-
 class ParticipentList extends StatelessWidget {
   const ParticipentList({Key key}) : super(key: key);
   @override
@@ -36,6 +35,7 @@ class ParticipentList extends StatelessWidget {
 class ParticipentAddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final settings = sl<ChatSettingsStore>();
     return Container(
       padding: EdgeInsets.only(left: 21, right: 21),
       height: settingsColumnHeight,
@@ -44,21 +44,22 @@ class ParticipentAddButton extends StatelessWidget {
           SizedBox(
             height: 37,
             width: 37,
-            child: FloatingActionButton(
-                elevation: 2,
-                backgroundColor: cornflower,
-                onPressed: () async {
-                  final id = await ExtendedNavigator.of(context).pushNamed(
-                    Routes.selectIconScreen,
-                    arguments: SelectIconScreenArguments(
-                      mode: SelectIconMode.fromChat,
-                    ),
-                  );
+            child: Stack(children: [
+              if (settings.isLoadig) CircularProgressIndicator(),
+              FloatingActionButton(
+                  elevation: 2,
+                  backgroundColor: cornflower,
+                  onPressed: () async {
+                    final id = await ExtendedNavigator.of(context).pushNamed(
+                        Routes.selectIconScreen,
+                        arguments: SelectIconScreenArguments(
+                            mode: SelectIconMode.fromChat));
 
-                  sl<ChatSettingsStore>().addUser(id);
-                },
-                child: SvgPicture.asset('assets/images/plus.svg',
-                    height: 15, width: 15)),
+                    sl<ChatSettingsStore>().addUser(id);
+                  },
+                  child: SvgPicture.asset('assets/images/plus.svg',
+                      height: 15, width: 15)),
+            ]),
           ),
           SizedBox(width: 16),
           HebrewText('הוספת עורכ/ת לקבוצה', style: addParticipent)

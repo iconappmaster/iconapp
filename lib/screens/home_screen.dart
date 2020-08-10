@@ -43,7 +43,7 @@ class HomeScreen extends StatelessWidget {
                             widget: DrawerIcon(scaffoldKey: _scaffoldKey)),
                         Positioned(
                             top: context.heightPlusStatusbarPerc(.128),
-                            child: StoriesWidget()),
+                            child: StoriesWidget(mode: StoryMode.home)),
                         ConversationsList(),
                         Align(
                           alignment: Alignment.bottomCenter,

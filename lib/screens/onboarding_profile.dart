@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/oboarding/onboarding_store.dart';
+import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/global/input_box.dart';
 import 'package:iconapp/widgets/global/user_avatar.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
@@ -17,17 +18,28 @@ import '../core/extensions/context_ext.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 final _formValidatorKey = GlobalKey<FormState>();
+enum OnboardingMode { onboarding, drawer }
 
 class OnboardingProfile extends StatelessWidget {
+  final OnboardingMode mode;
+
+  const OnboardingProfile({Key key, @required this.mode}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final store = sl<OnboardingStore>();
+    final user = sl<UserStore>().getUser;
+
+    if (mode == OnboardingMode.drawer) {
+      store.initPersonalDetails(user);
+    }
+
     return BaseGradientWidget(
       child: Observer(
         builder: (_) => Stack(
           alignment: Alignment.topCenter,
           children: <Widget>[
-            IconAppbar(showBack: true),
+            IconAppbar(showBack: !store.getState.loading,),
             Positioned(
                 top: context.heightPlusStatusbarPerc(.138),
                 child: UserAvatar(
@@ -38,7 +50,7 @@ class OnboardingProfile extends StatelessWidget {
                     },
                     url: store?.getUserPhoto ?? '')),
             PersonDetails(),
-            SexPicker(),
+            if (mode == OnboardingMode.onboarding) SexPicker(),
             _nextButton(context, store),
           ],
         ),
@@ -50,6 +62,9 @@ class OnboardingProfile extends StatelessWidget {
     return Positioned(
       top: ctx.heightPlusStatusbarPerc(.526),
       child: NextButton(
+        title: mode == OnboardingMode.onboarding
+            ? LocaleKeys.action_continue
+            : LocaleKeys.action_save.tr(),
         enabled: !store.getState.loading,
         onClick: () {
           if (_formValidatorKey.currentState.validate()) {
@@ -68,6 +83,7 @@ class OnboardingProfile extends StatelessWidget {
 class PersonDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final user = sl<UserStore>().getUser;
     final store = sl<OnboardingStore>();
     return Positioned(
       top: context.heightPlusStatusbarPerc(.294),
@@ -81,6 +97,7 @@ class PersonDetails extends StatelessWidget {
               Container(
                   width: context.widthPx * .547,
                   child: InputText(
+                      initialValue: user?.fullName ?? '',
                       hint: 'שם ושם משפחה',
                       hintStyle: personalDetailsHint,
                       validator: (value) {
@@ -92,6 +109,7 @@ class PersonDetails extends StatelessWidget {
               Container(
                   width: context.widthPx * .207,
                   child: InputText(
+                      initialValue: user?.age.toString() ?? '',
                       hint: '10-99',
                       hintStyle: personalDetailsHint,
                       validator: (value) {

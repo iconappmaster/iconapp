@@ -98,9 +98,6 @@ PODS:
   - GTMSessionFetcher/Core (1.4.0)
   - image_picker (0.0.1):
     - Flutter
-  - keyboard_visibility (0.5.0):
-    - Flutter
-    - Reachability
   - nanopb (1.30905.0):
     - nanopb/decode (= 1.30905.0)
     - nanopb/encode (= 1.30905.0)
@@ -121,7 +118,6 @@ PODS:
     - CryptoSwift (~> 0.9)
     - ReachabilitySwift (= 4.3.0)
     - Starscream (~> 3.0.5)
-  - Reachability (3.2)
   - ReachabilitySwift (4.3.0)
   - shared_preferences (0.0.1):
     - Flutter
@@ -146,7 +142,6 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_plugin_android_lifecycle (from `.symlinks/plugins/flutter_plugin_android_lifecycle/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
-  - keyboard_visibility (from `.symlinks/plugins/keyboard_visibility/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - path_provider_linux (from `.symlinks/plugins/path_provider_linux/ios`)
   - path_provider_macos (from `.symlinks/plugins/path_provider_macos/ios`)
@@ -178,7 +173,6 @@ SPEC REPOS:
     - PromisesObjC
     - Protobuf
     - PusherSwift
-    - Reachability
     - ReachabilitySwift
     - Starscream
 
@@ -197,8 +191,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_plugin_android_lifecycle/ios"
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
-  keyboard_visibility:
-    :path: ".symlinks/plugins/keyboard_visibility/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
   path_provider_linux:
@@ -242,7 +234,6 @@ SPEC CHECKSUMS:
   GoogleUtilities: e121a3867449ce16b0e35ddf1797ea7a389ffdf2
   GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
   image_picker: 9c3312491f862b28d21ecd8fdf0ee14e601b3f09
-  keyboard_visibility: 96a24de806fe6823c3ad956c01ba2ec6d056616f
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   path_provider_linux: 4d630dc393e1f20364f3e3b4a2ff41d9674a84e4
@@ -251,7 +242,6 @@ SPEC CHECKSUMS:
   Protobuf: 2793fcd0622a00b546c60e7cbbcc493e043e9bb9
   pusher_websocket_flutter: ff9a11e48f24d2297bf0d143c99119106cd2d81b
   PusherSwift: d15d6290be0b0b57fd9ac80b03661a6ba24623ec
-  Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   ReachabilitySwift: 408477d1b6ed9779dba301953171e017c31241f3
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
   shared_preferences_linux: afefbfe8d921e207f01ede8b60373d9e3b566b78

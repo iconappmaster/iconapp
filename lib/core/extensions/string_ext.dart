@@ -6,4 +6,10 @@ extension StringExtention on String {
         ? NetworkImage(this)
         : AssetImage(this);
   }
+
+  String parseEnum() {
+    if (this == null) return null;
+    final _tmp = this.toString().split('.')[1];
+    return _tmp;
+  }
 }

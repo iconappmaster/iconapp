@@ -122,6 +122,17 @@ mixin _$OnboardingStore on _OnboardingStoreBase, Store {
   }
 
   @override
+  void initPersonalDetails(UserModel user) {
+    final _$actionInfo = _$_OnboardingStoreBaseActionController.startAction(
+        name: '_OnboardingStoreBase.initPersonalDetails');
+    try {
+      return super.initPersonalDetails(user);
+    } finally {
+      _$_OnboardingStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 getState: ${getState},

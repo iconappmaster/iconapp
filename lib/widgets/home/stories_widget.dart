@@ -1,72 +1,94 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/story_model.dart';
-import 'package:iconapp/data/models/user_model.dart';
+import 'package:iconapp/stores/chat/chat_store.dart';
+import 'package:iconapp/stores/story/story_store.dart';
+import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+import 'package:iconapp/widgets/global/network_photo.dart';
 import '../../core/extensions/context_ext.dart';
 
+enum StoryMode { home, conversation }
+
 class StoriesWidget extends StatelessWidget {
+  final StoryMode mode;
   final EdgeInsets margin;
 
-  const StoriesWidget({Key key, this.margin}) : super(key: key);
+  StoriesWidget({
+    Key key,
+    @required this.mode,
+    this.margin,
+  }) : super(key: key) {
+    switch (mode) {
+      case StoryMode.home:
+        sl<StoryStore>().getHomeStories();
+        break;
+      case StoryMode.conversation:
+        final id = sl<ChatStore>().conversation.id;
+        sl<StoryStore>().getConversationsStories(id);
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: margin,
-      height: context.heightPlusStatusbarPerc(.09),
-      width: context.widthPx,
-      child: ListView.builder(
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        physics: BouncingScrollPhysics(),
-        itemBuilder: (context, index) {
-          return StoryItem(name: 'נטלי דדון');
-        },
-        itemCount: 10,
+    final store = sl<StoryStore>();
+    return Observer(
+      builder: (_) => Container(
+        margin: margin,
+        height: context.heightPlusStatusbarPerc(.1),
+        width: context.widthPx,
+        child: ListView.builder(
+          itemCount: store.getStories.length,
+          shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          physics: BouncingScrollPhysics(),
+          itemBuilder: (context, index) => StoryTile(
+            story: store.getStories[index],
+            onTap: () => print('on story tap'),
+          ),
+        ),
       ),
     );
   }
 }
 
-class StoryItem extends StatelessWidget {
-  final bool addStory;
-  final String name;
+const _storySize = 52.0;
 
-  const StoryItem({Key key, this.addStory = false, @required this.name})
-      : super(key: key);
+class StoryAddButton extends StatelessWidget {
+  final Function onTap;
+
+  const StoryAddButton({Key key, @required this.onTap}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    final user = sl<UserStore>();
     return Stack(
       children: [
         Column(
           children: <Widget>[
-            // Outter circle
             Container(
               margin: EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(shape: BoxShape.circle, color: white),
-
-              // Inner Circle with the Avatar
               child: Padding(
                 padding: const EdgeInsets.all(3.0),
-                child: Container(
-                  height: 52.3,
-                  width: 52.3,
-                  child: CircleAvatar(
-                    backgroundColor: white,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: NetworkPhoto(
+                    url: user.getUser?.photo?.url ?? '',
+                    height: _storySize,
+                    width: _storySize,
                   ),
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: avatarRing,
-                        width: 3,
-                      )),
                 ),
               ),
             ),
-
-            // Name
             SizedBox(height: 8),
-            HebrewText(name, style: myStory),
+            HebrewText(user.getUser?.fullName ?? '',
+                style: myStory.copyWith(
+                  fontWeight: FontWeight.bold,
+                )),
           ],
         ),
       ],
@@ -74,4 +96,45 @@ class StoryItem extends StatelessWidget {
   }
 }
 
-final stories = [StoryModel(user: UserModel(), photos: [])];
+class StoryTile extends StatelessWidget {
+  final StoryModel story;
+  final Function onTap;
+
+  const StoryTile({
+    Key key,
+    @required this.story,
+    @required this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Stack(
+        children: [
+          Column(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 10),
+                decoration: BoxDecoration(shape: BoxShape.circle, color: white),
+                child: Padding(
+                  padding: const EdgeInsets.all(3.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: NetworkPhoto(
+                      url: story.photo?.url ?? '',
+                      height: _storySize,
+                      width: _storySize,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 8),
+              HebrewText(story?.photo?.url ?? '', style: myStory),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}

@@ -144,13 +144,13 @@ const chatCompose =
 const chatMessageBody = TextStyle(
   fontFamily: _fontRubikRegular,
   color: white,
-  fontSize: 10.7,
+  fontSize: 14.7,
   height: 1.3,
 );
 const chatMessageName = TextStyle(
   fontFamily: _fontRubikBold,
   color: white,
-  fontSize: 10.7,
+  fontSize: 16.7,
   height: 1.3,
 );
 

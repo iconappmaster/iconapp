@@ -2,6 +2,7 @@
 
 abstract class  LocaleKeys {
   static const action_continue = 'action_continue';
+  static const action_save = 'action_save';
   static const policy_terms = 'policy.terms';
   static const policy_link = 'policy.link';
   static const policy_prefix = 'policy.prefix';
@@ -31,6 +32,8 @@ abstract class  LocaleKeys {
   static const create_newGroupTitle = 'create.newGroupTitle';
   static const create_iconValidation = 'create.iconValidation';
   static const create_categoryValidation = 'create.categoryValidation';
+  static const create_addUser = 'create.addUser';
+  static const create_chooseUserToGroup = 'create.chooseUserToGroup';
   static const create = 'create';
   static const welcome_title = 'welcome.title';
   static const welcome_content = 'welcome.content';

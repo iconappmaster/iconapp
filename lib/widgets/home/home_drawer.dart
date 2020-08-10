@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/routes/router.gr.dart';
+import 'package:iconapp/screens/onboarding_profile.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/global/buttons.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
@@ -69,7 +70,7 @@ class HomeDrawer extends StatelessWidget {
                       text: 'הפרופיל שלי',
                       onTap: () {
                         ExtendedNavigator.of(context)
-                            .pushNamed(Routes.onboardingProfile);
+                            .pushOnboardingProfile(mode: OnboardingMode.drawer);
                       }),
                   if (store.getUser.isIcon)
                     DrawerItem(text: 'נתוני פעילות הקבוצה', onTap: () {}),

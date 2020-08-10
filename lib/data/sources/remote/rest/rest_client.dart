@@ -78,6 +78,11 @@ abstract class RestClient {
   @POST('conversations/{conversationId}/make_admin')
   Future<ConversationResponse> makeUserAdmin(
       @Path('conversationId') int id, @Query('userId') int userId);
+
+  // CHAT
+  @POST('conversations/{conversationId}/send_message')
+  Future<ConversationResponse> sendMessage(@Path('conversationId') int id,
+      @Query('body') String body, @Query('message_type') String type);
 }
 
 Dio getDioClient() {
