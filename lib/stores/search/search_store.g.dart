@@ -9,6 +9,12 @@ part of 'search_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$SearchStore on _SearchStoreBase, Store {
+  Computed<bool> _$isEmptyComputed;
+
+  @override
+  bool get isEmpty => (_$isEmptyComputed ??=
+          Computed<bool>(() => super.isEmpty, name: '_SearchStoreBase.isEmpty'))
+      .value;
   Computed<bool> _$isLoadingComputed;
 
   @override
@@ -151,6 +157,7 @@ mixin _$SearchStore on _SearchStoreBase, Store {
   @override
   String toString() {
     return '''
+isEmpty: ${isEmpty},
 isLoading: ${isLoading},
 getSearchMode: ${getSearchMode},
 getIcons: ${getIcons},

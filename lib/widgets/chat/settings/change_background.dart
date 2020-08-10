@@ -30,49 +30,51 @@ class ChangeBackground extends StatelessWidget {
 class ColorSelectButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final store = sl<ChatSettingsStore>();
-    return GestureDetector(
-      onTap: () async {
-        await showDialog(
-            context: context,
-            child: AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5)),
-              contentPadding: EdgeInsets.all(16),
-              elevation: 10,
-              title: HebrewText('בחר/י צבע רקע', style: changeColorTitle),
-              content: Container(
-                height: 300,
-                child: Stack(
-                  children: <Widget>[
-                    Container(
-                        padding: EdgeInsets.all(8),
-                        height: 200,
-                        width: 300,
-                        child: ColorPicker(
-                            onBackgroundChanged: (index) =>
-                                store.changeBackground(index))),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: NextButton(
-                        height: 60,
-                        onClick: () => Navigator.pop(context),
-                        title: 'סגור',
+    final settings = sl<ChatSettingsStore>();
+    return Observer(
+      builder: (_) => GestureDetector(
+        onTap: () async {
+          await showDialog(
+              context: context,
+              child: AlertDialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)),
+                contentPadding: const EdgeInsets.all(16),
+                elevation: 10,
+                title: HebrewText('בחר/י צבע רקע', style: changeColorTitle),
+                content: Container(
+                  height: 300,
+                  child: Stack(
+                    children: <Widget>[
+                      Container(
+                          padding: EdgeInsets.all(8),
+                          height: 200,
+                          width: 300,
+                          child: ColorPickerList(
+                              onBackgroundChanged: (index) =>
+                                  settings.changeBackground(index))),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: NextButton(
+                          height: 60,
+                          onClick: () => Navigator.pop(context),
+                          title: 'סגור',
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ));
-      },
-      child: Observer(
-        builder: (_) => Container(
-          margin: EdgeInsets.only(left: 10),
-          height: 40,
-          width: 40,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            gradient: gradientList[store.getSelectedColor],
+              ));
+        },
+        child: Observer(
+          builder: (_) => Container(
+            margin: EdgeInsets.only(left: 10),
+            height: 40,
+            width: 40,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              gradient: gradientList[settings?.selectedColor ?? 0],
+            ),
           ),
         ),
       ),
@@ -80,10 +82,10 @@ class ColorSelectButton extends StatelessWidget {
   }
 }
 
-class ColorPicker extends StatelessWidget {
+class ColorPickerList extends StatelessWidget {
   final Function(int) onBackgroundChanged;
 
-  const ColorPicker({
+  const ColorPickerList({
     Key key,
     @required this.onBackgroundChanged,
   }) : super(key: key);

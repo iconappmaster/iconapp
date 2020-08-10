@@ -4,7 +4,6 @@ import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/repositories/home_repository.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/domain/core/errors.dart';
-import 'package:iconapp/stores/home/home_state.dart';
 import 'package:mobx/mobx.dart';
 part 'home_store.g.dart';
 
@@ -28,7 +27,7 @@ abstract class _HomeStoreBase with Store {
   }
 
   @observable
-  HomeState _state = HomeState.initial();
+  bool _loading = false;
 
   @observable
   ObservableList<Conversation> _categories = ObservableList.of([]);
@@ -40,7 +39,7 @@ abstract class _HomeStoreBase with Store {
   bool get showWelcomeDialog => _showWelcomeDialog;
 
   @computed
-  bool get isLoading => _state.loading;
+  bool get isLoading => _loading;
 
   @computed
   List<Conversation> get conversations => _categories;
@@ -53,17 +52,20 @@ abstract class _HomeStoreBase with Store {
   @action
   Future<Either<ServerError, Unit>> getHome() async {
     try {
-      _state = _state.copyWith(loading: true);
+      setLoading(true);
       final categories = await _repository.getHome();
       _categories.clear();
       _categories.addAll(categories);
-
+      setLoading(false);
       return right(unit);
     } on ServerError catch (e) {
       return left(e);
-    } finally {
-      _state = _state.copyWith(loading: false);
     }
+  }
+
+  @action
+  Future setLoading(bool loading) async {
+    _loading = loading;
   }
 
   @action

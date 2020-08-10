@@ -23,6 +23,13 @@ mixin _$ChatStore on _ChatStoreBase, Store {
           Computed<Conversation>(() => super.conversation,
               name: '_ChatStoreBase.conversation'))
       .value;
+  Computed<int> _$backgroundColorComputed;
+
+  @override
+  int get backgroundColor =>
+      (_$backgroundColorComputed ??= Computed<int>(() => super.backgroundColor,
+              name: '_ChatStoreBase.backgroundColor'))
+          .value;
   Computed<List<MessageModel>> _$getMessagesComputed;
 
   @override
@@ -208,6 +215,7 @@ mixin _$ChatStore on _ChatStoreBase, Store {
     return '''
 getState: ${getState},
 conversation: ${conversation},
+backgroundColor: ${backgroundColor},
 getMessages: ${getMessages},
 shouldHideActions: ${shouldHideActions},
 getComposerMode: ${getComposerMode}

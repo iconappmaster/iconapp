@@ -31,18 +31,18 @@ mixin _$HomeStore on _HomeStoreBase, Store {
               name: '_HomeStoreBase.conversations'))
       .value;
 
-  final _$_stateAtom = Atom(name: '_HomeStoreBase._state');
+  final _$_loadingAtom = Atom(name: '_HomeStoreBase._loading');
 
   @override
-  HomeState get _state {
-    _$_stateAtom.reportRead();
-    return super._state;
+  bool get _loading {
+    _$_loadingAtom.reportRead();
+    return super._loading;
   }
 
   @override
-  set _state(HomeState value) {
-    _$_stateAtom.reportWrite(value, super._state, () {
-      super._state = value;
+  set _loading(bool value) {
+    _$_loadingAtom.reportWrite(value, super._loading, () {
+      super._loading = value;
     });
   }
 
@@ -82,6 +82,13 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   @override
   Future<Either<ServerError, Unit>> getHome() {
     return _$getHomeAsyncAction.run(() => super.getHome());
+  }
+
+  final _$setLoadingAsyncAction = AsyncAction('_HomeStoreBase.setLoading');
+
+  @override
+  Future<dynamic> setLoading(bool loading) {
+    return _$setLoadingAsyncAction.run(() => super.setLoading(loading));
   }
 
   final _$hideWelcomeDialogAsyncAction =

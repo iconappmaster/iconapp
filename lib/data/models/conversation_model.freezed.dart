@@ -18,9 +18,10 @@ class _$ConversationTearOff {
 // ignore: unused_element
   _Conversation call(
       {int id,
+      int backgroundColor,
       int categoryId,
       UserModel createdBy,
-      String createAt,
+      int createdAt,
       String name,
       PhotoModel photo,
       PhotoModel backgroundPhoto,
@@ -31,9 +32,10 @@ class _$ConversationTearOff {
       bool isSubscribed}) {
     return _Conversation(
       id: id,
+      backgroundColor: backgroundColor,
       categoryId: categoryId,
       createdBy: createdBy,
-      createAt: createAt,
+      createdAt: createdAt,
       name: name,
       photo: photo,
       backgroundPhoto: backgroundPhoto,
@@ -51,9 +53,10 @@ const $Conversation = _$ConversationTearOff();
 
 mixin _$Conversation {
   int get id;
+  int get backgroundColor;
   int get categoryId;
   UserModel get createdBy;
-  String get createAt;
+  int get createdAt;
   String get name;
   PhotoModel get photo;
   PhotoModel get backgroundPhoto;
@@ -73,9 +76,10 @@ abstract class $ConversationCopyWith<$Res> {
       _$ConversationCopyWithImpl<$Res>;
   $Res call(
       {int id,
+      int backgroundColor,
       int categoryId,
       UserModel createdBy,
-      String createAt,
+      int createdAt,
       String name,
       PhotoModel photo,
       PhotoModel backgroundPhoto,
@@ -101,9 +105,10 @@ class _$ConversationCopyWithImpl<$Res> implements $ConversationCopyWith<$Res> {
   @override
   $Res call({
     Object id = freezed,
+    Object backgroundColor = freezed,
     Object categoryId = freezed,
     Object createdBy = freezed,
-    Object createAt = freezed,
+    Object createdAt = freezed,
     Object name = freezed,
     Object photo = freezed,
     Object backgroundPhoto = freezed,
@@ -115,10 +120,13 @@ class _$ConversationCopyWithImpl<$Res> implements $ConversationCopyWith<$Res> {
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as int,
+      backgroundColor: backgroundColor == freezed
+          ? _value.backgroundColor
+          : backgroundColor as int,
       categoryId: categoryId == freezed ? _value.categoryId : categoryId as int,
       createdBy:
           createdBy == freezed ? _value.createdBy : createdBy as UserModel,
-      createAt: createAt == freezed ? _value.createAt : createAt as String,
+      createdAt: createdAt == freezed ? _value.createdAt : createdAt as int,
       name: name == freezed ? _value.name : name as String,
       photo: photo == freezed ? _value.photo : photo as PhotoModel,
       backgroundPhoto: backgroundPhoto == freezed
@@ -188,9 +196,10 @@ abstract class _$ConversationCopyWith<$Res>
   @override
   $Res call(
       {int id,
+      int backgroundColor,
       int categoryId,
       UserModel createdBy,
-      String createAt,
+      int createdAt,
       String name,
       PhotoModel photo,
       PhotoModel backgroundPhoto,
@@ -222,9 +231,10 @@ class __$ConversationCopyWithImpl<$Res> extends _$ConversationCopyWithImpl<$Res>
   @override
   $Res call({
     Object id = freezed,
+    Object backgroundColor = freezed,
     Object categoryId = freezed,
     Object createdBy = freezed,
-    Object createAt = freezed,
+    Object createdAt = freezed,
     Object name = freezed,
     Object photo = freezed,
     Object backgroundPhoto = freezed,
@@ -236,10 +246,13 @@ class __$ConversationCopyWithImpl<$Res> extends _$ConversationCopyWithImpl<$Res>
   }) {
     return _then(_Conversation(
       id: id == freezed ? _value.id : id as int,
+      backgroundColor: backgroundColor == freezed
+          ? _value.backgroundColor
+          : backgroundColor as int,
       categoryId: categoryId == freezed ? _value.categoryId : categoryId as int,
       createdBy:
           createdBy == freezed ? _value.createdBy : createdBy as UserModel,
-      createAt: createAt == freezed ? _value.createAt : createAt as String,
+      createdAt: createdAt == freezed ? _value.createdAt : createdAt as int,
       name: name == freezed ? _value.name : name as String,
       photo: photo == freezed ? _value.photo : photo as PhotoModel,
       backgroundPhoto: backgroundPhoto == freezed
@@ -265,9 +278,10 @@ class __$ConversationCopyWithImpl<$Res> extends _$ConversationCopyWithImpl<$Res>
 class _$_Conversation implements _Conversation {
   const _$_Conversation(
       {this.id,
+      this.backgroundColor,
       this.categoryId,
       this.createdBy,
-      this.createAt,
+      this.createdAt,
       this.name,
       this.photo,
       this.backgroundPhoto,
@@ -283,11 +297,13 @@ class _$_Conversation implements _Conversation {
   @override
   final int id;
   @override
+  final int backgroundColor;
+  @override
   final int categoryId;
   @override
   final UserModel createdBy;
   @override
-  final String createAt;
+  final int createdAt;
   @override
   final String name;
   @override
@@ -307,7 +323,7 @@ class _$_Conversation implements _Conversation {
 
   @override
   String toString() {
-    return 'Conversation(id: $id, categoryId: $categoryId, createdBy: $createdBy, createAt: $createAt, name: $name, photo: $photo, backgroundPhoto: $backgroundPhoto, lastMessage: $lastMessage, unreadMessageCount: $unreadMessageCount, users: $users, messages: $messages, isSubscribed: $isSubscribed)';
+    return 'Conversation(id: $id, backgroundColor: $backgroundColor, categoryId: $categoryId, createdBy: $createdBy, createdAt: $createdAt, name: $name, photo: $photo, backgroundPhoto: $backgroundPhoto, lastMessage: $lastMessage, unreadMessageCount: $unreadMessageCount, users: $users, messages: $messages, isSubscribed: $isSubscribed)';
   }
 
   @override
@@ -316,15 +332,18 @@ class _$_Conversation implements _Conversation {
         (other is _Conversation &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.backgroundColor, backgroundColor) ||
+                const DeepCollectionEquality()
+                    .equals(other.backgroundColor, backgroundColor)) &&
             (identical(other.categoryId, categoryId) ||
                 const DeepCollectionEquality()
                     .equals(other.categoryId, categoryId)) &&
             (identical(other.createdBy, createdBy) ||
                 const DeepCollectionEquality()
                     .equals(other.createdBy, createdBy)) &&
-            (identical(other.createAt, createAt) ||
+            (identical(other.createdAt, createdAt) ||
                 const DeepCollectionEquality()
-                    .equals(other.createAt, createAt)) &&
+                    .equals(other.createdAt, createdAt)) &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.photo, photo) ||
@@ -352,9 +371,10 @@ class _$_Conversation implements _Conversation {
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(backgroundColor) ^
       const DeepCollectionEquality().hash(categoryId) ^
       const DeepCollectionEquality().hash(createdBy) ^
-      const DeepCollectionEquality().hash(createAt) ^
+      const DeepCollectionEquality().hash(createdAt) ^
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(photo) ^
       const DeepCollectionEquality().hash(backgroundPhoto) ^
@@ -377,9 +397,10 @@ class _$_Conversation implements _Conversation {
 abstract class _Conversation implements Conversation {
   const factory _Conversation(
       {int id,
+      int backgroundColor,
       int categoryId,
       UserModel createdBy,
-      String createAt,
+      int createdAt,
       String name,
       PhotoModel photo,
       PhotoModel backgroundPhoto,
@@ -395,11 +416,13 @@ abstract class _Conversation implements Conversation {
   @override
   int get id;
   @override
+  int get backgroundColor;
+  @override
   int get categoryId;
   @override
   UserModel get createdBy;
   @override
-  String get createAt;
+  int get createdAt;
   @override
   String get name;
   @override

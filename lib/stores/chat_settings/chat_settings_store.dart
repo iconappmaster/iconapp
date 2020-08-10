@@ -11,11 +11,11 @@ class ChatSettingsStore = _ChatSettingsStoreBase with _$ChatSettingsStore;
 
 abstract class _ChatSettingsStoreBase with Store {
   ChatSettingsRepository _repository;
-  ChatStore _chatStore;
+  ChatStore _chat;
 
   _ChatSettingsStoreBase() {
     _repository = sl<ChatSettingsRepository>();
-    _chatStore = sl<ChatStore>();
+    _chat = sl<ChatStore>();
   }
 
   @observable
@@ -28,27 +28,39 @@ abstract class _ChatSettingsStoreBase with Store {
   ObservableList<UserModel> _users = ObservableList.of([]);
 
   @computed
-  int get getSelectedColor => _selectedColor;
-
-  @computed
   bool get isLoadig => _isLoading;
 
   @computed
+  int get selectedColor => _selectedColor;
+
+  @computed
   String get getSubtitle =>
-      'הקבוצה נוצרה על ידי ${_chatStore.conversation?.createdBy?.fullName ?? ''}, ${_chatStore.conversation.createAt}';
+      'הקבוצה נוצרה על ידי ${_chat.conversation?.createdBy?.fullName ?? ''}, ${_chat.conversation.createdAt}';
 
   @computed
   List<UserModel> get users => _users;
 
   @action
   Future changeBackground(int colorIndex) async {
-    _selectedColor = colorIndex;
+    try {
+      _isLoading = true;
+
+      final conversation = await _repository.changeBackgroundColor(
+          _chat.conversation.id, colorIndex);
+
+      _selectedColor = conversation.conversation.backgroundColor;
+    } on Exception catch (e) {
+      print(e);
+    } finally {
+      _isLoading = false;
+    }
   }
 
   @action
   void init() {
     users.clear();
-    users.addAll(_chatStore.getState.conversation.conversation.users);
+    users.addAll(_chat.getState.conversation.conversation.users);
+    _selectedColor = _chat.conversation.backgroundColor;
   }
 
   @action
@@ -57,11 +69,11 @@ abstract class _ChatSettingsStoreBase with Store {
       _isLoading = true;
 
       final conversation = await _repository.makeUserAdmin(
-        _chatStore.conversation.id,
+        _chat.conversation.id,
         userId,
       );
 
-      _chatStore.setConversation(conversation);
+      _chat.setConversation(conversation);
 
       users.clear();
       users.addAll(conversation.conversation.users);
@@ -78,11 +90,11 @@ abstract class _ChatSettingsStoreBase with Store {
       _isLoading = true;
 
       final conversation = await _repository.removeUser(
-        _chatStore.conversation.id,
+        _chat.conversation.id,
         userId,
       );
 
-      _chatStore.setConversation(conversation);
+      _chat.setConversation(conversation);
 
       users.clear();
       users.addAll(conversation.conversation.users);
@@ -121,7 +133,7 @@ abstract class _ChatSettingsStoreBase with Store {
       final chatStore = sl<ChatStore>();
       _isLoading = true;
 
-      final conversation = await _repository.updateName(
+      final conversation = await _repository.updateConversation(
         chatStore.conversation.id,
         Conversation(name: groupName),
       );
@@ -140,7 +152,7 @@ abstract class _ChatSettingsStoreBase with Store {
       final chatStore = sl<ChatStore>();
       _isLoading = true;
 
-      final conversation = await _repository.updateName(
+      final conversation = await _repository.updateConversation(
         chatStore.conversation.id,
         Conversation(photo: PhotoModel(url: url)),
       );
@@ -152,7 +164,4 @@ abstract class _ChatSettingsStoreBase with Store {
       _isLoading = false;
     }
   }
-
-  @action
-  Future changeGroupBackground() async {}
 }

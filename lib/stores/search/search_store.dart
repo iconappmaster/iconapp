@@ -32,6 +32,10 @@ abstract class _SearchStoreBase with Store {
   SearchMode _searchMode = SearchMode.icons;
 
   @computed
+  bool get isEmpty =>
+      _searchMode == SearchMode.icons ? _icons.isEmpty : _categories.isEmpty;
+
+  @computed
   bool get isLoading => _loading;
 
   @computed

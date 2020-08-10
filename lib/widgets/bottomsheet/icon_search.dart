@@ -6,6 +6,7 @@ import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/stores/search/search_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
+import 'package:iconapp/widgets/global/search_empty.dart';
 
 class IconsSearchWidget extends StatelessWidget {
   final ScrollController controller;
@@ -18,12 +19,14 @@ class IconsSearchWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final store = sl<SearchStore>();
     return Observer(
-      builder: (_) => ListView.builder(
-        itemCount: store.getIcons.length,
-        controller: controller,
-        itemBuilder: (context, index) =>
-            IconSearchItem(icon: store.getIcons[index]),
-      ),
+      builder: (_) => store.isEmpty
+          ? SearchEmpty()
+          : ListView.builder(
+              itemCount: store.getIcons.length,
+              controller: controller,
+              itemBuilder: (context, index) =>
+                  IconSearchItem(icon: store.getIcons[index]),
+            ),
     );
   }
 }

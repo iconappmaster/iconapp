@@ -8,15 +8,18 @@ import 'package:iconapp/stores/story/story_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
+import 'package:iconapp/widgets/global/plus_circle.dart';
 import '../../core/extensions/context_ext.dart';
 
 enum StoryMode { home, conversation }
 
-class StoriesWidget extends StatelessWidget {
+const _storySize = 52.0;
+
+class StoriesList extends StatelessWidget {
   final StoryMode mode;
   final EdgeInsets margin;
 
-  StoriesWidget({
+  StoriesList({
     Key key,
     @required this.mode,
     this.margin,
@@ -45,17 +48,17 @@ class StoriesWidget extends StatelessWidget {
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
           physics: BouncingScrollPhysics(),
-          itemBuilder: (context, index) => StoryTile(
-            story: store.getStories[index],
-            onTap: () => print('on story tap'),
-          ),
+          itemBuilder: (context, index) {
+            final story = store.getStories[index];
+            return story?.isAddButton ?? false
+                ? StoryAddButton(onTap: () => print('addstory'))
+                : StoryTile(story: story, onTap: () => print('on story tap'));
+          },
         ),
       ),
     );
   }
 }
-
-const _storySize = 52.0;
 
 class StoryAddButton extends StatelessWidget {
   final Function onTap;
@@ -70,27 +73,21 @@ class StoryAddButton extends StatelessWidget {
         Column(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 10),
-              decoration: BoxDecoration(shape: BoxShape.circle, color: white),
-              child: Padding(
-                padding: const EdgeInsets.all(3.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: NetworkPhoto(
-                    url: user.getUser?.photo?.url ?? '',
-                    height: _storySize,
-                    width: _storySize,
-                  ),
-                ),
-              ),
-            ),
+                margin: EdgeInsets.symmetric(horizontal: 10),
+                decoration: BoxDecoration(shape: BoxShape.circle, color: white),
+                child: Padding(
+                    padding: const EdgeInsets.all(3.0),
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: NetworkPhoto(
+                            url: user.getUser?.photo?.url ?? '',
+                            height: _storySize,
+                            width: _storySize)))),
             SizedBox(height: 8),
-            HebrewText(user.getUser?.fullName ?? '',
-                style: myStory.copyWith(
-                  fontWeight: FontWeight.bold,
-                )),
+            HebrewText('הסיפור שלך', style: myStoryCreate),
           ],
         ),
+        Positioned(left: 0, bottom: 50, child: PlusCircle(size: 30)),
       ],
     );
   }
@@ -116,7 +113,10 @@ class StoryTile extends StatelessWidget {
             children: <Widget>[
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(shape: BoxShape.circle, color: white),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: story.isNew ? storyGradient : whiteGradient,
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(3.0),
                   child: ClipRRect(
@@ -130,7 +130,7 @@ class StoryTile extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 8),
-              HebrewText(story?.photo?.url ?? '', style: myStory),
+              HebrewText(story?.user?.fullName ?? '', style: myStory),
             ],
           ),
         ],

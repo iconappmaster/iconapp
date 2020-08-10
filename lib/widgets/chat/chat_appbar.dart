@@ -35,7 +35,7 @@ class ChatAppbar extends StatelessWidget {
               ),
             ),
             IconButton(
-              icon: SvgPicture.asset('assets/images/star.svg',
+              icon: SvgPicture.asset('assets/images/pin.svg',
                   height: 26, width: 26),
               onPressed: () {},
             ),

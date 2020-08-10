@@ -8,6 +8,8 @@ import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/stores/chat/chat_state.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/chat_settings/chat_settings_store.dart';
+import 'package:iconapp/stores/settings/settings_store.dart';
+import 'package:iconapp/stores/story/story_store.dart';
 import 'package:iconapp/widgets/chat/message_composer.dart';
 import 'package:iconapp/widgets/chat/messages.dart';
 import 'package:iconapp/widgets/chat/settings/change_background.dart';
@@ -35,12 +37,19 @@ class _ChatScreenState extends State<ChatScreen> {
       ..determineComposerMode()
       ..fetchMessagesAndSubscribe();
 
+    // update the mode for the story widget
+    sl<StoryStore>()..setMode(StoryMode.conversation);
+
+    // init the settings of the chat store
+    sl<ChatSettingsStore>()..init();
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final store = sl<ChatStore>();
+    final chat = sl<ChatStore>();
+    final story = sl<StoryStore>();
     final settings = sl<ChatSettingsStore>();
     final storiesMargin = const EdgeInsets.only(top: 24.0);
     return Scaffold(
@@ -48,14 +57,14 @@ class _ChatScreenState extends State<ChatScreen> {
         builder: (_) => Stack(children: [
           Container(
             decoration: BoxDecoration(
-                gradient: gradientList[settings.getSelectedColor]),
+                gradient: gradientList[settings?.selectedColor ?? 0]),
             child: Column(
               children: <Widget>[
                 ChatAppbar(),
                 BlueDivider(color: cornflower),
-                StoriesWidget(margin: storiesMargin),
+                StoriesList(margin: storiesMargin, mode: story.mode),
                 ChatList(scrollController: _controller),
-                _buildComposer(store.getComposerMode),
+                _buildComposer(chat.getComposerMode),
               ],
             ),
           ),
@@ -131,9 +140,9 @@ class ChatList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
-    
+
     store.initMessages();
-    
+
     return Observer(
       builder: (_) => Expanded(
         child: AnimatedList(

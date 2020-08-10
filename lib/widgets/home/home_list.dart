@@ -1,11 +1,9 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/message_model.dart';
-import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
@@ -13,6 +11,10 @@ import '../../core/extensions/context_ext.dart';
 import '../../core/extensions/int_ext.dart';
 
 class ConversationsList extends StatelessWidget {
+  final Function(Conversation) onConversationTap;
+
+  const ConversationsList({Key key, @required this.onConversationTap})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     final store = sl<HomeStore>();
@@ -23,6 +25,7 @@ class ConversationsList extends StatelessWidget {
           height: context.heightPx - context.heightPlusStatusbarPerc(.2),
           width: context.widthPx,
           child: ListView.builder(
+            itemCount: store.conversations.length,
             padding:
                 EdgeInsets.only(bottom: context.heightPlusStatusbarPerc(.2)),
             physics: const BouncingScrollPhysics(),
@@ -30,14 +33,10 @@ class ConversationsList extends StatelessWidget {
             itemBuilder: (context, index) {
               final conversation = store.conversations[index];
               return ConversationItem(
-                  model: conversation,
-                  onTap: () {
-                    ExtendedNavigator.of(context).pushNamed(Routes.chatScreen,
-                        arguments:
-                            ChatScreenArguments(conversation: conversation));
-                  });
+                model: conversation,
+                onTap: () => onConversationTap(conversation),
+              );
             },
-            itemCount: store.conversations.length,
           ),
         ),
       ),

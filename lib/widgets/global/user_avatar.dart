@@ -24,35 +24,33 @@ class UserAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Stack(children: [
-        Container(
-          width: 90,
-          height: 90,
-          child: Stack(children: [
-            if (showLoading)
-              SizedBox(
-                  height: 75, width: 77, child: CircularProgressIndicator()),
-            Container(
-                height: 75,
-                width: 75,
-                decoration: BoxDecoration(shape: BoxShape.circle, color: white),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: NetworkPhoto(
-                      placeHolderPadding: placeHolderPadding,
-                      placeHolder: placeholder,
-                      url: url,
-                      height: 37,
-                      width: 37),
-                )),
-            if (showPlus)
-              Align(
-                alignment: Alignment.bottomLeft,
-                child: PlusCircle(),
-              ),
-          ]),
-        ),
-      ]),
+      child: Container(
+        width: 90,
+        height: 90,
+        child: Stack(children: [
+          if (showLoading)
+            SizedBox(
+                height: 75, width: 77, child: CircularProgressIndicator()),
+          Container(
+              height: 75,
+              width: 75,
+              decoration: BoxDecoration(shape: BoxShape.circle, color: white),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: NetworkPhoto(
+                    placeHolderPadding: placeHolderPadding,
+                    placeHolder: placeholder,
+                    url: url,
+                    height: 37,
+                    width: 37),
+              )),
+          if (showPlus)
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: PlusCircle(),
+            ),
+        ]),
+      ),
     );
   }
 }

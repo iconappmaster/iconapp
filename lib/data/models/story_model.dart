@@ -7,14 +7,20 @@ part 'story_model.g.dart';
 
 @JsonSerializable()
 class StoryModel {
+  final bool isNew; // check what is a new story
   final PhotoModel photo;
   final UserModel user;
-  final List<PhotoModel> stories;
+  final List<PhotoModel> storyImages; // should we use a list of photos?
+  
+  // local variables
+  final bool isAddButton;
 
-  StoryModel({
+  StoryModel( {
+    this.isAddButton = false,
+    @required this.isNew,
     @required this.photo,
     @required this.user,
-    @required this.stories,
+    @required this.storyImages,
   });
 
   factory StoryModel.fromJson(Map<String, dynamic> json) =>

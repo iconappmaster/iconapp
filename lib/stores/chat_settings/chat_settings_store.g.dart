@@ -9,19 +9,19 @@ part of 'chat_settings_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
-  Computed<int> _$getSelectedColorComputed;
-
-  @override
-  int get getSelectedColor => (_$getSelectedColorComputed ??= Computed<int>(
-          () => super.getSelectedColor,
-          name: '_ChatSettingsStoreBase.getSelectedColor'))
-      .value;
   Computed<bool> _$isLoadigComputed;
 
   @override
   bool get isLoadig =>
       (_$isLoadigComputed ??= Computed<bool>(() => super.isLoadig,
               name: '_ChatSettingsStoreBase.isLoadig'))
+          .value;
+  Computed<int> _$selectedColorComputed;
+
+  @override
+  int get selectedColor =>
+      (_$selectedColorComputed ??= Computed<int>(() => super.selectedColor,
+              name: '_ChatSettingsStoreBase.selectedColor'))
           .value;
   Computed<String> _$getSubtitleComputed;
 
@@ -134,15 +134,6 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
         .run(() => super.changeConversationPhoto(url));
   }
 
-  final _$changeGroupBackgroundAsyncAction =
-      AsyncAction('_ChatSettingsStoreBase.changeGroupBackground');
-
-  @override
-  Future<dynamic> changeGroupBackground() {
-    return _$changeGroupBackgroundAsyncAction
-        .run(() => super.changeGroupBackground());
-  }
-
   final _$_ChatSettingsStoreBaseActionController =
       ActionController(name: '_ChatSettingsStoreBase');
 
@@ -160,8 +151,8 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
   @override
   String toString() {
     return '''
-getSelectedColor: ${getSelectedColor},
 isLoadig: ${isLoadig},
+selectedColor: ${selectedColor},
 getSubtitle: ${getSubtitle},
 users: ${users}
     ''';

@@ -12,9 +12,10 @@ part 'conversation_model.g.dart';
 abstract class Conversation with _$Conversation {
   const factory Conversation({
     final int id,
+    final int backgroundColor,
     final int categoryId,
     final UserModel createdBy,
-    final String createAt,
+    final int createdAt,
     final String name,
     final PhotoModel photo,
     final PhotoModel backgroundPhoto,

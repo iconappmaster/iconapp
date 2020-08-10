@@ -10,7 +10,8 @@ const richPurple = Color(0xFF540048);
 const warmPurple = Color(0xFF8a347d);
 const strongPink = Color(0xFFff0072);
 const white = Color(0xFFffffff);
-const whiteOpacity30 = Color(0x30ffffff);
+const whiteOpacity30 = Color(0x70ffffff);
+const whiteOpacity20 = Color(0x80ffffff);
 const uiTintColorFill = Color(0xFF00aeaa);
 const cornflower = Color(0xFF725dff);
 const pastelRed = Color(0xFFf44343);
@@ -125,6 +126,12 @@ const myStory = TextStyle(
   fontSize: 10.6,
 );
 
+const myStoryCreate = TextStyle(
+  fontFamily: _fontRubikBold,
+  color: whiteOpacity20,
+  fontSize: 10.6,
+);
+
 const settingsAppbarTitle = TextStyle(
   fontFamily: _fontRubikBold,
   color: white,
@@ -159,6 +166,12 @@ const hint = TextStyle(
     color: darkBlueGrey,
     fontSize: 20,
     height: 1.1);
+
+const emptyState = TextStyle(
+  fontFamily: _fontRubikRegular,
+  color: darkIndigo2,
+  fontSize: 20,
+);
 
 const createGroupTitle = TextStyle(
     fontFamily: _fontRubikBold, color: white, fontSize: 20, height: 1.1);
@@ -221,7 +234,6 @@ final dialogGradient = LinearGradient(colors: [
 
 // CHAT COLORS GRADIENTS
 
-
 const pinkish = Color(0xFFe35c67);
 const purpleBlue = Color(0xFF381ce2);
 const cobaltBlue = Color(0xFF002092);
@@ -234,7 +246,6 @@ const softBlue = Color(0xFF5f86ec);
 const purply = Color(0xFF7c4cb0);
 const lightMustard = Color(0xFFfecf60);
 const lighterPurple = Color(0xFF974ef6);
-
 
 final grapeDarkIndigo = LinearGradient(colors: [
   grape,
@@ -264,4 +275,14 @@ final softBluePurply = LinearGradient(colors: [
 final mustardPurple = LinearGradient(colors: [
   lightMustard,
   lighterPurple,
+], begin: Alignment.bottomRight, end: Alignment.topLeft);
+
+final storyGradient = LinearGradient(
+    colors: [pinkish, pinkRedTwo],
+    begin: Alignment.bottomRight,
+    end: Alignment.topLeft);
+
+final whiteGradient = LinearGradient(colors: [
+  white,
+  white,
 ], begin: Alignment.bottomRight, end: Alignment.topLeft);

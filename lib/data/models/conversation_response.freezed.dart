@@ -17,9 +17,13 @@ class _$ConversationResponseTearOff {
 
 // ignore: unused_element
   _ConversationResponse call(
-      {bool isSubscribed, UserRole userRole, Conversation conversation}) {
+      {bool isSubscribed,
+      bool isPinned,
+      UserRole userRole,
+      Conversation conversation}) {
     return _ConversationResponse(
       isSubscribed: isSubscribed,
+      isPinned: isPinned,
       userRole: userRole,
       conversation: conversation,
     );
@@ -31,6 +35,7 @@ const $ConversationResponse = _$ConversationResponseTearOff();
 
 mixin _$ConversationResponse {
   bool get isSubscribed;
+  bool get isPinned;
   UserRole get userRole;
   Conversation get conversation;
 
@@ -42,7 +47,11 @@ abstract class $ConversationResponseCopyWith<$Res> {
   factory $ConversationResponseCopyWith(ConversationResponse value,
           $Res Function(ConversationResponse) then) =
       _$ConversationResponseCopyWithImpl<$Res>;
-  $Res call({bool isSubscribed, UserRole userRole, Conversation conversation});
+  $Res call(
+      {bool isSubscribed,
+      bool isPinned,
+      UserRole userRole,
+      Conversation conversation});
 
   $ConversationCopyWith<$Res> get conversation;
 }
@@ -58,12 +67,14 @@ class _$ConversationResponseCopyWithImpl<$Res>
   @override
   $Res call({
     Object isSubscribed = freezed,
+    Object isPinned = freezed,
     Object userRole = freezed,
     Object conversation = freezed,
   }) {
     return _then(_value.copyWith(
       isSubscribed:
           isSubscribed == freezed ? _value.isSubscribed : isSubscribed as bool,
+      isPinned: isPinned == freezed ? _value.isPinned : isPinned as bool,
       userRole: userRole == freezed ? _value.userRole : userRole as UserRole,
       conversation: conversation == freezed
           ? _value.conversation
@@ -88,7 +99,11 @@ abstract class _$ConversationResponseCopyWith<$Res>
           $Res Function(_ConversationResponse) then) =
       __$ConversationResponseCopyWithImpl<$Res>;
   @override
-  $Res call({bool isSubscribed, UserRole userRole, Conversation conversation});
+  $Res call(
+      {bool isSubscribed,
+      bool isPinned,
+      UserRole userRole,
+      Conversation conversation});
 
   @override
   $ConversationCopyWith<$Res> get conversation;
@@ -107,12 +122,14 @@ class __$ConversationResponseCopyWithImpl<$Res>
   @override
   $Res call({
     Object isSubscribed = freezed,
+    Object isPinned = freezed,
     Object userRole = freezed,
     Object conversation = freezed,
   }) {
     return _then(_ConversationResponse(
       isSubscribed:
           isSubscribed == freezed ? _value.isSubscribed : isSubscribed as bool,
+      isPinned: isPinned == freezed ? _value.isPinned : isPinned as bool,
       userRole: userRole == freezed ? _value.userRole : userRole as UserRole,
       conversation: conversation == freezed
           ? _value.conversation
@@ -124,7 +141,7 @@ class __$ConversationResponseCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_ConversationResponse implements _ConversationResponse {
   const _$_ConversationResponse(
-      {this.isSubscribed, this.userRole, this.conversation});
+      {this.isSubscribed, this.isPinned, this.userRole, this.conversation});
 
   factory _$_ConversationResponse.fromJson(Map<String, dynamic> json) =>
       _$_$_ConversationResponseFromJson(json);
@@ -132,13 +149,15 @@ class _$_ConversationResponse implements _ConversationResponse {
   @override
   final bool isSubscribed;
   @override
+  final bool isPinned;
+  @override
   final UserRole userRole;
   @override
   final Conversation conversation;
 
   @override
   String toString() {
-    return 'ConversationResponse(isSubscribed: $isSubscribed, userRole: $userRole, conversation: $conversation)';
+    return 'ConversationResponse(isSubscribed: $isSubscribed, isPinned: $isPinned, userRole: $userRole, conversation: $conversation)';
   }
 
   @override
@@ -148,6 +167,9 @@ class _$_ConversationResponse implements _ConversationResponse {
             (identical(other.isSubscribed, isSubscribed) ||
                 const DeepCollectionEquality()
                     .equals(other.isSubscribed, isSubscribed)) &&
+            (identical(other.isPinned, isPinned) ||
+                const DeepCollectionEquality()
+                    .equals(other.isPinned, isPinned)) &&
             (identical(other.userRole, userRole) ||
                 const DeepCollectionEquality()
                     .equals(other.userRole, userRole)) &&
@@ -160,6 +182,7 @@ class _$_ConversationResponse implements _ConversationResponse {
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(isSubscribed) ^
+      const DeepCollectionEquality().hash(isPinned) ^
       const DeepCollectionEquality().hash(userRole) ^
       const DeepCollectionEquality().hash(conversation);
 
@@ -177,6 +200,7 @@ class _$_ConversationResponse implements _ConversationResponse {
 abstract class _ConversationResponse implements ConversationResponse {
   const factory _ConversationResponse(
       {bool isSubscribed,
+      bool isPinned,
       UserRole userRole,
       Conversation conversation}) = _$_ConversationResponse;
 
@@ -185,6 +209,8 @@ abstract class _ConversationResponse implements ConversationResponse {
 
   @override
   bool get isSubscribed;
+  @override
+  bool get isPinned;
   @override
   UserRole get userRole;
   @override

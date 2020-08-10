@@ -9,6 +9,12 @@ part of 'story_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$StoryStore on _StoryStoreBase, Store {
+  Computed<StoryMode> _$modeComputed;
+
+  @override
+  StoryMode get mode => (_$modeComputed ??=
+          Computed<StoryMode>(() => super.mode, name: '_StoryStoreBase.mode'))
+      .value;
   Computed<List<StoryModel>> _$getStoriesComputed;
 
   @override
@@ -16,6 +22,21 @@ mixin _$StoryStore on _StoryStoreBase, Store {
           Computed<List<StoryModel>>(() => super.getStories,
               name: '_StoryStoreBase.getStories'))
       .value;
+
+  final _$_modeAtom = Atom(name: '_StoryStoreBase._mode');
+
+  @override
+  StoryMode get _mode {
+    _$_modeAtom.reportRead();
+    return super._mode;
+  }
+
+  @override
+  set _mode(StoryMode value) {
+    _$_modeAtom.reportWrite(value, super._mode, () {
+      super._mode = value;
+    });
+  }
 
   final _$_storiesAtom = Atom(name: '_StoryStoreBase._stories');
 
@@ -56,9 +77,24 @@ mixin _$StoryStore on _StoryStoreBase, Store {
         .run(() => super.getConversationsStories(conversationId));
   }
 
+  final _$_StoryStoreBaseActionController =
+      ActionController(name: '_StoryStoreBase');
+
+  @override
+  void setMode(StoryMode mode) {
+    final _$actionInfo = _$_StoryStoreBaseActionController.startAction(
+        name: '_StoryStoreBase.setMode');
+    try {
+      return super.setMode(mode);
+    } finally {
+      _$_StoryStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
+mode: ${mode},
 getStories: ${getStories}
     ''';
   }

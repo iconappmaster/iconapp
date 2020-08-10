@@ -1,19 +1,20 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/theme.dart';
 
 /// Global Circle with plus mark in the middle and a border
 class PlusCircle extends StatelessWidget {
+  final double size;
   const PlusCircle({
     Key key,
+    this.size,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 38,
-      width: 38,
+      height: size ?? 38,
+      width: size ?? 38,
       decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: cornflower,

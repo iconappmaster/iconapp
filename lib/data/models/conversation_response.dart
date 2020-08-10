@@ -9,6 +9,7 @@ part 'conversation_response.g.dart';
 abstract class ConversationResponse with _$ConversationResponse {
   const factory ConversationResponse({
     final bool isSubscribed,
+    final bool isPinned,
     final UserRole userRole,
     final Conversation conversation,
   }) = _ConversationResponse;

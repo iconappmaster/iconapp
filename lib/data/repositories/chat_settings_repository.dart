@@ -5,11 +5,12 @@ import 'package:iconapp/data/models/conversation_response.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 
 abstract class ChatSettingsRepository {
-  Future<bool> changeColor(int colorIndex);
+  Future<ConversationResponse> changeBackgroundColor(
+      int conversationId, int colorIndex);
   Future<ConversationResponse> addUser(int conversationId, int userId);
   Future<ConversationResponse> removeUser(int conversationId, int userId);
   Future<ConversationResponse> makeUserAdmin(int conversationId, int userId);
-  Future<ConversationResponse> updateName(
+  Future<ConversationResponse> updateConversation(
       int conversationId, Conversation conversation);
 }
 
@@ -19,8 +20,10 @@ class ChatSettingsRepositoryImpl implements ChatSettingsRepository {
   ChatSettingsRepositoryImpl({@required this.restClient});
 
   @override
-  Future<bool> changeColor(int colorIndex) async {
-    // make call to change color
+  Future<ConversationResponse> changeBackgroundColor(
+      int conversationId, int colorIndex) async {
+    return restClient.updateConversation(
+        conversationId, Conversation(backgroundColor: colorIndex));
   }
 
   @override
@@ -41,7 +44,7 @@ class ChatSettingsRepositoryImpl implements ChatSettingsRepository {
   }
 
   @override
-  Future<ConversationResponse> updateName(
+  Future<ConversationResponse> updateConversation(
       conversationId, Conversation conversation) {
     return restClient.updateConversation(conversationId, conversation);
   }

@@ -9,6 +9,7 @@ import 'package:iconapp/screens/search_results_screen.dart';
 import 'package:iconapp/stores/search/search_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
+import 'package:iconapp/widgets/global/search_empty.dart';
 
 class CategorySearchWidget extends StatelessWidget {
   final ScrollController controller;
@@ -22,12 +23,14 @@ class CategorySearchWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final store = sl<SearchStore>();
     return Observer(
-      builder: (_) => ListView.builder(
-        itemCount: store.getCategories.length,
-        controller: controller,
-        itemBuilder: (context, index) =>
-            CategorySearchTile(category: store.getCategories[index]),
-      ),
+      builder: (_) => store.isEmpty
+          ? SearchEmpty()
+          : ListView.builder(
+              itemCount: store.getCategories.length,
+              controller: controller,
+              itemBuilder: (context, index) =>
+                  CategorySearchTile(category: store.getCategories[index]),
+            ),
     );
   }
 }

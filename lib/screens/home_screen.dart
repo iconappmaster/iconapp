@@ -1,10 +1,13 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:device_simulator/device_simulator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/home/home_store.dart';
+import 'package:iconapp/stores/story/story_store.dart';
 import 'package:iconapp/widgets/bottomsheet/bs_bar.dart';
 import 'package:iconapp/widgets/bottomsheet/bs_nested_modal.dart';
 import 'package:iconapp/widgets/global/focus_aware.dart';
@@ -22,53 +25,61 @@ class HomeScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
+    final stories = sl<StoryStore>();
     final store = sl<HomeStore>();
     return DeviceSimulator(
       enable: debugEnableDeviceSimulator,
-      child: Scaffold(
-          key: _scaffoldKey,
-          drawer: HomeDrawer(),
-          body: Container(
-            color: white,
-            child: SafeArea(
-              top: false,
-              child: Observer(
-                builder: (_) => FocusAwareWidget(
-                  child: Container(
-                    decoration: BoxDecoration(gradient: purpleGradient),
-                    child: Stack(
-                      alignment: Alignment.topCenter,
-                      children: <Widget>[
-                        IconAppbar(
-                            widget: DrawerIcon(scaffoldKey: _scaffoldKey)),
-                        Positioned(
-                            top: context.heightPlusStatusbarPerc(.128),
-                            child: StoriesWidget(mode: StoryMode.home)),
-                        ConversationsList(),
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: GestureDetector(
-                              onTap: () => openBottomSheet(context),
-                              onPanUpdate: (details) {
-                                if (details.delta.dy < 0) {
-                                  openBottomSheet(context);
-                                }
+      child: Observer(
+          builder: (_) => Scaffold(
+                key: _scaffoldKey,
+                drawer: HomeDrawer(),
+                body: Container(
+                  color: white,
+                  child: SafeArea(
+                    top: false,
+                    child: FocusAwareWidget(
+                      child: Container(
+                        decoration: BoxDecoration(gradient: purpleGradient),
+                        child: Stack(
+                          alignment: Alignment.topCenter,
+                          children: <Widget>[
+                            IconAppbar(
+                                widget: DrawerIcon(scaffoldKey: _scaffoldKey)),
+                            Positioned(
+                                top: context.heightPlusStatusbarPerc(.128),
+                                child: StoriesList(mode: stories.mode)),
+                            ConversationsList(
+                              onConversationTap: (conversation) async {
+                                await ExtendedNavigator.of(context).pushNamed(
+                                    Routes.chatScreen,
+                                    arguments: ChatScreenArguments(
+                                        conversation: conversation));
+
+                                sl<StoryStore>().getHomeStories();
                               },
-                              child: BottomSheetBar(
-                                  showCategoriesSelected: false,
-                                  showIconsSelected: false,
-                                  onTap: () => openBottomSheet(context))),
+                            ),
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: GestureDetector(
+                                  onTap: () => openBottomSheet(context),
+                                  onPanUpdate: (details) {
+                                    if (details.delta.dy < 0) {
+                                      openBottomSheet(context);
+                                    }
+                                  },
+                                  child: BottomSheetBar(
+                                      showCategoriesSelected: false,
+                                      showIconsSelected: false,
+                                      onTap: () => openBottomSheet(context))),
+                            ),
+                            if (store.showWelcomeDialog) WelcomeDialog(),
+                          ],
                         ),
-                        if (store.showWelcomeDialog) WelcomeDialog(),
-                        if (store.isLoading)
-                          Center(child: CircularProgressIndicator()),
-                      ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-          )),
+              )),
     );
   }
 

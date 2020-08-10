@@ -39,6 +39,9 @@ abstract class _ChatStoreBase with Store {
   Conversation get conversation => _state.conversation.conversation;
 
   @computed
+  int get backgroundColor => conversation.backgroundColor ?? 0;
+
+  @computed
   List<MessageModel> get getMessages => _messages.reversed.toList();
 
   @computed
@@ -50,9 +53,7 @@ abstract class _ChatStoreBase with Store {
   @action
   void initConversation(Conversation conversation) {
     _state = _state.copyWith(
-      conversation: ConversationResponse(
-        conversation: conversation,
-      ),
+      conversation: ConversationResponse(conversation: conversation),
     );
   }
 
@@ -60,7 +61,6 @@ abstract class _ChatStoreBase with Store {
   Future fetchMessagesAndSubscribe() async {
     try {
       _state = _state.copyWith(loading: true);
-
       final conversationRes = await _repository.subscribe(conversation.id);
       _state = _state.copyWith(conversation: conversationRes);
       determineComposerMode();
@@ -76,7 +76,6 @@ abstract class _ChatStoreBase with Store {
   Future pinConversation() async {
     try {
       _state = _state.copyWith(loading: true);
-
       final conversationRes = await _repository.pinConversation();
       // TODO IMPLEMENT
       print(conversationRes);
