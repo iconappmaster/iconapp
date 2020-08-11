@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/conversation_response.dart';
+import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/models/create_group_req.dart';
 import 'package:retrofit/retrofit.dart';
@@ -81,7 +82,7 @@ abstract class RestClient {
 
   // CHAT
   @POST('conversations/{conversationId}/send_message')
-  Future<ConversationResponse> sendMessage(@Path('conversationId') int id,
+  Future<MessageModel> sendMessage(@Path('conversationId') int id,
       @Query('body') String body, @Query('message_type') String type);
 }
 

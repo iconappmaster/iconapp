@@ -31,7 +31,7 @@ class Routes {
   static const String onboardingPhone = '/onboarding-phone';
   static const String onboardingProfile = '/onboarding-profile';
   static const String homeScreen = '/home-screen';
-  static const String settingsScreen = '/settings-screen';
+  static const String appSettingsScreen = '/app-settings-screen';
   static const String chatScreen = '/chat-screen';
   static const String chatSettingsScreen = '/chat-settings-screen';
   static const String fullVideoScreen = '/full-video-screen';
@@ -47,7 +47,7 @@ class Routes {
     onboardingPhone,
     onboardingProfile,
     homeScreen,
-    settingsScreen,
+    appSettingsScreen,
     chatScreen,
     chatSettingsScreen,
     fullVideoScreen,
@@ -69,7 +69,7 @@ class Router extends RouterBase {
     RouteDef(Routes.onboardingPhone, page: OnboardingPhone),
     RouteDef(Routes.onboardingProfile, page: OnboardingProfile),
     RouteDef(Routes.homeScreen, page: HomeScreen),
-    RouteDef(Routes.settingsScreen, page: SettingsScreen),
+    RouteDef(Routes.appSettingsScreen, page: AppSettingsScreen),
     RouteDef(Routes.chatScreen, page: ChatScreen),
     RouteDef(Routes.chatSettingsScreen, page: ChatSettingsScreen),
     RouteDef(Routes.fullVideoScreen, page: FullVideoScreen),
@@ -114,9 +114,9 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    SettingsScreen: (RouteData data) {
+    AppSettingsScreen: (RouteData data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => SettingsScreen(),
+        builder: (context) => AppSettingsScreen(),
         settings: data,
       );
     },
@@ -215,8 +215,8 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
 
   Future<dynamic> pushHomeScreen() => pushNamed<dynamic>(Routes.homeScreen);
 
-  Future<dynamic> pushSettingsScreen() =>
-      pushNamed<dynamic>(Routes.settingsScreen);
+  Future<dynamic> pushAppSettingsScreen() =>
+      pushNamed<dynamic>(Routes.appSettingsScreen);
 
   Future<dynamic> pushChatScreen({
     Key key,

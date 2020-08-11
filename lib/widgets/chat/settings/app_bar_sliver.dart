@@ -61,8 +61,7 @@ class ChatSettingsAppBar implements SliverPersistentHeaderDelegate {
                 opacity: .4,
                 child: GestureDetector(
                   onTap: () async {
-                    final url =
-                        await mediaStore.uploadPhoto(ImageSource.gallery);
+                    final url = await mediaStore.uploadPhoto(ImageSource.gallery);
                     settingsStore.changeConversationPhoto(url);
                   },
                   child: Stack(children: [
@@ -72,7 +71,8 @@ class ChatSettingsAppBar implements SliverPersistentHeaderDelegate {
                       height: appbarHeight,
                       width: MediaQuery.of(context).size.width,
                     ),
-                    if (settingsStore.isLoadig) Center(child: CircularProgressIndicator()),
+                    if (settingsStore.isLoadig)
+                      Center(child: CircularProgressIndicator()),
                   ]),
                 )),
             Positioned(
@@ -89,11 +89,8 @@ class ChatSettingsAppBar implements SliverPersistentHeaderDelegate {
                   left: 21,
                   bottom: 14.7,
                   child: IconButton(
-                    icon: SvgPicture.asset(
-                      'assets/images/edit.svg',
-                      height: 16.3,
-                      width: 16.3,
-                    ),
+                    icon: SvgPicture.asset('assets/images/edit.svg',
+                        height: 16.3, width: 16.3),
                     onPressed: () => ExtendedNavigator.of(context)
                         .pushNamed(Routes.editConversation),
                   )),

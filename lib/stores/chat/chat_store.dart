@@ -132,12 +132,9 @@ abstract class _ChatStoreBase with Store {
         type: MessageType.text,
       );
 
-      final msgRecieved = await _repository.sendMessage(
-        conversation.id,
-        msg,
-      );
+      final msgRecieved = await _repository.sendMessage(conversation.id, msg);
 
-      _messages.add(msgRecieved.conversation.lastMessage);
+      _messages.add(msgRecieved);
     } on DioError catch (e) {
       print(e);
     } finally {

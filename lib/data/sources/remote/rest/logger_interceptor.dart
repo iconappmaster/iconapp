@@ -53,9 +53,9 @@ class LoggingInterceptors extends Interceptor {
 void printWrapped(String text) {
   final pattern = new RegExp('.{1,800}');
   pattern.allMatches(text).forEach((match) {
-    JsonEncoder encoder = new JsonEncoder.withIndent('  ');
-    String prettyprint = encoder.convert(match.group(0));
-    logger.v(prettyprint);
+    // JsonEncoder encoder = new JsonEncoder.withIndent('  ');
+    String prettyprint = match.group(0);
+    print(prettyprint);
   });
 }
 

@@ -101,7 +101,7 @@ class ConversationItem extends StatelessWidget {
                       style: timeOfMessage,
                     ),
                   SizedBox(height: 8.7),
-                  if (model.unreadMessageCount > 0)
+                  if (model?.unreadMessageCount ?? 0 > 0)
                     _MessageCounter(count: model.unreadMessageCount)
                 ],
               ),
@@ -126,21 +126,21 @@ class _MessageCounter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 20.7,
-      width: 20.7,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: LinearGradient(
-          colors: [
-            lightishRed,
-            pinkRed,
-          ],
-        ),
-      ),
-      child: Center(
-        child: HebrewText(count.toString(), style: newMessageNumber),
-      ),
-    );
+    return count > 0
+        ? Container(
+            height: 20.7,
+            width: 20.7,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: LinearGradient(
+                colors: [
+                  lightishRed,
+                  pinkRed,
+                ],
+              ),
+            ),
+            child: Center(
+                child: HebrewText(count.toString(), style: newMessageNumber)))
+        : Container();
   }
 }

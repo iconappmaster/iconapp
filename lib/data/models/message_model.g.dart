@@ -17,6 +17,7 @@ _$_MessageModel _$_$_MessageModelFromJson(Map<String, dynamic> json) {
         ? null
         : UserModel.fromJson(json['sender'] as Map<String, dynamic>),
     likeCount: json['likeCount'] as int,
+    isLiked: json['isLiked'] as bool,
   );
 }
 
@@ -29,6 +30,7 @@ Map<String, dynamic> _$_$_MessageModelToJson(_$_MessageModel instance) =>
       'type': _$MessageTypeEnumMap[instance.type],
       'sender': instance.sender,
       'likeCount': instance.likeCount,
+      'isLiked': instance.isLiked,
     };
 
 T _$enumDecode<T>(

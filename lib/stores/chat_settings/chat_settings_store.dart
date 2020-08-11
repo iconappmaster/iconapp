@@ -5,6 +5,7 @@ import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/repositories/chat_settings_repository.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:mobx/mobx.dart';
+import '../../core/extensions/int_ext.dart';
 part 'chat_settings_store.g.dart';
 
 class ChatSettingsStore = _ChatSettingsStoreBase with _$ChatSettingsStore;
@@ -35,7 +36,7 @@ abstract class _ChatSettingsStoreBase with Store {
 
   @computed
   String get getSubtitle =>
-      'הקבוצה נוצרה על ידי ${_chat.conversation?.createdBy?.fullName ?? ''}, ${_chat.conversation.createdAt}';
+      'הקבוצה נוצרה על ידי ${_chat.conversation?.createdBy?.fullName ?? ''}, ${_chat.conversation.createdAt?.humanReadableMonthTime()}';
 
   @computed
   List<UserModel> get users => _users;

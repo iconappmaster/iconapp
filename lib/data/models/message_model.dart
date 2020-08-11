@@ -14,6 +14,7 @@ abstract class MessageModel with _$MessageModel {
     final MessageType type,
     final UserModel sender,
     final int likeCount,
+    final bool isLiked,
   }) = _MessageModel;
 
   factory MessageModel.fromJson(Map<String, dynamic> json) =>

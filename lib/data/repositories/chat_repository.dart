@@ -5,7 +5,7 @@ import '../../core/extensions/string_ext.dart';
 
 abstract class ChatRepository {
   Future<ConversationResponse> getConversaion(int chatId);
-  Future<ConversationResponse> sendMessage(
+  Future<MessageModel> sendMessage(
       int conversationId, MessageModel message);
   Future<ConversationResponse> subscribe(int id);
   Future<MessageModel> likeMessage(String chatId, String messageId);
@@ -34,7 +34,7 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<ConversationResponse> sendMessage(
+  Future<MessageModel> sendMessage(
       int conversationId, MessageModel message) async {
     return await restClient.sendMessage(
         conversationId, message.body, message.type.toString().parseEnum());

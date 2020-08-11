@@ -353,7 +353,7 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = ConversationResponse.fromJson(_result.data);
+    final value = MessageModel.fromJson(_result.data);
     return value;
   }
 }

@@ -8,7 +8,6 @@ import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/stores/chat/chat_state.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/chat_settings/chat_settings_store.dart';
-import 'package:iconapp/stores/settings/settings_store.dart';
 import 'package:iconapp/stores/story/story_store.dart';
 import 'package:iconapp/widgets/chat/message_composer.dart';
 import 'package:iconapp/widgets/chat/messages.dart';

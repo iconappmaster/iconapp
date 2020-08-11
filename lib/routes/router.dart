@@ -24,7 +24,7 @@ import 'package:iconapp/screens/splash_screen.dart';
     MaterialRoute(page: OnboardingPhone),
     MaterialRoute(page: OnboardingProfile),
     MaterialRoute(page: HomeScreen),
-    MaterialRoute(page: SettingsScreen),
+    MaterialRoute(page: AppSettingsScreen),
     MaterialRoute(page: ChatScreen),
     CupertinoRoute(page: ChatSettingsScreen, fullscreenDialog: true),
     MaterialRoute(page: FullVideoScreen),

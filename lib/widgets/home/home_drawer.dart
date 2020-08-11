@@ -74,7 +74,10 @@ class HomeDrawer extends StatelessWidget {
                       }),
                   if (store.getUser.isIcon)
                     DrawerItem(text: 'נתוני פעילות הקבוצה', onTap: () {}),
-                  DrawerItem(text: 'הגדרות', onTap: () {}),
+                  DrawerItem(
+                      text: 'הגדרות',
+                      onTap: () =>
+                          ExtendedNavigator.of(context).pushAppSettingsScreen()),
                 ],
               ),
               Positioned(

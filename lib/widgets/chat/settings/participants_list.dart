@@ -24,7 +24,7 @@ class ParticipentList extends StatelessWidget {
       builder: (_) => Column(
         children: <Widget>[
           ParticipentsListTitle(),
-          ...store.users.map((u) => ParticipantTile(user: u)).toList(),
+          ...store.users.map((u) => ParticipantTile(currentUser: u)).toList(),
           ParticipentAddButton(),
         ],
       ),
@@ -70,50 +70,68 @@ class ParticipentAddButton extends StatelessWidget {
 }
 
 class ParticipantTile extends StatelessWidget {
-  final UserModel user;
+  final UserModel currentUser;
 
-  const ParticipantTile({Key key, @required this.user}) : super(key: key);
+  const ParticipantTile({Key key, @required this.currentUser})
+      : super(key: key);
+
+  bool notMe(int myId) => myId != currentUser.id;
 
   @override
   Widget build(BuildContext context) {
     final chatStore = sl<ChatStore>();
-    final settingsStore = sl<ChatSettingsStore>();
     final userStore = sl<UserStore>();
+    final settingsStore = sl<ChatSettingsStore>();
 
-    final userRole = chatStore.getState.conversation.userRole;
+    final role = chatStore.getState.conversation.userRole;
 
     return Container(
       padding: EdgeInsets.only(left: 21, right: 21),
       height: settingsColumnHeight,
       child: Row(
         children: <Widget>[
-          ParticipantAvatar(url: user.photo.url),
+          ParticipantAvatar(url: currentUser.photo.url),
           SizedBox(width: 11.3),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              HebrewText(user.fullName, style: nameDark),
+              HebrewText(currentUser.fullName, style: nameDark),
               SizedBox(height: 12.3),
-              if (userRole == UserRole.admin)
+              if (role == UserRole.admin)
                 Row(
                   children: <Widget>[
-                    // sow make an admin only on contributers
-                    if (user.userRole == UserRole.contributor)
+                    
+                    // IF USER IS ADMIN AND NOT ME
+                    if (role == UserRole.admin && notMe(userStore.getUser.id))
                       SettingsActionButton(
                           textStyle: settingsButton,
-                          onTap: () => settingsStore.makeUserAdmin(user.id),
+                          onTap: () =>
+                              settingsStore.makeUserAdmin(currentUser.id),
                           text: 'הפוך למנהל/ת',
                           width: 103,
-                          color: cornflower),
+                          borderColor: cornflower),
+
                     SizedBox(width: 12),
-                    // dont show delete on my user
-                    if (userStore.getUser.id != user.id)
+                    
+                    // MARK AS ADMIN ANY ADMIN USER.
+                    // if (role == UserRole.admin)
+                    //   SettingsActionButton(
+                    //     onTap: () => settingsStore.removeUser(currentUser.id),
+                    //     text: 'מנהל/ת',
+                    //     width: 60.7,
+                    //     borderColor: cornflower,
+                    //     backgroundColor: cornflower,
+                    //     textStyle: settingsButton.copyWith(color: white),
+                    //   ),
+
+                    // IF USER IS ADMIN AND NOT THE CURRENT USER SHOW REMOVE
+                    if (role == UserRole.admin && notMe(userStore.getUser.id))
                       SettingsActionButton(
-                        onTap: () => settingsStore.removeUser(user.id),
+                        onTap: () => settingsStore.removeUser(currentUser.id),
                         text: 'הסרה',
                         width: 60.7,
-                        color: deepRed,
+                        borderColor: deepRed,
                         textStyle: settingsButton.copyWith(color: deepRed),
                       )
                   ],
@@ -131,15 +149,17 @@ class SettingsActionButton extends StatelessWidget {
   final Function onTap;
   final double width;
   final TextStyle textStyle;
-  final Color color;
+  final Color borderColor;
+  final Color backgroundColor;
 
   const SettingsActionButton({
     Key key,
     @required this.text,
     @required this.onTap,
     @required this.width,
-    @required this.color,
+    @required this.borderColor,
     @required this.textStyle,
+    this.backgroundColor,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -147,11 +167,9 @@ class SettingsActionButton extends StatelessWidget {
       height: 23,
       width: width,
       child: OutlineButton(
-          borderSide: BorderSide(color: color, width: .7),
-          child: HebrewText(
-            text,
-            style: textStyle,
-          ),
+          color: backgroundColor ?? Colors.transparent,
+          borderSide: BorderSide(color: borderColor, width: .7),
+          child: HebrewText(text, style: textStyle),
           onPressed: onTap,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(2.7))),
