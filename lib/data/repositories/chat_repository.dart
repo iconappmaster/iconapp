@@ -10,7 +10,7 @@ abstract class ChatRepository {
   Future<ConversationResponse> subscribe(int id);
   Future<MessageModel> likeMessage(String chatId, String messageId);
   Stream<MessageModel> watchMessages();
-  Stream<ConversationResponse> pinConversation();
+  Future pinConversation(int conversationId);
 }
 
 class ChatRepositoryImpl implements ChatRepository {
@@ -46,7 +46,7 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Stream<ConversationResponse> pinConversation() {
-    throw UnimplementedError();
+  Future pinConversation(int conversationId) async {
+    return await restClient.pinConversation(conversationId);
   }
 }

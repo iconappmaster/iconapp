@@ -30,6 +30,19 @@ mixin _$ChatStore on _ChatStoreBase, Store {
       (_$backgroundColorComputed ??= Computed<int>(() => super.backgroundColor,
               name: '_ChatStoreBase.backgroundColor'))
           .value;
+  Computed<bool> _$isPinnedComputed;
+
+  @override
+  bool get isPinned => (_$isPinnedComputed ??=
+          Computed<bool>(() => super.isPinned, name: '_ChatStoreBase.isPinned'))
+      .value;
+  Computed<String> _$getConversationNameComputed;
+
+  @override
+  String get getConversationName => (_$getConversationNameComputed ??=
+          Computed<String>(() => super.getConversationName,
+              name: '_ChatStoreBase.getConversationName'))
+      .value;
   Computed<List<MessageModel>> _$getMessagesComputed;
 
   @override
@@ -79,6 +92,21 @@ mixin _$ChatStore on _ChatStoreBase, Store {
   set _messages(ObservableList<MessageModel> value) {
     _$_messagesAtom.reportWrite(value, super._messages, () {
       super._messages = value;
+    });
+  }
+
+  final _$selectedColorAtom = Atom(name: '_ChatStoreBase.selectedColor');
+
+  @override
+  int get selectedColor {
+    _$selectedColorAtom.reportRead();
+    return super.selectedColor;
+  }
+
+  @override
+  set selectedColor(int value) {
+    _$selectedColorAtom.reportWrite(value, super.selectedColor, () {
+      super.selectedColor = value;
     });
   }
 
@@ -213,9 +241,12 @@ mixin _$ChatStore on _ChatStoreBase, Store {
   @override
   String toString() {
     return '''
+selectedColor: ${selectedColor},
 getState: ${getState},
 conversation: ${conversation},
 backgroundColor: ${backgroundColor},
+isPinned: ${isPinned},
+getConversationName: ${getConversationName},
 getMessages: ${getMessages},
 shouldHideActions: ${shouldHideActions},
 getComposerMode: ${getComposerMode}

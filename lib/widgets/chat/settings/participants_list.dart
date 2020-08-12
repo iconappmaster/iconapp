@@ -55,7 +55,7 @@ class ParticipentAddButton extends StatelessWidget {
                         arguments: SelectIconScreenArguments(
                             mode: SelectIconMode.fromChat));
 
-                    sl<ChatSettingsStore>().addUser(id);
+                    settings.addUser(id);
                   },
                   child: SvgPicture.asset('assets/images/plus.svg',
                       height: 15, width: 15)),
@@ -101,29 +101,36 @@ class ParticipantTile extends StatelessWidget {
               if (role == UserRole.admin)
                 Row(
                   children: <Widget>[
-                    
                     // IF USER IS ADMIN AND NOT ME
-                    if (role == UserRole.admin && notMe(userStore.getUser.id))
-                      SettingsActionButton(
-                          textStyle: settingsButton,
-                          onTap: () =>
-                              settingsStore.makeUserAdmin(currentUser.id),
-                          text: 'הפוך למנהל/ת',
-                          width: 103,
-                          borderColor: cornflower),
+                    if (currentUser.userRole != UserRole.admin &&
+                        notMe(userStore.getUser.id))
+                      Padding(
+                        padding: const EdgeInsets.only(left:8.0),
+                        child: SettingsActionButton(
+                            textStyle: settingsButton,
+                            onTap: () =>
+                                settingsStore.makeUserAdmin(currentUser.id),
+                            text: 'הפוך למנהל/ת',
+                            width: 103,
+                            borderColor: cornflower),
+                      ),
 
-                    SizedBox(width: 12),
-                    
+
                     // MARK AS ADMIN ANY ADMIN USER.
-                    // if (role == UserRole.admin)
-                    //   SettingsActionButton(
-                    //     onTap: () => settingsStore.removeUser(currentUser.id),
-                    //     text: 'מנהל/ת',
-                    //     width: 60.7,
-                    //     borderColor: cornflower,
-                    //     backgroundColor: cornflower,
-                    //     textStyle: settingsButton.copyWith(color: white),
-                    //   ),
+                    if (currentUser.userRole == UserRole.admin)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: 60.7,
+                          height: 23.7,
+                          decoration: BoxDecoration(
+                              color: cornflower,
+                              borderRadius: BorderRadius.circular(2.7)),
+                          child: HebrewText('מנהל/ת',
+                              style: settingsButton.copyWith(color: white)),
+                        ),
+                      ),
 
                     // IF USER IS ADMIN AND NOT THE CURRENT USER SHOW REMOVE
                     if (role == UserRole.admin && notMe(userStore.getUser.id))

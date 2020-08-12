@@ -21,15 +21,48 @@ abstract class _UserStoreBase with Store {
   @observable
   UserModel _userModel = UserModel();
 
+  @observable
+  bool _isNotification = true;
+
+  @computed
+  bool get isNotification => _isNotification;
+
   @computed
   String get getToken => _userModel?.sessionToken ?? '';
 
   @computed
   UserModel get getUser => _userModel;
 
+  @computed
+  get notificationState => _isNotification;
+
+  @action
+  void updateNotificationState(bool value) {
+    _isNotification = value;
+  }
+
+  @action
+  Future init() async {
+    try {
+      final persistnetUser = await _userRepository.getPersistedUser();
+      _userModel = persistnetUser;
+      _isNotification = _userModel?.isPushEnabled ?? true;
+      final user = await _userRepository.getRemtoeUser();
+      _userRepository.persistUser(user);
+      _userModel = user;
+    } on Exception catch (e) {
+      print(e);
+    }
+  }
+
   @action
   Future<bool> persistUser(UserModel user) async {
-    return await _prefs.setString(StorageKey.user, jsonEncode(user.toJson()));
+    return await _prefs.setString(
+      StorageKey.user,
+      jsonEncode(
+        user.toJson(),
+      ),
+    );
   }
 
   @action
@@ -51,14 +84,13 @@ abstract class _UserStoreBase with Store {
   }
 
   @action
-  Future init() async {
+  Future setNotification(bool value) async {
     try {
-      final persistnetUser = await _userRepository.getPersistedUser();
-      _userModel = persistnetUser;
+      value
+          ? _userRepository.turnOffNotifications()
+          : _userRepository.turnOnNotifications();
 
-      final user = await _userRepository.getRemtoeUser();
-      _userRepository.persistUser(user);
-      _userModel = user;
+      _isNotification = value;
     } on Exception catch (e) {
       print(e);
     }

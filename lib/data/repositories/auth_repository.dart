@@ -6,7 +6,7 @@ import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 abstract class AuthRepository {
   bool isSignIn();
   bool isOboarding();
-  Future<void> signOut();
+  Future<void> logout();
   Future<void> setSignIn([bool isFinished = true]);
 }
 
@@ -31,5 +31,5 @@ class AuthRepositoryImpl implements AuthRepository {
   bool isOboarding() => sp.getBool(StorageKey.isFinishedOnboarding);
 
   @override
-  Future<void> signOut() async => sp.clear();
+  Future<void> logout() async => await restClient.logout();
 }

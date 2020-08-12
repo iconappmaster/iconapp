@@ -30,6 +30,13 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
       (_$getSubtitleComputed ??= Computed<String>(() => super.getSubtitle,
               name: '_ChatSettingsStoreBase.getSubtitle'))
           .value;
+  Computed<String> _$getConversationNameComputed;
+
+  @override
+  String get getConversationName => (_$getConversationNameComputed ??=
+          Computed<String>(() => super.getConversationName,
+              name: '_ChatSettingsStoreBase.getConversationName'))
+      .value;
   Computed<List<UserModel>> _$usersComputed;
 
   @override
@@ -154,6 +161,7 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
 isLoadig: ${isLoadig},
 selectedColor: ${selectedColor},
 getSubtitle: ${getSubtitle},
+getConversationName: ${getConversationName},
 users: ${users}
     ''';
   }

@@ -75,6 +75,40 @@ class _RestClient implements RestClient {
   }
 
   @override
+  turnOnNotifications() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response _result = await _dio.request('user/turn_on_notifications',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = _result.data;
+    return value;
+  }
+
+  @override
+  turnOffNotifications() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response _result = await _dio.request('user/turn_off_notifications',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = _result.data;
+    return value;
+  }
+
+  @override
   updateUser(userModel) async {
     ArgumentError.checkNotNull(userModel, 'userModel');
     const _extra = <String, dynamic>{};
@@ -90,6 +124,23 @@ class _RestClient implements RestClient {
             baseUrl: baseUrl),
         data: _data);
     final value = UserModel.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  logout() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response _result = await _dio.request('user/logout',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = _result.data;
     return value;
   }
 
@@ -314,6 +365,25 @@ class _RestClient implements RestClient {
   }
 
   @override
+  unSubscribeFromConversation(id) async {
+    ArgumentError.checkNotNull(id, 'id');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response _result = await _dio.request(
+        'conversations/$id/unsubscribe_from_conversation',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = _result.data;
+    return value;
+  }
+
+  @override
   makeUserAdmin(id, userId) async {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(userId, 'userId');
@@ -322,6 +392,25 @@ class _RestClient implements RestClient {
     final _data = <String, dynamic>{};
     final Response<Map<String, dynamic>> _result = await _dio.request(
         'conversations/$id/make_admin',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = ConversationResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  pinConversation(id) async {
+    ArgumentError.checkNotNull(id, 'id');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'conversations/$id/pin_conversation',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',

@@ -48,7 +48,6 @@ class _ChatSettingsScreenState extends State<ChatSettingsScreen> {
             SliverPersistentHeader(
               delegate: ChatSettingsAppBar(
                   url: conversation?.photo?.url ?? '',
-                  title: conversation?.name ?? '',
                   subTitle: settingsStore.getSubtitle),
             ),
             SliverList(

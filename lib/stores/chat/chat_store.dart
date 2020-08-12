@@ -35,11 +35,20 @@ abstract class _ChatStoreBase with Store {
   @computed
   ChatState get getState => _state;
 
+  @observable
+  int selectedColor = 0;
+
   @computed
   Conversation get conversation => _state.conversation.conversation;
 
   @computed
-  int get backgroundColor => conversation.backgroundColor ?? 0;
+  int get backgroundColor => selectedColor;
+
+  @computed
+  bool get isPinned => _state.conversation.isPinned ?? false;
+
+  @computed
+  String get getConversationName => conversation.name;
 
   @computed
   List<MessageModel> get getMessages => _messages.reversed.toList();
@@ -76,9 +85,15 @@ abstract class _ChatStoreBase with Store {
   Future pinConversation() async {
     try {
       _state = _state.copyWith(loading: true);
-      final conversationRes = await _repository.pinConversation();
-      // TODO IMPLEMENT
-      print(conversationRes);
+
+      _state.conversation.isPinned
+          ? await _repository
+              .pinConversation(conversation.id) // UNPIN CONVERSATION
+          : await _repository.pinConversation(conversation.id);
+
+      var conv = _state.conversation.copyWith(isPinned: true);
+
+      _state = _state.copyWith(conversation: conv);
     } on Exception catch (e) {
       print(e);
     } finally {

@@ -1,5 +1,6 @@
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
+import 'package:iconapp/domain/core/errors.dart';
 import 'package:mobx/mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/repositories/auth_repository.dart';
@@ -36,17 +37,24 @@ abstract class _AuthStoreBase with Store {
   @action
   void checkCurrentAuthState() {
     final isSignedIn = _repository.isSignIn();
-
-    _authState =
-        isSignedIn ? AuthState.authenticated() : AuthState.unauthenticated();
+    _authState = isSignedIn 
+        ? AuthState.authenticated() 
+        : AuthState.unauthenticated();
   }
 
   @action
   Future logout() async {
+    try {
+      await _repository.logout();
+      await _sharedPreferencesService.clear();
+      _authState = AuthState.unauthenticated();
+    } on ServerError catch (_) {
+      print('cant logout');
+    }
+  }
+
+  void clearCache() {
     final manager = new DefaultCacheManager();
     manager.emptyCache();
-    
-    await _sharedPreferencesService.clear();
-    _authState = AuthState.unauthenticated();
   }
 }

@@ -28,8 +28,17 @@ abstract class RestClient {
   @GET('user')
   Future<UserModel> getUser();
 
+  @POST('user/turn_on_notifications')
+  Future turnOnNotifications();
+
+  @POST('user/turn_off_notifications')
+  Future turnOffNotifications();
+
   @POST('user')
   Future<UserModel> updateUser(@Body() UserModel userModel);
+
+  @POST('user/logout')
+  Future logout();
 
   // SEARCH
   @GET('categories')
@@ -76,9 +85,16 @@ abstract class RestClient {
   @POST('conversations/{conversationId}/subscribe_to_conversation')
   Future<ConversationResponse> subscribe(@Path('conversationId') int id);
 
+  @POST('conversations/{conversationId}/unsubscribe_from_conversation')
+  Future unSubscribeFromConversation(@Path('conversationId') int id);
+
   @POST('conversations/{conversationId}/make_admin')
   Future<ConversationResponse> makeUserAdmin(
       @Path('conversationId') int id, @Query('userId') int userId);
+
+  // IMPLEMENT
+  @POST('conversations/{conversationId}/pin_conversation')
+  Future<ConversationResponse> pinConversation(@Path('conversationId') int id);
 
   // CHAT
   @POST('conversations/{conversationId}/send_message')

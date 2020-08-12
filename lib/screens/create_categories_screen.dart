@@ -7,7 +7,6 @@ import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/create/create_category_store.dart';
 import 'package:iconapp/widgets/create/create_app_bar.dart';
 import 'package:iconapp/widgets/create/create_tile.dart';
-import 'package:iconapp/widgets/create/create_next_button.dart';
 import 'package:iconapp/widgets/onboarding/base_onboarding_widget.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -29,27 +28,22 @@ class CreateCategoryScreen extends StatelessWidget {
                         subtitle: LocaleKeys.create_categoriesSubtitle.tr()),
                     Expanded(
                       child: ListView.builder(
+                        itemCount: store.count,
                         itemBuilder: (context, index) {
                           final category = store.getCategories[index];
-
                           return CreateConversationTile(
                             key: Key(category.name),
-                            onTap: () => store.updateSelected(category),
                             title: category.name,
                             url: category.photo.url,
+                            onTap: () {
+                              store.updateSelected(category);
+                              ExtendedNavigator.of(context).pushNamed(Routes.createDetailsScreen);
+                            },
                           );
                         },
-                        itemCount: store.count,
                       ),
                     )
                   ],
-                ),
-                CreateNextBotton(
-                  asset: 'assets/images/go_arrow.svg',
-                  isValid: store.isValid,
-                  validationText: LocaleKeys.create_categoryValidation.tr(),
-                  onTap: () => ExtendedNavigator.of(context)
-                      .pushNamed(Routes.createDetailsScreen),
                 ),
               ],
             ),

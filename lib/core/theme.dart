@@ -27,6 +27,7 @@ const blueyGrey = Color(0xFF95a2c0);
 const switchThumb = Color(0xFF97A2BD);
 const deepRed = Color(0xFFbb0000);
 const blueberry2 = Color(0xFF473f81);
+const blueberry3 = Color(0xFF4c409f);
 
 // Font Sizes
 const _fontRubikBold = "RubikBold";
@@ -136,6 +137,12 @@ const myStoryCreate = TextStyle(
   fontFamily: _fontRubikBold,
   color: whiteOpacity20,
   fontSize: 10.6,
+);
+
+const likeStyle = TextStyle(
+  fontFamily: _fontRubikRegular,
+  color: white,
+  fontSize: 7.3,
 );
 
 const settingsAppbarTitle = TextStyle(

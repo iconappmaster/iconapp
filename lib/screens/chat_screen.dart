@@ -49,14 +49,15 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     final chat = sl<ChatStore>();
     final story = sl<StoryStore>();
-    final settings = sl<ChatSettingsStore>();
+    // final settings = sl<ChatSettingsStore>();
     final storiesMargin = const EdgeInsets.only(top: 24.0);
     return Scaffold(
       body: Observer(
+        
         builder: (_) => Stack(children: [
           Container(
             decoration: BoxDecoration(
-                gradient: gradientList[settings?.selectedColor ?? 0]),
+                gradient: gradientList[chat?.backgroundColor ?? 0]),
             child: Column(
               children: <Widget>[
                 ChatAppbar(),

@@ -103,6 +103,7 @@ class ConversationItem extends StatelessWidget {
                   SizedBox(height: 8.7),
                   if (model?.unreadMessageCount ?? 0 > 0)
                     _MessageCounter(count: model.unreadMessageCount)
+                  
                 ],
               ),
             ],

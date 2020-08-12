@@ -18,12 +18,10 @@ const appbarHeight = 250.0;
 
 class ChatSettingsAppBar implements SliverPersistentHeaderDelegate {
   final String url;
-  final String title;
   final String subTitle;
 
   ChatSettingsAppBar({
     @required this.url,
-    @required this.title,
     @required this.subTitle,
   });
 
@@ -61,7 +59,8 @@ class ChatSettingsAppBar implements SliverPersistentHeaderDelegate {
                 opacity: .4,
                 child: GestureDetector(
                   onTap: () async {
-                    final url = await mediaStore.uploadPhoto(ImageSource.gallery);
+                    final url =
+                        await mediaStore.uploadPhoto(ImageSource.gallery);
                     settingsStore.changeConversationPhoto(url);
                   },
                   child: Stack(children: [
@@ -78,7 +77,8 @@ class ChatSettingsAppBar implements SliverPersistentHeaderDelegate {
             Positioned(
                 right: 21,
                 bottom: 30.7,
-                child: HebrewText(title, style: settingsAppbarTitle)),
+                child: HebrewText(settingsStore.getConversationName,
+                    style: settingsAppbarTitle)),
             Positioned(
                 right: 21,
                 bottom: 14.7,

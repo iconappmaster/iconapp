@@ -39,6 +39,9 @@ abstract class _ChatSettingsStoreBase with Store {
       'הקבוצה נוצרה על ידי ${_chat.conversation?.createdBy?.fullName ?? ''}, ${_chat.conversation.createdAt?.humanReadableMonthTime()}';
 
   @computed
+  String get getConversationName => _chat.conversation.name;
+
+  @computed
   List<UserModel> get users => _users;
 
   @action
@@ -50,6 +53,7 @@ abstract class _ChatSettingsStoreBase with Store {
           _chat.conversation.id, colorIndex);
 
       _selectedColor = conversation.conversation.backgroundColor;
+      _chat.selectedColor = colorIndex;
     } on Exception catch (e) {
       print(e);
     } finally {

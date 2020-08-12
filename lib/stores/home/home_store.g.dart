@@ -91,14 +91,6 @@ mixin _$HomeStore on _HomeStoreBase, Store {
     return _$setLoadingAsyncAction.run(() => super.setLoading(loading));
   }
 
-  final _$hideWelcomeDialogAsyncAction =
-      AsyncAction('_HomeStoreBase.hideWelcomeDialog');
-
-  @override
-  Future<dynamic> hideWelcomeDialog() {
-    return _$hideWelcomeDialogAsyncAction.run(() => super.hideWelcomeDialog());
-  }
-
   final _$_HomeStoreBaseActionController =
       ActionController(name: '_HomeStoreBase');
 
@@ -108,6 +100,17 @@ mixin _$HomeStore on _HomeStoreBase, Store {
         name: '_HomeStoreBase.addConversation');
     try {
       return super.addConversation(category);
+    } finally {
+      _$_HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void saveWelcomeSeen() {
+    final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
+        name: '_HomeStoreBase.saveWelcomeSeen');
+    try {
+      return super.saveWelcomeSeen();
     } finally {
       _$_HomeStoreBaseActionController.endAction(_$actionInfo);
     }

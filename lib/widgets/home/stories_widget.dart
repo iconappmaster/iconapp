@@ -63,31 +63,38 @@ class StoriesList extends StatelessWidget {
 class StoryAddButton extends StatelessWidget {
   final Function onTap;
 
-  const StoryAddButton({Key key, @required this.onTap}) : super(key: key);
+  const StoryAddButton({
+    Key key,
+    @required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final user = sl<UserStore>();
-    return Stack(
-      children: [
-        Column(
-          children: <Widget>[
-            Container(
-                margin: EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(shape: BoxShape.circle, color: white),
-                child: Padding(
-                    padding: const EdgeInsets.all(3.0),
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: NetworkPhoto(
-                            url: user.getUser?.photo?.url ?? '',
-                            height: _storySize,
-                            width: _storySize)))),
-            SizedBox(height: 8),
-            HebrewText('הסיפור שלך', style: myStoryCreate),
-          ],
+    return Column(
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 10),
+          decoration:
+              BoxDecoration(shape: BoxShape.circle, color: Colors.transparent),
+          child: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(3.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: NetworkPhoto(
+                      url: user.getUser?.photo?.url ?? '',
+                      height: _storySize,
+                      width: _storySize),
+                ),
+              ),
+              Positioned(left: 0, bottom: 0, child: PlusCircle(size: 30)),
+            ],
+          ),
         ),
-        Positioned(left: 0, bottom: 50, child: PlusCircle(size: 30)),
+        SizedBox(height: 8),
+        HebrewText('הסיפור שלך', style: myStoryCreate),
       ],
     );
   }

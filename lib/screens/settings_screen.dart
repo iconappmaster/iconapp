@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/global/back_button.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/login/login_background.dart';
@@ -71,27 +74,39 @@ class AppNotificationTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 21.0),
-          alignment: Alignment.centerRight,
-          height: context.heightPlusStatusbarPerc(.113),
-          child: HebrewText(title, style: appSettingsTile),
-        ),
-        Directionality(
-          textDirection: TextDirection.ltr,
-          child: Switch(
-            activeColor: cornflower,
-            activeTrackColor: cornflower.withOpacity(.5),
-            inactiveTrackColor: blueyGrey.withOpacity(.5),
-            inactiveThumbColor: blueyGrey,
-            value: true,
-            onChanged: (value) => print(value),
+    final userStore = sl<UserStore>();
+    return Observer(
+      builder: (_) => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 21.0),
+            alignment: Alignment.centerRight,
+            height: context.heightPlusStatusbarPerc(.113),
+            child: HebrewText(title, style: appSettingsTile),
           ),
-        ),
-      ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            child: Directionality(
+              textDirection: TextDirection.ltr,
+              child: Switch(
+                activeColor: cornflower,
+                activeTrackColor: cornflower.withOpacity(.5),
+                inactiveTrackColor: blueyGrey.withOpacity(.5),
+                inactiveThumbColor: blueyGrey,
+                value: userStore.isNotification,
+                onChanged: (value) async {
+                  await userStore.setNotification(value);
+                  context.showFlushbar(
+                      message:
+                          value ? 'נוטיפיקציות פועלות' : 'נוטיפיקציות כבויות',
+                      color: uiTintColorFill);
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
