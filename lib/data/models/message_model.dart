@@ -15,10 +15,11 @@ abstract class MessageModel with _$MessageModel {
     final UserModel sender,
     final int likeCount,
     final bool isLiked,
+    final MessageStatus status,
   }) = _MessageModel;
 
   factory MessageModel.fromJson(Map<String, dynamic> json) =>
       _$MessageModelFromJson(json);
 }
-
+enum MessageStatus {pending, sent}
 enum MessageType { text, photo, video, voice, system, replay }

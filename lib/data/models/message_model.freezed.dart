@@ -24,7 +24,8 @@ class _$MessageModelTearOff {
       MessageType type,
       UserModel sender,
       int likeCount,
-      bool isLiked}) {
+      bool isLiked,
+      MessageStatus status}) {
     return _MessageModel(
       id: id,
       timestamp: timestamp,
@@ -34,6 +35,7 @@ class _$MessageModelTearOff {
       sender: sender,
       likeCount: likeCount,
       isLiked: isLiked,
+      status: status,
     );
   }
 }
@@ -50,6 +52,7 @@ mixin _$MessageModel {
   UserModel get sender;
   int get likeCount;
   bool get isLiked;
+  MessageStatus get status;
 
   Map<String, dynamic> toJson();
   $MessageModelCopyWith<MessageModel> get copyWith;
@@ -67,7 +70,8 @@ abstract class $MessageModelCopyWith<$Res> {
       MessageType type,
       UserModel sender,
       int likeCount,
-      bool isLiked});
+      bool isLiked,
+      MessageStatus status});
 
   $UserModelCopyWith<$Res> get sender;
 }
@@ -89,6 +93,7 @@ class _$MessageModelCopyWithImpl<$Res> implements $MessageModelCopyWith<$Res> {
     Object sender = freezed,
     Object likeCount = freezed,
     Object isLiked = freezed,
+    Object status = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as int,
@@ -99,6 +104,7 @@ class _$MessageModelCopyWithImpl<$Res> implements $MessageModelCopyWith<$Res> {
       sender: sender == freezed ? _value.sender : sender as UserModel,
       likeCount: likeCount == freezed ? _value.likeCount : likeCount as int,
       isLiked: isLiked == freezed ? _value.isLiked : isLiked as bool,
+      status: status == freezed ? _value.status : status as MessageStatus,
     ));
   }
 
@@ -127,7 +133,8 @@ abstract class _$MessageModelCopyWith<$Res>
       MessageType type,
       UserModel sender,
       int likeCount,
-      bool isLiked});
+      bool isLiked,
+      MessageStatus status});
 
   @override
   $UserModelCopyWith<$Res> get sender;
@@ -152,6 +159,7 @@ class __$MessageModelCopyWithImpl<$Res> extends _$MessageModelCopyWithImpl<$Res>
     Object sender = freezed,
     Object likeCount = freezed,
     Object isLiked = freezed,
+    Object status = freezed,
   }) {
     return _then(_MessageModel(
       id: id == freezed ? _value.id : id as int,
@@ -162,6 +170,7 @@ class __$MessageModelCopyWithImpl<$Res> extends _$MessageModelCopyWithImpl<$Res>
       sender: sender == freezed ? _value.sender : sender as UserModel,
       likeCount: likeCount == freezed ? _value.likeCount : likeCount as int,
       isLiked: isLiked == freezed ? _value.isLiked : isLiked as bool,
+      status: status == freezed ? _value.status : status as MessageStatus,
     ));
   }
 }
@@ -176,7 +185,8 @@ class _$_MessageModel implements _MessageModel {
       this.type,
       this.sender,
       this.likeCount,
-      this.isLiked});
+      this.isLiked,
+      this.status});
 
   factory _$_MessageModel.fromJson(Map<String, dynamic> json) =>
       _$_$_MessageModelFromJson(json);
@@ -197,10 +207,12 @@ class _$_MessageModel implements _MessageModel {
   final int likeCount;
   @override
   final bool isLiked;
+  @override
+  final MessageStatus status;
 
   @override
   String toString() {
-    return 'MessageModel(id: $id, timestamp: $timestamp, body: $body, wasSeen: $wasSeen, type: $type, sender: $sender, likeCount: $likeCount, isLiked: $isLiked)';
+    return 'MessageModel(id: $id, timestamp: $timestamp, body: $body, wasSeen: $wasSeen, type: $type, sender: $sender, likeCount: $likeCount, isLiked: $isLiked, status: $status)';
   }
 
   @override
@@ -225,7 +237,10 @@ class _$_MessageModel implements _MessageModel {
                 const DeepCollectionEquality()
                     .equals(other.likeCount, likeCount)) &&
             (identical(other.isLiked, isLiked) ||
-                const DeepCollectionEquality().equals(other.isLiked, isLiked)));
+                const DeepCollectionEquality()
+                    .equals(other.isLiked, isLiked)) &&
+            (identical(other.status, status) ||
+                const DeepCollectionEquality().equals(other.status, status)));
   }
 
   @override
@@ -238,7 +253,8 @@ class _$_MessageModel implements _MessageModel {
       const DeepCollectionEquality().hash(type) ^
       const DeepCollectionEquality().hash(sender) ^
       const DeepCollectionEquality().hash(likeCount) ^
-      const DeepCollectionEquality().hash(isLiked);
+      const DeepCollectionEquality().hash(isLiked) ^
+      const DeepCollectionEquality().hash(status);
 
   @override
   _$MessageModelCopyWith<_MessageModel> get copyWith =>
@@ -259,7 +275,8 @@ abstract class _MessageModel implements MessageModel {
       MessageType type,
       UserModel sender,
       int likeCount,
-      bool isLiked}) = _$_MessageModel;
+      bool isLiked,
+      MessageStatus status}) = _$_MessageModel;
 
   factory _MessageModel.fromJson(Map<String, dynamic> json) =
       _$_MessageModel.fromJson;
@@ -280,6 +297,8 @@ abstract class _MessageModel implements MessageModel {
   int get likeCount;
   @override
   bool get isLiked;
+  @override
+  MessageStatus get status;
   @override
   _$MessageModelCopyWith<_MessageModel> get copyWith;
 }

@@ -34,7 +34,8 @@ class _ChatScreenState extends State<ChatScreen> {
     sl<ChatStore>()
       ..initConversation(widget.conversation)
       ..determineComposerMode()
-      ..fetchMessagesAndSubscribe();
+      ..fetchMessagesAndSubscribe()
+      ..conversationViewed();
 
     // update the mode for the story widget
     sl<StoryStore>()..setMode(StoryMode.conversation);
@@ -53,7 +54,6 @@ class _ChatScreenState extends State<ChatScreen> {
     final storiesMargin = const EdgeInsets.only(top: 24.0);
     return Scaffold(
       body: Observer(
-        
         builder: (_) => Stack(children: [
           Container(
             decoration: BoxDecoration(
@@ -151,6 +151,7 @@ class ChatList extends StatelessWidget {
           physics: BouncingScrollPhysics(),
           reverse: true,
           shrinkWrap: true,
+          padding: EdgeInsets.only(bottom: 12),
           initialItemCount: store.getMessages.length,
           itemBuilder: (context, index, animation) {
             if (store.getMessages.isNotEmpty) {

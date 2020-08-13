@@ -23,6 +23,13 @@ mixin _$CreateIconStore on _CreateIconStoreBase, Store {
           Computed<List<UserModel>>(() => super.getSelectedIcons,
               name: '_CreateIconStoreBase.getSelectedIcons'))
       .value;
+  Computed<SearchMode> _$getSearchModeComputed;
+
+  @override
+  SearchMode get getSearchMode => (_$getSearchModeComputed ??=
+          Computed<SearchMode>(() => super.getSearchMode,
+              name: '_CreateIconStoreBase.getSearchMode'))
+      .value;
   Computed<bool> _$isValidComputed;
 
   @override
@@ -66,11 +73,18 @@ mixin _$CreateIconStore on _CreateIconStoreBase, Store {
     });
   }
 
-  final _$_initAsyncAction = AsyncAction('_CreateIconStoreBase._init');
+  final _$initAsyncAction = AsyncAction('_CreateIconStoreBase.init');
 
   @override
-  Future _init() {
-    return _$_initAsyncAction.run(() => super._init());
+  Future<dynamic> init() {
+    return _$initAsyncAction.run(() => super.init());
+  }
+
+  final _$searchAsyncAction = AsyncAction('_CreateIconStoreBase.search');
+
+  @override
+  Future<dynamic> search(String query) {
+    return _$searchAsyncAction.run(() => super.search(query));
   }
 
   final _$updateSelectedAsyncAction =
@@ -100,6 +114,7 @@ mixin _$CreateIconStore on _CreateIconStoreBase, Store {
     return '''
 getIcons: ${getIcons},
 getSelectedIcons: ${getSelectedIcons},
+getSearchMode: ${getSearchMode},
 isValid: ${isValid},
 count: ${count}
     ''';

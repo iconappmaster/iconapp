@@ -18,6 +18,7 @@ _$_MessageModel _$_$_MessageModelFromJson(Map<String, dynamic> json) {
         : UserModel.fromJson(json['sender'] as Map<String, dynamic>),
     likeCount: json['likeCount'] as int,
     isLiked: json['isLiked'] as bool,
+    status: _$enumDecodeNullable(_$MessageStatusEnumMap, json['status']),
   );
 }
 
@@ -31,6 +32,7 @@ Map<String, dynamic> _$_$_MessageModelToJson(_$_MessageModel instance) =>
       'sender': instance.sender,
       'likeCount': instance.likeCount,
       'isLiked': instance.isLiked,
+      'status': _$MessageStatusEnumMap[instance.status],
     };
 
 T _$enumDecode<T>(
@@ -72,4 +74,9 @@ const _$MessageTypeEnumMap = {
   MessageType.voice: 'voice',
   MessageType.system: 'system',
   MessageType.replay: 'replay',
+};
+
+const _$MessageStatusEnumMap = {
+  MessageStatus.pending: 'pending',
+  MessageStatus.sent: 'sent',
 };

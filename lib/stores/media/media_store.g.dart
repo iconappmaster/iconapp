@@ -9,10 +9,33 @@ part of 'media_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$MediaStore on _MediaStoreBase, Store {
+  Computed<bool> _$loadingComputed;
+
+  @override
+  bool get loading => (_$loadingComputed ??=
+          Computed<bool>(() => super.loading, name: '_MediaStoreBase.loading'))
+      .value;
+
+  final _$isLoadingAtom = Atom(name: '_MediaStoreBase.isLoading');
+
+  @override
+  bool get isLoading {
+    _$isLoadingAtom.reportRead();
+    return super.isLoading;
+  }
+
+  @override
+  set isLoading(bool value) {
+    _$isLoadingAtom.reportWrite(value, super.isLoading, () {
+      super.isLoading = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
-
+isLoading: ${isLoading},
+loading: ${loading}
     ''';
   }
 }

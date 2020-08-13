@@ -21,6 +21,7 @@ class _$ConversationTearOff {
       int backgroundColor,
       int categoryId,
       UserModel createdBy,
+      bool isPinned,
       int createdAt,
       String name,
       PhotoModel photo,
@@ -35,6 +36,7 @@ class _$ConversationTearOff {
       backgroundColor: backgroundColor,
       categoryId: categoryId,
       createdBy: createdBy,
+      isPinned: isPinned,
       createdAt: createdAt,
       name: name,
       photo: photo,
@@ -56,6 +58,7 @@ mixin _$Conversation {
   int get backgroundColor;
   int get categoryId;
   UserModel get createdBy;
+  bool get isPinned;
   int get createdAt;
   String get name;
   PhotoModel get photo;
@@ -79,6 +82,7 @@ abstract class $ConversationCopyWith<$Res> {
       int backgroundColor,
       int categoryId,
       UserModel createdBy,
+      bool isPinned,
       int createdAt,
       String name,
       PhotoModel photo,
@@ -108,6 +112,7 @@ class _$ConversationCopyWithImpl<$Res> implements $ConversationCopyWith<$Res> {
     Object backgroundColor = freezed,
     Object categoryId = freezed,
     Object createdBy = freezed,
+    Object isPinned = freezed,
     Object createdAt = freezed,
     Object name = freezed,
     Object photo = freezed,
@@ -126,6 +131,7 @@ class _$ConversationCopyWithImpl<$Res> implements $ConversationCopyWith<$Res> {
       categoryId: categoryId == freezed ? _value.categoryId : categoryId as int,
       createdBy:
           createdBy == freezed ? _value.createdBy : createdBy as UserModel,
+      isPinned: isPinned == freezed ? _value.isPinned : isPinned as bool,
       createdAt: createdAt == freezed ? _value.createdAt : createdAt as int,
       name: name == freezed ? _value.name : name as String,
       photo: photo == freezed ? _value.photo : photo as PhotoModel,
@@ -199,6 +205,7 @@ abstract class _$ConversationCopyWith<$Res>
       int backgroundColor,
       int categoryId,
       UserModel createdBy,
+      bool isPinned,
       int createdAt,
       String name,
       PhotoModel photo,
@@ -234,6 +241,7 @@ class __$ConversationCopyWithImpl<$Res> extends _$ConversationCopyWithImpl<$Res>
     Object backgroundColor = freezed,
     Object categoryId = freezed,
     Object createdBy = freezed,
+    Object isPinned = freezed,
     Object createdAt = freezed,
     Object name = freezed,
     Object photo = freezed,
@@ -252,6 +260,7 @@ class __$ConversationCopyWithImpl<$Res> extends _$ConversationCopyWithImpl<$Res>
       categoryId: categoryId == freezed ? _value.categoryId : categoryId as int,
       createdBy:
           createdBy == freezed ? _value.createdBy : createdBy as UserModel,
+      isPinned: isPinned == freezed ? _value.isPinned : isPinned as bool,
       createdAt: createdAt == freezed ? _value.createdAt : createdAt as int,
       name: name == freezed ? _value.name : name as String,
       photo: photo == freezed ? _value.photo : photo as PhotoModel,
@@ -281,6 +290,7 @@ class _$_Conversation implements _Conversation {
       this.backgroundColor,
       this.categoryId,
       this.createdBy,
+      this.isPinned,
       this.createdAt,
       this.name,
       this.photo,
@@ -303,6 +313,8 @@ class _$_Conversation implements _Conversation {
   @override
   final UserModel createdBy;
   @override
+  final bool isPinned;
+  @override
   final int createdAt;
   @override
   final String name;
@@ -323,7 +335,7 @@ class _$_Conversation implements _Conversation {
 
   @override
   String toString() {
-    return 'Conversation(id: $id, backgroundColor: $backgroundColor, categoryId: $categoryId, createdBy: $createdBy, createdAt: $createdAt, name: $name, photo: $photo, backgroundPhoto: $backgroundPhoto, lastMessage: $lastMessage, unreadMessageCount: $unreadMessageCount, users: $users, messages: $messages, isSubscribed: $isSubscribed)';
+    return 'Conversation(id: $id, backgroundColor: $backgroundColor, categoryId: $categoryId, createdBy: $createdBy, isPinned: $isPinned, createdAt: $createdAt, name: $name, photo: $photo, backgroundPhoto: $backgroundPhoto, lastMessage: $lastMessage, unreadMessageCount: $unreadMessageCount, users: $users, messages: $messages, isSubscribed: $isSubscribed)';
   }
 
   @override
@@ -341,6 +353,9 @@ class _$_Conversation implements _Conversation {
             (identical(other.createdBy, createdBy) ||
                 const DeepCollectionEquality()
                     .equals(other.createdBy, createdBy)) &&
+            (identical(other.isPinned, isPinned) ||
+                const DeepCollectionEquality()
+                    .equals(other.isPinned, isPinned)) &&
             (identical(other.createdAt, createdAt) ||
                 const DeepCollectionEquality()
                     .equals(other.createdAt, createdAt)) &&
@@ -374,6 +389,7 @@ class _$_Conversation implements _Conversation {
       const DeepCollectionEquality().hash(backgroundColor) ^
       const DeepCollectionEquality().hash(categoryId) ^
       const DeepCollectionEquality().hash(createdBy) ^
+      const DeepCollectionEquality().hash(isPinned) ^
       const DeepCollectionEquality().hash(createdAt) ^
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(photo) ^
@@ -400,6 +416,7 @@ abstract class _Conversation implements Conversation {
       int backgroundColor,
       int categoryId,
       UserModel createdBy,
+      bool isPinned,
       int createdAt,
       String name,
       PhotoModel photo,
@@ -421,6 +438,8 @@ abstract class _Conversation implements Conversation {
   int get categoryId;
   @override
   UserModel get createdBy;
+  @override
+  bool get isPinned;
   @override
   int get createdAt;
   @override

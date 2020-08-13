@@ -30,26 +30,30 @@ class ChatAppbar extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    HebrewText(store.getConversationName ?? '',
-                        style: loginBigText),
-                    HebrewText('12,000 משתתפים',
-                        style: fieldLabel), // should come from socket
+                    HebrewText(store.getConversationName ?? '', style: loginBigText),
+                    HebrewText('12,000 משתתפים', style: fieldLabel), // should come from socket
                   ],
                 ),
               ),
-              IconButton(
-                icon: SvgPicture.asset(
+              Observer(builder: (_) {
+                return IconButton(
+                  icon: SvgPicture.asset(
                     store.isPinned
                         ? 'assets/images/pin_purple.svg'
                         : 'assets/images/pin.svg',
                     height: 26,
-                    width: 26),
-                onPressed: () async {
-                  store.pinConversation();
-                  context.showFlushbar(
-                      message: 'השיחה הוצמדה', color: uiTintColorFill);
-                },
-              ),
+                    width: 26,
+                  ),
+                  onPressed: () async {
+                    await store.pinConversation(!store.isPinned);
+
+                    if (store.isPinned) {
+                      context.showFlushbar(
+                          message: 'השיחה הוצמדה', color: uiTintColorFill);
+                    }
+                  },
+                );
+              }),
               IconButton(
                 icon: SvgPicture.asset('assets/images/dots.svg',
                     height: 26, width: 26),

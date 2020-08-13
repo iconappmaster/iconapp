@@ -123,16 +123,25 @@ mixin _$ChatStore on _ChatStoreBase, Store {
       AsyncAction('_ChatStoreBase.pinConversation');
 
   @override
-  Future<dynamic> pinConversation() {
-    return _$pinConversationAsyncAction.run(() => super.pinConversation());
+  Future<dynamic> pinConversation(bool isPinned) {
+    return _$pinConversationAsyncAction
+        .run(() => super.pinConversation(isPinned));
+  }
+
+  final _$conversationViewedAsyncAction =
+      AsyncAction('_ChatStoreBase.conversationViewed');
+
+  @override
+  Future<dynamic> conversationViewed() {
+    return _$conversationViewedAsyncAction
+        .run(() => super.conversationViewed());
   }
 
   final _$likeMessageAsyncAction = AsyncAction('_ChatStoreBase.likeMessage');
 
   @override
-  Future<dynamic> likeMessage(String chatId, String messageId) {
-    return _$likeMessageAsyncAction
-        .run(() => super.likeMessage(chatId, messageId));
+  Future<dynamic> likeMessage(int messageId) {
+    return _$likeMessageAsyncAction.run(() => super.likeMessage(messageId));
   }
 
   final _$sendTextMessageAsyncAction =

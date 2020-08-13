@@ -9,8 +9,9 @@ part 'create_icon_store.g.dart';
 class CreateIconStore = _CreateIconStoreBase with _$CreateIconStore;
 
 abstract class _CreateIconStoreBase with Store {
+  SearchStore _search;
   _CreateIconStoreBase() {
-    _init();
+    _search = sl<SearchStore>();
   }
 
   @observable
@@ -25,6 +26,11 @@ abstract class _CreateIconStoreBase with Store {
   @computed
   List<UserModel> get getSelectedIcons => _selected;
 
+  bool isSelected(UserModel icon) => _selected.any((element) => element.id == icon.id);
+
+  @computed
+  SearchMode get getSearchMode => _search.getSearchMode;
+
   @computed
   bool get isValid => getSelectedIcons.length > 0;
 
@@ -32,10 +38,22 @@ abstract class _CreateIconStoreBase with Store {
   int get count => _icons.length;
 
   @action
-  _init() async {
+  Future init() async {
     final icons = await sl<SearchStore>()?.searchIcons('');
     final result = icons.getOrElse(() => []);
+    if (_icons.isNotEmpty) _icons.clear();
     _icons.addAll(result);
+  }
+
+  @action
+  Future search(String query) async {
+    _search.setSearchMode(SearchMode.icons);
+    final icons = await _search.searchIcons(query);
+    final result = icons.getOrElse(() => []);
+
+    _icons
+      ..clear()
+      ..addAll(result);
   }
 
   @action

@@ -5,12 +5,12 @@ import '../../core/extensions/string_ext.dart';
 
 abstract class ChatRepository {
   Future<ConversationResponse> getConversaion(int chatId);
-  Future<MessageModel> sendMessage(
-      int conversationId, MessageModel message);
+  Future<MessageModel> sendMessage(int conversationId, MessageModel message);
   Future<ConversationResponse> subscribe(int id);
-  Future<MessageModel> likeMessage(String chatId, String messageId);
+  Future<MessageModel> likeMessage(int messageId);
   Stream<MessageModel> watchMessages();
-  Future pinConversation(int conversationId);
+  Future pinConversation(int conversationId, bool isPinned);
+  Future conversationViewed(int conversationId);
 }
 
 class ChatRepositoryImpl implements ChatRepository {
@@ -29,8 +29,8 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<MessageModel> likeMessage(String chatId, String messamessamessageId) {
-    throw UnimplementedError();
+  Future<MessageModel> likeMessage(int messageId) async {
+    return await restClient.likeMessage(messageId);
   }
 
   @override
@@ -46,7 +46,12 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future pinConversation(int conversationId) async {
-    return await restClient.pinConversation(conversationId);
+  Future pinConversation(int conversationId, bool isPinned) async {
+    return await restClient.pinConversation(conversationId, isPinned);
+  }
+
+  @override
+  Future conversationViewed(int conversationId) async {
+    return await restClient.viewedConversation(conversationId);
   }
 }

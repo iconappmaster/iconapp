@@ -129,6 +129,13 @@ mixin _$SearchStore on _SearchStoreBase, Store {
     return _$searchIconsAsyncAction.run(() => super.searchIcons(query));
   }
 
+  final _$searchAsyncAction = AsyncAction('_SearchStoreBase.search');
+
+  @override
+  Future<dynamic> search(String query) {
+    return _$searchAsyncAction.run(() => super.search(query));
+  }
+
   final _$_SearchStoreBaseActionController =
       ActionController(name: '_SearchStoreBase');
 
@@ -138,17 +145,6 @@ mixin _$SearchStore on _SearchStoreBase, Store {
         name: '_SearchStoreBase.showAll');
     try {
       return super.showAll();
-    } finally {
-      _$_SearchStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic search(String query) {
-    final _$actionInfo = _$_SearchStoreBaseActionController.startAction(
-        name: '_SearchStoreBase.search');
-    try {
-      return super.search(query);
     } finally {
       _$_SearchStoreBaseActionController.endAction(_$actionInfo);
     }

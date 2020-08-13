@@ -26,6 +26,7 @@ class _CreateConversationTileState extends State<CreateConversationTile>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
   Animation<double> _animation;
+  bool isSelected = false;
 
   @override
   void initState() {
@@ -34,9 +35,12 @@ class _CreateConversationTileState extends State<CreateConversationTile>
         vsync: this, duration: Duration(milliseconds: 250), value: 0.1);
     _animation =
         CurvedAnimation(parent: _controller, curve: Curves.bounceInOut);
+
+    if (widget.selected != null) {
+      isSelected = widget.selected;
+    }
   }
 
-  bool isSelected = false;
 
   @override
   void dispose() {

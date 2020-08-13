@@ -59,10 +59,10 @@ abstract class _SearchResultStoreBase with Store {
       isLoading = true;
       switch (_mode) {
         case SearchResulsMode.icons:
-          // final result = await _repository.getConversationsByIconId(id);
-//
+          final result = await _repository.getConversationsByIconId(id);
+          _categoryConversation.clear();
+          _categoryConversation.addAll(result);
           break;
-
         case SearchResulsMode.categories:
           final result = await _repository.getConversationByCategoryId(id);
           _categoryConversation.clear();

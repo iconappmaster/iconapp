@@ -51,11 +51,10 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                 physics: BouncingScrollPhysics(),
                 itemCount: store.count,
                 itemBuilder: (_, index) {
-                  
                   final conversation = store.mode == SearchResulsMode.categories
                       ? store.categories[index]
                       : store.icons[index];
-                  
+
                   return SearchResultTile(
                     conversation: conversation,
                     onTap: () => ExtendedNavigator.of(context).pushNamed(

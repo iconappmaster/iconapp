@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/data/models/user_model.dart';
+import 'package:iconapp/domain/core/value_validators.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/oboarding/onboarding_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
@@ -39,15 +40,15 @@ class OnboardingProfile extends StatelessWidget {
         builder: (_) => Stack(
           alignment: Alignment.topCenter,
           children: <Widget>[
-            IconAppbar(showBack: !store.getState.loading,),
+            IconAppbar(
+              showBack: !store.getState.loading,
+            ),
             Positioned(
                 top: context.heightPlusStatusbarPerc(.138),
                 child: UserAvatar(
                     placeholder: 'assets/images/user_icon.svg',
                     showLoading: store.getState.loading,
-                    onTap: () async {
-                      store.pickAndUploadPhoto();
-                    },
+                    onTap: () async => store.pickAndUploadPhoto(),
                     url: store?.getUserPhoto ?? '')),
             PersonDetails(),
             if (mode == OnboardingMode.onboarding) SexPicker(),
@@ -107,20 +108,21 @@ class PersonDetails extends StatelessWidget {
                       title: LocaleKeys.onboarding_profileName.tr(),
                       onChange: (name) => store.updateUserName(name))),
               Container(
-                  width: context.widthPx * .207,
-                  child: InputText(
-                      initialValue: user?.age.toString() ?? '',
-                      hint: '10-99',
-                      hintStyle: personalDetailsHint,
-                      validator: (value) {
-                        if (store.validateUserAge()) return null;
-                        return 'מעל גיל 10';
-                      },
-                      maxLength: 2,
-                      keyboardType: TextInputType.number,
-                      title: LocaleKeys.onboarding_profileAge.tr(),
-                      onChange: (age) =>
-                          store.updateUserAge(int.tryParse(age))))
+                width: context.widthPx * .207,
+                child: InputText(
+                  initialValue: user?.age.toString() ?? '',
+                  hint: '$minAge-99',
+                  hintStyle: personalDetailsHint,
+                  maxLength: 2,
+                  keyboardType: TextInputType.number,
+                  title: LocaleKeys.onboarding_profileAge.tr(),
+                  onChange: (age) => store.updateUserAge(int.tryParse(age)),
+                  validator: (value) {
+                    if (store.validateUserAge()) return null;
+                    return 'מעל גיל $minAge';
+                  },
+                ),
+              )
             ],
           ),
         ),

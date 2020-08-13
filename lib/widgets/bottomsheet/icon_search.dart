@@ -1,8 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/user_model.dart';
+import 'package:iconapp/routes/router.gr.dart';
+import 'package:iconapp/screens/search_results_screen.dart';
 import 'package:iconapp/stores/search/search_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
@@ -43,7 +46,12 @@ class IconSearchItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: InkWell(
-        onTap: () {},
+        onTap: () => ExtendedNavigator.of(context).pushNamed(
+            Routes.searchResultsScreen,
+            arguments: SearchResultsScreenArguments(
+                id: icon.id,
+                mode: SearchResulsMode.icons,
+                name: icon.fullName)),
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 28.7),
           height: 70,

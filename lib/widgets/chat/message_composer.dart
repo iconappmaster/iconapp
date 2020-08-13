@@ -26,7 +26,6 @@ class _MessageComposerState extends State<MessageComposer> {
 
   @override
   Widget build(BuildContext context) {
-    
     return ListView(
       padding: EdgeInsets.all(0),
       shrinkWrap: true,
@@ -182,11 +181,10 @@ class SendButton extends StatelessWidget {
               elevation: 0,
               onPressed: () async {
                 if (isMessageMode()) {
-                  await store.sendTextMessage();
                   textEditcontroller.clear();
-                  chatListKey.currentState
-                      .insertItem(0, duration: Duration(milliseconds: 250));
+                  chatListKey.currentState.insertItem(0, duration: Duration(milliseconds: 250));
                   scrollController.jumpTo(0);
+                  await store.sendTextMessage();
                 }
               },
               backgroundColor: cornflower,

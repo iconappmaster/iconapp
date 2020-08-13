@@ -15,6 +15,7 @@ abstract class Conversation with _$Conversation {
     final int backgroundColor,
     final int categoryId,
     final UserModel createdBy,
+    final bool isPinned,
     final int createdAt,
     final String name,
     final PhotoModel photo,

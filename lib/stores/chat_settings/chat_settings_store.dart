@@ -162,6 +162,7 @@ abstract class _ChatSettingsStoreBase with Store {
         Conversation(photo: PhotoModel(url: url)),
       );
 
+      
       chatStore.setConversation(conversation);
     } on Exception catch (e) {
       print(e);

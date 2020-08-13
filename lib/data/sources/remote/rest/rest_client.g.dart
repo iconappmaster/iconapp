@@ -404,13 +404,14 @@ class _RestClient implements RestClient {
   }
 
   @override
-  pinConversation(id) async {
+  pinConversation(id, isPinned) async {
     ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(isPinned, 'isPinned');
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'isPinned': isPinned};
     final _data = <String, dynamic>{};
     final Response<Map<String, dynamic>> _result = await _dio.request(
-        'conversations/$id/pin_conversation',
+        'conversations/$id/set_pin',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -419,6 +420,25 @@ class _RestClient implements RestClient {
             baseUrl: baseUrl),
         data: _data);
     final value = ConversationResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  viewedConversation(id) async {
+    ArgumentError.checkNotNull(id, 'id');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response _result = await _dio.request(
+        'conversations/$id/viewed_conversation',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = _result.data;
     return value;
   }
 
@@ -435,6 +455,44 @@ class _RestClient implements RestClient {
     final _data = <String, dynamic>{};
     final Response<Map<String, dynamic>> _result = await _dio.request(
         'conversations/$id/send_message',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = MessageModel.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  likeMessage(id) async {
+    ArgumentError.checkNotNull(id, 'id');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'messages/$id/like_message',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = MessageModel.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  unlikeMessage(id) async {
+    ArgumentError.checkNotNull(id, 'id');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'messages/$id/unlike_message',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',

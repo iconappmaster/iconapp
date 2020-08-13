@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/routes/router.gr.dart';
+import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/chat_settings/chat_settings_store.dart';
 import 'package:iconapp/stores/media/media_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
@@ -49,6 +50,7 @@ class ChatSettingsAppBar implements SliverPersistentHeaderDelegate {
     final store = sl<UserStore>();
     final mediaStore = sl<MediaStore>();
     final settingsStore = sl<ChatSettingsStore>();
+    final chat = sl<ChatStore>();
     return Observer(
       builder: (_) => Container(
         decoration: BoxDecoration(gradient: purpleGradient),
@@ -66,7 +68,7 @@ class ChatSettingsAppBar implements SliverPersistentHeaderDelegate {
                   child: Stack(children: [
                     NetworkPhoto(
                       placeHolder: 'assets/images/group_placeholder.svg',
-                      url: url,
+                      url: chat?.conversation?.photo?.url ?? '',
                       height: appbarHeight,
                       width: MediaQuery.of(context).size.width,
                     ),

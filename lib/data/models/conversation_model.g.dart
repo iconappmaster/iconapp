@@ -14,6 +14,7 @@ _$_Conversation _$_$_ConversationFromJson(Map<String, dynamic> json) {
     createdBy: json['createdBy'] == null
         ? null
         : UserModel.fromJson(json['createdBy'] as Map<String, dynamic>),
+    isPinned: json['isPinned'] as bool,
     createdAt: json['createdAt'] as int,
     name: json['name'] as String,
     photo: json['photo'] == null
@@ -44,6 +45,7 @@ Map<String, dynamic> _$_$_ConversationToJson(_$_Conversation instance) =>
       'backgroundColor': instance.backgroundColor,
       'categoryId': instance.categoryId,
       'createdBy': instance.createdBy,
+      'isPinned': instance.isPinned,
       'createdAt': instance.createdAt,
       'name': instance.name,
       'photo': instance.photo,

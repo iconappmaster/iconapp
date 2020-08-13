@@ -92,14 +92,23 @@ abstract class RestClient {
   Future<ConversationResponse> makeUserAdmin(
       @Path('conversationId') int id, @Query('userId') int userId);
 
-  // IMPLEMENT
-  @POST('conversations/{conversationId}/pin_conversation')
-  Future<ConversationResponse> pinConversation(@Path('conversationId') int id);
+  @POST('conversations/{conversationId}/set_pin')
+  Future<ConversationResponse> pinConversation(
+      @Path('conversationId') int id, @Query('isPinned') bool isPinned);
+
+  @POST('conversations/{conversationId}/viewed_conversation')
+  Future viewedConversation(@Path('conversationId') int id);
 
   // CHAT
   @POST('conversations/{conversationId}/send_message')
   Future<MessageModel> sendMessage(@Path('conversationId') int id,
       @Query('body') String body, @Query('message_type') String type);
+
+  @POST('messages/{messageId}/like_message')
+  Future<MessageModel> likeMessage(@Path('messageId') int id);
+
+  @POST('messages/{messageId}/unlike_message')
+  Future<MessageModel> unlikeMessage(@Path('messageId') int id);
 }
 
 Dio getDioClient() {

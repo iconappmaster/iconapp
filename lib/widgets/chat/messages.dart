@@ -4,11 +4,12 @@ import 'dart:io';
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/message_model.dart';
+import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
-import '../../core/extensions/int_ext.dart';
 
 class SystemMessage extends StatelessWidget {
   @override
@@ -36,11 +37,19 @@ class PhotoMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final color =
+        message.status == MessageStatus.pending ? blueBerry : darkIndigo2;
     return SizeTransition(
       sizeFactor: animation,
-      child: Container(
+      child: AnimatedContainer(
+        key: Key(message.id.toString()),
+        duration: Duration(milliseconds: 400),
         constraints: BoxConstraints(maxHeight: 225),
         child: IconBubble(
+          color: color,
+          onTap: () async {
+            await sl<ChatStore>().likeMessage(message.id);
+          },
           child: message.body.startsWith('http')
               ? NetworkPhoto(url: message.body)
               : Image.file(File(message.body)),
@@ -65,13 +74,19 @@ class TextMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final color =
+        message.status == MessageStatus.pending ? blueBerry : darkIndigo2;
     return SizeTransition(
       sizeFactor: animation,
       child: Stack(
         children: [
           IconBubble(
+            color: color,
+            onTap: () async {
+              await sl<ChatStore>().likeMessage(message.id);
+            },
             child: Container(
-              color: darkIndigo2,
+              color: color,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -85,10 +100,10 @@ class TextMessage extends StatelessWidget {
                       SizedBox(width: 10),
                     ],
                   ),
-                  HebrewText(
-                    message.timestamp.humanReadableTime(),
-                    style: chatMessageBody.copyWith(fontSize: 10),
-                  ),
+                  // HebrewText(
+                  //   message.timestamp.humanReadableTime(),
+                  //   style: chatMessageBody.copyWith(fontSize: 10),
+                  // ),
                 ],
               ),
             ),
@@ -98,8 +113,8 @@ class TextMessage extends StatelessWidget {
             top: 0,
             right: 25,
             child: LikeBubble(
-              isLiked: message.isLiked,
-              likeNumber: message.likeCount,
+              isLiked: message?.isLiked ?? false,
+              likeNumber: message?.likeCount ?? 0,
             ),
           ),
         ],
@@ -154,19 +169,29 @@ class LikeBubble extends StatelessWidget {
 
 class IconBubble extends StatelessWidget {
   final Widget child;
+  final Function onTap;
+  final Color color;
 
-  const IconBubble({Key key, @required this.child}) : super(key: key);
+  const IconBubble(
+      {Key key,
+      @required this.child,
+      @required this.onTap,
+      @required this.color})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Bubble(
-      elevation: 3,
-      stick: true,
-      padding: BubbleEdges.all(15),
-      margin: BubbleEdges.only(right: 9, top: 5, bottom: 5, left: 9),
-      alignment: Alignment.centerRight,
-      color: darkIndigo2,
-      nip: BubbleNip.rightTop,
-      child: child,
+    return GestureDetector(
+      onTap: onTap,
+      child: Bubble(
+        elevation: 3,
+        stick: true,
+        padding: BubbleEdges.all(15),
+        margin: BubbleEdges.only(right: 9, top: 5, bottom: 5, left: 9),
+        alignment: Alignment.centerRight,
+        color: color,
+        nip: BubbleNip.rightTop,
+        child: child,
+      ),
     );
   }
 }

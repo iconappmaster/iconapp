@@ -94,13 +94,13 @@ abstract class _SearchStoreBase with Store {
   }
 
   @action
-  search(String query) {
+  Future search(String query) async {
     switch (_searchMode) {
       case SearchMode.icons:
-        searchIcons(query);
+        await searchIcons(query);
         break;
       case SearchMode.categories:
-        searchCategories(query);
+        await searchCategories(query);
         break;
     }
   }

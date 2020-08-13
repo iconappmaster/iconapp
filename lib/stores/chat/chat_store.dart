@@ -82,17 +82,11 @@ abstract class _ChatStoreBase with Store {
   }
 
   @action
-  Future pinConversation() async {
+  Future pinConversation(bool isPinned) async {
     try {
       _state = _state.copyWith(loading: true);
-
-      _state.conversation.isPinned
-          ? await _repository
-              .pinConversation(conversation.id) // UNPIN CONVERSATION
-          : await _repository.pinConversation(conversation.id);
-
-      var conv = _state.conversation.copyWith(isPinned: true);
-
+      await _repository.pinConversation(conversation.id, isPinned);
+      var conv = _state.conversation.copyWith(isPinned: isPinned);
       _state = _state.copyWith(conversation: conv);
     } on Exception catch (e) {
       print(e);
@@ -129,9 +123,21 @@ abstract class _ChatStoreBase with Store {
   }
 
   @action
-  Future likeMessage(String chatId, String messageId) async {
-    final msg = await _repository.likeMessage(chatId, messageId);
-    return msg;
+  Future conversationViewed() async {
+    try {
+      await _repository.conversationViewed(conversation.id);
+    } on DioError catch (e) {
+      print(e);
+    }
+  }
+
+  @action
+  Future likeMessage(int messageId) async {
+    try {
+      await _repository.likeMessage(messageId);
+    } on DioError catch (e) {
+      print(e);
+    }
   }
 
   @action
@@ -142,14 +148,18 @@ abstract class _ChatStoreBase with Store {
       final msg = MessageModel(
         sender: _userStore.getUser,
         body: _state.inputMessage,
+        status: MessageStatus.pending,
         likeCount: 0,
         timestamp: DateTime.now().millisecondsSinceEpoch,
         type: MessageType.text,
       );
 
-      final msgRecieved = await _repository.sendMessage(conversation.id, msg);
+      _messages.add(msg);
 
-      _messages.add(msgRecieved);
+      // send and update
+      final msgRecieved = await _repository.sendMessage(conversation.id, msg);
+      final sentMsg = msgRecieved.copyWith(status: MessageStatus.sent);
+      _messages[_messages.indexOf(msg)] = sentMsg;
     } on DioError catch (e) {
       print(e);
     } finally {
@@ -162,14 +172,18 @@ abstract class _ChatStoreBase with Store {
     // handle local photo
     final pickedFile = await sl<ImagePicker>().getImage(source: source);
 
-    var message = MessageModel(
+    var msg = MessageModel(
       body: pickedFile.path,
+      status: MessageStatus.pending,
       likeCount: 0,
       timestamp: DateTime.now().millisecondsSinceEpoch,
       type: MessageType.photo,
     );
+    _messages.add(msg);
 
-    _messages.add(message);
+    final msgRecieved = await _repository.sendMessage(conversation.id, msg);
+    final sentMsg = msgRecieved.copyWith(status: MessageStatus.sent);
+    _messages[_messages.indexOf(msg)] = sentMsg;
   }
 
   @action

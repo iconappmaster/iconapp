@@ -29,8 +29,7 @@ class CategorySearchWidget extends StatelessWidget {
               itemCount: store.getCategories.length,
               controller: controller,
               itemBuilder: (context, index) =>
-                  CategorySearchTile(category: store.getCategories[index]),
-            ),
+                  CategorySearchTile(category: store.getCategories[index])),
     );
   }
 }
