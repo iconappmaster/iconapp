@@ -48,13 +48,6 @@ class _OnboardingPhoneState extends State<OnboardingPhone> {
             _PinCode(store: store),
             _nextButton(store, context),
             _SendAgain(store: store),
-            if (store.getState.loading)
-              Positioned(
-                top: context.heightPlusStatusbarPerc(.644),
-                child: CircularProgressIndicator(
-                  backgroundColor: strongPink,
-                ),
-              ),
           ],
         ),
       ),
@@ -268,10 +261,13 @@ class _CheckSign extends StatelessWidget {
       child: Positioned(
         top: context.heightPlusStatusbarPerc(.212),
         right: context.widthPx * .06,
-        child: Image.asset(
-          'assets/images/check.png',
-          width: context.widthPx * .086,
-        ),
+        child: Stack(children: [
+          if (store.getState.loading) CircularProgressIndicator(),
+          Image.asset(
+            'assets/images/check.png',
+            width: context.widthPx * .086,
+          ),
+        ]),
       ),
     );
   }

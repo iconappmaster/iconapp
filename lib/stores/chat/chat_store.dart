@@ -179,11 +179,12 @@ abstract class _ChatStoreBase with Store {
       timestamp: DateTime.now().millisecondsSinceEpoch,
       type: MessageType.photo,
     );
+
     _messages.add(msg);
 
-    final msgRecieved = await _repository.sendMessage(conversation.id, msg);
-    final sentMsg = msgRecieved.copyWith(status: MessageStatus.sent);
-    _messages[_messages.indexOf(msg)] = sentMsg;
+    // final msgRecieved = await _repository.sendMessage(conversation.id, msg);
+    // final sentMsg = msgRecieved.copyWith(status: MessageStatus.sent);
+    // _messages[_messages.indexOf(msg)] = sentMsg;
   }
 
   @action

@@ -23,6 +23,13 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
       (_$selectedColorComputed ??= Computed<int>(() => super.selectedColor,
               name: '_ChatSettingsStoreBase.selectedColor'))
           .value;
+  Computed<String> _$getConversationPhotoComputed;
+
+  @override
+  String get getConversationPhoto => (_$getConversationPhotoComputed ??=
+          Computed<String>(() => super.getConversationPhoto,
+              name: '_ChatSettingsStoreBase.getConversationPhoto'))
+      .value;
   Computed<String> _$getSubtitleComputed;
 
   @override
@@ -37,6 +44,13 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
           Computed<String>(() => super.getConversationName,
               name: '_ChatSettingsStoreBase.getConversationName'))
       .value;
+  Computed<bool> _$isUserIconComputed;
+
+  @override
+  bool get isUserIcon =>
+      (_$isUserIconComputed ??= Computed<bool>(() => super.isUserIcon,
+              name: '_ChatSettingsStoreBase.isUserIcon'))
+          .value;
   Computed<List<UserModel>> _$usersComputed;
 
   @override
@@ -100,6 +114,14 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
         .run(() => super.changeBackground(colorIndex));
   }
 
+  final _$uploadPhotoAsyncAction =
+      AsyncAction('_ChatSettingsStoreBase.uploadPhoto');
+
+  @override
+  Future<String> uploadPhoto() {
+    return _$uploadPhotoAsyncAction.run(() => super.uploadPhoto());
+  }
+
   final _$makeUserAdminAsyncAction =
       AsyncAction('_ChatSettingsStoreBase.makeUserAdmin');
 
@@ -160,8 +182,10 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
     return '''
 isLoadig: ${isLoadig},
 selectedColor: ${selectedColor},
+getConversationPhoto: ${getConversationPhoto},
 getSubtitle: ${getSubtitle},
 getConversationName: ${getConversationName},
+isUserIcon: ${isUserIcon},
 users: ${users}
     ''';
   }

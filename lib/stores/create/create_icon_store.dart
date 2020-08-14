@@ -12,6 +12,7 @@ abstract class _CreateIconStoreBase with Store {
   SearchStore _search;
   _CreateIconStoreBase() {
     _search = sl<SearchStore>();
+    init();
   }
 
   @observable
@@ -26,7 +27,8 @@ abstract class _CreateIconStoreBase with Store {
   @computed
   List<UserModel> get getSelectedIcons => _selected;
 
-  bool isSelected(UserModel icon) => _selected.any((element) => element.id == icon.id);
+  bool isSelected(UserModel icon) =>
+      _selected.any((i) => i.id == icon.id);
 
   @computed
   SearchMode get getSearchMode => _search.getSearchMode;

@@ -16,25 +16,24 @@ mixin _$MediaStore on _MediaStoreBase, Store {
           Computed<bool>(() => super.loading, name: '_MediaStoreBase.loading'))
       .value;
 
-  final _$isLoadingAtom = Atom(name: '_MediaStoreBase.isLoading');
+  final _$_isLoadingAtom = Atom(name: '_MediaStoreBase._isLoading');
 
   @override
-  bool get isLoading {
-    _$isLoadingAtom.reportRead();
-    return super.isLoading;
+  bool get _isLoading {
+    _$_isLoadingAtom.reportRead();
+    return super._isLoading;
   }
 
   @override
-  set isLoading(bool value) {
-    _$isLoadingAtom.reportWrite(value, super.isLoading, () {
-      super.isLoading = value;
+  set _isLoading(bool value) {
+    _$_isLoadingAtom.reportWrite(value, super._isLoading, () {
+      super._isLoading = value;
     });
   }
 
   @override
   String toString() {
     return '''
-isLoading: ${isLoading},
 loading: ${loading}
     ''';
   }

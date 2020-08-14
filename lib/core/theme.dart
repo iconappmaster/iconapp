@@ -192,6 +192,13 @@ const createGroupTitle = TextStyle(
 const categoryName = TextStyle(
     fontFamily: _fontRubikBold, color: darkBlueGrey, fontSize: 18.3, height: 1);
 
+const policyTitle = TextStyle(
+    fontFamily: _fontRubikBold, color: white, fontSize: 18.3);
+
+const policyContent = TextStyle(
+    fontFamily: _fontRubikRegular, color: white, fontSize: 18.7);
+
+
 const createCategoryTitle = TextStyle(
   fontFamily: _fontRubikMedium,
   color: white,

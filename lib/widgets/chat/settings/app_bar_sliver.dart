@@ -6,14 +6,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/routes/router.gr.dart';
-import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/chat_settings/chat_settings_store.dart';
-import 'package:iconapp/stores/media/media_store.dart';
-import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/global/back_button.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
-import 'package:image_picker/image_picker.dart';
 
 const appbarHeight = 250.0;
 
@@ -47,10 +43,8 @@ class ChatSettingsAppBar implements SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    final store = sl<UserStore>();
-    final mediaStore = sl<MediaStore>();
-    final settingsStore = sl<ChatSettingsStore>();
-    final chat = sl<ChatStore>();
+    final settings = sl<ChatSettingsStore>();
+
     return Observer(
       builder: (_) => Container(
         decoration: BoxDecoration(gradient: purpleGradient),
@@ -61,32 +55,31 @@ class ChatSettingsAppBar implements SliverPersistentHeaderDelegate {
                 opacity: .4,
                 child: GestureDetector(
                   onTap: () async {
-                    final url =
-                        await mediaStore.uploadPhoto(ImageSource.gallery);
-                    settingsStore.changeConversationPhoto(url);
+                    final url = await settings.uploadPhoto();
+                    settings.changeConversationPhoto(url);
                   },
                   child: Stack(children: [
                     NetworkPhoto(
                       placeHolder: 'assets/images/group_placeholder.svg',
-                      url: chat?.conversation?.photo?.url ?? '',
+                      url: settings.getConversationPhoto,
                       height: appbarHeight,
                       width: MediaQuery.of(context).size.width,
                     ),
-                    if (settingsStore.isLoadig)
+                    if (settings.isLoadig)
                       Center(child: CircularProgressIndicator()),
                   ]),
                 )),
             Positioned(
                 right: 21,
                 bottom: 30.7,
-                child: HebrewText(settingsStore.getConversationName,
+                child: HebrewText(settings.getConversationName,
                     style: settingsAppbarTitle)),
             Positioned(
                 right: 21,
                 bottom: 14.7,
                 child: HebrewText(subTitle, style: fieldLabel)),
             Positioned(right: 21, top: 32, child: IconBackButton()),
-            if (store.getUser.isIcon)
+            if (settings.isUserIcon)
               Positioned(
                   left: 21,
                   bottom: 14.7,

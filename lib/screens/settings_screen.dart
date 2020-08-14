@@ -99,7 +99,7 @@ class AppNotificationTile extends StatelessWidget {
                   await userStore.setNotification(value);
                   context.showFlushbar(
                       message:
-                          value ? 'נוטיפיקציות פועלות' : 'נוטיפיקציות כבויות',
+                          value ? 'התראות פעילות' : 'התראות מושתקות',
                       color: uiTintColorFill);
                 },
               ),

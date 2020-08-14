@@ -1,12 +1,15 @@
 // MESSAGE TYPES
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/message_model.dart';
+import 'package:iconapp/data/models/photo_model.dart';
+import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
@@ -37,8 +40,7 @@ class PhotoMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color =
-        message.status == MessageStatus.pending ? blueBerry : darkIndigo2;
+    final color = message.status == MessageStatus.pending ? blueBerry : darkIndigo2;
     return SizeTransition(
       sizeFactor: animation,
       child: AnimatedContainer(
@@ -46,10 +48,14 @@ class PhotoMessage extends StatelessWidget {
         duration: Duration(milliseconds: 400),
         constraints: BoxConstraints(maxHeight: 225),
         child: IconBubble(
+          padding: BubbleEdges.all(0),
           color: color,
-          onTap: () async {
-            await sl<ChatStore>().likeMessage(message.id);
-          },
+          onTap: () => ExtendedNavigator.of(context).pushNamed(
+            Routes.fullImageScreen,
+            arguments: FullImageScreenArguments(
+              photo: PhotoModel(url: message.body),
+            ),
+          ),
           child: message.body.startsWith('http')
               ? NetworkPhoto(url: message.body)
               : Image.file(File(message.body)),
@@ -171,12 +177,14 @@ class IconBubble extends StatelessWidget {
   final Widget child;
   final Function onTap;
   final Color color;
+  final BubbleEdges padding;
 
   const IconBubble(
       {Key key,
       @required this.child,
       @required this.onTap,
-      @required this.color})
+      @required this.color,
+      this.padding})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -185,7 +193,7 @@ class IconBubble extends StatelessWidget {
       child: Bubble(
         elevation: 3,
         stick: true,
-        padding: BubbleEdges.all(15),
+        padding: padding ?? BubbleEdges.all(15),
         margin: BubbleEdges.only(right: 9, top: 5, bottom: 5, left: 9),
         alignment: Alignment.centerRight,
         color: color,

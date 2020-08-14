@@ -16,10 +16,10 @@ abstract class _MediaStoreBase with Store {
   UserStore _userStore;
 
   @observable
-  bool isLoading = false;
+  bool _isLoading = false;
 
   @computed
-  bool get loading => isLoading;
+  bool get loading => _isLoading;
 
   _MediaStoreBase() {
     _repository = sl<MediaRepository>();
@@ -29,8 +29,8 @@ abstract class _MediaStoreBase with Store {
 
   Future<String> uploadPhoto(ImageSource source, [File file]) async {
     String result = '';
+    _isLoading = true;
     if (file != null) {
-      isLoading = true;
       result = await _repository.uploadSinglePhoto(file, getPath, getFileName);
     } else {
       final pickedFile = await _imagePicker.getImage(source: source);
@@ -39,8 +39,8 @@ abstract class _MediaStoreBase with Store {
     }
 
     // cancel loadoing
-    isLoading = false;
-    
+    _isLoading = false;
+
     return result;
   }
 

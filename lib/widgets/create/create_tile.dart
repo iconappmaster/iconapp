@@ -32,7 +32,9 @@ class _CreateConversationTileState extends State<CreateConversationTile>
   void initState() {
     super.initState();
     _controller = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 250), value: 0.1);
+        vsync: this,
+        duration: Duration(milliseconds: widget.selected != null ? 0 : 250),
+        value: 0.1);
     _animation =
         CurvedAnimation(parent: _controller, curve: Curves.bounceInOut);
 
@@ -40,7 +42,6 @@ class _CreateConversationTileState extends State<CreateConversationTile>
       isSelected = widget.selected;
     }
   }
-
 
   @override
   void dispose() {

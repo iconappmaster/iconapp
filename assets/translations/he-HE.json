@@ -1,10 +1,12 @@
 {
     "action_continue": "המשך",
     "action_save": "שמור",
+    "action_close": "סגור",
     "policy": {
         "terms": "כניסה לאפליקציה מהווה אישור ",
         "link": "לתנאי השימוש",
-        "prefix": " שלנו"
+        "prefix": " שלנו",
+        "title" : "תנאי שימוש"
     },
     "general": {
         "server_error": "תקלה בשרת, אנא נסה שנית",

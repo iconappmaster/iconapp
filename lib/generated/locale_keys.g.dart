@@ -3,9 +3,11 @@
 abstract class  LocaleKeys {
   static const action_continue = 'action_continue';
   static const action_save = 'action_save';
+  static const action_close = 'action_close';
   static const policy_terms = 'policy.terms';
   static const policy_link = 'policy.link';
   static const policy_prefix = 'policy.prefix';
+  static const policy_title = 'policy.title';
   static const policy = 'policy';
   static const general_server_error = 'general.server_error';
   static const general_iGotIt = 'general.iGotIt';

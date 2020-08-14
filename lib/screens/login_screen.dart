@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/routes/router.gr.dart';
+import 'package:iconapp/widgets/global/base_dialog.dart';
+import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/login/login_background.dart';
 import '../core/extensions/context_ext.dart';
 import 'package:iconapp/widgets/global/next_button.dart';
@@ -53,10 +55,36 @@ class PrivacyAndTerms extends StatelessWidget {
               style: smallLine.copyWith(decoration: TextDecoration.underline),
               recognizer: TapGestureRecognizer()
                 ..onTap = () async {
-                   // open dialog - need to be designed
+                  await showDialog(context: context, child: PolicyDialog());
                 }),
           TextSpan(text: LocaleKeys.policy_prefix.tr(), style: smallLine)
         ]),
+      ),
+    );
+  }
+}
+
+class PolicyDialog extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BaseDialog(
+      height: context.heightPlusStatusbarPerc(.537),
+      child: Column(
+        children: [
+          HebrewText(LocaleKeys.policy_title.tr(), style: policyTitle),
+          SizedBox(height: 17),
+          SingleChildScrollView(
+            child: HebrewText(
+                'טקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודת',
+                style: policyContent,
+                textAlign: TextAlign.start),
+          ),
+          Spacer(),
+          NextButton(
+            title: LocaleKeys.action_close.tr(),
+            onClick: () => Navigator.pop(context),
+          )
+        ],
       ),
     );
   }

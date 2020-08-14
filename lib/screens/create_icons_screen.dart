@@ -53,7 +53,6 @@ class SelectIconScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final icon = store.getIcons[index];
                         final isSelected = store.isSelected(icon);
-                        print(isSelected);
                         return CreateConversationTile(
                           selected: isSelected,
                           key: Key(icon.id.toString()),
