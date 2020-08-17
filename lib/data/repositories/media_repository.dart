@@ -18,7 +18,7 @@ class MediaRepositoryImpl implements MediaRepository {
 
   @override
   Future<String> uploadVideo(File video, String path, String fileName) async {
-    final videoPath = "$path/photos/";
+    final videoPath = "$path/videos/";
     return await upload(videoPath, fileName, video);
   }
 

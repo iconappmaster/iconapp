@@ -30,7 +30,7 @@ const blueberry2 = Color(0xFF473f81);
 const blueberry3 = Color(0xFF4c409f);
 
 // Font Sizes
-const _fontRubikBold = "RubikBold";
+// const _fontRubikBold = "RubikBold";
 const _fontRubikRegular = "RubikRagular";
 const _fontRubikMedium = "RubikMedium";
 
@@ -44,7 +44,7 @@ const flushbar = TextStyle(
     letterSpacing: 1.1);
 
 const searchAppBarTitle = TextStyle(
-  fontFamily: _fontRubikBold,
+  fontFamily: _fontRubikMedium,
   color: white,
   fontSize: 21.3,
 );
@@ -68,7 +68,7 @@ const addParticipent = TextStyle(
 );
 
 const disconnectButton = TextStyle(
-  fontFamily: _fontRubikBold,
+  fontFamily: _fontRubikMedium,
   color: white,
   fontSize: 16.3,
 );
@@ -80,7 +80,7 @@ const phoneNumber = TextStyle(
     letterSpacing: 1.33);
 
 const button = TextStyle(
-    fontFamily: _fontRubikBold,
+    fontFamily: _fontRubikMedium,
     color: white,
     fontSize: 24.3,
     letterSpacing: 0.18);
@@ -89,7 +89,7 @@ const pinCode =
     TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 26.7);
 
 const nameWhite =
-    TextStyle(fontFamily: _fontRubikBold, color: white, fontSize: 18);
+    TextStyle(fontFamily: _fontRubikMedium, color: white, fontSize: 18);
 
 const nameDark =
     TextStyle(fontFamily: _fontRubikMedium, color: purpleFont, fontSize: 18);
@@ -98,7 +98,7 @@ const searchResultTile =
     TextStyle(fontFamily: _fontRubikMedium, color: darkBlueGrey, fontSize: 18);
 
 const loginBigText = TextStyle(
-    fontFamily: _fontRubikBold, color: white, fontSize: 17.3, height: 1.3);
+    fontFamily: _fontRubikMedium, color: white, fontSize: 17.3, height: 1.3);
 
 const fieldInput =
     TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 17.3);
@@ -113,7 +113,7 @@ const genderIconText =
     TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 14.0);
 
 const smallLine =
-    TextStyle(fontFamily: _fontRubikBold, color: white, fontSize: 13.3);
+    TextStyle(fontFamily: _fontRubikMedium, color: white, fontSize: 13.3);
 
 const fieldLabel =
     TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 13.3);
@@ -134,7 +134,7 @@ const myStory = TextStyle(
 );
 
 const myStoryCreate = TextStyle(
-  fontFamily: _fontRubikBold,
+  fontFamily: _fontRubikMedium,
   color: whiteOpacity20,
   fontSize: 10.6,
 );
@@ -146,7 +146,7 @@ const likeStyle = TextStyle(
 );
 
 const settingsAppbarTitle = TextStyle(
-  fontFamily: _fontRubikBold,
+  fontFamily: _fontRubikMedium,
   color: white,
   fontSize: 22.3,
 );
@@ -168,7 +168,7 @@ const chatMessageBody = TextStyle(
   height: 1.3,
 );
 const chatMessageName = TextStyle(
-  fontFamily: _fontRubikBold,
+  fontFamily: _fontRubikMedium,
   color: white,
   fontSize: 16.7,
   height: 1.3,
@@ -187,17 +187,19 @@ const emptyState = TextStyle(
 );
 
 const createGroupTitle = TextStyle(
-    fontFamily: _fontRubikBold, color: white, fontSize: 20, height: 1.1);
+    fontFamily: _fontRubikMedium, color: white, fontSize: 20, height: 1.1);
 
 const categoryName = TextStyle(
-    fontFamily: _fontRubikBold, color: darkBlueGrey, fontSize: 18.3, height: 1);
+    fontFamily: _fontRubikMedium,
+    color: darkBlueGrey,
+    fontSize: 18.3,
+    height: 1);
 
-const policyTitle = TextStyle(
-    fontFamily: _fontRubikBold, color: white, fontSize: 18.3);
+const policyTitle =
+    TextStyle(fontFamily: _fontRubikMedium, color: white, fontSize: 18.3);
 
-const policyContent = TextStyle(
-    fontFamily: _fontRubikRegular, color: white, fontSize: 18.7);
-
+const policyContent =
+    TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 18.7);
 
 const createCategoryTitle = TextStyle(
   fontFamily: _fontRubikMedium,
@@ -206,7 +208,7 @@ const createCategoryTitle = TextStyle(
 );
 
 const dialogTitle = TextStyle(
-  fontFamily: _fontRubikBold,
+  fontFamily: _fontRubikMedium,
   color: white,
   fontSize: 18,
 );
@@ -224,7 +226,10 @@ const personalDetailsHint = TextStyle(
     height: 1.3);
 
 const changeColorTitle = TextStyle(
-    fontFamily: _fontRubikBold, color: avatarRing, fontSize: 17.3, height: 1.3);
+    fontFamily: _fontRubikMedium,
+    color: avatarRing,
+    fontSize: 17.3,
+    height: 1.3);
 
 const drawerName = TextStyle(
   fontFamily: _fontRubikRegular,

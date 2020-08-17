@@ -35,13 +35,15 @@ class BottomSheetFab extends StatelessWidget {
                     height: 20.3, width: 20.3),
             backgroundColor: cornflower,
             onPressed: () async {
-              iconStore.clear();
-              categoryStore.clear();
-              return ExtendedNavigator.of(context)
-                  .pushNamed(Routes.selectIconScreen,
-                      arguments: SelectIconScreenArguments(
-                        mode: SelectIconMode.fromGroup,
-                      ));
+              if (!home.isLoading) {
+                iconStore.clear();
+                categoryStore.clear();
+                return ExtendedNavigator.of(context)
+                    .pushNamed(Routes.selectIconScreen,
+                        arguments: SelectIconScreenArguments(
+                          mode: SelectIconMode.fromGroup,
+                        ));
+              }
             },
           ),
         ),

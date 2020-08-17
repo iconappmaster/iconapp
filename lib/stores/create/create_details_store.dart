@@ -53,7 +53,7 @@ abstract class _CreateDetailsStoreBase with Store {
   Future selectGroupPhoto() async {
     try {
       isLoading = true;
-      final photo = await _mediaStore.uploadPhoto(ImageSource.gallery);
+      final photo = await _mediaStore.uploadPhoto(source:ImageSource.gallery);
       _selectedPhoto = photo;
     } finally {
       isLoading = false;

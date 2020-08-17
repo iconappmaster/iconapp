@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
@@ -27,7 +28,8 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  ScrollController _controller = ScrollController();
+  ScrollController _controller;
+  bool upDirection = true, flag = true;
 
   @override
   void initState() {
@@ -43,6 +45,17 @@ class _ChatScreenState extends State<ChatScreen> {
     // init the settings of the chat store
     sl<ChatSettingsStore>()..init();
 
+    _controller = ScrollController()
+      ..addListener(() {
+        upDirection =
+            _controller.position.userScrollDirection == ScrollDirection.forward;
+
+        // makes sure we don't call setState too much, but only when it is needed
+        if (upDirection != flag) setState(() {});
+
+        flag = upDirection;
+      });
+
     super.initState();
   }
 
@@ -50,25 +63,30 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     final chat = sl<ChatStore>();
     final story = sl<StoryStore>();
-    // final settings = sl<ChatSettingsStore>();
     final storiesMargin = const EdgeInsets.only(top: 24.0);
+
     return Scaffold(
       body: Observer(
-        builder: (_) => Stack(children: [
-          Container(
-            decoration: BoxDecoration(
-                gradient: gradientList[chat?.backgroundColor ?? 0]),
-            child: Column(
-              children: <Widget>[
-                ChatAppbar(),
-                BlueDivider(color: cornflower),
-                StoriesList(margin: storiesMargin, mode: story.mode),
-                ChatList(scrollController: _controller),
-                _buildComposer(chat.getComposerMode),
-              ],
+        builder: (_) => Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                  gradient: gradientList[chat?.backgroundColor ?? 0]),
+              child: Column(
+                children: <Widget>[
+                  ChatAppbar(),
+                  BlueDivider(color: cornflower),
+                  StoriesList(
+                      margin: storiesMargin,
+                      mode: story.mode,
+                      show: upDirection),
+                  ChatList(scrollController: _controller),
+                  _buildComposer(chat.getComposerMode),
+                ],
+              ),
             ),
-          ),
-        ]),
+          ],
+        ),
       ),
     );
   }
@@ -133,44 +151,55 @@ class SubscriberSheet extends StatelessWidget {
 
 final chatListKey = GlobalKey<AnimatedListState>();
 
-class ChatList extends StatelessWidget {
+class ChatList extends StatefulWidget {
   final ScrollController scrollController;
 
   const ChatList({Key key, @required this.scrollController}) : super(key: key);
+
+  @override
+  _ChatListState createState() => _ChatListState();
+}
+
+class _ChatListState extends State<ChatList> {
+  @override
+  void initState() {
+    sl<ChatStore>().initMessages();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
 
-    store.initMessages();
-
     return Observer(
       builder: (_) => Expanded(
-        child: AnimatedList(
+        child: ListView.builder(
           key: chatListKey,
-          controller: scrollController,
+          controller: widget.scrollController,
           physics: BouncingScrollPhysics(),
           reverse: true,
           shrinkWrap: true,
           padding: EdgeInsets.only(bottom: 12),
-          initialItemCount: store.getMessages.length,
-          itemBuilder: (context, index, animation) {
-            if (store.getMessages.isNotEmpty) {
-              final message = store?.getMessages[index];
-              switch (message.type) {
-                case MessageType.text:
-                  return TextMessage(message: message, animation: animation);
-                case MessageType.photo:
-                  return PhotoMessage(message: message, animation: animation);
-                case MessageType.video:
-                  return Container();
-                case MessageType.voice:
-                  return Container();
-                case MessageType.system:
-                  return Container();
-                case MessageType.replay:
-                  return Container();
-              }
+          itemCount: store.getMessages.length,
+          itemBuilder: (_, index) {
+            // if (store.getMessages.isNotEmpty) {
+            final message = store?.getMessages[index];
+            final isMe = store.isMe(message.sender?.id);
+            switch (message.type) {
+              case MessageType.text:
+                return TextMessage(message: message, isMe: isMe);
+              case MessageType.photo:
+                return PhotoMessage(message: message, isMe: isMe);
+              case MessageType.video:
+                return Container();
+              case MessageType.voice:
+                return Container();
+              case MessageType.system:
+                return Container();
+              case MessageType.replay:
+                return Container();
             }
+            // }
 
             return Container();
           },

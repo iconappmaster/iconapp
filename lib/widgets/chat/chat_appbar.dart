@@ -19,7 +19,7 @@ class ChatAppbar extends StatelessWidget {
       builder: (_) => Container(
         height: context.heightPlusStatusbarPerc(.116),
         child: Padding(
-          padding: const EdgeInsets.only(top: 34.0, right: 21.3),
+          padding: const EdgeInsets.only(left: 15, top: 34.0, right: 21.3),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -30,23 +30,24 @@ class ChatAppbar extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    HebrewText(store.getConversationName ?? '', style: loginBigText),
-                    HebrewText('12,000 משתתפים', style: fieldLabel), // should come from socket
+                    HebrewText(store.getConversationName ?? '',
+                        style: loginBigText),
+                    HebrewText('12,000 משתתפים',
+                        style: fieldLabel), // should come from socket
                   ],
                 ),
               ),
               Observer(builder: (_) {
                 return IconButton(
+                  visualDensity: VisualDensity.comfortable,
                   icon: SvgPicture.asset(
-                    store.isPinned
-                        ? 'assets/images/pin_purple.svg'
-                        : 'assets/images/pin.svg',
-                    height: 26,
-                    width: 26,
-                  ),
+                      store.isPinned
+                          ? 'assets/images/pin_purple.svg'
+                          : 'assets/images/pin.svg',
+                      height: 26,
+                      width: 26),
                   onPressed: () async {
                     await store.pinConversation(!store.isPinned);
-
                     if (store.isPinned) {
                       context.showFlushbar(
                           message: 'השיחה הוצמדה', color: uiTintColorFill);
@@ -55,6 +56,7 @@ class ChatAppbar extends StatelessWidget {
                 );
               }),
               IconButton(
+                visualDensity: VisualDensity.comfortable,
                 icon: SvgPicture.asset('assets/images/dots.svg',
                     height: 26, width: 26),
                 onPressed: () => ExtendedNavigator.of(context)

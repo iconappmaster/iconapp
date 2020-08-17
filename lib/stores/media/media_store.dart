@@ -27,7 +27,8 @@ abstract class _MediaStoreBase with Store {
     _userStore = sl<UserStore>();
   }
 
-  Future<String> uploadPhoto(ImageSource source, [File file]) async {
+  Future<String> uploadPhoto(
+      {ImageSource source = ImageSource.gallery, File file}) async {
     String result = '';
     _isLoading = true;
     if (file != null) {
@@ -44,10 +45,15 @@ abstract class _MediaStoreBase with Store {
     return result;
   }
 
-  Future<String> uploadVideo(ImageSource source) async {
-    final videoFile = await _imagePicker.getVideo(source: source);
-    final file = File(videoFile.path);
-    return await _repository.uploadVideo(file, getPath, getFileName);
+  Future<String> uploadVideo({ImageSource source = ImageSource.gallery, String path}) async {
+    try {
+      _isLoading = true;
+      final result = await _repository.uploadSinglePhoto(File(path), getPath, getFileName);
+      _isLoading = false;
+      return result;
+    } on Exception catch (_) {
+      return '';
+    }
   }
 
   String get getPath => _userStore.getUser.phone;

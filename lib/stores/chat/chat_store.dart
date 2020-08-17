@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
@@ -30,7 +31,7 @@ abstract class _ChatStoreBase with Store {
   ChatState _state = ChatState.initial();
 
   @observable
-  ObservableList<MessageModel> _messages = ObservableList();
+  ObservableList<MessageModel> _messages = ObservableList.of([]);
 
   @computed
   ChatState get getState => _state;
@@ -51,7 +52,8 @@ abstract class _ChatStoreBase with Store {
   String get getConversationName => conversation.name;
 
   @computed
-  List<MessageModel> get getMessages => _messages.reversed.toList();
+  List<MessageModel> get getMessages =>
+      _messages.reversed.toList(growable: true);
 
   @computed
   bool get shouldHideActions => _state.inputMessage.isNotEmpty;
@@ -98,7 +100,8 @@ abstract class _ChatStoreBase with Store {
   @action
   void initMessages() {
     if (_messages.isNotEmpty) _messages.clear();
-    _messages.addAll(conversation.messages);
+    if (conversation.messages.isNotEmpty)
+      _messages.addAll(conversation.messages);
   }
 
   @action
@@ -132,9 +135,15 @@ abstract class _ChatStoreBase with Store {
   }
 
   @action
-  Future likeMessage(int messageId) async {
+  Future likeMessage(MessageModel msg) async {
     try {
-      await _repository.likeMessage(messageId);
+      if (msg.isLiked) {
+        final message = await _repository.unlikeMessage(msg.id);
+        _messages[_messages.indexOf(msg)] = message;
+      } else {
+        final message = await _repository.likeMessage(msg.id);
+        _messages[_messages.indexOf(msg)] = message;
+      }
     } on DioError catch (e) {
       print(e);
     }
@@ -143,53 +152,85 @@ abstract class _ChatStoreBase with Store {
   @action
   Future sendTextMessage() async {
     try {
-      _state = _state.copyWith(loading: true);
+      // _state = _state.copyWith(loading: true);
 
       final msg = MessageModel(
-        sender: _userStore.getUser,
-        body: _state.inputMessage,
-        status: MessageStatus.pending,
-        likeCount: 0,
-        timestamp: DateTime.now().millisecondsSinceEpoch,
-        type: MessageType.text,
-      );
+          id: DateTime.now().millisecondsSinceEpoch,
+          sender: _userStore.getUser,
+          body: _state.inputMessage,
+          isLiked: false,
+          status: MessageStatus.pending,
+          likeCount: 0,
+          timestamp: DateTime.now().millisecondsSinceEpoch,
+          type: MessageType.text);
 
       _messages.add(msg);
-
-      // send and update
-      final msgRecieved = await _repository.sendMessage(conversation.id, msg);
-      final sentMsg = msgRecieved.copyWith(status: MessageStatus.sent);
-      _messages[_messages.indexOf(msg)] = sentMsg;
+      
+      await _sendMessage(msg);
     } on DioError catch (e) {
       print(e);
-    } finally {
-      _state = _state.copyWith(loading: false, inputMessage: '');
     }
   }
 
   @action
   Future sendPhotoMessage(ImageSource source) async {
-    // handle local photo
-    final pickedFile = await sl<ImagePicker>().getImage(source: source);
+    try {
+      final pickedFile =
+          await sl<ImagePicker>().getImage(source: source, imageQuality: 70);
 
-    var msg = MessageModel(
-      body: pickedFile.path,
-      status: MessageStatus.pending,
-      likeCount: 0,
-      timestamp: DateTime.now().millisecondsSinceEpoch,
-      type: MessageType.photo,
-    );
+      final msg = MessageModel(
+        id: DateTime.now().millisecondsSinceEpoch,
+        sender: _userStore.getUser,
+        body: pickedFile.path,
+        isLiked: false,
+        status: MessageStatus.pending,
+        likeCount: 0,
+        timestamp: DateTime.now().millisecondsSinceEpoch,
+        type: MessageType.photo,
+      );
 
-    _messages.add(msg);
+      _messages.add(msg);
 
-    // final msgRecieved = await _repository.sendMessage(conversation.id, msg);
-    // final sentMsg = msgRecieved.copyWith(status: MessageStatus.sent);
-    // _messages[_messages.indexOf(msg)] = sentMsg;
+      // upload to firebase
+      final uploaded =
+          await _mediaStore.uploadPhoto(file: File(pickedFile.path));
+
+      // update backend
+      final sentMsg = msg.copyWith(status: MessageStatus.sent, body: uploaded);
+
+      await _sendMessage(sentMsg);
+    } on DioError catch (e) {
+      print(e);
+    }
   }
 
   @action
   Future sendVideoMessage(ImageSource source) async {
-    await _mediaStore.uploadVideo(source);
+    // handle local photo
+    final pickedFile = await sl<ImagePicker>().getVideo(
+      source: source,
+      maxDuration: source == ImageSource.camera
+          ? Duration(seconds: 10)
+          : Duration(minutes: 1),
+    );
+
+    var msg = MessageModel(
+      id: DateTime.now().millisecondsSinceEpoch,
+      body: pickedFile.path,
+      sender: _userStore.getUser,
+      isLiked: false,
+      status: MessageStatus.pending,
+      likeCount: 0,
+      timestamp: DateTime.now().millisecondsSinceEpoch,
+      type: MessageType.video,
+    );
+
+    _messages.add(msg);
+
+    final uploadedPath = await _mediaStore.uploadVideo();
+    final sentMsg =
+        msg.copyWith(status: MessageStatus.sent, body: uploadedPath);
+    await _sendMessage(sentMsg);
   }
 
   @action
@@ -206,4 +247,11 @@ abstract class _ChatStoreBase with Store {
     _state = ChatState.initial();
     _messages.clear();
   }
+
+  Future _sendMessage(MessageModel msg) async {
+    final resMsg = await _repository.sendMessage(conversation.id, msg);
+    _messages[_messages.indexOf(msg)] = resMsg;
+  }
+
+  bool isMe(int id) => (id == _userStore.getUser.id) ?? false;
 }

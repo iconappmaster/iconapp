@@ -14,6 +14,8 @@ import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
 
+const photoTag = 'photo';
+
 class SystemMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -30,35 +32,54 @@ class AudioMessage extends StatelessWidget {
 
 class PhotoMessage extends StatelessWidget {
   final MessageModel message;
-  final Animation<double> animation;
+  // final Animation<double> animation;
+  final bool isMe;
 
   const PhotoMessage({
     Key key,
     @required this.message,
-    @required this.animation,
+    // @required this.animation,
+    @required this.isMe,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final color = message.status == MessageStatus.pending ? blueBerry : darkIndigo2;
-    return SizeTransition(
-      sizeFactor: animation,
-      child: AnimatedContainer(
-        key: Key(message.id.toString()),
-        duration: Duration(milliseconds: 400),
-        constraints: BoxConstraints(maxHeight: 225),
+    final store = sl<ChatStore>();
+    return Container(
+      margin: EdgeInsets.only(right: isMe ? 50 : 0, left: isMe ? 0 : 50),
+      child: Opacity(
+        opacity: message.status == MessageStatus.pending ? .8 : 1,
         child: IconBubble(
-          padding: BubbleEdges.all(0),
-          color: color,
+          onDoubleTap: () async => await store.likeMessage(message),
+          isMe: isMe,
+          message: message,
           onTap: () => ExtendedNavigator.of(context).pushNamed(
-            Routes.fullImageScreen,
-            arguments: FullImageScreenArguments(
-              photo: PhotoModel(url: message.body),
+              Routes.fullImageScreen,
+              arguments: FullImageScreenArguments(
+                  photo: PhotoModel(url: message?.body ?? ''))),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            HebrewText(
+              message.sender?.fullName ?? '',
+              style: chatMessageName,
+              textAlign: TextAlign.start,
             ),
-          ),
-          child: message.body.startsWith('http')
-              ? NetworkPhoto(url: message.body)
-              : Image.file(File(message.body)),
+            SizedBox(height: 5),
+            message.body.startsWith('http')
+                ? AspectRatio(
+                    aspectRatio: 1,
+                    child: NetworkPhoto(
+                      url: message.body,
+                    ),
+                  )
+                : AspectRatio(
+                    aspectRatio: 1,
+                    child: Image.file(
+                      File(message.body),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+          ]),
         ),
       ),
     );
@@ -66,65 +87,80 @@ class PhotoMessage extends StatelessWidget {
 }
 
 class VideoMessage extends StatelessWidget {
+  final MessageModel message;
+  final Animation<double> animation;
+  final bool isMe;
+
+  const VideoMessage({
+    Key key,
+    @required this.message,
+    @required this.animation,
+    @required this.isMe,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    final store = sl<ChatStore>();
+    return Container(
+      key: Key(message.id.toString()),
+      constraints: BoxConstraints(maxHeight: 225),
+      child: IconBubble(
+        onDoubleTap: () async => await store.likeMessage(message),
+        isMe: isMe,
+        message: message,
+        padding: BubbleEdges.all(0),
+        onTap: () => ExtendedNavigator.of(context).pushNamed(
+          Routes.fullImageScreen,
+          arguments: FullImageScreenArguments(
+            photo: PhotoModel(url: message?.body ?? ''),
+          ),
+        ),
+        child: message.body.startsWith('http')
+            ? NetworkPhoto(url: message.body)
+            : Image.file(File(message.body)),
+      ),
+    );
   }
 }
 
 class TextMessage extends StatelessWidget {
   final MessageModel message;
-  final Animation<double> animation;
-  const TextMessage({Key key, @required this.message, this.animation})
-      : super(key: key);
+  // final Animation<double> animation;
+  final bool isMe;
+  const TextMessage({
+    Key key,
+    @required this.message,
+    @required this.isMe,
+    // this.animation,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final color =
-        message.status == MessageStatus.pending ? blueBerry : darkIndigo2;
-    return SizeTransition(
-      sizeFactor: animation,
-      child: Stack(
-        children: [
-          IconBubble(
+    final color = message.status == MessageStatus.pending
+        ? blueBerry
+        : isMe ? cornflower : darkIndigo2;
+    return Stack(
+      children: [
+        IconBubble(
+          message: message,
+          isMe: isMe,
+          onDoubleTap: () async => await sl<ChatStore>().likeMessage(message),
+          child: Container(
             color: color,
-            onTap: () async {
-              await sl<ChatStore>().likeMessage(message.id);
-            },
-            child: Container(
-              color: color,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  HebrewText(message.sender?.fullName ?? '',
-                      style: chatMessageName, textAlign: TextAlign.start),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      HebrewText(message.body,
-                          style: chatMessageBody, textAlign: TextAlign.start),
-                      SizedBox(width: 10),
-                    ],
-                  ),
-                  // HebrewText(
-                  //   message.timestamp.humanReadableTime(),
-                  //   style: chatMessageBody.copyWith(fontSize: 10),
-                  // ),
-                ],
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                HebrewText(message.sender?.fullName ?? '',
+                    style: chatMessageName, textAlign: TextAlign.start),
+                HebrewText(message.body,
+                    style: chatMessageBody, textAlign: TextAlign.start),
+              ],
             ),
           ),
-          // if (message.likeCount > 0)
-          Positioned(
-            top: 0,
-            right: 25,
-            child: LikeBubble(
-              isLiked: message?.isLiked ?? false,
-              likeNumber: message?.likeCount ?? 0,
-            ),
-          ),
-        ],
-      ),
+        ),
+        // if (message.likeCount > 0)
+      ],
+      // ),
     );
   }
 }
@@ -176,30 +212,52 @@ class LikeBubble extends StatelessWidget {
 class IconBubble extends StatelessWidget {
   final Widget child;
   final Function onTap;
-  final Color color;
+  final Function onDoubleTap;
   final BubbleEdges padding;
+  final bool isMe;
+  final MessageModel message;
 
-  const IconBubble(
-      {Key key,
-      @required this.child,
-      @required this.onTap,
-      @required this.color,
-      this.padding})
-      : super(key: key);
+  const IconBubble({
+    Key key,
+    @required this.child,
+    @required this.message,
+    @required this.isMe,
+    this.onTap,
+    this.onDoubleTap,
+    this.padding,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final color = message.status == MessageStatus.pending
+        ? blueBerry
+        : isMe ? cornflower : darkIndigo2;
     return GestureDetector(
+      onDoubleTap: onDoubleTap,
       onTap: onTap,
-      child: Bubble(
-        elevation: 3,
-        stick: true,
-        padding: padding ?? BubbleEdges.all(15),
-        margin: BubbleEdges.only(right: 9, top: 5, bottom: 5, left: 9),
-        alignment: Alignment.centerRight,
-        color: color,
-        nip: BubbleNip.rightTop,
-        child: child,
-      ),
+      child: Stack(children: [
+        Bubble(
+          elevation: 3,
+          stick: true,
+          padding: padding ?? BubbleEdges.all(15),
+          margin: BubbleEdges.only(right: 9, top: 5, bottom: 5, left: 9),
+          alignment: isMe ? Alignment.centerLeft : Alignment.centerRight,
+          color: color,
+          nip: isMe ? BubbleNip.leftTop : BubbleNip.rightTop,
+          child: child,
+        ),
+        if (message.likeCount > 0 ?? false)
+          Positioned(
+              top: 0,
+              right: isMe ? null : 25,
+              left: isMe ? 25 : null,
+              child: LikeBubble(
+                  isLiked: message?.isLiked ?? false,
+                  likeNumber: message?.likeCount ?? 0)),
+        // HebrewText(
+        //   message.timestamp.humanReadableTime(),
+        //   style: chatMessageBody.copyWith(fontSize: 10),
+        // ),
+      ]),
     );
   }
 }

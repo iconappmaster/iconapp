@@ -44,6 +44,7 @@ abstract class _HomeStoreBase with Store {
   @computed
   List<Conversation> get conversations => _categories;
 
+
   @action
   void addConversation(Conversation category) {
     _categories.add(category);

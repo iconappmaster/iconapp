@@ -54,7 +54,7 @@ abstract class _OnboardingStoreBase with Store {
   Future pickAndUploadPhoto() async {
     _state = _state.copyWith(loading: true);
     try {
-      final url = await _mediaStore.uploadPhoto(ImageSource.gallery);
+      final url = await _mediaStore.uploadPhoto(source: ImageSource.gallery);
 
       _state = _state.copyWith(
         loading: false,

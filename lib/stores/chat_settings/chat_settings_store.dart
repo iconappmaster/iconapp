@@ -76,7 +76,7 @@ abstract class _ChatSettingsStoreBase with Store {
   Future<String> uploadPhoto() async {
     var url = '';
     try {
-      url = await _mediaStore.uploadPhoto(ImageSource.gallery);
+      url = await _mediaStore.uploadPhoto(source: ImageSource.gallery);
     } on Exception catch (_) {}
 
     return url;

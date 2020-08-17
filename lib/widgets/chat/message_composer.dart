@@ -128,22 +128,30 @@ class ComposeActionButtons extends StatelessWidget {
         left: store.shouldHideActions ? margin : SendButton.size + margin,
         child: Row(
           children: <Widget>[
-            _buildActionButton('assets/images/camera.svg',
-                () async => await store.sendPhotoMessage(ImageSource.camera)),
-            _buildActionButton('assets/images/photo.svg',
-                () => store.sendPhotoMessage(ImageSource.gallery)),
+            _buildActionButton(
+              'assets/images/camera.svg',
+              onTap: () async => await store.sendPhotoMessage(ImageSource.camera),
+              onLongTap: () async => await store.sendVideoMessage(ImageSource.camera),
+            ),
+            _buildActionButton(
+              'assets/images/photo.svg',
+              onTap: () async =>  store.sendPhotoMessage(ImageSource.gallery),
+              onLongTap: () async => await store.sendVideoMessage(ImageSource.gallery),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildActionButton(String asset, Function onTap) {
+  Widget _buildActionButton(String asset,
+      {Function onTap, Function onLongTap}) {
     final size = 25.7;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4.7),
       child: InkResponse(
         enableFeedback: true,
+        onLongPress: onLongTap,
         onTap: onTap,
         child: SvgPicture.asset(asset, height: size, width: size),
       ),
@@ -182,7 +190,8 @@ class SendButton extends StatelessWidget {
               onPressed: () async {
                 if (isMessageMode()) {
                   textEditcontroller.clear();
-                  chatListKey.currentState.insertItem(0, duration: Duration(milliseconds: 250));
+                  // chatListKey.currentState
+                  //     .insertItem(0, duration: Duration(milliseconds: 250));
                   scrollController.jumpTo(0);
                   await store.sendTextMessage();
                 }

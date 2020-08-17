@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
@@ -59,6 +60,8 @@ class ConversationItem extends StatelessWidget {
         child: Container(
           height: 81.7,
           padding: EdgeInsets.only(
+            top: 8.7,
+            bottom: 8.7,
             right: 8.7,
             left: 15.7,
           ),
@@ -85,10 +88,17 @@ class ConversationItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    HebrewText(model.name, style: nameWhite),
+                    HebrewText(model.name,
+                        style: nameWhite,
+                        maxLines: 1,
+                        textAlign: TextAlign.start),
                     SizedBox(height: 4),
-                    HebrewText(formatLastMessage(model.lastMessage),
-                        style: lastWritten),
+                    Expanded(
+                        child: HebrewText(formatLastMessage(model.lastMessage),
+                            style: lastWritten,
+                            maxLength: 20,
+                            overflow: TextOverflow.fade,
+                            textAlign: TextAlign.start))
                   ],
                 ),
               ),
@@ -97,13 +107,16 @@ class ConversationItem extends StatelessWidget {
                 children: <Widget>[
                   if (model.lastMessage != null)
                     HebrewText(
-                      model.lastMessage?.timestamp?.humanReadableTime() ?? '',
-                      style: timeOfMessage,
-                    ),
+                        model.lastMessage?.timestamp?.humanReadableTime() ?? '',
+                        style: timeOfMessage),
                   SizedBox(height: 8.7),
                   if (model?.unreadMessageCount ?? 0 > 0)
-                    _MessageCounter(count: model.unreadMessageCount)
-                  
+                    _MessageCounter(count: model?.unreadMessageCount ?? 0),
+                  if (model?.isPinned ?? false)
+                    Padding(
+                        padding: EdgeInsets.only(top: 8.7),
+                        child: SvgPicture.asset('assets/images/pin.svg',
+                            height: 12, width: 12)),
                 ],
               ),
             ],
@@ -113,9 +126,17 @@ class ConversationItem extends StatelessWidget {
     );
   }
 
-  formatLastMessage(MessageModel conversation) => conversation?.sender == null
-      ? 'קבוצה חדשה'
-      : '${model?.lastMessage?.sender?.fullName}: ${model?.lastMessage?.body ?? ''}';
+  String formatLastMessage(MessageModel conversation) {
+    String result = '';
+    if (conversation?.sender == null)
+      result = 'קבוצה חדשה';
+    else
+      result = model.lastMessage?.body?.startsWith('http') ?? false
+          ? 'מדיה'
+          : '${model?.lastMessage?.sender?.fullName}: ${model?.lastMessage?.body ?? ''}';
+
+    return result;
+  }
 }
 
 class _MessageCounter extends StatelessWidget {

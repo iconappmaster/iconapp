@@ -15,14 +15,16 @@ enum StoryMode { home, conversation }
 
 const _storySize = 52.0;
 
-class StoriesList extends StatelessWidget {
+class StoriesList extends StatefulWidget {
   final StoryMode mode;
   final EdgeInsets margin;
+  final bool show;
 
   StoriesList({
     Key key,
     @required this.mode,
     this.margin,
+    this.show = false,
   }) : super(key: key) {
     switch (mode) {
       case StoryMode.home:
@@ -36,24 +38,34 @@ class StoriesList extends StatelessWidget {
   }
 
   @override
+  _StoriesListState createState() => _StoriesListState();
+}
+
+class _StoriesListState extends State<StoriesList>
+    with TickerProviderStateMixin {
+  @override
   Widget build(BuildContext context) {
     final store = sl<StoryStore>();
     return Observer(
-      builder: (_) => Container(
-        margin: margin,
-        height: context.heightPlusStatusbarPerc(.1),
-        width: context.widthPx,
-        child: ListView.builder(
-          itemCount: store.getStories.length,
-          shrinkWrap: true,
-          scrollDirection: Axis.horizontal,
-          physics: BouncingScrollPhysics(),
-          itemBuilder: (context, index) {
-            final story = store.getStories[index];
-            return story?.isAddButton ?? false
-                ? StoryAddButton(onTap: () => print('addstory'))
-                : StoryTile(story: story, onTap: () => print('on story tap'));
-          },
+      builder: (_) => AnimatedSize(
+        vsync: this,
+        duration: Duration(milliseconds: 350),
+        child: Container(
+          margin: widget.margin,
+          height: widget.show ? context.heightPlusStatusbarPerc(.1) : 0,
+          width: context.widthPx,
+          child: ListView.builder(
+            itemCount: store.getStories.length,
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            physics: BouncingScrollPhysics(),
+            itemBuilder: (context, index) {
+              final story = store.getStories[index];
+              return story?.isAddButton ?? false
+                  ? StoryAddButton(onTap: () => print('addstory'))
+                  : StoryTile(story: story, onTap: () => print('on story tap'));
+            },
+          ),
         ),
       ),
     );

@@ -140,8 +140,8 @@ mixin _$ChatStore on _ChatStoreBase, Store {
   final _$likeMessageAsyncAction = AsyncAction('_ChatStoreBase.likeMessage');
 
   @override
-  Future<dynamic> likeMessage(int messageId) {
-    return _$likeMessageAsyncAction.run(() => super.likeMessage(messageId));
+  Future<dynamic> likeMessage(MessageModel msg) {
+    return _$likeMessageAsyncAction.run(() => super.likeMessage(msg));
   }
 
   final _$sendTextMessageAsyncAction =
