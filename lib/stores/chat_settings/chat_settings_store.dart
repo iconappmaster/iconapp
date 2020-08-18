@@ -27,6 +27,9 @@ abstract class _ChatSettingsStoreBase with Store {
   }
 
   @observable
+  bool _isNotification = false;
+
+  @observable
   bool _isLoading = false;
 
   @observable
@@ -36,13 +39,17 @@ abstract class _ChatSettingsStoreBase with Store {
   ObservableList<UserModel> _users = ObservableList.of([]);
 
   @computed
+  bool get isNotification => _isNotification;
+
+  @computed
   bool get isLoadig => _isLoading || _mediaStore.loading;
 
   @computed
   int get selectedColor => _selectedColor;
 
   @computed
-  String get getConversationPhoto => _chat.conversation?.backgroundPhoto?.url ?? '';
+  String get getConversationPhoto =>
+      _chat.conversation?.backgroundPhoto?.url ?? '';
 
   @computed
   String get getConversationName => _chat.conversation.name;
@@ -67,8 +74,8 @@ abstract class _ChatSettingsStoreBase with Store {
       _isLoading = true;
       final conversation = await _repository.changeBackgroundColor(
           _chat.conversation.id, colorIndex);
+      _chat.setConversation(conversation);
       _selectedColor = conversation.conversation.backgroundColor;
-      _chat.selectedColor = colorIndex;
     } on Exception catch (e) {
       print(e);
     } finally {
@@ -81,6 +88,7 @@ abstract class _ChatSettingsStoreBase with Store {
     users.clear();
     users.addAll(_chat.getState.conversation.conversation.users);
     _selectedColor = _chat.conversation.backgroundColor;
+    _isNotification = _chat.getState.conversation?.isNotification ?? true;
   }
 
   @action
@@ -148,7 +156,7 @@ abstract class _ChatSettingsStoreBase with Store {
   }
 
   @action
-  Future changeGroupName(String groupName) async {
+  Future changeConversationName(String groupName) async {
     try {
       final chatStore = sl<ChatStore>();
       _isLoading = true;
@@ -178,6 +186,19 @@ abstract class _ChatSettingsStoreBase with Store {
       );
 
       _chat.setConversation(conversation);
+    } on Exception catch (e) {
+      print(e);
+    } finally {
+      _isLoading = false;
+    }
+  }
+
+  @action
+  Future setNotification(bool value) async {
+    try {
+      _isLoading = true;
+      _isNotification = value;
+      await _repository.setNotification(_chat.conversation.id, value);
     } on Exception catch (e) {
       print(e);
     } finally {

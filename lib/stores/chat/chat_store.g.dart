@@ -16,13 +16,6 @@ mixin _$ChatStore on _ChatStoreBase, Store {
       (_$getStateComputed ??= Computed<ChatState>(() => super.getState,
               name: '_ChatStoreBase.getState'))
           .value;
-  Computed<Conversation> _$conversationComputed;
-
-  @override
-  Conversation get conversation => (_$conversationComputed ??=
-          Computed<Conversation>(() => super.conversation,
-              name: '_ChatStoreBase.conversation'))
-      .value;
   Computed<int> _$backgroundColorComputed;
 
   @override
@@ -30,6 +23,13 @@ mixin _$ChatStore on _ChatStoreBase, Store {
       (_$backgroundColorComputed ??= Computed<int>(() => super.backgroundColor,
               name: '_ChatStoreBase.backgroundColor'))
           .value;
+  Computed<Conversation> _$conversationComputed;
+
+  @override
+  Conversation get conversation => (_$conversationComputed ??=
+          Computed<Conversation>(() => super.conversation,
+              name: '_ChatStoreBase.conversation'))
+      .value;
   Computed<bool> _$isPinnedComputed;
 
   @override
@@ -92,21 +92,6 @@ mixin _$ChatStore on _ChatStoreBase, Store {
   set _messages(ObservableList<MessageModel> value) {
     _$_messagesAtom.reportWrite(value, super._messages, () {
       super._messages = value;
-    });
-  }
-
-  final _$selectedColorAtom = Atom(name: '_ChatStoreBase.selectedColor');
-
-  @override
-  int get selectedColor {
-    _$selectedColorAtom.reportRead();
-    return super.selectedColor;
-  }
-
-  @override
-  set selectedColor(int value) {
-    _$selectedColorAtom.reportWrite(value, super.selectedColor, () {
-      super.selectedColor = value;
     });
   }
 
@@ -266,10 +251,9 @@ mixin _$ChatStore on _ChatStoreBase, Store {
   @override
   String toString() {
     return '''
-selectedColor: ${selectedColor},
 getState: ${getState},
-conversation: ${conversation},
 backgroundColor: ${backgroundColor},
+conversation: ${conversation},
 isPinned: ${isPinned},
 getConversationName: ${getConversationName},
 getMessages: ${getMessages},

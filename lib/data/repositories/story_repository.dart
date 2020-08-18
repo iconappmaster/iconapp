@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/data/models/story_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
+import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 
 
 abstract class StoryRepository {
@@ -16,6 +18,12 @@ abstract class StoryRepository {
 }
 
 class StoryRepositoryImpl implements StoryRepository {
+
+  final RestClient rest;
+
+  StoryRepositoryImpl({@required this.rest});
+
+
   @override
   Future<StoryModel> createStory() {
     throw UnimplementedError();
@@ -23,12 +31,12 @@ class StoryRepositoryImpl implements StoryRepository {
 
   @override
   Future<List<StoryModel>> getConversationsStories(int conversationId) async {
-    return Future.value(mockStories);
+    return await rest.conversationStories(conversationId);
   }
 
   @override
-  Future<List<StoryModel>> getHomeStories() {
-    return Future.value(mockStories);
+  Future<List<StoryModel>> getHomeStories() async {
+    return await rest.homeStories();
   }
 }
 

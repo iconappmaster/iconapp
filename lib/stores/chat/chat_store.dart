@@ -37,14 +37,11 @@ abstract class _ChatStoreBase with Store {
   @computed
   ChatState get getState => _state;
 
-  @observable
-  int selectedColor = 0;
+  @computed
+  int get backgroundColor =>  conversation.backgroundColor;
 
   @computed
   Conversation get conversation => _state.conversation.conversation;
-
-  @computed
-  int get backgroundColor => selectedColor;
 
   @computed
   bool get isPinned => _state.conversation.isPinned ?? false;

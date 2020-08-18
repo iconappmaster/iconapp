@@ -9,6 +9,13 @@ part of 'chat_settings_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
+  Computed<bool> _$isNotificationComputed;
+
+  @override
+  bool get isNotification =>
+      (_$isNotificationComputed ??= Computed<bool>(() => super.isNotification,
+              name: '_ChatSettingsStoreBase.isNotification'))
+          .value;
   Computed<bool> _$isLoadigComputed;
 
   @override
@@ -65,6 +72,22 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
       (_$usersComputed ??= Computed<List<UserModel>>(() => super.users,
               name: '_ChatSettingsStoreBase.users'))
           .value;
+
+  final _$_isNotificationAtom =
+      Atom(name: '_ChatSettingsStoreBase._isNotification');
+
+  @override
+  bool get _isNotification {
+    _$_isNotificationAtom.reportRead();
+    return super._isNotification;
+  }
+
+  @override
+  set _isNotification(bool value) {
+    _$_isNotificationAtom.reportWrite(value, super._isNotification, () {
+      super._isNotification = value;
+    });
+  }
 
   final _$_isLoadingAtom = Atom(name: '_ChatSettingsStoreBase._isLoading');
 
@@ -144,13 +167,13 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
     return _$addUserAsyncAction.run(() => super.addUser(userId));
   }
 
-  final _$changeGroupNameAsyncAction =
-      AsyncAction('_ChatSettingsStoreBase.changeGroupName');
+  final _$changeConversationNameAsyncAction =
+      AsyncAction('_ChatSettingsStoreBase.changeConversationName');
 
   @override
-  Future<dynamic> changeGroupName(String groupName) {
-    return _$changeGroupNameAsyncAction
-        .run(() => super.changeGroupName(groupName));
+  Future<dynamic> changeConversationName(String groupName) {
+    return _$changeConversationNameAsyncAction
+        .run(() => super.changeConversationName(groupName));
   }
 
   final _$changeConversationPhotoAsyncAction =
@@ -160,6 +183,14 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
   Future<dynamic> changeConversationPhoto() {
     return _$changeConversationPhotoAsyncAction
         .run(() => super.changeConversationPhoto());
+  }
+
+  final _$setNotificationAsyncAction =
+      AsyncAction('_ChatSettingsStoreBase.setNotification');
+
+  @override
+  Future<dynamic> setNotification(bool value) {
+    return _$setNotificationAsyncAction.run(() => super.setNotification(value));
   }
 
   final _$_ChatSettingsStoreBaseActionController =
@@ -179,6 +210,7 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
   @override
   String toString() {
     return '''
+isNotification: ${isNotification},
 isLoadig: ${isLoadig},
 selectedColor: ${selectedColor},
 getConversationPhoto: ${getConversationPhoto},

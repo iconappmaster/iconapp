@@ -2,13 +2,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/routes/router.gr.dart';
-import 'package:iconapp/widgets/global/base_dialog.dart';
-import 'package:iconapp/widgets/global/hebrew_input_text.dart';
-import 'package:iconapp/widgets/login/login_background.dart';
+import '../core/theme.dart';
+import '../routes/router.gr.dart';
+import '../widgets/global/base_dialog.dart';
+import '../widgets/global/hebrew_input_text.dart';
+import '../widgets/login/login_background.dart';
 import '../core/extensions/context_ext.dart';
-import 'package:iconapp/widgets/global/next_button.dart';
+import '../widgets/global/next_button.dart';
 import '../generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -24,6 +24,7 @@ class LoginScreen extends StatelessWidget {
           Positioned(
             bottom: context.heightPx * .091,
             child: NextButton(
+              height: 34,
                 onClick: () => ExtendedNavigator.of(context)
                     .pushNamed(Routes.onboardingPhone)),
           ),

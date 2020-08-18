@@ -12,6 +12,7 @@ abstract class ChatSettingsRepository {
   Future<ConversationResponse> makeUserAdmin(int conversationId, int userId);
   Future<ConversationResponse> updateConversation(
       int conversationId, Conversation conversation);
+  Future setNotification(int conversationId, bool isOn);
 }
 
 class ChatSettingsRepositoryImpl implements ChatSettingsRepository {
@@ -47,5 +48,14 @@ class ChatSettingsRepositoryImpl implements ChatSettingsRepository {
   Future<ConversationResponse> updateConversation(
       conversationId, Conversation conversation) {
     return restClient.updateConversation(conversationId, conversation);
+  }
+
+  @override
+  Future setNotification(int conversationId, bool isOn) async {
+    if (isOn) {
+      return await restClient.turnOnConversationNotifications(conversationId);
+    } else {
+      return await restClient.turnOffConversationNotifications(conversationId);
+    }
   }
 }

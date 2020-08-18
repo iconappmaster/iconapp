@@ -96,9 +96,11 @@ class StoryAddButton extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
                   child: NetworkPhoto(
-                      url: user.getUser?.photo?.url ?? '',
-                      height: _storySize,
-                      width: _storySize),
+                    placeHolder: 'assets/images/user_icon.svg',
+                    url: user.getUser?.photo?.url ?? '',
+                    height: _storySize,
+                    width: _storySize,
+                  ),
                 ),
               ),
               Positioned(left: 0, bottom: 0, child: PlusCircle(size: 30)),

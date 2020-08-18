@@ -43,8 +43,12 @@ class HomeScreen extends StatelessWidget {
                   children: <Widget>[
                     IconAppbar(widget: DrawerIcon(scaffoldKey: _scaffoldKey)),
                     Positioned(
-                        top: context.heightPlusStatusbarPerc(.128),
-                        child: StoriesList(mode: stories.mode, show: true)),
+                      top: context.heightPlusStatusbarPerc(.128),
+                      child: StoriesList(
+                        mode: stories.mode,
+                        show: true,
+                      ),
+                    ),
                     ConversationsList(
                       onConversationTap: (conversation) async {
                         await ExtendedNavigator.of(context).pushNamed(

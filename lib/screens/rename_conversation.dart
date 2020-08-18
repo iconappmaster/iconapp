@@ -35,7 +35,7 @@ class EditConversation extends StatelessWidget {
                     initialValue:
                         store.getState?.conversation?.conversation?.name ?? '',
                     onChange: (groupName) =>
-                        sl<ChatSettingsStore>().changeGroupName(groupName),
+                        sl<ChatSettingsStore>().changeConversationName(groupName),
                     hint: 'הקלד/י נושא חדש',
                     hintStyle: flushbar,
                     textStyle: flushbar,

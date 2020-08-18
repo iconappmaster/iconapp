@@ -49,7 +49,7 @@ class _ChatSettingsScreenState extends State<ChatSettingsScreen> {
             SliverList(
               delegate: SliverChildListDelegate(
                 [
-                  NotificationsSettings(),
+                  ConversationNotificationsSettings(),
                   _SettingsDivider(),
                   if (settings.isUserIcon) ...iconSettings
                 ],

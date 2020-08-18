@@ -48,7 +48,7 @@ class ConversationsList extends StatelessWidget {
 class ConversationItem extends StatelessWidget {
   final Conversation model; // fix taht
   final Function onTap;
-  
+
   const ConversationItem({
     Key key,
     this.model,
@@ -116,11 +116,7 @@ class ConversationItem extends StatelessWidget {
                   SizedBox(height: 8.7),
                   if (model?.unreadMessageCount ?? 0 > 0)
                     _MessageCounter(count: model?.unreadMessageCount ?? 0),
-                  if (model?.isPinned ?? false)
-                    Padding(
-                        padding: EdgeInsets.only(top: 8.7),
-                        child: SvgPicture.asset('assets/images/pin.svg',
-                            height: 12, width: 12)),
+                  if (model?.isPinned ?? false) _Pin(),
                 ],
               ),
             ],
@@ -140,6 +136,20 @@ class ConversationItem extends StatelessWidget {
           : '${model?.lastMessage?.sender?.fullName}: ${model?.lastMessage?.body ?? ''}';
 
     return result;
+  }
+}
+
+class _Pin extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 21,
+      width: 21,
+      decoration: BoxDecoration(shape: BoxShape.circle, color: blueberry2),
+      child: Center(
+        child: SvgPicture.asset('assets/images/pin.svg', height: 13, width: 13),
+      ),
+    );
   }
 }
 

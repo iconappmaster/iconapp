@@ -23,7 +23,7 @@ class NextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: Duration(milliseconds: 250),
-      height: height ?? context.heightPx * .094,
+      height: 44,
       width: context.widthPx * .81,
       decoration: BoxDecoration(
           color: enabled ? cornflower : cornflower.withOpacity(.3),

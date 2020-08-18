@@ -99,7 +99,12 @@ abstract class RestClient {
   @POST('conversations/{conversationId}/viewed_conversation')
   Future viewedConversation(@Path('conversationId') int id);
 
-  // CHAT
+  @POST('conversations/{conversationId}/turn_on_notifications')
+  Future turnOnConversationNotifications(@Path('conversationId') int id);
+
+  @POST('conversations/{conversationId}/turn_off_notifications')
+  Future turnOffConversationNotifications(@Path('conversationId') int id);
+
   @POST('conversations/{conversationId}/send_message')
   Future<MessageModel> sendMessage(
     @Path('conversationId') int id,
@@ -113,6 +118,13 @@ abstract class RestClient {
 
   @POST('messages/{messageId}/unlike_message')
   Future<MessageModel> unlikeMessage(@Path('messageId') int id);
+
+  // STORY
+  @GET('stories/stories_for_home')
+  Future homeStories();
+
+  @GET('stories/stories/stories_for_conversation/{conversationId}')
+  Future conversationStories(@Path('conversationId') int id);
 }
 
 Dio getDioClient() {
