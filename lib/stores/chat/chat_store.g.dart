@@ -170,6 +170,22 @@ mixin _$ChatStore on _ChatStoreBase, Store {
         .run(() => super.sendVideoMessage(source));
   }
 
+  final _$startRecordingAsyncAction =
+      AsyncAction('_ChatStoreBase.startRecording');
+
+  @override
+  Future<dynamic> startRecording() {
+    return _$startRecordingAsyncAction.run(() => super.startRecording());
+  }
+
+  final _$stopRecordingAsyncAction =
+      AsyncAction('_ChatStoreBase.stopRecording');
+
+  @override
+  Future<dynamic> stopRecording() {
+    return _$stopRecordingAsyncAction.run(() => super.stopRecording());
+  }
+
   final _$sendAudioMessageAsyncAction =
       AsyncAction('_ChatStoreBase.sendAudioMessage');
 

@@ -53,8 +53,9 @@ abstract class _AuthStoreBase with Store {
     }
   }
 
-  void clearCache() {
+  
+}
+void clearImagesCache() {
     final manager = new DefaultCacheManager();
     manager.emptyCache();
   }
-}

@@ -43,7 +43,11 @@ class ChatRepositoryImpl implements ChatRepository {
   Future<MessageModel> sendMessage(
       int conversationId, MessageModel message) async {
     return await restClient.sendMessage(
-        conversationId, message.body, message.type.toString().parseEnum());
+      conversationId,
+      message.body,
+      message.type.toString().parseEnum(),
+      message?.extraData ?? '',
+    );
   }
 
   @override

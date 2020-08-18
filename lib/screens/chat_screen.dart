@@ -182,24 +182,22 @@ class _ChatListState extends State<ChatList> {
           padding: EdgeInsets.only(bottom: 12),
           itemCount: store.getMessages.length,
           itemBuilder: (_, index) {
-            // if (store.getMessages.isNotEmpty) {
+
             final message = store?.getMessages[index];
             final isMe = store.isMe(message.sender?.id);
+
             switch (message.type) {
               case MessageType.text:
                 return TextMessage(message: message, isMe: isMe);
               case MessageType.photo:
                 return PhotoMessage(message: message, isMe: isMe);
               case MessageType.video:
-                return Container();
+                return VideoMessage(message: message, isMe: isMe);
               case MessageType.voice:
-                return Container();
+                return VoiceMessage(message: message, isMe: isMe);
               case MessageType.system:
-                return Container();
-              case MessageType.replay:
-                return Container();
+                return SystemMessage(title: message.body);
             }
-            // }
 
             return Container();
           },

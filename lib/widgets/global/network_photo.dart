@@ -20,7 +20,7 @@ class NetworkPhoto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return url.endsWith('.svg')
+    return url?.endsWith('.svg') ?? false
         ? SvgPicture.network(
             url,
             height: height,

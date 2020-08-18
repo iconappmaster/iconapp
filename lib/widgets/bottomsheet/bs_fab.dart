@@ -2,13 +2,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:iconapp/core/dependencies/locator.dart';
-import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/routes/router.gr.dart';
-import 'package:iconapp/screens/create_icons_screen.dart';
-import 'package:iconapp/stores/create/create_category_store.dart';
-import 'package:iconapp/stores/create/create_icon_store.dart';
-import 'package:iconapp/stores/home/home_store.dart';
+import '../../core/dependencies/locator.dart';
+import '../../core/theme.dart';
+import '../../routes/router.gr.dart';
+import '../../screens/create_icons_screen.dart';
+import '../../stores/create/create_category_store.dart';
+import '../../stores/create/create_icon_store.dart';
+import '../../stores/home/home_store.dart';
 import '../../core/extensions/context_ext.dart';
 
 class BottomSheetFab extends StatelessWidget {

@@ -48,8 +48,12 @@ class ConversationsList extends StatelessWidget {
 class ConversationItem extends StatelessWidget {
   final Conversation model; // fix taht
   final Function onTap;
-  const ConversationItem({Key key, this.model, @required this.onTap})
-      : super(key: key);
+  
+  const ConversationItem({
+    Key key,
+    this.model,
+    @required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +81,7 @@ class ConversationItem extends StatelessWidget {
                 child: NetworkPhoto(
                   placeHolder: 'assets/images/group_placeholder.svg',
                   placeHolderPadding: 20,
-                  url: model?.photo?.url ?? '',
+                  url: model?.backgroundPhoto?.url ?? '',
                   height: 56,
                   width: 56,
                 ),

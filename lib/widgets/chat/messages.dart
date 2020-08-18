@@ -14,31 +14,93 @@ import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
 
-const photoTag = 'photo';
-
 class SystemMessage extends StatelessWidget {
+  final String title;
+
+  const SystemMessage({Key key, @required this.title}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Center(
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+        height: 20,
+        child: Center(child: HebrewText(title, style: systemMessage)),
+      ),
+    );
   }
 }
 
-class AudioMessage extends StatelessWidget {
+class VoiceMessage extends StatelessWidget {
+  final MessageModel message;
+  final bool isMe;
+
+  const VoiceMessage({
+    Key key,
+    @required this.message,
+    @required this.isMe,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      margin: EdgeInsets.only(left: isMe ? 0 : 100, right: isMe ? 100 : 0),
+      child: IconBubble(
+        child: Column(
+          crossAxisAlignment:
+              isMe ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+          children: [
+            HebrewText(
+              message.sender.fullName,
+              style: newMessageNumber,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Expanded(
+                  child: Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: Slider(
+                      value: .4,
+                      onChanged: (v) => print(v),
+                      inactiveColor: white,
+                      activeColor: cornflower,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 40,
+                  width: 40,
+                  child: FloatingActionButton(
+                      elevation: 0,
+                      backgroundColor: white,
+                      child: SvgPicture.asset(
+                        'assets/images/play.svg',
+                        height: 12.7,
+                        width: 12.7,
+                      ),
+                      onPressed: () {}),
+                ),
+              ],
+            ),
+          ],
+        ),
+        message: message,
+        isMe: isMe,
+      ),
+    );
   }
 }
 
 class PhotoMessage extends StatelessWidget {
   final MessageModel message;
-  // final Animation<double> animation;
   final bool isMe;
 
   const PhotoMessage({
     Key key,
     @required this.message,
-    // @required this.animation,
     @required this.isMe,
   }) : super(key: key);
 
@@ -59,18 +121,13 @@ class PhotoMessage extends StatelessWidget {
                   photo: PhotoModel(url: message?.body ?? ''))),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            HebrewText(
-              message.sender?.fullName ?? '',
-              style: chatMessageName,
-              textAlign: TextAlign.start,
-            ),
+            HebrewText(message.sender?.fullName ?? '',
+                style: chatMessageName, textAlign: TextAlign.start),
             SizedBox(height: 5),
             message.body.startsWith('http')
                 ? AspectRatio(
                     aspectRatio: 1,
-                    child: NetworkPhoto(
-                      url: message.body,
-                    ),
+                    child: NetworkPhoto(url: message.body),
                   )
                 : AspectRatio(
                     aspectRatio: 1,
@@ -88,13 +145,13 @@ class PhotoMessage extends StatelessWidget {
 
 class VideoMessage extends StatelessWidget {
   final MessageModel message;
-  final Animation<double> animation;
+  // final Animation<double> animation;
   final bool isMe;
 
   const VideoMessage({
     Key key,
     @required this.message,
-    @required this.animation,
+    // @required this.animation,
     @required this.isMe,
   }) : super(key: key);
 
@@ -108,16 +165,22 @@ class VideoMessage extends StatelessWidget {
         onDoubleTap: () async => await store.likeMessage(message),
         isMe: isMe,
         message: message,
-        padding: BubbleEdges.all(0),
         onTap: () => ExtendedNavigator.of(context).pushNamed(
-          Routes.fullImageScreen,
-          arguments: FullImageScreenArguments(
-            photo: PhotoModel(url: message?.body ?? ''),
-          ),
+            Routes.fullVideoScreen,
+            arguments: FullVideoScreenArguments(url: message?.body ?? '')),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            message.body.startsWith('http')
+                ? NetworkPhoto(url: message?.extraData ?? '')
+                : Image.file(File(message?.extraData ?? '')),
+            SvgPicture.asset(
+              'assets/images/play_button.svg',
+              height: 56,
+              width: 56,
+            ),
+          ],
         ),
-        child: message.body.startsWith('http')
-            ? NetworkPhoto(url: message.body)
-            : Image.file(File(message.body)),
       ),
     );
   }
@@ -125,13 +188,11 @@ class VideoMessage extends StatelessWidget {
 
 class TextMessage extends StatelessWidget {
   final MessageModel message;
-  // final Animation<double> animation;
   final bool isMe;
   const TextMessage({
     Key key,
     @required this.message,
     @required this.isMe,
-    // this.animation,
   }) : super(key: key);
 
   @override

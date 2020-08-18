@@ -23,7 +23,7 @@ class ChatAppbar extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              ChatBackButton(url: conversation?.photo?.url ?? ''),
+              ChatBackButton(url: conversation.backgroundPhoto?.url ?? ''),
               SizedBox(width: 8),
               Expanded(
                 child: Column(

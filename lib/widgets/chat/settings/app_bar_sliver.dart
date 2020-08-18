@@ -54,17 +54,13 @@ class ChatSettingsAppBar implements SliverPersistentHeaderDelegate {
             Opacity(
                 opacity: .4,
                 child: GestureDetector(
-                  onTap: () async {
-                    final url = await settings.uploadPhoto();
-                    settings.changeConversationPhoto(url);
-                  },
+                  onTap: () async => settings.changeConversationPhoto(),
                   child: Stack(children: [
                     NetworkPhoto(
-                      placeHolder: 'assets/images/group_placeholder.svg',
-                      url: settings.getConversationPhoto,
-                      height: appbarHeight,
-                      width: MediaQuery.of(context).size.width,
-                    ),
+                        placeHolder: 'assets/images/group_placeholder.svg',
+                        url: settings.getConversationPhoto,
+                        height: appbarHeight,
+                        width: MediaQuery.of(context).size.width),
                     if (settings.isLoadig)
                       Center(child: CircularProgressIndicator()),
                   ]),

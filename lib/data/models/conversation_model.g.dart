@@ -36,6 +36,7 @@ _$_Conversation _$_$_ConversationFromJson(Map<String, dynamic> json) {
             e == null ? null : MessageModel.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     isSubscribed: json['isSubscribed'] as bool,
+    numberOfAdminsRemaining: json['numberOfAdminsRemaining'] as int,
   );
 }
 
@@ -55,4 +56,5 @@ Map<String, dynamic> _$_$_ConversationToJson(_$_Conversation instance) =>
       'users': instance.users,
       'messages': instance.messages,
       'isSubscribed': instance.isSubscribed,
+      'numberOfAdminsRemaining': instance.numberOfAdminsRemaining,
     };

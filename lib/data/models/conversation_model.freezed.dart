@@ -30,7 +30,8 @@ class _$ConversationTearOff {
       int unreadMessageCount,
       List<UserModel> users,
       List<MessageModel> messages,
-      bool isSubscribed}) {
+      bool isSubscribed,
+      int numberOfAdminsRemaining}) {
     return _Conversation(
       id: id,
       backgroundColor: backgroundColor,
@@ -46,6 +47,7 @@ class _$ConversationTearOff {
       users: users,
       messages: messages,
       isSubscribed: isSubscribed,
+      numberOfAdminsRemaining: numberOfAdminsRemaining,
     );
   }
 }
@@ -68,6 +70,7 @@ mixin _$Conversation {
   List<UserModel> get users;
   List<MessageModel> get messages;
   bool get isSubscribed;
+  int get numberOfAdminsRemaining;
 
   Map<String, dynamic> toJson();
   $ConversationCopyWith<Conversation> get copyWith;
@@ -91,7 +94,8 @@ abstract class $ConversationCopyWith<$Res> {
       int unreadMessageCount,
       List<UserModel> users,
       List<MessageModel> messages,
-      bool isSubscribed});
+      bool isSubscribed,
+      int numberOfAdminsRemaining});
 
   $UserModelCopyWith<$Res> get createdBy;
   $PhotoModelCopyWith<$Res> get photo;
@@ -122,6 +126,7 @@ class _$ConversationCopyWithImpl<$Res> implements $ConversationCopyWith<$Res> {
     Object users = freezed,
     Object messages = freezed,
     Object isSubscribed = freezed,
+    Object numberOfAdminsRemaining = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as int,
@@ -150,6 +155,9 @@ class _$ConversationCopyWithImpl<$Res> implements $ConversationCopyWith<$Res> {
           : messages as List<MessageModel>,
       isSubscribed:
           isSubscribed == freezed ? _value.isSubscribed : isSubscribed as bool,
+      numberOfAdminsRemaining: numberOfAdminsRemaining == freezed
+          ? _value.numberOfAdminsRemaining
+          : numberOfAdminsRemaining as int,
     ));
   }
 
@@ -214,7 +222,8 @@ abstract class _$ConversationCopyWith<$Res>
       int unreadMessageCount,
       List<UserModel> users,
       List<MessageModel> messages,
-      bool isSubscribed});
+      bool isSubscribed,
+      int numberOfAdminsRemaining});
 
   @override
   $UserModelCopyWith<$Res> get createdBy;
@@ -251,6 +260,7 @@ class __$ConversationCopyWithImpl<$Res> extends _$ConversationCopyWithImpl<$Res>
     Object users = freezed,
     Object messages = freezed,
     Object isSubscribed = freezed,
+    Object numberOfAdminsRemaining = freezed,
   }) {
     return _then(_Conversation(
       id: id == freezed ? _value.id : id as int,
@@ -279,6 +289,9 @@ class __$ConversationCopyWithImpl<$Res> extends _$ConversationCopyWithImpl<$Res>
           : messages as List<MessageModel>,
       isSubscribed:
           isSubscribed == freezed ? _value.isSubscribed : isSubscribed as bool,
+      numberOfAdminsRemaining: numberOfAdminsRemaining == freezed
+          ? _value.numberOfAdminsRemaining
+          : numberOfAdminsRemaining as int,
     ));
   }
 }
@@ -299,7 +312,8 @@ class _$_Conversation implements _Conversation {
       this.unreadMessageCount,
       this.users,
       this.messages,
-      this.isSubscribed});
+      this.isSubscribed,
+      this.numberOfAdminsRemaining});
 
   factory _$_Conversation.fromJson(Map<String, dynamic> json) =>
       _$_$_ConversationFromJson(json);
@@ -332,10 +346,12 @@ class _$_Conversation implements _Conversation {
   final List<MessageModel> messages;
   @override
   final bool isSubscribed;
+  @override
+  final int numberOfAdminsRemaining;
 
   @override
   String toString() {
-    return 'Conversation(id: $id, backgroundColor: $backgroundColor, categoryId: $categoryId, createdBy: $createdBy, isPinned: $isPinned, createdAt: $createdAt, name: $name, photo: $photo, backgroundPhoto: $backgroundPhoto, lastMessage: $lastMessage, unreadMessageCount: $unreadMessageCount, users: $users, messages: $messages, isSubscribed: $isSubscribed)';
+    return 'Conversation(id: $id, backgroundColor: $backgroundColor, categoryId: $categoryId, createdBy: $createdBy, isPinned: $isPinned, createdAt: $createdAt, name: $name, photo: $photo, backgroundPhoto: $backgroundPhoto, lastMessage: $lastMessage, unreadMessageCount: $unreadMessageCount, users: $users, messages: $messages, isSubscribed: $isSubscribed, numberOfAdminsRemaining: $numberOfAdminsRemaining)';
   }
 
   @override
@@ -379,7 +395,11 @@ class _$_Conversation implements _Conversation {
                     .equals(other.messages, messages)) &&
             (identical(other.isSubscribed, isSubscribed) ||
                 const DeepCollectionEquality()
-                    .equals(other.isSubscribed, isSubscribed)));
+                    .equals(other.isSubscribed, isSubscribed)) &&
+            (identical(
+                    other.numberOfAdminsRemaining, numberOfAdminsRemaining) ||
+                const DeepCollectionEquality().equals(
+                    other.numberOfAdminsRemaining, numberOfAdminsRemaining)));
   }
 
   @override
@@ -398,7 +418,8 @@ class _$_Conversation implements _Conversation {
       const DeepCollectionEquality().hash(unreadMessageCount) ^
       const DeepCollectionEquality().hash(users) ^
       const DeepCollectionEquality().hash(messages) ^
-      const DeepCollectionEquality().hash(isSubscribed);
+      const DeepCollectionEquality().hash(isSubscribed) ^
+      const DeepCollectionEquality().hash(numberOfAdminsRemaining);
 
   @override
   _$ConversationCopyWith<_Conversation> get copyWith =>
@@ -425,7 +446,8 @@ abstract class _Conversation implements Conversation {
       int unreadMessageCount,
       List<UserModel> users,
       List<MessageModel> messages,
-      bool isSubscribed}) = _$_Conversation;
+      bool isSubscribed,
+      int numberOfAdminsRemaining}) = _$_Conversation;
 
   factory _Conversation.fromJson(Map<String, dynamic> json) =
       _$_Conversation.fromJson;
@@ -458,6 +480,8 @@ abstract class _Conversation implements Conversation {
   List<MessageModel> get messages;
   @override
   bool get isSubscribed;
+  @override
+  int get numberOfAdminsRemaining;
   @override
   _$ConversationCopyWith<_Conversation> get copyWith;
 }

@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/stores/chat/chat_store.dart';
-import 'package:iconapp/stores/chat_settings/chat_settings_store.dart';
-import 'package:iconapp/stores/user/user_store.dart';
-import 'package:iconapp/widgets/chat/settings/app_bar_sliver.dart';
-import 'package:iconapp/widgets/chat/settings/change_background.dart';
-import 'package:iconapp/widgets/chat/settings/notification_settings.dart';
-import 'package:iconapp/widgets/chat/settings/participants_list.dart';
+import '../stores/chat_settings/chat_settings_store.dart';
+import '../widgets/chat/settings/app_bar_sliver.dart';
+import '../widgets/chat/settings/change_background.dart';
+import '../widgets/chat/settings/notification_settings.dart';
+import '../widgets/chat/settings/participants_list.dart';
 
 const settingsColumnHeight = 80.0;
 
@@ -30,9 +28,7 @@ class _ChatSettingsScreenState extends State<ChatSettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final chatStore = sl<ChatStore>();
-    final settingsStore = sl<ChatSettingsStore>();
-    final conversation = chatStore.conversation;
+    final settings = sl<ChatSettingsStore>();
 
     final iconSettings = [
       ChangeBackground(),
@@ -47,15 +43,15 @@ class _ChatSettingsScreenState extends State<ChatSettingsScreen> {
           slivers: <Widget>[
             SliverPersistentHeader(
               delegate: ChatSettingsAppBar(
-                  url: conversation?.photo?.url ?? '',
-                  subTitle: settingsStore.getSubtitle),
+                  url: settings.getConversationPhoto,
+                  subTitle: settings.getSubtitle),
             ),
             SliverList(
               delegate: SliverChildListDelegate(
                 [
                   NotificationsSettings(),
                   _SettingsDivider(),
-                  if (sl<UserStore>().getUser.isIcon) ...iconSettings
+                  if (settings.isUserIcon) ...iconSettings
                 ],
               ),
             ),

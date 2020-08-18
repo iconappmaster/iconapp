@@ -443,14 +443,16 @@ class _RestClient implements RestClient {
   }
 
   @override
-  sendMessage(id, body, type) async {
+  sendMessage(id, body, type, extraData) async {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(body, 'body');
     ArgumentError.checkNotNull(type, 'type');
+    ArgumentError.checkNotNull(extraData, 'extraData');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'body': body,
-      r'message_type': type
+      r'messageType': type,
+      r'extraData': extraData
     };
     final _data = <String, dynamic>{};
     final Response<Map<String, dynamic>> _result = await _dio.request(

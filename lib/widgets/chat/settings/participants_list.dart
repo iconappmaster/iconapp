@@ -25,7 +25,7 @@ class ParticipentList extends StatelessWidget {
       builder: (_) => Column(
         children: <Widget>[
           ParticipentsListTitle(),
-          ...store.users.map((u) => ParticipantTile(currentUser: u)).toList(),
+          ...store.users.map((user) => ParticipantTile(currentUser: user)).toList(),
           ParticipentAddButton(),
         ],
       ),
@@ -87,68 +87,70 @@ class ParticipantTile extends StatelessWidget {
     final userStore = sl<UserStore>();
     final settingsStore = sl<ChatSettingsStore>();
 
-    final role = chatStore.getState.conversation.userRole;
+    final conversation = chatStore.getState.conversation;
 
-    return Container(
-      padding: EdgeInsets.only(left: 21, right: 21),
-      height: settingsColumnHeight,
-      child: Row(
-        children: <Widget>[
-          ParticipantAvatar(url: currentUser?.photo?.url ?? ''),
-          SizedBox(width: 11.3),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              HebrewText(currentUser.fullName, style: nameDark),
-              SizedBox(height: 12.3),
-              if (role == UserRole.admin)
-                Row(
-                  children: <Widget>[
-                    // IF USER IS ADMIN AND NOT ME
-                    if (currentUser.userRole != UserRole.admin &&
-                        notMe(userStore.getUser.id))
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: SettingsActionButton(
-                            textStyle: settingsButton,
-                            onTap: () =>
-                                settingsStore.makeUserAdmin(currentUser.id),
-                            text: 'הפוך למנהל/ת',
-                            width: 103,
-                            borderColor: cornflower),
-                      ),
+    return Observer(
+      builder: (_) => Container(
+        padding: EdgeInsets.only(left: 21, right: 21),
+        height: settingsColumnHeight,
+        child: Row(
+          children: <Widget>[
+            ParticipantAvatar(url: currentUser?.photo?.url ?? ''),
+            SizedBox(width: 11.3),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                HebrewText(currentUser.fullName, style: nameDark),
+                SizedBox(height: 12.3),
+                if (conversation.userRole == UserRole.admin)
+                  Row(
+                    children: <Widget>[
+                      // IF USER IS ADMIN AND NOT ME
+                      if (currentUser.userRole != UserRole.admin && notMe(userStore.getUser.id))
+                        Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: SettingsActionButton(
+                                isAdminsLeft: settingsStore.isAdminLeft,
+                                textStyle: settingsButton,
+                                onTap: () =>  settingsStore.makeUserAdmin(currentUser.id),
+                                text: 'הפוך למנהל/ת',
+                                width: 103,
+                                borderColor: cornflower,
+                              ),
+                            ),
 
-                    // MARK AS ADMIN ANY ADMIN USER.
-                    if (currentUser.userRole == UserRole.admin)
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Container(
-                          alignment: Alignment.center,
-                          width: 60.7,
-                          height: 23.7,
-                          decoration: BoxDecoration(
-                              color: cornflower,
-                              borderRadius: BorderRadius.circular(2.7)),
-                          child: HebrewText('מנהל/ת',
-                              style: settingsButton.copyWith(color: white)),
+                      // MARK AS ADMIN ANY ADMIN USER.
+                      if (currentUser.userRole == UserRole.admin)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: 60.7,
+                            height: 23.7,
+                            decoration: BoxDecoration(
+                                color: cornflower,
+                                borderRadius: BorderRadius.circular(2.7)),
+                            child: HebrewText('מנהל/ת',
+                                style: settingsButton.copyWith(color: white)),
+                          ),
                         ),
-                      ),
 
-                    // IF USER IS ADMIN AND NOT THE CURRENT USER SHOW REMOVE
-                    if (role == UserRole.admin && notMe(userStore.getUser.id))
-                      SettingsActionButton(
-                        onTap: () => settingsStore.removeUser(currentUser.id),
-                        text: 'הסרה',
-                        width: 60.7,
-                        borderColor: deepRed,
-                        textStyle: settingsButton.copyWith(color: deepRed),
-                      )
-                  ],
-                )
-            ],
-          )
-        ],
+                      // IF USER IS ADMIN AND NOT THE CURRENT USER SHOW REMOVE
+                      if (conversation.userRole == UserRole.admin && notMe(userStore.getUser.id))
+                        SettingsActionButton(
+                          onTap: () => settingsStore.removeUser(currentUser.id),
+                          text: 'הסרה',
+                          width: 60.7,
+                          borderColor: deepRed,
+                          textStyle: settingsButton.copyWith(color: deepRed),
+                        )
+                    ],
+                  )
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -161,6 +163,7 @@ class SettingsActionButton extends StatelessWidget {
   final TextStyle textStyle;
   final Color borderColor;
   final Color backgroundColor;
+  final bool isAdminsLeft;
 
   const SettingsActionButton({
     Key key,
@@ -170,19 +173,21 @@ class SettingsActionButton extends StatelessWidget {
     @required this.borderColor,
     @required this.textStyle,
     this.backgroundColor,
+    this.isAdminsLeft = true,
   }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 23,
       width: width,
       child: OutlineButton(
-          color: backgroundColor ?? Colors.transparent,
-          borderSide: BorderSide(color: borderColor, width: .7),
-          child: HebrewText(text, style: textStyle),
-          onPressed: onTap,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(2.7))),
+        onPressed: isAdminsLeft ? onTap : null,
+        color: backgroundColor ?? Colors.transparent,
+        borderSide: BorderSide(color: borderColor, width: .7),
+        child: HebrewText(text, style: textStyle),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2.7)),
+      ),
     );
   }
 }
@@ -209,15 +214,44 @@ class ParticipantAvatar extends StatelessWidget {
 }
 
 class ParticipentsListTitle extends StatelessWidget {
+  final adminsLeft = sl<ChatStore>()
+          .getState
+          .conversation
+          ?.conversation
+          ?.numberOfAdminsRemaining ?? 0;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(left: 21, right: 21),
       alignment: Alignment.centerRight,
       height: settingsColumnHeight,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          HebrewText('עורכי הקבוצה', style: chatSettings),
+          AdminsCounter(adminsLeft: adminsLeft)
+        ],
+      ),
+    );
+  }
+}
+
+class AdminsCounter extends StatelessWidget {
+  final int adminsLeft;
+
+  const AdminsCounter({Key key, @required this.adminsLeft}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 5.7, vertical: 7),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(2.7),
+          border: Border.all(
+              color: cornflower, style: BorderStyle.solid, width: .7)),
       child: HebrewText(
-        'עורכי הקבוצה',
-        style: chatSettings,
+        'ניתן להוסיף עוד $adminsLeft עורכים',
+        style: settingsButton,
       ),
     );
   }

@@ -3,7 +3,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
-import 'package:iconapp/screens/chat_screen.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:image_picker/image_picker.dart';
@@ -130,13 +129,16 @@ class ComposeActionButtons extends StatelessWidget {
           children: <Widget>[
             _buildActionButton(
               'assets/images/camera.svg',
-              onTap: () async => await store.sendPhotoMessage(ImageSource.camera),
-              onLongTap: () async => await store.sendVideoMessage(ImageSource.camera),
+              onTap: () async =>
+                  await store.sendPhotoMessage(ImageSource.camera),
+              onLongTap: () async =>
+                  await store.sendVideoMessage(ImageSource.camera),
             ),
             _buildActionButton(
               'assets/images/photo.svg',
-              onTap: () async =>  store.sendPhotoMessage(ImageSource.gallery),
-              onLongTap: () async => await store.sendVideoMessage(ImageSource.gallery),
+              onTap: () async => store.sendPhotoMessage(ImageSource.gallery),
+              onLongTap: () async =>
+                  await store.sendVideoMessage(ImageSource.gallery),
             ),
           ],
         ),
@@ -180,18 +182,13 @@ class SendButton extends StatelessWidget {
           height: size,
           width: size,
           child: GestureDetector(
-            onPanDown: (details) {
-              if (!isMessageMode()) {
-                store.sendAudioMessage();
-              }
-            },
+            onLongPress: () => store.startRecording(),
+            onLongPressEnd: (d) => store.stopRecording(),
             child: FloatingActionButton(
               elevation: 0,
               onPressed: () async {
                 if (isMessageMode()) {
                   textEditcontroller.clear();
-                  // chatListKey.currentState
-                  //     .insertItem(0, duration: Duration(milliseconds: 250));
                   scrollController.jumpTo(0);
                   await store.sendTextMessage();
                 }

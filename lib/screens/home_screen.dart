@@ -43,16 +43,14 @@ class HomeScreen extends StatelessWidget {
                   children: <Widget>[
                     IconAppbar(widget: DrawerIcon(scaffoldKey: _scaffoldKey)),
                     Positioned(
-                      top: context.heightPlusStatusbarPerc(.128),
-                      child: StoriesList(mode: stories.mode, show: true),
-                    ),
+                        top: context.heightPlusStatusbarPerc(.128),
+                        child: StoriesList(mode: stories.mode, show: true)),
                     ConversationsList(
                       onConversationTap: (conversation) async {
                         await ExtendedNavigator.of(context).pushNamed(
-                          Routes.chatScreen,
-                          arguments:
-                              ChatScreenArguments(conversation: conversation),
-                        );
+                            Routes.chatScreen,
+                            arguments: ChatScreenArguments(
+                                conversation: conversation));
                         // When return from conversation update the home stories
                         stories.getHomeStories();
                         home.getHome();

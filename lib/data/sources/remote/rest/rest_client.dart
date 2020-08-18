@@ -101,8 +101,12 @@ abstract class RestClient {
 
   // CHAT
   @POST('conversations/{conversationId}/send_message')
-  Future<MessageModel> sendMessage(@Path('conversationId') int id,
-      @Query('body') String body, @Query('message_type') String type);
+  Future<MessageModel> sendMessage(
+    @Path('conversationId') int id,
+    @Query('body') String body,
+    @Query('messageType') String type,
+    @Query('extraData') String extraData,
+  );
 
   @POST('messages/{messageId}/like_message')
   Future<MessageModel> likeMessage(@Path('messageId') int id);

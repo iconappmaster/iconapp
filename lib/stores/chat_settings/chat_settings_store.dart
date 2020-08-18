@@ -42,14 +42,18 @@ abstract class _ChatSettingsStoreBase with Store {
   int get selectedColor => _selectedColor;
 
   @computed
-  String get getConversationPhoto => _chat.conversation?.photo?.url ?? '';
+  String get getConversationPhoto => _chat.conversation?.backgroundPhoto?.url ?? '';
+
+  @computed
+  String get getConversationName => _chat.conversation.name;
 
   @computed
   String get getSubtitle =>
       'הקבוצה נוצרה על ידי ${_chat.conversation?.createdBy?.fullName ?? ''}, ${_chat.conversation.createdAt?.humanReadableMonthTime()}';
 
   @computed
-  String get getConversationName => _chat.conversation.name;
+  bool get isAdminLeft =>
+      _chat.getState.conversation.conversation.numberOfAdminsRemaining > 0;
 
   @computed
   bool get isUserIcon => _userStore.getUser.isIcon;
@@ -70,16 +74,6 @@ abstract class _ChatSettingsStoreBase with Store {
     } finally {
       _isLoading = false;
     }
-  }
-
-  @action
-  Future<String> uploadPhoto() async {
-    var url = '';
-    try {
-      url = await _mediaStore.uploadPhoto(source: ImageSource.gallery);
-    } on Exception catch (_) {}
-
-    return url;
   }
 
   @action
@@ -173,17 +167,17 @@ abstract class _ChatSettingsStoreBase with Store {
   }
 
   @action
-  Future changeConversationPhoto(String url) async {
+  Future changeConversationPhoto() async {
     try {
-      final chatStore = sl<ChatStore>();
       _isLoading = true;
+      final url = await _mediaStore.uploadPhoto(source: ImageSource.gallery);
 
       final conversation = await _repository.updateConversation(
-        chatStore.conversation.id,
+        _chat.conversation.id,
         Conversation(photo: PhotoModel(url: url)),
       );
 
-      chatStore.setConversation(conversation);
+      _chat.setConversation(conversation);
     } on Exception catch (e) {
       print(e);
     } finally {

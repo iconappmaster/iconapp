@@ -30,13 +30,6 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
           Computed<String>(() => super.getConversationPhoto,
               name: '_ChatSettingsStoreBase.getConversationPhoto'))
       .value;
-  Computed<String> _$getSubtitleComputed;
-
-  @override
-  String get getSubtitle =>
-      (_$getSubtitleComputed ??= Computed<String>(() => super.getSubtitle,
-              name: '_ChatSettingsStoreBase.getSubtitle'))
-          .value;
   Computed<String> _$getConversationNameComputed;
 
   @override
@@ -44,6 +37,20 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
           Computed<String>(() => super.getConversationName,
               name: '_ChatSettingsStoreBase.getConversationName'))
       .value;
+  Computed<String> _$getSubtitleComputed;
+
+  @override
+  String get getSubtitle =>
+      (_$getSubtitleComputed ??= Computed<String>(() => super.getSubtitle,
+              name: '_ChatSettingsStoreBase.getSubtitle'))
+          .value;
+  Computed<bool> _$isAdminLeftComputed;
+
+  @override
+  bool get isAdminLeft =>
+      (_$isAdminLeftComputed ??= Computed<bool>(() => super.isAdminLeft,
+              name: '_ChatSettingsStoreBase.isAdminLeft'))
+          .value;
   Computed<bool> _$isUserIconComputed;
 
   @override
@@ -114,14 +121,6 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
         .run(() => super.changeBackground(colorIndex));
   }
 
-  final _$uploadPhotoAsyncAction =
-      AsyncAction('_ChatSettingsStoreBase.uploadPhoto');
-
-  @override
-  Future<String> uploadPhoto() {
-    return _$uploadPhotoAsyncAction.run(() => super.uploadPhoto());
-  }
-
   final _$makeUserAdminAsyncAction =
       AsyncAction('_ChatSettingsStoreBase.makeUserAdmin');
 
@@ -158,9 +157,9 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
       AsyncAction('_ChatSettingsStoreBase.changeConversationPhoto');
 
   @override
-  Future<dynamic> changeConversationPhoto(String url) {
+  Future<dynamic> changeConversationPhoto() {
     return _$changeConversationPhotoAsyncAction
-        .run(() => super.changeConversationPhoto(url));
+        .run(() => super.changeConversationPhoto());
   }
 
   final _$_ChatSettingsStoreBaseActionController =
@@ -183,8 +182,9 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
 isLoadig: ${isLoadig},
 selectedColor: ${selectedColor},
 getConversationPhoto: ${getConversationPhoto},
-getSubtitle: ${getSubtitle},
 getConversationName: ${getConversationName},
+getSubtitle: ${getSubtitle},
+isAdminLeft: ${isAdminLeft},
 isUserIcon: ${isUserIcon},
 users: ${users}
     ''';

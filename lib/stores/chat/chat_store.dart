@@ -11,6 +11,7 @@ import 'package:iconapp/stores/media/media_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 part 'chat_store.g.dart';
 
@@ -118,8 +119,6 @@ abstract class _ChatStoreBase with Store {
     _state = _state.copyWith(composerMode: composerMode);
   }
 
-  // when the user types listen to the message changes
-
   @action
   updateComposerText(String input) {
     _state = _state.copyWith(inputMessage: input);
@@ -152,8 +151,6 @@ abstract class _ChatStoreBase with Store {
   @action
   Future sendTextMessage() async {
     try {
-      // _state = _state.copyWith(loading: true);
-
       final msg = MessageModel(
           id: DateTime.now().millisecondsSinceEpoch,
           sender: _userStore.getUser,
@@ -165,8 +162,9 @@ abstract class _ChatStoreBase with Store {
           type: MessageType.text);
 
       _messages.add(msg);
-      
+
       await _sendMessage(msg);
+      _state = _state.copyWith(inputMessage: '');
     } on DioError catch (e) {
       print(e);
     }
@@ -177,28 +175,30 @@ abstract class _ChatStoreBase with Store {
     try {
       final pickedFile =
           await sl<ImagePicker>().getImage(source: source, imageQuality: 70);
+      if (pickedFile != null) {
+        final msg = MessageModel(
+          id: DateTime.now().millisecondsSinceEpoch,
+          sender: _userStore.getUser,
+          body: pickedFile.path,
+          isLiked: false,
+          status: MessageStatus.pending,
+          likeCount: 0,
+          timestamp: DateTime.now().millisecondsSinceEpoch,
+          type: MessageType.photo,
+        );
 
-      final msg = MessageModel(
-        id: DateTime.now().millisecondsSinceEpoch,
-        sender: _userStore.getUser,
-        body: pickedFile.path,
-        isLiked: false,
-        status: MessageStatus.pending,
-        likeCount: 0,
-        timestamp: DateTime.now().millisecondsSinceEpoch,
-        type: MessageType.photo,
-      );
+        _messages.add(msg);
 
-      _messages.add(msg);
+        // upload to firebase
+        final uploaded =
+            await _mediaStore.uploadPhoto(file: File(pickedFile.path));
 
-      // upload to firebase
-      final uploaded =
-          await _mediaStore.uploadPhoto(file: File(pickedFile.path));
+        // update backend
+        final sentMsg =
+            msg.copyWith(status: MessageStatus.sent, body: uploaded);
 
-      // update backend
-      final sentMsg = msg.copyWith(status: MessageStatus.sent, body: uploaded);
-
-      await _sendMessage(sentMsg);
+        await _sendMessage(sentMsg);
+      }
     } on DioError catch (e) {
       print(e);
     }
@@ -213,8 +213,15 @@ abstract class _ChatStoreBase with Store {
           ? Duration(seconds: 10)
           : Duration(minutes: 1),
     );
+    final thumbnail = await VideoThumbnail.thumbnailFile(
+      video: pickedFile.path,
+      imageFormat: ImageFormat.JPEG,
+      maxWidth: 250,
+      quality: 45,
+    );
 
     var msg = MessageModel(
+      extraData: thumbnail,
       id: DateTime.now().millisecondsSinceEpoch,
       body: pickedFile.path,
       sender: _userStore.getUser,
@@ -227,10 +234,36 @@ abstract class _ChatStoreBase with Store {
 
     _messages.add(msg);
 
-    final uploadedPath = await _mediaStore.uploadVideo();
-    final sentMsg =
-        msg.copyWith(status: MessageStatus.sent, body: uploadedPath);
+    final firbaseThumbnail =
+        await _mediaStore.uploadPhoto(file: File(thumbnail));
+    final firebaseViceo = await _mediaStore.uploadVideo(path: pickedFile.path);
+
+    final sentMsg = msg.copyWith(
+        status: MessageStatus.sent,
+        body: firebaseViceo,
+        extraData: firbaseThumbnail);
+
     await _sendMessage(sentMsg);
+  }
+
+  @action
+  Future startRecording() async {}
+
+  @action
+  Future stopRecording() async {
+    // get the recorded file and send
+    var msg = MessageModel(
+      id: DateTime.now().millisecondsSinceEpoch,
+      body: '',
+      sender: _userStore.getUser,
+      isLiked: false,
+      status: MessageStatus.pending,
+      likeCount: 0,
+      timestamp: DateTime.now().millisecondsSinceEpoch,
+      type: MessageType.voice,
+    );
+
+    _messages.add(msg);
   }
 
   @action
@@ -250,7 +283,7 @@ abstract class _ChatStoreBase with Store {
 
   Future _sendMessage(MessageModel msg) async {
     final resMsg = await _repository.sendMessage(conversation.id, msg);
-    _messages[_messages.indexOf(msg)] = resMsg;
+    _messages[_messages.indexWhere((m) => m.id == msg.id)] = resMsg;
   }
 
   bool isMe(int id) => (id == _userStore.getUser.id) ?? false;

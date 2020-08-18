@@ -28,6 +28,7 @@ abstract class _CreateDetailsStoreBase with Store {
     _categoryStore = sl<CreateCategoryStore>();
     _mediaStore = sl<MediaStore>();
     _homeStore = sl<HomeStore>();
+    
   }
   @observable
   String _groupName = '';
@@ -53,7 +54,7 @@ abstract class _CreateDetailsStoreBase with Store {
   Future selectGroupPhoto() async {
     try {
       isLoading = true;
-      final photo = await _mediaStore.uploadPhoto(source:ImageSource.gallery);
+      final photo = await _mediaStore.uploadPhoto(source: ImageSource.gallery);
       _selectedPhoto = photo;
     } finally {
       isLoading = false;
@@ -83,7 +84,8 @@ abstract class _CreateDetailsStoreBase with Store {
       return right(unit);
     } on Exception catch (e) {
       if (e is DioError &&
-          e.response.data['error'] == 'Validation failed: Name has already been taken') {
+          e.response.data['error'] ==
+              'Validation failed: Name has already been taken') {
         return left(CreateFailure.wrongName());
       } else {
         return left(CreateFailure.generalError());

@@ -138,8 +138,10 @@ class Router extends RouterBase {
       );
     },
     FullVideoScreen: (RouteData data) {
+      var args = data.getArgs<FullVideoScreenArguments>(
+          orElse: () => FullVideoScreenArguments());
       return MaterialPageRoute<dynamic>(
-        builder: (context) => FullVideoScreen(),
+        builder: (context) => FullVideoScreen(key: args.key, url: args.url),
         settings: data,
       );
     },
@@ -235,8 +237,14 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
         arguments: ChatSettingsScreenArguments(key: key),
       );
 
-  Future<dynamic> pushFullVideoScreen() =>
-      pushNamed<dynamic>(Routes.fullVideoScreen);
+  Future<dynamic> pushFullVideoScreen({
+    Key key,
+    String url,
+  }) =>
+      pushNamed<dynamic>(
+        Routes.fullVideoScreen,
+        arguments: FullVideoScreenArguments(key: key, url: url),
+      );
 
   Future<dynamic> pushFullImageScreen({
     Key key,
@@ -300,6 +308,13 @@ class ChatScreenArguments {
 class ChatSettingsScreenArguments {
   final Key key;
   ChatSettingsScreenArguments({this.key});
+}
+
+//FullVideoScreen arguments holder class
+class FullVideoScreenArguments {
+  final Key key;
+  final String url;
+  FullVideoScreenArguments({this.key, this.url});
 }
 
 //FullImageScreen arguments holder class

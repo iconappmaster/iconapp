@@ -23,8 +23,9 @@ class MediaRepositoryImpl implements MediaRepository {
   }
 
   @override
-  Future<String> uploadAudio(File original, String path, String fileName) {
-    throw UnimplementedError();
+  Future<String> uploadAudio(File audio, String path, String fileName) async {
+    final audioPath = "$path/audio/";
+    return await upload(audioPath, fileName, audio);
   }
 
   // Uploads the file to Firebase storage !Need to handle error

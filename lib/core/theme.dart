@@ -73,6 +73,12 @@ const disconnectButton = TextStyle(
   fontSize: 16.3,
 );
 
+const systemMessage =  TextStyle(
+  fontFamily: _fontRubikRegular,
+  color: white,
+  fontSize: 9.7,
+);
+
 const phoneNumber = TextStyle(
     fontFamily: _fontRubikRegular,
     color: white,
