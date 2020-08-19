@@ -72,6 +72,7 @@ abstract class _ChatStoreBase with Store {
       _state = _state.copyWith(loading: true);
       final conversationRes = await _repository.subscribe(conversation.id);
       _state = _state.copyWith(conversation: conversationRes);
+      
       determineComposerMode();
       initMessages();
     } on Exception catch (e) {
@@ -105,7 +106,7 @@ abstract class _ChatStoreBase with Store {
   @action
   void determineComposerMode() {
     final isIcon = _userStore.getUser.isIcon ?? false;
-    final isSubscribed = conversation?.isSubscribed ?? false;
+    final isSubscribed = _state.conversation?.isSubscribed ?? false;
 
     // decide what mode
     final composerMode = isIcon
@@ -122,7 +123,7 @@ abstract class _ChatStoreBase with Store {
   }
 
   @action
-  Future conversationViewed() async {
+  Future setConversationViewed() async {
     try {
       await _repository.conversationViewed(conversation.id);
     } on DioError catch (e) {

@@ -117,9 +117,9 @@ mixin _$ChatStore on _ChatStoreBase, Store {
       AsyncAction('_ChatStoreBase.conversationViewed');
 
   @override
-  Future<dynamic> conversationViewed() {
+  Future<dynamic> setConversationViewed() {
     return _$conversationViewedAsyncAction
-        .run(() => super.conversationViewed());
+        .run(() => super.setConversationViewed());
   }
 
   final _$likeMessageAsyncAction = AsyncAction('_ChatStoreBase.likeMessage');

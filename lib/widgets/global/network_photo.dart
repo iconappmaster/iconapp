@@ -30,14 +30,20 @@ class NetworkPhoto extends StatelessWidget {
                 ? Container(
                     padding: EdgeInsets.all(placeHolderPadding),
                     child: PhotoPlaceHolder(
-                        height: height, width: width, placeHolder: placeHolder))
+                      height: height,
+                      width: width,
+                      placeHolder: placeHolder,
+                    ),
+                  )
                 : Container(),
           )
         : CachedNetworkImage(
-            fadeOutDuration: Duration(milliseconds: 0),
+            fadeOutDuration: Duration(milliseconds: 250),
             progressIndicatorBuilder: (context, url, progress) => Center(
                 child: SizedBox(
-                    height: 30, width: 30, child: CircularProgressIndicator())),
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2))),
             height: height,
             width: width,
             fit: BoxFit.cover,
@@ -45,7 +51,10 @@ class NetworkPhoto extends StatelessWidget {
             placeholder: (_, url) {
               return placeHolder != null
                   ? PhotoPlaceHolder(
-                      height: height, width: width, placeHolder: placeHolder)
+                      height: height,
+                      width: width,
+                      placeHolder: placeHolder,
+                    )
                   : Container();
             },
           );
@@ -68,8 +77,8 @@ class PhotoPlaceHolder extends StatelessWidget {
     return Center(
       child: SvgPicture.asset(
         placeHolder,
-        height: width,
-        width: height,
+        height: width - 10,
+        width: height - 10,
         fit: BoxFit.cover,
       ),
     );

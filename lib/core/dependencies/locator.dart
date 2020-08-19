@@ -101,5 +101,6 @@ void initLocator() {
 
   // Story
   sl.registerLazySingleton<StoryStore>(() => StoryStore());
-  sl.registerLazySingleton<StoryRepository>(() => StoryRepositoryImpl());
+  sl.registerLazySingleton<StoryRepository>(
+      () => StoryRepositoryImpl(rest: sl()));
 }

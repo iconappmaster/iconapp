@@ -10,7 +10,7 @@ abstract class ConversationResponse with _$ConversationResponse {
   const factory ConversationResponse({
     final bool isSubscribed,
     final bool isPinned,
-    final bool isNotification,
+    final bool areNotificationsEnabled,
     final UserRole userRole,
     final Conversation conversation,
   }) = _ConversationResponse;

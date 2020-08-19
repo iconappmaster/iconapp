@@ -19,13 +19,13 @@ class _$ConversationResponseTearOff {
   _ConversationResponse call(
       {bool isSubscribed,
       bool isPinned,
-      bool isNotification,
+      bool areNotificationsEnabled,
       UserRole userRole,
       Conversation conversation}) {
     return _ConversationResponse(
       isSubscribed: isSubscribed,
       isPinned: isPinned,
-      isNotification: isNotification,
+      areNotificationsEnabled: areNotificationsEnabled,
       userRole: userRole,
       conversation: conversation,
     );
@@ -38,7 +38,7 @@ const $ConversationResponse = _$ConversationResponseTearOff();
 mixin _$ConversationResponse {
   bool get isSubscribed;
   bool get isPinned;
-  bool get isNotification;
+  bool get areNotificationsEnabled;
   UserRole get userRole;
   Conversation get conversation;
 
@@ -53,7 +53,7 @@ abstract class $ConversationResponseCopyWith<$Res> {
   $Res call(
       {bool isSubscribed,
       bool isPinned,
-      bool isNotification,
+      bool areNotificationsEnabled,
       UserRole userRole,
       Conversation conversation});
 
@@ -72,7 +72,7 @@ class _$ConversationResponseCopyWithImpl<$Res>
   $Res call({
     Object isSubscribed = freezed,
     Object isPinned = freezed,
-    Object isNotification = freezed,
+    Object areNotificationsEnabled = freezed,
     Object userRole = freezed,
     Object conversation = freezed,
   }) {
@@ -80,9 +80,9 @@ class _$ConversationResponseCopyWithImpl<$Res>
       isSubscribed:
           isSubscribed == freezed ? _value.isSubscribed : isSubscribed as bool,
       isPinned: isPinned == freezed ? _value.isPinned : isPinned as bool,
-      isNotification: isNotification == freezed
-          ? _value.isNotification
-          : isNotification as bool,
+      areNotificationsEnabled: areNotificationsEnabled == freezed
+          ? _value.areNotificationsEnabled
+          : areNotificationsEnabled as bool,
       userRole: userRole == freezed ? _value.userRole : userRole as UserRole,
       conversation: conversation == freezed
           ? _value.conversation
@@ -110,7 +110,7 @@ abstract class _$ConversationResponseCopyWith<$Res>
   $Res call(
       {bool isSubscribed,
       bool isPinned,
-      bool isNotification,
+      bool areNotificationsEnabled,
       UserRole userRole,
       Conversation conversation});
 
@@ -132,7 +132,7 @@ class __$ConversationResponseCopyWithImpl<$Res>
   $Res call({
     Object isSubscribed = freezed,
     Object isPinned = freezed,
-    Object isNotification = freezed,
+    Object areNotificationsEnabled = freezed,
     Object userRole = freezed,
     Object conversation = freezed,
   }) {
@@ -140,9 +140,9 @@ class __$ConversationResponseCopyWithImpl<$Res>
       isSubscribed:
           isSubscribed == freezed ? _value.isSubscribed : isSubscribed as bool,
       isPinned: isPinned == freezed ? _value.isPinned : isPinned as bool,
-      isNotification: isNotification == freezed
-          ? _value.isNotification
-          : isNotification as bool,
+      areNotificationsEnabled: areNotificationsEnabled == freezed
+          ? _value.areNotificationsEnabled
+          : areNotificationsEnabled as bool,
       userRole: userRole == freezed ? _value.userRole : userRole as UserRole,
       conversation: conversation == freezed
           ? _value.conversation
@@ -156,7 +156,7 @@ class _$_ConversationResponse implements _ConversationResponse {
   const _$_ConversationResponse(
       {this.isSubscribed,
       this.isPinned,
-      this.isNotification,
+      this.areNotificationsEnabled,
       this.userRole,
       this.conversation});
 
@@ -168,7 +168,7 @@ class _$_ConversationResponse implements _ConversationResponse {
   @override
   final bool isPinned;
   @override
-  final bool isNotification;
+  final bool areNotificationsEnabled;
   @override
   final UserRole userRole;
   @override
@@ -176,7 +176,7 @@ class _$_ConversationResponse implements _ConversationResponse {
 
   @override
   String toString() {
-    return 'ConversationResponse(isSubscribed: $isSubscribed, isPinned: $isPinned, isNotification: $isNotification, userRole: $userRole, conversation: $conversation)';
+    return 'ConversationResponse(isSubscribed: $isSubscribed, isPinned: $isPinned, areNotificationsEnabled: $areNotificationsEnabled, userRole: $userRole, conversation: $conversation)';
   }
 
   @override
@@ -189,9 +189,10 @@ class _$_ConversationResponse implements _ConversationResponse {
             (identical(other.isPinned, isPinned) ||
                 const DeepCollectionEquality()
                     .equals(other.isPinned, isPinned)) &&
-            (identical(other.isNotification, isNotification) ||
-                const DeepCollectionEquality()
-                    .equals(other.isNotification, isNotification)) &&
+            (identical(
+                    other.areNotificationsEnabled, areNotificationsEnabled) ||
+                const DeepCollectionEquality().equals(
+                    other.areNotificationsEnabled, areNotificationsEnabled)) &&
             (identical(other.userRole, userRole) ||
                 const DeepCollectionEquality()
                     .equals(other.userRole, userRole)) &&
@@ -205,7 +206,7 @@ class _$_ConversationResponse implements _ConversationResponse {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(isSubscribed) ^
       const DeepCollectionEquality().hash(isPinned) ^
-      const DeepCollectionEquality().hash(isNotification) ^
+      const DeepCollectionEquality().hash(areNotificationsEnabled) ^
       const DeepCollectionEquality().hash(userRole) ^
       const DeepCollectionEquality().hash(conversation);
 
@@ -224,7 +225,7 @@ abstract class _ConversationResponse implements ConversationResponse {
   const factory _ConversationResponse(
       {bool isSubscribed,
       bool isPinned,
-      bool isNotification,
+      bool areNotificationsEnabled,
       UserRole userRole,
       Conversation conversation}) = _$_ConversationResponse;
 
@@ -236,7 +237,7 @@ abstract class _ConversationResponse implements ConversationResponse {
   @override
   bool get isPinned;
   @override
-  bool get isNotification;
+  bool get areNotificationsEnabled;
   @override
   UserRole get userRole;
   @override

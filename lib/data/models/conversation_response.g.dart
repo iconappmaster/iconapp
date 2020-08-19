@@ -11,7 +11,7 @@ _$_ConversationResponse _$_$_ConversationResponseFromJson(
   return _$_ConversationResponse(
     isSubscribed: json['isSubscribed'] as bool,
     isPinned: json['isPinned'] as bool,
-    isNotification: json['isNotification'] as bool,
+    areNotificationsEnabled: json['areNotificationsEnabled'] as bool,
     userRole: _$enumDecodeNullable(_$UserRoleEnumMap, json['userRole']),
     conversation: json['conversation'] == null
         ? null
@@ -24,7 +24,7 @@ Map<String, dynamic> _$_$_ConversationResponseToJson(
     <String, dynamic>{
       'isSubscribed': instance.isSubscribed,
       'isPinned': instance.isPinned,
-      'isNotification': instance.isNotification,
+      'areNotificationsEnabled': instance.areNotificationsEnabled,
       'userRole': _$UserRoleEnumMap[instance.userRole],
       'conversation': instance.conversation,
     };

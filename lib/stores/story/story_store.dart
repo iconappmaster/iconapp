@@ -48,11 +48,16 @@ abstract class _StoryStoreBase with Store {
   @action
   Future getHomeStories() async {
     _mode = StoryMode.home;
-    final stories = await _repository.getHomeStories();
-    if (_stories.isNotEmpty) _stories.clear();
-    _stories.addAll(stories);
 
-    addPlusButton();
+    try {
+      final stories = await _repository.getHomeStories();
+      if (_stories.isNotEmpty) _stories.clear();
+      _stories.addAll(stories);
+
+      addPlusButton();
+    } on Exception catch (e) {
+      print(e);
+    }
   }
 
   void addPlusButton() {

@@ -549,7 +549,8 @@ class _RestClient implements RestClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response _result = await _dio.request('stories/stories_for_home',
+    final Response<List<dynamic>> _result = await _dio.request(
+        'stories/stories_for_home',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',
@@ -557,7 +558,9 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = _result.data;
+    var value = _result.data
+        .map((dynamic i) => StoryModel.fromJson(i as Map<String, dynamic>))
+        .toList();
     return value;
   }
 
@@ -567,7 +570,7 @@ class _RestClient implements RestClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response _result = await _dio.request(
+    final Response<List<dynamic>> _result = await _dio.request(
         'stories/stories/stories_for_conversation/$id',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -576,7 +579,9 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = _result.data;
+    var value = _result.data
+        .map((dynamic i) => StoryModel.fromJson(i as Map<String, dynamic>))
+        .toList();
     return value;
   }
 }

@@ -88,7 +88,7 @@ abstract class _ChatSettingsStoreBase with Store {
     users.clear();
     users.addAll(_chat.getState.conversation.conversation.users);
     _selectedColor = _chat.conversation.backgroundColor;
-    _isNotification = _chat.getState.conversation?.isNotification ?? true;
+    _isNotification = _chat.getState.conversation?.areNotificationsEnabled ?? true;
   }
 
   @action

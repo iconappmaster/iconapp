@@ -37,7 +37,7 @@ class _ChatScreenState extends State<ChatScreen> {
       ..initConversation(widget.conversation)
       ..determineComposerMode()
       ..fetchMessagesAndSubscribe()
-      ..conversationViewed();
+      ..setConversationViewed();
 
     // update the mode for the story widget
     sl<StoryStore>()..setMode(StoryMode.conversation);
@@ -81,7 +81,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       mode: story.mode,
                       show: upDirection),
                   ChatList(scrollController: _controller),
-                  _buildComposer(chat.getComposerMode),
+                  _buildComposer(chat),
                 ],
               ),
             ),
@@ -91,8 +91,8 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  Widget _buildComposer(ComposerMode mode) {
-    switch (mode) {
+  Widget _buildComposer(ChatStore chat) {
+    switch (chat.getComposerMode) {
       case ComposerMode.viewer:
         return ViewerSheet();
       case ComposerMode.icon:
@@ -122,8 +122,7 @@ class ViewerSheet extends StatelessWidget {
             TextSpan(text: 'רק ', style: chatCompose),
             TextSpan(
                 text: 'מנהלי קבוצה ',
-                style: chatCompose.copyWith(color: cornflower),
-                recognizer: TapGestureRecognizer()..onTap = () => print('a')),
+                style: chatCompose.copyWith(color: cornflower)),
             TextSpan(text: 'יכולים לשלוח הודעה', style: chatCompose),
           ]),
         ),
@@ -182,7 +181,6 @@ class _ChatListState extends State<ChatList> {
           padding: EdgeInsets.only(bottom: 12),
           itemCount: store.getMessages.length,
           itemBuilder: (_, index) {
-
             final message = store?.getMessages[index];
             final isMe = store.isMe(message.sender?.id);
 

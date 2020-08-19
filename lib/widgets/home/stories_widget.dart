@@ -13,7 +13,7 @@ import '../../core/extensions/context_ext.dart';
 
 enum StoryMode { home, conversation }
 
-const _storySize = 52.0;
+const _storySize = 62.0;
 
 class StoriesList extends StatefulWidget {
   final StoryMode mode;
@@ -86,6 +86,8 @@ class StoryAddButton extends StatelessWidget {
     return Column(
       children: <Widget>[
         Container(
+          height: 62,
+          width: 62,
           margin: EdgeInsets.symmetric(horizontal: 10),
           decoration:
               BoxDecoration(shape: BoxShape.circle, color: Colors.transparent),
@@ -133,6 +135,8 @@ class StoryTile extends StatelessWidget {
           Column(
             children: <Widget>[
               Container(
+                height: 60,
+                width: 60,
                 margin: EdgeInsets.symmetric(horizontal: 10),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,

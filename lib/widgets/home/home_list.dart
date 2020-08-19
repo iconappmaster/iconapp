@@ -8,6 +8,7 @@ import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
+import 'package:iconapp/widgets/global/white_circle.dart';
 import '../../core/extensions/context_ext.dart';
 import '../../core/extensions/int_ext.dart';
 
@@ -74,28 +75,28 @@ class ConversationItem extends StatelessWidget {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4.8), color: darkIndigo2),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: NetworkPhoto(
-                  placeHolder: 'assets/images/group_placeholder.svg',
-                  placeHolderPadding: 20,
-                  url: model?.backgroundPhoto?.url ?? '',
-                  height: 56,
-                  width: 56,
-                ),
-              ),
+              WhiteCircle(
+                  widget: NetworkPhoto(
+                      placeHolder: 'assets/images/group_placeholder.svg',
+                      placeHolderPadding: 20,
+                      url: model?.backgroundPhoto?.url ?? '',
+                      height: 56,
+                      width: 56)),
               SizedBox(width: 10.7),
               Expanded(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    HebrewText(model.name,
-                        style: nameWhite,
-                        maxLines: 1,
-                        textAlign: TextAlign.start),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 6.0),
+                      child: HebrewText(model.name,
+                          style: nameWhite,
+                          maxLines: 1,
+                          textAlign: TextAlign.start),
+                    ),
                     SizedBox(height: 4),
                     Expanded(
                         child: HebrewText(formatLastMessage(model.lastMessage),
@@ -114,9 +115,14 @@ class ConversationItem extends StatelessWidget {
                         model.lastMessage?.timestamp?.humanReadableTime() ?? '',
                         style: timeOfMessage),
                   SizedBox(height: 8.7),
-                  if (model?.unreadMessageCount ?? 0 > 0)
-                    _MessageCounter(count: model?.unreadMessageCount ?? 0),
-                  if (model?.isPinned ?? false) _Pin(),
+                  Row(
+                    children: [
+                      if (model?.unreadMessageCount ?? 0 > 0)
+                        _MessageCounter(count: 5),
+                      SizedBox(width: 4),
+                      if (model?.isPinned ?? false) _Pin(),
+                    ],
+                  )
                 ],
               ),
             ],

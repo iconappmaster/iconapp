@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/conversation_response.dart';
 import 'package:iconapp/data/models/message_model.dart';
+import 'package:iconapp/data/models/story_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/models/create_group_req.dart';
 import 'package:retrofit/retrofit.dart';
@@ -121,10 +122,10 @@ abstract class RestClient {
 
   // STORY
   @GET('stories/stories_for_home')
-  Future homeStories();
+  Future<List<StoryModel>> homeStories();
 
   @GET('stories/stories/stories_for_conversation/{conversationId}')
-  Future conversationStories(@Path('conversationId') int id);
+  Future<List<StoryModel>> conversationStories(@Path('conversationId') int id);
 }
 
 Dio getDioClient() {
