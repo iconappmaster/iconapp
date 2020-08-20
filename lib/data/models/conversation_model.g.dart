@@ -37,6 +37,8 @@ _$_Conversation _$_$_ConversationFromJson(Map<String, dynamic> json) {
         ?.toList(),
     isSubscribed: json['isSubscribed'] as bool,
     numberOfAdminsRemaining: json['numberOfAdminsRemaining'] as int,
+    areNotificationsEnabled: json['areNotificationsEnabled'] as bool,
+    userRole: _$enumDecodeNullable(_$UserRoleEnumMap, json['userRole']),
   );
 }
 
@@ -57,4 +59,44 @@ Map<String, dynamic> _$_$_ConversationToJson(_$_Conversation instance) =>
       'messages': instance.messages,
       'isSubscribed': instance.isSubscribed,
       'numberOfAdminsRemaining': instance.numberOfAdminsRemaining,
+      'areNotificationsEnabled': instance.areNotificationsEnabled,
+      'userRole': _$UserRoleEnumMap[instance.userRole],
     };
+
+T _$enumDecode<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError('A value must be provided. Supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+
+  final value = enumValues.entries
+      .singleWhere((e) => e.value == source, orElse: () => null)
+      ?.key;
+
+  if (value == null && unknownValue == null) {
+    throw ArgumentError('`$source` is not one of the supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+  return value ?? unknownValue;
+}
+
+T _$enumDecodeNullable<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$UserRoleEnumMap = {
+  UserRole.viewer: 'viewer',
+  UserRole.admin: 'admin',
+  UserRole.contributor: 'contributor',
+};

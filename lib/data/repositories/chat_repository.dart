@@ -1,12 +1,12 @@
-import 'package:iconapp/data/models/conversation_response.dart';
+import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 import '../../core/extensions/string_ext.dart';
 
 abstract class ChatRepository {
-  Future<ConversationResponse> getConversaion(int chatId);
+  Future<Conversation> getConversaion(int chatId);
   Future<MessageModel> sendMessage(int conversationId, MessageModel message);
-  Future<ConversationResponse> subscribe(int id);
+  Future<Conversation> subscribe(int id);
   Future<MessageModel> likeMessage(int messageId);
   Future<MessageModel> unlikeMessage(int messageId);
   Stream<MessageModel> watchMessages();
@@ -20,12 +20,12 @@ class ChatRepositoryImpl implements ChatRepository {
   ChatRepositoryImpl({this.restClient});
 
   @override
-  Future<ConversationResponse> getConversaion(int chatId) async {
+  Future<Conversation> getConversaion(int chatId) async {
     return await restClient.getConversaion(chatId);
   }
 
   @override
-  Future<ConversationResponse> subscribe(int id) async {
+  Future<Conversation> subscribe(int id) async {
     return await restClient.subscribe(id);
   }
 

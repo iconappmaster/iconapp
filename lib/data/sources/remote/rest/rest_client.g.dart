@@ -243,7 +243,7 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = ConversationResponse.fromJson(_result.data);
+    final value = Conversation.fromJson(_result.data);
     return value;
   }
 
@@ -263,7 +263,7 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = ConversationResponse.fromJson(_result.data);
+    final value = Conversation.fromJson(_result.data);
     return value;
   }
 
@@ -283,7 +283,7 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = ConversationResponse.fromJson(_result.data);
+    final value = Conversation.fromJson(_result.data);
     return value;
   }
 
@@ -322,7 +322,7 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = ConversationResponse.fromJson(_result.data);
+    final value = Conversation.fromJson(_result.data);
     return value;
   }
 
@@ -341,7 +341,7 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = ConversationResponse.fromJson(_result.data);
+    final value = Conversation.fromJson(_result.data);
     return value;
   }
 
@@ -360,7 +360,7 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = ConversationResponse.fromJson(_result.data);
+    final value = Conversation.fromJson(_result.data);
     return value;
   }
 
@@ -399,7 +399,7 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = ConversationResponse.fromJson(_result.data);
+    final value = Conversation.fromJson(_result.data);
     return value;
   }
 
@@ -419,7 +419,7 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = ConversationResponse.fromJson(_result.data);
+    final value = Conversation.fromJson(_result.data);
     return value;
   }
 

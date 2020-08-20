@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/stores/search/search_store.dart';
 import '../../core/extensions/context_ext.dart';
@@ -19,33 +20,35 @@ class BottomSheetActionButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     final store = sl<SearchStore>();
 
-    return Container(
-      height: context.heightPlusStatusbarPerc(.109),
-      child: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          BottomSheetIcon(
-              isSelected: isIconSearchOn != null
-                  ? isIconSearchOn
-                  : store.getSearchMode == SearchMode.icons,
-              rightPoistion: 13.3,
-              asset: 'assets/images/icon_search.svg',
+    return Observer(
+      builder: (_) => Container(
+        height: context.heightPlusStatusbarPerc(.109),
+        child: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            BottomSheetIcon(
+                isSelected: isIconSearchOn != null
+                    ? isIconSearchOn
+                    : store.getSearchMode == SearchMode.icons,
+                rightPoistion: 13.3,
+                asset: 'assets/images/icon_search.svg',
+                onTap: () {
+                  store.setSearchMode(SearchMode.icons);
+                  if (onTap != null) onTap();
+                }),
+            BottomSheetIcon(
+              isSelected: isCategoriesSearchOn != null
+                  ? isCategoriesSearchOn
+                  : store.getSearchMode == SearchMode.categories,
+              rightPoistion: 87.3,
+              asset: 'assets/images/category_filter.svg',
               onTap: () {
-                store.setSearchMode(SearchMode.icons);
+                store.setSearchMode(SearchMode.categories);
                 if (onTap != null) onTap();
-              }),
-          BottomSheetIcon(
-            isSelected: isCategoriesSearchOn != null
-                ? isCategoriesSearchOn
-                : store.getSearchMode == SearchMode.categories,
-            rightPoistion: 87.3,
-            asset: 'assets/images/category_filter.svg',
-            onTap: () {
-              store.setSearchMode(SearchMode.categories);
-              if (onTap != null) onTap();
-            },
-          ),
-        ],
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

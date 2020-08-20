@@ -26,6 +26,9 @@ abstract class Conversation with _$Conversation {
     final List<MessageModel> messages,
     final bool isSubscribed,
     final int numberOfAdminsRemaining,
+    // these are added
+    final bool areNotificationsEnabled,
+    final UserRole userRole,
   }) = _Conversation;
 
   factory Conversation.fromJson(Map<String, dynamic> json) =>

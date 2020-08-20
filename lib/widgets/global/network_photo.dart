@@ -49,13 +49,11 @@ class NetworkPhoto extends StatelessWidget {
             fit: BoxFit.cover,
             imageUrl: url,
             placeholder: (_, url) {
-              return placeHolder != null
-                  ? PhotoPlaceHolder(
-                      height: height,
-                      width: width,
-                      placeHolder: placeHolder,
-                    )
-                  : Container();
+              return PhotoPlaceHolder(
+                height: height,
+                width: width,
+                placeHolder: placeHolder ?? 'assets/imagees/group_placeholder.svg',
+              );
             },
           );
   }
@@ -77,8 +75,8 @@ class PhotoPlaceHolder extends StatelessWidget {
     return Center(
       child: SvgPicture.asset(
         placeHolder,
-        height: width - 10,
-        width: height - 10,
+        height: width,
+        width: height,
         fit: BoxFit.cover,
       ),
     );

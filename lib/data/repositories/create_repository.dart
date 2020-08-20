@@ -1,9 +1,9 @@
-import 'package:iconapp/data/models/conversation_response.dart';
+import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/create_group_req.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 
 abstract class CreateRepository {
-  Future<ConversationResponse> createConversation(CreateGroupReq req);
+  Future<Conversation> createConversation(CreateGroupReq req);
 }
 
 class GroupCreateRepositoryImpl implements CreateRepository {
@@ -12,7 +12,7 @@ class GroupCreateRepositoryImpl implements CreateRepository {
   GroupCreateRepositoryImpl(this.client);
 
   @override
-  Future<ConversationResponse> createConversation(CreateGroupReq req) async {
+  Future<Conversation> createConversation(CreateGroupReq req) async {
     return await client.createConversation(req);
   }
 }

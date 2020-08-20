@@ -14,7 +14,7 @@ class ChatAppbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
-    final conversation = store.getState?.conversation?.conversation;
+    final conversation = store.getState?.conversation;
     return Observer(
       builder: (_) => Container(
         height: context.heightPlusStatusbarPerc(.116),

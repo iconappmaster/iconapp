@@ -113,12 +113,12 @@ mixin _$ChatStore on _ChatStoreBase, Store {
         .run(() => super.pinConversation(isPinned));
   }
 
-  final _$conversationViewedAsyncAction =
-      AsyncAction('_ChatStoreBase.conversationViewed');
+  final _$setConversationViewedAsyncAction =
+      AsyncAction('_ChatStoreBase.setConversationViewed');
 
   @override
   Future<dynamic> setConversationViewed() {
-    return _$conversationViewedAsyncAction
+    return _$setConversationViewedAsyncAction
         .run(() => super.setConversationViewed());
   }
 
@@ -227,7 +227,7 @@ mixin _$ChatStore on _ChatStoreBase, Store {
   }
 
   @override
-  void setConversation(ConversationResponse conversation) {
+  void setConversation(Conversation conversation) {
     final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
         name: '_ChatStoreBase.setConversation');
     try {
