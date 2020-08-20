@@ -23,7 +23,7 @@ class _$MessageModelTearOff {
       bool wasSeen,
       MessageType type,
       UserModel sender,
-      int likeCount,
+      Like likeCounts,
       bool isLiked,
       MessageStatus status,
       String extraData}) {
@@ -34,7 +34,7 @@ class _$MessageModelTearOff {
       wasSeen: wasSeen,
       type: type,
       sender: sender,
-      likeCount: likeCount,
+      likeCounts: likeCounts,
       isLiked: isLiked,
       status: status,
       extraData: extraData,
@@ -52,7 +52,7 @@ mixin _$MessageModel {
   bool get wasSeen;
   MessageType get type;
   UserModel get sender;
-  int get likeCount;
+  Likes get likeCounts;
   bool get isLiked;
   MessageStatus get status;
   String get extraData;
@@ -72,7 +72,7 @@ abstract class $MessageModelCopyWith<$Res> {
       bool wasSeen,
       MessageType type,
       UserModel sender,
-      int likeCount,
+      Likes likeCounts,
       bool isLiked,
       MessageStatus status,
       String extraData});
@@ -95,7 +95,7 @@ class _$MessageModelCopyWithImpl<$Res> implements $MessageModelCopyWith<$Res> {
     Object wasSeen = freezed,
     Object type = freezed,
     Object sender = freezed,
-    Object likeCount = freezed,
+    Object likeCounts = freezed,
     Object isLiked = freezed,
     Object status = freezed,
     Object extraData = freezed,
@@ -107,7 +107,8 @@ class _$MessageModelCopyWithImpl<$Res> implements $MessageModelCopyWith<$Res> {
       wasSeen: wasSeen == freezed ? _value.wasSeen : wasSeen as bool,
       type: type == freezed ? _value.type : type as MessageType,
       sender: sender == freezed ? _value.sender : sender as UserModel,
-      likeCount: likeCount == freezed ? _value.likeCount : likeCount as int,
+      likeCounts:
+          likeCounts == freezed ? _value.likeCounts : likeCounts as Likes,
       isLiked: isLiked == freezed ? _value.isLiked : isLiked as bool,
       status: status == freezed ? _value.status : status as MessageStatus,
       extraData: extraData == freezed ? _value.extraData : extraData as String,
@@ -138,7 +139,7 @@ abstract class _$MessageModelCopyWith<$Res>
       bool wasSeen,
       MessageType type,
       UserModel sender,
-      int likeCount,
+      Likes likeCounts,
       bool isLiked,
       MessageStatus status,
       String extraData});
@@ -164,7 +165,7 @@ class __$MessageModelCopyWithImpl<$Res> extends _$MessageModelCopyWithImpl<$Res>
     Object wasSeen = freezed,
     Object type = freezed,
     Object sender = freezed,
-    Object likeCount = freezed,
+    Object likeCounts = freezed,
     Object isLiked = freezed,
     Object status = freezed,
     Object extraData = freezed,
@@ -176,7 +177,8 @@ class __$MessageModelCopyWithImpl<$Res> extends _$MessageModelCopyWithImpl<$Res>
       wasSeen: wasSeen == freezed ? _value.wasSeen : wasSeen as bool,
       type: type == freezed ? _value.type : type as MessageType,
       sender: sender == freezed ? _value.sender : sender as UserModel,
-      likeCount: likeCount == freezed ? _value.likeCount : likeCount as int,
+      likeCounts:
+          likeCounts == freezed ? _value.likeCounts : likeCounts as Likes,
       isLiked: isLiked == freezed ? _value.isLiked : isLiked as bool,
       status: status == freezed ? _value.status : status as MessageStatus,
       extraData: extraData == freezed ? _value.extraData : extraData as String,
@@ -193,7 +195,7 @@ class _$_MessageModel implements _MessageModel {
       this.wasSeen,
       this.type,
       this.sender,
-      this.likeCount,
+      this.likeCounts,
       this.isLiked,
       this.status,
       this.extraData});
@@ -214,7 +216,7 @@ class _$_MessageModel implements _MessageModel {
   @override
   final UserModel sender;
   @override
-  final int likeCount;
+  final Likes likeCounts;
   @override
   final bool isLiked;
   @override
@@ -224,7 +226,7 @@ class _$_MessageModel implements _MessageModel {
 
   @override
   String toString() {
-    return 'MessageModel(id: $id, timestamp: $timestamp, body: $body, wasSeen: $wasSeen, type: $type, sender: $sender, likeCount: $likeCount, isLiked: $isLiked, status: $status, extraData: $extraData)';
+    return 'MessageModel(id: $id, timestamp: $timestamp, body: $body, wasSeen: $wasSeen, type: $type, sender: $sender, likeCounts: $likeCounts, isLiked: $isLiked, status: $status, extraData: $extraData)';
   }
 
   @override
@@ -245,9 +247,9 @@ class _$_MessageModel implements _MessageModel {
                 const DeepCollectionEquality().equals(other.type, type)) &&
             (identical(other.sender, sender) ||
                 const DeepCollectionEquality().equals(other.sender, sender)) &&
-            (identical(other.likeCount, likeCount) ||
+            (identical(other.likeCounts, likeCounts) ||
                 const DeepCollectionEquality()
-                    .equals(other.likeCount, likeCount)) &&
+                    .equals(other.likeCounts, likeCounts)) &&
             (identical(other.isLiked, isLiked) ||
                 const DeepCollectionEquality()
                     .equals(other.isLiked, isLiked)) &&
@@ -267,7 +269,7 @@ class _$_MessageModel implements _MessageModel {
       const DeepCollectionEquality().hash(wasSeen) ^
       const DeepCollectionEquality().hash(type) ^
       const DeepCollectionEquality().hash(sender) ^
-      const DeepCollectionEquality().hash(likeCount) ^
+      const DeepCollectionEquality().hash(likeCounts) ^
       const DeepCollectionEquality().hash(isLiked) ^
       const DeepCollectionEquality().hash(status) ^
       const DeepCollectionEquality().hash(extraData);
@@ -290,7 +292,7 @@ abstract class _MessageModel implements MessageModel {
       bool wasSeen,
       MessageType type,
       UserModel sender,
-      int likeCount,
+      Likes likeCounts,
       bool isLiked,
       MessageStatus status,
       String extraData}) = _$_MessageModel;
@@ -311,7 +313,7 @@ abstract class _MessageModel implements MessageModel {
   @override
   UserModel get sender;
   @override
-  int get likeCount;
+  Likes get likeCounts;
   @override
   bool get isLiked;
   @override

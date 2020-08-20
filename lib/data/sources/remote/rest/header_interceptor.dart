@@ -1,9 +1,11 @@
-import 'dart:async';
+  import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/main.dart';
 import 'package:iconapp/stores/user/user_store.dart';
+
+import '../../../../stores/auth/auth_store.dart';
 
 class HeaderInterceptor extends Interceptor {
   final Dio dio;
@@ -29,16 +31,18 @@ class HeaderInterceptor extends Interceptor {
   Future onError(DioError error) async {
     if (counter < MAX_TRIES && error.response?.statusCode == 403 ||
         error.response?.statusCode == 401) {
-      counter++;
-      dio.interceptors.requestLock.lock();
-      dio.interceptors.responseLock.lock();
-      RequestOptions options = error.response.request;
+       dio.interceptors.requestLock.unlock();
+      dio.interceptors.responseLock.unlock();
+      sl<AuthStore>().logout(false);
+      // counter++;
+      // dio.interceptors.requestLock.lock();
+      // dio.interceptors.responseLock.lock();
+      // RequestOptions options = error.response.request;
 
       // perform retry here
 
-      dio.interceptors.requestLock.unlock();
-      dio.interceptors.responseLock.unlock();
-      return dio.request(options.path, options: options);
+     
+      // return dio.request(options.path, options: options);
     } else {
       return error;
     }

@@ -48,8 +48,8 @@ mixin _$AuthStore on _AuthStoreBase, Store {
   final _$logoutAsyncAction = AsyncAction('_AuthStoreBase.logout');
 
   @override
-  Future<dynamic> logout() {
-    return _$logoutAsyncAction.run(() => super.logout());
+  Future<dynamic> logout(bool updateBackend) {
+    return _$logoutAsyncAction.run(() => super.logout(updateBackend));
   }
 
   final _$_AuthStoreBaseActionController =

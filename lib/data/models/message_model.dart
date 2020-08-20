@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:iconapp/data/models/likes.dart';
 import 'package:iconapp/data/models/user_model.dart';
 
 part 'message_model.g.dart';
@@ -13,7 +14,7 @@ abstract class MessageModel with _$MessageModel {
     final bool wasSeen,
     final MessageType type,
     final UserModel sender,
-    final int likeCount,
+    final LikesCount likeCounts,
     final bool isLiked,
     final MessageStatus status,
     final String extraData,

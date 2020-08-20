@@ -43,9 +43,9 @@ abstract class _AuthStoreBase with Store {
   }
 
   @action
-  Future logout() async {
+  Future logout(bool updateBackend) async {
     try {
-      await _repository.logout();
+      if (updateBackend) await _repository.logout();
       await _sharedPreferencesService.clear();
       _authState = AuthState.unauthenticated();
     } on ServerError catch (_) {
