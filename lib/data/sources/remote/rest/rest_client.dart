@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
-import 'package:iconapp/data/models/conversation_response.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/models/story_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
@@ -60,41 +59,40 @@ abstract class RestClient {
   // CONVERSATIONS
 
   @POST('conversations/{conversationId}')
-  Future<ConversationResponse> updateConversation(
+  Future<Conversation> updateConversation(
       @Path('conversationId') int conversationId,
       @Body() Conversation conversation);
 
   @POST('conversations/{conversationId}/add_user')
-  Future<ConversationResponse> addUser(
+  Future<Conversation> addUser(
       @Path('conversationId') int conversationId, @Query('userId') int userId);
 
   @POST('conversations/{conversationId}/remove_user')
-  Future<ConversationResponse> removeUser(
+  Future<Conversation> removeUser(
       @Path('conversationId') int conversationId, @Query('userId') int userId);
 
   @GET('conversations')
   Future<List<Conversation>> getConversations();
 
   @POST('conversations')
-  Future<ConversationResponse> createConversation(
-      @Body() CreateGroupReq groupReq);
+  Future<Conversation> createConversation(@Body() CreateGroupReq groupReq);
 
   @GET('conversations/{conversationId}')
-  Future<ConversationResponse> getConversaion(
+  Future<Conversation> getConversaion(
       @Path('conversationId') int conversationId);
 
   @POST('conversations/{conversationId}/subscribe_to_conversation')
-  Future<ConversationResponse> subscribe(@Path('conversationId') int id);
+  Future<Conversation> subscribe(@Path('conversationId') int id);
 
   @POST('conversations/{conversationId}/unsubscribe_from_conversation')
   Future unSubscribeFromConversation(@Path('conversationId') int id);
 
   @POST('conversations/{conversationId}/make_admin')
-  Future<ConversationResponse> makeUserAdmin(
+  Future<Conversation> makeUserAdmin(
       @Path('conversationId') int id, @Query('userId') int userId);
 
   @POST('conversations/{conversationId}/set_pin')
-  Future<ConversationResponse> pinConversation(
+  Future<Conversation> pinConversation(
       @Path('conversationId') int id, @Query('isPinned') bool isPinned);
 
   @POST('conversations/{conversationId}/viewed_conversation')

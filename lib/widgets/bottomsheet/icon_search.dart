@@ -28,8 +28,7 @@ class IconsSearchWidget extends StatelessWidget {
               itemCount: store.getIcons.length,
               controller: controller,
               itemBuilder: (context, index) =>
-                  IconSearchItem(icon: store.getIcons[index]),
-            ),
+                  IconSearchItem(icon: store.getIcons[index])),
     );
   }
 }
@@ -61,6 +60,7 @@ class IconSearchItem extends StatelessWidget {
               ClipRRect(
                   borderRadius: BorderRadius.circular(5.3),
                   child: NetworkPhoto(
+                    placeHolder: 'assets/images/group_placeholder.svg',
                     url: icon?.photo?.url ?? '',
                     height: 41.3,
                     width: 41.3,

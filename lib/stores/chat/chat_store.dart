@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
-import 'package:iconapp/data/models/conversation_response.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/repositories/chat_repository.dart';
 import 'package:iconapp/stores/chat/chat_state.dart';
@@ -38,10 +37,10 @@ abstract class _ChatStoreBase with Store {
   ChatState get getState => _state;
 
   @computed
-  int get backgroundColor =>  conversation.backgroundColor;
+  int get backgroundColor => conversation.backgroundColor;
 
   @computed
-  Conversation get conversation => _state.conversation.conversation;
+  Conversation get conversation => _state.conversation;
 
   @computed
   bool get isPinned => _state.conversation.isPinned ?? false;
@@ -62,7 +61,7 @@ abstract class _ChatStoreBase with Store {
   @action
   void initConversation(Conversation conversation) {
     _state = _state.copyWith(
-      conversation: ConversationResponse(conversation: conversation),
+      conversation: conversation,
     );
   }
 
@@ -72,7 +71,7 @@ abstract class _ChatStoreBase with Store {
       _state = _state.copyWith(loading: true);
       final conversationRes = await _repository.subscribe(conversation.id);
       _state = _state.copyWith(conversation: conversationRes);
-      
+
       determineComposerMode();
       initMessages();
     } on Exception catch (e) {
@@ -269,7 +268,7 @@ abstract class _ChatStoreBase with Store {
   // MESSAGE ACTIONS - END
 
   @action
-  void setConversation(ConversationResponse conversation) {
+  void setConversation(Conversation conversation) {
     _state = _state.copyWith(conversation: conversation);
   }
 

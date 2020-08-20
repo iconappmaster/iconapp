@@ -62,7 +62,10 @@ class _NestedSheetModalState extends State<NestedSheetModal> {
             return <Widget>[
               SliverList(
                 delegate: SliverChildListDelegate(
-                  [BottomSheetBar(), SearchBar()],
+                  [
+                    BottomSheetBar(),
+                    SearchBar(),
+                  ],
                 ),
               ),
             ];

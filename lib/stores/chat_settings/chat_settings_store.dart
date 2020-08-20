@@ -60,7 +60,7 @@ abstract class _ChatSettingsStoreBase with Store {
 
   @computed
   bool get isAdminLeft =>
-      _chat.getState.conversation.conversation.numberOfAdminsRemaining > 0;
+      _chat.getState.conversation.numberOfAdminsRemaining > 0;
 
   @computed
   bool get isUserIcon => _userStore.getUser.isIcon;
@@ -75,7 +75,7 @@ abstract class _ChatSettingsStoreBase with Store {
       final conversation = await _repository.changeBackgroundColor(
           _chat.conversation.id, colorIndex);
       _chat.setConversation(conversation);
-      _selectedColor = conversation.conversation.backgroundColor;
+      _selectedColor = conversation.backgroundColor;
     } on Exception catch (e) {
       print(e);
     } finally {
@@ -86,9 +86,10 @@ abstract class _ChatSettingsStoreBase with Store {
   @action
   void init() {
     users.clear();
-    users.addAll(_chat.getState.conversation.conversation.users);
+    users.addAll(_chat.getState.conversation.users);
     _selectedColor = _chat.conversation.backgroundColor;
-    _isNotification = _chat.getState.conversation?.areNotificationsEnabled ?? true;
+    _isNotification =
+        _chat.getState.conversation?.areNotificationsEnabled ?? true;
   }
 
   @action
@@ -104,7 +105,7 @@ abstract class _ChatSettingsStoreBase with Store {
       _chat.setConversation(conversation);
 
       users.clear();
-      users.addAll(conversation.conversation.users);
+      users.addAll(conversation.users);
     } on Exception catch (e) {
       print(e);
     } finally {
@@ -125,7 +126,7 @@ abstract class _ChatSettingsStoreBase with Store {
       _chat.setConversation(conversation);
 
       users.clear();
-      users.addAll(conversation.conversation.users);
+      users.addAll(conversation.users);
     } on Exception catch (e) {
       print(e);
     } finally {
@@ -147,7 +148,7 @@ abstract class _ChatSettingsStoreBase with Store {
       chatStore.setConversation(conversation);
 
       users.clear();
-      users.addAll(conversation.conversation.users);
+      users.addAll(conversation.users);
     } on Exception catch (e) {
       print(e);
     } finally {
@@ -177,15 +178,14 @@ abstract class _ChatSettingsStoreBase with Store {
   @action
   Future changeConversationPhoto() async {
     try {
-      _isLoading = true;
       final url = await _mediaStore.uploadPhoto(source: ImageSource.gallery);
+      if (url != null) {
+        _isLoading = true;
+        final conversation = await _repository.updateConversation(
+            _chat.conversation.id, Conversation(photo: PhotoModel(url: url)));
 
-      final conversation = await _repository.updateConversation(
-        _chat.conversation.id,
-        Conversation(photo: PhotoModel(url: url)),
-      );
-
-      _chat.setConversation(conversation);
+        _chat.setConversation(conversation);
+      }
     } on Exception catch (e) {
       print(e);
     } finally {

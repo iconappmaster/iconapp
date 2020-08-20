@@ -26,22 +26,19 @@ class EditConversation extends StatelessWidget {
                   title: LocaleKeys.create_groupNameAppbarTitle.tr()),
               SizedBox(height: 33),
               Padding(
-                padding: EdgeInsets.only(left: 28.7, right: 28.7),
-                child: Form(
-                  key: _key,
-                  child: InputText(
-                    validator: _groupNameValidation,
-                    contentPadding: const EdgeInsets.only(bottom: 20),
-                    initialValue:
-                        store.getState?.conversation?.conversation?.name ?? '',
-                    onChange: (groupName) =>
-                        sl<ChatSettingsStore>().changeConversationName(groupName),
-                    hint: 'הקלד/י נושא חדש',
-                    hintStyle: flushbar,
-                    textStyle: flushbar,
-                  ),
-                ),
-              ),
+                  padding: EdgeInsets.only(left: 28.7, right: 28.7),
+                  child: Form(
+                      key: _key,
+                      child: InputText(
+                          validator: _groupNameValidation,
+                          contentPadding: const EdgeInsets.only(bottom: 20),
+                          initialValue:
+                              store.getState?.conversation?.name ?? '',
+                          onChange: (groupName) => sl<ChatSettingsStore>()
+                              .changeConversationName(groupName),
+                          hint: 'הקלד/י נושא חדש',
+                          hintStyle: flushbar,
+                          textStyle: flushbar))),
             ],
           ),
           Positioned(

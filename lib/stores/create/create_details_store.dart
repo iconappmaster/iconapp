@@ -78,7 +78,7 @@ abstract class _CreateDetailsStoreBase with Store {
 
       final conversation = await _repository.createConversation(req);
 
-      _homeStore.addConversation(conversation.conversation);
+      _homeStore.addConversation(conversation);
       // await _homeStore.getHome();
 
       return right(unit);

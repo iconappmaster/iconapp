@@ -25,7 +25,9 @@ class ParticipentList extends StatelessWidget {
       builder: (_) => Column(
         children: <Widget>[
           ParticipentsListTitle(),
-          ...store.users.map((user) => ParticipantTile(currentUser: user)).toList(),
+          ...store.users
+              .map((user) => ParticipantTile(currentUser: user))
+              .toList(),
           ParticipentAddButton(),
         ],
       ),
@@ -95,7 +97,7 @@ class ParticipantTile extends StatelessWidget {
         height: settingsColumnHeight,
         child: Row(
           children: <Widget>[
-            ParticipantAvatar(url: currentUser?.photo?.url ?? ''),
+            ParticipantAvatar(url: currentUser?.photo?.url),
             SizedBox(width: 11.3),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,18 +109,20 @@ class ParticipantTile extends StatelessWidget {
                   Row(
                     children: <Widget>[
                       // IF USER IS ADMIN AND NOT ME
-                      if (currentUser.userRole != UserRole.admin && notMe(userStore.getUser.id))
+                      if (currentUser.userRole != UserRole.admin &&
+                          notMe(userStore.getUser.id))
                         Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: SettingsActionButton(
-                                isAdminsLeft: settingsStore.isAdminLeft,
-                                textStyle: settingsButton,
-                                onTap: () =>  settingsStore.makeUserAdmin(currentUser.id),
-                                text: 'הפוך למנהל/ת',
-                                width: 103,
-                                borderColor: cornflower,
-                              ),
-                            ),
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: SettingsActionButton(
+                            isAdminsLeft: settingsStore.isAdminLeft,
+                            textStyle: settingsButton,
+                            onTap: () =>
+                                settingsStore.makeUserAdmin(currentUser.id),
+                            text: 'הפוך למנהל/ת',
+                            width: 103,
+                            borderColor: cornflower,
+                          ),
+                        ),
 
                       // MARK AS ADMIN ANY ADMIN USER.
                       if (currentUser.userRole == UserRole.admin)
@@ -137,7 +141,8 @@ class ParticipantTile extends StatelessWidget {
                         ),
 
                       // IF USER IS ADMIN AND NOT THE CURRENT USER SHOW REMOVE
-                      if (conversation.userRole == UserRole.admin && notMe(userStore.getUser.id))
+                      if (conversation.userRole == UserRole.admin &&
+                          notMe(userStore.getUser.id))
                         SettingsActionButton(
                           onTap: () => settingsStore.removeUser(currentUser.id),
                           text: 'הסרה',
@@ -208,17 +213,16 @@ class ParticipantAvatar extends StatelessWidget {
       child: ClipRRect(
           borderRadius: BorderRadius.circular(5.3),
           child: NetworkPhoto(
-              url: url, placeHolder: 'assets/images/group_placeholder.svg')),
+            url: url,
+            placeHolder: 'assets/images/group_placeholder.svg',
+          )),
     );
   }
 }
 
 class ParticipentsListTitle extends StatelessWidget {
-  final adminsLeft = sl<ChatStore>()
-          .getState
-          .conversation
-          ?.conversation
-          ?.numberOfAdminsRemaining ?? 0;
+  final adminsLeft =
+      sl<ChatStore>().getState?.conversation?.numberOfAdminsRemaining ?? 0;
 
   @override
   Widget build(BuildContext context) {
