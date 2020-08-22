@@ -3,9 +3,12 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
+import 'package:iconapp/data/models/likes.dart';
 import 'package:iconapp/data/models/message_model.dart';
+import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/repositories/chat_repository.dart';
 import 'package:iconapp/stores/chat/chat_state.dart';
+import 'package:iconapp/stores/chat_settings/chat_settings_store.dart';
 import 'package:iconapp/stores/media/media_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:image_picker/image_picker.dart';
@@ -27,8 +30,21 @@ abstract class _ChatStoreBase with Store {
     _mediaStore = sl<MediaStore>();
   }
 
+  void init([Conversation conversation]) {
+    if (conversation != null) setConversation(conversation);
+    sl<ChatSettingsStore>()..init();
+    _setConversationViewed();
+    getConversation();
+  }
+
   @observable
   ChatState _state = ChatState.initial();
+
+  @observable
+  ComposerMode _composerMode = ComposerMode.viewer;
+
+  @observable
+  Conversation _conversation = Conversation();
 
   @observable
   ObservableList<MessageModel> _messages = ObservableList.of([]);
@@ -37,43 +53,53 @@ abstract class _ChatStoreBase with Store {
   ChatState get getState => _state;
 
   @computed
-  int get backgroundColor => conversation.backgroundColor;
+  Conversation get conversation => _conversation;
 
   @computed
-  Conversation get conversation => _state.conversation;
+  ComposerMode get composerMode => _composerMode;
 
   @computed
-  bool get isPinned => _state.conversation.isPinned ?? false;
-
-  @computed
-  String get getConversationName => conversation.name;
-
-  @computed
-  List<MessageModel> get getMessages =>
-      _messages.reversed.toList(growable: true);
+  List<MessageModel> get getMessages => _messages.reversed.toList();
 
   @computed
   bool get shouldHideActions => _state.inputMessage.isNotEmpty;
 
-  @computed
-  ComposerMode get getComposerMode => _state.composerMode;
-
   @action
-  void initConversation(Conversation conversation) {
-    _state = _state.copyWith(
-      conversation: conversation,
-    );
+  Future subscribe() async {
+    try {
+      _state = _state.copyWith(loading: true);
+      final result = await _repository.subscribe(conversation.id);
+      _conversation = result;
+      _determineComposerMode();
+    } on Exception catch (e) {
+      print(e);
+    } finally {
+      _state = _state.copyWith(loading: false);
+    }
   }
 
   @action
-  Future fetchMessagesAndSubscribe() async {
+  Future unSubscribe() async {
+     try {
+      _state = _state.copyWith(loading: true);
+      final result = await _repository.unsubscribe(conversation.id);
+      _conversation = result;
+      _determineComposerMode();
+    } on Exception catch (e) {
+      print(e);
+    } finally {
+      _state = _state.copyWith(loading: false);
+    }
+  }
+
+  @action
+  Future getConversation() async {
     try {
       _state = _state.copyWith(loading: true);
-      final conversationRes = await _repository.subscribe(conversation.id);
-      _state = _state.copyWith(conversation: conversationRes);
-
-      determineComposerMode();
-      initMessages();
+      final result = await _repository.getConversaion(conversation.id);
+      _conversation = result;
+      _determineComposerMode();
+      _addMessages();
     } on Exception catch (e) {
       print(e);
     } finally {
@@ -86,8 +112,7 @@ abstract class _ChatStoreBase with Store {
     try {
       _state = _state.copyWith(loading: true);
       await _repository.pinConversation(conversation.id, isPinned);
-      var conv = _state.conversation.copyWith(isPinned: isPinned);
-      _state = _state.copyWith(conversation: conv);
+      _conversation = conversation.copyWith(isPinned: isPinned);
     } on Exception catch (e) {
       print(e);
     } finally {
@@ -96,33 +121,35 @@ abstract class _ChatStoreBase with Store {
   }
 
   @action
-  void initMessages() {
+  void _addMessages() {
     if (_messages.isNotEmpty) _messages.clear();
     if (conversation.messages.isNotEmpty)
       _messages.addAll(conversation.messages);
   }
 
   @action
-  void determineComposerMode() {
-    final isIcon = _userStore.getUser.isIcon ?? false;
-    final isSubscribed = _state.conversation?.isSubscribed ?? false;
+  void _determineComposerMode() {
+    final isViewer = conversation.userRole == UserRole.viewer;
+    final isSubscribed = conversation?.isSubscribed ?? false;
 
-    // decide what mode
-    final composerMode = isIcon
-        ? ComposerMode.icon
-        : isSubscribed ? ComposerMode.viewer : ComposerMode.showSubscribe;
-
-    // update store state!
-    _state = _state.copyWith(composerMode: composerMode);
+    if (isViewer) {
+      if (isSubscribed) {
+        _composerMode = ComposerMode.viewer;
+      } else {
+        _composerMode = ComposerMode.subscriber;
+      }
+    } else {
+      _composerMode = ComposerMode.icon;
+    }
   }
 
   @action
-  updateComposerText(String input) {
+  updateInputText(String input) {
     _state = _state.copyWith(inputMessage: input);
   }
 
   @action
-  Future setConversationViewed() async {
+  Future _setConversationViewed() async {
     try {
       await _repository.conversationViewed(conversation.id);
     } on DioError catch (e) {
@@ -133,7 +160,7 @@ abstract class _ChatStoreBase with Store {
   @action
   Future likeMessage(MessageModel msg) async {
     try {
-      if (msg.isLiked) {
+      if (msg.isLiked != null) {
         final message = await _repository.unlikeMessage(msg.id);
         _messages[_messages.indexOf(msg)] = message;
       } else {
@@ -152,9 +179,8 @@ abstract class _ChatStoreBase with Store {
           id: DateTime.now().millisecondsSinceEpoch,
           sender: _userStore.getUser,
           body: _state.inputMessage,
-          isLiked: false,
           status: MessageStatus.pending,
-          likeCount: 0,
+          likeCounts: LikesCount(),
           timestamp: DateTime.now().millisecondsSinceEpoch,
           type: MessageType.text);
 
@@ -177,9 +203,7 @@ abstract class _ChatStoreBase with Store {
           id: DateTime.now().millisecondsSinceEpoch,
           sender: _userStore.getUser,
           body: pickedFile.path,
-          isLiked: false,
           status: MessageStatus.pending,
-          likeCount: 0,
           timestamp: DateTime.now().millisecondsSinceEpoch,
           type: MessageType.photo,
         );
@@ -222,9 +246,7 @@ abstract class _ChatStoreBase with Store {
       id: DateTime.now().millisecondsSinceEpoch,
       body: pickedFile.path,
       sender: _userStore.getUser,
-      isLiked: false,
       status: MessageStatus.pending,
-      likeCount: 0,
       timestamp: DateTime.now().millisecondsSinceEpoch,
       type: MessageType.video,
     );
@@ -253,9 +275,7 @@ abstract class _ChatStoreBase with Store {
       id: DateTime.now().millisecondsSinceEpoch,
       body: '',
       sender: _userStore.getUser,
-      isLiked: false,
       status: MessageStatus.pending,
-      likeCount: 0,
       timestamp: DateTime.now().millisecondsSinceEpoch,
       type: MessageType.voice,
     );
@@ -268,14 +288,14 @@ abstract class _ChatStoreBase with Store {
   // MESSAGE ACTIONS - END
 
   @action
-  void setConversation(Conversation conversation) {
-    _state = _state.copyWith(conversation: conversation);
-  }
-
-  @action
   void dispose() {
     _state = ChatState.initial();
     _messages.clear();
+  }
+
+  @action
+  void setConversation(Conversation conversation) {
+    _conversation = conversation;
   }
 
   Future _sendMessage(MessageModel msg) async {

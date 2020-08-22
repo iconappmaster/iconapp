@@ -122,8 +122,8 @@ abstract class RestClient {
   @GET('stories/stories_for_home')
   Future<List<StoryModel>> homeStories();
 
-  @GET('stories/stories/stories_for_conversation/{conversationId}')
-  Future<List<StoryModel>> conversationStories(@Path('conversationId') int id);
+  @GET('stories/stories_for_conversation')
+  Future<List<StoryModel>> conversationStories(@Query('conversationId') int id);
 }
 
 Dio getDioClient() {

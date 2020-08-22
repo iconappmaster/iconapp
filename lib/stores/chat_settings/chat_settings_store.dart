@@ -60,7 +60,7 @@ abstract class _ChatSettingsStoreBase with Store {
 
   @computed
   bool get isAdminLeft =>
-      _chat.getState.conversation.numberOfAdminsRemaining > 0;
+      _chat.conversation.numberOfAdminsRemaining > 0;
 
   @computed
   bool get isUserIcon => _userStore.getUser.isIcon;
@@ -86,10 +86,9 @@ abstract class _ChatSettingsStoreBase with Store {
   @action
   void init() {
     users.clear();
-    users.addAll(_chat.getState.conversation.users);
-    _selectedColor = _chat.conversation.backgroundColor;
-    _isNotification =
-        _chat.getState.conversation?.areNotificationsEnabled ?? true;
+    users.addAll(_chat.conversation?.users);
+    _selectedColor = _chat.conversation?.backgroundColor;
+    _isNotification = _chat.conversation?.areNotificationsEnabled ?? true;
   }
 
   @action

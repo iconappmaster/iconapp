@@ -34,15 +34,6 @@ class HeaderInterceptor extends Interceptor {
        dio.interceptors.requestLock.unlock();
       dio.interceptors.responseLock.unlock();
       sl<AuthStore>().logout(false);
-      // counter++;
-      // dio.interceptors.requestLock.lock();
-      // dio.interceptors.responseLock.lock();
-      // RequestOptions options = error.response.request;
-
-      // perform retry here
-
-     
-      // return dio.request(options.path, options: options);
     } else {
       return error;
     }

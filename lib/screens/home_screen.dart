@@ -13,6 +13,7 @@ import 'package:iconapp/widgets/global/focus_aware.dart';
 import 'package:iconapp/widgets/home/home_drawer.dart';
 import 'package:iconapp/widgets/home/home_list.dart';
 import 'package:iconapp/widgets/home/stories_widget.dart';
+import 'package:iconapp/widgets/home/welcome_dialog.dart';
 import 'package:iconapp/widgets/onboarding/onboarding_appbar.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../core/extensions/context_ext.dart';
@@ -74,8 +75,7 @@ class HomeScreen extends StatelessWidget {
                               showIconsSelected: false,
                               onTap: () => openBottomSheet(context))),
                     ),
-                    // if (store.showWelcomeDialog)  // FIXME
-                    // WelcomeDialog(onTap: () => store.saveWelcomeSeen())
+                    showWelcome(home),
                   ],
                 ),
               ),
@@ -84,6 +84,17 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget showWelcome(HomeStore home) {
+    return Observer(builder: (_) {
+      if (home.showWelcomeDialog)
+        return WelcomeDialog(
+          onTap: () => home.saveWelcomeSeen(),
+        );
+
+      return Container();
+    });
   }
 
   void openBottomSheet(BuildContext context) {

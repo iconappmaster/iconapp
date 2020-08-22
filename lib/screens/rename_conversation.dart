@@ -33,7 +33,7 @@ class EditConversation extends StatelessWidget {
                           validator: _groupNameValidation,
                           contentPadding: const EdgeInsets.only(bottom: 20),
                           initialValue:
-                              store.getState?.conversation?.name ?? '',
+                              store.conversation?.name ?? '',
                           onChange: (groupName) => sl<ChatSettingsStore>()
                               .changeConversationName(groupName),
                           hint: 'הקלד/י נושא חדש',

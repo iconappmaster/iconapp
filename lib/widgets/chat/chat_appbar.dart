@@ -14,7 +14,7 @@ class ChatAppbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
-    final conversation = store.getState?.conversation;
+
     return Observer(
       builder: (_) => Container(
         height: context.heightPlusStatusbarPerc(.116),
@@ -23,15 +23,15 @@ class ChatAppbar extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              ChatBackButton(url: conversation.backgroundPhoto?.url ?? ''),
+              ChatBackButton(
+                  url: store.conversation.backgroundPhoto?.url ?? ''),
               SizedBox(width: 8),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    HebrewText(store.getConversationName ?? '',
-                        style: loginBigText),
+                    HebrewText(store.conversation.name, style: loginBigText),
                     HebrewText('12,000 משתתפים',
                         style: fieldLabel), // should come from socket
                   ],
@@ -41,14 +41,15 @@ class ChatAppbar extends StatelessWidget {
                 return IconButton(
                   visualDensity: VisualDensity.comfortable,
                   icon: SvgPicture.asset(
-                      store.isPinned
+                      store.conversation.isPinned
                           ? 'assets/images/pin_purple.svg'
                           : 'assets/images/pin.svg',
                       height: 26,
                       width: 26),
                   onPressed: () async {
-                    await store.pinConversation(!store.isPinned);
-                    if (store.isPinned) {
+                    await store.pinConversation(!store.conversation.isPinned);
+                   
+                    if (store.conversation.isPinned) {
                       context.showFlushbar(
                           message: 'השיחה הוצמדה', color: uiTintColorFill);
                     }

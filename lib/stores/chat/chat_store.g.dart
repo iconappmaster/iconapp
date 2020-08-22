@@ -16,13 +16,6 @@ mixin _$ChatStore on _ChatStoreBase, Store {
       (_$getStateComputed ??= Computed<ChatState>(() => super.getState,
               name: '_ChatStoreBase.getState'))
           .value;
-  Computed<int> _$backgroundColorComputed;
-
-  @override
-  int get backgroundColor =>
-      (_$backgroundColorComputed ??= Computed<int>(() => super.backgroundColor,
-              name: '_ChatStoreBase.backgroundColor'))
-          .value;
   Computed<Conversation> _$conversationComputed;
 
   @override
@@ -30,18 +23,12 @@ mixin _$ChatStore on _ChatStoreBase, Store {
           Computed<Conversation>(() => super.conversation,
               name: '_ChatStoreBase.conversation'))
       .value;
-  Computed<bool> _$isPinnedComputed;
+  Computed<ComposerMode> _$composerModeComputed;
 
   @override
-  bool get isPinned => (_$isPinnedComputed ??=
-          Computed<bool>(() => super.isPinned, name: '_ChatStoreBase.isPinned'))
-      .value;
-  Computed<String> _$getConversationNameComputed;
-
-  @override
-  String get getConversationName => (_$getConversationNameComputed ??=
-          Computed<String>(() => super.getConversationName,
-              name: '_ChatStoreBase.getConversationName'))
+  ComposerMode get composerMode => (_$composerModeComputed ??=
+          Computed<ComposerMode>(() => super.composerMode,
+              name: '_ChatStoreBase.composerMode'))
       .value;
   Computed<List<MessageModel>> _$getMessagesComputed;
 
@@ -57,13 +44,6 @@ mixin _$ChatStore on _ChatStoreBase, Store {
           () => super.shouldHideActions,
           name: '_ChatStoreBase.shouldHideActions'))
       .value;
-  Computed<ComposerMode> _$getComposerModeComputed;
-
-  @override
-  ComposerMode get getComposerMode => (_$getComposerModeComputed ??=
-          Computed<ComposerMode>(() => super.getComposerMode,
-              name: '_ChatStoreBase.getComposerMode'))
-      .value;
 
   final _$_stateAtom = Atom(name: '_ChatStoreBase._state');
 
@@ -77,6 +57,36 @@ mixin _$ChatStore on _ChatStoreBase, Store {
   set _state(ChatState value) {
     _$_stateAtom.reportWrite(value, super._state, () {
       super._state = value;
+    });
+  }
+
+  final _$_composerModeAtom = Atom(name: '_ChatStoreBase._composerMode');
+
+  @override
+  ComposerMode get _composerMode {
+    _$_composerModeAtom.reportRead();
+    return super._composerMode;
+  }
+
+  @override
+  set _composerMode(ComposerMode value) {
+    _$_composerModeAtom.reportWrite(value, super._composerMode, () {
+      super._composerMode = value;
+    });
+  }
+
+  final _$_conversationAtom = Atom(name: '_ChatStoreBase._conversation');
+
+  @override
+  Conversation get _conversation {
+    _$_conversationAtom.reportRead();
+    return super._conversation;
+  }
+
+  @override
+  set _conversation(Conversation value) {
+    _$_conversationAtom.reportWrite(value, super._conversation, () {
+      super._conversation = value;
     });
   }
 
@@ -95,13 +105,26 @@ mixin _$ChatStore on _ChatStoreBase, Store {
     });
   }
 
-  final _$fetchMessagesAndSubscribeAsyncAction =
-      AsyncAction('_ChatStoreBase.fetchMessagesAndSubscribe');
+  final _$subscribeAsyncAction = AsyncAction('_ChatStoreBase.subscribe');
 
   @override
-  Future<dynamic> fetchMessagesAndSubscribe() {
-    return _$fetchMessagesAndSubscribeAsyncAction
-        .run(() => super.fetchMessagesAndSubscribe());
+  Future<dynamic> subscribe() {
+    return _$subscribeAsyncAction.run(() => super.subscribe());
+  }
+
+  final _$unSubscribeAsyncAction = AsyncAction('_ChatStoreBase.unSubscribe');
+
+  @override
+  Future<dynamic> unSubscribe() {
+    return _$unSubscribeAsyncAction.run(() => super.unSubscribe());
+  }
+
+  final _$getConversationAsyncAction =
+      AsyncAction('_ChatStoreBase.getConversation');
+
+  @override
+  Future<dynamic> getConversation() {
+    return _$getConversationAsyncAction.run(() => super.getConversation());
   }
 
   final _$pinConversationAsyncAction =
@@ -113,13 +136,13 @@ mixin _$ChatStore on _ChatStoreBase, Store {
         .run(() => super.pinConversation(isPinned));
   }
 
-  final _$setConversationViewedAsyncAction =
-      AsyncAction('_ChatStoreBase.setConversationViewed');
+  final _$_setConversationViewedAsyncAction =
+      AsyncAction('_ChatStoreBase._setConversationViewed');
 
   @override
-  Future<dynamic> setConversationViewed() {
-    return _$setConversationViewedAsyncAction
-        .run(() => super.setConversationViewed());
+  Future<dynamic> _setConversationViewed() {
+    return _$_setConversationViewedAsyncAction
+        .run(() => super._setConversationViewed());
   }
 
   final _$likeMessageAsyncAction = AsyncAction('_ChatStoreBase.likeMessage');
@@ -183,55 +206,33 @@ mixin _$ChatStore on _ChatStoreBase, Store {
       ActionController(name: '_ChatStoreBase');
 
   @override
-  void initConversation(Conversation conversation) {
+  void _addMessages() {
     final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
-        name: '_ChatStoreBase.initConversation');
+        name: '_ChatStoreBase._addMessages');
     try {
-      return super.initConversation(conversation);
+      return super._addMessages();
     } finally {
       _$_ChatStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void initMessages() {
+  void _determineComposerMode() {
     final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
-        name: '_ChatStoreBase.initMessages');
+        name: '_ChatStoreBase._determineComposerMode');
     try {
-      return super.initMessages();
+      return super._determineComposerMode();
     } finally {
       _$_ChatStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void determineComposerMode() {
+  dynamic updateInputText(String input) {
     final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
-        name: '_ChatStoreBase.determineComposerMode');
+        name: '_ChatStoreBase.updateInputText');
     try {
-      return super.determineComposerMode();
-    } finally {
-      _$_ChatStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic updateComposerText(String input) {
-    final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
-        name: '_ChatStoreBase.updateComposerText');
-    try {
-      return super.updateComposerText(input);
-    } finally {
-      _$_ChatStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setConversation(Conversation conversation) {
-    final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
-        name: '_ChatStoreBase.setConversation');
-    try {
-      return super.setConversation(conversation);
+      return super.updateInputText(input);
     } finally {
       _$_ChatStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -249,16 +250,24 @@ mixin _$ChatStore on _ChatStoreBase, Store {
   }
 
   @override
+  void setConversation(Conversation conversation) {
+    final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
+        name: '_ChatStoreBase.setConversation');
+    try {
+      return super.setConversation(conversation);
+    } finally {
+      _$_ChatStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 getState: ${getState},
-backgroundColor: ${backgroundColor},
 conversation: ${conversation},
-isPinned: ${isPinned},
-getConversationName: ${getConversationName},
+composerMode: ${composerMode},
 getMessages: ${getMessages},
-shouldHideActions: ${shouldHideActions},
-getComposerMode: ${getComposerMode}
+shouldHideActions: ${shouldHideActions}
     ''';
   }
 }

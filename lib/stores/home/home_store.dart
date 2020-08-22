@@ -70,8 +70,8 @@ abstract class _HomeStoreBase with Store {
   }
 
   @action
-  void saveWelcomeSeen() {
-    // await _preferencesService.setBool(StorageKey.welcomeDialog, false);
+  Future saveWelcomeSeen() async {
+    await _preferencesService.setBool(StorageKey.welcomeDialog, false);
     _showWelcomeDialog = false;
   }
 }

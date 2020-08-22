@@ -15,7 +15,7 @@ abstract class MessageModel with _$MessageModel {
     final MessageType type,
     final UserModel sender,
     final LikesCount likeCounts,
-    final bool isLiked,
+    final String isLiked,
     final MessageStatus status,
     final String extraData,
   }) = _MessageModel;
@@ -23,5 +23,7 @@ abstract class MessageModel with _$MessageModel {
   factory MessageModel.fromJson(Map<String, dynamic> json) =>
       _$MessageModelFromJson(json);
 }
-enum MessageStatus {pending, sent}
+
+enum MessageStatus { pending, sent }
 enum MessageType { text, photo, video, voice, system }
+enum LikeType { like_1, like_2, like_3, like_4, like_5 }

@@ -7,6 +7,7 @@ import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+import 'package:iconapp/widgets/global/lottie_loader.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
 import 'package:iconapp/widgets/global/white_circle.dart';
 import '../../core/extensions/context_ext.dart';
@@ -26,20 +27,27 @@ class ConversationsList extends StatelessWidget {
         child: Container(
           height: context.heightPx - context.heightPlusStatusbarPerc(.2),
           width: context.widthPx,
-          child: ListView.builder(
-            itemCount: store.conversations.length,
-            padding:
-                EdgeInsets.only(bottom: context.heightPlusStatusbarPerc(.2)),
-            physics: const BouncingScrollPhysics(),
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              final conversation = store.conversations[index];
-              return ConversationItem(
-                model: conversation,
-                onTap: () => onConversationTap(conversation),
-              );
-            },
-          ),
+          child: store.isLoading && store.conversations.length == 0
+              ? Align(
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 40.0),
+                    child: LottieLoader(),
+                  ))
+              : ListView.builder(
+                  itemCount: store.conversations.length,
+                  padding: EdgeInsets.only(
+                      bottom: context.heightPlusStatusbarPerc(.2)),
+                  physics: const BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    final conversation = store.conversations[index];
+                    return ConversationItem(
+                      model: conversation,
+                      onTap: () => onConversationTap(conversation),
+                    );
+                  },
+                ),
         ),
       ),
     );
@@ -47,7 +55,7 @@ class ConversationsList extends StatelessWidget {
 }
 
 class ConversationItem extends StatelessWidget {
-  final Conversation model; // fix taht
+  final Conversation model;
   final Function onTap;
 
   const ConversationItem({

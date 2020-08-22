@@ -262,10 +262,15 @@ class _CheckSign extends StatelessWidget {
         top: context.heightPlusStatusbarPerc(.212),
         right: context.widthPx * .06,
         child: Stack(children: [
-          if (store.getState.loading) CircularProgressIndicator(),
+          if (store.getState.loading)
+            SizedBox(
+                height: context.widthPx * .086,
+                width: context.widthPx * .086,
+                child: CircularProgressIndicator()),
           Image.asset(
             'assets/images/check.png',
             width: context.widthPx * .086,
+            height: context.widthPx * .086,
           ),
         ]),
       ),

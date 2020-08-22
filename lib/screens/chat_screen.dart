@@ -7,13 +7,13 @@ import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/stores/chat/chat_state.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
-import 'package:iconapp/stores/chat_settings/chat_settings_store.dart';
 import 'package:iconapp/stores/story/story_store.dart';
 import 'package:iconapp/widgets/chat/message_composer.dart';
 import 'package:iconapp/widgets/chat/messages.dart';
 import 'package:iconapp/widgets/chat/settings/change_background.dart';
 import 'package:iconapp/widgets/global/blue_divider.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+import 'package:iconapp/widgets/global/lottie_loader.dart';
 import 'package:iconapp/widgets/home/stories_widget.dart';
 import '../widgets/chat/chat_appbar.dart';
 
@@ -32,17 +32,10 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void initState() {
-    sl<ChatStore>()
-      ..initConversation(widget.conversation)
-      ..determineComposerMode()
-      ..fetchMessagesAndSubscribe()
-      ..setConversationViewed();
+    sl<ChatStore>()..init(widget.conversation);
 
     // update the mode for the story widget
     sl<StoryStore>()..setMode(StoryMode.conversation);
-
-    // init the settings of the chat store
-    sl<ChatSettingsStore>()..init();
 
     _controller = ScrollController()
       ..addListener(() {
@@ -64,13 +57,14 @@ class _ChatScreenState extends State<ChatScreen> {
     final story = sl<StoryStore>();
     final storiesMargin = const EdgeInsets.only(top: 24.0);
 
-    return Scaffold(
-      body: Observer(
-        builder: (_) => Stack(
+    return Observer(builder: (_) {
+      return Scaffold(
+        body: Stack(
           children: [
             Container(
               decoration: BoxDecoration(
-                  gradient: gradientList[chat?.backgroundColor ?? 0]),
+                  gradient:
+                      gradientList[chat.conversation.backgroundColor ?? 0]),
               child: Column(
                 children: <Widget>[
                   ChatAppbar(),
@@ -80,26 +74,28 @@ class _ChatScreenState extends State<ChatScreen> {
                       mode: story.mode,
                       show: upDirection),
                   ChatList(scrollController: _controller),
-                  _buildComposer(chat),
+                  initComposer(chat, _controller),
                 ],
               ),
-            ),
+            )
           ],
         ),
-      ),
-    );
+      );
+    });
   }
 
-  Widget _buildComposer(ChatStore chat) {
-    switch (chat.getComposerMode) {
-      case ComposerMode.viewer:
-        return ViewerSheet();
-      case ComposerMode.icon:
-        return MessageComposer(scrollController: _controller);
-      case ComposerMode.showSubscribe:
-        return SubscriberSheet();
-    }
-    return Container();
+  Widget initComposer(ChatStore store, ScrollController controller) {
+    return Observer(builder: (_) {
+      switch (store.composerMode) {
+        case ComposerMode.viewer:
+          return ViewerSheet();
+        case ComposerMode.icon:
+          return MessageComposer(controller: controller);
+        case ComposerMode.subscriber:
+          return SubscriberSheet();
+      }
+      return Container();
+    });
   }
 
   @override
@@ -137,12 +133,21 @@ class SubscriberSheet extends StatelessWidget {
     return Container(
       color: white,
       height: 58.7,
-      child: Center(
-          child: FlatButton(
-        child: HebrewText('הצטרפות לקבוצה',
-            style: chatCompose.copyWith(color: cornflower)),
-        onPressed: () => store.fetchMessagesAndSubscribe(),
-      )),
+      child: Stack(alignment: Alignment.center, children: [
+        if (store.getState.loading)
+          Positioned(
+            left: 16,
+            child: CircularProgressIndicator(
+              strokeWidth: 1,
+            ),
+          ),
+        Center(
+            child: FlatButton(
+          child: HebrewText('הצטרפות לקבוצה',
+              style: chatCompose.copyWith(color: cornflower)),
+          onPressed: () => store.subscribe(), // TEST THIS - SHOULD BE FIXED
+        )),
+      ]),
     );
   }
 }
@@ -159,12 +164,6 @@ class ChatList extends StatefulWidget {
 }
 
 class _ChatListState extends State<ChatList> {
-  @override
-  void initState() {
-    sl<ChatStore>().initMessages();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();

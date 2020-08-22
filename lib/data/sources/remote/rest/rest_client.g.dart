@@ -568,10 +568,10 @@ class _RestClient implements RestClient {
   conversationStories(id) async {
     ArgumentError.checkNotNull(id, 'id');
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'conversationId': id};
     final _data = <String, dynamic>{};
     final Response<List<dynamic>> _result = await _dio.request(
-        'stories/stories/stories_for_conversation/$id',
+        'stories/stories_for_conversation',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',

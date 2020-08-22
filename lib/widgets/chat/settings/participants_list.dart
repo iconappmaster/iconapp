@@ -89,7 +89,7 @@ class ParticipantTile extends StatelessWidget {
     final userStore = sl<UserStore>();
     final settingsStore = sl<ChatSettingsStore>();
 
-    final conversation = chatStore.getState.conversation;
+    final conversation = chatStore.conversation;
 
     return Observer(
       builder: (_) => Container(
@@ -222,7 +222,7 @@ class ParticipantAvatar extends StatelessWidget {
 
 class ParticipentsListTitle extends StatelessWidget {
   final adminsLeft =
-      sl<ChatStore>().getState?.conversation?.numberOfAdminsRemaining ?? 0;
+      sl<ChatStore>().conversation?.numberOfAdminsRemaining ?? 0;
 
   @override
   Widget build(BuildContext context) {

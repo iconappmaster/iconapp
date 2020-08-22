@@ -9,9 +9,9 @@ import 'package:image_picker/image_picker.dart';
 import '../../core/theme.dart';
 
 class MessageComposer extends StatefulWidget {
-  final ScrollController scrollController;
+  final ScrollController controller;
 
-  const MessageComposer({Key key, @required this.scrollController})
+  const MessageComposer({Key key, @required this.controller})
       : super(key: key);
   @override
   _MessageComposerState createState() => _MessageComposerState();
@@ -54,7 +54,7 @@ class _MessageComposerState extends State<MessageComposer> {
                       Expanded(child: ComposerInput(controller: _controller)),
                       SendButton(
                         textEditcontroller: _controller,
-                        scrollController: widget.scrollController,
+                        scrollController: widget.controller,
                       ),
                     ],
                   ),
@@ -90,7 +90,7 @@ class ComposerInput extends StatelessWidget {
             focusedBorder: transparentBorder,
             enabledBorder: transparentBorder,
             border: transparentBorder),
-        onChanged: (input) => store.updateComposerText(input),
+        onChanged: (input) => store.updateInputText(input),
         style: chatCompose,
       ),
     );

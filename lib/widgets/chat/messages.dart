@@ -306,14 +306,14 @@ class IconBubble extends StatelessWidget {
           nip: isMe ? BubbleNip.leftTop : BubbleNip.rightTop,
           child: child,
         ),
-        if (message.likeCount > 0 ?? false)
-          Positioned(
-              top: 0,
-              right: isMe ? null : 25,
-              left: isMe ? 25 : null,
-              child: LikeBubble(
-                  isLiked: message?.isLiked ?? false,
-                  likeNumber: message?.likeCount ?? 0)),
+        // if (message.likeCount > 0 ?? false)
+          // Positioned(
+              // top: 0,
+              // right: isMe ? null : 25,
+              // left: isMe ? 25 : null,
+              // child: LikeBubble(
+                  // isLiked: message?.isLiked ?? false,
+                  // likeNumber: message?.likeCount ?? 0)),
         // HebrewText(
         //   message.timestamp.humanReadableTime(),
         //   style: chatMessageBody.copyWith(fontSize: 10),

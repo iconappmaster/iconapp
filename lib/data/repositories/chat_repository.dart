@@ -7,6 +7,7 @@ abstract class ChatRepository {
   Future<Conversation> getConversaion(int chatId);
   Future<MessageModel> sendMessage(int conversationId, MessageModel message);
   Future<Conversation> subscribe(int id);
+  Future<Conversation> unsubscribe(int id);
   Future<MessageModel> likeMessage(int messageId);
   Future<MessageModel> unlikeMessage(int messageId);
   Stream<MessageModel> watchMessages();
@@ -29,6 +30,10 @@ class ChatRepositoryImpl implements ChatRepository {
     return await restClient.subscribe(id);
   }
 
+  @override
+  Future<Conversation> unsubscribe(int id) async {
+     return await restClient.unSubscribeFromConversation(id);
+  }
   @override
   Future<MessageModel> likeMessage(int messageId) async {
     return await restClient.likeMessage(messageId);
@@ -64,4 +69,6 @@ class ChatRepositoryImpl implements ChatRepository {
   Future conversationViewed(int conversationId) async {
     return await restClient.viewedConversation(conversationId);
   }
+
+
 }

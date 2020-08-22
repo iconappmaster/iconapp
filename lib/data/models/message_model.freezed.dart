@@ -23,8 +23,8 @@ class _$MessageModelTearOff {
       bool wasSeen,
       MessageType type,
       UserModel sender,
-      Like likeCounts,
-      bool isLiked,
+      LikesCount likeCounts,
+      String isLiked,
       MessageStatus status,
       String extraData}) {
     return _MessageModel(
@@ -52,8 +52,8 @@ mixin _$MessageModel {
   bool get wasSeen;
   MessageType get type;
   UserModel get sender;
-  Likes get likeCounts;
-  bool get isLiked;
+  LikesCount get likeCounts;
+  String get isLiked;
   MessageStatus get status;
   String get extraData;
 
@@ -72,12 +72,13 @@ abstract class $MessageModelCopyWith<$Res> {
       bool wasSeen,
       MessageType type,
       UserModel sender,
-      Likes likeCounts,
-      bool isLiked,
+      LikesCount likeCounts,
+      String isLiked,
       MessageStatus status,
       String extraData});
 
   $UserModelCopyWith<$Res> get sender;
+  $LikesCountCopyWith<$Res> get likeCounts;
 }
 
 class _$MessageModelCopyWithImpl<$Res> implements $MessageModelCopyWith<$Res> {
@@ -108,8 +109,8 @@ class _$MessageModelCopyWithImpl<$Res> implements $MessageModelCopyWith<$Res> {
       type: type == freezed ? _value.type : type as MessageType,
       sender: sender == freezed ? _value.sender : sender as UserModel,
       likeCounts:
-          likeCounts == freezed ? _value.likeCounts : likeCounts as Likes,
-      isLiked: isLiked == freezed ? _value.isLiked : isLiked as bool,
+          likeCounts == freezed ? _value.likeCounts : likeCounts as LikesCount,
+      isLiked: isLiked == freezed ? _value.isLiked : isLiked as String,
       status: status == freezed ? _value.status : status as MessageStatus,
       extraData: extraData == freezed ? _value.extraData : extraData as String,
     ));
@@ -122,6 +123,16 @@ class _$MessageModelCopyWithImpl<$Res> implements $MessageModelCopyWith<$Res> {
     }
     return $UserModelCopyWith<$Res>(_value.sender, (value) {
       return _then(_value.copyWith(sender: value));
+    });
+  }
+
+  @override
+  $LikesCountCopyWith<$Res> get likeCounts {
+    if (_value.likeCounts == null) {
+      return null;
+    }
+    return $LikesCountCopyWith<$Res>(_value.likeCounts, (value) {
+      return _then(_value.copyWith(likeCounts: value));
     });
   }
 }
@@ -139,13 +150,15 @@ abstract class _$MessageModelCopyWith<$Res>
       bool wasSeen,
       MessageType type,
       UserModel sender,
-      Likes likeCounts,
-      bool isLiked,
+      LikesCount likeCounts,
+      String isLiked,
       MessageStatus status,
       String extraData});
 
   @override
   $UserModelCopyWith<$Res> get sender;
+  @override
+  $LikesCountCopyWith<$Res> get likeCounts;
 }
 
 class __$MessageModelCopyWithImpl<$Res> extends _$MessageModelCopyWithImpl<$Res>
@@ -178,8 +191,8 @@ class __$MessageModelCopyWithImpl<$Res> extends _$MessageModelCopyWithImpl<$Res>
       type: type == freezed ? _value.type : type as MessageType,
       sender: sender == freezed ? _value.sender : sender as UserModel,
       likeCounts:
-          likeCounts == freezed ? _value.likeCounts : likeCounts as Likes,
-      isLiked: isLiked == freezed ? _value.isLiked : isLiked as bool,
+          likeCounts == freezed ? _value.likeCounts : likeCounts as LikesCount,
+      isLiked: isLiked == freezed ? _value.isLiked : isLiked as String,
       status: status == freezed ? _value.status : status as MessageStatus,
       extraData: extraData == freezed ? _value.extraData : extraData as String,
     ));
@@ -216,9 +229,9 @@ class _$_MessageModel implements _MessageModel {
   @override
   final UserModel sender;
   @override
-  final Likes likeCounts;
+  final LikesCount likeCounts;
   @override
-  final bool isLiked;
+  final String isLiked;
   @override
   final MessageStatus status;
   @override
@@ -292,8 +305,8 @@ abstract class _MessageModel implements MessageModel {
       bool wasSeen,
       MessageType type,
       UserModel sender,
-      Likes likeCounts,
-      bool isLiked,
+      LikesCount likeCounts,
+      String isLiked,
       MessageStatus status,
       String extraData}) = _$_MessageModel;
 
@@ -313,9 +326,9 @@ abstract class _MessageModel implements MessageModel {
   @override
   UserModel get sender;
   @override
-  Likes get likeCounts;
+  LikesCount get likeCounts;
   @override
-  bool get isLiked;
+  String get isLiked;
   @override
   MessageStatus get status;
   @override
