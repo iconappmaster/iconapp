@@ -13,7 +13,6 @@ import 'package:iconapp/widgets/chat/messages.dart';
 import 'package:iconapp/widgets/chat/settings/change_background.dart';
 import 'package:iconapp/widgets/global/blue_divider.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
-import 'package:iconapp/widgets/global/lottie_loader.dart';
 import 'package:iconapp/widgets/home/stories_widget.dart';
 import '../widgets/chat/chat_appbar.dart';
 
@@ -33,21 +32,14 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     sl<ChatStore>()..init(widget.conversation);
-
-    // update the mode for the story widget
     sl<StoryStore>()..setMode(StoryMode.conversation);
-
     _controller = ScrollController()
       ..addListener(() {
         upDirection =
             _controller.position.userScrollDirection == ScrollDirection.forward;
-
-        // makes sure we don't call setState too much, but only when it is needed
         if (upDirection != flag) setState(() {});
-
         flag = upDirection;
       });
-
     super.initState();
   }
 
@@ -55,7 +47,6 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     final chat = sl<ChatStore>();
     final story = sl<StoryStore>();
-    final storiesMargin = const EdgeInsets.only(top: 24.0);
 
     return Observer(builder: (_) {
       return Scaffold(
@@ -70,9 +61,10 @@ class _ChatScreenState extends State<ChatScreen> {
                   ChatAppbar(),
                   BlueDivider(color: cornflower),
                   StoriesList(
-                      margin: storiesMargin,
-                      mode: story.mode,
-                      show: upDirection),
+                    margin: EdgeInsets.only(top: 10),
+                    mode: story.mode,
+                    show: upDirection,
+                  ),
                   ChatList(scrollController: _controller),
                   initComposer(chat, _controller),
                 ],

@@ -31,7 +31,7 @@ class _MessageComposerState extends State<MessageComposer> {
       children: <Widget>[
         Container(
           constraints: BoxConstraints(minHeight: 73.7),
-          color: white,
+          color: Colors.transparent,
           padding: EdgeInsets.only(
             top: 16,
             bottom: 16.3,
@@ -42,7 +42,7 @@ class _MessageComposerState extends State<MessageComposer> {
             child: Container(
               constraints: BoxConstraints(minHeight: 41.3),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.4),
+                borderRadius: BorderRadius.circular(26.4),
                 color: paleGrey,
               ),
               child: Stack(

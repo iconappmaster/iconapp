@@ -17,7 +17,7 @@ class WhiteCircle extends StatelessWidget {
       child: Container(
         height: size,
         width: size,
-        color: whiteOpacity20,
+        color: white,
         child: widget,
       ),
     );

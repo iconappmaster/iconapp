@@ -13,6 +13,7 @@ import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
+import '../../core/extensions/int_ext.dart';
 
 class SystemMessage extends StatelessWidget {
   final String title;
@@ -119,24 +120,28 @@ class PhotoMessage extends StatelessWidget {
               Routes.fullImageScreen,
               arguments: FullImageScreenArguments(
                   photo: PhotoModel(url: message?.body ?? ''))),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            HebrewText(message.sender?.fullName ?? '',
-                style: chatMessageName, textAlign: TextAlign.start),
-            SizedBox(height: 5),
-            message.body.startsWith('http')
-                ? AspectRatio(
-                    aspectRatio: 1,
-                    child: NetworkPhoto(url: message.body),
-                  )
-                : AspectRatio(
-                    aspectRatio: 1,
-                    child: Image.file(
-                      File(message.body),
-                      fit: BoxFit.cover,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              message.body.startsWith('http')
+                  ? AspectRatio(
+                      aspectRatio: 1, child: NetworkPhoto(url: message.body))
+                  : AspectRatio(
+                      aspectRatio: 1,
+                      child: Image.file(
+                        File(message.body),
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                  ),
-          ]),
+              SizedBox(height: 5),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                HebrewText(message.sender?.fullName ?? '',
+                    style: newMessageNumber, textAlign: TextAlign.start),
+                HebrewText(message.timestamp.humanReadableTime(),
+                    style: newMessageNumber, textAlign: TextAlign.start),
+              ]),
+            ],
+          ),
         ),
       ),
     );
@@ -145,13 +150,11 @@ class PhotoMessage extends StatelessWidget {
 
 class VideoMessage extends StatelessWidget {
   final MessageModel message;
-  // final Animation<double> animation;
   final bool isMe;
 
   const VideoMessage({
     Key key,
     @required this.message,
-    // @required this.animation,
     @required this.isMe,
   }) : super(key: key);
 
@@ -160,7 +163,6 @@ class VideoMessage extends StatelessWidget {
     final store = sl<ChatStore>();
     return Container(
       key: Key(message.id.toString()),
-      constraints: BoxConstraints(maxHeight: 225),
       child: IconBubble(
         onDoubleTap: () async => await store.likeMessage(message),
         isMe: isMe,
@@ -203,6 +205,7 @@ class TextMessage extends StatelessWidget {
     return Stack(
       children: [
         IconBubble(
+          padding: BubbleEdges.all(8),
           message: message,
           isMe: isMe,
           onDoubleTap: () async => await sl<ChatStore>().likeMessage(message),
@@ -299,21 +302,21 @@ class IconBubble extends StatelessWidget {
         Bubble(
           elevation: 3,
           stick: true,
-          padding: padding ?? BubbleEdges.all(15),
-          margin: BubbleEdges.only(right: 9, top: 5, bottom: 5, left: 9),
+          padding: padding ?? BubbleEdges.all(3),
+          margin: BubbleEdges.only(right: 9, top: 3, bottom: 3, left: 9),
           alignment: isMe ? Alignment.centerLeft : Alignment.centerRight,
           color: color,
           nip: isMe ? BubbleNip.leftTop : BubbleNip.rightTop,
           child: child,
         ),
         // if (message.likeCount > 0 ?? false)
-          // Positioned(
-              // top: 0,
-              // right: isMe ? null : 25,
-              // left: isMe ? 25 : null,
-              // child: LikeBubble(
-                  // isLiked: message?.isLiked ?? false,
-                  // likeNumber: message?.likeCount ?? 0)),
+        // Positioned(
+        // top: 0,
+        // right: isMe ? null : 25,
+        // left: isMe ? 25 : null,
+        // child: LikeBubble(
+        // isLiked: message?.isLiked ?? false,
+        // likeNumber: message?.likeCount ?? 0)),
         // HebrewText(
         //   message.timestamp.humanReadableTime(),
         //   style: chatMessageBody.copyWith(fontSize: 10),

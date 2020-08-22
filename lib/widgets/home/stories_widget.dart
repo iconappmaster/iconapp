@@ -52,7 +52,7 @@ class _StoriesListState extends State<StoriesList>
         duration: Duration(milliseconds: 350),
         child: Container(
           margin: widget.margin,
-          height: widget.show ? context.heightPlusStatusbarPerc(.1) : 0,
+          height: widget.show ? context.heightPlusStatusbarPerc(.07) : 0,
           width: context.widthPx,
           child: ListView.builder(
             itemCount: store.getStories.length,
@@ -61,6 +61,7 @@ class _StoriesListState extends State<StoriesList>
             physics: BouncingScrollPhysics(),
             itemBuilder: (context, index) {
               final story = store.getStories[index];
+
               return story?.isAddButton ?? false
                   ? StoryAddButton(onTap: () => print('addstory'))
                   : StoryTile(story: story, onTap: () => print('on story tap'));
@@ -84,6 +85,7 @@ class StoryAddButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = sl<UserStore>();
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Container(
           height: 62,
@@ -133,6 +135,7 @@ class StoryTile extends StatelessWidget {
       child: Stack(
         children: [
           Column(
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Container(
                 height: 60,

@@ -38,22 +38,27 @@ class ChatAppbar extends StatelessWidget {
                 ),
               ),
               Observer(builder: (_) {
-                return IconButton(
-                  visualDensity: VisualDensity.comfortable,
-                  icon: SvgPicture.asset(
-                      store.conversation.isPinned
-                          ? 'assets/images/pin_purple.svg'
-                          : 'assets/images/pin.svg',
-                      height: 26,
-                      width: 26),
-                  onPressed: () async {
-                    await store.pinConversation(!store.conversation.isPinned);
-                   
-                    if (store.conversation.isPinned) {
-                      context.showFlushbar(
-                          message: 'השיחה הוצמדה', color: uiTintColorFill);
-                    }
-                  },
+                return InkResponse(
+                  onTap: () =>
+                      store.pinConversation(!store.conversation.isPinned),
+                  child: AnimatedSwitcher(
+                    duration: Duration(milliseconds: 300),
+                    transitionBuilder: (child, animation) =>
+                        ScaleTransition(scale: animation, child: child),
+                    child: store.conversation.isPinned
+                        ? SvgPicture.asset(
+                            'assets/images/pin_purple.svg',
+                            key: const Key('pinned'),
+                            height: 26,
+                            width: 26,
+                          )
+                        : SvgPicture.asset(
+                            'assets/images/pin.svg',
+                            key: const Key('unpinned'),
+                            height: 26,
+                            width: 26,
+                          ),
+                  ),
                 );
               }),
               IconButton(

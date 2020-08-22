@@ -106,12 +106,12 @@ class ConversationItem extends StatelessWidget {
                           textAlign: TextAlign.start),
                     ),
                     SizedBox(height: 4),
-                    Expanded(
-                        child: HebrewText(formatLastMessage(model.lastMessage),
-                            style: lastWritten,
-                            maxLength: 20,
+                    model?.lastMessage != null
+                        ? HomeTileLastMessage(model: model?.lastMessage)
+                        : HebrewText('אין הודעות',
                             overflow: TextOverflow.fade,
-                            textAlign: TextAlign.start))
+                            textAlign: TextAlign.start,
+                            style: lastWritten),
                   ],
                 ),
               ),
@@ -126,9 +126,12 @@ class ConversationItem extends StatelessWidget {
                   Row(
                     children: [
                       if (model?.unreadMessageCount ?? 0 > 0)
-                        _MessageCounter(count: 5),
+                        _MessageCounter(count: model.unreadMessageCount),
                       SizedBox(width: 4),
                       if (model?.isPinned ?? false) _Pin(),
+                      if (!model.areNotificationsEnabled)
+                        SvgPicture.asset('assets/images/mute.svg',
+                            height: 25, width: 25)
                     ],
                   )
                 ],
@@ -139,15 +142,87 @@ class ConversationItem extends StatelessWidget {
       ),
     );
   }
+}
 
-  String formatLastMessage(MessageModel conversation) {
+class HomeTileLastMessage extends StatelessWidget {
+  final MessageModel model;
+
+  const HomeTileLastMessage({Key key, @required this.model}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        if (model?.sender?.fullName != null)
+          HebrewText('${model?.sender?.fullName ?? ''}:',
+              overflow: TextOverflow.fade,
+              textAlign: TextAlign.start,
+              style: lastWritten),
+
+        SizedBox(width: 3),
+
+        // if we have text
+        if (model?.type == MessageType.text)
+          HebrewText(model?.body ?? '',
+              overflow: TextOverflow.fade,
+              textAlign: TextAlign.start,
+              style: lastWritten),
+
+        if (model?.type != MessageType.text)
+          SvgPicture.asset(getImageType(), height: 20, width: 20),
+
+        SizedBox(width: 5),
+
+        HebrewText(getTextType(),
+            overflow: TextOverflow.fade,
+            textAlign: TextAlign.start,
+            style: lastWritten),
+      ],
+    );
+  }
+
+  String getImageType() {
+    switch (model?.type) {
+      case MessageType.photo:
+        return 'assets/images/camera.svg';
+      case MessageType.video:
+        return 'assets/images/play.svg';
+      case MessageType.voice:
+        return 'assets/images/microphone.svg';
+      case MessageType.system:
+        return '';
+      case MessageType.text:
+        return '';
+    }
+
+    return null;
+  }
+
+  String getTextType() {
+    switch (model?.type) {
+      case MessageType.photo:
+        return 'תמונה';
+      case MessageType.video:
+        return 'וידאו';
+      case MessageType.voice:
+        return 'הקלטה';
+      case MessageType.system:
+        return '';
+      case MessageType.text:
+        return '';
+    }
+
+    return null;
+  }
+
+  String formatLastMessage(MessageModel msg) {
     String result = '';
-    if (conversation?.sender == null)
+    if (msg?.sender == null)
       result = 'קבוצה חדשה';
     else
-      result = model.lastMessage?.body?.startsWith('http') ?? false
+      result = model.body?.startsWith('http') ?? false
           ? 'מדיה'
-          : '${model?.lastMessage?.sender?.fullName}: ${model?.lastMessage?.body ?? ''}';
+          : '${model.sender?.fullName}: ${model.body ?? ''}';
 
     return result;
   }

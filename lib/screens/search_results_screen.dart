@@ -109,10 +109,7 @@ class SearchResultTile extends StatelessWidget {
                       width: 41,
                     ))),
             SizedBox(width: 14),
-            HebrewText(
-              conversation.name,
-              style: searchResultTile,
-            )
+            HebrewText(conversation.name, style: searchResultTile)
           ],
         ),
       ),

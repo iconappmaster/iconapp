@@ -29,7 +29,7 @@ class MediaRepositoryImpl implements MediaRepository {
   }
 
   // Uploads the file to Firebase storage !Need to handle error
-  Future upload(String path, String fileName, File image) async {
+  Future<String> upload(String path, String fileName, File image) async {
     final storage = FirebaseStorage(storageBucket: firebaseStorageBucket);
     final storageRefOriginal = storage.ref().child(path).child(fileName);
     final originalTask = storageRefOriginal.putFile(image);

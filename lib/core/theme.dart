@@ -73,7 +73,7 @@ const disconnectButton = TextStyle(
   fontSize: 16.3,
 );
 
-const systemMessage =  TextStyle(
+const systemMessage = TextStyle(
   fontFamily: _fontRubikRegular,
   color: white,
   fontSize: 9.7,
@@ -170,15 +170,18 @@ const chatCompose =
 const chatMessageBody = TextStyle(
   fontFamily: _fontRubikRegular,
   color: white,
-  fontSize: 14.7,
+  fontSize: 13.7,
   height: 1.3,
 );
 const chatMessageName = TextStyle(
-  fontFamily: _fontRubikMedium,
+  fontFamily: _fontRubikRegular,
   color: white,
-  fontSize: 16.7,
+  fontSize: 12.7,
   height: 1.3,
 );
+
+const chatMessageTime = TextStyle(
+    fontFamily: _fontRubikRegular, color: white, fontSize: 14.7, height: 1.3);
 
 const hint = TextStyle(
     fontFamily: _fontRubikRegular,

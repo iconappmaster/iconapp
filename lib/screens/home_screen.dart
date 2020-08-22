@@ -88,10 +88,12 @@ class HomeScreen extends StatelessWidget {
 
   Widget showWelcome(HomeStore home) {
     return Observer(builder: (_) {
-      if (home.showWelcomeDialog)
-        return WelcomeDialog(
+      return Visibility(
+        visible: home.showWelcomeDialog,
+        child: WelcomeDialog(
           onTap: () => home.saveWelcomeSeen(),
-        );
+        ),
+      );
 
       return Container();
     });
