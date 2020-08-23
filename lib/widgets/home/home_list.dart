@@ -162,13 +162,13 @@ class HomeTileLastMessage extends StatelessWidget {
         SizedBox(width: 3),
 
         // if we have text
-        if (model?.type == MessageType.text)
+        if (model?.messageType == MessageType.text)
           HebrewText(model?.body ?? '',
               overflow: TextOverflow.fade,
               textAlign: TextAlign.start,
               style: lastWritten),
 
-        if (model?.type != MessageType.text)
+        if (model?.messageType != MessageType.text)
           SvgPicture.asset(getImageType(), height: 20, width: 20),
 
         SizedBox(width: 5),
@@ -182,7 +182,7 @@ class HomeTileLastMessage extends StatelessWidget {
   }
 
   String getImageType() {
-    switch (model?.type) {
+    switch (model?.messageType) {
       case MessageType.photo:
         return 'assets/images/camera.svg';
       case MessageType.video:
@@ -199,7 +199,7 @@ class HomeTileLastMessage extends StatelessWidget {
   }
 
   String getTextType() {
-    switch (model?.type) {
+    switch (model?.messageType) {
       case MessageType.photo:
         return 'תמונה';
       case MessageType.video:

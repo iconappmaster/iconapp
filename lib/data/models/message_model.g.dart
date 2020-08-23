@@ -12,16 +12,18 @@ _$_MessageModel _$_$_MessageModelFromJson(Map<String, dynamic> json) {
     timestamp: json['timestamp'] as int,
     body: json['body'] as String,
     wasSeen: json['wasSeen'] as bool,
-    type: _$enumDecodeNullable(_$MessageTypeEnumMap, json['type']),
+    messageType:
+        _$enumDecodeNullable(_$MessageTypeEnumMap, json['messageType']),
     sender: json['sender'] == null
         ? null
         : UserModel.fromJson(json['sender'] as Map<String, dynamic>),
     likeCounts: json['likeCounts'] == null
         ? null
         : LikesCount.fromJson(json['likeCounts'] as Map<String, dynamic>),
-    isLiked: json['isLiked'] as String,
+    likeType: json['likeType'] as String,
     status: _$enumDecodeNullable(_$MessageStatusEnumMap, json['status']),
     extraData: json['extraData'] as String,
+    repliedToMessageId: json['repliedToMessageId'] as String,
   );
 }
 
@@ -31,12 +33,13 @@ Map<String, dynamic> _$_$_MessageModelToJson(_$_MessageModel instance) =>
       'timestamp': instance.timestamp,
       'body': instance.body,
       'wasSeen': instance.wasSeen,
-      'type': _$MessageTypeEnumMap[instance.type],
+      'messageType': _$MessageTypeEnumMap[instance.messageType],
       'sender': instance.sender,
       'likeCounts': instance.likeCounts,
-      'isLiked': instance.isLiked,
+      'likeType': instance.likeType,
       'status': _$MessageStatusEnumMap[instance.status],
       'extraData': instance.extraData,
+      'repliedToMessageId': instance.repliedToMessageId,
     };
 
 T _$enumDecode<T>(

@@ -54,7 +54,11 @@ class ChatSettingsAppBar implements SliverPersistentHeaderDelegate {
             Opacity(
                 opacity: .4,
                 child: GestureDetector(
-                  onTap: () async => settings.changeConversationPhoto(),
+                  onTap: () async {
+                    if (settings.isUserAdmin) {
+                      settings.changeConversationPhoto();
+                    }
+                  },
                   child: Stack(children: [
                     NetworkPhoto(
                         placeHolder: 'assets/images/group_placeholder.svg',
@@ -75,7 +79,7 @@ class ChatSettingsAppBar implements SliverPersistentHeaderDelegate {
                 bottom: 14.7,
                 child: HebrewText(subTitle, style: fieldLabel)),
             Positioned(right: 21, top: 32, child: IconBackButton()),
-            if (settings.isUserIcon)
+            if (settings.isUserAdmin)
               Positioned(
                   left: 21,
                   bottom: 14.7,

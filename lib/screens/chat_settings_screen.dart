@@ -51,7 +51,7 @@ class _ChatSettingsScreenState extends State<ChatSettingsScreen> {
                 [
                   ConversationNotificationsSettings(),
                   _SettingsDivider(),
-                  if (settings.isUserIcon) ...iconSettings
+                  if (settings.isUserAdmin) ...iconSettings
                 ],
               ),
             ),

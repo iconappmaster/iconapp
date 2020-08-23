@@ -30,25 +30,35 @@ abstract class _MediaStoreBase with Store {
   Future<String> uploadPhoto(
       {ImageSource source = ImageSource.gallery, File file}) async {
     String result = '';
-    _isLoading = true;
-    if (file != null) {
-      result = await _repository.uploadSinglePhoto(file, getPath, getFileName);
-    } else {
-      final pickedFile = await _imagePicker.getImage(source: source);
-      final file = File(pickedFile.path);
-      result = await _repository.uploadSinglePhoto(file, getPath, getFileName);
+    try {
+      _isLoading = true;
+      if (file != null) {
+        result =
+            await _repository.uploadSinglePhoto(file, getPath, getFileName);
+      } else {
+        final pickedFile = await _imagePicker.getImage(source: source);
+        final file = File(pickedFile.path);
+        result =
+            await _repository.uploadSinglePhoto(file, getPath, getFileName);
+      }
+
+      // cancel loadoing
+      _isLoading = false;
+
+      return result;
+    } on Exception catch (e) {
+      print(e);
     }
-
-    // cancel loadoing
-    _isLoading = false;
-
+    
     return result;
   }
 
-  Future<String> uploadVideo({ImageSource source = ImageSource.gallery, String path}) async {
+  Future<String> uploadVideo(
+      {ImageSource source = ImageSource.gallery, String path}) async {
     try {
       _isLoading = true;
-      final result = await _repository.uploadVideo(File(path), getPath, getFileName);
+      final result =
+          await _repository.uploadVideo(File(path), getPath, getFileName);
       _isLoading = false;
       return result;
     } on Exception catch (_) {

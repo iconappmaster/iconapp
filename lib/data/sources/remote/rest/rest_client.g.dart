@@ -365,12 +365,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  unSubscribeFromConversation(id) async {
+  unsubscribe(id) async {
     ArgumentError.checkNotNull(id, 'id');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response _result = await _dio.request(
+    final Response<Map<String, dynamic>> _result = await _dio.request(
         'conversations/$id/unsubscribe_from_conversation',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -379,7 +379,7 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = _result.data;
+    final value = Conversation.fromJson(_result.data);
     return value;
   }
 

@@ -30,7 +30,8 @@ class BottomSheetFab extends StatelessWidget {
           child: FloatingActionButton(
             elevation: 3,
             child: home.isLoading
-                ? CircularProgressIndicator()
+                ? CircularProgressIndicator(
+                    backgroundColor: white, strokeWidth: 1)
                 : SvgPicture.asset('assets/images/plus.svg',
                     height: 20.3, width: 20.3),
             backgroundColor: cornflower,

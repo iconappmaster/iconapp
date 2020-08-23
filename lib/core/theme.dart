@@ -28,6 +28,7 @@ const switchThumb = Color(0xFF97A2BD);
 const deepRed = Color(0xFFbb0000);
 const blueberry2 = Color(0xFF473f81);
 const blueberry3 = Color(0xFF4c409f);
+const scarlet = Color(0xFFd0021b);
 
 // Font Sizes
 // const _fontRubikBold = "RubikBold";
@@ -76,7 +77,7 @@ const disconnectButton = TextStyle(
 const systemMessage = TextStyle(
   fontFamily: _fontRubikRegular,
   color: white,
-  fontSize: 9.7,
+  fontSize: 13.7,
 );
 
 const phoneNumber = TextStyle(

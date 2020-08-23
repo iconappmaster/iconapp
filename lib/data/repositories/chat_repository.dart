@@ -32,7 +32,7 @@ class ChatRepositoryImpl implements ChatRepository {
 
   @override
   Future<Conversation> unsubscribe(int id) async {
-     return await restClient.unSubscribeFromConversation(id);
+     return await restClient.unsubscribe(id);
   }
   @override
   Future<MessageModel> likeMessage(int messageId) async {
@@ -50,7 +50,7 @@ class ChatRepositoryImpl implements ChatRepository {
     return await restClient.sendMessage(
       conversationId,
       message.body,
-      message.type.toString().parseEnum(),
+      message.messageType.toString().parseEnum(),
       message?.extraData ?? '',
     );
   }

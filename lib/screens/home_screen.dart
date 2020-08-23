@@ -75,7 +75,7 @@ class HomeScreen extends StatelessWidget {
                               showIconsSelected: false,
                               onTap: () => openBottomSheet(context))),
                     ),
-                    showWelcome(home),
+                    showWelcomeDialog(home),
                   ],
                 ),
               ),
@@ -86,7 +86,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget showWelcome(HomeStore home) {
+  Widget showWelcomeDialog(HomeStore home) {
     return Observer(builder: (_) {
       return Visibility(
         visible: home.showWelcomeDialog,
@@ -94,8 +94,6 @@ class HomeScreen extends StatelessWidget {
           onTap: () => home.saveWelcomeSeen(),
         ),
       );
-
-      return Container();
     });
   }
 

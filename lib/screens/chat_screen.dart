@@ -174,7 +174,7 @@ class _ChatListState extends State<ChatList> {
             final message = store?.getMessages[index];
             final isMe = store.isMe(message.sender?.id);
 
-            switch (message.type) {
+            switch (message.messageType) {
               case MessageType.text:
                 return TextMessage(message: message, isMe: isMe);
               case MessageType.photo:

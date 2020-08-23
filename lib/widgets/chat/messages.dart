@@ -21,12 +21,26 @@ class SystemMessage extends StatelessWidget {
   const SystemMessage({Key key, @required this.title}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
-        height: 20,
-        child: Center(child: HebrewText(title, style: systemMessage)),
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Material(
+          elevation: 4,
+          color: Colors.transparent,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+            height: 35,
+            decoration: BoxDecoration(
+                color: blueberry2, borderRadius: BorderRadius.circular(3)),
+            child: Center(
+              child: HebrewText(title,
+                  style: systemMessage, textAlign: TextAlign.center),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

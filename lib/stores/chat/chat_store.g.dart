@@ -112,11 +112,11 @@ mixin _$ChatStore on _ChatStoreBase, Store {
     return _$subscribeAsyncAction.run(() => super.subscribe());
   }
 
-  final _$unSubscribeAsyncAction = AsyncAction('_ChatStoreBase.unSubscribe');
+  final _$unsubscribeAsyncAction = AsyncAction('_ChatStoreBase.unsubscribe');
 
   @override
-  Future<dynamic> unSubscribe() {
-    return _$unSubscribeAsyncAction.run(() => super.unSubscribe());
+  Future<dynamic> unsubscribe() {
+    return _$unsubscribeAsyncAction.run(() => super.unsubscribe());
   }
 
   final _$getConversationAsyncAction =

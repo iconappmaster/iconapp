@@ -14,22 +14,59 @@ import 'package:iconapp/stores/create/create_icon_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
+import '../../../core/extensions/context_ext.dart';
 
 class ParticipentList extends StatelessWidget {
   const ParticipentList({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final store = sl<ChatSettingsStore>();
+    final settings = sl<ChatSettingsStore>();
 
     return Observer(
-      builder: (_) => Column(
-        children: <Widget>[
-          ParticipentsListTitle(),
-          ...store.users
-              .map((user) => ParticipantTile(currentUser: user))
-              .toList(),
-          ParticipentAddButton(),
-        ],
+      builder: (_) => Padding(
+        padding: const EdgeInsets.only(bottom: 20.0),
+        child: Column(
+          children: <Widget>[
+            ParticipentsListTitle(),
+            ...settings.users
+                .map((user) => ParticipantTile(currentUser: user))
+                .toList(),
+            ParticipentAddButton(),
+            if (settings.showUnsubscribeButton) UnsubscribeButton(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class UnsubscribeButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final chat = sl<ChatStore>();
+    final settings = sl<ChatSettingsStore>();
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 21.3),
+      width: double.infinity,
+      child: OutlineButton(
+        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 90),
+        color: deepRed,
+        borderSide: BorderSide(
+          width: .8,
+          color: deepRed,
+        ),
+        onPressed: () async {
+          await chat.unsubscribe();
+          settings.setUnsubscribeButton(false);
+          context.showFlushbar(
+            message: 'יצאת מהקבוצה',
+            color: uiTintColorFill,
+          );
+        },
+        child: HebrewText(
+          'יציאה מהקבוצה',
+          style: flushbar.copyWith(color: scarlet),
+        ),
       ),
     );
   }
@@ -114,7 +151,7 @@ class ParticipantTile extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(left: 8.0),
                           child: SettingsActionButton(
-                            isAdminsLeft: settingsStore.isAdminLeft,
+                            isAdminsLeft: settingsStore.isAdminRemaining,
                             textStyle: settingsButton,
                             onTap: () =>
                                 settingsStore.makeUserAdmin(currentUser.id),
@@ -221,8 +258,7 @@ class ParticipantAvatar extends StatelessWidget {
 }
 
 class ParticipentsListTitle extends StatelessWidget {
-  final adminsLeft =
-      sl<ChatStore>().conversation?.numberOfAdminsRemaining ?? 0;
+  final adminsLeft = sl<ChatStore>().conversation?.numberOfAdminsRemaining ?? 0;
 
   @override
   Widget build(BuildContext context) {

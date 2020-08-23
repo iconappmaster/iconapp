@@ -79,7 +79,7 @@ abstract class _ChatStoreBase with Store {
   }
 
   @action
-  Future unSubscribe() async {
+  Future unsubscribe() async {
      try {
       _state = _state.copyWith(loading: true);
       final result = await _repository.unsubscribe(conversation.id);
@@ -160,7 +160,7 @@ abstract class _ChatStoreBase with Store {
   @action
   Future likeMessage(MessageModel msg) async {
     try {
-      if (msg.isLiked != null) {
+      if (msg.likeType != null) {
         final message = await _repository.unlikeMessage(msg.id);
         _messages[_messages.indexOf(msg)] = message;
       } else {
@@ -182,7 +182,7 @@ abstract class _ChatStoreBase with Store {
           status: MessageStatus.pending,
           likeCounts: LikesCount(),
           timestamp: DateTime.now().millisecondsSinceEpoch,
-          type: MessageType.text);
+          messageType: MessageType.text);
 
       _messages.add(msg);
 
@@ -205,7 +205,7 @@ abstract class _ChatStoreBase with Store {
           body: pickedFile.path,
           status: MessageStatus.pending,
           timestamp: DateTime.now().millisecondsSinceEpoch,
-          type: MessageType.photo,
+          messageType: MessageType.photo,
         );
 
         _messages.add(msg);
@@ -248,7 +248,7 @@ abstract class _ChatStoreBase with Store {
       sender: _userStore.getUser,
       status: MessageStatus.pending,
       timestamp: DateTime.now().millisecondsSinceEpoch,
-      type: MessageType.video,
+      messageType: MessageType.video,
     );
 
     _messages.add(msg);
@@ -277,7 +277,7 @@ abstract class _ChatStoreBase with Store {
       sender: _userStore.getUser,
       status: MessageStatus.pending,
       timestamp: DateTime.now().millisecondsSinceEpoch,
-      type: MessageType.voice,
+      messageType: MessageType.voice,
     );
 
     _messages.add(msg);

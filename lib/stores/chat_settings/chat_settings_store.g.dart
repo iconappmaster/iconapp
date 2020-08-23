@@ -16,6 +16,13 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
       (_$isNotificationComputed ??= Computed<bool>(() => super.isNotification,
               name: '_ChatSettingsStoreBase.isNotification'))
           .value;
+  Computed<bool> _$showUnsubscribeButtonComputed;
+
+  @override
+  bool get showUnsubscribeButton => (_$showUnsubscribeButtonComputed ??=
+          Computed<bool>(() => super.showUnsubscribeButton,
+              name: '_ChatSettingsStoreBase.showUnsubscribeButton'))
+      .value;
   Computed<bool> _$isLoadigComputed;
 
   @override
@@ -51,19 +58,19 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
       (_$getSubtitleComputed ??= Computed<String>(() => super.getSubtitle,
               name: '_ChatSettingsStoreBase.getSubtitle'))
           .value;
-  Computed<bool> _$isAdminLeftComputed;
+  Computed<bool> _$isAdminRemainingComputed;
 
   @override
-  bool get isAdminLeft =>
-      (_$isAdminLeftComputed ??= Computed<bool>(() => super.isAdminLeft,
-              name: '_ChatSettingsStoreBase.isAdminLeft'))
-          .value;
-  Computed<bool> _$isUserIconComputed;
+  bool get isAdminRemaining => (_$isAdminRemainingComputed ??= Computed<bool>(
+          () => super.isAdminRemaining,
+          name: '_ChatSettingsStoreBase.isAdminRemaining'))
+      .value;
+  Computed<bool> _$isUserAdminComputed;
 
   @override
-  bool get isUserIcon =>
-      (_$isUserIconComputed ??= Computed<bool>(() => super.isUserIcon,
-              name: '_ChatSettingsStoreBase.isUserIcon'))
+  bool get isUserAdmin =>
+      (_$isUserAdminComputed ??= Computed<bool>(() => super.isUserAdmin,
+              name: '_ChatSettingsStoreBase.isUserAdmin'))
           .value;
   Computed<List<UserModel>> _$usersComputed;
 
@@ -86,6 +93,23 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
   set _isNotification(bool value) {
     _$_isNotificationAtom.reportWrite(value, super._isNotification, () {
       super._isNotification = value;
+    });
+  }
+
+  final _$_showUnsubscribeButtonAtom =
+      Atom(name: '_ChatSettingsStoreBase._showUnsubscribeButton');
+
+  @override
+  bool get _showUnsubscribeButton {
+    _$_showUnsubscribeButtonAtom.reportRead();
+    return super._showUnsubscribeButton;
+  }
+
+  @override
+  set _showUnsubscribeButton(bool value) {
+    _$_showUnsubscribeButtonAtom
+        .reportWrite(value, super._showUnsubscribeButton, () {
+      super._showUnsubscribeButton = value;
     });
   }
 
@@ -208,16 +232,28 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
   }
 
   @override
+  void setUnsubscribeButton(bool value) {
+    final _$actionInfo = _$_ChatSettingsStoreBaseActionController.startAction(
+        name: '_ChatSettingsStoreBase.setUnsubscribeButton');
+    try {
+      return super.setUnsubscribeButton(value);
+    } finally {
+      _$_ChatSettingsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 isNotification: ${isNotification},
+showUnsubscribeButton: ${showUnsubscribeButton},
 isLoadig: ${isLoadig},
 selectedColor: ${selectedColor},
 getConversationPhoto: ${getConversationPhoto},
 getConversationName: ${getConversationName},
 getSubtitle: ${getSubtitle},
-isAdminLeft: ${isAdminLeft},
-isUserIcon: ${isUserIcon},
+isAdminRemaining: ${isAdminRemaining},
+isUserAdmin: ${isUserAdmin},
 users: ${users}
     ''';
   }

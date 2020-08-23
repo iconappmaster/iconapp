@@ -12,12 +12,13 @@ abstract class MessageModel with _$MessageModel {
     final int timestamp,
     final String body,
     final bool wasSeen,
-    final MessageType type,
+    final MessageType messageType,
     final UserModel sender,
     final LikesCount likeCounts,
-    final String isLiked,
+    final String likeType,
     final MessageStatus status,
     final String extraData,
+    final String repliedToMessageId,
   }) = _MessageModel;
 
   factory MessageModel.fromJson(Map<String, dynamic> json) =>

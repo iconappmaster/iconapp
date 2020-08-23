@@ -5,7 +5,6 @@ import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/repositories/chat_settings_repository.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/media/media_store.dart';
-import 'package:iconapp/stores/user/user_store.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
 import '../../core/extensions/int_ext.dart';
@@ -16,18 +15,19 @@ class ChatSettingsStore = _ChatSettingsStoreBase with _$ChatSettingsStore;
 abstract class _ChatSettingsStoreBase with Store {
   ChatSettingsRepository _repository;
   ChatStore _chat;
-  UserStore _userStore;
   MediaStore _mediaStore;
 
   _ChatSettingsStoreBase() {
     _repository = sl<ChatSettingsRepository>();
     _chat = sl<ChatStore>();
-    _userStore = sl<UserStore>();
     _mediaStore = sl<MediaStore>();
   }
 
   @observable
   bool _isNotification = false;
+
+  @observable
+  bool _showUnsubscribeButton = true;
 
   @observable
   bool _isLoading = false;
@@ -40,6 +40,9 @@ abstract class _ChatSettingsStoreBase with Store {
 
   @computed
   bool get isNotification => _isNotification;
+
+  @computed
+  bool get showUnsubscribeButton => _showUnsubscribeButton;
 
   @computed
   bool get isLoadig => _isLoading || _mediaStore.loading;
@@ -59,11 +62,10 @@ abstract class _ChatSettingsStoreBase with Store {
       'הקבוצה נוצרה על ידי ${_chat.conversation?.createdBy?.fullName ?? ''}, ${_chat.conversation.createdAt?.humanReadableMonthTime()}';
 
   @computed
-  bool get isAdminLeft =>
-      _chat.conversation.numberOfAdminsRemaining > 0;
+  bool get isAdminRemaining => _chat.conversation.numberOfAdminsRemaining > 0;
 
   @computed
-  bool get isUserIcon => _userStore.getUser.isIcon;
+  bool get isUserAdmin => _chat.conversation.userRole == UserRole.admin;
 
   @computed
   List<UserModel> get users => _users;
@@ -89,6 +91,7 @@ abstract class _ChatSettingsStoreBase with Store {
     users.addAll(_chat.conversation?.users);
     _selectedColor = _chat.conversation?.backgroundColor;
     _isNotification = _chat.conversation?.areNotificationsEnabled ?? true;
+    _showUnsubscribeButton = _chat.conversation.isSubscribed;
   }
 
   @action
@@ -181,7 +184,8 @@ abstract class _ChatSettingsStoreBase with Store {
       if (url != null) {
         _isLoading = true;
         final conversation = await _repository.updateConversation(
-            _chat.conversation.id, Conversation(photo: PhotoModel(url: url)));
+            _chat.conversation.id,
+            Conversation(backgroundPhoto: PhotoModel(url: url)));
 
         _chat.setConversation(conversation);
       }
@@ -203,5 +207,10 @@ abstract class _ChatSettingsStoreBase with Store {
     } finally {
       _isLoading = false;
     }
+  }
+
+  @action
+  void setUnsubscribeButton(bool value) {
+    _showUnsubscribeButton = value;
   }
 }

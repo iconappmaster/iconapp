@@ -35,6 +35,8 @@ extension ContextExtensions on BuildContext {
     return Flushbar(
       padding: EdgeInsets.fromLTRB(11, 10, 11, 10),
       title: title,
+      barBlur: 12,
+      borderRadius: 12,
       backgroundColor: color,
       flushbarStyle: FlushbarStyle.FLOATING,
       margin: EdgeInsets.fromLTRB(34, 34, 34, 34),

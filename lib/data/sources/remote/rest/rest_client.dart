@@ -85,7 +85,7 @@ abstract class RestClient {
   Future<Conversation> subscribe(@Path('conversationId') int id);
 
   @POST('conversations/{conversationId}/unsubscribe_from_conversation')
-  Future unSubscribeFromConversation(@Path('conversationId') int id);
+  Future<Conversation> unsubscribe(@Path('conversationId') int id);
 
   @POST('conversations/{conversationId}/make_admin')
   Future<Conversation> makeUserAdmin(
