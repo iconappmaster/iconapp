@@ -34,15 +34,15 @@ class MediaRepositoryImpl implements MediaRepository {
     final storageRefOriginal = storage.ref().child(path).child(fileName);
     final uploadTask = storageRefOriginal.putFile(image);
 
-    // uploadTask.events.listen((event) {
-    //   final snapshot = event.snapshot;
+    uploadTask.events.listen((event) {
+      final snapshot = event.snapshot;
 
-    //   double progressPercent = snapshot != null
-    //       ? snapshot.bytesTransferred / snapshot.totalByteCount
-    //       : 0;
+      double progressPercent = snapshot != null
+          ? snapshot.bytesTransferred / snapshot.totalByteCount
+          : 0;
 
-    //   print(progressPercent);
-    // });
+      print(progressPercent);
+    });
     await uploadTask.onComplete;
     return await storageRefOriginal.getDownloadURL();
   }

@@ -13,6 +13,7 @@ class ChatBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      behavior: HitTestBehavior.translucent,
       onTap: () => Navigator.pop(context),
       child: Row(
         children: <Widget>[

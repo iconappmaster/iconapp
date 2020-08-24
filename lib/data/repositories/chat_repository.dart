@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
+import 'package:iconapp/stores/socket/socket_manager.dart';
 import '../../core/extensions/string_ext.dart';
 
 abstract class ChatRepository {
@@ -17,8 +19,12 @@ abstract class ChatRepository {
 
 class ChatRepositoryImpl implements ChatRepository {
   final RestClient restClient;
+  final SocketStore socket;
 
-  ChatRepositoryImpl({this.restClient});
+  ChatRepositoryImpl({
+    @required this.restClient,
+    @required this.socket,
+  });
 
   @override
   Future<Conversation> getConversaion(int chatId) async {
@@ -32,8 +38,9 @@ class ChatRepositoryImpl implements ChatRepository {
 
   @override
   Future<Conversation> unsubscribe(int id) async {
-     return await restClient.unsubscribe(id);
+    return await restClient.unsubscribe(id);
   }
+
   @override
   Future<MessageModel> likeMessage(int messageId) async {
     return await restClient.likeMessage(messageId);
@@ -57,7 +64,7 @@ class ChatRepositoryImpl implements ChatRepository {
 
   @override
   Stream<MessageModel> watchMessages() {
-    throw UnimplementedError();
+    return socket.messageObserver;
   }
 
   @override
@@ -69,6 +76,4 @@ class ChatRepositoryImpl implements ChatRepository {
   Future conversationViewed(int conversationId) async {
     return await restClient.viewedConversation(conversationId);
   }
-
-
 }

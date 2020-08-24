@@ -37,13 +37,13 @@ mixin _$ChatStore on _ChatStoreBase, Store {
           Computed<List<MessageModel>>(() => super.getMessages,
               name: '_ChatStoreBase.getMessages'))
       .value;
-  Computed<bool> _$shouldHideActionsComputed;
+  Computed<bool> _$isInputEmptyComputed;
 
   @override
-  bool get shouldHideActions => (_$shouldHideActionsComputed ??= Computed<bool>(
-          () => super.shouldHideActions,
-          name: '_ChatStoreBase.shouldHideActions'))
-      .value;
+  bool get isInputEmpty =>
+      (_$isInputEmptyComputed ??= Computed<bool>(() => super.isInputEmpty,
+              name: '_ChatStoreBase.isInputEmpty'))
+          .value;
 
   final _$_stateAtom = Atom(name: '_ChatStoreBase._state');
 
@@ -186,20 +186,13 @@ mixin _$ChatStore on _ChatStoreBase, Store {
     return _$startRecordingAsyncAction.run(() => super.startRecording());
   }
 
-  final _$stopRecordingAsyncAction =
-      AsyncAction('_ChatStoreBase.stopRecording');
+  final _$stopRecordingAndSendAsyncAction =
+      AsyncAction('_ChatStoreBase.stopRecordingAndSend');
 
   @override
-  Future<dynamic> stopRecording() {
-    return _$stopRecordingAsyncAction.run(() => super.stopRecording());
-  }
-
-  final _$sendAudioMessageAsyncAction =
-      AsyncAction('_ChatStoreBase.sendAudioMessage');
-
-  @override
-  Future<dynamic> sendAudioMessage() {
-    return _$sendAudioMessageAsyncAction.run(() => super.sendAudioMessage());
+  Future<dynamic> stopRecordingAndSend() {
+    return _$stopRecordingAndSendAsyncAction
+        .run(() => super.stopRecordingAndSend());
   }
 
   final _$_ChatStoreBaseActionController =
@@ -239,6 +232,17 @@ mixin _$ChatStore on _ChatStoreBase, Store {
   }
 
   @override
+  void watchMessages() {
+    final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
+        name: '_ChatStoreBase.watchMessages');
+    try {
+      return super.watchMessages();
+    } finally {
+      _$_ChatStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void dispose() {
     final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
         name: '_ChatStoreBase.dispose');
@@ -267,7 +271,7 @@ getState: ${getState},
 conversation: ${conversation},
 composerMode: ${composerMode},
 getMessages: ${getMessages},
-shouldHideActions: ${shouldHideActions}
+isInputEmpty: ${isInputEmpty}
     ''';
   }
 }

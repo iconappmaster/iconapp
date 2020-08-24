@@ -1,7 +1,11 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/widgets/global/blur_appbar.dart';
 import 'package:video_player/video_player.dart';
+import 'package:path_provider/path_provider.dart';
 
 class FullVideoScreen extends StatefulWidget {
   final String url;
@@ -15,12 +19,18 @@ class FullVideoScreen extends StatefulWidget {
 class _FullVideoScreenState extends State<FullVideoScreen> {
   VideoPlayerController _controller;
   bool isLoading = true;
+  bool showReplay = false;
 
   @override
   void initState() {
     super.initState();
 
     widget.url.startsWith('http') ? _startVideoNetwork() : _startVideoLocal();
+    _controller.addListener(() {
+      if (_controller.value.position == _controller.value.duration) {
+        setState(() => showReplay = true);
+      }
+    });
   }
 
   void _startVideoNetwork() {
@@ -45,12 +55,34 @@ class _FullVideoScreenState extends State<FullVideoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Center(
-          child: isLoading
-              ? CircularProgressIndicator()
-              : AspectRatio(
-                  aspectRatio: _controller.value.aspectRatio,
-                  child: VideoPlayer(_controller))),
+      body: Stack(children: [
+        Center(
+            child: isLoading
+                ? CircularProgressIndicator()
+                : AspectRatio(
+                    aspectRatio: _controller.value.aspectRatio,
+                    child: VideoPlayer(_controller))),
+        if (showReplay)
+          ReplayButton(
+            onPress: () async {
+              setState(() => showReplay = false);
+              await _controller.seekTo(Duration(seconds: 0));
+              _controller.play();
+            },
+          ),
+        BluredAppbar(
+          widget: IconButton(
+              icon: Icon(Icons.file_download, color: white),
+              onPressed: () async {
+                final String dir =
+                    (await getApplicationDocumentsDirectory()).path;
+                final String path = '$dir/${DateTime.now()}_video.mp4';
+                final response = await Dio().download(widget.url, path);
+
+                print(response);
+              }),
+        ),
+      ]),
     );
   }
 
@@ -58,5 +90,25 @@ class _FullVideoScreenState extends State<FullVideoScreen> {
   void dispose() {
     super.dispose();
     _controller.dispose();
+  }
+}
+
+class ReplayButton extends StatelessWidget {
+  final Function onPress;
+  const ReplayButton({
+    Key key,
+    @required this.onPress,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: IconButton(
+      onPressed: onPress,
+      icon: Icon(
+        Icons.replay,
+        size: 60,
+      ),
+    ));
   }
 }

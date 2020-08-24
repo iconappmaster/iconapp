@@ -34,12 +34,12 @@ abstract class _MediaStoreBase with Store {
       _isLoading = true;
       if (file != null) {
         result =
-            await _repository.uploadSinglePhoto(file, getPath, getFileName);
+            await _repository.uploadSinglePhoto(file, getPath, getPhotoFileName);
       } else {
         final pickedFile = await _imagePicker.getImage(source: source);
         final file = File(pickedFile.path);
         result =
-            await _repository.uploadSinglePhoto(file, getPath, getFileName);
+            await _repository.uploadSinglePhoto(file, getPath, getPhotoFileName);
       }
 
       // cancel loadoing
@@ -48,8 +48,10 @@ abstract class _MediaStoreBase with Store {
       return result;
     } on Exception catch (e) {
       print(e);
+    } finally {
+      _isLoading = false;
     }
-    
+
     return result;
   }
 
@@ -58,7 +60,19 @@ abstract class _MediaStoreBase with Store {
     try {
       _isLoading = true;
       final result =
-          await _repository.uploadVideo(File(path), getPath, getFileName);
+          await _repository.uploadVideo(File(path), getPath, getPhotoFileName);
+      _isLoading = false;
+      return result;
+    } on Exception catch (_) {
+      return '';
+    }
+  }
+
+  Future<String> uploadAudio(String path) async {
+    try {
+      _isLoading = true;
+      final result =
+          await _repository.uploadAudio(File(path), getPath, getAudioFileName);
       _isLoading = false;
       return result;
     } on Exception catch (_) {
@@ -67,5 +81,6 @@ abstract class _MediaStoreBase with Store {
   }
 
   String get getPath => _userStore.getUser.phone;
-  String get getFileName => '${DateTime.now().millisecondsSinceEpoch}.png';
+  String get getPhotoFileName => '${DateTime.now().millisecondsSinceEpoch}.png';
+  String get getAudioFileName => '${DateTime.now().millisecondsSinceEpoch}.mp4';
 }

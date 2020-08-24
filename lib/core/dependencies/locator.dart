@@ -81,7 +81,7 @@ void initLocator() {
   sl.registerLazySingleton<ChatSettingsRepository>(
       () => ChatSettingsRepositoryImpl(restClient: sl()));
   sl.registerLazySingleton<ChatRepository>(
-      () => ChatRepositoryImpl(restClient: sl()));
+      () => ChatRepositoryImpl(restClient: sl(), socket: sl()));
 
   // Conversation create
   sl.registerLazySingleton<CreateCategoryStore>(() => CreateCategoryStore());

@@ -58,25 +58,32 @@ mixin _$SocketStore on _SocketStoreBase, Store {
       AsyncAction('_SocketStoreBase.subscribeChannel');
 
   @override
-  Future<dynamic> subscribeChannel(String channelId) {
+  Future<dynamic> subscribeChannel(int conversationId) {
     return _$subscribeChannelAsyncAction
-        .run(() => super.subscribeChannel(channelId));
+        .run(() => super.subscribeChannel(conversationId));
   }
 
   final _$unsubscribeChannelAsyncAction =
       AsyncAction('_SocketStoreBase.unsubscribeChannel');
 
   @override
-  Future<dynamic> unsubscribeChannel(String channelId) {
+  Future<dynamic> unsubscribeChannel(int conversationId) {
     return _$unsubscribeChannelAsyncAction
-        .run(() => super.unsubscribeChannel(channelId));
+        .run(() => super.unsubscribeChannel(conversationId));
   }
 
-  final _$bindChannelAsyncAction = AsyncAction('_SocketStoreBase.bindChannel');
+  final _$_SocketStoreBaseActionController =
+      ActionController(name: '_SocketStoreBase');
 
   @override
-  Future<MessageModel> bindChannel(String eventId) {
-    return _$bindChannelAsyncAction.run(() => super.bindChannel(eventId));
+  void bindChannel(String eventId) {
+    final _$actionInfo = _$_SocketStoreBaseActionController.startAction(
+        name: '_SocketStoreBase.bindChannel');
+    try {
+      return super.bindChannel(eventId);
+    } finally {
+      _$_SocketStoreBaseActionController.endAction(_$actionInfo);
+    }
   }
 
   @override

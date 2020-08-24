@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/routes/router.gr.dart';
+import 'package:iconapp/stores/socket/socket_manager.dart';
 import 'package:logger/logger.dart';
 import 'data/sources/local/shared_preferences.dart';
 import 'generated/codegen_loader.g.dart';
@@ -14,6 +15,7 @@ void main() async {
 
   initLocator();
   await initSharedPreferences();
+  await sl<SocketStore>().init();
   runApp(
     EasyLocalization(
       useOnlyLangCode: false,

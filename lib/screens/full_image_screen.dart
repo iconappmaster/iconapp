@@ -1,7 +1,7 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:iconapp/data/models/photo_model.dart';
+import 'package:iconapp/widgets/global/blur_appbar.dart';
 import 'package:photo_view/photo_view.dart';
 
 class FullImageScreen extends StatelessWidget {
@@ -11,11 +11,16 @@ class FullImageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PhotoView(
-      backgroundDecoration: BoxDecoration(color: Colors.black),
-      imageProvider: photo.url.startsWith('http')
-          ? NetworkImage(photo.url)
-          : FileImage(File(photo.url)),
+    return Scaffold(
+      body: Stack(children: [
+        PhotoView(
+          heroAttributes: PhotoViewHeroAttributes(tag: 'photo'),
+            backgroundDecoration: BoxDecoration(color: Colors.black),
+            imageProvider: photo.url.startsWith('http')
+                ? NetworkImage(photo.url)
+                : FileImage(File(photo.url))),
+        BluredAppbar(),
+      ]),
     );
   }
 }

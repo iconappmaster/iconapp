@@ -14,6 +14,9 @@ import 'package:iconapp/stores/user/user_store.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
+import 'package:audio_recorder/audio_recorder.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 part 'chat_store.g.dart';
 
@@ -23,6 +26,7 @@ abstract class _ChatStoreBase with Store {
   ChatRepository _repository;
   MediaStore _mediaStore;
   UserStore _userStore;
+  StreamSubscription<MessageModel> _messagesSubscription;
 
   _ChatStoreBase() {
     _repository = sl<ChatRepository>();
@@ -31,7 +35,10 @@ abstract class _ChatStoreBase with Store {
   }
 
   void init([Conversation conversation]) {
-    if (conversation != null) setConversation(conversation);
+    if (conversation != null) {
+      setConversation(conversation);
+    }
+
     sl<ChatSettingsStore>()..init();
     _setConversationViewed();
     getConversation();
@@ -62,7 +69,7 @@ abstract class _ChatStoreBase with Store {
   List<MessageModel> get getMessages => _messages.reversed.toList();
 
   @computed
-  bool get shouldHideActions => _state.inputMessage.isNotEmpty;
+  bool get isInputEmpty => _state.inputMessage.isNotEmpty;
 
   @action
   Future subscribe() async {
@@ -80,7 +87,7 @@ abstract class _ChatStoreBase with Store {
 
   @action
   Future unsubscribe() async {
-     try {
+    try {
       _state = _state.copyWith(loading: true);
       final result = await _repository.unsubscribe(conversation.id);
       _conversation = result;
@@ -132,15 +139,19 @@ abstract class _ChatStoreBase with Store {
     final isViewer = conversation.userRole == UserRole.viewer;
     final isSubscribed = conversation?.isSubscribed ?? false;
 
-    if (isViewer) {
-      if (isSubscribed) {
-        _composerMode = ComposerMode.viewer;
-      } else {
-        _composerMode = ComposerMode.subscriber;
-      }
-    } else {
-      _composerMode = ComposerMode.icon;
-    }
+    _composerMode = isViewer
+        ? isSubscribed ? ComposerMode.viewer : ComposerMode.subscriber
+        : ComposerMode.icon;
+
+    // if (isViewer) {
+    //   if (isSubscribed) {
+    //     _composerMode = ComposerMode.viewer;
+    //   } else {
+    //     _composerMode = ComposerMode.subscriber;
+    //   }
+    // } else {
+    //   _composerMode = ComposerMode.icon;
+    // }
   }
 
   @action
@@ -186,7 +197,12 @@ abstract class _ChatStoreBase with Store {
 
       _messages.add(msg);
 
-      await _sendMessage(msg);
+      final remote = await _repository.sendMessage(conversation.id, msg);
+
+      _replaceMemoryMsgWithRemote(
+          remote.copyWith(status: MessageStatus.sent, id: msg.id));
+
+      // clear the input state
       _state = _state.copyWith(inputMessage: '');
     } on DioError catch (e) {
       print(e);
@@ -211,14 +227,15 @@ abstract class _ChatStoreBase with Store {
         _messages.add(msg);
 
         // upload to firebase
-        final uploaded =
-            await _mediaStore.uploadPhoto(file: File(pickedFile.path));
+        final url = await _mediaStore.uploadPhoto(file: File(pickedFile.path));
 
-        // update backend
-        final sentMsg =
-            msg.copyWith(status: MessageStatus.sent, body: uploaded);
+        final remote = await _repository.sendMessage(
+            conversation.id, msg.copyWith(body: url));
 
-        await _sendMessage(sentMsg);
+        _replaceMemoryMsgWithRemote(remote.copyWith(
+          status: MessageStatus.sent,
+          id: msg.id,
+        ));
       }
     } on DioError catch (e) {
       print(e);
@@ -234,6 +251,8 @@ abstract class _ChatStoreBase with Store {
           ? Duration(seconds: 10)
           : Duration(minutes: 1),
     );
+
+    // get thumbnail from video
     final thumbnail = await VideoThumbnail.thumbnailFile(
       video: pickedFile.path,
       imageFormat: ImageFormat.JPEG,
@@ -253,44 +272,90 @@ abstract class _ChatStoreBase with Store {
 
     _messages.add(msg);
 
+    // upload thumbnail and video
     final firbaseThumbnail =
         await _mediaStore.uploadPhoto(file: File(thumbnail));
     final firebaseViceo = await _mediaStore.uploadVideo(path: pickedFile.path);
 
-    final sentMsg = msg.copyWith(
-        status: MessageStatus.sent,
+    // send message with firebase links
+    final remote = await _repository.sendMessage(
+      conversation.id,
+      msg.copyWith(
         body: firebaseViceo,
-        extraData: firbaseThumbnail);
-
-    await _sendMessage(sentMsg);
-  }
-
-  @action
-  Future startRecording() async {}
-
-  @action
-  Future stopRecording() async {
-    // get the recorded file and send
-    var msg = MessageModel(
-      id: DateTime.now().millisecondsSinceEpoch,
-      body: '',
-      sender: _userStore.getUser,
-      status: MessageStatus.pending,
-      timestamp: DateTime.now().millisecondsSinceEpoch,
-      messageType: MessageType.voice,
+        extraData: firbaseThumbnail,
+      ),
     );
 
-    _messages.add(msg);
+    _replaceMemoryMsgWithRemote(remote.copyWith(
+      status: MessageStatus.sent,
+      id: msg.id,
+    ));
   }
 
   @action
-  Future sendAudioMessage() async {}
-  // MESSAGE ACTIONS - END
+  Future startRecording() async {
+    bool isRecording = await AudioRecorder.isRecording;
+
+    // You can can also directly ask the permission about its status.
+    if (await Permission.microphone.request().isGranted) {
+      // The OS restricts access, for example because of parental controls.
+      if (!isRecording) {
+        final appDocDirectory = await getApplicationDocumentsDirectory();
+
+        await AudioRecorder.start(
+          path: '${appDocDirectory.path}/${DateTime.now()}',
+          audioOutputFormat: AudioOutputFormat.AAC,
+        );
+      }
+    }
+  }
+
+  @action
+  Future stopRecordingAndSend() async {
+    // get the recorded file and send
+
+    bool isRecording = await AudioRecorder.isRecording;
+    if (isRecording) {
+      final recording = await AudioRecorder.stop();
+
+      final msg = MessageModel(
+        id: DateTime.now().millisecondsSinceEpoch,
+        body: recording.path,
+        sender: _userStore.getUser,
+        status: MessageStatus.pending,
+        timestamp: DateTime.now().millisecondsSinceEpoch,
+        messageType: MessageType.voice,
+      );
+
+      // show pending message
+      _messages.add(msg);
+
+      // start uploading the media
+      final url = await _mediaStore.uploadAudio(recording.path);
+
+      // update the boy with firebase url
+      final mediaMsg = msg.copyWith(body: url);
+
+      // update the backend
+      final remote = await _repository.sendMessage(conversation.id, mediaMsg);
+
+      _replaceMemoryMsgWithRemote(
+          remote.copyWith(status: MessageStatus.sent, id: msg.id));
+    }
+  }
+
+  @action
+  void watchMessages() {
+    _messagesSubscription =
+        _repository.watchMessages().listen((message) =>
+         _messages.add(message));
+  }
 
   @action
   void dispose() {
     _state = ChatState.initial();
     _messages.clear();
+    _messagesSubscription?.cancel();
   }
 
   @action
@@ -298,10 +363,11 @@ abstract class _ChatStoreBase with Store {
     _conversation = conversation;
   }
 
-  Future _sendMessage(MessageModel msg) async {
-    final resMsg = await _repository.sendMessage(conversation.id, msg);
-    _messages[_messages.indexWhere((m) => m.id == msg.id)] = resMsg;
+  _replaceMemoryMsgWithRemote(MessageModel message) {
+    _messages[_messages.indexWhere(
+      (msg) => msg.id == message.id,
+    )] = message;
   }
 
-  bool isMe(int id) => (id == _userStore.getUser.id) ?? false;
+  bool isMe(int id) => (id == _userStore.getUser?.id) ?? false;
 }

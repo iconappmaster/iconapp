@@ -88,6 +88,7 @@ class ParticipentAddButton extends StatelessWidget {
               child: Stack(children: [
                 if (settings.isLoadig) CircularProgressIndicator(),
                 FloatingActionButton(
+                  heroTag: 'add_participent',
                     elevation: 2,
                     backgroundColor: cornflower,
                     onPressed: () async {

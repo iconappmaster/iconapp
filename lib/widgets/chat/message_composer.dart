@@ -124,7 +124,7 @@ class ComposeActionButtons extends StatelessWidget {
       builder: (_) => AnimatedPositioned(
         curve: Curves.linear,
         duration: Duration(milliseconds: 250),
-        left: store.shouldHideActions ? margin : SendButton.size + margin,
+        left: store.isInputEmpty ? margin : SendButton.size + margin,
         child: Row(
           children: <Widget>[
             _buildActionButton(
@@ -183,8 +183,9 @@ class SendButton extends StatelessWidget {
           width: size,
           child: GestureDetector(
             onLongPress: () => store.startRecording(),
-            onLongPressEnd: (d) => store.stopRecording(),
+            onLongPressEnd: (d) => store.stopRecordingAndSend(),
             child: FloatingActionButton(
+              heroTag: 'send_button',
               elevation: 0,
               onPressed: () async {
                 if (isMessageMode()) {
@@ -200,7 +201,7 @@ class SendButton extends StatelessWidget {
                   scale: animation,
                   child: child,
                 ),
-                child: store.shouldHideActions
+                child: store.isInputEmpty
                     ? SvgPicture.asset('assets/images/send_icon.svg',
                         key: const Key('send'), height: 15.3, width: 15.3)
                     : SvgPicture.asset('assets/images/microphone.svg',

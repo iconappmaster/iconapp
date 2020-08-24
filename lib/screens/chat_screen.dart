@@ -7,9 +7,14 @@ import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/stores/chat/chat_state.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
+import 'package:iconapp/stores/socket/socket_manager.dart';
 import 'package:iconapp/stores/story/story_store.dart';
+import 'package:iconapp/widgets/chat/message_audio.dart';
 import 'package:iconapp/widgets/chat/message_composer.dart';
-import 'package:iconapp/widgets/chat/messages.dart';
+import 'package:iconapp/widgets/chat/message_photo.dart';
+import 'package:iconapp/widgets/chat/message_system.dart';
+import 'package:iconapp/widgets/chat/message_text.dart';
+import 'package:iconapp/widgets/chat/message_video.dart';
 import 'package:iconapp/widgets/chat/settings/change_background.dart';
 import 'package:iconapp/widgets/global/blue_divider.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
@@ -31,8 +36,12 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void initState() {
-    sl<ChatStore>()..init(widget.conversation);
+    initSocket();
+
+    sl<ChatStore>()..init(widget.conversation)..watchMessages();
+
     sl<StoryStore>()..setMode(StoryMode.conversation);
+
     _controller = ScrollController()
       ..addListener(() {
         upDirection =
@@ -41,6 +50,12 @@ class _ChatScreenState extends State<ChatScreen> {
         flag = upDirection;
       });
     super.initState();
+  }
+
+  Future initSocket() async {
+    final socket = sl<SocketStore>();
+    await socket.subscribeChannel(widget.conversation.id);
+    await socket.bindChannel(messagesEvent);
   }
 
   @override
@@ -54,17 +69,16 @@ class _ChatScreenState extends State<ChatScreen> {
           children: [
             Container(
               decoration: BoxDecoration(
-                  gradient:
-                      gradientList[chat.conversation.backgroundColor ?? 0]),
+                gradient: gradientList[chat.conversation.backgroundColor ?? 0],
+              ),
               child: Column(
                 children: <Widget>[
                   ChatAppbar(),
                   BlueDivider(color: cornflower),
                   StoriesList(
-                    margin: EdgeInsets.only(top: 10),
-                    mode: story.mode,
-                    show: upDirection,
-                  ),
+                      margin: EdgeInsets.only(top: 10),
+                      mode: story.mode,
+                      show: upDirection),
                   ChatList(scrollController: _controller),
                   initComposer(chat, _controller),
                 ],
@@ -93,6 +107,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void dispose() {
     sl<ChatStore>().dispose();
+    sl<SocketStore>().unsubscribeChannel(widget.conversation.id);
     super.dispose();
   }
 }

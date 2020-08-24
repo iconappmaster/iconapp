@@ -46,18 +46,10 @@ class ChatAppbar extends StatelessWidget {
                     transitionBuilder: (child, animation) =>
                         ScaleTransition(scale: animation, child: child),
                     child: store.conversation.isPinned
-                        ? SvgPicture.asset(
-                            'assets/images/pin_purple.svg',
-                            key: const Key('pinned'),
-                            height: 26,
-                            width: 26,
-                          )
-                        : SvgPicture.asset(
-                            'assets/images/pin.svg',
-                            key: const Key('unpinned'),
-                            height: 26,
-                            width: 26,
-                          ),
+                        ? SvgPicture.asset('assets/images/pin_purple.svg',
+                            key: const Key('pinned'), height: 26, width: 26)
+                        : SvgPicture.asset('assets/images/pin.svg',
+                            key: const Key('unpinned'), height: 26, width: 26),
                   ),
                 );
               }),
