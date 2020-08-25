@@ -20,6 +20,7 @@ import 'package:iconapp/widgets/global/blue_divider.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/home/stories_widget.dart';
 import '../widgets/chat/chat_appbar.dart';
+import '../core/extensions/context_ext.dart';
 
 class ChatScreen extends StatefulWidget {
   final Conversation conversation;
@@ -38,7 +39,9 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     initSocket();
 
-    sl<ChatStore>()..init(widget.conversation)..watchMessages();
+    sl<ChatStore>()
+      ..init(widget.conversation)
+      ..watchMessages();
 
     sl<StoryStore>()..setMode(StoryMode.conversation);
 
@@ -75,15 +78,18 @@ class _ChatScreenState extends State<ChatScreen> {
                 children: <Widget>[
                   ChatAppbar(),
                   BlueDivider(color: cornflower),
-                  StoriesList(
-                      margin: EdgeInsets.only(top: 10),
-                      mode: story.mode,
-                      show: upDirection),
                   ChatList(scrollController: _controller),
                   initComposer(chat, _controller),
                 ],
               ),
-            )
+            ),
+            Positioned(
+              top: context.heightPlusStatusbarPerc(.116),
+              child: StoriesList(
+                  margin: EdgeInsets.only(top: 10),
+                  mode: story.mode,
+                  show: upDirection),
+            ),
           ],
         ),
       );

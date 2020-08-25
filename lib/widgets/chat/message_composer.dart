@@ -11,8 +11,7 @@ import '../../core/theme.dart';
 class MessageComposer extends StatefulWidget {
   final ScrollController controller;
 
-  const MessageComposer({Key key, @required this.controller})
-      : super(key: key);
+  const MessageComposer({Key key, @required this.controller}) : super(key: key);
   @override
   _MessageComposerState createState() => _MessageComposerState();
 }
@@ -31,20 +30,14 @@ class _MessageComposerState extends State<MessageComposer> {
       children: <Widget>[
         Container(
           constraints: BoxConstraints(minHeight: 73.7),
-          color: Colors.transparent,
-          padding: EdgeInsets.only(
-            top: 16,
-            bottom: 16.3,
-            left: 9.3,
-            right: 9.3,
-          ),
+          color: white,
+          padding:
+              EdgeInsets.only(top: 16, bottom: 16.3, left: 9.3, right: 9.3),
           child: Center(
             child: Container(
               constraints: BoxConstraints(minHeight: 41.3),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(26.4),
-                color: paleGrey,
-              ),
+                  borderRadius: BorderRadius.circular(26.4), color: paleGrey),
               child: Stack(
                 alignment: Alignment.center,
                 children: [

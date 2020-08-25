@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../core/theme.dart';
 import '../routes/router.gr.dart';
-import '../widgets/global/base_dialog.dart';
-import '../widgets/global/hebrew_input_text.dart';
 import '../widgets/login/login_background.dart';
 import '../core/extensions/context_ext.dart';
 import '../widgets/global/next_button.dart';
@@ -24,7 +22,6 @@ class LoginScreen extends StatelessWidget {
           Positioned(
             bottom: context.heightPx * .091,
             child: NextButton(
-              height: 34,
                 onClick: () => ExtendedNavigator.of(context)
                     .pushNamed(Routes.onboardingPhone)),
           ),
@@ -56,36 +53,10 @@ class PrivacyAndTerms extends StatelessWidget {
               style: smallLine.copyWith(decoration: TextDecoration.underline),
               recognizer: TapGestureRecognizer()
                 ..onTap = () async {
-                  await showDialog(context: context, child: PolicyDialog());
+                  // todo send to policy website
                 }),
           TextSpan(text: LocaleKeys.policy_prefix.tr(), style: smallLine)
         ]),
-      ),
-    );
-  }
-}
-
-class PolicyDialog extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BaseDialog(
-      height: context.heightPlusStatusbarPerc(.537),
-      child: Column(
-        children: [
-          HebrewText(LocaleKeys.policy_title.tr(), style: policyTitle),
-          SizedBox(height: 17),
-          SingleChildScrollView(
-            child: HebrewText(
-                'טקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודטקסט ארוך מאודת',
-                style: policyContent,
-                textAlign: TextAlign.start),
-          ),
-          Spacer(),
-          NextButton(
-            title: LocaleKeys.action_close.tr(),
-            onClick: () => Navigator.pop(context),
-          )
-        ],
       ),
     );
   }

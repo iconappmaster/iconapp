@@ -44,12 +44,15 @@ class OnboardingProfile extends StatelessWidget {
               showBack: !store.getState.loading,
             ),
             Positioned(
-                top: context.heightPlusStatusbarPerc(.138),
-                child: UserAvatar(
-                    placeholder: 'assets/images/user_icon.svg',
-                    showLoading: store.getState.loading,
-                    onTap: () async => store.pickAndUploadPhoto(),
-                    url: store?.getUserPhoto ?? '')),
+              top: context.heightPlusStatusbarPerc(.138),
+              child: UserAvatar(
+                
+                placeholder: 'assets/images/user_icon.svg',
+                showLoading: store.getState.loading,
+                onTap: () async => store.pickAndUploadPhoto(),
+                url: store?.getUserPhoto ?? '',
+              ),
+            ),
             PersonDetails(),
             if (mode == OnboardingMode.onboarding) SexPicker(),
             _nextButton(context, store),
@@ -61,17 +64,17 @@ class OnboardingProfile extends StatelessWidget {
 
   Widget _nextButton(BuildContext ctx, OnboardingStore store) {
     return Positioned(
-      top: ctx.heightPlusStatusbarPerc(.526),
+      top: ctx.heightPlusStatusbarPerc(.506),
       child: NextButton(
         title: mode == OnboardingMode.onboarding
-            ? LocaleKeys.action_continue
+            ? LocaleKeys.action_continue.tr()
             : LocaleKeys.action_save.tr(),
         enabled: !store.getState.loading,
         onClick: () {
           if (_formValidatorKey.currentState.validate()) {
             store.upadteUser().then((result) => result.fold(
-                (error) =>
-                    ctx.showFlushbar(message: LocaleKeys.general_server_error),
+                (error) => ctx.showFlushbar(
+                    message: LocaleKeys.general_server_error.tr()),
                 (success) => ExtendedNavigator.of(ctx).pushNamedAndRemoveUntil(
                     Routes.splashScreen, (Route<dynamic> route) => false)));
           }
@@ -110,7 +113,7 @@ class PersonDetails extends StatelessWidget {
               Container(
                 width: context.widthPx * .207,
                 child: InputText(
-                  initialValue: user?.age.toString() ?? '',
+                  initialValue: user?.age?.toString() ?? '',
                   hint: '$minAge-99',
                   hintStyle: personalDetailsHint,
                   maxLength: 2,
@@ -150,7 +153,7 @@ class _SexPickerState extends State<SexPicker> {
     final gap = SizedBox(width: context.widthPx * .05);
 
     return Positioned(
-      top: context.heightPlusStatusbarPerc(.45),
+      top: context.heightPlusStatusbarPerc(.415),
       child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,

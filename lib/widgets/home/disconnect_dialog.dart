@@ -42,7 +42,7 @@ class DisconnectDialog extends StatelessWidget {
               await ExtendedNavigator.of(context).pop();
               return sl<AuthStore>().logout(true);
             },
-            height: 50,
+            height: 45,
             title: 'אני רוצה להתנתק',
           ),
           FlatButton(

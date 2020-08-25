@@ -8,7 +8,7 @@ class UserAvatar extends StatelessWidget {
   final Function onTap;
   final bool showLoading;
   final bool showPlus;
-  final double placeHolderPadding;
+  final double placeHolderPadding, placeHolderSize;
 
   const UserAvatar({
     Key key,
@@ -18,6 +18,7 @@ class UserAvatar extends StatelessWidget {
     this.showLoading = false,
     this.showPlus = true,
     this.placeHolderPadding,
+    this.placeHolderSize,
   }) : super(key: key);
 
   @override
@@ -29,8 +30,7 @@ class UserAvatar extends StatelessWidget {
         height: 90,
         child: Stack(children: [
           if (showLoading)
-            SizedBox(
-                height: 75, width: 77, child: CircularProgressIndicator()),
+            SizedBox(height: 75, width: 77, child: CircularProgressIndicator()),
           Container(
               height: 75,
               width: 75,
@@ -38,6 +38,7 @@ class UserAvatar extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(100),
                 child: NetworkPhoto(
+                    placeHolderSize: placeHolderSize,
                     placeHolderPadding: placeHolderPadding,
                     placeHolder: placeholder,
                     url: url,

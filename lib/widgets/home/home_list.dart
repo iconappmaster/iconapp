@@ -13,19 +13,23 @@ import 'package:iconapp/widgets/global/white_circle.dart';
 import '../../core/extensions/context_ext.dart';
 import '../../core/extensions/int_ext.dart';
 
+const double _indicatorSize = 27;
+
 class ConversationsList extends StatelessWidget {
   final Function(Conversation) onConversationTap;
+  final ScrollController controller;
 
-  const ConversationsList({Key key, @required this.onConversationTap})
+  const ConversationsList(
+      {Key key, @required this.onConversationTap, this.controller})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
     final store = sl<HomeStore>();
     return Observer(
       builder: (_) => Positioned(
-        top: context.heightPlusStatusbarPerc(.249),
+        top: context.heightPlusStatusbarPerc(.12),
         child: Container(
-          height: context.heightPx - context.heightPlusStatusbarPerc(.2),
+          height: context.heightPx - context.heightPlusStatusbarPerc(.11),
           width: context.widthPx,
           child: store.isLoading && store.conversations.length == 0
               ? Align(
@@ -35,14 +39,16 @@ class ConversationsList extends StatelessWidget {
                     child: LottieLoader(),
                   ))
               : ListView.builder(
+                  controller: controller,
                   itemCount: store.conversations.length,
                   padding: EdgeInsets.only(
-                      bottom: context.heightPlusStatusbarPerc(.2)),
+                      bottom: context.heightPlusStatusbarPerc(.2),
+                      top: context.heightPlusStatusbarPerc(.07)),
                   physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     final conversation = store.conversations[index];
-                    return ConversationItem(
+                    return ConversationTile(
                       model: conversation,
                       onTap: () => onConversationTap(conversation),
                     );
@@ -54,11 +60,11 @@ class ConversationsList extends StatelessWidget {
   }
 }
 
-class ConversationItem extends StatelessWidget {
+class ConversationTile extends StatelessWidget {
   final Conversation model;
   final Function onTap;
 
-  const ConversationItem({
+  const ConversationTile({
     Key key,
     this.model,
     @required this.onTap,
@@ -66,79 +72,84 @@ class ConversationItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        child: Container(
-          height: 81.7,
-          padding: EdgeInsets.only(
-            top: 8.7,
-            bottom: 8.7,
-            right: 8.7,
-            left: 15.7,
-          ),
-          margin: EdgeInsets.symmetric(vertical: 5, horizontal: 9.3),
-          width: context.widthPx,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4.8), color: darkIndigo2),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              WhiteCircle(
-                  widget: NetworkPhoto(
-                      placeHolder: 'assets/images/group_placeholder.svg',
-                      placeHolderPadding: 20,
-                      url: model?.backgroundPhoto?.url ?? '',
-                      height: 56,
-                      width: 56)),
-              SizedBox(width: 10.7),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(top: 6.0),
-                      child: HebrewText(model.name,
-                          style: nameWhite,
-                          maxLines: 1,
-                          textAlign: TextAlign.start),
-                    ),
-                    SizedBox(height: 4),
-                    model?.lastMessage != null
-                        ? HomeTileLastMessage(model: model?.lastMessage)
-                        : HebrewText('אין הודעות',
-                            overflow: TextOverflow.fade,
-                            textAlign: TextAlign.start,
-                            style: lastWritten),
-                  ],
+    return Container(
+      height: 81.7,
+      padding: EdgeInsets.only(top: 8.7, bottom: 8.7, right: 8.7, left: 15.7),
+      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 9.3),
+      width: context.widthPx,
+      decoration: BoxDecoration(
+        boxShadow: itemShadow,
+        borderRadius: BorderRadius.circular(4.8),
+        color: darkIndigo2,
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: Stack(children: [
+          InkWell(
+            splashColor: cornflower,
+            onTap: onTap,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                WhiteCircle(
+                    widget: NetworkPhoto(
+                        placeHolder: 'assets/images/group_placeholder.svg',
+                        placeHolderPadding: 20,
+                        url: model?.backgroundPhoto?.url ?? '',
+                        height: 56,
+                        width: 56)),
+                SizedBox(width: 10.7),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(top: 6.0),
+                        child: HebrewText(model.name,
+                            style: nameWhite,
+                            maxLines: 1,
+                            textAlign: TextAlign.start),
+                      ),
+                      SizedBox(height: 4),
+                      model?.lastMessage != null
+                          ? HomeTileLastMessage(model: model?.lastMessage)
+                          : HebrewText('אין הודעות',
+                              overflow: TextOverflow.fade,
+                              textAlign: TextAlign.start,
+                              style: lastWritten),
+                    ],
+                  ),
                 ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  if (model.lastMessage != null)
-                    HebrewText(
-                        model.lastMessage?.timestamp?.humanReadableTime() ?? '',
-                        style: timeOfMessage),
+              ],
+            ),
+          ),
+          if (model.lastMessage != null)
+            Positioned(
+              top: 3,
+              left: 0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  HebrewText(
+                      model.lastMessage?.timestamp?.humanReadableTime() ?? '',
+                      style: timeOfMessage),
                   SizedBox(height: 8.7),
                   Row(
                     children: [
                       if (model?.unreadMessageCount ?? 0 > 0)
-                        _MessageCounter(count: model.unreadMessageCount),
-                      SizedBox(width: 4),
+                        _MessageCounter(count: model?.unreadMessageCount ?? 5),
+                      SizedBox(width: 7),
                       if (model?.isPinned ?? false) _Pin(),
                       if (!model.areNotificationsEnabled)
                         SvgPicture.asset('assets/images/mute.svg',
-                            height: 25, width: 25)
+                            height: _indicatorSize, width: _indicatorSize)
                     ],
                   )
                 ],
               ),
-            ],
-          ),
-        ),
+            ),
+        ]),
       ),
     );
   }
@@ -232,11 +243,11 @@ class _Pin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 21,
-      width: 21,
+      height: _indicatorSize,
+      width: _indicatorSize,
       decoration: BoxDecoration(shape: BoxShape.circle, color: blueberry2),
       child: Center(
-        child: SvgPicture.asset('assets/images/pin.svg', height: 13, width: 13),
+        child: SvgPicture.asset('assets/images/pin.svg', height: 16, width: 16),
       ),
     );
   }

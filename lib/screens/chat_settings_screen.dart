@@ -38,6 +38,7 @@ class _ChatSettingsScreenState extends State<ChatSettingsScreen> {
 
     return Observer(
       builder: (_) => Scaffold(
+        backgroundColor: darkBlueGrey,
         body: CustomScrollView(
           physics: BouncingScrollPhysics(),
           slivers: <Widget>[
@@ -66,7 +67,7 @@ class _SettingsDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Divider(
-      color: darkIndigo2,
+      color: blueberry2,
       height: 0,
       thickness: 0.3,
     );

@@ -24,6 +24,7 @@ class BottomSheetFab extends StatelessWidget {
     return Observer(
       builder: (_) => Positioned(
         left: context.widthPx * .069,
+        bottom: 26,
         child: SizedBox(
           height: 53,
           width: 53,

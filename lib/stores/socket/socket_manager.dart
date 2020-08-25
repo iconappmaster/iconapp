@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
+import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/models/message_model.dart';
+import 'package:iconapp/stores/user/user_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:pusher_websocket_flutter/pusher.dart';
 import 'package:rxdart/subjects.dart';
@@ -15,17 +17,7 @@ class SocketStore = _SocketStoreBase with _$SocketStore;
 const messagesEvent = 'new-message';
 
 abstract class _SocketStoreBase with Store {
-  // StreamController<MessageModel> _messageController;
-  // Stream _messageStream;
-
-  // Stream get getMessageStream => _messageStream;
-
   BehaviorSubject<MessageModel> messageObserver = BehaviorSubject();
-
-  // _SocketStoreBase() {
-  // _messageController = StreamController<MessageModel>();
-  // _messageStream = _messageController.stream;
-  // }
 
   @observable
   Event _event;
@@ -63,11 +55,14 @@ abstract class _SocketStoreBase with Store {
 
   @action
   void bindChannel(String eventId) {
+    final user = sl<UserStore>();
+    
     _channel.bind(eventId, (event) {
       final json = jsonDecode(event.data);
+      // this should be removed!
       final message = MessageModel.fromJson(json);
 
-      if (message != null) {
+      if (message != null && !user.isMe(message.sender.id)) {
         messageObserver.add(message);
       }
     });

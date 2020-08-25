@@ -95,4 +95,6 @@ abstract class _UserStoreBase with Store {
       print(e);
     }
   }
+
+  bool isMe(int id) => (id == getUser?.id) ?? false;
 }

@@ -83,12 +83,16 @@ class ParticipentAddButton extends StatelessWidget {
         child: Row(
           children: <Widget>[
             SizedBox(
-              height: 37,
-              width: 37,
+              height: 45,
+              width: 45,
               child: Stack(children: [
-                if (settings.isLoadig) CircularProgressIndicator(),
+                if (settings.isLoadig)
+                  SizedBox(
+                      height: 45,
+                      width: 45,
+                      child: CircularProgressIndicator(backgroundColor: white)),
                 FloatingActionButton(
-                  heroTag: 'add_participent',
+                    heroTag: 'add_participent',
                     elevation: 2,
                     backgroundColor: cornflower,
                     onPressed: () async {
@@ -101,7 +105,7 @@ class ParticipentAddButton extends StatelessWidget {
                       settings.addUser(id);
                     },
                     child: SvgPicture.asset('assets/images/plus.svg',
-                        height: 15, width: 15)),
+                        height: 18, width: 18)),
               ]),
             ),
             SizedBox(width: 16),
@@ -141,7 +145,7 @@ class ParticipantTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                HebrewText(currentUser.fullName, style: nameDark),
+                HebrewText(currentUser.fullName, style: nameLight),
                 SizedBox(height: 12.3),
                 if (conversation.userRole == UserRole.admin)
                   Row(
@@ -169,7 +173,7 @@ class ParticipantTile extends StatelessWidget {
                           child: Container(
                             alignment: Alignment.center,
                             width: 60.7,
-                            height: 23.7,
+                            height: 30.7,
                             decoration: BoxDecoration(
                                 color: cornflower,
                                 borderRadius: BorderRadius.circular(2.7)),
@@ -185,8 +189,8 @@ class ParticipantTile extends StatelessWidget {
                           onTap: () => settingsStore.removeUser(currentUser.id),
                           text: 'הסרה',
                           width: 60.7,
-                          borderColor: deepRed,
-                          textStyle: settingsButton.copyWith(color: deepRed),
+                          borderColor: blueberry2,
+                          textStyle: settingsButton,
                         )
                     ],
                   )
@@ -222,9 +226,10 @@ class SettingsActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 23,
+      height: 30,
       width: width,
       child: OutlineButton(
+        padding: EdgeInsets.only(top: 5, bottom: 5),
         onPressed: isAdminsLeft ? onTap : null,
         color: backgroundColor ?? Colors.transparent,
         borderSide: BorderSide(color: borderColor, width: .7),
@@ -251,7 +256,7 @@ class ParticipantAvatar extends StatelessWidget {
       child: ClipRRect(
           borderRadius: BorderRadius.circular(5.3),
           child: NetworkPhoto(
-            url: url,
+            url: url ?? '',
             placeHolder: 'assets/images/group_placeholder.svg',
           )),
     );
@@ -285,11 +290,10 @@ class AdminsCounter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 5.7, vertical: 7),
+      padding: EdgeInsets.symmetric(horizontal: 18.7, vertical: 9),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(2.7),
-          border: Border.all(
-              color: cornflower, style: BorderStyle.solid, width: .7)),
+          border: Border.all(color: cornflower, width: .7)),
       child: HebrewText(
         'ניתן להוסיף עוד $adminsLeft עורכים',
         style: settingsButton,

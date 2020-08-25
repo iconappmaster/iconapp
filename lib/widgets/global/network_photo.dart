@@ -2,12 +2,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:iconapp/core/theme.dart';
 
 class NetworkPhoto extends StatelessWidget {
   final String url;
   final double height, width;
   final String placeHolder;
-  final double placeHolderPadding;
+  final double placeHolderPadding, placeHolderSize;
 
   const NetworkPhoto({
     Key key,
@@ -16,6 +17,7 @@ class NetworkPhoto extends StatelessWidget {
     this.width,
     this.placeHolderPadding = 20,
     this.placeHolder,
+    this.placeHolderSize,
   }) : super(key: key);
 
   @override
@@ -33,6 +35,7 @@ class NetworkPhoto extends StatelessWidget {
                       height: height,
                       width: width,
                       placeHolder: placeHolder,
+                      placeHolderSize: placeHolderSize,
                     ),
                   )
                 : Container(),
@@ -50,9 +53,10 @@ class NetworkPhoto extends StatelessWidget {
             imageUrl: url,
             placeholder: (_, url) {
               return PhotoPlaceHolder(
-                height: height,
-                width: width,
-                placeHolder: placeHolder ?? 'assets/imagees/group_placeholder.svg',
+                height: placeHolderSize ?? height,
+                width: placeHolderSize ?? width,
+                placeHolder:
+                    placeHolder ?? 'assets/imagees/group_placeholder.svg',
               );
             },
           );
@@ -63,21 +67,28 @@ class PhotoPlaceHolder extends StatelessWidget {
   final double width;
   final double height;
   final String placeHolder;
+  final double placeHolderSize;
 
   const PhotoPlaceHolder({
     Key key,
     @required this.height,
     @required this.width,
     @required this.placeHolder,
+    this.placeHolderSize,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SvgPicture.asset(
-        placeHolder,
-        height: width,
-        width: height,
-        fit: BoxFit.cover,
+    return Container(
+      height: width,
+      width: height,
+      decoration: BoxDecoration(color: white, shape: BoxShape.circle),
+      child: Center(
+        child: SvgPicture.asset(
+          placeHolder,
+          height: placeHolderSize ?? 22,
+          width: placeHolderSize ?? 22,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }

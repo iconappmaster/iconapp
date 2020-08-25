@@ -71,22 +71,23 @@ class IconBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = message.status == MessageStatus.pending
         ? blueBerry
-        : isMe ? darkBlueGrey : darkIndigo2;
+        : isMe ? darkIndigo2 : blueberry2;
     return GestureDetector(
       onDoubleTap: onDoubleTap,
       onTap: onTap,
-      child: Stack(children: [
-        Bubble(
-          elevation: 3,
+      child: Bubble(
+        
+          elevation: 1,
           stick: true,
           padding: padding ?? BubbleEdges.all(3),
           margin: BubbleEdges.only(right: 9, top: 3, bottom: 3, left: 9),
           alignment: isMe ? Alignment.centerLeft : Alignment.centerRight,
           color: color,
           nip: isMe ? BubbleNip.leftTop : BubbleNip.rightTop,
-          child: child,
-        ),
-      ]),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minWidth: 80, minHeight: 55),
+            child: child,
+          )),
     );
   }
 }

@@ -94,7 +94,7 @@ class _RollingSwitchState extends State<RollingSwitch>
       },
       child: Container(
         width: 90.6,
-        height: 27.3,
+        height: 38.3,
         decoration: BoxDecoration(
             border: Border.all(color: cornflower, width: 1.2),
             color: transitionColor,
@@ -115,8 +115,8 @@ class _RollingSwitchState extends State<RollingSwitch>
       child: Transform.rotate(
         angle: lerpDouble(0, 2 * pi, value),
         child: Container(
-          height: 28,
-          width: 28,
+          height: 38.3,
+          width: 38.3,
           alignment: Alignment.center,
           decoration: BoxDecoration(
               border: Border.all(color: cornflower),
@@ -129,7 +129,7 @@ class _RollingSwitchState extends State<RollingSwitch>
                   opacity: (1 - value).clamp(0.0, 1.0),
                   child: SvgPicture.asset(
                     widget.iconOff,
-                    height: 11.7,
+                    height: 16.7,
                     color: Colors.white,
                   ),
                 ),
@@ -139,7 +139,7 @@ class _RollingSwitchState extends State<RollingSwitch>
                       opacity: value.clamp(0.0, 1.0),
                       child: SvgPicture.asset(
                         widget.iconOn,
-                        height: 11.7,
+                        height: 16.7,
                         color: transitionColor,
                       ))),
             ],
@@ -151,7 +151,7 @@ class _RollingSwitchState extends State<RollingSwitch>
 
   Widget _buildBackgroundText() {
     return Transform.translate(
-      offset: turnState ? Offset(value + 7, 0) : Offset(value - 7, 0),
+      offset: turnState ? Offset(value + 5, 0) : Offset(value - 15, 0),
       child: Center(
         child: HebrewText(
           widget.text,

@@ -72,7 +72,7 @@ abstract class _CreateDetailsStoreBase with Store {
       final req = CreateGroupReq(
         categoryId: category.id,
         users: icons,
-        photo: PhotoModel(url: _selectedPhoto),
+        backgroundPhoto: PhotoModel(url: _selectedPhoto),
         name: _groupName,
       );
 

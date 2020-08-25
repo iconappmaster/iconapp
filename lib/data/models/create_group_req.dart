@@ -7,14 +7,14 @@ part 'create_group_req.g.dart';
 
 @JsonSerializable()
 class CreateGroupReq {
-  final PhotoModel photo;
+  final PhotoModel backgroundPhoto;
   final String name;
   final List<UserModel> users;
   final int categoryId;
 
   CreateGroupReq({
     @required this.categoryId,
-    @required this.photo,
+    @required this.backgroundPhoto,
     @required this.name,
     @required this.users,
   });

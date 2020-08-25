@@ -25,8 +25,9 @@ class DrawerIcon extends StatelessWidget {
     return IconButton(
       icon: SvgPicture.asset(
         'assets/images/menu_icon.svg',
-        height: 26,
-        width: 26,
+        height: 36,
+        width: 36,
+        fit: BoxFit.cover,
       ),
       onPressed: () => _scaffoldKey.currentState.openDrawer(),
     );

@@ -9,9 +9,9 @@ part of 'create_group_req.dart';
 CreateGroupReq _$CreateGroupReqFromJson(Map<String, dynamic> json) {
   return CreateGroupReq(
     categoryId: json['categoryId'] as int,
-    photo: json['photo'] == null
+    backgroundPhoto: json['backgroundPhoto'] == null
         ? null
-        : PhotoModel.fromJson(json['photo'] as Map<String, dynamic>),
+        : PhotoModel.fromJson(json['backgroundPhoto'] as Map<String, dynamic>),
     name: json['name'] as String,
     users: (json['users'] as List)
         ?.map((e) =>
@@ -22,7 +22,7 @@ CreateGroupReq _$CreateGroupReqFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$CreateGroupReqToJson(CreateGroupReq instance) =>
     <String, dynamic>{
-      'photo': instance.photo,
+      'backgroundPhoto': instance.backgroundPhoto,
       'name': instance.name,
       'users': instance.users,
       'categoryId': instance.categoryId,

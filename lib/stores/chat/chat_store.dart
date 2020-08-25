@@ -138,20 +138,16 @@ abstract class _ChatStoreBase with Store {
   void _determineComposerMode() {
     final isViewer = conversation.userRole == UserRole.viewer;
     final isSubscribed = conversation?.isSubscribed ?? false;
-
-    _composerMode = isViewer
-        ? isSubscribed ? ComposerMode.viewer : ComposerMode.subscriber
-        : ComposerMode.icon;
-
-    // if (isViewer) {
-    //   if (isSubscribed) {
-    //     _composerMode = ComposerMode.viewer;
-    //   } else {
-    //     _composerMode = ComposerMode.subscriber;
-    //   }
-    // } else {
-    //   _composerMode = ComposerMode.icon;
-    // }
+ 
+    if (isViewer) {
+      if (isSubscribed) {
+        _composerMode = ComposerMode.viewer;
+      } else {
+        _composerMode = ComposerMode.subscriber;
+      }
+    } else {
+      _composerMode = ComposerMode.icon;
+    }
   }
 
   @action
@@ -346,9 +342,9 @@ abstract class _ChatStoreBase with Store {
 
   @action
   void watchMessages() {
-    _messagesSubscription =
-        _repository.watchMessages().listen((message) =>
-         _messages.add(message));
+    _messagesSubscription = _repository.watchMessages().listen((message) {
+      _messages.add(message);
+    });
   }
 
   @action

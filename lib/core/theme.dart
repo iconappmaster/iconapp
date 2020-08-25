@@ -29,6 +29,7 @@ const deepRed = Color(0xFFbb0000);
 const blueberry2 = Color(0xFF473f81);
 const blueberry3 = Color(0xFF4c409f);
 const scarlet = Color(0xFFd0021b);
+const black10 = Color(0x19000000);
 
 // Font Sizes
 // const _fontRubikBold = "RubikBold";
@@ -52,7 +53,7 @@ const searchAppBarTitle = TextStyle(
 
 const chatSettings = TextStyle(
   fontFamily: _fontRubikRegular,
-  color: darkIndigo,
+  color: white,
   fontSize: 16.7,
 );
 
@@ -64,8 +65,8 @@ const appSettingsTile = TextStyle(
 
 const addParticipent = TextStyle(
   fontFamily: _fontRubikRegular,
-  color: darkIndigo2,
-  fontSize: 16.7,
+  color: white,
+  fontSize: 18.7,
 );
 
 const disconnectButton = TextStyle(
@@ -98,8 +99,8 @@ const pinCode =
 const nameWhite =
     TextStyle(fontFamily: _fontRubikMedium, color: white, fontSize: 18);
 
-const nameDark =
-    TextStyle(fontFamily: _fontRubikMedium, color: purpleFont, fontSize: 18);
+const nameLight =
+    TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 18);
 
 const searchResultTile =
     TextStyle(fontFamily: _fontRubikMedium, color: darkBlueGrey, fontSize: 18);
@@ -117,10 +118,10 @@ const lastWritten =
     TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 15.3);
 
 const genderIconText =
-    TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 14.0);
+    TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 14.4);
 
 const smallLine =
-    TextStyle(fontFamily: _fontRubikMedium, color: white, fontSize: 13.3);
+    TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 14.7);
 
 const fieldLabel =
     TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 13.3);
@@ -132,7 +133,7 @@ const newMessageNumber =
     TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 11.2);
 
 const timeOfMessage =
-    TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 11);
+    TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 14);
 
 const myStory = TextStyle(
   fontFamily: _fontRubikRegular,
@@ -160,7 +161,7 @@ const settingsAppbarTitle = TextStyle(
 
 const settingsButton = TextStyle(
   fontFamily: _fontRubikRegular,
-  color: cornflower,
+  color: white,
   fontSize: 10.8,
   letterSpacing: .08,
 );
@@ -175,7 +176,7 @@ const chatMessageBody = TextStyle(
   height: 1.3,
 );
 const chatMessageName = TextStyle(
-  fontFamily: _fontRubikRegular,
+  fontFamily: _fontRubikMedium,
   color: white,
   fontSize: 12.7,
   height: 1.3,
@@ -321,3 +322,12 @@ final whiteGradient = LinearGradient(colors: [
   white,
   white,
 ], begin: Alignment.bottomRight, end: Alignment.topLeft);
+
+final itemShadow = [
+  BoxShadow(
+    color: black10,
+    blurRadius: 10.0,
+    spreadRadius: 10.0,
+    offset: const Offset(10.0, 10.0),
+  ),
+];

@@ -49,6 +49,8 @@ dependencies:
   audio_recorder: ^1.0.2
   audioplayers: ^0.16.0
   permission_handler: ^5.0.1+1
+  # flutter_slidable: ^0.5.5
+  
 
 dev_dependencies:
   flutter_test:

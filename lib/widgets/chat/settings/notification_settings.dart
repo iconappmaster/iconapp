@@ -23,8 +23,8 @@ class ConversationNotificationsSettings extends StatelessWidget {
             Directionality(
               textDirection: TextDirection.ltr,
               child: Switch(
-                activeColor: cornflower,
-                activeTrackColor: cornflower.withOpacity(.5),
+                activeColor: blueyGrey,
+                activeTrackColor: blueyGrey.withOpacity(.5),
                 inactiveTrackColor: blueyGrey.withOpacity(.5),
                 inactiveThumbColor: blueyGrey,
                 value: settings.isNotification,

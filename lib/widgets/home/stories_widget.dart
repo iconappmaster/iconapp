@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
@@ -49,23 +51,31 @@ class _StoriesListState extends State<StoriesList>
     return Observer(
       builder: (_) => AnimatedSize(
         vsync: this,
-        duration: Duration(milliseconds: 350),
-        child: Container(
-          margin: widget.margin,
-          height: widget.show ? context.heightPlusStatusbarPerc(.07) : 0,
-          width: context.widthPx,
-          child: ListView.builder(
-            itemCount: store.getStories.length,
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            physics: BouncingScrollPhysics(),
-            itemBuilder: (context, index) {
-              final story = store.getStories[index];
-
-              return story?.isAddButton ?? false
-                  ? StoryAddButton(onTap: () => print('addstory'))
-                  : StoryTile(story: story, onTap: () => print('on story tap'));
-            },
+        duration: Duration(milliseconds: 600),
+        child: ClipRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+            child: Opacity(
+              opacity: .9,
+              child: Container(
+                margin: widget.margin,
+                height: widget.show ? context.heightPlusStatusbarPerc(.08) : 0,
+                width: context.widthPx,
+                child: ListView.builder(
+                  itemCount: store.getStories.length,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  physics: BouncingScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    final story = store.getStories[index];
+                    return story?.isAddButton ?? false
+                        ? StoryAddButton(onTap: () => print('addstory'))
+                        : StoryTile(
+                            story: story, onTap: () => print('on story tap'));
+                  },
+                ),
+              ),
+            ),
           ),
         ),
       ),

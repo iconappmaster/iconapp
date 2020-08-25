@@ -20,8 +20,29 @@ import '../core/extensions/context_ext.dart';
 
 const debugEnableDeviceSimulator = false;
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  ScrollController _controller;
+  bool upDirection = true, flag = true;
+
+  @override
+  void initState() {
+    _controller = ScrollController()
+      ..addListener(() {
+        Future.delayed(Duration(milliseconds: 500), () {
+          upDirection = _controller.position.userScrollDirection ==
+              ScrollDirection.forward;
+          if (upDirection != flag) setState(() {});
+          flag = upDirection;
+        });
+      });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,14 +64,8 @@ class HomeScreen extends StatelessWidget {
                   alignment: Alignment.topCenter,
                   children: <Widget>[
                     IconAppbar(widget: DrawerIcon(scaffoldKey: _scaffoldKey)),
-                    Positioned(
-                      top: context.heightPlusStatusbarPerc(.128),
-                      child: StoriesList(
-                        mode: stories.mode,
-                        show: true,
-                      ),
-                    ),
                     ConversationsList(
+                      controller: _controller,
                       onConversationTap: (conversation) async {
                         await ExtendedNavigator.of(context).pushNamed(
                             Routes.chatScreen,
@@ -60,6 +75,13 @@ class HomeScreen extends StatelessWidget {
                         stories.getHomeStories();
                         home.getHome();
                       },
+                    ),
+                    Positioned(
+                      top: context.heightPlusStatusbarPerc(.11),
+                      child: StoriesList(
+                        mode: stories.mode,
+                        show: upDirection,
+                      ),
                     ),
                     Align(
                       alignment: Alignment.bottomCenter,
