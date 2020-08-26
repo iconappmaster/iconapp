@@ -57,7 +57,6 @@ class IconBubble extends StatelessWidget {
   final BubbleEdges padding;
   final bool isMe;
   final MessageModel message;
-
   const IconBubble({
     Key key,
     @required this.child,
@@ -76,10 +75,9 @@ class IconBubble extends StatelessWidget {
       onDoubleTap: onDoubleTap,
       onTap: onTap,
       child: Bubble(
-        
           elevation: 1,
           stick: true,
-          padding: padding ?? BubbleEdges.all(3),
+          padding: padding ?? BubbleEdges.all(5),
           margin: BubbleEdges.only(right: 9, top: 3, bottom: 3, left: 9),
           alignment: isMe ? Alignment.centerLeft : Alignment.centerRight,
           color: color,

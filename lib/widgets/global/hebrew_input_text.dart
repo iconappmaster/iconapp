@@ -26,11 +26,14 @@ class HebrewText extends StatelessWidget {
       child: Padding(
         padding: padding,
         child: Text(
+          
           text,
+          
           overflow: overflow,
           textAlign: textAlign,
           style: style,
           maxLines: maxLines,
+
         ),
       ),
     );

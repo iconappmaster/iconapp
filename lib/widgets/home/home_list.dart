@@ -44,7 +44,7 @@ class ConversationsList extends StatelessWidget {
                   padding: EdgeInsets.only(
                       bottom: context.heightPlusStatusbarPerc(.2),
                       top: context.heightPlusStatusbarPerc(.07)),
-                  physics: const BouncingScrollPhysics(),
+                  physics: BouncingScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     final conversation = store.conversations[index];
@@ -115,7 +115,8 @@ class ConversationTile extends StatelessWidget {
                       model?.lastMessage != null
                           ? HomeTileLastMessage(model: model?.lastMessage)
                           : HebrewText('אין הודעות',
-                              overflow: TextOverflow.fade,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.start,
                               style: lastWritten),
                     ],
@@ -161,34 +162,42 @@ class HomeTileLastMessage extends StatelessWidget {
   const HomeTileLastMessage({Key key, @required this.model}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        if (model?.sender?.fullName != null)
-          HebrewText('${model?.sender?.fullName ?? ''}:',
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width * .55
+      ),
+          child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          if (model?.sender?.fullName != null)
+            HebrewText('${model?.sender?.fullName ?? ''}:',
+                overflow: TextOverflow.fade,
+                textAlign: TextAlign.start,
+                style: lastWritten),
+
+          SizedBox(width: 3),
+
+          // if we have text
+          if (model?.messageType == MessageType.text)
+            Flexible(
+              child: HebrewText(model?.body ?? '',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  textAlign: TextAlign.start,
+                  style: lastWritten),
+            ),
+
+          if (model?.messageType != MessageType.text)
+            SvgPicture.asset(getImageType(), height: 20, width: 20),
+
+          SizedBox(width: 5),
+
+          HebrewText(getTextType(),
               overflow: TextOverflow.fade,
               textAlign: TextAlign.start,
               style: lastWritten),
-
-        SizedBox(width: 3),
-
-        // if we have text
-        if (model?.messageType == MessageType.text)
-          HebrewText(model?.body ?? '',
-              overflow: TextOverflow.fade,
-              textAlign: TextAlign.start,
-              style: lastWritten),
-
-        if (model?.messageType != MessageType.text)
-          SvgPicture.asset(getImageType(), height: 20, width: 20),
-
-        SizedBox(width: 5),
-
-        HebrewText(getTextType(),
-            overflow: TextOverflow.fade,
-            textAlign: TextAlign.start,
-            style: lastWritten),
-      ],
+        ],
+      ),
     );
   }
 

@@ -33,6 +33,7 @@ class SelectIconScreen extends StatelessWidget {
     final store = sl<CreateIconStore>();
     return Observer(
       builder: (_) => BaseGradientWidget(
+        gradient: grapeDarkIndigo,
         child: Container(
           child: Stack(
             children: <Widget>[

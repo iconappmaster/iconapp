@@ -32,7 +32,7 @@ class PhotoMessage extends StatelessWidget {
       child: Opacity(
         opacity: message.status == MessageStatus.pending ? .8 : 1,
         child: IconBubble(
-          onDoubleTap: () async => await store.likeMessage(message),
+          onDoubleTap: () => store.likeMessage(message),
           isMe: isMe,
           message: message,
           onTap: () => ExtendedNavigator.of(context).pushNamed(
@@ -44,12 +44,18 @@ class PhotoMessage extends StatelessWidget {
             children: [
               message.body.startsWith('http')
                   ? AspectRatio(
-                      aspectRatio: 1, child: NetworkPhoto(url: message.body))
+                      aspectRatio: 1,
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(4.2),
+                          child: NetworkPhoto(url: message.body)))
                   : AspectRatio(
                       aspectRatio: 1,
-                      child: Image.file(
-                        File(message.body),
-                        fit: BoxFit.cover,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(4.2),
+                        child: Image.file(
+                          File(message.body),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
               SizedBox(height: 5),

@@ -1,78 +1,164 @@
+import 'dart:async';
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
-import 'package:iconapp/core/dependencies/locator.dart';
-import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/data/models/message_model.dart';
-import 'package:iconapp/stores/chat/chat_store.dart';
-import 'package:iconapp/widgets/global/hebrew_input_text.dart';
-import 'package:iconapp/widgets/global/slidable/slidable.dart';
-import 'package:iconapp/widgets/global/slidable/slidable_action_pane.dart';
-import '../../core/extensions/int_ext.dart';
+import 'package:iconapp/core/bus.dart';
+import 'package:iconapp/widgets/chat/events/slide_event.dart';
+import 'reply_slider.dart';
 import 'bubble.dart';
+import '../../core/dependencies/locator.dart';
+import '../../core/theme.dart';
+import '../../data/models/message_model.dart';
+import '../../stores/chat/chat_store.dart';
+import '../global/hebrew_input_text.dart';
+import '../global/slidable/slidable.dart';
+import '../../core/extensions/int_ext.dart';
 
-class TextMessage extends StatelessWidget {
+Bus eventBus = Bus();
+
+class TextMessage extends StatefulWidget {
   final MessageModel message;
   final bool isMe;
+  final int index;
+
   const TextMessage({
     Key key,
     @required this.message,
     @required this.isMe,
+    @required this.index,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final color = message.status == MessageStatus.pending
-        ? blueBerry
-        : isMe ? darkIndigo2 : blueberry2;
+  _TextMessageState createState() => _TextMessageState();
+}
 
-    return Slidable(
-      actionPane: SlidableBehindActionPane(),
-      movementDuration: Duration(milliseconds: 350),
-      actionExtentRatio: .25,
-      child: Stack(
-        children: [
-          IconBubble(
-            padding: BubbleEdges.symmetric(horizontal: 12, vertical: 8),
-            message: message,
-            isMe: isMe,
-            onDoubleTap: () async => await sl<ChatStore>().likeMessage(message),
-            child: Stack(children: [
-              Container(
-                color: color,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    HebrewText(message.sender?.fullName ?? '',
-                        style: chatMessageName, textAlign: TextAlign.start),
-                    HebrewText(message?.body ?? '',
-                        style: chatMessageBody, textAlign: TextAlign.start),
-                  ],
-                ),
-              ),
-              Positioned(
-                left: 0,
-                bottom: 0,
-                child: HebrewText(message?.timestamp?.humanReadableTime() ?? '',
-                    style: chatMessageBody, textAlign: TextAlign.start),
-              )
-            ]),
-          ),
-          // if (message.likeCount > 0)
-        ],
-      ),
-      actions: [
-        Container(
-          color: cornflower,
-          child: IconButton(
-              icon: Icon(
-                Icons.reply,
-                color: white,
-              ),
-              onPressed: () {}),
-        )
-      ],
-      direction: Axis.horizontal,
+abstract class SlidableWidget<T extends StatefulWidget> extends State<T> {
+  SlidableController controller;
+  SlidableState slide;
+  StreamSubscription<SlidableOpenEvent> subscripbiton;
+  BuildContext _sliderContext;
+  bool _isOpen = false;
+  int index;
+
+  @override
+  void initState() {
+    super.initState();
+    subscripbiton = eventBus.on<SlidableOpenEvent>().listen((event) {
+      if (index != event.index && _sliderContext != null) {
+        Slidable.of(_sliderContext).close();
+      }
+    });
+
+    controller = SlidableController(
+      onSlideAnimationChanged: (value) => print(value),
+      onSlideIsOpenChanged: (isOpen) {
+        if (mounted) {
+          setState(() {
+            _isOpen = isOpen;
+          });
+        }
+
+        if (isOpen) {
+          eventBus.fire(SlidableOpenEvent(index));
+        }
+      },
     );
+  }
+}
+
+class _TextMessageState extends State<TextMessage> {
+  SlidableController controller;
+  SlidableState slide;
+  StreamSubscription<SlidableOpenEvent> subscripbiton;
+  BuildContext _sliderContext;
+  bool _isOpen = false;
+
+  @override
+  void initState() {
+    init();
+    super.initState();
+  }
+
+  void init() {
+    subscripbiton = eventBus.on<SlidableOpenEvent>().listen((event) {
+      if (widget.index != event.index && _sliderContext != null) {
+        Slidable.of(_sliderContext).close();
+      }
+    });
+
+    controller = SlidableController(
+      onSlideAnimationChanged: (value) => print(value),
+      onSlideIsOpenChanged: (isOpen) {
+        if (mounted) {
+          setState(() {
+            _isOpen = isOpen;
+          });
+        }
+
+        if (isOpen) {
+          eventBus.fire(SlidableOpenEvent(widget.index));
+        }
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final color = widget.message.status == MessageStatus.pending
+        ? blueBerry
+        : widget.isMe ? darkIndigo2 : blueberry2;
+    final chat = sl<ChatStore>();
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 250),
+      color: _isOpen ? darkBlueGrey : Colors.transparent,
+      child: ReplySlider(
+        isOpen: _isOpen,
+        keyName: widget.message.id.toString(),
+        controller: controller,
+        builder: _replyBuilder,
+        child: IconBubble(
+          padding: BubbleEdges.only(left: 4, right: 12, top: 8, bottom: 5),
+          message: widget.message,
+          isMe: widget.isMe,
+          onDoubleTap: () => chat.likeMessage(widget.message),
+          child: Stack(children: [
+            Container(
+              color: color,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  HebrewText(widget.message.sender?.fullName ?? '',
+                      style: chatMessageName, textAlign: TextAlign.start),
+                  SizedBox(height: 3),
+                  HebrewText(widget.message?.body ?? '',
+                      style: chatMessageBody, textAlign: TextAlign.start),
+                ],
+              ),
+            ),
+            Positioned(
+              left: 0,
+              bottom: 0,
+              child: HebrewText(
+                widget.message?.timestamp?.humanReadableTime() ?? '',
+                style: chatMessageBody.copyWith(fontSize: 9),
+                textAlign: TextAlign.start,
+              ),
+            )
+          ]),
+        ),
+      ),
+    );
+  }
+
+  Widget _replyBuilder(context, index, animation, step) {
+    _sliderContext = context;
+    return ReplyButton();
+  }
+
+  @override
+  void dispose() {
+    subscripbiton?.cancel();
+    super.dispose();
   }
 }

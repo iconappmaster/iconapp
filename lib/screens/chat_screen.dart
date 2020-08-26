@@ -197,7 +197,11 @@ class _ChatListState extends State<ChatList> {
 
             switch (message.messageType) {
               case MessageType.text:
-                return TextMessage(message: message, isMe: isMe);
+                return TextMessage(
+                  message: message,
+                  isMe: isMe,
+                  index: index,
+                );
               case MessageType.photo:
                 return PhotoMessage(message: message, isMe: isMe);
               case MessageType.video:

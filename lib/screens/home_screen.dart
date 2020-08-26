@@ -34,12 +34,10 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     _controller = ScrollController()
       ..addListener(() {
-        Future.delayed(Duration(milliseconds: 500), () {
-          upDirection = _controller.position.userScrollDirection ==
-              ScrollDirection.forward;
-          if (upDirection != flag) setState(() {});
-          flag = upDirection;
-        });
+        upDirection =
+            _controller.position.userScrollDirection == ScrollDirection.forward;
+        if (upDirection != flag) setState(() {});
+        flag = upDirection;
       });
     super.initState();
   }
@@ -80,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       top: context.heightPlusStatusbarPerc(.11),
                       child: StoriesList(
                         mode: stories.mode,
-                        show: upDirection,
+                        show: true,
                       ),
                     ),
                     Align(

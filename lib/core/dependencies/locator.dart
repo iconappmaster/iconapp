@@ -29,6 +29,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../data/repositories/user_repository.dart';
 import '../../stores/user/user_store.dart';
+import '../bus.dart';
 
 final sl = GetIt.I;
 
@@ -103,4 +104,7 @@ void initLocator() {
   sl.registerLazySingleton<StoryStore>(() => StoryStore());
   sl.registerLazySingleton<StoryRepository>(
       () => StoryRepositoryImpl(rest: sl()));
+
+  // Bus
+  sl.registerLazySingleton<Bus>(() => Bus());
 }
