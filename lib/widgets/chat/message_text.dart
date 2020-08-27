@@ -31,40 +31,6 @@ class TextMessage extends StatefulWidget {
   _TextMessageState createState() => _TextMessageState();
 }
 
-abstract class SlidableWidget<T extends StatefulWidget> extends State<T> {
-  SlidableController controller;
-  SlidableState slide;
-  StreamSubscription<SlidableOpenEvent> subscripbiton;
-  BuildContext _sliderContext;
-  bool _isOpen = false;
-  int index;
-
-  @override
-  void initState() {
-    super.initState();
-    subscripbiton = eventBus.on<SlidableOpenEvent>().listen((event) {
-      if (index != event.index && _sliderContext != null) {
-        Slidable.of(_sliderContext).close();
-      }
-    });
-
-    controller = SlidableController(
-      onSlideAnimationChanged: (value) => print(value),
-      onSlideIsOpenChanged: (isOpen) {
-        if (mounted) {
-          setState(() {
-            _isOpen = isOpen;
-          });
-        }
-
-        if (isOpen) {
-          eventBus.fire(SlidableOpenEvent(index));
-        }
-      },
-    );
-  }
-}
-
 class _TextMessageState extends State<TextMessage> {
   SlidableController controller;
   SlidableState slide;

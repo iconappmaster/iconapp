@@ -1,32 +1,31 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:iconapp/data/repositories/auth_repository.dart';
-import 'package:iconapp/data/repositories/chat_repository.dart';
-import 'package:iconapp/data/repositories/chat_settings_repository.dart';
-import 'package:iconapp/data/repositories/create_repository.dart';
-import 'package:iconapp/data/repositories/home_repository.dart';
-import 'package:iconapp/data/repositories/login_repository.dart';
-import 'package:iconapp/data/repositories/media_repository.dart';
-import 'package:iconapp/data/repositories/search_repository.dart';
-import 'package:iconapp/data/repositories/story_repository.dart';
-import 'package:iconapp/data/sources/local/shared_preferences.dart';
-import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
-import 'package:iconapp/stores/auth/auth_store.dart';
-import 'package:iconapp/stores/chat/chat_store.dart';
-import 'package:iconapp/stores/chat_settings/chat_settings_store.dart';
-import 'package:iconapp/stores/create/create_category_store.dart';
-import 'package:iconapp/stores/create/create_details_store.dart';
-import 'package:iconapp/stores/create/create_icon_store.dart';
-import 'package:iconapp/stores/home/home_store.dart';
-import 'package:iconapp/stores/login/login_store.dart';
-import 'package:iconapp/stores/media/media_store.dart';
-import 'package:iconapp/stores/oboarding/onboarding_store.dart';
-import 'package:iconapp/stores/results/search_results_store.dart';
-import 'package:iconapp/stores/search/search_store.dart';
-import 'package:iconapp/stores/socket/socket_manager.dart';
-import 'package:iconapp/stores/story/story_store.dart';
 import 'package:image_picker/image_picker.dart';
-
+import '../../data/repositories/auth_repository.dart';
+import '../../data/repositories/chat_repository.dart';
+import '../../data/repositories/chat_settings_repository.dart';
+import '../../data/repositories/create_repository.dart';
+import '../../data/repositories/home_repository.dart';
+import '../../data/repositories/login_repository.dart';
+import '../../data/repositories/media_repository.dart';
+import '../../data/repositories/search_repository.dart';
+import '../../data/repositories/story_repository.dart';
+import '../../data/sources/local/shared_preferences.dart';
+import '../../data/sources/remote/rest/rest_client.dart';
+import '../../stores/auth/auth_store.dart';
+import '../../stores/chat/chat_store.dart';
+import '../../stores/chat_settings/chat_settings_store.dart';
+import '../../stores/create/create_category_store.dart';
+import '../../stores/create/create_details_store.dart';
+import '../../stores/create/create_icon_store.dart';
+import '../../stores/home/home_store.dart';
+import '../../stores/login/login_store.dart';
+import '../../stores/media/media_store.dart';
+import '../../stores/oboarding/onboarding_store.dart';
+import '../../stores/results/search_results_store.dart';
+import '../../stores/search/search_store.dart';
+import '../../stores/socket/socket_manager.dart';
+import '../../stores/story/story_store.dart';
 import '../../data/repositories/user_repository.dart';
 import '../../stores/user/user_store.dart';
 import '../bus.dart';
@@ -81,8 +80,11 @@ void initLocator() {
   sl.registerLazySingleton<ChatSettingsStore>(() => ChatSettingsStore());
   sl.registerLazySingleton<ChatSettingsRepository>(
       () => ChatSettingsRepositoryImpl(restClient: sl()));
-  sl.registerLazySingleton<ChatRepository>(
-      () => ChatRepositoryImpl(restClient: sl(), socket: sl()));
+  sl.registerLazySingleton<ChatRepository>(() => ChatRepositoryImpl(
+        remote: sl(),
+        socket: sl(),
+        cache: sl(),
+      ));
 
   // Conversation create
   sl.registerLazySingleton<CreateCategoryStore>(() => CreateCategoryStore());

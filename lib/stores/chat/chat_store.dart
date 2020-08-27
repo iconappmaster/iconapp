@@ -7,6 +7,7 @@ import 'package:iconapp/data/models/likes.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/repositories/chat_repository.dart';
+import 'package:iconapp/domain/core/errors.dart';
 import 'package:iconapp/stores/chat/chat_state.dart';
 import 'package:iconapp/stores/chat_settings/chat_settings_store.dart';
 import 'package:iconapp/stores/media/media_store.dart';
@@ -100,18 +101,32 @@ abstract class _ChatStoreBase with Store {
   }
 
   @action
+  Future getCached() async {
+    final local = await _repository.getCachedConversation(conversation.id);
+    if (local != null) {
+      updateUi(local);
+    }
+  }
+
+  @action
   Future getConversation() async {
     try {
       _state = _state.copyWith(loading: true);
-      final result = await _repository.getConversaion(conversation.id);
-      _conversation = result;
-      _determineComposerMode();
-      _addMessages();
-    } on Exception catch (e) {
+      await getCached();
+      final remote = await _repository.getRemoteConversaion(conversation.id);
+      updateUi(remote);
+      _repository.cacheConversation(conversation);
+    } on ServerError catch (e) {
       print(e);
     } finally {
       _state = _state.copyWith(loading: false);
     }
+  }
+
+  void updateUi(Conversation remote) {
+    _conversation = remote;
+    _determineComposerMode();
+    _addAllMessages();
   }
 
   @action
@@ -128,17 +143,16 @@ abstract class _ChatStoreBase with Store {
   }
 
   @action
-  void _addMessages() {
+  void _addAllMessages() {
     if (_messages.isNotEmpty) _messages.clear();
-    if (conversation.messages.isNotEmpty)
-      _messages.addAll(conversation.messages);
+    _messages.addAll(conversation.messages);
   }
 
   @action
   void _determineComposerMode() {
     final isViewer = conversation.userRole == UserRole.viewer;
     final isSubscribed = conversation?.isSubscribed ?? false;
- 
+
     if (isViewer) {
       if (isSubscribed) {
         _composerMode = ComposerMode.viewer;

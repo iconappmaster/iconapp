@@ -74,18 +74,18 @@ class ComposerInput extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 60.0, right: 10),
       child: TextFormField(
-        controller: controller,
-        key: key,
-        maxLines: null,
-        decoration: InputDecoration(
-            hintStyle: chatCompose,
-            hintText: LocaleKeys.chat_messageInputHint.tr(),
-            focusedBorder: transparentBorder,
-            enabledBorder: transparentBorder,
-            border: transparentBorder),
-        onChanged: (input) => store.updateInputText(input),
-        style: chatCompose,
-      ),
+          autofocus: false,
+          controller: controller,
+          key: key,
+          maxLines: null,
+          decoration: InputDecoration(
+              hintStyle: chatCompose,
+              hintText: LocaleKeys.chat_messageInputHint.tr(),
+              focusedBorder: transparentBorder,
+              enabledBorder: transparentBorder,
+              border: transparentBorder),
+          onChanged: (input) => store.updateInputText(input),
+          style: chatCompose),
     );
   }
 }

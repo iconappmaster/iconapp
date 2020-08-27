@@ -119,6 +119,13 @@ mixin _$ChatStore on _ChatStoreBase, Store {
     return _$unsubscribeAsyncAction.run(() => super.unsubscribe());
   }
 
+  final _$getCachedAsyncAction = AsyncAction('_ChatStoreBase.getCached');
+
+  @override
+  Future<dynamic> getCached() {
+    return _$getCachedAsyncAction.run(() => super.getCached());
+  }
+
   final _$getConversationAsyncAction =
       AsyncAction('_ChatStoreBase.getConversation');
 
@@ -199,11 +206,11 @@ mixin _$ChatStore on _ChatStoreBase, Store {
       ActionController(name: '_ChatStoreBase');
 
   @override
-  void _addMessages() {
+  void _addAllMessages() {
     final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
-        name: '_ChatStoreBase._addMessages');
+        name: '_ChatStoreBase._addAllMessages');
     try {
-      return super._addMessages();
+      return super._addAllMessages();
     } finally {
       _$_ChatStoreBaseActionController.endAction(_$actionInfo);
     }

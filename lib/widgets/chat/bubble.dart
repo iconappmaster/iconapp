@@ -71,6 +71,7 @@ class IconBubble extends StatelessWidget {
     final color = message.status == MessageStatus.pending
         ? blueBerry
         : isMe ? darkIndigo2 : blueberry2;
+  
     return GestureDetector(
       onDoubleTap: onDoubleTap,
       onTap: onTap,

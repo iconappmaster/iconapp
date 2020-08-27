@@ -21,6 +21,9 @@ class CodegenLoader extends AssetLoader{
     "prefix": " שלנו",
     "title": "תנאי שימוש"
   },
+  "search": {
+    "empty_state": "לא מצאנו את מה שחיפשת\nנסה/י להקליד משהו אחר"
+  },
   "general": {
     "server_error": "תקלה בשרת, אנא נסה שנית",
     "iGotIt": "הבנתי, תודה!"

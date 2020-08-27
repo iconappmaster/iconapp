@@ -1,12 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/message_model.dart';
+import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 import 'package:iconapp/stores/socket/socket_manager.dart';
 import '../../core/extensions/string_ext.dart';
+import '../../core/extensions/int_ext.dart';
 
 abstract class ChatRepository {
-  Future<Conversation> getConversaion(int chatId);
+  Future<Conversation> getRemoteConversaion(int chatId);
+  Future<Conversation> getCachedConversation(int chatId);
+  Future<bool> cacheConversation(Conversation conversation);
   Future<MessageModel> sendMessage(int conversationId, MessageModel message);
   Future<Conversation> subscribe(int id);
   Future<Conversation> unsubscribe(int id);
@@ -18,43 +24,62 @@ abstract class ChatRepository {
 }
 
 class ChatRepositoryImpl implements ChatRepository {
-  final RestClient restClient;
+  final RestClient remote;
+  final SharedPreferencesService cache;
   final SocketStore socket;
 
   ChatRepositoryImpl({
-    @required this.restClient,
+    @required this.remote,
+    @required this.cache,
     @required this.socket,
   });
 
   @override
-  Future<Conversation> getConversaion(int chatId) async {
-    return await restClient.getConversaion(chatId);
+  Future<Conversation> getRemoteConversaion(int chatId) async {
+    return await remote.getConversaion(chatId);
+  }
+
+  @override
+  Future<Conversation> getCachedConversation(int id) async {
+    if (cache.containsCustom(id.converastionKey())) {
+      final json = await cache.getCustomString(id.converastionKey());
+      final conversation = Conversation.fromJson(jsonDecode(json));
+      return conversation;
+    }
+
+    return null;
+  }
+
+  @override
+  Future<bool> cacheConversation(Conversation conversation) async {
+    final json = jsonEncode(conversation);
+    return await cache.setCustomString(conversation.id.converastionKey(), json);
   }
 
   @override
   Future<Conversation> subscribe(int id) async {
-    return await restClient.subscribe(id);
+    return await remote.subscribe(id);
   }
 
   @override
   Future<Conversation> unsubscribe(int id) async {
-    return await restClient.unsubscribe(id);
+    return await remote.unsubscribe(id);
   }
 
   @override
   Future<MessageModel> likeMessage(int messageId) async {
-    return await restClient.likeMessage(messageId);
+    return await remote.likeMessage(messageId);
   }
 
   @override
   Future<MessageModel> unlikeMessage(int messageId) async {
-    return await restClient.unlikeMessage(messageId);
+    return await remote.unlikeMessage(messageId);
   }
 
   @override
   Future<MessageModel> sendMessage(
       int conversationId, MessageModel message) async {
-    return await restClient.sendMessage(
+    return await remote.sendMessage(
       conversationId,
       message.body,
       message.messageType.toString().parseEnum(),
@@ -69,11 +94,11 @@ class ChatRepositoryImpl implements ChatRepository {
 
   @override
   Future pinConversation(int conversationId, bool isPinned) async {
-    return await restClient.pinConversation(conversationId, isPinned);
+    return await remote.pinConversation(conversationId, isPinned);
   }
 
   @override
   Future conversationViewed(int conversationId) async {
-    return await restClient.viewedConversation(conversationId);
+    return await remote.viewedConversation(conversationId);
   }
 }

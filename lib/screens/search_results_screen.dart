@@ -5,12 +5,15 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/results/search_results_store.dart';
 import 'package:iconapp/widgets/global/back_button.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
+import 'package:iconapp/widgets/global/search_empty.dart';
 import '../core/extensions/context_ext.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 enum SearchResulsMode { icons, categories }
 
@@ -41,31 +44,33 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
   Widget build(BuildContext context) {
     final store = sl<SearchResultStore>();
     return Scaffold(
+      backgroundColor: white,
       body: Observer(
         builder: (_) => Stack(children: [
           Column(
             children: <Widget>[
               _Appbar(title: widget.name),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: BouncingScrollPhysics(),
-                itemCount: store.count,
-                itemBuilder: (_, index) {
-                  final conversation = store.mode == SearchResulsMode.categories
-                      ? store.categories[index]
-                      : store.icons[index];
-
-                  return SearchResultTile(
-                    conversation: conversation,
-                    onTap: () => ExtendedNavigator.of(context).pushNamed(
-                      Routes.chatScreen,
-                      arguments: ChatScreenArguments(
-                        conversation: conversation,
-                      ),
-                    ),
-                  );
-                },
-              )
+              store.isEmpty && !store.isLoading
+                  ? SearchEmpty(text: LocaleKeys.search_empty_state.tr())
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      physics: BouncingScrollPhysics(),
+                      itemCount: store.count,
+                      itemBuilder: (_, index) {
+                        final conversation =
+                            store.mode == SearchResulsMode.categories
+                                ? store.categories[index]
+                                : store.icons[index];
+                        return SearchResultTile(
+                          conversation: conversation,
+                          onTap: () => ExtendedNavigator.of(context).pushNamed(
+                            Routes.chatScreen,
+                            arguments:
+                                ChatScreenArguments(conversation: conversation),
+                          ),
+                        );
+                      },
+                    )
             ],
           ),
           if (store.isLoading) Center(child: CircularProgressIndicator())

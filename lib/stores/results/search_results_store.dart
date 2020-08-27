@@ -48,6 +48,11 @@ abstract class _SearchResultStoreBase with Store {
   @computed
   SearchResulsMode get mode => _mode;
 
+  @computed
+  bool get isEmpty => _mode == SearchResulsMode.icons
+      ? _iconConversations.isEmpty
+      : _categoryConversation.isEmpty;
+
   @action
   void setMode(SearchResulsMode mode) {
     _mode = mode;

@@ -72,7 +72,8 @@ class _ChatScreenState extends State<ChatScreen> {
           children: [
             Container(
               decoration: BoxDecoration(
-                gradient: gradientList[chat.conversation.backgroundColor ?? 0],
+                gradient:
+                    gradientList[chat?.conversation?.backgroundColor ?? 0],
               ),
               child: Column(
                 children: <Widget>[

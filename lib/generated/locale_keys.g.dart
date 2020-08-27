@@ -9,6 +9,8 @@ abstract class  LocaleKeys {
   static const policy_prefix = 'policy.prefix';
   static const policy_title = 'policy.title';
   static const policy = 'policy';
+  static const search_empty_state = 'search.empty_state';
+  static const search = 'search';
   static const general_server_error = 'general.server_error';
   static const general_iGotIt = 'general.iGotIt';
   static const general = 'general';

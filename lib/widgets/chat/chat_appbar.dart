@@ -24,14 +24,15 @@ class ChatAppbar extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               ChatBackButton(
-                  url: store.conversation.backgroundPhoto?.url ?? ''),
+                  url: store.conversation?.backgroundPhoto?.url ?? ''),
               SizedBox(width: 8),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    HebrewText(store.conversation.name, style: loginBigText),
+                    HebrewText(store?.conversation?.name ?? '',
+                        style: loginBigText),
                     HebrewText('12,000 משתתפים',
                         style: fieldLabel), // should come from socket
                   ],
@@ -45,7 +46,7 @@ class ChatAppbar extends StatelessWidget {
                     duration: Duration(milliseconds: 300),
                     transitionBuilder: (child, animation) =>
                         ScaleTransition(scale: animation, child: child),
-                    child: store.conversation.isPinned
+                    child: store.conversation?.isPinned ?? false
                         ? SvgPicture.asset('assets/images/pin_purple.svg',
                             key: const Key('pinned'), height: 26, width: 26)
                         : SvgPicture.asset('assets/images/pin.svg',

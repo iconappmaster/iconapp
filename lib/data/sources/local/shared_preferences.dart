@@ -7,13 +7,14 @@ enum StorageKey {
   tabPosition,
   signedIn,
   welcomeDialog,
+  conversation,
 }
 
 class SharedPreferencesService {
   SharedPreferences _sharedPreferences;
   List<StorageKey> keepKeysOnVersionUpdate = [StorageKey.user];
   List<StorageKey> keepKeysOnLogout = [];
-  
+
   Future<void> init() async {
     _sharedPreferences = await SharedPreferences.getInstance();
   }
@@ -21,8 +22,13 @@ class SharedPreferencesService {
   Future<bool> setString(StorageKey key, String value) async =>
       await _sharedPreferences.setString(key.toString(), value);
 
+  Future<bool> setCustomString(String key, String value) async =>
+      await _sharedPreferences.setString(key, value);
+
   String getString(StorageKey key) =>
       _sharedPreferences.getString(key.toString());
+
+  String getCustomString(String key) => _sharedPreferences.getString(key);
 
   void remove(StorageKey key) async {
     await _sharedPreferences.remove(key.toString());
@@ -30,6 +36,10 @@ class SharedPreferencesService {
 
   bool contains(StorageKey key) {
     return _sharedPreferences.containsKey(key.toString());
+  }
+
+  bool containsCustom(String key) {
+    return _sharedPreferences.containsKey(key);
   }
 
   void setStringList(StorageKey key, List<String> list) async =>

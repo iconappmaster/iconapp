@@ -5,6 +5,13 @@ import 'package:iconapp/core/theme.dart';
 import 'hebrew_input_text.dart';
 
 class SearchEmpty extends StatelessWidget {
+  final String text;
+
+  const SearchEmpty({
+    Key key,
+    @required this.text,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -21,10 +28,7 @@ class SearchEmpty extends StatelessWidget {
               height: 124,
             ),
             SizedBox(height: 34.7),
-            HebrewText(
-              'לא מצאנו את מה שחיפשת\nנסה/י להקליד משהו אחר',
-              style: emptyState,
-            )
+            HebrewText(text, style: emptyState)
           ],
         ),
       ),

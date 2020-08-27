@@ -4,13 +4,14 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/screens/search_results_screen.dart';
 import 'package:iconapp/stores/search/search_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
 import 'package:iconapp/widgets/global/search_empty.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 class CategorySearchWidget extends StatelessWidget {
   final ScrollController controller;
 
@@ -24,7 +25,7 @@ class CategorySearchWidget extends StatelessWidget {
     final store = sl<SearchStore>();
     return Observer(
       builder: (_) => store.isEmpty
-          ? SearchEmpty()
+          ? SearchEmpty(text: LocaleKeys.search_empty_state.tr())
           : ListView.builder(
               itemCount: store.getCategories.length,
               controller: controller,

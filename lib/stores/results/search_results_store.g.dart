@@ -42,6 +42,12 @@ mixin _$SearchResultStore on _SearchResultStoreBase, Store {
       (_$modeComputed ??= Computed<SearchResulsMode>(() => super.mode,
               name: '_SearchResultStoreBase.mode'))
           .value;
+  Computed<bool> _$isEmptyComputed;
+
+  @override
+  bool get isEmpty => (_$isEmptyComputed ??= Computed<bool>(() => super.isEmpty,
+          name: '_SearchResultStoreBase.isEmpty'))
+      .value;
 
   final _$idAtom = Atom(name: '_SearchResultStoreBase.id');
 
@@ -152,7 +158,8 @@ categories: ${categories},
 icons: ${icons},
 loading: ${loading},
 count: ${count},
-mode: ${mode}
+mode: ${mode},
+isEmpty: ${isEmpty}
     ''';
   }
 }
