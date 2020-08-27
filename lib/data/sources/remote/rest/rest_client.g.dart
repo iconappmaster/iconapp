@@ -507,10 +507,11 @@ class _RestClient implements RestClient {
   }
 
   @override
-  likeMessage(id) async {
+  likeMessage(id, likeType) async {
     ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(likeType, 'likeType');
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'likeType': likeType};
     final _data = <String, dynamic>{};
     final Response<Map<String, dynamic>> _result = await _dio.request(
         'messages/$id/like_message',

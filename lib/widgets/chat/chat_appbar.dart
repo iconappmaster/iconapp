@@ -33,7 +33,7 @@ class ChatAppbar extends StatelessWidget {
                   children: <Widget>[
                     HebrewText(store?.conversation?.name ?? '',
                         style: loginBigText),
-                    HebrewText('12,000 משתתפים',
+                    HebrewText('${store.conversation?.numberOfParticipants ?? 0} משתתפים',
                         style: fieldLabel), // should come from socket
                   ],
                 ),

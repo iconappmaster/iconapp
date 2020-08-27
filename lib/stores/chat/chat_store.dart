@@ -185,7 +185,7 @@ abstract class _ChatStoreBase with Store {
         final message = await _repository.unlikeMessage(msg.id);
         _messages[_messages.indexOf(msg)] = message;
       } else {
-        final message = await _repository.likeMessage(msg.id);
+        final message = await _repository.likeMessage(msg.id, 'like_1');
         _messages[_messages.indexOf(msg)] = message;
       }
     } on DioError catch (e) {

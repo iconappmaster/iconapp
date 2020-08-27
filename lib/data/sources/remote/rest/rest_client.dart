@@ -113,7 +113,8 @@ abstract class RestClient {
   );
 
   @POST('messages/{messageId}/like_message')
-  Future<MessageModel> likeMessage(@Path('messageId') int id);
+  Future<MessageModel> likeMessage(
+      @Path('messageId') int id, @Query('likeType') String likeType);
 
   @POST('messages/{messageId}/unlike_message')
   Future<MessageModel> unlikeMessage(@Path('messageId') int id);

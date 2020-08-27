@@ -28,6 +28,7 @@ abstract class Conversation with _$Conversation {
     final List<MessageModel> messages,
     final bool isSubscribed,
     final int numberOfAdminsRemaining,
+    final int numberOfParticipants,
     final bool areNotificationsEnabled,
     final UserRole userRole,
   }) = _Conversation;

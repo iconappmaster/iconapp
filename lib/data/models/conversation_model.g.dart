@@ -37,6 +37,7 @@ _$_Conversation _$_$_ConversationFromJson(Map<String, dynamic> json) {
         ?.toList(),
     isSubscribed: json['isSubscribed'] as bool,
     numberOfAdminsRemaining: json['numberOfAdminsRemaining'] as int,
+    numberOfParticipants: json['numberOfParticipants'] as int,
     areNotificationsEnabled: json['areNotificationsEnabled'] as bool,
     userRole: _$enumDecodeNullable(_$UserRoleEnumMap, json['userRole']),
   );
@@ -59,6 +60,7 @@ Map<String, dynamic> _$_$_ConversationToJson(_$_Conversation instance) =>
       'messages': instance.messages,
       'isSubscribed': instance.isSubscribed,
       'numberOfAdminsRemaining': instance.numberOfAdminsRemaining,
+      'numberOfParticipants': instance.numberOfParticipants,
       'areNotificationsEnabled': instance.areNotificationsEnabled,
       'userRole': _$UserRoleEnumMap[instance.userRole],
     };

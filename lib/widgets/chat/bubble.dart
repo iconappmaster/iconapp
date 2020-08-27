@@ -71,22 +71,31 @@ class IconBubble extends StatelessWidget {
     final color = message.status == MessageStatus.pending
         ? blueBerry
         : isMe ? darkIndigo2 : blueberry2;
-  
-    return GestureDetector(
-      onDoubleTap: onDoubleTap,
-      onTap: onTap,
-      child: Bubble(
-          elevation: 1,
-          stick: true,
-          padding: padding ?? BubbleEdges.all(5),
-          margin: BubbleEdges.only(right: 9, top: 3, bottom: 3, left: 9),
-          alignment: isMe ? Alignment.centerLeft : Alignment.centerRight,
-          color: color,
-          nip: isMe ? BubbleNip.leftTop : BubbleNip.rightTop,
-          child: ConstrainedBox(
-            constraints: BoxConstraints(minWidth: 80, minHeight: 55),
-            child: child,
-          )),
+
+    return Stack(
+      fit: StackFit.loose,
+      children: [
+        GestureDetector(
+          onDoubleTap: onDoubleTap,
+          onTap: onTap,
+          child: Bubble(
+              elevation: 1,
+              stick: true,
+              padding: padding ?? BubbleEdges.all(5),
+              margin: BubbleEdges.only(right: 9, top: 5, bottom: 5, left: 9),
+              alignment: isMe ? Alignment.centerLeft : Alignment.centerRight,
+              color: color,
+              nip: isMe ? BubbleNip.leftTop : BubbleNip.rightTop,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minWidth: 80, minHeight: 55),
+                child: child,
+              )),
+        ),
+        Positioned(
+          left: isMe ? 20 : 0,
+          child: LikeBubble(isLiked: true, likeNumber: 3),
+        ),
+      ],
     );
   }
 }
