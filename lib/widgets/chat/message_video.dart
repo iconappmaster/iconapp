@@ -3,10 +3,8 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/routes/router.gr.dart';
-import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/chat/reply_slider.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
 import 'package:iconapp/widgets/global/slidable_widget.dart';
@@ -27,7 +25,6 @@ class VideoMessage extends StatefulWidget {
 }
 
 class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
- 
   @override
   void initState() {
     super.init();
@@ -36,7 +33,6 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
 
   @override
   Widget build(BuildContext context) {
-    final store = sl<ChatStore>();
     return ReplySlider(
       keyName: widget.message.id.toString(),
       isOpen: isOpen,
@@ -46,7 +42,7 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
         return ReplyButton();
       },
       child: IconBubble(
-        onDoubleTap: () async => await store.likeMessage(widget.message),
+        // onDoubleTap: () async => await store.likeMessage(widget.message),
         isMe: widget.isMe,
         message: widget.message,
         onTap: () => ExtendedNavigator.of(context).pushNamed(

@@ -1,11 +1,7 @@
-import 'dart:convert';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
-import 'package:iconapp/data/sources/local/shared_preferences.dart';
 
 part 'conversation_model.freezed.dart';
 part 'conversation_model.g.dart';

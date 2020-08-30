@@ -1,54 +1,10 @@
 // MESSAGE TYPES
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/message_model.dart';
-import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 
-class LikeBubble extends StatelessWidget {
-  final bool isLiked;
-  final int likeNumber;
-
-  const LikeBubble({
-    Key key,
-    @required this.isLiked,
-    @required this.likeNumber,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.topCenter,
-      height: 19,
-      decoration: BoxDecoration(
-        color: blueberry3,
-        borderRadius: BorderRadius.circular(13.3),
-      ),
-      child: Container(
-        height: 16,
-        padding: EdgeInsets.all(4),
-        alignment: Alignment.topCenter,
-        decoration: BoxDecoration(
-          color: cornflower,
-          borderRadius: BorderRadius.circular(13.3),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-                isLiked
-                    ? 'assets/images/like_red.svg'
-                    : 'assets/images/like.svg',
-                height: 12,
-                width: 12),
-            HebrewText(likeNumber.toString(), style: likeStyle)
-          ],
-        ),
-      ),
-    );
-  }
-}
+import 'like_buuble.dart';
 
 class IconBubble extends StatelessWidget {
   final Widget child;
@@ -72,30 +28,82 @@ class IconBubble extends StatelessWidget {
         ? blueBerry
         : isMe ? darkIndigo2 : blueberry2;
 
-    return Stack(
-      fit: StackFit.loose,
+    final horizontalLikePadding = EdgeInsets.symmetric(horizontal: 3);
+
+    return Column(
       children: [
-        GestureDetector(
-          onDoubleTap: onDoubleTap,
-          onTap: onTap,
-          child: Bubble(
-              elevation: 1,
-              stick: true,
-              padding: padding ?? BubbleEdges.all(5),
-              margin: BubbleEdges.only(right: 9, top: 5, bottom: 5, left: 9),
-              alignment: isMe ? Alignment.centerLeft : Alignment.centerRight,
-              color: color,
-              nip: isMe ? BubbleNip.leftTop : BubbleNip.rightTop,
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minWidth: 80, minHeight: 55),
-                child: child,
-              )),
+        Stack(
+          fit: StackFit.loose,
+          children: [
+            GestureDetector(
+              onDoubleTap: onDoubleTap,
+              onTap: onTap,
+              child: Bubble(
+                  elevation: 1,
+                  stick: true,
+                  padding: padding ?? BubbleEdges.symmetric(horizontal: 5),
+                  margin:
+                      BubbleEdges.only(right: 9, top: 5, bottom: 5, left: 9),
+                  alignment:
+                      isMe ? Alignment.centerLeft : Alignment.centerRight,
+                  color: color,
+                  nip: isMe ? BubbleNip.leftTop : BubbleNip.rightTop,
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(minWidth: 80, minHeight: 55),
+                    child: child,
+                  )),
+            ),
+            Positioned(
+              left: isMe ? 25 : null,
+              right: isMe ? null : 25,
+              child: LikeBubble(likeAsset: message?.likeType),
+            ),
+          ],
         ),
-        Positioned(
-          left: isMe ? 20 : 0,
-          child: LikeBubble(isLiked: true, likeNumber: 3),
-        ),
+        // if (showLikeIndicator)/
+
+        AnimatedContainer(
+          duration: Duration(milliseconds: 250),
+          height: showLikeIndicator ? 25 : 0,
+          child: Padding(
+            padding: EdgeInsets.only(
+              left: isMe ? 16 : 0,
+              right: isMe ? 0 : 16,
+              bottom: 4.7,
+            ),
+            child: Row(
+              mainAxisAlignment:
+                  isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+              children: [
+                if ((message.likeCounts.like1 > 0) ?? false)
+                  LikeBubble(
+                    likeAsset: likeOneKey,
+                    padding: horizontalLikePadding,
+                    count: message?.likeCounts?.like1 ?? 0,
+                  ),
+                if (message.likeCounts.like2 > 0 ?? false)
+                  LikeBubble(
+                    likeAsset: likeTwoKey,
+                    padding: horizontalLikePadding,
+                    count: message.likeCounts?.like2 ?? 0,
+                  ),
+                if (message.likeCounts.like3 > 0 ?? false)
+                  LikeBubble(
+                    likeAsset: likeThreeKey,
+                    padding: horizontalLikePadding,
+                    count: message.likeCounts?.like3 ?? 0,
+                  ),
+              ],
+            ),
+          ),
+        )
       ],
     );
   }
+
+  bool get showLikeIndicator =>
+      message.likeCounts.like1 > 0 ??
+      false || message.likeCounts.like2 > 0 ??
+      false || message.likeCounts.like3 > 0 ??
+      false;
 }

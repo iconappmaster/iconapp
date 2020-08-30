@@ -17,7 +17,7 @@ abstract class ChatRepository {
   Future<Conversation> subscribe(int id);
   Future<Conversation> unsubscribe(int id);
   Future<MessageModel> likeMessage(int messageId, String likeType);
-  Future<MessageModel> unlikeMessage(int messageId);
+  Future<MessageModel> unlikeMessage(int messageId, String likeType);
   Stream<MessageModel> watchMessages();
   Future pinConversation(int conversationId, bool isPinned);
   Future conversationViewed(int conversationId);
@@ -72,8 +72,8 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<MessageModel> unlikeMessage(int messageId) async {
-    return await remote.unlikeMessage(messageId);
+  Future<MessageModel> unlikeMessage(int messageId, String likeType) async {
+    return await remote.unlikeMessage(messageId, likeType);
   }
 
   @override

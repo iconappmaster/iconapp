@@ -152,11 +152,13 @@ mixin _$ChatStore on _ChatStoreBase, Store {
         .run(() => super._setConversationViewed());
   }
 
-  final _$likeMessageAsyncAction = AsyncAction('_ChatStoreBase.likeMessage');
+  final _$likeUnlikeMessageAsyncAction =
+      AsyncAction('_ChatStoreBase.likeUnlikeMessage');
 
   @override
-  Future<dynamic> likeMessage(MessageModel msg) {
-    return _$likeMessageAsyncAction.run(() => super.likeMessage(msg));
+  Future<dynamic> likeUnlikeMessage(MessageModel msg, String likeType) {
+    return _$likeUnlikeMessageAsyncAction
+        .run(() => super.likeUnlikeMessage(msg, likeType));
   }
 
   final _$sendTextMessageAsyncAction =

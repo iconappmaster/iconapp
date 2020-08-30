@@ -9,6 +9,7 @@ part 'message_model.freezed.dart';
 abstract class MessageModel with _$MessageModel {
   const factory MessageModel({
     final int id,
+    final int localId, // used for changes on the message
     final int timestamp,
     final String body,
     final bool wasSeen,
@@ -28,3 +29,6 @@ abstract class MessageModel with _$MessageModel {
 enum MessageStatus { pending, sent }
 enum MessageType { text, photo, video, voice, system }
 enum LikeType { like_1, like_2, like_3, like_4, like_5 }
+const likeOneKey = 'like_1';
+const likeTwoKey = 'like_2';
+const likeThreeKey = 'like_3';

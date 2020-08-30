@@ -59,7 +59,7 @@ class _StoriesListState extends State<StoriesList>
               opacity: .9,
               child: Container(
                 margin: widget.margin,
-                height: widget.show ? context.heightPlusStatusbarPerc(.08) : 0,
+                height: widget.show ? context.heightPlusStatusbarPerc(.09) : 0,
                 width: context.widthPx,
                 child: ListView.builder(
                   itemCount: store.getStories.length,

@@ -18,6 +18,7 @@ class _$MessageModelTearOff {
 // ignore: unused_element
   _MessageModel call(
       {int id,
+      int localId,
       int timestamp,
       String body,
       bool wasSeen,
@@ -30,6 +31,7 @@ class _$MessageModelTearOff {
       String repliedToMessageId}) {
     return _MessageModel(
       id: id,
+      localId: localId,
       timestamp: timestamp,
       body: body,
       wasSeen: wasSeen,
@@ -49,6 +51,7 @@ const $MessageModel = _$MessageModelTearOff();
 
 mixin _$MessageModel {
   int get id;
+  int get localId;
   int get timestamp;
   String get body;
   bool get wasSeen;
@@ -70,6 +73,7 @@ abstract class $MessageModelCopyWith<$Res> {
       _$MessageModelCopyWithImpl<$Res>;
   $Res call(
       {int id,
+      int localId,
       int timestamp,
       String body,
       bool wasSeen,
@@ -95,6 +99,7 @@ class _$MessageModelCopyWithImpl<$Res> implements $MessageModelCopyWith<$Res> {
   @override
   $Res call({
     Object id = freezed,
+    Object localId = freezed,
     Object timestamp = freezed,
     Object body = freezed,
     Object wasSeen = freezed,
@@ -108,6 +113,7 @@ class _$MessageModelCopyWithImpl<$Res> implements $MessageModelCopyWith<$Res> {
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as int,
+      localId: localId == freezed ? _value.localId : localId as int,
       timestamp: timestamp == freezed ? _value.timestamp : timestamp as int,
       body: body == freezed ? _value.body : body as String,
       wasSeen: wasSeen == freezed ? _value.wasSeen : wasSeen as bool,
@@ -155,6 +161,7 @@ abstract class _$MessageModelCopyWith<$Res>
   @override
   $Res call(
       {int id,
+      int localId,
       int timestamp,
       String body,
       bool wasSeen,
@@ -184,6 +191,7 @@ class __$MessageModelCopyWithImpl<$Res> extends _$MessageModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object id = freezed,
+    Object localId = freezed,
     Object timestamp = freezed,
     Object body = freezed,
     Object wasSeen = freezed,
@@ -197,6 +205,7 @@ class __$MessageModelCopyWithImpl<$Res> extends _$MessageModelCopyWithImpl<$Res>
   }) {
     return _then(_MessageModel(
       id: id == freezed ? _value.id : id as int,
+      localId: localId == freezed ? _value.localId : localId as int,
       timestamp: timestamp == freezed ? _value.timestamp : timestamp as int,
       body: body == freezed ? _value.body : body as String,
       wasSeen: wasSeen == freezed ? _value.wasSeen : wasSeen as bool,
@@ -220,6 +229,7 @@ class __$MessageModelCopyWithImpl<$Res> extends _$MessageModelCopyWithImpl<$Res>
 class _$_MessageModel implements _MessageModel {
   const _$_MessageModel(
       {this.id,
+      this.localId,
       this.timestamp,
       this.body,
       this.wasSeen,
@@ -236,6 +246,8 @@ class _$_MessageModel implements _MessageModel {
 
   @override
   final int id;
+  @override
+  final int localId;
   @override
   final int timestamp;
   @override
@@ -259,7 +271,7 @@ class _$_MessageModel implements _MessageModel {
 
   @override
   String toString() {
-    return 'MessageModel(id: $id, timestamp: $timestamp, body: $body, wasSeen: $wasSeen, messageType: $messageType, sender: $sender, likeCounts: $likeCounts, likeType: $likeType, status: $status, extraData: $extraData, repliedToMessageId: $repliedToMessageId)';
+    return 'MessageModel(id: $id, localId: $localId, timestamp: $timestamp, body: $body, wasSeen: $wasSeen, messageType: $messageType, sender: $sender, likeCounts: $likeCounts, likeType: $likeType, status: $status, extraData: $extraData, repliedToMessageId: $repliedToMessageId)';
   }
 
   @override
@@ -268,6 +280,9 @@ class _$_MessageModel implements _MessageModel {
         (other is _MessageModel &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.localId, localId) ||
+                const DeepCollectionEquality()
+                    .equals(other.localId, localId)) &&
             (identical(other.timestamp, timestamp) ||
                 const DeepCollectionEquality()
                     .equals(other.timestamp, timestamp)) &&
@@ -301,6 +316,7 @@ class _$_MessageModel implements _MessageModel {
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(localId) ^
       const DeepCollectionEquality().hash(timestamp) ^
       const DeepCollectionEquality().hash(body) ^
       const DeepCollectionEquality().hash(wasSeen) ^
@@ -325,6 +341,7 @@ class _$_MessageModel implements _MessageModel {
 abstract class _MessageModel implements MessageModel {
   const factory _MessageModel(
       {int id,
+      int localId,
       int timestamp,
       String body,
       bool wasSeen,
@@ -341,6 +358,8 @@ abstract class _MessageModel implements MessageModel {
 
   @override
   int get id;
+  @override
+  int get localId;
   @override
   int get timestamp;
   @override

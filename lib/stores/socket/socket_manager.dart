@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/data/models/likes.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:mobx/mobx.dart';
@@ -56,14 +57,17 @@ abstract class _SocketStoreBase with Store {
   @action
   void bindChannel(String eventId) {
     final user = sl<UserStore>();
-    
+
     _channel.bind(eventId, (event) {
       final json = jsonDecode(event.data);
       // this should be removed!
       final message = MessageModel.fromJson(json);
 
       if (message != null && !user.isMe(message.sender.id)) {
-        messageObserver.add(message);
+        messageObserver.add(message.copyWith(
+          likeCounts: LikesCount.initial(),
+          
+        ));
       }
     });
   }

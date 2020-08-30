@@ -117,7 +117,7 @@ abstract class RestClient {
       @Path('messageId') int id, @Query('likeType') String likeType);
 
   @POST('messages/{messageId}/unlike_message')
-  Future<MessageModel> unlikeMessage(@Path('messageId') int id);
+  Future<MessageModel> unlikeMessage(@Path('messageId') int id, @Query('likeType') String likeType);
 
   // STORY
   @GET('stories/stories_for_home')

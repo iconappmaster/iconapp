@@ -179,15 +179,14 @@ abstract class _ChatStoreBase with Store {
   }
 
   @action
-  Future likeMessage(MessageModel msg) async {
+  Future likeUnlikeMessage(MessageModel msg, String likeType) async {
     try {
-      if (msg.likeType != null) {
-        final message = await _repository.unlikeMessage(msg.id);
-        _messages[_messages.indexOf(msg)] = message;
-      } else {
-        final message = await _repository.likeMessage(msg.id, 'like_1');
-        _messages[_messages.indexOf(msg)] = message;
-      }
+      final message = msg.likeType == likeType
+          ? await _repository.unlikeMessage(msg.id, likeType)
+          : await _repository.likeMessage(msg.id, likeType);
+
+      final index = _messages.indexOf(msg);
+      _messages[index] = message;
     } on DioError catch (e) {
       print(e);
     }
@@ -201,7 +200,7 @@ abstract class _ChatStoreBase with Store {
           sender: _userStore.getUser,
           body: _state.inputMessage,
           status: MessageStatus.pending,
-          likeCounts: LikesCount(),
+          likeCounts: LikesCount.initial(),
           timestamp: DateTime.now().millisecondsSinceEpoch,
           messageType: MessageType.text);
 
@@ -209,8 +208,8 @@ abstract class _ChatStoreBase with Store {
 
       final remote = await _repository.sendMessage(conversation.id, msg);
 
-      _replaceMemoryMsgWithRemote(
-          remote.copyWith(status: MessageStatus.sent, id: msg.id));
+      _updateLocalMessage(
+          remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
 
       // clear the input state
       _state = _state.copyWith(inputMessage: '');
@@ -230,6 +229,7 @@ abstract class _ChatStoreBase with Store {
           sender: _userStore.getUser,
           body: pickedFile.path,
           status: MessageStatus.pending,
+          likeCounts: LikesCount.initial(),
           timestamp: DateTime.now().millisecondsSinceEpoch,
           messageType: MessageType.photo,
         );
@@ -242,10 +242,8 @@ abstract class _ChatStoreBase with Store {
         final remote = await _repository.sendMessage(
             conversation.id, msg.copyWith(body: url));
 
-        _replaceMemoryMsgWithRemote(remote.copyWith(
-          status: MessageStatus.sent,
-          id: msg.id,
-        ));
+        _updateLocalMessage(
+            remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
       }
     } on DioError catch (e) {
       print(e);
@@ -276,6 +274,7 @@ abstract class _ChatStoreBase with Store {
       body: pickedFile.path,
       sender: _userStore.getUser,
       status: MessageStatus.pending,
+      likeCounts: LikesCount.initial(),
       timestamp: DateTime.now().millisecondsSinceEpoch,
       messageType: MessageType.video,
     );
@@ -296,18 +295,15 @@ abstract class _ChatStoreBase with Store {
       ),
     );
 
-    _replaceMemoryMsgWithRemote(remote.copyWith(
-      status: MessageStatus.sent,
-      id: msg.id,
-    ));
+    _updateLocalMessage(
+        remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
   }
 
   @action
   Future startRecording() async {
-    bool isRecording = await AudioRecorder.isRecording;
-
     // You can can also directly ask the permission about its status.
     if (await Permission.microphone.request().isGranted) {
+      bool isRecording = await AudioRecorder.isRecording;
       // The OS restricts access, for example because of parental controls.
       if (!isRecording) {
         final appDocDirectory = await getApplicationDocumentsDirectory();
@@ -323,7 +319,6 @@ abstract class _ChatStoreBase with Store {
   @action
   Future stopRecordingAndSend() async {
     // get the recorded file and send
-
     bool isRecording = await AudioRecorder.isRecording;
     if (isRecording) {
       final recording = await AudioRecorder.stop();
@@ -334,6 +329,7 @@ abstract class _ChatStoreBase with Store {
         sender: _userStore.getUser,
         status: MessageStatus.pending,
         timestamp: DateTime.now().millisecondsSinceEpoch,
+        likeCounts: LikesCount.initial(),
         messageType: MessageType.voice,
       );
 
@@ -349,8 +345,8 @@ abstract class _ChatStoreBase with Store {
       // update the backend
       final remote = await _repository.sendMessage(conversation.id, mediaMsg);
 
-      _replaceMemoryMsgWithRemote(
-          remote.copyWith(status: MessageStatus.sent, id: msg.id));
+      _updateLocalMessage(
+          remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
     }
   }
 
@@ -373,10 +369,10 @@ abstract class _ChatStoreBase with Store {
     _conversation = conversation;
   }
 
-  _replaceMemoryMsgWithRemote(MessageModel message) {
+  _updateLocalMessage(MessageModel message, int remoteId) {
     _messages[_messages.indexWhere(
       (msg) => msg.id == message.id,
-    )] = message;
+    )] = message.copyWith(id: remoteId);
   }
 
   bool isMe(int id) => (id == _userStore.getUser?.id) ?? false;

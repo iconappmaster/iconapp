@@ -2,12 +2,10 @@ import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/routes/router.gr.dart';
-import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
 
@@ -26,13 +24,11 @@ class PhotoMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final store = sl<ChatStore>();
     return Container(
       margin: EdgeInsets.only(right: isMe ? 50 : 0, left: isMe ? 0 : 50),
       child: Opacity(
         opacity: message.status == MessageStatus.pending ? .8 : 1,
         child: IconBubble(
-          onDoubleTap: () => store.likeMessage(message),
           isMe: isMe,
           message: message,
           onTap: () => ExtendedNavigator.of(context).pushNamed(
