@@ -2,22 +2,20 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/core/notifications/notifications.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/socket/socket_manager.dart';
 import 'package:logger/logger.dart';
 import 'data/sources/local/shared_preferences.dart';
 import 'generated/codegen_loader.g.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 final logger = Logger();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // initLocator();
-  // await _initSharedPreferences();
-  // await sl<SocketStore>().init();
-  // sl<NotificationsManager>().init();
   runApp(
     EasyLocalization(
       useOnlyLangCode: false,
@@ -53,6 +51,20 @@ class _MyAppState extends State<MyApp> {
     await _initSharedPreferences();
     await sl<SocketStore>().init();
     await sl<NotificationsManager>().init();
+    initCrashlytics();
+  }
+
+  initCrashlytics() {
+    // Set `enableInDevMode` to true to see reports while in debug mode
+    // This is only to be used for confirming that reports are being
+    // submitted as expected. It is not intended to be used for everyday
+    // development.
+    Crashlytics.instance.enableInDevMode = true;
+
+    // Pass all uncaught errors from the framework to Crashlytics.
+    FlutterError.onError = Crashlytics.instance.recordFlutterError;
+
+    Crash.report('test');
   }
 
   @override

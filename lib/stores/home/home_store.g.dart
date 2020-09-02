@@ -85,13 +85,6 @@ mixin _$HomeStore on _HomeStoreBase, Store {
     return _$getConversationsAsyncAction.run(() => super.getConversations());
   }
 
-  final _$setLoadingAsyncAction = AsyncAction('_HomeStoreBase.setLoading');
-
-  @override
-  Future<dynamic> setLoading(bool loading) {
-    return _$setLoadingAsyncAction.run(() => super.setLoading(loading));
-  }
-
   final _$saveWelcomeSeenAsyncAction =
       AsyncAction('_HomeStoreBase.saveWelcomeSeen');
 

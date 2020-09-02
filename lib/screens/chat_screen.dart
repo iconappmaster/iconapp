@@ -30,7 +30,7 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   ScrollController _controller;
-  bool upDirection = true, flag = true;
+  bool upDirection = false, flag = true;
   ChatStore chat;
 
   @override
@@ -49,7 +49,9 @@ class _ChatScreenState extends State<ChatScreen> {
       ..addListener(() {
         upDirection =
             _controller.position.userScrollDirection == ScrollDirection.forward;
-        if (upDirection != flag) setState(() {});
+        if (upDirection != flag && mounted) {
+          setState(() {});
+        }
         flag = upDirection;
       });
 

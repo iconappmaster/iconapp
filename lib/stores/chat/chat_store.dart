@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/core/stop_watch.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/likes.dart';
@@ -97,8 +98,8 @@ abstract class _ChatStoreBase with Store {
       final result = await _repository.subscribe(conversation.id);
       _conversation = result;
       _determineComposerMode();
-    } on Exception catch (e) {
-      print(e);
+    } on ServerError catch (e) {
+      Crash.report(e.message);
     } finally {
       _state = _state.copyWith(loading: false);
     }
@@ -111,8 +112,8 @@ abstract class _ChatStoreBase with Store {
       final result = await _repository.unsubscribe(conversation.id);
       _conversation = result;
       _determineComposerMode();
-    } on Exception catch (e) {
-      print(e);
+    } on ServerError catch (e) {
+      Crash.report(e.message);
     } finally {
       _state = _state.copyWith(loading: false);
     }
@@ -135,7 +136,7 @@ abstract class _ChatStoreBase with Store {
       updateUi(remote);
       _repository.cacheConversation(conversation);
     } on ServerError catch (e) {
-      print(e);
+      Crash.report(e.message);
     } finally {
       _state = _state.copyWith(loading: false);
     }
@@ -152,9 +153,10 @@ abstract class _ChatStoreBase with Store {
     try {
       _state = _state.copyWith(loading: true);
       _conversation = conversation.copyWith(isPinned: isPinned);
-      await _repository.pinConversation(conversation.id, isPinned);
-    } on Exception catch (e) {
-      print(e);
+      _repository.pinConversation(conversation.id, isPinned);
+    } on ServerError catch (e) {
+      Crash.report(e.message);
+      _conversation = _conversation.copyWith(isPinned: false);
     } finally {
       _state = _state.copyWith(loading: false);
     }
@@ -191,8 +193,8 @@ abstract class _ChatStoreBase with Store {
   Future _setConversationViewed() async {
     try {
       await _repository.conversationViewed(conversation.id);
-    } on DioError catch (e) {
-      print(e);
+    } on ServerError catch (e) {
+      Crash.report(e.message);
     }
   }
 
@@ -205,8 +207,8 @@ abstract class _ChatStoreBase with Store {
 
       final index = _messages.indexOf(msg);
       _messages[index] = message;
-    } on DioError catch (e) {
-      print(e);
+    } on ServerError catch (e) {
+      Crash.report(e.message);
     }
   }
 
@@ -231,8 +233,8 @@ abstract class _ChatStoreBase with Store {
 
       // clear the input state
       _state = _state.copyWith(inputMessage: '');
-    } on DioError catch (e) {
-      print(e);
+    } on ServerError catch (e) {
+      Crash.report(e.message);
     }
   }
 
@@ -263,121 +265,134 @@ abstract class _ChatStoreBase with Store {
         _updateLocalMessage(
             remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
       }
-    } on DioError catch (e) {
-      print(e);
+    } on ServerError catch (e) {
+      Crash.report(e.message);
     }
   }
 
   @action
   Future sendVideoMessage(ImageSource source) async {
     // handle local photo
-    final pickedFile = await sl<ImagePicker>().getVideo(
-      source: source,
-      maxDuration: source == ImageSource.camera
-          ? Duration(seconds: 10)
-          : Duration(minutes: 1),
-    );
+    try {
+      final pickedFile = await sl<ImagePicker>().getVideo(
+        source: source,
+        maxDuration: source == ImageSource.camera
+            ? Duration(seconds: 10)
+            : Duration(minutes: 1),
+      );
 
-    // get thumbnail from video
-    final thumbnail = await VideoThumbnail.thumbnailFile(
-      video: pickedFile.path,
-      imageFormat: ImageFormat.JPEG,
-      maxWidth: 250,
-      quality: 45,
-    );
+      // get thumbnail from video
+      final thumbnail = await VideoThumbnail.thumbnailFile(
+        video: pickedFile.path,
+        imageFormat: ImageFormat.JPEG,
+        maxWidth: 250,
+        quality: 45,
+      );
 
-    var msg = MessageModel(
-      extraData: thumbnail,
-      id: DateTime.now().millisecondsSinceEpoch,
-      body: pickedFile.path,
-      sender: _userStore.getUser,
-      status: MessageStatus.pending,
-      likeCounts: LikesCount.initial(),
-      timestamp: DateTime.now().millisecondsSinceEpoch,
-      messageType: MessageType.video,
-    );
+      var msg = MessageModel(
+        extraData: thumbnail,
+        id: DateTime.now().millisecondsSinceEpoch,
+        body: pickedFile.path,
+        sender: _userStore.getUser,
+        status: MessageStatus.pending,
+        likeCounts: LikesCount.initial(),
+        timestamp: DateTime.now().millisecondsSinceEpoch,
+        messageType: MessageType.video,
+      );
 
-    _messages.add(msg);
+      _messages.add(msg);
 
-    // upload thumbnail and video
-    final firbaseThumbnail =
-        await _mediaStore.uploadPhoto(file: File(thumbnail));
-    final firebaseViceo = await _mediaStore.uploadVideo(path: pickedFile.path);
+      // upload thumbnail and video
+      final firbaseThumbnail =
+          await _mediaStore.uploadPhoto(file: File(thumbnail));
+      final firebaseViceo =
+          await _mediaStore.uploadVideo(path: pickedFile.path);
 
-    // send message with firebase links
-    final remote = await _repository.sendMessage(
-      conversation.id,
-      msg.copyWith(
-        body: firebaseViceo,
-        extraData: firbaseThumbnail,
-      ),
-    );
+      // send message with firebase links
+      final remote = await _repository.sendMessage(
+        conversation.id,
+        msg.copyWith(
+          body: firebaseViceo,
+          extraData: firbaseThumbnail,
+        ),
+      );
 
-    _updateLocalMessage(
-        remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
+      _updateLocalMessage(
+          remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
+    } on ServerError catch (e) {
+      Crash.report(e.message);
+    }
   }
 
   @action
   Future startRecording() async {
-    if (await Permission.microphone.request().isGranted) {
-      _isRecording = true;
+    try {
+      if (await Permission.microphone.request().isGranted) {
+        _isRecording = true;
 
-      recordTimer = StopWatchTimer();
-      recordTimer.onExecute.add(StopWatchExecute.start);
+        recordTimer = StopWatchTimer();
+        recordTimer.onExecute.add(StopWatchExecute.start);
 
-      final appDocDirectory = await getApplicationDocumentsDirectory();
+        final appDocDirectory = await getApplicationDocumentsDirectory();
 
-      final path =
-          '${appDocDirectory.path}/${DateTime.now().millisecondsSinceEpoch}';
+        final path =
+            '${appDocDirectory.path}/${DateTime.now().millisecondsSinceEpoch}';
 
-      _recorder = FlutterAudioRecorder(
-        path,
-        audioFormat: AudioFormat.AAC,
-      );
+        _recorder = FlutterAudioRecorder(
+          path,
+          audioFormat: AudioFormat.AAC,
+        );
 
-      await _recorder.initialized;
-      await _recorder.start();
+        await _recorder.initialized;
+        await _recorder.start();
+      }
+    } on ServerError catch (e) {
+      Crash.report(e.message);
     }
   }
 
   @action
   Future stopRecordingAndSend() async {
-    var recording = await _recorder?.stop();
-    _isRecording = false;
+    try {
+      var recording = await _recorder?.stop();
+      _isRecording = false;
 
-    recordTimer.onExecute.add(StopWatchExecute.stop);
-    recordTimer.onExecute.add(StopWatchExecute.reset);
+      recordTimer.onExecute.add(StopWatchExecute.stop);
+      recordTimer.onExecute.add(StopWatchExecute.reset);
 
-    if (recording != null) {
-      final msg = MessageModel(
-        id: DateTime.now().millisecondsSinceEpoch,
-        body: recording.path,
-        sender: _userStore.getUser,
-        status: MessageStatus.pending,
-        timestamp: DateTime.now().millisecondsSinceEpoch,
-        likeCounts: LikesCount.initial(),
-        messageType: MessageType.voice,
-      );
+      if (recording != null) {
+        final msg = MessageModel(
+          id: DateTime.now().millisecondsSinceEpoch,
+          body: recording.path,
+          sender: _userStore.getUser,
+          status: MessageStatus.pending,
+          timestamp: DateTime.now().millisecondsSinceEpoch,
+          likeCounts: LikesCount.initial(),
+          messageType: MessageType.voice,
+        );
 
-      // show pending message
-      _messages.add(msg);
+        // show pending message
+        _messages.add(msg);
 
-      // start uploading the media
-      final url = await _mediaStore.uploadAudio(recording.path);
+        // start uploading the media
+        final url = await _mediaStore.uploadAudio(recording.path);
 
-      // update the boy with firebase url
-      final mediaMsg = msg.copyWith(body: url);
+        // update the boy with firebase url
+        final mediaMsg = msg.copyWith(body: url);
 
-      // update the backend
-      final remote = await _repository.sendMessage(
-        conversation.id,
-        mediaMsg,
-      );
+        // update the backend
+        final remote = await _repository.sendMessage(
+          conversation.id,
+          mediaMsg,
+        );
 
-      _updateLocalMessage(
-        remote.copyWith(status: MessageStatus.sent, id: msg.id),
-        remote.id,
-      );
+        _updateLocalMessage(
+          remote.copyWith(status: MessageStatus.sent, id: msg.id),
+          remote.id,
+        );
+      }
+    } on ServerError catch (e) {
+      Crash.report(e.message);
     }
   }
 

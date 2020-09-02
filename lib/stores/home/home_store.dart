@@ -53,13 +53,15 @@ abstract class _HomeStoreBase with Store {
   @action
   Future<Either<ServerError, List<Conversation>>> getConversations() async {
     try {
-      setLoading(true);
+      _loading = true;
       final conversations = await _repository.getHome();
       setConversations(conversations);
-      setLoading(false);
+
       return right(conversations);
     } on ServerError catch (e) {
       return left(e);
+    } finally {
+      _loading = false;
     }
   }
 
@@ -67,11 +69,6 @@ abstract class _HomeStoreBase with Store {
   void setConversations(List<Conversation> conversations) {
     if (conversations.isNotEmpty) _conversations.clear();
     _conversations.addAll(conversations);
-  }
-
-  @action
-  Future setLoading(bool loading) async {
-    _loading = loading;
   }
 
   @action
