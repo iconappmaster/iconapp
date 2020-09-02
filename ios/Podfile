@@ -10,6 +10,13 @@ project 'Runner', {
   'Release' => :release,
 }
 
+# Add the Firebase pod for Google Analytics
+pod 'Firebase/Analytics'
+
+# Add the pod for Firebase Cloud Messaging
+pod 'Firebase/Messaging'
+  
+
 def parse_KV_file(file, separator='=')
   file_abs_path = File.expand_path(file)
   if !File.exists? file_abs_path
@@ -84,4 +91,5 @@ post_install do |installer|
       config.build_settings['ENABLE_BITCODE'] = 'NO'
     end
   end
+
 end

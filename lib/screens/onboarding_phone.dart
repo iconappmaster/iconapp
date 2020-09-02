@@ -266,7 +266,8 @@ class _CheckSign extends StatelessWidget {
             SizedBox(
                 height: context.widthPx * .086,
                 width: context.widthPx * .086,
-                child: CircularProgressIndicator()),
+                child: CircularProgressIndicator(
+                    backgroundColor: white, strokeWidth: 2)),
           Image.asset(
             'assets/images/check.png',
             width: context.widthPx * .086,

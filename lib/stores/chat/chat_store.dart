@@ -2,11 +2,13 @@ import 'dart:async';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/core/stop_watch.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/likes.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/repositories/chat_repository.dart';
+import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/domain/core/errors.dart';
 import 'package:iconapp/stores/chat/chat_state.dart';
 import 'package:iconapp/stores/chat_settings/chat_settings_store.dart';
@@ -15,9 +17,9 @@ import 'package:iconapp/stores/user/user_store.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
-import 'package:audio_recorder/audio_recorder.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 
 part 'chat_store.g.dart';
 
@@ -28,25 +30,35 @@ abstract class _ChatStoreBase with Store {
   MediaStore _mediaStore;
   UserStore _userStore;
   StreamSubscription<MessageModel> _messagesSubscription;
+  SharedPreferencesService _prefs;
+  FlutterAudioRecorder _recorder;
+  StopWatchTimer recordTimer;
 
   _ChatStoreBase() {
     _repository = sl<ChatRepository>();
     _userStore = sl<UserStore>();
     _mediaStore = sl<MediaStore>();
+    _prefs = sl<SharedPreferencesService>();
   }
 
   void init([Conversation conversation]) {
     if (conversation != null) {
       setConversation(conversation);
     }
-
     sl<ChatSettingsStore>()..init();
     _setConversationViewed();
     getConversation();
+    _showWelcomeDialog = _prefs.getBool(StorageKey.chatWelcome, true);
   }
 
   @observable
+  bool _showWelcomeDialog = true;
+
+  @observable
   ChatState _state = ChatState.initial();
+
+  @observable
+  bool _isRecording = false;
 
   @observable
   ComposerMode _composerMode = ComposerMode.viewer;
@@ -71,6 +83,12 @@ abstract class _ChatStoreBase with Store {
 
   @computed
   bool get isInputEmpty => _state.inputMessage.isNotEmpty;
+
+  @computed
+  bool get isRecording => _isRecording;
+
+  @computed
+  bool get showWelcomeDialog => _showWelcomeDialog;
 
   @action
   Future subscribe() async {
@@ -301,28 +319,36 @@ abstract class _ChatStoreBase with Store {
 
   @action
   Future startRecording() async {
-    // You can can also directly ask the permission about its status.
     if (await Permission.microphone.request().isGranted) {
-      bool isRecording = await AudioRecorder.isRecording;
-      // The OS restricts access, for example because of parental controls.
-      if (!isRecording) {
-        final appDocDirectory = await getApplicationDocumentsDirectory();
+      _isRecording = true;
 
-        await AudioRecorder.start(
-          path: '${appDocDirectory.path}/${DateTime.now()}',
-          audioOutputFormat: AudioOutputFormat.AAC,
-        );
-      }
+      recordTimer = StopWatchTimer();
+      recordTimer.onExecute.add(StopWatchExecute.start);
+
+      final appDocDirectory = await getApplicationDocumentsDirectory();
+
+      final path =
+          '${appDocDirectory.path}/${DateTime.now().millisecondsSinceEpoch}';
+
+      _recorder = FlutterAudioRecorder(
+        path,
+        audioFormat: AudioFormat.AAC,
+      );
+
+      await _recorder.initialized;
+      await _recorder.start();
     }
   }
 
   @action
   Future stopRecordingAndSend() async {
-    // get the recorded file and send
-    bool isRecording = await AudioRecorder.isRecording;
-    if (isRecording) {
-      final recording = await AudioRecorder.stop();
+    var recording = await _recorder?.stop();
+    _isRecording = false;
 
+    recordTimer.onExecute.add(StopWatchExecute.stop);
+    recordTimer.onExecute.add(StopWatchExecute.reset);
+
+    if (recording != null) {
       final msg = MessageModel(
         id: DateTime.now().millisecondsSinceEpoch,
         body: recording.path,
@@ -343,25 +369,31 @@ abstract class _ChatStoreBase with Store {
       final mediaMsg = msg.copyWith(body: url);
 
       // update the backend
-      final remote = await _repository.sendMessage(conversation.id, mediaMsg);
+      final remote = await _repository.sendMessage(
+        conversation.id,
+        mediaMsg,
+      );
 
       _updateLocalMessage(
-          remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
+        remote.copyWith(status: MessageStatus.sent, id: msg.id),
+        remote.id,
+      );
     }
   }
 
   @action
   void watchMessages() {
-    _messagesSubscription = _repository.watchMessages().listen((message) {
-      _messages.add(message);
-    });
+    _messagesSubscription = _repository.watchMessages().listen(
+          (message) => _messages.add(message),
+        );
   }
 
   @action
-  void dispose() {
+  Future dispose() async {
     _state = ChatState.initial();
     _messages.clear();
     _messagesSubscription?.cancel();
+    await recordTimer.dispose();
   }
 
   @action
@@ -373,6 +405,12 @@ abstract class _ChatStoreBase with Store {
     _messages[_messages.indexWhere(
       (msg) => msg.id == message.id,
     )] = message.copyWith(id: remoteId);
+  }
+
+  @action
+  Future setWelcomeDialogSeen() async {
+    await _prefs.setBool(StorageKey.chatWelcome, false);
+    _showWelcomeDialog = false;
   }
 
   bool isMe(int id) => (id == _userStore.getUser?.id) ?? false;

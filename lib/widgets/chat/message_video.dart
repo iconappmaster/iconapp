@@ -8,7 +8,7 @@ import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/widgets/chat/reply_slider.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
 import 'package:iconapp/widgets/global/slidable_widget.dart';
-import 'bubble.dart';
+import 'icon_bubble.dart';
 
 class VideoMessage extends StatefulWidget {
   final MessageModel message;

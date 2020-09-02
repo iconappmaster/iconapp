@@ -1,6 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum StorageKey {
+  chatWelcome,
   isFinishedOnboarding,
   user,
   isDev,
@@ -8,6 +9,7 @@ enum StorageKey {
   signedIn,
   welcomeDialog,
   conversation,
+  fcmToken,
 }
 
 class SharedPreferencesService {

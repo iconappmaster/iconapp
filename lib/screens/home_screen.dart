@@ -71,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 conversation: conversation));
                         // When return from conversation update the home stories
                         stories.getHomeStories();
-                        home.getHome();
+                        home.getConversations();
                       },
                     ),
                     Positioned(

@@ -1,11 +1,11 @@
 import 'dart:async';
-import 'package:bubble/bubble.dart';
+import 'events/slide_event.dart';
 import 'package:flutter/material.dart';
-import 'package:iconapp/core/bus.dart';
-import 'package:iconapp/widgets/chat/events/slide_event.dart';
-import 'package:iconapp/widgets/global/like_menu/likes_menu.dart';
+import '../../core/bus.dart';
+import '../global/bubble.dart';
+import '../global/like_menu/likes_menu.dart';
 import 'reply_slider.dart';
-import 'bubble.dart';
+import 'icon_bubble.dart';
 import '../../core/dependencies/locator.dart';
 import '../../core/theme.dart';
 import '../../data/models/message_model.dart';
@@ -82,22 +82,17 @@ class _TextMessageState extends State<TextMessage> {
           isMe: widget.isMe,
           child: Stack(children: [
             Container(
+              padding: EdgeInsets.symmetric(vertical: 8),
               color: color,
-              child: Padding(
-                padding: EdgeInsets.only(
-                  left: widget.isMe ? 30.0 : 0,
-                  right: widget.isMe ? 0 : 30.0,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    HebrewText(widget.message.sender?.fullName ?? '',
-                        style: chatMessageName, textAlign: TextAlign.start),
-                    SelectableText(widget.message?.body ?? '',
-                        style: chatMessageBody, textAlign: TextAlign.start),
-                  ],
-                ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  HebrewText(widget.message.sender?.fullName ?? '',
+                      style: chatMessageName, textAlign: TextAlign.start),
+                  SelectableText(widget.message?.body ?? '',
+                      style: chatMessageBody, textAlign: TextAlign.start),
+                ],
               ),
             ),
             Positioned(

@@ -192,9 +192,7 @@ class FocusedMenuDetails extends StatelessWidget {
           children: <Widget>[
             GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTap: () {
-                  Navigator.pop(context);
-                },
+                onTap: () => Navigator.pop(context),
                 child: BackdropFilter(
                   filter: ImageFilter.blur(
                       sigmaX: blurSize ?? 4, sigmaY: blurSize ?? 4),

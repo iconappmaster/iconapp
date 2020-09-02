@@ -46,18 +46,18 @@ mixin _$HomeStore on _HomeStoreBase, Store {
     });
   }
 
-  final _$_categoriesAtom = Atom(name: '_HomeStoreBase._categories');
+  final _$_conversationsAtom = Atom(name: '_HomeStoreBase._conversations');
 
   @override
-  ObservableList<Conversation> get _categories {
-    _$_categoriesAtom.reportRead();
-    return super._categories;
+  ObservableList<Conversation> get _conversations {
+    _$_conversationsAtom.reportRead();
+    return super._conversations;
   }
 
   @override
-  set _categories(ObservableList<Conversation> value) {
-    _$_categoriesAtom.reportWrite(value, super._categories, () {
-      super._categories = value;
+  set _conversations(ObservableList<Conversation> value) {
+    _$_conversationsAtom.reportWrite(value, super._conversations, () {
+      super._conversations = value;
     });
   }
 
@@ -77,11 +77,12 @@ mixin _$HomeStore on _HomeStoreBase, Store {
     });
   }
 
-  final _$getHomeAsyncAction = AsyncAction('_HomeStoreBase.getHome');
+  final _$getConversationsAsyncAction =
+      AsyncAction('_HomeStoreBase.getConversations');
 
   @override
-  Future<Either<ServerError, Unit>> getHome() {
-    return _$getHomeAsyncAction.run(() => super.getHome());
+  Future<Either<ServerError, List<Conversation>>> getConversations() {
+    return _$getConversationsAsyncAction.run(() => super.getConversations());
   }
 
   final _$setLoadingAsyncAction = AsyncAction('_HomeStoreBase.setLoading');
@@ -103,11 +104,22 @@ mixin _$HomeStore on _HomeStoreBase, Store {
       ActionController(name: '_HomeStoreBase');
 
   @override
-  void addConversation(Conversation category) {
+  void addConversation(Conversation conversation) {
     final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
         name: '_HomeStoreBase.addConversation');
     try {
-      return super.addConversation(category);
+      return super.addConversation(conversation);
+    } finally {
+      _$_HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setConversations(List<Conversation> conversations) {
+    final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
+        name: '_HomeStoreBase.setConversations');
+    try {
+      return super.setConversations(conversations);
     } finally {
       _$_HomeStoreBaseActionController.endAction(_$actionInfo);
     }

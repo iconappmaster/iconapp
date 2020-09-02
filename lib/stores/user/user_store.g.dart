@@ -89,14 +89,6 @@ mixin _$UserStore on _UserStoreBase, Store {
     return _$updateUserAsyncAction.run(() => super.updateUser(user));
   }
 
-  final _$getPersistentUserAsyncAction =
-      AsyncAction('_UserStoreBase.getPersistentUser');
-
-  @override
-  Future<UserModel> getPersistentUser() {
-    return _$getPersistentUserAsyncAction.run(() => super.getPersistentUser());
-  }
-
   final _$setNotificationAsyncAction =
       AsyncAction('_UserStoreBase.setNotification');
 
@@ -105,19 +97,16 @@ mixin _$UserStore on _UserStoreBase, Store {
     return _$setNotificationAsyncAction.run(() => super.setNotification(value));
   }
 
-  final _$_UserStoreBaseActionController =
-      ActionController(name: '_UserStoreBase');
+  final _$updateFcmTokenAsyncAction =
+      AsyncAction('_UserStoreBase.updateFcmToken');
 
   @override
-  void updateNotificationState(bool value) {
-    final _$actionInfo = _$_UserStoreBaseActionController.startAction(
-        name: '_UserStoreBase.updateNotificationState');
-    try {
-      return super.updateNotificationState(value);
-    } finally {
-      _$_UserStoreBaseActionController.endAction(_$actionInfo);
-    }
+  Future<dynamic> updateFcmToken() {
+    return _$updateFcmTokenAsyncAction.run(() => super.updateFcmToken());
   }
+
+  final _$_UserStoreBaseActionController =
+      ActionController(name: '_UserStoreBase');
 
   @override
   void setUser(UserModel user) {

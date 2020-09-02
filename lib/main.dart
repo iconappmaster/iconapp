@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/core/notifications/notifications.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/socket/socket_manager.dart';
 import 'package:logger/logger.dart';
@@ -12,10 +13,11 @@ final logger = Logger();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
-  initLocator();
-  await initSharedPreferences();
-  await sl<SocketStore>().init();
+
+  // initLocator();
+  // await _initSharedPreferences();
+  // await sl<SocketStore>().init();
+  // sl<NotificationsManager>().init();
   runApp(
     EasyLocalization(
       useOnlyLangCode: false,
@@ -31,15 +33,28 @@ void main() async {
   );
 }
 
-Future<void> initSharedPreferences() async =>
-    await sl<SharedPreferencesService>().init();
-
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
+  Future<void> _initSharedPreferences() async =>
+      await sl<SharedPreferencesService>().init();
+
+  @override
+  void initState() {
+    init();
+    super.initState();
+  }
+
+  Future init() async {
+    initLocator();
+    await _initSharedPreferences();
+    await sl<SocketStore>().init();
+    await sl<NotificationsManager>().init();
+  }
+
   @override
   void didChangeDependencies() {
     context.locale = Locale('he', 'HE');
@@ -49,7 +64,6 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-    
       debugShowCheckedModeBanner: false,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:iconapp/core/notifications/notifications.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../data/repositories/auth_repository.dart';
 import '../../data/repositories/chat_repository.dart';
@@ -109,4 +110,7 @@ void initLocator() {
 
   // Bus
   sl.registerLazySingleton<Bus>(() => Bus());
+
+  // Notifications
+  sl.registerLazySingleton<NotificationsManager>(() => NotificationsManager());
 }

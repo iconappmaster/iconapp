@@ -23,6 +23,7 @@ class LikeBubble extends StatelessWidget {
       padding: padding ?? EdgeInsets.all(0),
       child: Container(
         height: 20,
+        
         padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
         alignment: Alignment.center,
         decoration: BoxDecoration(

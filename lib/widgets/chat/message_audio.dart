@@ -1,15 +1,15 @@
 import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
-import 'package:bubble/bubble.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/message_model.dart';
+import 'package:iconapp/widgets/global/bubble.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 
-import 'bubble.dart';
+import 'icon_bubble.dart';
 
 enum PlayerState { stopped, playing, paused }
 enum PlayingRouteState { speakers, earpiece }
@@ -96,9 +96,9 @@ class _VoiceMessageState extends State<VoiceMessage> {
                     child: Slider(
                       activeColor: strongPink,
                       onChanged: (v) {
-                        final Position = v * _duration.inMilliseconds;
+                        final position = v * _duration.inMilliseconds;
                         _audioPlayer
-                            .seek(Duration(milliseconds: Position.round()));
+                            .seek(Duration(milliseconds: position.round()));
                       },
                       value: (_position != null &&
                               _duration != null &&
@@ -150,8 +150,6 @@ class _VoiceMessageState extends State<VoiceMessage> {
                       : _duration != null ? _durationText : '',
                   style: newMessageNumber,
                 ),
-
-                // name
               ],
             )
           ],

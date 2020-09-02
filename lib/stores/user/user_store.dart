@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/repositories/user_repository.dart';
+import 'package:iconapp/stores/home/home_store.dart';
 import 'package:mobx/mobx.dart';
 import '../../data/sources/local/shared_preferences.dart';
 
@@ -37,16 +39,11 @@ abstract class _UserStoreBase with Store {
   get notificationState => _isNotification;
 
   @action
-  void updateNotificationState(bool value) {
-    _isNotification = value;
-  }
-
-  @action
   Future init() async {
     try {
       final persistnetUser = await _userRepository.getPersistedUser();
       _userModel = persistnetUser;
-      _isNotification = _userModel?.isPushEnabled ?? true;
+      _isNotification = _userModel?.didTurnOffNotifications ?? true;
       final user = await _userRepository.getRemtoeUser();
       _userRepository.persistUser(user);
       _userModel = user;
@@ -57,12 +54,7 @@ abstract class _UserStoreBase with Store {
 
   @action
   Future<bool> persistUser(UserModel user) async {
-    return await _prefs.setString(
-      StorageKey.user,
-      jsonEncode(
-        user.toJson(),
-      ),
-    );
+    return await _prefs.setString(StorageKey.user, jsonEncode(user.toJson()));
   }
 
   @action
@@ -74,11 +66,6 @@ abstract class _UserStoreBase with Store {
   }
 
   @action
-  Future<UserModel> getPersistentUser() async {
-    return await _userRepository.getPersistedUser();
-  }
-
-  @action
   void setUser(UserModel user) {
     _userModel = user;
   }
@@ -86,11 +73,31 @@ abstract class _UserStoreBase with Store {
   @action
   Future setNotification(bool value) async {
     try {
-      value
-          ? _userRepository.turnOffNotifications()
-          : _userRepository.turnOnNotifications();
-
       _isNotification = value;
+      
+      value
+          ? await _userRepository.turnOnNotifications()
+          : await _userRepository.turnOffNotifications();
+
+      final home = sl<HomeStore>();
+      final result = await home.getConversations();
+      result.fold(
+        (e) => print(e),
+        (conversations) => home.setConversations(conversations),
+      );
+    } on Exception catch (e) {
+      print(e);
+    }
+  }
+
+  @action
+  Future updateFcmToken() async {
+    try {
+      final token = _prefs.getString(StorageKey.fcmToken);
+
+      if (token != null) {
+        await _userRepository.updateUser(getUser.copyWith(pushToken: token));
+      }
     } on Exception catch (e) {
       print(e);
     }

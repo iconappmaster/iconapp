@@ -10,7 +10,7 @@ import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
 
 import '../../core/extensions/int_ext.dart';
-import 'bubble.dart';
+import 'icon_bubble.dart';
 
 class PhotoMessage extends StatelessWidget {
   final MessageModel message;

@@ -44,6 +44,36 @@ mixin _$ChatStore on _ChatStoreBase, Store {
       (_$isInputEmptyComputed ??= Computed<bool>(() => super.isInputEmpty,
               name: '_ChatStoreBase.isInputEmpty'))
           .value;
+  Computed<bool> _$isRecordingComputed;
+
+  @override
+  bool get isRecording =>
+      (_$isRecordingComputed ??= Computed<bool>(() => super.isRecording,
+              name: '_ChatStoreBase.isRecording'))
+          .value;
+  Computed<bool> _$showWelcomeDialogComputed;
+
+  @override
+  bool get showWelcomeDialog => (_$showWelcomeDialogComputed ??= Computed<bool>(
+          () => super.showWelcomeDialog,
+          name: '_ChatStoreBase.showWelcomeDialog'))
+      .value;
+
+  final _$_showWelcomeDialogAtom =
+      Atom(name: '_ChatStoreBase._showWelcomeDialog');
+
+  @override
+  bool get _showWelcomeDialog {
+    _$_showWelcomeDialogAtom.reportRead();
+    return super._showWelcomeDialog;
+  }
+
+  @override
+  set _showWelcomeDialog(bool value) {
+    _$_showWelcomeDialogAtom.reportWrite(value, super._showWelcomeDialog, () {
+      super._showWelcomeDialog = value;
+    });
+  }
 
   final _$_stateAtom = Atom(name: '_ChatStoreBase._state');
 
@@ -57,6 +87,21 @@ mixin _$ChatStore on _ChatStoreBase, Store {
   set _state(ChatState value) {
     _$_stateAtom.reportWrite(value, super._state, () {
       super._state = value;
+    });
+  }
+
+  final _$_isRecordingAtom = Atom(name: '_ChatStoreBase._isRecording');
+
+  @override
+  bool get _isRecording {
+    _$_isRecordingAtom.reportRead();
+    return super._isRecording;
+  }
+
+  @override
+  set _isRecording(bool value) {
+    _$_isRecordingAtom.reportWrite(value, super._isRecording, () {
+      super._isRecording = value;
     });
   }
 
@@ -204,6 +249,22 @@ mixin _$ChatStore on _ChatStoreBase, Store {
         .run(() => super.stopRecordingAndSend());
   }
 
+  final _$disposeAsyncAction = AsyncAction('_ChatStoreBase.dispose');
+
+  @override
+  Future<dynamic> dispose() {
+    return _$disposeAsyncAction.run(() => super.dispose());
+  }
+
+  final _$setWelcomeDialogSeenAsyncAction =
+      AsyncAction('_ChatStoreBase.setWelcomeDialogSeen');
+
+  @override
+  Future<dynamic> setWelcomeDialogSeen() {
+    return _$setWelcomeDialogSeenAsyncAction
+        .run(() => super.setWelcomeDialogSeen());
+  }
+
   final _$_ChatStoreBaseActionController =
       ActionController(name: '_ChatStoreBase');
 
@@ -252,17 +313,6 @@ mixin _$ChatStore on _ChatStoreBase, Store {
   }
 
   @override
-  void dispose() {
-    final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
-        name: '_ChatStoreBase.dispose');
-    try {
-      return super.dispose();
-    } finally {
-      _$_ChatStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void setConversation(Conversation conversation) {
     final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
         name: '_ChatStoreBase.setConversation');
@@ -280,7 +330,9 @@ getState: ${getState},
 conversation: ${conversation},
 composerMode: ${composerMode},
 getMessages: ${getMessages},
-isInputEmpty: ${isInputEmpty}
+isInputEmpty: ${isInputEmpty},
+isRecording: ${isRecording},
+showWelcomeDialog: ${showWelcomeDialog}
     ''';
   }
 }

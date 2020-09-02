@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/global/back_button.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
@@ -42,8 +43,7 @@ class AppSettingsScreen extends StatelessWidget {
               ),
               child: ListView(
                 children: [
-                  AppNotificationTile(
-                      onTap: () => print('a'), title: 'השתקת התראות'),
+                  AppNotificationTile(title: 'השתקת התראות'),
                   _SettingsDivider(),
                   AppSettingsTile(title: 'הזמנת חברים', onTap: () => 'tap'),
                   _SettingsDivider(),
@@ -61,13 +61,11 @@ class AppSettingsScreen extends StatelessWidget {
 }
 
 class AppNotificationTile extends StatelessWidget {
-  final Function onTap;
   final String title;
   final bool isOn;
 
   const AppNotificationTile({
     Key key,
-    @required this.onTap,
     @required this.title,
     this.isOn,
   }) : super(key: key);
@@ -95,13 +93,8 @@ class AppNotificationTile extends StatelessWidget {
                 inactiveTrackColor: blueyGrey.withOpacity(.5),
                 inactiveThumbColor: blueyGrey,
                 value: userStore.isNotification,
-                onChanged: (value) async {
-                  await userStore.setNotification(value);
-                  context.showFlushbar(
-                      message:
-                          value ? 'התראות פעילות' : 'התראות מושתקות',
-                      color: uiTintColorFill);
-                },
+                onChanged: (value) async =>
+                    await userStore.setNotification(value),
               ),
             ),
           ),

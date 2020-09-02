@@ -2,28 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/core/stop_watch.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../core/theme.dart';
 
-class MessageComposer extends StatefulWidget {
+class PanelMessageCompose extends StatefulWidget {
   final ScrollController controller;
 
-  const MessageComposer({Key key, @required this.controller}) : super(key: key);
+  const PanelMessageCompose({Key key, @required this.controller})
+      : super(key: key);
   @override
-  _MessageComposerState createState() => _MessageComposerState();
+  _PanelMessageComposeState createState() => _PanelMessageComposeState();
 }
 
-class _MessageComposerState extends State<MessageComposer> {
-  bool showEmoji = false;
-  bool keyboardVisible = false;
-  int subscriberId = 0;
+class _PanelMessageComposeState extends State<PanelMessageCompose> {
   TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final store = sl<ChatStore>();
     return ListView(
       padding: EdgeInsets.all(0),
       shrinkWrap: true,
@@ -37,26 +38,90 @@ class _MessageComposerState extends State<MessageComposer> {
             child: Container(
               constraints: BoxConstraints(minHeight: 41.3),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(26.4), color: paleGrey),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  ComposeActionButtons(),
-                  Row(
-                    children: <Widget>[
-                      Expanded(child: ComposerInput(controller: _controller)),
-                      SendButton(
-                        textEditcontroller: _controller,
-                        scrollController: widget.controller,
-                      ),
-                    ],
-                  ),
-                ],
+                borderRadius: BorderRadius.circular(26.4),
+                color: paleGrey,
+              ),
+              child: Observer(
+                builder: (_) => Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    if (!store.isRecording) ComposeActionButtons(),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: store.isRecording
+                              ? Recorer(store: store)
+                              : ComposerInput(controller: _controller),
+                        ),
+                        
+                        SendButton(
+                          textEditcontroller: _controller,
+                          scrollController: widget.controller,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         ),
       ],
+    );
+  }
+}
+
+class Recorer extends StatelessWidget {
+  const Recorer({
+    Key key,
+    @required this.store,
+  }) : super(key: key);
+
+  final ChatStore store;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        SizedBox(width: 15.3),
+        SvgPicture.asset(
+          'assets/images/microphone.svg',
+          height: 18,
+          width: 18,
+        ),
+        SizedBox(width: 8.7),
+        RecordingTime(store: store),
+      ],
+    );
+  }
+}
+
+class RecordingTime extends StatelessWidget {
+  final ChatStore store;
+
+  const RecordingTime({
+    Key key,
+    @required this.store,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<int>(
+      stream: store.recordTimer?.rawTime,
+      initialData: 0,
+      builder: (_, snapshot) {
+        if (snapshot.hasData) {
+          final timer = snapshot.data;
+          final displayTime = StopWatchTimer.getDisplayTime(timer);
+          print(displayTime);
+          return HebrewText(
+            displayTime,
+            style: chatCompose,
+          );
+        }
+
+        return Container();
+      },
     );
   }
 }
@@ -122,16 +187,13 @@ class ComposeActionButtons extends StatelessWidget {
           children: <Widget>[
             _buildActionButton(
               'assets/images/camera.svg',
-              onTap: () async =>
-                  await store.sendPhotoMessage(ImageSource.camera),
-              onLongTap: () async =>
-                  await store.sendVideoMessage(ImageSource.camera),
+              onTap: () => store.sendPhotoMessage(ImageSource.camera),
+              onLongTap: () => store.sendVideoMessage(ImageSource.camera),
             ),
             _buildActionButton(
               'assets/images/photo.svg',
-              onTap: () async => store.sendPhotoMessage(ImageSource.gallery),
-              onLongTap: () async =>
-                  await store.sendVideoMessage(ImageSource.gallery),
+              onTap: () => store.sendPhotoMessage(ImageSource.gallery),
+              onLongTap: () => store.sendVideoMessage(ImageSource.gallery),
             ),
           ],
         ),
@@ -184,7 +246,7 @@ class SendButton extends StatelessWidget {
                 if (isMessageMode()) {
                   textEditcontroller.clear();
                   scrollController.jumpTo(0);
-                  await store.sendTextMessage();
+                  store.sendTextMessage();
                 }
               },
               backgroundColor: cornflower,
