@@ -29,6 +29,7 @@ class BottomSheetFab extends StatelessWidget {
           height: 53,
           width: 53,
           child: FloatingActionButton(
+            heroTag: 'fab3',
             elevation: 3,
             child: home.isLoading
                 ? CircularProgressIndicator(

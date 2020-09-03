@@ -33,13 +33,11 @@ abstract class _MediaStoreBase with Store {
     try {
       _isLoading = true;
       if (file != null) {
-        result =
-            await _repository.uploadSinglePhoto(file, getPath, getPhotoFileName);
+        result = await _repository.uploadSinglePhoto(file, getPath, getPhotoFileName);
       } else {
         final pickedFile = await _imagePicker.getImage(source: source);
         final file = File(pickedFile.path);
-        result =
-            await _repository.uploadSinglePhoto(file, getPath, getPhotoFileName);
+        result = await _repository.uploadSinglePhoto(file, getPath, getPhotoFileName);
       }
 
       // cancel loadoing

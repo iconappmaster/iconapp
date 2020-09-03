@@ -41,7 +41,9 @@ class _ChatScreenState extends State<ChatScreen> {
 
     chat
       ..init(widget.conversation)
-      ..watchMessages();
+      ..watchMessages()
+      ..watchAddLike()
+      ..watchRemoveLike();
 
     sl<StoryStore>()..setMode(StoryMode.conversation);
 
@@ -59,9 +61,14 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Future initSocket() async {
-    final socket = sl<SocketStore>();
+    final socket = sl<Socket>();
+
     await socket.subscribeChannel(widget.conversation.id);
-    await socket.bindChannel(messagesEvent);
+
+    socket
+      ..bindMessagesChannel()
+      ..bindAddLikeChannel()
+      ..bindRemoveLikeChannel();
   }
 
   @override
@@ -128,7 +135,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void dispose() {
     sl<ChatStore>().dispose();
-    sl<SocketStore>().unsubscribeChannel(widget.conversation.id);
+    sl<Socket>().unsubscribeChannel(widget.conversation.id);
     super.dispose();
   }
 }

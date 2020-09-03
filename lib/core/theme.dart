@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 const grape = Color(0xFF52296e);
 const darkIndigo = Color(0xFF0a0d37);
 const darkIndigo2 = Color(0xFF100a39);
-const hotMagenta = Color(0xFFe901c7);
+const darkIndigoThree = Color(0xFF0d0832);
+const hotMagenta = Color(0xFF070406);
 const richPurple = Color(0xFF540048);
 const warmPurple = Color(0xFF8a347d);
 const strongPink = Color(0xFFff0072);
@@ -30,6 +31,7 @@ const blueberry2 = Color(0xFF473f81);
 const blueberry3 = Color(0xFF4c409f);
 const scarlet = Color(0xFFd0021b);
 const black10 = Color(0x19000000);
+
 
 // Font Sizes
 // const _fontRubikBold = "RubikBold";
@@ -134,6 +136,18 @@ const newMessageNumber =
 
 const timeOfMessage =
     TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 14);
+
+const replayTitle = TextStyle(
+  fontFamily: _fontRubikMedium,
+  color: darkIndigoThree,
+  fontSize: 13.6,
+);
+
+const replayContnet = TextStyle(
+  fontFamily: _fontRubikRegular,
+  color: darkIndigoThree,
+  fontSize: 13.6,
+);
 
 const myStory = TextStyle(
   fontFamily: _fontRubikRegular,

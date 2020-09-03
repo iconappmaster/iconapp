@@ -1,10 +1,9 @@
 import 'dart:convert';
-import 'dart:math';
-import 'package:iconapp/core/dependencies/locator.dart';
-import 'package:iconapp/data/models/user_model.dart';
-import 'package:iconapp/data/repositories/user_repository.dart';
-import 'package:iconapp/stores/home/home_store.dart';
 import 'package:mobx/mobx.dart';
+import '../../core/dependencies/locator.dart';
+import '../../data/models/user_model.dart';
+import '../../data/repositories/user_repository.dart';
+import '../home/home_store.dart';
 import '../../data/sources/local/shared_preferences.dart';
 
 part 'user_store.g.dart';
@@ -47,6 +46,7 @@ abstract class _UserStoreBase with Store {
       final user = await _userRepository.getRemtoeUser();
       _userRepository.persistUser(user);
       _userModel = user;
+      updateFcmToken();
     } on Exception catch (e) {
       print(e);
     }
@@ -74,7 +74,7 @@ abstract class _UserStoreBase with Store {
   Future setNotification(bool value) async {
     try {
       _isNotification = value;
-      
+
       value
           ? await _userRepository.turnOnNotifications()
           : await _userRepository.turnOffNotifications();

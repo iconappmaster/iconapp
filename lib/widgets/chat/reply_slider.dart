@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/data/models/message_model.dart';
+import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/global/slidable/slidable.dart';
 import 'package:iconapp/widgets/global/slidable/slidable_action_pane.dart';
 
@@ -43,12 +46,15 @@ class ReplySlider extends StatelessWidget {
 }
 
 class ReplyButton extends StatelessWidget {
+  final MessageModel message;
   const ReplyButton({
     Key key,
+    @required this.message,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final store = sl<ChatStore>();
     return IconButton(
         icon: SvgPicture.asset(
           'assets/images/reply.svg',
@@ -56,6 +62,7 @@ class ReplyButton extends StatelessWidget {
           width: 25,
         ),
         onPressed: () async {
+          store.setReplyMessage(message);
           final slide = Slidable.of(context);
           slide.close();
         });

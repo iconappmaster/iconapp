@@ -118,8 +118,5 @@ class _IconBubbleState extends State<IconBubble> {
   }
 
   bool get showLikeIndicator =>
-      widget.message.likeCounts.like1 > 0 ??
-      false || widget.message.likeCounts.like2 > 0 ??
-      false || widget.message.likeCounts.like3 > 0 ??
-      false;
+      widget.message.likeCounts.like1 > 0 || widget.message.likeCounts.like2 > 0   || widget.message.likeCounts.like3 > 0  ;
 }

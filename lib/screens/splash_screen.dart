@@ -17,13 +17,17 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   AuthStore _authStore;
+  UserStore _userStore;
 
   @override
   void initState() {
     super.initState();
     _authStore = sl<AuthStore>();
+    _userStore = sl<UserStore>();
 
-    if (_authStore.isSignedIn) sl<UserStore>().init();
+    if (_authStore.isSignedIn) {
+      _userStore.init();
+    }
 
     Future.delayed(
         Duration(seconds: 1), () => _authStore.checkCurrentAuthState());

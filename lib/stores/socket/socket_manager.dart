@@ -6,24 +6,20 @@ import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/models/likes.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/stores/user/user_store.dart';
-import 'package:mobx/mobx.dart';
 import 'package:pusher_websocket_flutter/pusher.dart';
 import 'package:rxdart/subjects.dart';
-part 'socket_manager.g.dart';
 
 const PUSHER_KEY = '18aa056f999a0341c053';
 
-class SocketStore = _SocketStoreBase with _$SocketStore;
-
 const messagesEvent = 'new-message';
+const addedLike = 'added-like';
+const removedLike = 'removed-like';
 
-abstract class _SocketStoreBase with Store {
+class Socket {
   BehaviorSubject<MessageModel> messageObserver = BehaviorSubject();
+  BehaviorSubject<MessageModel> addedLikeObserver = BehaviorSubject();
+  BehaviorSubject<MessageModel> removeLikeObserver = BehaviorSubject();
 
-  @observable
-  Event _event;
-
-  @observable
   Channel _channel;
 
   void init() async {
@@ -35,40 +31,50 @@ abstract class _SocketStoreBase with Store {
     }
   }
 
-  @computed
-  Event get getEvent => _event;
-
-  @computed
-  Channel get getChannel => _channel;
-
   // I subscribe with the conversaion id
-  @action
   Future subscribeChannel(int conversationId) async {
     await Pusher.connect();
     _channel = await Pusher.subscribe(conversationId.toString());
   }
 
-  @action
   Future unsubscribeChannel(int conversationId) async {
     await Pusher.disconnect();
     await Pusher.unsubscribe(conversationId.toString());
   }
 
-  @action
-  void bindChannel(String eventId) {
-    final user = sl<UserStore>();
-
-    _channel.bind(eventId, (event) {
+  void bindMessagesChannel() {
+    _channel.bind(messagesEvent, (event) {
+      final user = sl<UserStore>();
       final json = jsonDecode(event.data);
-      // this should be removed!
       final message = MessageModel.fromJson(json);
 
       if (message != null && !user.isMe(message.sender.id)) {
         messageObserver.add(message.copyWith(
           likeCounts: LikesCount.initial(),
-          
         ));
       }
     });
+  }
+
+  void bindAddLikeChannel() {
+    _channel.bind(addedLike,
+        (event) => _proccessLikeEventToMessage(addedLikeObserver, event));
+  }
+
+  void bindRemoveLikeChannel() {
+    _channel.bind(removedLike,
+        (event) => _proccessLikeEventToMessage(removeLikeObserver, event));
+  }
+
+
+  // Helper
+  void _proccessLikeEventToMessage(
+      BehaviorSubject<MessageModel> obeserver, Event event) {
+    final json = jsonDecode(event.data);
+    final message = MessageModel.fromJson(json);
+
+    if (message != null) {
+      obeserver.add(message);
+    }
   }
 }

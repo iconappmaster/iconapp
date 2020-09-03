@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/stop_watch.dart';
+import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+import 'package:iconapp/widgets/global/network_photo.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../core/theme.dart';
 
@@ -25,49 +28,145 @@ class _PanelMessageComposeState extends State<PanelMessageCompose> {
   @override
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
-    return ListView(
-      padding: EdgeInsets.all(0),
-      shrinkWrap: true,
-      children: <Widget>[
-        Container(
-          constraints: BoxConstraints(minHeight: 73.7),
-          color: white,
-          padding:
-              EdgeInsets.only(top: 16, bottom: 16.3, left: 9.3, right: 9.3),
-          child: Center(
-            child: Container(
-              constraints: BoxConstraints(minHeight: 41.3),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(26.4),
-                color: paleGrey,
-              ),
-              child: Observer(
-                builder: (_) => Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    if (!store.isRecording) ComposeActionButtons(),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: store.isRecording
-                              ? Recorer(store: store)
-                              : ComposerInput(controller: _controller),
-                        ),
-                        
-                        SendButton(
-                          textEditcontroller: _controller,
-                          scrollController: widget.controller,
-                        ),
-                      ],
-                    ),
-                  ],
+    return Container(
+      constraints: BoxConstraints(minHeight: 73.7),
+      color: white,
+      padding: EdgeInsets.only(top: 0, bottom: 16.3, left: 9.3, right: 9.3),
+      child: Observer(
+        builder: (_) => Column(
+          children: [
+            MessagePanelReply(),
+            Center(
+              child: Container(
+                constraints: BoxConstraints(minHeight: 41.3),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(26.4),
+                  color: paleGrey,
+                ),
+                child: Observer(
+                  builder: (_) => Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      if (!store.isRecording) ComposeActionButtons(),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: store.isRecording
+                                ? Recorer(store: store)
+                                : ComposerInput(controller: _controller),
+                          ),
+                          SendButton(
+                            textEditcontroller: _controller,
+                            scrollController: widget.controller,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
+  }
+}
+
+class MessagePanelReply extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final store = sl<ChatStore>();
+    return Observer(
+      builder: (_) => AnimatedContainer(
+        duration: Duration(milliseconds: 250),
+        curve: Curves.bounceInOut,
+        height: store.isReplyMessage ? 100 : 0,
+        margin: EdgeInsets.only(left: 7, right: 7, bottom: 8, top: 8),
+        decoration: BoxDecoration(
+          color: paleGrey,
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: Stack(children: [
+          Positioned(
+            top: 8,
+            right: 8,
+            child: Container(
+              width: 5,
+              height: 100,
+              color: cornflower,
+            ),
+          ),
+          Positioned(
+            left: 15,
+            top: 15,
+            child: GestureDetector(
+              onTap: () => store.resetReply(),
+              child: SvgPicture.asset('assets/images/close_purple.svg',
+                  height: 20, width: 20),
+            ),
+          ),
+          Positioned(
+            right: 35,
+            top: 23,
+            child: HebrewText(store.replayMessage?.sender?.fullName ?? '',
+                style: replayTitle),
+          ),
+          Positioned(
+            right: 35,
+            top: 40,
+            child: Container(
+                width: MediaQuery.of(context).size.width * .8,
+                height: 50,
+                child:
+                    // getReplyBody(store.replayMessage),
+
+                    SingleChildScrollView(
+                  child: store.replayMessage != null
+                      ? getReplyBody(store?.replayMessage)
+                      : Container(),
+
+                  // HebrewText(
+                  // store.replayMessage?.body ?? '',
+                  // style: replayContnet,
+                  // textAlign: TextAlign.start,
+                  // )),
+                )),
+          ),
+        ]),
+      ),
+    );
+  }
+
+  Widget getReplyBody(MessageModel message) {
+    switch (message.messageType) {
+      case MessageType.text:
+        return HebrewText(
+          message.body ?? '',
+          style: replayContnet,
+          textAlign: TextAlign.start,
+        );
+      case MessageType.photo:
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(3.4),
+          child: AspectRatio(
+            aspectRatio: 1,
+            child: NetworkPhoto(url: message.body,height: 50, width: 50,),
+          ),
+        );
+      case MessageType.video:
+        return SvgPicture.asset(
+          'assets/images/play.svg',
+          height: 30,
+          width: 30,
+        );
+      case MessageType.voice:
+        return SvgPicture.asset('assets/images/microphone.svg',
+            height: 30, width: 30);
+      case MessageType.system:
+        return Container(); // nothing to do with it
+    }
+    return Container();
   }
 }
 
@@ -240,7 +339,7 @@ class SendButton extends StatelessWidget {
             onLongPress: () => store.startRecording(),
             onLongPressEnd: (d) => store.stopRecordingAndSend(),
             child: FloatingActionButton(
-              heroTag: 'send_button',
+              heroTag: 'fab6',
               elevation: 0,
               onPressed: () async {
                 if (isMessageMode()) {

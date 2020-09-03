@@ -14,7 +14,6 @@ class FullImageScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(children: [
         PhotoView(
-          heroAttributes: PhotoViewHeroAttributes(tag: 'photo'),
             backgroundDecoration: BoxDecoration(color: Colors.black),
             imageProvider: photo.url.startsWith('http')
                 ? NetworkImage(photo.url)

@@ -76,12 +76,21 @@ class CreateDetailsScreen extends StatelessWidget {
               bottom: 25,
               left: 25,
               child: FloatingActionButton(
+                  heroTag: 'fab1',
                   child: SvgPicture.asset('assets/images/go_arrow.svg',
                       height: 16.3, width: 16.3),
                   backgroundColor:
                       store.isLoading ? whiteOpacity30 : cornflower,
                   onPressed: () async {
-                    if (_key.currentState.validate() && !store.isLoading) {
+                    if (store.getSelectedPhoto.isEmpty) {
+                      await context.showFlushbar(
+                          color: uiTintColorFill,
+                          message: 'חובה להוסיף תמונה');
+                    }
+
+                    if (_key.currentState.validate() &&
+                        store.getSelectedPhoto.isNotEmpty &&
+                        !store.isLoading) {
                       await _handleSuccess(store, context);
                     }
                   }),

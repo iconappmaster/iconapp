@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:iconapp/core/device/device_info.dart';
 import 'package:iconapp/core/notifications/notifications.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../data/repositories/auth_repository.dart';
@@ -39,7 +40,7 @@ void initLocator() {
       () => LoginRepositoryImpl(restClient: sl()));
 
   // Socket
-  sl.registerLazySingleton<SocketStore>(() => SocketStore());
+  sl.registerLazySingleton<Socket>(() => Socket());
 
   // Prefs
   sl.registerLazySingleton<SharedPreferencesService>(
@@ -113,4 +114,9 @@ void initLocator() {
 
   // Notifications
   sl.registerLazySingleton<NotificationsManager>(() => NotificationsManager());
+
+  // Device
+  sl.registerLazySingleton<DeviceInfo>(() => DeviceInfo());
+  sl.registerLazySingleton<DeviceInfoRepository>(
+      () => DeviceInfoRepositoryImpl(restClient: sl()));
 }

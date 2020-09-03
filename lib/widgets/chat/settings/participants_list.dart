@@ -92,7 +92,7 @@ class ParticipentAddButton extends StatelessWidget {
                       width: 45,
                       child: CircularProgressIndicator(backgroundColor: white)),
                 FloatingActionButton(
-                    heroTag: 'add_participent',
+                  heroTag: 'fab7',
                     elevation: 2,
                     backgroundColor: cornflower,
                     onPressed: () async {

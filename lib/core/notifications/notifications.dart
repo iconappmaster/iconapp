@@ -1,9 +1,7 @@
 import 'dart:async';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
-import 'package:iconapp/stores/user/user_store.dart';
 
 class NotificationsManager {
   final _messaging = FirebaseMessaging();
@@ -42,13 +40,11 @@ class NotificationsManager {
     _messaging.setAutoInitEnabled(true);
 
     _messaging.requestNotificationPermissions();
+
     _messaging.configure();
 
     String token = await _messaging.getToken();
-    final saved = await sp.setString(StorageKey.fcmToken, token);
-    if (saved) {
-      sl<UserStore>().updateFcmToken();
-    }
+    sp.setString(StorageKey.fcmToken, token);
   }
 
   void _printMsg(Map<String, dynamic> message) {

@@ -72,6 +72,7 @@ class OnboardingProfile extends StatelessWidget {
         enabled: !store.getState.loading,
         onClick: () {
           if (_formValidatorKey.currentState.validate()) {
+            
             store.upadteUser().then((result) => result.fold(
                 (error) => ctx.showFlushbar(
                     message: LocaleKeys.general_server_error.tr()),

@@ -4,10 +4,15 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/message_model.dart';
+import 'package:iconapp/stores/chat/chat_store.dart';
+import 'package:iconapp/widgets/chat/reply_slider.dart';
 import 'package:iconapp/widgets/global/bubble.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+import 'package:iconapp/widgets/global/like_menu/likes_menu.dart';
+import 'package:iconapp/widgets/global/slidable/slidable.dart';
 
 import 'icon_bubble.dart';
 
@@ -53,10 +58,32 @@ class _VoiceMessageState extends State<VoiceMessage> {
 
   _VoiceMessageState(this.message, this.mode);
 
+  SlidableController _controller;
+  BuildContext _sliderContext;
+  bool _isOpen = false;
+
   @override
   void initState() {
     super.initState();
+
+    _initSlidable();
     _initAudioPlayer();
+  }
+
+  void _initSlidable() {
+    _controller = SlidableController(
+      onSlideAnimationChanged: (s) => print(s), // do not remove
+      onSlideIsOpenChanged: (isOpen) {
+        if (mounted) {
+          setState(() {
+            _isOpen = isOpen;
+            sl<ChatStore>().setReplyMessage(widget.message);
+            final slide = Slidable.of(_sliderContext);
+            Future.delayed(Duration(milliseconds: 250), () => slide.close());
+          });
+        }
+      },
+    );
   }
 
   @override
@@ -72,87 +99,102 @@ class _VoiceMessageState extends State<VoiceMessage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(
-          left: widget.isMe ? 0 : 100, right: widget.isMe ? 100 : 0),
-      child: IconBubble(
-        padding: BubbleEdges.all(9),
-        message: widget.message,
-        isMe: widget.isMe,
-        child: Column(
-          crossAxisAlignment:
-              widget.isMe ? CrossAxisAlignment.start : CrossAxisAlignment.end,
-          children: [
-            HebrewText(
-              widget.message.sender.fullName,
-              style: newMessageNumber,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+    return Likeble(
+      message: widget.message,
+      child: ReplySlider(
+        isOpen: _isOpen,
+        keyName: widget.message.id.toString(),
+        controller: _controller,
+        builder: (context, index, animation, step) {
+          _sliderContext = context;
+          return ReplyButton(message: widget.message);
+        },
+        child: Container(
+          margin: EdgeInsets.only(
+              left: widget.isMe ? 0 : 100, right: widget.isMe ? 100 : 0),
+          child: IconBubble(
+            padding: BubbleEdges.all(9),
+            message: widget.message,
+            isMe: widget.isMe,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Directionality(
-                    textDirection: TextDirection.ltr,
-                    child: Slider(
-                      activeColor: strongPink,
-                      onChanged: (v) {
-                        final position = v * _duration.inMilliseconds;
-                        _audioPlayer
-                            .seek(Duration(milliseconds: position.round()));
-                      },
-                      value: (_position != null &&
-                              _duration != null &&
-                              _position.inMilliseconds > 0 &&
-                              _position.inMilliseconds <
-                                  _duration.inMilliseconds)
-                          ? _position.inMilliseconds / _duration.inMilliseconds
-                          : 0.0,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 40,
-                  width: 40,
-                  child: FloatingActionButton(
-                    onPressed: () => _isPlaying ? _pause() : _play(),
-                    elevation: 0,
-                    backgroundColor: white,
-                    child: AnimatedSwitcher(
-                      duration: Duration(milliseconds: 250),
-                      transitionBuilder: (child, animation) => ScaleTransition(
-                        scale: animation,
-                        child: child,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: Directionality(
+                        textDirection: TextDirection.ltr,
+                        child: Slider(
+                          activeColor: strongPink,
+                          onChanged: (v) {
+                            final position = v * _duration.inMilliseconds;
+                            _audioPlayer
+                                .seek(Duration(milliseconds: position.round()));
+                          },
+                          value: (_position != null &&
+                                  _duration != null &&
+                                  _position.inMilliseconds > 0 &&
+                                  _position.inMilliseconds <
+                                      _duration.inMilliseconds)
+                              ? _position.inMilliseconds /
+                                  _duration.inMilliseconds
+                              : 0.0,
+                        ),
                       ),
-                      child: _isPlaying
-                          ? SvgPicture.asset(
-                              'assets/images/pause.svg',
-                              key: Key('pause_button'),
-                              height: 12,
-                              width: 12,
-                            )
-                          : SvgPicture.asset(
-                              'assets/images/play.svg',
-                              height: 12,
-                              width: 12,
-                              key: Key('play_button'),
-                            ),
                     ),
-                  ),
+                    SizedBox(
+                      height: 40,
+                      width: 40,
+                      child: FloatingActionButton(
+                        heroTag: widget.message.id.toString(),
+                        onPressed: () => _isPlaying ? _pause() : _play(),
+                        elevation: 0,
+                        backgroundColor: white,
+                        child: AnimatedSwitcher(
+                          duration: Duration(milliseconds: 250),
+                          transitionBuilder: (child, animation) =>
+                              ScaleTransition(
+                            scale: animation,
+                            child: child,
+                          ),
+                          child: _isPlaying
+                              ? SvgPicture.asset(
+                                  'assets/images/pause.svg',
+                                  key: Key('pause_button'),
+                                  height: 12,
+                                  width: 12,
+                                )
+                              : SvgPicture.asset(
+                                  'assets/images/play.svg',
+                                  height: 12,
+                                  width: 12,
+                                  key: Key('play_button'),
+                                ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 4),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    HebrewText(
+                      widget.message.sender.fullName,
+                      style: newMessageNumber,
+                    ),
+                    Text(
+                      _position != null
+                          ? '${_durationText ?? ''} / ${_positionText ?? ''}'
+                          : _duration != null ? _durationText : '',
+                      style: newMessageNumber,
+                    ),
+                  ],
                 ),
               ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  _position != null
-                      ? '${_durationText ?? ''} / ${_positionText ?? ''}'
-                      : _duration != null ? _durationText : '',
-                  style: newMessageNumber,
-                ),
-              ],
-            )
-          ],
+          ),
         ),
       ),
     );

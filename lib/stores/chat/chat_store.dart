@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/core/stop_watch.dart';
@@ -53,6 +52,9 @@ abstract class _ChatStoreBase with Store {
   }
 
   @observable
+  MessageModel _replyMessage;
+
+  @observable
   bool _showWelcomeDialog = true;
 
   @observable
@@ -69,6 +71,12 @@ abstract class _ChatStoreBase with Store {
 
   @observable
   ObservableList<MessageModel> _messages = ObservableList.of([]);
+
+  @computed
+  bool get isReplyMessage => _replyMessage != null;
+
+  @computed
+  MessageModel get replayMessage => _replyMessage;
 
   @computed
   ChatState get getState => _state;
@@ -90,6 +98,16 @@ abstract class _ChatStoreBase with Store {
 
   @computed
   bool get showWelcomeDialog => _showWelcomeDialog;
+
+  @action
+  void setReplyMessage(MessageModel message) {
+    _replyMessage = message;
+  }
+
+  @action
+  void resetReply() {
+    _replyMessage = null;
+  }
 
   @action
   Future subscribe() async {
@@ -120,7 +138,7 @@ abstract class _ChatStoreBase with Store {
   }
 
   @action
-  Future getCached() async {
+  Future getCachedConversation() async {
     final local = await _repository.getCachedConversation(conversation.id);
     if (local != null) {
       updateUi(local);
@@ -131,7 +149,7 @@ abstract class _ChatStoreBase with Store {
   Future getConversation() async {
     try {
       _state = _state.copyWith(loading: true);
-      await getCached();
+      await getCachedConversation();
       final remote = await _repository.getRemoteConversaion(conversation.id);
       updateUi(remote);
       _repository.cacheConversation(conversation);
@@ -398,17 +416,22 @@ abstract class _ChatStoreBase with Store {
 
   @action
   void watchMessages() {
-    _messagesSubscription = _repository.watchMessages().listen(
-          (message) => _messages.add(message),
-        );
+    _messagesSubscription =
+        _repository.watchMessages().listen((message) => _messages.add(message));
   }
 
   @action
-  Future dispose() async {
-    _state = ChatState.initial();
-    _messages.clear();
-    _messagesSubscription?.cancel();
-    await recordTimer.dispose();
+  void watchAddLike() {
+    _messagesSubscription = _repository
+        .watchAddLike()
+        .listen((message) => _replaceMessage(message));
+  }
+
+  @action
+  void watchRemoveLike() {
+    _messagesSubscription = _repository
+        .watchRemoveLike()
+        .listen((message) => _replaceMessage(message));
   }
 
   @action
@@ -429,4 +452,17 @@ abstract class _ChatStoreBase with Store {
   }
 
   bool isMe(int id) => (id == _userStore.getUser?.id) ?? false;
+
+  void _replaceMessage(MessageModel message) {
+    final index = _messages.indexWhere((msg) => message.id == msg.id);
+    _messages[index] = message;
+  }
+
+  @action
+  Future dispose() async {
+    _state = ChatState.initial();
+    _messages?.clear();
+    _messagesSubscription?.cancel();
+    await recordTimer?.dispose();
+  }
 }

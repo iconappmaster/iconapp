@@ -19,7 +19,7 @@ abstract class MessageModel with _$MessageModel {
     final String likeType,
     final MessageStatus status,
     final String extraData,
-    final String repliedToMessageId,
+    final MessageModel repliedToMessage,
   }) = _MessageModel;
 
   factory MessageModel.fromJson(Map<String, dynamic> json) =>

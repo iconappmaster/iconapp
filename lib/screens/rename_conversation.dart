@@ -48,6 +48,7 @@ class EditConversation extends StatelessWidget {
               height: 53,
               width: 53,
               child: FloatingActionButton(
+                heroTag: 'fab2',
                   child: SvgPicture.asset(
                     'assets/images/check.svg',
                     height: 27,

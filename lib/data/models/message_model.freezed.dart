@@ -28,7 +28,7 @@ class _$MessageModelTearOff {
       String likeType,
       MessageStatus status,
       String extraData,
-      String repliedToMessageId}) {
+      MessageModel repliedToMessage}) {
     return _MessageModel(
       id: id,
       localId: localId,
@@ -41,7 +41,7 @@ class _$MessageModelTearOff {
       likeType: likeType,
       status: status,
       extraData: extraData,
-      repliedToMessageId: repliedToMessageId,
+      repliedToMessage: repliedToMessage,
     );
   }
 }
@@ -61,7 +61,7 @@ mixin _$MessageModel {
   String get likeType;
   MessageStatus get status;
   String get extraData;
-  String get repliedToMessageId;
+  MessageModel get repliedToMessage;
 
   Map<String, dynamic> toJson();
   $MessageModelCopyWith<MessageModel> get copyWith;
@@ -83,7 +83,7 @@ abstract class $MessageModelCopyWith<$Res> {
       String likeType,
       MessageStatus status,
       String extraData,
-      String repliedToMessageId});
+      MessageModel repliedToMessage});
 
   $UserModelCopyWith<$Res> get sender;
   $LikesCountCopyWith<$Res> get likeCounts;
@@ -109,7 +109,7 @@ class _$MessageModelCopyWithImpl<$Res> implements $MessageModelCopyWith<$Res> {
     Object likeType = freezed,
     Object status = freezed,
     Object extraData = freezed,
-    Object repliedToMessageId = freezed,
+    Object repliedToMessage = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as int,
@@ -126,9 +126,9 @@ class _$MessageModelCopyWithImpl<$Res> implements $MessageModelCopyWith<$Res> {
       likeType: likeType == freezed ? _value.likeType : likeType as String,
       status: status == freezed ? _value.status : status as MessageStatus,
       extraData: extraData == freezed ? _value.extraData : extraData as String,
-      repliedToMessageId: repliedToMessageId == freezed
-          ? _value.repliedToMessageId
-          : repliedToMessageId as String,
+      repliedToMessage: repliedToMessage == freezed
+          ? _value.repliedToMessage
+          : repliedToMessage as MessageModel,
     ));
   }
 
@@ -171,7 +171,7 @@ abstract class _$MessageModelCopyWith<$Res>
       String likeType,
       MessageStatus status,
       String extraData,
-      String repliedToMessageId});
+      MessageModel repliedToMessage});
 
   @override
   $UserModelCopyWith<$Res> get sender;
@@ -201,7 +201,7 @@ class __$MessageModelCopyWithImpl<$Res> extends _$MessageModelCopyWithImpl<$Res>
     Object likeType = freezed,
     Object status = freezed,
     Object extraData = freezed,
-    Object repliedToMessageId = freezed,
+    Object repliedToMessage = freezed,
   }) {
     return _then(_MessageModel(
       id: id == freezed ? _value.id : id as int,
@@ -218,9 +218,9 @@ class __$MessageModelCopyWithImpl<$Res> extends _$MessageModelCopyWithImpl<$Res>
       likeType: likeType == freezed ? _value.likeType : likeType as String,
       status: status == freezed ? _value.status : status as MessageStatus,
       extraData: extraData == freezed ? _value.extraData : extraData as String,
-      repliedToMessageId: repliedToMessageId == freezed
-          ? _value.repliedToMessageId
-          : repliedToMessageId as String,
+      repliedToMessage: repliedToMessage == freezed
+          ? _value.repliedToMessage
+          : repliedToMessage as MessageModel,
     ));
   }
 }
@@ -239,7 +239,7 @@ class _$_MessageModel implements _MessageModel {
       this.likeType,
       this.status,
       this.extraData,
-      this.repliedToMessageId});
+      this.repliedToMessage});
 
   factory _$_MessageModel.fromJson(Map<String, dynamic> json) =>
       _$_$_MessageModelFromJson(json);
@@ -267,11 +267,11 @@ class _$_MessageModel implements _MessageModel {
   @override
   final String extraData;
   @override
-  final String repliedToMessageId;
+  final MessageModel repliedToMessage;
 
   @override
   String toString() {
-    return 'MessageModel(id: $id, localId: $localId, timestamp: $timestamp, body: $body, wasSeen: $wasSeen, messageType: $messageType, sender: $sender, likeCounts: $likeCounts, likeType: $likeType, status: $status, extraData: $extraData, repliedToMessageId: $repliedToMessageId)';
+    return 'MessageModel(id: $id, localId: $localId, timestamp: $timestamp, body: $body, wasSeen: $wasSeen, messageType: $messageType, sender: $sender, likeCounts: $likeCounts, likeType: $likeType, status: $status, extraData: $extraData, repliedToMessage: $repliedToMessage)';
   }
 
   @override
@@ -307,9 +307,9 @@ class _$_MessageModel implements _MessageModel {
             (identical(other.extraData, extraData) ||
                 const DeepCollectionEquality()
                     .equals(other.extraData, extraData)) &&
-            (identical(other.repliedToMessageId, repliedToMessageId) ||
+            (identical(other.repliedToMessage, repliedToMessage) ||
                 const DeepCollectionEquality()
-                    .equals(other.repliedToMessageId, repliedToMessageId)));
+                    .equals(other.repliedToMessage, repliedToMessage)));
   }
 
   @override
@@ -326,7 +326,7 @@ class _$_MessageModel implements _MessageModel {
       const DeepCollectionEquality().hash(likeType) ^
       const DeepCollectionEquality().hash(status) ^
       const DeepCollectionEquality().hash(extraData) ^
-      const DeepCollectionEquality().hash(repliedToMessageId);
+      const DeepCollectionEquality().hash(repliedToMessage);
 
   @override
   _$MessageModelCopyWith<_MessageModel> get copyWith =>
@@ -351,7 +351,7 @@ abstract class _MessageModel implements MessageModel {
       String likeType,
       MessageStatus status,
       String extraData,
-      String repliedToMessageId}) = _$_MessageModel;
+      MessageModel repliedToMessage}) = _$_MessageModel;
 
   factory _MessageModel.fromJson(Map<String, dynamic> json) =
       _$_MessageModel.fromJson;
@@ -379,7 +379,7 @@ abstract class _MessageModel implements MessageModel {
   @override
   String get extraData;
   @override
-  String get repliedToMessageId;
+  MessageModel get repliedToMessage;
   @override
   _$MessageModelCopyWith<_MessageModel> get copyWith;
 }

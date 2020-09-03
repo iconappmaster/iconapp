@@ -9,8 +9,8 @@ import 'header_interceptor.dart';
 import 'logger_interceptor.dart';
 part 'rest_client.g.dart';
 
-const String baseUrlProd = 'http://iconproduction.herokuapp.com/api/v1/';
-const String baseUrlStaging = 'http://iconstaging.herokuapp.com/api/v1/';
+const String baseUrlProd = 'https://iconproduction.herokuapp.com/api/v1/';
+const String baseUrlStaging = 'https://iconstaging.herokuapp.com/api/v1/';
 
 @RestApi(baseUrl: baseUrlStaging)
 abstract class RestClient {

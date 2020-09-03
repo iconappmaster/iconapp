@@ -23,8 +23,7 @@ class LikeBubble extends StatelessWidget {
       padding: padding ?? EdgeInsets.all(0),
       child: Container(
         height: 20,
-        
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+        padding: EdgeInsets.symmetric(horizontal: 12),
         alignment: Alignment.center,
         decoration: BoxDecoration(
             color: cornflower, borderRadius: BorderRadius.circular(13.3)),
@@ -37,7 +36,7 @@ class LikeBubble extends StatelessWidget {
               height: 16,
               width: 16,
             ),
-            SizedBox(width: 1),
+            SizedBox(width: 3),
             if (count != null)
               HebrewText(
                 count.toString(),

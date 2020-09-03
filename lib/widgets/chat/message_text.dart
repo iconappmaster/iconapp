@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'events/slide_event.dart';
+import 'package:iconapp/stores/chat/chat_store.dart';
+
 import 'package:flutter/material.dart';
-import '../../core/bus.dart';
 import '../global/bubble.dart';
 import '../global/like_menu/likes_menu.dart';
 import 'reply_slider.dart';
@@ -30,9 +30,7 @@ class TextMessage extends StatefulWidget {
 }
 
 class _TextMessageState extends State<TextMessage> {
-  SlidableController controller;
-  SlidableState slide;
-  StreamSubscription<SlidableOpenEvent> subscripbiton;
+  SlidableController _controller;
   BuildContext _sliderContext;
   bool _isOpen = false;
 
@@ -43,22 +41,17 @@ class _TextMessageState extends State<TextMessage> {
   }
 
   void init() {
-    final bus = sl<Bus>();
-    subscripbiton = bus.on<SlidableOpenEvent>().listen((event) {
-      if (widget.index != event.index && _sliderContext != null) {
-        Slidable.of(_sliderContext).close();
-      }
-    });
-
-    controller = SlidableController(
+    _controller = SlidableController(
+      onSlideAnimationChanged: (s) => print(s), // do not remove
       onSlideIsOpenChanged: (isOpen) {
         if (mounted) {
           setState(() {
             _isOpen = isOpen;
+            sl<ChatStore>().setReplyMessage(widget.message);
+            final slide = Slidable.of(_sliderContext);
+            Future.delayed(Duration(milliseconds: 250), () => slide.close());
           });
         }
-
-        if (isOpen) bus.fire(SlidableOpenEvent(widget.index));
       },
     );
   }
@@ -74,8 +67,11 @@ class _TextMessageState extends State<TextMessage> {
       child: ReplySlider(
         isOpen: _isOpen,
         keyName: widget.message.id.toString(),
-        controller: controller,
-        builder: _replyBuilder,
+        controller: _controller,
+        builder: (context, index, animation, step) {
+          _sliderContext = context;
+          return ReplyButton(message: widget.message);
+        },
         child: IconBubble(
           padding: BubbleEdges.only(left: 12, right: 12, top: 15, bottom: 7),
           message: widget.message,
@@ -92,6 +88,7 @@ class _TextMessageState extends State<TextMessage> {
                       style: chatMessageName, textAlign: TextAlign.start),
                   SelectableText(widget.message?.body ?? '',
                       style: chatMessageBody, textAlign: TextAlign.start),
+                  SizedBox(height: 8),
                 ],
               ),
             ),
@@ -110,16 +107,5 @@ class _TextMessageState extends State<TextMessage> {
         ),
       ),
     );
-  }
-
-  Widget _replyBuilder(context, index, animation, step) {
-    _sliderContext = context;
-    return ReplyButton();
-  }
-
-  @override
-  void dispose() {
-    subscripbiton?.cancel();
-    super.dispose();
   }
 }
