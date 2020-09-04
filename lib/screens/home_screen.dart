@@ -119,11 +119,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void openBottomSheet(BuildContext context) {
     showCupertinoModalBottomSheet(
-        backgroundColor: Colors.transparent,
-        expand: true,
-        context: context,
-        builder: (context, scrollController) {
-          return NestedSheetModal(scrollController: scrollController);
-        });
+      backgroundColor: Colors.transparent,
+      expand: true,
+      context: context,
+      builder: (context, scrollController) =>
+          NestedSheetModal(scrollController: scrollController),
+    );
   }
 }

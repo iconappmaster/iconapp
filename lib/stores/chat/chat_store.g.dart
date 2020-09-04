@@ -232,9 +232,10 @@ mixin _$ChatStore on _ChatStoreBase, Store {
       AsyncAction('_ChatStoreBase.likeUnlikeMessage');
 
   @override
-  Future<dynamic> likeUnlikeMessage(MessageModel msg, String likeType) {
+  Future<dynamic> likeUnlikeMessage(
+      MessageModel currentMessage, String likeType) {
     return _$likeUnlikeMessageAsyncAction
-        .run(() => super.likeUnlikeMessage(msg, likeType));
+        .run(() => super.likeUnlikeMessage(currentMessage, likeType));
   }
 
   final _$sendTextMessageAsyncAction =
@@ -316,6 +317,17 @@ mixin _$ChatStore on _ChatStoreBase, Store {
         name: '_ChatStoreBase.resetReply');
     try {
       return super.resetReply();
+    } finally {
+      _$_ChatStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void updateUi(Conversation conversation) {
+    final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
+        name: '_ChatStoreBase.updateUi');
+    try {
+      return super.updateUi(conversation);
     } finally {
       _$_ChatStoreBaseActionController.endAction(_$actionInfo);
     }

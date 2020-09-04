@@ -481,16 +481,18 @@ class _RestClient implements RestClient {
   }
 
   @override
-  sendMessage(id, body, type, extraData) async {
+  sendMessage(id, body, type, extraData, messageId) async {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(body, 'body');
     ArgumentError.checkNotNull(type, 'type');
     ArgumentError.checkNotNull(extraData, 'extraData');
+    ArgumentError.checkNotNull(messageId, 'messageId');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'body': body,
       r'messageType': type,
-      r'extraData': extraData
+      r'extraData': extraData,
+      r'repliedToMessageId': messageId
     };
     final _data = <String, dynamic>{};
     final Response<Map<String, dynamic>> _result = await _dio.request(

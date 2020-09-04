@@ -13,9 +13,11 @@ class StoryStore = _StoryStoreBase with _$StoryStore;
 
 abstract class _StoryStoreBase with Store {
   StoryRepository _repository;
+  UserStore _user;
 
   _StoryStoreBase() {
     _repository = sl<StoryRepository>();
+    _user = sl<UserStore>();
   }
 
   @observable
@@ -26,6 +28,9 @@ abstract class _StoryStoreBase with Store {
 
   @computed
   StoryMode get mode => _mode;
+
+  @computed
+  bool get showAddButton => _user.getUser.isIcon;
 
   @computed
   List<StoryModel> get getStories => _stories.reversed.toList();
@@ -53,22 +58,9 @@ abstract class _StoryStoreBase with Store {
       final stories = await _repository.getHomeStories();
       if (_stories.isNotEmpty) _stories.clear();
       _stories.addAll(stories);
-
-      addPlusButton();
     } on Exception catch (e) {
       print(e);
     }
-  }
-
-  void addPlusButton() {
-    final user = sl<UserStore>().getUser;
-    final plusStory = StoryModel(
-        isNew: false,
-        isAddButton: true,
-        photo: user.photo,
-        user: user,
-        storyImages: []);
-    _stories.add(plusStory);
   }
 
   @action
@@ -77,7 +69,5 @@ abstract class _StoryStoreBase with Store {
     final stories = await _repository.getConversationsStories(conversationId);
     if (_stories.isNotEmpty) _stories.clear();
     _stories.addAll(stories);
-
-    addPlusButton();
   }
 }

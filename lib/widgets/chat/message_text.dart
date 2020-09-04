@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 
 import 'package:flutter/material.dart';
@@ -62,9 +63,13 @@ class _TextMessageState extends State<TextMessage> {
         ? blueBerry
         : widget.isMe ? darkIndigo2 : blueberry2;
 
+    final  store = sl<ChatStore>();
+
+
     return Likeble(
       message: widget.message,
-      child: ReplySlider(
+      child: Replyble(
+        isEnabled: store.conversation.userRole != UserRole.viewer,
         isOpen: _isOpen,
         keyName: widget.message.id.toString(),
         controller: _controller,

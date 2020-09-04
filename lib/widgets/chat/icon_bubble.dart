@@ -72,8 +72,6 @@ class _IconBubbleState extends State<IconBubble> {
               right: widget.isMe ? null : 40,
               child: LikeBubble(likeAsset: widget.message?.likeType),
             ),
-
-            
           ],
         ),
         // if (showLikeIndicator)/
@@ -118,5 +116,7 @@ class _IconBubbleState extends State<IconBubble> {
   }
 
   bool get showLikeIndicator =>
-      widget.message.likeCounts.like1 > 0 || widget.message.likeCounts.like2 > 0   || widget.message.likeCounts.like3 > 0  ;
+      widget.message.likeCounts.like1 > 0 ||
+      widget.message.likeCounts.like2 > 0 ||
+      widget.message.likeCounts.like3 > 0;
 }

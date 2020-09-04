@@ -11,7 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  plain_notification_token: ^0.0.1
+  flutter_local_notifications: ^1.4.4+4
   device_info: ^0.4.2+7
   cupertino_icons: ^0.1.3
   firebase_crashlytics: ^0.1.4+1

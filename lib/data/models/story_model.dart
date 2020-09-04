@@ -10,13 +10,9 @@ class StoryModel {
   final bool isNew; // check what is a new story
   final PhotoModel photo;
   final UserModel user;
-  final List<PhotoModel> storyImages; // should we use a list of photos?
-  
-  // local variables
-  final bool isAddButton;
+  final List<PhotoModel> storyImages; 
 
   StoryModel( {
-    this.isAddButton = false,
     @required this.isNew,
     @required this.photo,
     @required this.user,
@@ -27,3 +23,13 @@ class StoryModel {
       _$StoryModelFromJson(json);
   Map<String, dynamic> toJson() => _$StoryModelToJson(this);
 }
+
+
+// class StoryImageModel {
+//     int id,
+//     String url,
+//     String thumbnail,
+//     String description,
+
+
+// }

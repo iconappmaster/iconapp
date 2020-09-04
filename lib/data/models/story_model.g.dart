@@ -8,7 +8,6 @@ part of 'story_model.dart';
 
 StoryModel _$StoryModelFromJson(Map<String, dynamic> json) {
   return StoryModel(
-    isAddButton: json['isAddButton'] as bool,
     isNew: json['isNew'] as bool,
     photo: json['photo'] == null
         ? null
@@ -29,5 +28,4 @@ Map<String, dynamic> _$StoryModelToJson(StoryModel instance) =>
       'photo': instance.photo,
       'user': instance.user,
       'storyImages': instance.storyImages,
-      'isAddButton': instance.isAddButton,
     };

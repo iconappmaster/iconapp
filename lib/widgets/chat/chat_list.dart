@@ -27,7 +27,7 @@ class _ChatListState extends State<ChatList> {
 
     return Observer(
       builder: (_) => Expanded(
-        child: store.getState.loading
+        child: store.getState.loading && store.getMessages.isEmpty
             ? LottieLoader()
             : ListView.builder(
                 controller: widget.scrollController,

@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/message_model.dart';
+import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/chat/reply_slider.dart';
@@ -61,9 +62,13 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
 
   @override
   Widget build(BuildContext context) {
+    final store = sl<ChatStore>();
+    
+    
     return Likeble(
       message: widget.message,
-      child: ReplySlider(
+      child: Replyble(
+        isEnabled: store.conversation.userRole != UserRole.viewer,
         isOpen: _isOpen,
         keyName: widget.message.id.toString(),
         controller: _controller,
@@ -87,19 +92,19 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
                       child: SizedBox(
                         height: 200,
                         width: 240,
-                        child: NetworkPhoto(
-                            url: widget.message?.extraData ?? ''),
+                        child:
+                            NetworkPhoto(url: widget.message?.extraData ?? ''),
                       ))
                   : ClipRRect(
-                    borderRadius: BorderRadius.circular(4.2),
-                    child: SizedBox(
-                      height: 200,
-                      width: 240,
-                      child: Image.file(
-                        File(widget.message?.extraData ?? ''),
+                      borderRadius: BorderRadius.circular(4.2),
+                      child: SizedBox(
+                        height: 200,
+                        width: 240,
+                        child: Image.file(
+                          File(widget.message?.extraData ?? ''),
+                        ),
                       ),
                     ),
-                  ),
               SvgPicture.asset(
                 'assets/images/play_button.svg',
                 height: 56,

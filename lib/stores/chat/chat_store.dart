@@ -48,6 +48,7 @@ abstract class _ChatStoreBase with Store {
     sl<ChatSettingsStore>()..init();
     _setConversationViewed();
     getConversation();
+    
     _showWelcomeDialog = _prefs.getBool(StorageKey.chatWelcome, true);
   }
 
@@ -160,8 +161,9 @@ abstract class _ChatStoreBase with Store {
     }
   }
 
-  void updateUi(Conversation remote) {
-    _conversation = remote;
+  @action
+  void updateUi(Conversation conversation) {
+    _conversation = conversation;
     _determineComposerMode();
     _addAllMessages();
   }
@@ -217,14 +219,16 @@ abstract class _ChatStoreBase with Store {
   }
 
   @action
-  Future likeUnlikeMessage(MessageModel msg, String likeType) async {
+  Future likeUnlikeMessage(MessageModel currentMessage, String likeType) async {
     try {
-      final message = msg.likeType == likeType
-          ? await _repository.unlikeMessage(msg.id, likeType)
-          : await _repository.likeMessage(msg.id, likeType);
+      final messageResult = currentMessage.likeType == likeType
+          ? await _repository.unlikeMessage(currentMessage.id, likeType)
+          : await _repository.likeMessage(currentMessage.id, likeType);
 
-      final index = _messages.indexOf(msg);
-      _messages[index] = message;
+      final index =
+          _messages.indexWhere((message) => message.id == messageResult.id);
+
+      _messages[index] = messageResult;
     } on ServerError catch (e) {
       Crash.report(e.message);
     }
@@ -240,16 +244,18 @@ abstract class _ChatStoreBase with Store {
           status: MessageStatus.pending,
           likeCounts: LikesCount.initial(),
           timestamp: DateTime.now().millisecondsSinceEpoch,
-          messageType: MessageType.text);
+          messageType: MessageType.text,
+          repliedToMessage: _replyMessage);
 
       _messages.add(msg);
+
+      _replyMessage = null;
 
       final remote = await _repository.sendMessage(conversation.id, msg);
 
       _updateLocalMessage(
           remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
 
-      // clear the input state
       _state = _state.copyWith(inputMessage: '');
     } on ServerError catch (e) {
       Crash.report(e.message);

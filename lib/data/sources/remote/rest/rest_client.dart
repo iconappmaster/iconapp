@@ -110,6 +110,7 @@ abstract class RestClient {
     @Query('body') String body,
     @Query('messageType') String type,
     @Query('extraData') String extraData,
+    @Query('repliedToMessageId') int messageId,
   );
 
   @POST('messages/{messageId}/like_message')

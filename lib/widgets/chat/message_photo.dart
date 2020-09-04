@@ -6,6 +6,7 @@ import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/models/photo_model.dart';
+import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/chat/reply_slider.dart';
@@ -60,9 +61,11 @@ class _PhotoMessageState extends State<PhotoMessage> {
 
   @override
   Widget build(BuildContext context) {
+    final store = sl<ChatStore>();
     return Likeble(
       message: widget.message,
-      child: ReplySlider(
+      child: Replyble(
+        isEnabled: store.conversation.userRole != UserRole.viewer,
         isOpen: _isOpen,
         keyName: widget.message.id.toString(),
         controller: _controller,

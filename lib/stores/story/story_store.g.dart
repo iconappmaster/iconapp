@@ -15,6 +15,13 @@ mixin _$StoryStore on _StoryStoreBase, Store {
   StoryMode get mode => (_$modeComputed ??=
           Computed<StoryMode>(() => super.mode, name: '_StoryStoreBase.mode'))
       .value;
+  Computed<bool> _$showAddButtonComputed;
+
+  @override
+  bool get showAddButton =>
+      (_$showAddButtonComputed ??= Computed<bool>(() => super.showAddButton,
+              name: '_StoryStoreBase.showAddButton'))
+          .value;
   Computed<List<StoryModel>> _$getStoriesComputed;
 
   @override
@@ -95,6 +102,7 @@ mixin _$StoryStore on _StoryStoreBase, Store {
   String toString() {
     return '''
 mode: ${mode},
+showAddButton: ${showAddButton},
 getStories: ${getStories}
     ''';
   }

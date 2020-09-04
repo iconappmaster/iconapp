@@ -86,6 +86,7 @@ class ChatRepositoryImpl implements ChatRepository {
       message.body,
       message.messageType.toString().parseEnum(),
       message?.extraData ?? '',
+      message.repliedToMessage.id,
     );
   }
 

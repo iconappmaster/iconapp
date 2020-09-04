@@ -48,6 +48,7 @@ class _StoriesListState extends State<StoriesList>
   @override
   Widget build(BuildContext context) {
     final store = sl<StoryStore>();
+
     return Observer(
       builder: (_) => AnimatedSize(
         vsync: this,
@@ -61,18 +62,18 @@ class _StoriesListState extends State<StoriesList>
                 margin: widget.margin,
                 height: widget.show ? context.heightPlusStatusbarPerc(.09) : 0,
                 width: context.widthPx,
-                child: ListView.builder(
-                  itemCount: store.getStories.length,
+                child: ListView(
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   physics: BouncingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    final story = store.getStories[index];
-                    return story?.isAddButton ?? false
-                        ? StoryAddButton(onTap: () => print('addstory'))
-                        : StoryTile(
-                            story: story, onTap: () => print('on story tap'));
-                  },
+                  children: [
+                    if (store.showAddButton)
+                      StoryAddButton(onTap: () => print('addstory')),
+                    ...store.getStories
+                        .map((story) => StoryTile(
+                            story: story, onTap: () => print('on story tap')))
+                        .toList()
+                  ],
                 ),
               ),
             ),
@@ -95,11 +96,12 @@ class StoryAddButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = sl<UserStore>();
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Container(
-          height: 62,
-          width: 62,
+          height: 64,
+          width: 64,
           margin: EdgeInsets.symmetric(horizontal: 10),
           decoration:
               BoxDecoration(shape: BoxShape.circle, color: Colors.transparent),
@@ -143,6 +145,7 @@ class StoryTile extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Stack(
+        alignment: Alignment.center,
         children: [
           Column(
             mainAxisSize: MainAxisSize.min,
