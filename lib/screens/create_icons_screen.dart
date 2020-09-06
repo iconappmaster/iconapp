@@ -32,7 +32,7 @@ class SelectIconScreen extends StatelessWidget {
     final isFromChat = this.mode == SelectIconMode.fromChat;
     final store = sl<CreateIconStore>();
     return Observer(
-      builder: (_) => BaseGradientWidget(
+      builder: (_) => BaseGradientBackground(
         gradient: grapeDarkIndigo,
         child: Container(
           child: Stack(

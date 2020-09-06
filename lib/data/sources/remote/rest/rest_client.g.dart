@@ -588,4 +588,41 @@ class _RestClient implements RestClient {
         .toList();
     return value;
   }
+
+  @override
+  viewedStory(imgId) async {
+    ArgumentError.checkNotNull(imgId, 'imgId');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response _result = await _dio.request('stories/$imgId/viewed_story',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = _result.data;
+    return value;
+  }
+
+  @override
+  publishStory(story) async {
+    ArgumentError.checkNotNull(story, 'story');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = story;
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'stories/add_to_story',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = StoryModel.fromJson(_result.data);
+    return value;
+  }
 }

@@ -21,7 +21,7 @@ class CreateDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final store = sl<CreateDetailsStore>();
     return Observer(
-      builder: (_) => BaseGradientWidget(
+      builder: (_) => BaseGradientBackground(
         child: Stack(
           children: <Widget>[
             CreateGroupAppbar(

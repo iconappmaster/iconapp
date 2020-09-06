@@ -35,7 +35,7 @@ class OnboardingProfile extends StatelessWidget {
       store.initPersonalDetails(user);
     }
 
-    return BaseGradientWidget(
+    return BaseGradientBackground(
       child: Observer(
         builder: (_) => Stack(
           alignment: Alignment.topCenter,

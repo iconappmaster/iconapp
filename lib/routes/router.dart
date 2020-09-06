@@ -15,6 +15,8 @@ import 'package:iconapp/screens/onboarding_profile.dart';
 import 'package:iconapp/screens/search_results_screen.dart';
 import 'package:iconapp/screens/settings_screen.dart';
 import 'package:iconapp/screens/splash_screen.dart';
+import 'package:iconapp/screens/story_edit_screen.dart';
+import 'package:iconapp/screens/story_screen.dart';
 
 @MaterialAutoRouter(
   generateNavigationHelperExtension: true,
@@ -34,6 +36,8 @@ import 'package:iconapp/screens/splash_screen.dart';
     MaterialRoute(page: EditConversation),
     CupertinoRoute(page: CreateDetailsScreen),
     CupertinoRoute(page: SearchResultsScreen),
+    CupertinoRoute(page: StoryScreen),
+    CupertinoRoute(page: StoryEditScreen),
   ],
 )
 class $Router {}

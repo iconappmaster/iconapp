@@ -17,7 +17,7 @@ class CreateCategoryScreen extends StatelessWidget {
     final store = sl<CreateCategoryStore>();
     return Observer(
       builder: (_) {
-        return BaseGradientWidget(
+        return BaseGradientBackground(
           child: Container(
             child: Stack(
               children: <Widget>[

@@ -12,7 +12,7 @@ import 'package:iconapp/widgets/bottomsheet/bs_nested_modal.dart';
 import 'package:iconapp/widgets/global/focus_aware.dart';
 import 'package:iconapp/widgets/home/home_drawer.dart';
 import 'package:iconapp/widgets/home/home_list.dart';
-import 'package:iconapp/widgets/home/stories_widget.dart';
+import 'package:iconapp/widgets/story/story_list.dart';
 import 'package:iconapp/widgets/home/welcome_dialog.dart';
 import 'package:iconapp/widgets/onboarding/onboarding_appbar.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';

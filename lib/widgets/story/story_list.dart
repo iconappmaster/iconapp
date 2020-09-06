@@ -1,10 +1,12 @@
 import 'dart:ui';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/story_model.dart';
+import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/story/story_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
@@ -68,7 +70,9 @@ class _StoriesListState extends State<StoriesList>
                   physics: BouncingScrollPhysics(),
                   children: [
                     if (store.showAddButton)
-                      StoryAddButton(onTap: () => print('addstory')),
+                      StoryAddButton(
+                          onTap: () => ExtendedNavigator.of(context)
+                              .pushStoryEditScreen()),
                     ...store.getStories
                         .map((story) => StoryTile(
                             story: story, onTap: () => print('on story tap')))
@@ -95,37 +99,40 @@ class StoryAddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = sl<UserStore>();
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Container(
-          height: 64,
-          width: 64,
-          margin: EdgeInsets.symmetric(horizontal: 10),
-          decoration:
-              BoxDecoration(shape: BoxShape.circle, color: Colors.transparent),
-          child: Stack(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(3.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: NetworkPhoto(
-                    placeHolder: 'assets/images/user_icon.svg',
-                    url: user.getUser?.photo?.url ?? '',
-                    height: _storySize,
-                    width: _storySize,
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Container(
+            height: 64,
+            width: 64,
+            margin: EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+                shape: BoxShape.circle, color: Colors.transparent),
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(3.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: NetworkPhoto(
+                      placeHolder: 'assets/images/user_icon.svg',
+                      url: user.getUser?.photo?.url ?? '',
+                      height: _storySize,
+                      width: _storySize,
+                    ),
                   ),
                 ),
-              ),
-              Positioned(left: 0, bottom: 0, child: PlusCircle(size: 30)),
-            ],
+                Positioned(left: 0, bottom: 0, child: PlusCircle(size: 30)),
+              ],
+            ),
           ),
-        ),
-        SizedBox(height: 8),
-        HebrewText('הסיפור שלך', style: myStoryCreate),
-      ],
+          SizedBox(height: 8),
+          HebrewText('הסיפור שלך', style: myStoryCreate),
+        ],
+      ),
     );
   }
 }
@@ -163,7 +170,7 @@ class StoryTile extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(100),
                     child: NetworkPhoto(
-                      url: story.photo?.url ?? '',
+                      url: story.user.photo?.url ?? '',
                       height: _storySize,
                       width: _storySize,
                     ),

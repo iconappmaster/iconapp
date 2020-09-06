@@ -15,7 +15,7 @@ import '../widgets/chat/panel_subscribe.dart';
 import '../widgets/chat/panel_compose.dart';
 import '../widgets/chat/settings/change_background.dart';
 import '../widgets/global/blue_divider.dart';
-import '../widgets/home/stories_widget.dart';
+import '../widgets/story/story_list.dart';
 import '../widgets/chat/chat_appbar.dart';
 import '../core/extensions/context_ext.dart';
 
@@ -45,7 +45,7 @@ class _ChatScreenState extends State<ChatScreen> {
       ..watchAddLike()
       ..watchRemoveLike();
 
-    sl<StoryStore>()..setMode(StoryMode.conversation);
+    sl<StoryStore>()..setStoryMode(StoryMode.conversation);
 
     _controller = ScrollController()
       ..addListener(() {

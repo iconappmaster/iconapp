@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/message_model.dart';
+import 'package:iconapp/data/models/story_image.dart';
 import 'package:iconapp/data/models/story_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/models/create_group_req.dart';
@@ -118,7 +119,8 @@ abstract class RestClient {
       @Path('messageId') int id, @Query('likeType') String likeType);
 
   @POST('messages/{messageId}/unlike_message')
-  Future<MessageModel> unlikeMessage(@Path('messageId') int id, @Query('likeType') String likeType);
+  Future<MessageModel> unlikeMessage(
+      @Path('messageId') int id, @Query('likeType') String likeType);
 
   // STORY
   @GET('stories/stories_for_home')
@@ -126,6 +128,12 @@ abstract class RestClient {
 
   @GET('stories/stories_for_conversation')
   Future<List<StoryModel>> conversationStories(@Query('conversationId') int id);
+
+  @POST('stories/{imgId}/viewed_story')
+  Future viewedStory(@Path('imgId') int imgId);
+
+  @POST('stories/add_to_story')
+  Future<StoryModel> publishStory(@Body() List<StoryImageModel> story);
 }
 
 Dio getDioClient() {

@@ -17,7 +17,7 @@ class EditConversation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
-    return BaseGradientWidget(
+    return BaseGradientBackground(
       child: Stack(
         children: [
           Column(

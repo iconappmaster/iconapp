@@ -24,6 +24,9 @@ import 'package:iconapp/screens/create_categories_screen.dart';
 import 'package:iconapp/screens/rename_conversation.dart';
 import 'package:iconapp/screens/create_details_screen.dart';
 import 'package:iconapp/screens/search_results_screen.dart';
+import 'package:iconapp/screens/story_screen.dart';
+import 'package:iconapp/data/models/story_image.dart';
+import 'package:iconapp/screens/story_edit_screen.dart';
 
 class Routes {
   static const String splashScreen = '/';
@@ -41,6 +44,8 @@ class Routes {
   static const String editConversation = '/edit-conversation';
   static const String createDetailsScreen = '/create-details-screen';
   static const String searchResultsScreen = '/search-results-screen';
+  static const String storyScreen = '/story-screen';
+  static const String storyEditScreen = '/story-edit-screen';
   static const all = <String>{
     splashScreen,
     loginScreen,
@@ -57,6 +62,8 @@ class Routes {
     editConversation,
     createDetailsScreen,
     searchResultsScreen,
+    storyScreen,
+    storyEditScreen,
   };
 }
 
@@ -79,6 +86,8 @@ class Router extends RouterBase {
     RouteDef(Routes.editConversation, page: EditConversation),
     RouteDef(Routes.createDetailsScreen, page: CreateDetailsScreen),
     RouteDef(Routes.searchResultsScreen, page: SearchResultsScreen),
+    RouteDef(Routes.storyScreen, page: StoryScreen),
+    RouteDef(Routes.storyEditScreen, page: StoryEditScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -191,6 +200,20 @@ class Router extends RouterBase {
         settings: data,
       );
     },
+    StoryScreen: (RouteData data) {
+      var args = data.getArgs<StoryScreenArguments>(
+          orElse: () => StoryScreenArguments());
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => StoryScreen(key: args.key, stories: args.stories),
+        settings: data,
+      );
+    },
+    StoryEditScreen: (RouteData data) {
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => StoryEditScreen(),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -284,6 +307,18 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
         arguments: SearchResultsScreenArguments(
             key: key, id: id, mode: mode, name: name),
       );
+
+  Future<dynamic> pushStoryScreen({
+    Key key,
+    List<StoryImageModel> stories,
+  }) =>
+      pushNamed<dynamic>(
+        Routes.storyScreen,
+        arguments: StoryScreenArguments(key: key, stories: stories),
+      );
+
+  Future<dynamic> pushStoryEditScreen() =>
+      pushNamed<dynamic>(Routes.storyEditScreen);
 }
 
 // *************************************************************************
@@ -339,4 +374,11 @@ class SearchResultsScreenArguments {
   final String name;
   SearchResultsScreenArguments(
       {this.key, @required this.id, @required this.mode, @required this.name});
+}
+
+//StoryScreen arguments holder class
+class StoryScreenArguments {
+  final Key key;
+  final List<StoryImageModel> stories;
+  StoryScreenArguments({this.key, this.stories});
 }

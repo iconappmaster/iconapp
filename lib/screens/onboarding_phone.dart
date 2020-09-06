@@ -33,7 +33,7 @@ class _OnboardingPhoneState extends State<OnboardingPhone> {
   Widget build(BuildContext context) {
     final store = sl<LoginStore>();
 
-    return BaseGradientWidget(
+    return BaseGradientBackground(
       child: Observer(
         builder: (_) => Stack(
           fit: StackFit.expand,
