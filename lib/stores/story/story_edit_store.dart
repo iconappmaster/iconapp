@@ -1,4 +1,6 @@
+import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/data/models/story_model.dart';
+import 'package:iconapp/stores/story/story_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import '../../core/dependencies/locator.dart';
 import '../../core/firebase/crashlytics.dart';
@@ -31,10 +33,10 @@ abstract class _StoryEditStoreBase with Store {
 
   @observable
   ObservableList<StoryImageModel> _storiesToPublish = ObservableList.of([]);
-  
+
   @computed
   bool get isLoading => _isLoading;
-  
+
   @computed
   List<StoryImageModel> get stories => _storiesToPublish;
 
@@ -47,7 +49,9 @@ abstract class _StoryEditStoreBase with Store {
       _isLoading = true;
       final url = await _mediaStore.uploadPhoto();
       final storyImg = StoryImageModel.photo();
-      _storiesToPublish.add(storyImg.copyWith(url: url));
+      _storiesToPublish.add(storyImg.copyWith(
+          id: DateTime.now().millisecondsSinceEpoch,
+          photo: PhotoModel(url: url)));
     } on ServerError catch (e) {
       Crash.report(e.message);
     } finally {
@@ -58,11 +62,19 @@ abstract class _StoryEditStoreBase with Store {
   @action
   Future addVideoMedia() async {
     try {
+      _isLoading = true;
       final url = await _mediaStore.uploadVideo();
-      final storyImg = StoryImageModel.photo().copyWith(url: url);
-      _storiesToPublish.add(storyImg);
+      final storyImg = StoryImageModel.video();
+      _storiesToPublish.add(
+        storyImg.copyWith(
+          id: DateTime.now().millisecondsSinceEpoch,
+          photo: PhotoModel(url: url),
+        ),
+      );
     } on ServerError catch (e) {
       Crash.report(e.message);
+    } finally {
+      _isLoading = false;
     }
   }
 
@@ -72,13 +84,24 @@ abstract class _StoryEditStoreBase with Store {
       final story = StoryModel(
         isNew: true,
         user: _user.getUser,
-        storyImages: _storiesToPublish,
+        storyImages: _storiesToPublish.toList()
       );
-      final published = await _repository.publishStory(story);
-      print(published);
+      await _repository.publishStory(story);
+      sl<StoryStore>().refreshStories();
     } on ServerError catch (e) {
       Crash.report(e.message);
     }
+  }
+
+  @action
+  Future deleteStory(StoryImageModel storyModel) async {
+    _storiesToPublish.remove(storyModel);
+  }
+
+  @action
+  Future updateStory(StoryImageModel story) async {
+    final index = _storiesToPublish.indexWhere((s) => s.id == story.id);
+    _storiesToPublish[index] = story;
   }
 
   @action

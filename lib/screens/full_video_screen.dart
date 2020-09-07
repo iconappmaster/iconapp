@@ -2,21 +2,26 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/widgets/global/blur_appbar.dart';
 import 'package:video_player/video_player.dart';
 import 'package:path_provider/path_provider.dart';
 
-class FullVideoScreen extends StatefulWidget {
+class VideoScreen extends StatefulWidget {
   final String url;
-
-  const FullVideoScreen({Key key, this.url}) : super(key: key);
+  final bool showToolbar;
+  const VideoScreen({
+    Key key,
+    @required this.url,
+    this.showToolbar = true,
+  }) : super(key: key);
 
   @override
-  _FullVideoScreenState createState() => _FullVideoScreenState();
+  _VideoScreenState createState() => _VideoScreenState();
 }
 
-class _FullVideoScreenState extends State<FullVideoScreen> {
+class _VideoScreenState extends State<VideoScreen> {
   VideoPlayerController _controller;
   bool isLoading = true;
   bool showReplay = false;
@@ -27,7 +32,7 @@ class _FullVideoScreenState extends State<FullVideoScreen> {
 
     widget.url.startsWith('http') ? _startVideoNetwork() : _startVideoLocal();
     _controller.addListener(() {
-      if (_controller.value.position == _controller.value.duration) {
+      if (_controller.value.position == _controller.value.duration && mounted) {
         setState(() => showReplay = true);
       }
     });
@@ -36,19 +41,23 @@ class _FullVideoScreenState extends State<FullVideoScreen> {
   void _startVideoNetwork() {
     _controller = VideoPlayerController.network(widget.url)
       ..initialize().then((_) {
-        setState(() {
-          isLoading = false;
-          _controller.play();
-        });
+        if (mounted)
+          setState(() {
+            isLoading = false;
+            _controller.play();
+          });
       });
   }
 
   void _startVideoLocal() {
     _controller = VideoPlayerController.file(File(widget.url))
-      ..initialize().then((_) => setState(() {
+      ..initialize().then((_) {
+        if (mounted)
+          setState(() {
             isLoading = false;
             _controller.play();
-          }));
+          });
+      });
   }
 
   @override
@@ -65,23 +74,24 @@ class _FullVideoScreenState extends State<FullVideoScreen> {
         if (showReplay)
           ReplayButton(
             onPress: () async {
-              setState(() => showReplay = false);
+              if (mounted) setState(() => showReplay = false);
               await _controller.seekTo(Duration(seconds: 0));
               _controller.play();
             },
           ),
-        BluredAppbar(
-          widget: IconButton(
-              icon: Icon(Icons.file_download, color: white),
-              onPressed: () async {
-                final String dir =
-                    (await getApplicationDocumentsDirectory()).path;
-                final String path = '$dir/${DateTime.now()}_video.mp4';
-                final response = await Dio().download(widget.url, path);
+        if (widget.showToolbar)
+          BluredAppbar(
+            widget: IconButton(
+                icon: Icon(Icons.file_download, color: white),
+                onPressed: () async {
+                  final String dir =
+                      (await getApplicationDocumentsDirectory()).path;
+                  final String path = '$dir/${DateTime.now()}_video.mp4';
+                  final response = await Dio().download(widget.url, path);
 
-                print(response);
-              }),
-        ),
+                  print(response);
+                }),
+          ),
       ]),
     );
   }
@@ -105,10 +115,7 @@ class ReplayButton extends StatelessWidget {
     return Center(
         child: IconButton(
       onPressed: onPress,
-      icon: Icon(
-        Icons.replay,
-        size: 60,
-      ),
+      icon: SvgPicture.asset('assets/images/reply_button.svg'),
     ));
   }
 }

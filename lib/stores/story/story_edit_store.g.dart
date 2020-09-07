@@ -86,6 +86,22 @@ mixin _$StoryEditStore on _StoryEditStoreBase, Store {
     return _$publishStoryAsyncAction.run(() => super.publishStory());
   }
 
+  final _$deleteStoryAsyncAction =
+      AsyncAction('_StoryEditStoreBase.deleteStory');
+
+  @override
+  Future<dynamic> deleteStory(StoryImageModel storyModel) {
+    return _$deleteStoryAsyncAction.run(() => super.deleteStory(storyModel));
+  }
+
+  final _$updateStoryAsyncAction =
+      AsyncAction('_StoryEditStoreBase.updateStory');
+
+  @override
+  Future<dynamic> updateStory(StoryImageModel story) {
+    return _$updateStoryAsyncAction.run(() => super.updateStory(story));
+  }
+
   final _$_StoryEditStoreBaseActionController =
       ActionController(name: '_StoryEditStoreBase');
 

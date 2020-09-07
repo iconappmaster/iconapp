@@ -5,6 +5,7 @@ import 'package:iconapp/screens/chat_settings_screen.dart';
 import 'package:iconapp/screens/create_categories_screen.dart';
 import 'package:iconapp/screens/create_details_screen.dart';
 import 'package:iconapp/screens/create_icons_screen.dart';
+import 'package:iconapp/screens/descrioption_screen.dart';
 import 'package:iconapp/screens/full_image_screen.dart';
 import 'package:iconapp/screens/full_video_screen.dart';
 import 'package:iconapp/screens/rename_conversation.dart';
@@ -29,7 +30,7 @@ import 'package:iconapp/screens/story_screen.dart';
     MaterialRoute(page: AppSettingsScreen),
     MaterialRoute(page: ChatScreen),
     CupertinoRoute(page: ChatSettingsScreen, fullscreenDialog: true),
-    MaterialRoute(page: FullVideoScreen),
+    MaterialRoute(page: VideoScreen),
     MaterialRoute(page: FullImageScreen),
     CupertinoRoute(page: SelectIconScreen, fullscreenDialog: true),
     CupertinoRoute(page: CreateCategoryScreen),
@@ -38,6 +39,7 @@ import 'package:iconapp/screens/story_screen.dart';
     CupertinoRoute(page: SearchResultsScreen),
     CupertinoRoute(page: StoryScreen),
     CupertinoRoute(page: StoryEditScreen),
+    CupertinoRoute(page: DescriptionScreen),
   ],
 )
 class $Router {}

@@ -79,6 +79,8 @@ PODS:
   - Flutter (1.0.0)
   - flutter_audio_recorder (0.5.4):
     - Flutter
+  - flutter_local_notifications (0.0.1):
+    - Flutter
   - flutter_plugin_android_lifecycle (0.0.1):
     - Flutter
   - FMDB (2.7.5):
@@ -136,8 +138,6 @@ PODS:
     - Flutter
   - "permission_handler (5.0.1+1)":
     - Flutter
-  - plain_notification_token (0.0.1):
-    - Flutter
   - PromisesObjC (1.2.10)
   - Protobuf (3.13.0)
   - pusher_websocket_flutter (0.1.1):
@@ -190,13 +190,13 @@ DEPENDENCIES:
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
   - Flutter (from `Flutter`)
   - flutter_audio_recorder (from `.symlinks/plugins/flutter_audio_recorder/ios`)
+  - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_plugin_android_lifecycle (from `.symlinks/plugins/flutter_plugin_android_lifecycle/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - path_provider_linux (from `.symlinks/plugins/path_provider_linux/ios`)
   - path_provider_macos (from `.symlinks/plugins/path_provider_macos/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
-  - plain_notification_token (from `.symlinks/plugins/plain_notification_token/ios`)
   - pusher_websocket_flutter (from `.symlinks/plugins/pusher_websocket_flutter/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - shared_preferences_linux (from `.symlinks/plugins/shared_preferences_linux/ios`)
@@ -257,6 +257,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_audio_recorder:
     :path: ".symlinks/plugins/flutter_audio_recorder/ios"
+  flutter_local_notifications:
+    :path: ".symlinks/plugins/flutter_local_notifications/ios"
   flutter_plugin_android_lifecycle:
     :path: ".symlinks/plugins/flutter_plugin_android_lifecycle/ios"
   image_picker:
@@ -269,8 +271,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider_macos/ios"
   permission_handler:
     :path: ".symlinks/plugins/permission_handler/ios"
-  plain_notification_token:
-    :path: ".symlinks/plugins/plain_notification_token/ios"
   pusher_websocket_flutter:
     :path: ".symlinks/plugins/pusher_websocket_flutter/ios"
   shared_preferences:
@@ -321,6 +321,7 @@ SPEC CHECKSUMS:
   FirebaseStorage: 33b92875a9b556824886cc7a65120c7d2cb3a8d8
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_audio_recorder: eb998d4e75e59b39d9e3ca1818a5e0f3a82f5836
+  flutter_local_notifications: 9e4738ce2471c5af910d961a6b7eadcf57c50186
   flutter_plugin_android_lifecycle: dc0b544e129eebb77a6bfb1239d4d1c673a60a35
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GoogleAppMeasurement: ecc30d0ab5b66d7d18e85ce1b8e2b345db60626d
@@ -334,7 +335,6 @@ SPEC CHECKSUMS:
   path_provider_linux: 4d630dc393e1f20364f3e3b4a2ff41d9674a84e4
   path_provider_macos: f760a3c5b04357c380e2fddb6f9db6f3015897e0
   permission_handler: eac8e15b4a1a3fba55b761d19f3f4e6b005d15b6
-  plain_notification_token: b36467dc91939a7b6754267c701bbaca14996ee1
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
   Protobuf: 3dac39b34a08151c6d949560efe3f86134a3f748
   pusher_websocket_flutter: ff9a11e48f24d2297bf0d143c99119106cd2d81b

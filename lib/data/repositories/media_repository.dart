@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:iconapp/core/bus.dart';
+import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/sources/remote/firebase_consts.dart';
 
 abstract class MediaRepository {
@@ -41,9 +43,15 @@ class MediaRepositoryImpl implements MediaRepository {
           ? snapshot.bytesTransferred / snapshot.totalByteCount
           : 0;
 
-      print(progressPercent);
+      sl<Bus>().fire(ProgressEvent(progressPercent));
     });
     await uploadTask.onComplete;
     return await storageRefOriginal.getDownloadURL();
   }
+}
+
+class ProgressEvent {
+  final double progress;
+
+  ProgressEvent(this.progress);
 }

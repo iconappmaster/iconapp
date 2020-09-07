@@ -32,7 +32,6 @@ const blueberry3 = Color(0xFF4c409f);
 const scarlet = Color(0xFFd0021b);
 const black10 = Color(0x19000000);
 
-
 // Font Sizes
 // const _fontRubikBold = "RubikBold";
 const _fontRubikRegular = "RubikRagular";
@@ -337,6 +336,18 @@ final whiteGradient = LinearGradient(colors: [
   white,
 ], begin: Alignment.bottomRight, end: Alignment.topLeft);
 
+final disabledGradient = LinearGradient(colors: [
+  switchThumb,
+  switchThumb,
+], begin: Alignment.bottomRight, end: Alignment.topLeft);
+
+
+final descriptionPanelGradient = LinearGradient(colors: [
+  darkBlueGrey,
+  darkIndigo,
+], begin: Alignment.bottomRight, end: Alignment.topLeft);
+
+
 final itemShadow = [
   BoxShadow(
     color: black10,
@@ -345,3 +356,8 @@ final itemShadow = [
     offset: const Offset(10.0, 10.0),
   ),
 ];
+
+final transparentBorder = UnderlineInputBorder(
+    borderSide: BorderSide(
+  color: Colors.transparent,
+));

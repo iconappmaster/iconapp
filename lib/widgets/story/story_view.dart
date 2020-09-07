@@ -536,7 +536,7 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
   }
 
   void _beginPlay() {
-    setState(() {});
+    if (mounted) setState(() {});
     _play();
   }
 
@@ -622,7 +622,6 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
                 : Alignment.bottomCenter,
             child: SafeArea(
               bottom: widget.inline ? false : true,
-              // we use SafeArea here for notched and bezeles phones
               child: Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: 16,
@@ -677,8 +676,6 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
                         }
 
                         verticalDragInfo.update(details.primaryDelta);
-
-                        // TODO: provide callback interface for animation purposes
                       },
                 onVerticalDragEnd: widget.onVerticalSwipeComplete == null
                     ? null

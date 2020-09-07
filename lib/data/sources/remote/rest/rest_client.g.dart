@@ -612,7 +612,8 @@ class _RestClient implements RestClient {
     ArgumentError.checkNotNull(story, 'story');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _data = story;
+    final _data = <String, dynamic>{};
+    _data.addAll(story?.toJson() ?? <String, dynamic>{});
     final Response<Map<String, dynamic>> _result = await _dio.request(
         'stories/add_to_story',
         queryParameters: queryParameters,

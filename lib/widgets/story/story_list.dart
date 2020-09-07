@@ -7,7 +7,6 @@ import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/story_model.dart';
 import 'package:iconapp/routes/router.gr.dart';
-import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/story/story_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
@@ -30,15 +29,7 @@ class StoriesList extends StatefulWidget {
     this.margin,
     this.show = false,
   }) : super(key: key) {
-    switch (mode) {
-      case StoryMode.home:
-        sl<StoryStore>().getHomeStories();
-        break;
-      case StoryMode.conversation:
-        final id = sl<ChatStore>().conversation.id;
-        sl<StoryStore>().getConversationsStories(id);
-        break;
-    }
+    sl<StoryStore>().refreshStories();
   }
 
   @override
@@ -71,11 +62,14 @@ class _StoriesListState extends State<StoriesList>
                   children: [
                     if (store.showAddButton)
                       StoryAddButton(
-                          onTap: () => ExtendedNavigator.of(context)
-                              .pushStoryEditScreen()),
+                        onTap: () =>
+                            ExtendedNavigator.of(context).pushStoryEditScreen(),
+                      ),
                     ...store.getStories
                         .map((story) => StoryTile(
-                            story: story, onTap: () => print('on story tap')))
+                            story: story,
+                            onTap: () => ExtendedNavigator.of(context)
+                                .pushStoryScreen(stories: story.storyImages)))
                         .toList()
                   ],
                 ),

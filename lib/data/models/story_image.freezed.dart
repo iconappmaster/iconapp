@@ -18,18 +18,20 @@ class _$StoryImageModelTearOff {
 // ignore: unused_element
   _StoryImageModel call(
       {int id,
-      String url,
-      String thumbnail,
-      StoryImageType imageType,
+      int createdAt,
+      PhotoModel photo,
+      String imageType,
+      String description,
       int duration,
-      String description}) {
+      bool wasViewed}) {
     return _StoryImageModel(
       id: id,
-      url: url,
-      thumbnail: thumbnail,
+      createdAt: createdAt,
+      photo: photo,
       imageType: imageType,
-      duration: duration,
       description: description,
+      duration: duration,
+      wasViewed: wasViewed,
     );
   }
 }
@@ -39,11 +41,12 @@ const $StoryImageModel = _$StoryImageModelTearOff();
 
 mixin _$StoryImageModel {
   int get id;
-  String get url;
-  String get thumbnail;
-  StoryImageType get imageType;
-  int get duration;
+  int get createdAt;
+  PhotoModel get photo;
+  String get imageType;
   String get description;
+  int get duration;
+  bool get wasViewed;
 
   Map<String, dynamic> toJson();
   $StoryImageModelCopyWith<StoryImageModel> get copyWith;
@@ -55,11 +58,14 @@ abstract class $StoryImageModelCopyWith<$Res> {
       _$StoryImageModelCopyWithImpl<$Res>;
   $Res call(
       {int id,
-      String url,
-      String thumbnail,
-      StoryImageType imageType,
+      int createdAt,
+      PhotoModel photo,
+      String imageType,
+      String description,
       int duration,
-      String description});
+      bool wasViewed});
+
+  $PhotoModelCopyWith<$Res> get photo;
 }
 
 class _$StoryImageModelCopyWithImpl<$Res>
@@ -73,22 +79,33 @@ class _$StoryImageModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object id = freezed,
-    Object url = freezed,
-    Object thumbnail = freezed,
+    Object createdAt = freezed,
+    Object photo = freezed,
     Object imageType = freezed,
-    Object duration = freezed,
     Object description = freezed,
+    Object duration = freezed,
+    Object wasViewed = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as int,
-      url: url == freezed ? _value.url : url as String,
-      thumbnail: thumbnail == freezed ? _value.thumbnail : thumbnail as String,
-      imageType:
-          imageType == freezed ? _value.imageType : imageType as StoryImageType,
-      duration: duration == freezed ? _value.duration : duration as int,
+      createdAt: createdAt == freezed ? _value.createdAt : createdAt as int,
+      photo: photo == freezed ? _value.photo : photo as PhotoModel,
+      imageType: imageType == freezed ? _value.imageType : imageType as String,
       description:
           description == freezed ? _value.description : description as String,
+      duration: duration == freezed ? _value.duration : duration as int,
+      wasViewed: wasViewed == freezed ? _value.wasViewed : wasViewed as bool,
     ));
+  }
+
+  @override
+  $PhotoModelCopyWith<$Res> get photo {
+    if (_value.photo == null) {
+      return null;
+    }
+    return $PhotoModelCopyWith<$Res>(_value.photo, (value) {
+      return _then(_value.copyWith(photo: value));
+    });
   }
 }
 
@@ -100,11 +117,15 @@ abstract class _$StoryImageModelCopyWith<$Res>
   @override
   $Res call(
       {int id,
-      String url,
-      String thumbnail,
-      StoryImageType imageType,
+      int createdAt,
+      PhotoModel photo,
+      String imageType,
+      String description,
       int duration,
-      String description});
+      bool wasViewed});
+
+  @override
+  $PhotoModelCopyWith<$Res> get photo;
 }
 
 class __$StoryImageModelCopyWithImpl<$Res>
@@ -120,21 +141,22 @@ class __$StoryImageModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object id = freezed,
-    Object url = freezed,
-    Object thumbnail = freezed,
+    Object createdAt = freezed,
+    Object photo = freezed,
     Object imageType = freezed,
-    Object duration = freezed,
     Object description = freezed,
+    Object duration = freezed,
+    Object wasViewed = freezed,
   }) {
     return _then(_StoryImageModel(
       id: id == freezed ? _value.id : id as int,
-      url: url == freezed ? _value.url : url as String,
-      thumbnail: thumbnail == freezed ? _value.thumbnail : thumbnail as String,
-      imageType:
-          imageType == freezed ? _value.imageType : imageType as StoryImageType,
-      duration: duration == freezed ? _value.duration : duration as int,
+      createdAt: createdAt == freezed ? _value.createdAt : createdAt as int,
+      photo: photo == freezed ? _value.photo : photo as PhotoModel,
+      imageType: imageType == freezed ? _value.imageType : imageType as String,
       description:
           description == freezed ? _value.description : description as String,
+      duration: duration == freezed ? _value.duration : duration as int,
+      wasViewed: wasViewed == freezed ? _value.wasViewed : wasViewed as bool,
     ));
   }
 }
@@ -143,11 +165,12 @@ class __$StoryImageModelCopyWithImpl<$Res>
 class _$_StoryImageModel implements _StoryImageModel {
   const _$_StoryImageModel(
       {this.id,
-      this.url,
-      this.thumbnail,
+      this.createdAt,
+      this.photo,
       this.imageType,
+      this.description,
       this.duration,
-      this.description});
+      this.wasViewed});
 
   factory _$_StoryImageModel.fromJson(Map<String, dynamic> json) =>
       _$_$_StoryImageModelFromJson(json);
@@ -155,19 +178,21 @@ class _$_StoryImageModel implements _StoryImageModel {
   @override
   final int id;
   @override
-  final String url;
+  final int createdAt;
   @override
-  final String thumbnail;
+  final PhotoModel photo;
   @override
-  final StoryImageType imageType;
+  final String imageType;
+  @override
+  final String description;
   @override
   final int duration;
   @override
-  final String description;
+  final bool wasViewed;
 
   @override
   String toString() {
-    return 'StoryImageModel(id: $id, url: $url, thumbnail: $thumbnail, imageType: $imageType, duration: $duration, description: $description)';
+    return 'StoryImageModel(id: $id, createdAt: $createdAt, photo: $photo, imageType: $imageType, description: $description, duration: $duration, wasViewed: $wasViewed)';
   }
 
   @override
@@ -176,31 +201,35 @@ class _$_StoryImageModel implements _StoryImageModel {
         (other is _StoryImageModel &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.url, url) ||
-                const DeepCollectionEquality().equals(other.url, url)) &&
-            (identical(other.thumbnail, thumbnail) ||
+            (identical(other.createdAt, createdAt) ||
                 const DeepCollectionEquality()
-                    .equals(other.thumbnail, thumbnail)) &&
+                    .equals(other.createdAt, createdAt)) &&
+            (identical(other.photo, photo) ||
+                const DeepCollectionEquality().equals(other.photo, photo)) &&
             (identical(other.imageType, imageType) ||
                 const DeepCollectionEquality()
                     .equals(other.imageType, imageType)) &&
+            (identical(other.description, description) ||
+                const DeepCollectionEquality()
+                    .equals(other.description, description)) &&
             (identical(other.duration, duration) ||
                 const DeepCollectionEquality()
                     .equals(other.duration, duration)) &&
-            (identical(other.description, description) ||
+            (identical(other.wasViewed, wasViewed) ||
                 const DeepCollectionEquality()
-                    .equals(other.description, description)));
+                    .equals(other.wasViewed, wasViewed)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(url) ^
-      const DeepCollectionEquality().hash(thumbnail) ^
+      const DeepCollectionEquality().hash(createdAt) ^
+      const DeepCollectionEquality().hash(photo) ^
       const DeepCollectionEquality().hash(imageType) ^
+      const DeepCollectionEquality().hash(description) ^
       const DeepCollectionEquality().hash(duration) ^
-      const DeepCollectionEquality().hash(description);
+      const DeepCollectionEquality().hash(wasViewed);
 
   @override
   _$StoryImageModelCopyWith<_StoryImageModel> get copyWith =>
@@ -215,11 +244,12 @@ class _$_StoryImageModel implements _StoryImageModel {
 abstract class _StoryImageModel implements StoryImageModel {
   const factory _StoryImageModel(
       {int id,
-      String url,
-      String thumbnail,
-      StoryImageType imageType,
+      int createdAt,
+      PhotoModel photo,
+      String imageType,
+      String description,
       int duration,
-      String description}) = _$_StoryImageModel;
+      bool wasViewed}) = _$_StoryImageModel;
 
   factory _StoryImageModel.fromJson(Map<String, dynamic> json) =
       _$_StoryImageModel.fromJson;
@@ -227,15 +257,17 @@ abstract class _StoryImageModel implements StoryImageModel {
   @override
   int get id;
   @override
-  String get url;
+  int get createdAt;
   @override
-  String get thumbnail;
+  PhotoModel get photo;
   @override
-  StoryImageType get imageType;
+  String get imageType;
+  @override
+  String get description;
   @override
   int get duration;
   @override
-  String get description;
+  bool get wasViewed;
   @override
   _$StoryImageModelCopyWith<_StoryImageModel> get copyWith;
 }

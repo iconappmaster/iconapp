@@ -27,6 +27,7 @@ import 'package:iconapp/screens/search_results_screen.dart';
 import 'package:iconapp/screens/story_screen.dart';
 import 'package:iconapp/data/models/story_image.dart';
 import 'package:iconapp/screens/story_edit_screen.dart';
+import 'package:iconapp/screens/descrioption_screen.dart';
 
 class Routes {
   static const String splashScreen = '/';
@@ -37,7 +38,7 @@ class Routes {
   static const String appSettingsScreen = '/app-settings-screen';
   static const String chatScreen = '/chat-screen';
   static const String chatSettingsScreen = '/chat-settings-screen';
-  static const String fullVideoScreen = '/full-video-screen';
+  static const String videoScreen = '/video-screen';
   static const String fullImageScreen = '/full-image-screen';
   static const String selectIconScreen = '/select-icon-screen';
   static const String createCategoryScreen = '/create-category-screen';
@@ -46,6 +47,7 @@ class Routes {
   static const String searchResultsScreen = '/search-results-screen';
   static const String storyScreen = '/story-screen';
   static const String storyEditScreen = '/story-edit-screen';
+  static const String descriptionScreen = '/description-screen';
   static const all = <String>{
     splashScreen,
     loginScreen,
@@ -55,7 +57,7 @@ class Routes {
     appSettingsScreen,
     chatScreen,
     chatSettingsScreen,
-    fullVideoScreen,
+    videoScreen,
     fullImageScreen,
     selectIconScreen,
     createCategoryScreen,
@@ -64,6 +66,7 @@ class Routes {
     searchResultsScreen,
     storyScreen,
     storyEditScreen,
+    descriptionScreen,
   };
 }
 
@@ -79,7 +82,7 @@ class Router extends RouterBase {
     RouteDef(Routes.appSettingsScreen, page: AppSettingsScreen),
     RouteDef(Routes.chatScreen, page: ChatScreen),
     RouteDef(Routes.chatSettingsScreen, page: ChatSettingsScreen),
-    RouteDef(Routes.fullVideoScreen, page: FullVideoScreen),
+    RouteDef(Routes.videoScreen, page: VideoScreen),
     RouteDef(Routes.fullImageScreen, page: FullImageScreen),
     RouteDef(Routes.selectIconScreen, page: SelectIconScreen),
     RouteDef(Routes.createCategoryScreen, page: CreateCategoryScreen),
@@ -88,6 +91,7 @@ class Router extends RouterBase {
     RouteDef(Routes.searchResultsScreen, page: SearchResultsScreen),
     RouteDef(Routes.storyScreen, page: StoryScreen),
     RouteDef(Routes.storyEditScreen, page: StoryEditScreen),
+    RouteDef(Routes.descriptionScreen, page: DescriptionScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -146,11 +150,14 @@ class Router extends RouterBase {
         fullscreenDialog: true,
       );
     },
-    FullVideoScreen: (RouteData data) {
-      var args = data.getArgs<FullVideoScreenArguments>(
-          orElse: () => FullVideoScreenArguments());
+    VideoScreen: (RouteData data) {
+      var args = data.getArgs<VideoScreenArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
-        builder: (context) => FullVideoScreen(key: args.key, url: args.url),
+        builder: (context) => VideoScreen(
+          key: args.key,
+          url: args.url,
+          showToolbar: args.showToolbar,
+        ),
         settings: data,
       );
     },
@@ -214,6 +221,17 @@ class Router extends RouterBase {
         settings: data,
       );
     },
+    DescriptionScreen: (RouteData data) {
+      var args = data.getArgs<DescriptionScreenArguments>(nullOk: false);
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => DescriptionScreen(
+          key: args.key,
+          url: args.url,
+          type: args.type,
+        ),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -260,13 +278,15 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
         arguments: ChatSettingsScreenArguments(key: key),
       );
 
-  Future<dynamic> pushFullVideoScreen({
+  Future<dynamic> pushVideoScreen({
     Key key,
-    String url,
+    @required String url,
+    bool showToolbar = true,
   }) =>
       pushNamed<dynamic>(
-        Routes.fullVideoScreen,
-        arguments: FullVideoScreenArguments(key: key, url: url),
+        Routes.videoScreen,
+        arguments:
+            VideoScreenArguments(key: key, url: url, showToolbar: showToolbar),
       );
 
   Future<dynamic> pushFullImageScreen({
@@ -319,6 +339,16 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
 
   Future<dynamic> pushStoryEditScreen() =>
       pushNamed<dynamic>(Routes.storyEditScreen);
+
+  Future<dynamic> pushDescriptionScreen({
+    Key key,
+    @required String url,
+    @required MediaType type,
+  }) =>
+      pushNamed<dynamic>(
+        Routes.descriptionScreen,
+        arguments: DescriptionScreenArguments(key: key, url: url, type: type),
+      );
 }
 
 // *************************************************************************
@@ -345,11 +375,12 @@ class ChatSettingsScreenArguments {
   ChatSettingsScreenArguments({this.key});
 }
 
-//FullVideoScreen arguments holder class
-class FullVideoScreenArguments {
+//VideoScreen arguments holder class
+class VideoScreenArguments {
   final Key key;
   final String url;
-  FullVideoScreenArguments({this.key, this.url});
+  final bool showToolbar;
+  VideoScreenArguments({this.key, @required this.url, this.showToolbar = true});
 }
 
 //FullImageScreen arguments holder class
@@ -381,4 +412,13 @@ class StoryScreenArguments {
   final Key key;
   final List<StoryImageModel> stories;
   StoryScreenArguments({this.key, this.stories});
+}
+
+//DescriptionScreen arguments holder class
+class DescriptionScreenArguments {
+  final Key key;
+  final String url;
+  final MediaType type;
+  DescriptionScreenArguments(
+      {this.key, @required this.url, @required this.type});
 }

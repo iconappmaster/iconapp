@@ -138,7 +138,7 @@ class StoryImageState extends State<StoryImage> {
           forward();
         } else {
           // refresh to show error
-          setState(() {});
+         if (mounted) setState(() {});
         }
       }
     });
@@ -175,7 +175,7 @@ class StoryImageState extends State<StoryImage> {
       this._timer = Timer(nextFrame.duration, forward);
     }
 
-    setState(() {});
+    if (mounted) setState(() {});
   }
 
   Widget getContentView() {

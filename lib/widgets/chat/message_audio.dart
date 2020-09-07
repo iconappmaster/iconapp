@@ -101,7 +101,7 @@ class _VoiceMessageState extends State<VoiceMessage> {
   @override
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
-    
+
     return Likeble(
       message: widget.message,
       child: Replyble(
@@ -208,29 +208,28 @@ class _VoiceMessageState extends State<VoiceMessage> {
     _audioPlayer = AudioPlayer(mode: mode);
 
     _durationSubscription = _audioPlayer.onDurationChanged.listen((duration) {
-      setState(() => _duration = duration);
+      if (mounted) setState(() => _duration = duration);
     });
 
-    _positionSubscription =
-        _audioPlayer.onAudioPositionChanged.listen((p) => setState(() {
-              _position = p;
-            }));
+    _positionSubscription = _audioPlayer.onAudioPositionChanged.listen((p) {
+      if (mounted) setState(() => _position = p);
+    });
 
     _playerCompleteSubscription =
         _audioPlayer.onPlayerCompletion.listen((event) {
       _onComplete();
-      setState(() {
-        _position = _duration;
-      });
+
+      if (mounted) setState(() => _position = _duration);
     });
 
     _playerErrorSubscription = _audioPlayer.onPlayerError.listen((msg) {
       print('audioPlayer error : $msg');
-      setState(() {
-        _playerState = PlayerState.stopped;
-        _duration = Duration(seconds: 0);
-        _position = Duration(seconds: 0);
-      });
+      if (mounted)
+        setState(() {
+          _playerState = PlayerState.stopped;
+          _duration = Duration(seconds: 0);
+          _position = Duration(seconds: 0);
+        });
     });
 
     _audioPlayer.onPlayerStateChanged.listen((state) {

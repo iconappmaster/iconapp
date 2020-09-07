@@ -38,6 +38,6 @@ class StoryRepositoryImpl implements StoryRepository {
 
   @override
   Future<StoryModel> publishStory(StoryModel story) async {
-    return await rest.publishStory(story.storyImages);
+    return await rest.publishStory(story);
   }
 }

@@ -95,10 +95,7 @@ class CreateSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = sl<CreateIconStore>();
-    final transparentBorder = UnderlineInputBorder(
-        borderSide: BorderSide(
-      color: Colors.transparent,
-    ));
+
     return Observer(
       builder: (_) => Container(
         child: Column(children: [

@@ -5,6 +5,7 @@ import 'package:iconapp/data/models/story_image.dart';
 import 'package:iconapp/stores/story/story_store.dart';
 import 'package:iconapp/widgets/story/controller/story_controller.dart';
 import 'package:iconapp/widgets/story/story_view.dart';
+import '../core/extensions/string_ext.dart';
 
 class StoryScreen extends StatefulWidget {
   final List<StoryImageModel> stories;
@@ -33,17 +34,17 @@ class _StoryScreenState extends State<StoryScreen> {
   Widget build(BuildContext context) {
     return StoryView(
       storyItems: widget.stories
-          .map(
-            (e) => e.imageType == StoryImageType.image
-                ? StoryItem.inlineImage(
-                    url: e.url,
-                    caption: Text(e?.description ?? ''),
-                    controller: _controller)
-                : StoryItem.pageVideo(
-                    e.url,
-                    controller: _controller,
-                  ),
-          )
+          .map((story) =>
+              story.imageType == MediaType.photo.toString().parseEnum()
+                  ? StoryItem.inlineImage(
+                      duration: Duration(seconds: 7),
+                      url: story?.photo?.url ?? '',
+                      caption: Text(story?.description ?? ''),
+                      controller: _controller)
+                  : StoryItem.pageVideo(
+                      story.photo?.url ?? '',
+                      controller: _controller,
+                    ))
           .toList(),
       controller: _controller,
       inline: false,

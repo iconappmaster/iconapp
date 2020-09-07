@@ -46,7 +46,6 @@ class OnboardingProfile extends StatelessWidget {
             Positioned(
               top: context.heightPlusStatusbarPerc(.138),
               child: UserAvatar(
-                
                 placeholder: 'assets/images/user_icon.svg',
                 showLoading: store.getState.loading,
                 onTap: () async => store.pickAndUploadPhoto(),
@@ -72,7 +71,6 @@ class OnboardingProfile extends StatelessWidget {
         enabled: !store.getState.loading,
         onClick: () {
           if (_formValidatorKey.currentState.validate()) {
-            
             store.upadteUser().then((result) => result.fold(
                 (error) => ctx.showFlushbar(
                     message: LocaleKeys.general_server_error.tr()),
@@ -198,8 +196,12 @@ class _SexPickerState extends State<SexPicker> {
     );
   }
 
-  _updateUI() => setState(() {
+  _updateUI() {
+    if (mounted) {
+      setState(() {
         final selectedGender = genderMap.entries.firstWhere((g) => g.value);
         store.updateUserGender(selectedGender.key);
       });
+    }
+  }
 }

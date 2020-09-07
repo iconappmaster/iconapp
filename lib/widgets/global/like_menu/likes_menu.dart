@@ -91,10 +91,11 @@ class _LikeMenuState extends State<LikeMenu> {
     RenderBox renderBox = containerKey.currentContext.findRenderObject();
     Size size = renderBox.size;
     Offset offset = renderBox.localToGlobal(Offset.zero);
-    setState(() {
-      this.childOffset = Offset(offset.dx, offset.dy);
-      childSize = size;
-    });
+    if (mounted)
+      setState(() {
+        this.childOffset = Offset(offset.dx, offset.dy);
+        childSize = size;
+      });
   }
 
   @override

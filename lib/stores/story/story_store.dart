@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/models/story_model.dart';
 import 'package:iconapp/data/repositories/story_repository.dart';
+import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/story/story_list.dart';
 import 'package:iconapp/widgets/story/story_view.dart';
@@ -78,4 +79,18 @@ abstract class _StoryStoreBase with Store {
     if (_stories.isNotEmpty) _stories.clear();
     _stories.addAll(stories);
   }
+
+  @action
+  Future refreshStories() async {
+    switch (mode) {
+      case StoryMode.home:
+        getHomeStories();
+        break;
+      case StoryMode.conversation:
+        final id = sl<ChatStore>().conversation.id;
+        getConversationsStories(id);
+        break;
+    }
+  }
 }
+

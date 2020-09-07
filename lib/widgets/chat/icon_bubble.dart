@@ -52,19 +52,32 @@ class _IconBubbleState extends State<IconBubble> {
             GestureDetector(
               onDoubleTap: widget.onDoubleTap,
               onTap: widget.onTap,
-              child: Bubble(
-                elevation: 1,
-                stick: true,
-                padding: widget.padding ?? BubbleEdges.symmetric(horizontal: 5),
-                margin: BubbleEdges.only(right: 9, top: 5, bottom: 5, left: 9),
-                alignment:
-                    widget.isMe ? Alignment.centerLeft : Alignment.centerRight,
-                color: color,
-                nip: widget.isMe ? BubbleNip.leftTop : BubbleNip.rightTop,
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(minWidth: 80, minHeight: 55),
-                  child: widget.child,
-                ),
+              child: Column(
+                children: [
+                  if (widget.message.repliedToMessage != null)
+                    Container(
+                      height: 50,
+                      width: 50,
+                      color: Colors.red,
+                    ),
+                  Bubble(
+                    elevation: 1,
+                    stick: true,
+                    padding:
+                        widget.padding ?? BubbleEdges.symmetric(horizontal: 5),
+                    margin:
+                        BubbleEdges.only(right: 9, top: 5, bottom: 5, left: 9),
+                    alignment: widget.isMe
+                        ? Alignment.centerLeft
+                        : Alignment.centerRight,
+                    color: color,
+                    nip: widget.isMe ? BubbleNip.leftTop : BubbleNip.rightTop,
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(minWidth: 80, minHeight: 55),
+                      child: widget.child,
+                    ),
+                  ),
+                ],
               ),
             ),
             Positioned(

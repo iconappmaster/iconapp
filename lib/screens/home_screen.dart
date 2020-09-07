@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ..addListener(() {
         upDirection =
             _controller.position.userScrollDirection == ScrollDirection.forward;
-        if (upDirection != flag) setState(() {});
+        if (upDirection != flag && mounted) setState(() {});
         flag = upDirection;
       });
     super.initState();

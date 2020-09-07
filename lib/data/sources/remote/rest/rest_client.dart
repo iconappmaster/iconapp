@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/message_model.dart';
-import 'package:iconapp/data/models/story_image.dart';
 import 'package:iconapp/data/models/story_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/models/create_group_req.dart';
@@ -133,7 +132,7 @@ abstract class RestClient {
   Future viewedStory(@Path('imgId') int imgId);
 
   @POST('stories/add_to_story')
-  Future<StoryModel> publishStory(@Body() List<StoryImageModel> story);
+  Future<StoryModel> publishStory(@Body() StoryModel story);
 }
 
 Dio getDioClient() {

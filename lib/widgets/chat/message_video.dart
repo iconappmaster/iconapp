@@ -80,9 +80,9 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
           isMe: widget.isMe,
           message: widget.message,
           onTap: () => ExtendedNavigator.of(context).pushNamed(
-              Routes.fullVideoScreen,
+              Routes.videoScreen,
               arguments:
-                  FullVideoScreenArguments(url: widget.message?.body ?? '')),
+                  VideoScreenArguments(url: widget.message?.body ?? '')),
           child: Stack(
             alignment: Alignment.center,
             children: [

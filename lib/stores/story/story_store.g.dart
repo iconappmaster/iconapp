@@ -92,6 +92,14 @@ mixin _$StoryStore on _StoryStoreBase, Store {
         .run(() => super.getConversationsStories(conversationId));
   }
 
+  final _$refreshStoriesAsyncAction =
+      AsyncAction('_StoryStoreBase.refreshStories');
+
+  @override
+  Future<dynamic> refreshStories() {
+    return _$refreshStoriesAsyncAction.run(() => super.refreshStories());
+  }
+
   final _$_StoryStoreBaseActionController =
       ActionController(name: '_StoryStoreBase');
 
