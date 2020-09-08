@@ -1,12 +1,15 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:iconapp/core/bus.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
+import 'package:iconapp/data/repositories/media_repository.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/chat/reply_slider.dart';
@@ -36,9 +39,16 @@ class _PhotoMessageState extends State<PhotoMessage> {
   SlidableController _controller;
   BuildContext _sliderContext;
   bool _isOpen = false;
+  double _progress = 0.0;
+  StreamSubscription<ProgressEvent> progressSubscription;
 
   @override
   void initState() {
+    progressSubscription = sl<Bus>().on<ProgressEvent>().listen((event) {
+      if (event.id != null && event.id == widget.message.id) {
+        if (mounted) setState(() => _progress = event.progress);
+      }
+    });
     _initSlidable();
     super.initState();
   }
@@ -74,63 +84,80 @@ class _PhotoMessageState extends State<PhotoMessage> {
           return ReplyButton(message: widget.message);
         },
         child: Container(
-          // margin: EdgeInsets.only(
-          //     right: widget.isMe ? 50 : 0, left: widget.isMe ? 0 : 50),
           child: Opacity(
             opacity: widget.message.status == MessageStatus.pending ? .8 : 1,
-            child: IconBubble(
-              isMe: widget.isMe,
-              message: widget.message,
-              onTap: () => ExtendedNavigator.of(context).pushNamed(
-                  Routes.fullImageScreen,
-                  arguments: FullImageScreenArguments(
-                      photo: PhotoModel(url: widget.message?.body ?? ''))),
-              child: Stack(children: [
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    widget.message.body.startsWith('http')
-                        ? SizedBox(
-                            height: 200,
-                            width: 240,
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(4.2),
-                                child: NetworkPhoto(url: widget.message.body)))
-                        : SizedBox(
-                            height: 200,
-                            width: 200,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(4.2),
-                              child: Image.file(
-                                File(widget.message.body),
-                                fit: BoxFit.cover,
-                              ),
-                            )),
-                  ],
+            child: Stack(
+              children: [
+                IconBubble(
+                  isMe: widget.isMe,
+                  message: widget.message,
+                  onTap: () => ExtendedNavigator.of(context).pushNamed(
+                      Routes.fullImageScreen,
+                      arguments: FullImageScreenArguments(
+                          photo: PhotoModel(url: widget.message?.body ?? ''))),
+                  child: Stack(children: [
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        widget.message.body.startsWith('http')
+                            ? SizedBox(
+                                height: 200,
+                                width: 240,
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(4.2),
+                                    child:
+                                        NetworkPhoto(url: widget.message.body)))
+                            : SizedBox(
+                                height: 200,
+                                width: 200,
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(4.2),
+                                    child: Image.file(File(widget.message.body),
+                                        fit: BoxFit.cover))),
+                      ],
+                    ),
+                    Positioned(
+                      left: 5,
+                      bottom: 5,
+                      child: HebrewText(
+                        widget.message.status == MessageStatus.pending
+                            ? ''
+                            : widget.message?.timestamp?.humanReadableTime() ??
+                                '',
+                        style: chatMessageBody.copyWith(fontSize: 9),
+                        textAlign: TextAlign.start,
+                      ),
+                    ),
+                    Positioned(
+                      right: 5,
+                      bottom: 5,
+                      child: HebrewText(widget.message.sender?.fullName ?? '',
+                          style: chatMessageName, textAlign: TextAlign.start),
+                    ),
+                  ]),
                 ),
-                Positioned(
-                  left: 5,
-                  bottom: 5,
-                  child: HebrewText(
-                    widget.message.status == MessageStatus.pending
-                        ? ''
-                        : widget.message?.timestamp?.humanReadableTime() ?? '',
-                    style: chatMessageBody.copyWith(fontSize: 9),
-                    textAlign: TextAlign.start,
+                if (widget.message.status == MessageStatus.pending)
+                  Positioned(
+                    left: 100,
+                    top: 80,
+                    child: CircularProgressIndicator(
+                      value: _progress,
+                      strokeWidth: 2,
+                      backgroundColor: white,
+                    ),
                   ),
-                ),
-                Positioned(
-                  right: 5,
-                  bottom: 5,
-                  child: HebrewText(widget.message.sender?.fullName ?? '',
-                      style: chatMessageName, textAlign: TextAlign.start),
-                ),
-              ]),
+              ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    progressSubscription?.cancel();
+    super.dispose();
   }
 }

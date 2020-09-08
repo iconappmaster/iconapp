@@ -32,24 +32,26 @@ class _StoryScreenState extends State<StoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return StoryView(
-      storyItems: widget.stories
-          .map((story) =>
-              story.imageType == MediaType.photo.toString().parseEnum()
-                  ? StoryItem.inlineImage(
-                      duration: Duration(seconds: 7),
-                      url: story?.photo?.url ?? '',
-                      caption: Text(story?.description ?? ''),
-                      controller: _controller)
-                  : StoryItem.pageVideo(
-                      story.photo?.url ?? '',
-                      controller: _controller,
-                    ))
-          .toList(),
-      controller: _controller,
-      inline: false,
-      onComplete: () => ExtendedNavigator.of(context).pop(),
-      onStoryShow: (story) => _store.onStoryShow(story),
+    return Scaffold(
+      body: StoryView(
+        storyItems: widget.stories
+            .map((story) =>
+                story.imageType == MediaType.photo.toString().parseEnum()
+                    ? StoryItem.inlineImage(
+                        duration: Duration(seconds: 7),
+                        url: story?.photo?.url ?? '',
+                        caption: Text(story?.description ?? ''),
+                        controller: _controller)
+                    : StoryItem.pageVideo(
+                        story.photo?.url ?? '',
+                        controller: _controller,
+                      ))
+            .toList(),
+        controller: _controller,
+        inline: false,
+        onComplete: () => ExtendedNavigator.of(context).pop(),
+        onStoryShow: (story) => _store.onStoryShow(story),
+      ),
     );
   }
 }

@@ -100,39 +100,43 @@ class _LikeMenuState extends State<LikeMenu> {
 
   @override
   Widget build(BuildContext context) {
+    final chat = sl<ChatStore>();
     return GestureDetector(
         behavior: HitTestBehavior.opaque,
         key: containerKey,
         onDoubleTap: () async {
-          context.unFocus();
-          getOffset();
-          await Navigator.push(
-              context,
-              PageRouteBuilder(
-                  transitionDuration:
-                      widget.duration ?? Duration(milliseconds: 100),
-                  pageBuilder: (context, animation, secondaryAnimation) {
-                    animation = Tween(begin: 0.0, end: 1.0).animate(animation);
-                    return FadeTransition(
-                      opacity: animation,
-                      child: FocusedMenuDetails(
-                        itemExtent: widget.menuItemExtent,
-                        menuBoxDecoration: widget.menuBoxDecoration,
-                        child: widget.child,
-                        childOffset: childOffset,
-                        childSize: childSize,
-                        menuItems: widget.menuItems,
-                        blurSize: widget.blurSize,
-                        menuWidth: widget.menuWidth,
-                        blurBackgroundColor: widget.blurBackgroundColor,
-                        animateMenu: widget.animateMenuItems ?? true,
-                        bottomOffsetHeight: widget.bottomOffsetHeight ?? 0,
-                        menuOffset: widget.menuOffset ?? 0,
-                      ),
-                    );
-                  },
-                  fullscreenDialog: true,
-                  opaque: false));
+          if (chat.conversation.isSubscribed) {
+            context.unFocus();
+            getOffset();
+            await Navigator.push(
+                context,
+                PageRouteBuilder(
+                    transitionDuration:
+                        widget.duration ?? Duration(milliseconds: 100),
+                    pageBuilder: (context, animation, secondaryAnimation) {
+                      animation =
+                          Tween(begin: 0.0, end: 1.0).animate(animation);
+                      return FadeTransition(
+                        opacity: animation,
+                        child: FocusedMenuDetails(
+                          itemExtent: widget.menuItemExtent,
+                          menuBoxDecoration: widget.menuBoxDecoration,
+                          child: widget.child,
+                          childOffset: childOffset,
+                          childSize: childSize,
+                          menuItems: widget.menuItems,
+                          blurSize: widget.blurSize,
+                          menuWidth: widget.menuWidth,
+                          blurBackgroundColor: widget.blurBackgroundColor,
+                          animateMenu: widget.animateMenuItems ?? true,
+                          bottomOffsetHeight: widget.bottomOffsetHeight ?? 0,
+                          menuOffset: widget.menuOffset ?? 0,
+                        ),
+                      );
+                    },
+                    fullscreenDialog: true,
+                    opaque: false));
+          }
         },
         child: widget.child);
   }

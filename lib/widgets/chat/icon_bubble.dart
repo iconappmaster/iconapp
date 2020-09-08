@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/widgets/global/bubble.dart';
+import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 
 import 'like_buuble.dart';
 
@@ -54,12 +55,6 @@ class _IconBubbleState extends State<IconBubble> {
               onTap: widget.onTap,
               child: Column(
                 children: [
-                  if (widget.message.repliedToMessage != null)
-                    Container(
-                      height: 50,
-                      width: 50,
-                      color: Colors.red,
-                    ),
                   Bubble(
                     elevation: 1,
                     stick: true,
@@ -74,7 +69,59 @@ class _IconBubbleState extends State<IconBubble> {
                     nip: widget.isMe ? BubbleNip.leftTop : BubbleNip.rightTop,
                     child: ConstrainedBox(
                       constraints: BoxConstraints(minWidth: 80, minHeight: 55),
-                      child: widget.child,
+                      child: widget.message?.repliedToMessage != null
+                          ? Wrap(
+                              direction: Axis.vertical,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 10.0),
+                                  child: Container(
+                                    height: 63,
+                                    width: 200,
+                                    decoration: BoxDecoration(
+                                        color: paleGreyTwo,
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(3.7),
+                                          bottomLeft: Radius.circular(3.7),
+                                        )),
+                                    child: Stack(
+                                      fit: StackFit.loose,
+                                      children: [
+                                        Positioned(
+                                          right: 0,
+                                          child: Container(
+                                            width: 5,
+                                            height: 63,
+                                            color: cornflower,
+                                          ),
+                                        ),
+                                        Positioned(
+                                          right: 20,
+                                          top: 10,
+                                          child: HebrewText(
+                                              widget?.message?.repliedToMessage
+                                                      ?.sender?.fullName ??
+                                                  '',
+                                              style: replayTitle),
+                                        ),
+                                        Positioned(
+                                          right: 20,
+                                          top: 25,
+                                          child: HebrewText(
+                                              widget?.message?.repliedToMessage
+                                                      ?.body ??
+                                                  '',
+                                              maxLines: 2,
+                                              style: replayTitle),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                widget.child,
+                              ],
+                            )
+                          : widget.child,
                     ),
                   ),
                 ],

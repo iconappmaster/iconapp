@@ -26,10 +26,10 @@ part 'chat_store.g.dart';
 class ChatStore = _ChatStoreBase with _$ChatStore;
 
 abstract class _ChatStoreBase with Store {
+  final _messagesSubscription = List<StreamSubscription<MessageModel>>();
   ChatRepository _repository;
   MediaStore _mediaStore;
   UserStore _userStore;
-  StreamSubscription<MessageModel> _messagesSubscription;
   SharedPreferencesService _prefs;
   FlutterAudioRecorder _recorder;
   StopWatchTimer recordTimer;
@@ -45,10 +45,11 @@ abstract class _ChatStoreBase with Store {
     if (conversation != null) {
       setConversation(conversation);
     }
+
     sl<ChatSettingsStore>()..init();
     _setConversationViewed();
     getConversation();
-    
+
     _showWelcomeDialog = _prefs.getBool(StorageKey.chatWelcome, true);
   }
 
@@ -281,7 +282,10 @@ abstract class _ChatStoreBase with Store {
         _messages.add(msg);
 
         // upload to firebase
-        final url = await _mediaStore.uploadPhoto(file: File(pickedFile.path));
+        final url = await _mediaStore.uploadPhoto(
+          file: File(pickedFile.path),
+          messageId: msg.id,
+        );
 
         final remote = await _repository.sendMessage(
             conversation.id, msg.copyWith(body: url));
@@ -329,8 +333,10 @@ abstract class _ChatStoreBase with Store {
       // upload thumbnail and video
       final firbaseThumbnail =
           await _mediaStore.uploadPhoto(file: File(thumbnail));
-      final firebaseViceo =
-          await _mediaStore.uploadVideo(path: pickedFile.path);
+      final firebaseViceo = await _mediaStore.uploadVideo(
+        path: pickedFile.path,
+        messageId: msg.id,
+      );
 
       // send message with firebase links
       final remote = await _repository.sendMessage(
@@ -399,7 +405,7 @@ abstract class _ChatStoreBase with Store {
         _messages.add(msg);
 
         // start uploading the media
-        final url = await _mediaStore.uploadAudio(recording.path);
+        final url = await _mediaStore.uploadAudio(recording.path, msg.id);
 
         // update the boy with firebase url
         final mediaMsg = msg.copyWith(body: url);
@@ -422,22 +428,23 @@ abstract class _ChatStoreBase with Store {
 
   @action
   void watchMessages() {
-    _messagesSubscription =
-        _repository.watchMessages().listen((message) => _messages.add(message));
+    _messagesSubscription.add(_repository
+        .watchMessages()
+        .listen((message) => _messages.add(message)));
   }
 
   @action
   void watchAddLike() {
-    _messagesSubscription = _repository
+    _messagesSubscription.add(_repository
         .watchAddLike()
-        .listen((message) => _replaceMessage(message));
+        .listen((message) => _replaceMessage(message)));
   }
 
   @action
   void watchRemoveLike() {
-    _messagesSubscription = _repository
+    _messagesSubscription.add(_repository
         .watchRemoveLike()
-        .listen((message) => _replaceMessage(message));
+        .listen((message) => _replaceMessage(message)));
   }
 
   @action
@@ -468,7 +475,10 @@ abstract class _ChatStoreBase with Store {
   Future dispose() async {
     _state = ChatState.initial();
     _messages?.clear();
-    _messagesSubscription?.cancel();
+    _messagesSubscription?.forEach((subscription) {
+      subscription.cancel();
+    });
+    _conversation = Conversation();
     await recordTimer?.dispose();
   }
 }

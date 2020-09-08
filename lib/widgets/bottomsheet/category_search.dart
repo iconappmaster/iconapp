@@ -12,6 +12,7 @@ import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
 import 'package:iconapp/widgets/global/search_empty.dart';
 import 'package:easy_localization/easy_localization.dart';
+
 class CategorySearchWidget extends StatelessWidget {
   final ScrollController controller;
 
@@ -48,9 +49,9 @@ class CategorySearchTile extends StatelessWidget {
       onTap: () => ExtendedNavigator.of(context).pushNamed(
         Routes.searchResultsScreen,
         arguments: SearchResultsScreenArguments(
-            id: category.id,
+            id: category?.id ?? 0,
             mode: SearchResulsMode.categories,
-            name: category.name),
+            name: category?.name ?? ''),
       ),
       child: Material(
         child: Container(
@@ -60,7 +61,7 @@ class CategorySearchTile extends StatelessWidget {
           child: Row(
             children: <Widget>[
               NetworkPhoto(
-                url: category.photo.url,
+                url: category?.photo?.url ?? '',
                 height: 41.3,
                 width: 41.3,
                 placeHolder: 'assets/images/group_placeholder.svg',

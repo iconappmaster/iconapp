@@ -22,6 +22,7 @@ class Socket {
 
   Channel _channel;
 
+
   void init() async {
     try {
       await Pusher.init(PUSHER_KEY, PusherOptions(cluster: "us2"),

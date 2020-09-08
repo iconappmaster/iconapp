@@ -31,7 +31,6 @@ class _ChatSettingsScreenState extends State<ChatSettingsScreen> {
     final settings = sl<ChatSettingsStore>();
 
     final iconSettings = [
-      ChangeBackground(),
       _SettingsDivider(),
       ParticipentList(),
     ];
@@ -52,7 +51,8 @@ class _ChatSettingsScreenState extends State<ChatSettingsScreen> {
                 [
                   ConversationNotificationsSettings(),
                   _SettingsDivider(),
-                  if (settings.isUserAdmin) ...iconSettings
+                  if (settings.isUserAdmin) ChangeBackground(),
+                  ...iconSettings
                 ],
               ),
             ),

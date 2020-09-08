@@ -2,13 +2,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:iconapp/core/dependencies/locator.dart';
-import 'package:iconapp/routes/router.gr.dart';
-import 'package:iconapp/stores/chat/chat_store.dart';
+import 'chat_back_button.dart';
+import '../../core/dependencies/locator.dart';
+import '../../routes/router.gr.dart';
+import '../../stores/chat/chat_store.dart';
 import '../../core/extensions/context_ext.dart';
 import '../../core/theme.dart';
 import '../global/hebrew_input_text.dart';
-import 'chat_back_button.dart';
 
 class ChatAppbar extends StatelessWidget {
   @override
@@ -33,12 +33,14 @@ class ChatAppbar extends StatelessWidget {
                   children: <Widget>[
                     HebrewText(store?.conversation?.name ?? '',
                         style: loginBigText),
-                    HebrewText('${store.conversation?.numberOfParticipants ?? 0} משתתפים',
+                    HebrewText(
+                        '${store.conversation?.numberOfParticipants ?? 0} משתתפים',
                         style: fieldLabel), // should come from socket
                   ],
                 ),
               ),
               Observer(builder: (_) {
+                final pinSize = 30.0;
                 return InkResponse(
                   onTap: () =>
                       store.pinConversation(!store.conversation.isPinned),
@@ -48,12 +50,17 @@ class ChatAppbar extends StatelessWidget {
                         ScaleTransition(scale: animation, child: child),
                     child: store.conversation?.isPinned ?? false
                         ? SvgPicture.asset('assets/images/pin_purple.svg',
-                            key: const Key('pinned'), height: 26, width: 26)
+                            key: const Key('pinned'),
+                            height: pinSize,
+                            width: pinSize)
                         : SvgPicture.asset('assets/images/pin.svg',
-                            key: const Key('unpinned'), height: 26, width: 26),
+                            key: const Key('unpinned'),
+                            height: pinSize,
+                            width: pinSize),
                   ),
                 );
               }),
+              SizedBox(width: 6),
               IconButton(
                 visualDensity: VisualDensity.comfortable,
                 icon: SvgPicture.asset('assets/images/dots.svg',

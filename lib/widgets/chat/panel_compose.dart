@@ -35,7 +35,7 @@ class _PanelMessageComposeState extends State<PanelMessageCompose> {
       child: Observer(
         builder: (_) => Column(
           children: [
-            MessagePanelReply(),
+            ReplyComposePanel(),
             Center(
               child: Container(
                 constraints: BoxConstraints(minHeight: 41.3),
@@ -73,7 +73,8 @@ class _PanelMessageComposeState extends State<PanelMessageCompose> {
   }
 }
 
-class MessagePanelReply extends StatelessWidget {
+/// When user slides a message this panel will pop above the text message
+class ReplyComposePanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
@@ -118,19 +119,10 @@ class MessagePanelReply extends StatelessWidget {
             child: Container(
                 width: MediaQuery.of(context).size.width * .8,
                 height: 50,
-                child:
-                    // getReplyBody(store.replayMessage),
-
-                    SingleChildScrollView(
+                child: SingleChildScrollView(
                   child: store.replayMessage != null
                       ? getReplyBody(store?.replayMessage)
                       : Container(),
-
-                  // HebrewText(
-                  // store.replayMessage?.body ?? '',
-                  // style: replayContnet,
-                  // textAlign: TextAlign.start,
-                  // )),
                 )),
           ),
         ]),
@@ -151,7 +143,11 @@ class MessagePanelReply extends StatelessWidget {
           borderRadius: BorderRadius.circular(3.4),
           child: AspectRatio(
             aspectRatio: 1,
-            child: NetworkPhoto(url: message.body,height: 50, width: 50,),
+            child: NetworkPhoto(
+              url: message.body,
+              height: 50,
+              width: 50,
+            ),
           ),
         );
       case MessageType.video:

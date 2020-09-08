@@ -83,7 +83,7 @@ class Router extends RouterBase {
     RouteDef(Routes.chatScreen, page: ChatScreen),
     RouteDef(Routes.chatSettingsScreen, page: ChatSettingsScreen),
     RouteDef(Routes.videoScreen, page: VideoScreen),
-    RouteDef(Routes.fullImageScreen, page: FullImageScreen),
+    RouteDef(Routes.fullImageScreen, page: FullPhotoScreen),
     RouteDef(Routes.selectIconScreen, page: SelectIconScreen),
     RouteDef(Routes.createCategoryScreen, page: CreateCategoryScreen),
     RouteDef(Routes.editConversation, page: EditConversation),
@@ -161,11 +161,11 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    FullImageScreen: (RouteData data) {
+    FullPhotoScreen: (RouteData data) {
       var args = data.getArgs<FullImageScreenArguments>(
           orElse: () => FullImageScreenArguments());
       return MaterialPageRoute<dynamic>(
-        builder: (context) => FullImageScreen(key: args.key, photo: args.photo),
+        builder: (context) => FullPhotoScreen(key: args.key, photo: args.photo),
         settings: data,
       );
     },

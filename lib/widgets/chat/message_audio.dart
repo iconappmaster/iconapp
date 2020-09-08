@@ -117,7 +117,7 @@ class _VoiceMessageState extends State<VoiceMessage> {
           margin: EdgeInsets.only(
               left: widget.isMe ? 0 : 100, right: widget.isMe ? 100 : 0),
           child: IconBubble(
-            padding: BubbleEdges.all(9),
+            padding: BubbleEdges.symmetric(vertical: 14, horizontal: 14),
             message: widget.message,
             isMe: widget.isMe,
             child: Column(
@@ -130,7 +130,9 @@ class _VoiceMessageState extends State<VoiceMessage> {
                       child: Directionality(
                         textDirection: TextDirection.ltr,
                         child: Slider(
-                          activeColor: strongPink,
+                          
+                          inactiveColor: white,
+                          activeColor: purpleBlue,
                           onChanged: (v) {
                             final position = v * _duration.inMilliseconds;
                             _audioPlayer
@@ -144,40 +146,43 @@ class _VoiceMessageState extends State<VoiceMessage> {
                               ? _position.inMilliseconds /
                                   _duration.inMilliseconds
                               : 0.0,
+                              
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 40,
-                      width: 40,
-                      child: FloatingActionButton(
-                        heroTag: widget.message.id.toString(),
-                        onPressed: () => _isPlaying ? _pause() : _play(),
-                        elevation: 0,
-                        backgroundColor: white,
-                        child: AnimatedSwitcher(
-                          duration: Duration(milliseconds: 250),
-                          transitionBuilder: (child, animation) =>
-                              ScaleTransition(
-                            scale: animation,
-                            child: child,
-                          ),
-                          child: _isPlaying
-                              ? SvgPicture.asset(
-                                  'assets/images/pause.svg',
-                                  key: Key('pause_button'),
-                                  height: 12,
-                                  width: 12,
-                                )
-                              : SvgPicture.asset(
-                                  'assets/images/play.svg',
-                                  height: 12,
-                                  width: 12,
-                                  key: Key('play_button'),
+                    widget.message.status == MessageStatus.pending
+                        ? CircularProgressIndicator()
+                        : SizedBox(
+                            height: 34,
+                            width: 34,
+                            child: FloatingActionButton(
+                              heroTag: widget.message.id.toString(),
+                              onPressed: () => _isPlaying ? _pause() : _play(),
+                              elevation: 0,
+                              backgroundColor: white,
+                              child: AnimatedSwitcher(
+                                duration: Duration(milliseconds: 250),
+                                transitionBuilder: (child, animation) =>
+                                    ScaleTransition(
+                                  scale: animation,
+                                  child: child,
                                 ),
-                        ),
-                      ),
-                    ),
+                                child: _isPlaying
+                                    ? SvgPicture.asset(
+                                        'assets/images/pause.svg',
+                                        key: Key('pause_button'),
+                                        height: 12,
+                                        width: 12,
+                                      )
+                                    : SvgPicture.asset(
+                                        'assets/images/play.svg',
+                                        height: 12,
+                                        width: 12,
+                                        key: Key('play_button'),
+                                      ),
+                              ),
+                            ),
+                          ),
                   ],
                 ),
                 SizedBox(height: 4),

@@ -31,7 +31,7 @@ const blueberry2 = Color(0xFF473f81);
 const blueberry3 = Color(0xFF4c409f);
 const scarlet = Color(0xFFd0021b);
 const black10 = Color(0x19000000);
-
+const paleGreyTwo = Color(0xFFe9e6ff);
 // Font Sizes
 // const _fontRubikBold = "RubikBold";
 const _fontRubikRegular = "RubikRagular";
@@ -341,12 +341,10 @@ final disabledGradient = LinearGradient(colors: [
   switchThumb,
 ], begin: Alignment.bottomRight, end: Alignment.topLeft);
 
-
 final descriptionPanelGradient = LinearGradient(colors: [
   darkBlueGrey,
   darkIndigo,
 ], begin: Alignment.bottomRight, end: Alignment.topLeft);
-
 
 final itemShadow = [
   BoxShadow(

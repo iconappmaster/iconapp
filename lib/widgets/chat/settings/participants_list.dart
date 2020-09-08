@@ -31,7 +31,7 @@ class ParticipentList extends StatelessWidget {
             ...settings.users
                 .map((user) => ParticipantTile(currentUser: user))
                 .toList(),
-            ParticipentAddButton(),
+            if (settings.isUserAdmin) ParticipentAddButton(),
             if (settings.showUnsubscribeButton) UnsubscribeButton(),
           ],
         ),

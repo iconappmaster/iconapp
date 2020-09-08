@@ -1,12 +1,15 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:iconapp/core/bus.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
+import 'package:iconapp/data/repositories/media_repository.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/chat/reply_slider.dart';
@@ -36,6 +39,8 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
   SlidableController _controller;
   BuildContext _sliderContext;
   bool _isOpen = false;
+  double _progress = 0.0;
+  StreamSubscription<ProgressEvent> progressSubscription;
 
   @override
   void initState() {
@@ -45,6 +50,11 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
   }
 
   void _initSlidable() {
+    progressSubscription = sl<Bus>().on<ProgressEvent>().listen((event) {
+      if (event.id != null && event.id == widget.message.id) {
+        if (mounted) setState(() => _progress = event.progress);
+      }
+    });
     _controller = SlidableController(
       onSlideAnimationChanged: (s) => print(s), // do not remove
       onSlideIsOpenChanged: (isOpen) {
@@ -63,8 +73,7 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
   @override
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
-    
-    
+
     return Likeble(
       message: widget.message,
       child: Replyble(
@@ -76,60 +85,72 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
           _sliderContext = context;
           return ReplyButton(message: widget.message);
         },
-        child: IconBubble(
-          isMe: widget.isMe,
-          message: widget.message,
-          onTap: () => ExtendedNavigator.of(context).pushNamed(
-              Routes.videoScreen,
-              arguments:
-                  VideoScreenArguments(url: widget.message?.body ?? '')),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              widget.message.body.startsWith('http')
-                  ? ClipRRect(
-                      borderRadius: BorderRadius.circular(4.2),
-                      child: SizedBox(
-                        height: 200,
-                        width: 240,
-                        child:
-                            NetworkPhoto(url: widget.message?.extraData ?? ''),
-                      ))
-                  : ClipRRect(
-                      borderRadius: BorderRadius.circular(4.2),
-                      child: SizedBox(
-                        height: 200,
-                        width: 240,
-                        child: Image.file(
-                          File(widget.message?.extraData ?? ''),
+        child: Stack(children: [
+          IconBubble(
+            isMe: widget.isMe,
+            message: widget.message,
+            onTap: () => ExtendedNavigator.of(context).pushNamed(
+                Routes.videoScreen,
+                arguments:
+                    VideoScreenArguments(url: widget.message?.body ?? '')),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                widget.message.body.startsWith('http')
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(4.2),
+                        child: SizedBox(
+                          height: 200,
+                          width: 240,
+                          child: NetworkPhoto(
+                              url: widget.message?.extraData ?? ''),
+                        ))
+                    : ClipRRect(
+                        borderRadius: BorderRadius.circular(4.2),
+                        child: SizedBox(
+                          height: 200,
+                          width: 240,
+                          child: Image.file(
+                            File(widget.message?.extraData ?? ''),
+                          ),
                         ),
                       ),
-                    ),
-              SvgPicture.asset(
-                'assets/images/play_button.svg',
-                height: 56,
-                width: 56,
-              ),
-              Positioned(
-                left: 5,
-                bottom: 5,
-                child: HebrewText(
-                  widget.message.status == MessageStatus.pending
-                      ? ''
-                      : widget.message?.timestamp?.humanReadableTime() ?? '',
-                  style: chatMessageBody.copyWith(fontSize: 9),
-                  textAlign: TextAlign.start,
+                SvgPicture.asset(
+                  'assets/images/play_button.svg',
+                  height: 56,
+                  width: 56,
                 ),
-              ),
-              Positioned(
-                right: 5,
-                bottom: 5,
-                child: HebrewText(widget.message.sender?.fullName ?? '',
-                    style: chatMessageName, textAlign: TextAlign.start),
-              ),
-            ],
+                Positioned(
+                  left: 5,
+                  bottom: 5,
+                  child: HebrewText(
+                    widget.message.status == MessageStatus.pending
+                        ? ''
+                        : widget.message?.timestamp?.humanReadableTime() ?? '',
+                    style: chatMessageBody.copyWith(fontSize: 9),
+                    textAlign: TextAlign.start,
+                  ),
+                ),
+                Positioned(
+                  right: 5,
+                  bottom: 5,
+                  child: HebrewText(widget.message.sender?.fullName ?? '',
+                      style: chatMessageName, textAlign: TextAlign.start),
+                ),
+              ],
+            ),
           ),
-        ),
+          if (widget.message.status == MessageStatus.pending)
+            Positioned(
+              left: 100,
+              top: 80,
+              child: CircularProgressIndicator(
+                value: _progress,
+                strokeWidth: 2,
+                backgroundColor: white,
+              ),
+            ),
+        ]),
       ),
     );
   }

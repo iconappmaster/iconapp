@@ -163,10 +163,9 @@ class HomeTileLastMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxWidth: MediaQuery.of(context).size.width * .55
-      ),
-          child: Row(
+      constraints:
+          BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .55),
+      child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
           if (model?.sender?.fullName != null)
@@ -187,12 +186,13 @@ class HomeTileLastMessage extends StatelessWidget {
                   style: lastWritten),
             ),
 
-          if (model?.messageType != MessageType.text)
-            SvgPicture.asset(getImageType(), height: 20, width: 20),
+          if (model?.messageType != MessageType.text &&
+              model?.messageType != MessageType.system)
+            SvgPicture.asset(getImageType() ?? '', height: 20, width: 20),
 
           SizedBox(width: 5),
 
-          HebrewText(getTextType(),
+          HebrewText(getTextType() ?? '',
               overflow: TextOverflow.fade,
               textAlign: TextAlign.start,
               style: lastWritten),
@@ -206,13 +206,13 @@ class HomeTileLastMessage extends StatelessWidget {
       case MessageType.photo:
         return 'assets/images/camera.svg';
       case MessageType.video:
-        return 'assets/images/play.svg';
+        return 'assets/images/play_thumb.svg';
       case MessageType.voice:
         return 'assets/images/microphone.svg';
       case MessageType.system:
-        return '';
+        return null;
       case MessageType.text:
-        return '';
+        return null;
     }
 
     return null;
