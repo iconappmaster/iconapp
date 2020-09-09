@@ -63,8 +63,7 @@ class _TextMessageState extends State<TextMessage> {
         ? blueBerry
         : widget.isMe ? darkIndigo2 : blueberry2;
 
-    final  store = sl<ChatStore>();
-
+    final store = sl<ChatStore>();
 
     return Likeble(
       message: widget.message,

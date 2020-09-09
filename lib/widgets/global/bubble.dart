@@ -79,6 +79,7 @@ class BubbleStyle {
 
 class BubbleClipper extends CustomClipper<Path> {
   BubbleClipper({
+    this.bubbleWidth,
     this.radius,
     this.nip,
     this.nipWidth,
@@ -125,6 +126,7 @@ class BubbleClipper extends CustomClipper<Path> {
   final double nipRadius;
   final bool stick;
   final BubbleEdges padding;
+  final Function(double) bubbleWidth;
 
   double _startOffset; // Offsets of the bubble
   double _endOffset;
@@ -155,6 +157,8 @@ class BubbleClipper extends CustomClipper<Path> {
 
   @override
   Path getClip(Size size) {
+    // bubbleWidth(size.width);
+
     var radiusX = radius.x;
     var radiusY = radius.y;
     var maxRadiusX = size.width / 2;
@@ -286,6 +290,7 @@ class Bubble extends StatelessWidget {
     BubbleEdges margin,
     Alignment alignment,
     BubbleStyle style,
+    // Function(double) bubbleWidth,
   })  : color = color ?? style?.color ?? Colors.white,
         elevation = elevation ?? style?.elevation ?? 1.0,
         shadowColor = shadowColor ?? style?.shadowColor ?? Colors.black,
@@ -304,6 +309,7 @@ class Bubble extends StatelessWidget {
           nipOffset: nipOffset ?? style?.nipOffset ?? 0.0,
           nipRadius: nipRadius ?? style?.nipRadius ?? 1.0,
           stick: stick ?? style?.stick ?? false,
+          // bubbleWidth: bubbleWidth,
           padding: BubbleEdges.only(
             left: padding?.left ?? style?.padding?.left ?? 8.0,
             top: padding?.top ?? style?.padding?.top ?? 6.0,

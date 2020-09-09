@@ -24,11 +24,13 @@ import 'icon_bubble.dart';
 class PhotoMessage extends StatefulWidget {
   final MessageModel message;
   final bool isMe;
+  final int index;
 
   const PhotoMessage({
     Key key,
     @required this.message,
     @required this.isMe,
+    @required this.index,
   }) : super(key: key);
 
   @override
@@ -72,6 +74,12 @@ class _PhotoMessageState extends State<PhotoMessage> {
   @override
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
+    
+    final photos = store.conversation.messages
+        .where((photo) => photo.messageType == MessageType.photo)
+        .map((photo) => PhotoModel(id: photo.id, url: photo.body))
+        .toList();
+    
     return Likeble(
       message: widget.message,
       child: Replyble(
@@ -92,9 +100,13 @@ class _PhotoMessageState extends State<PhotoMessage> {
                   isMe: widget.isMe,
                   message: widget.message,
                   onTap: () => ExtendedNavigator.of(context).pushNamed(
-                      Routes.fullImageScreen,
-                      arguments: FullImageScreenArguments(
-                          photo: PhotoModel(url: widget.message?.body ?? ''))),
+                    Routes.fullPhotoScreen,
+                    arguments: FullPhotoScreenArguments(
+                        galleryItems: photos,
+                        intialIndex: photos.indexWhere(
+                          (photo) => photo.id == widget.message.id,
+                        )),
+                  ),
                   child: Stack(children: [
                     Column(
                       mainAxisSize: MainAxisSize.min,

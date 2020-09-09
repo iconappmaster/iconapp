@@ -4,7 +4,9 @@ import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/widgets/global/bubble.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+import 'package:iconapp/widgets/global/network_photo.dart';
 
+import 'compose/reply_widgets.dart';
 import 'like_buuble.dart';
 
 class IconBubble extends StatefulWidget {
@@ -31,6 +33,8 @@ class IconBubble extends StatefulWidget {
 final bubbleKey = GlobalKey();
 
 class _IconBubbleState extends State<IconBubble> {
+  // double _bubbleWidth;
+
   double getWidgetWidth() {
     RenderBox renderBox = bubbleKey.currentContext.findRenderObject();
     Size size = renderBox.size;
@@ -44,7 +48,6 @@ class _IconBubbleState extends State<IconBubble> {
         : widget.isMe ? darkIndigo2 : blueberry2;
 
     final horizontalLikePadding = EdgeInsets.symmetric(horizontal: 3);
-
     return Column(
       children: [
         Stack(
@@ -68,69 +71,30 @@ class _IconBubbleState extends State<IconBubble> {
                     color: color,
                     nip: widget.isMe ? BubbleNip.leftTop : BubbleNip.rightTop,
                     child: ConstrainedBox(
-                      constraints: BoxConstraints(minWidth: 80, minHeight: 55),
-                      child: widget.message?.repliedToMessage != null
-                          ? Wrap(
-                              direction: Axis.vertical,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 10.0),
-                                  child: Container(
-                                    height: 63,
-                                    width: 200,
-                                    decoration: BoxDecoration(
-                                        color: paleGreyTwo,
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(3.7),
-                                          bottomLeft: Radius.circular(3.7),
-                                        )),
-                                    child: Stack(
-                                      fit: StackFit.loose,
-                                      children: [
-                                        Positioned(
-                                          right: 0,
-                                          child: Container(
-                                            width: 5,
-                                            height: 63,
-                                            color: cornflower,
-                                          ),
-                                        ),
-                                        Positioned(
-                                          right: 20,
-                                          top: 10,
-                                          child: HebrewText(
-                                              widget?.message?.repliedToMessage
-                                                      ?.sender?.fullName ??
-                                                  '',
-                                              style: replayTitle),
-                                        ),
-                                        Positioned(
-                                          right: 20,
-                                          top: 25,
-                                          child: HebrewText(
-                                              widget?.message?.repliedToMessage
-                                                      ?.body ??
-                                                  '',
-                                              maxLines: 2,
-                                              style: replayTitle),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                widget.child,
-                              ],
-                            )
-                          : widget.child,
+                      constraints: BoxConstraints(
+                        minWidth: 80,
+                        minHeight: 55,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (widget.message?.repliedToMessage != null)
+                            MessageReply(widget: widget, width: 200),
+                          
+                          
+                          widget.child,
+                        ],
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
             Positioned(
-              left: widget.isMe ? 40 : null,
-              right: widget.isMe ? null : 40,
-              child: LikeBubble(likeAsset: widget.message?.likeType),
+              top: 10,
+              left: 30,
+              child: EmojiPlus(likeAsset: widget.message?.likeType),
             ),
           ],
         ),
@@ -150,19 +114,19 @@ class _IconBubbleState extends State<IconBubble> {
                   widget.isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
               children: [
                 if ((widget.message.likeCounts.like1 > 0) ?? false)
-                  LikeBubble(
+                  EmojiLikeBubble(
                     likeAsset: likeOneKey,
                     padding: horizontalLikePadding,
                     count: widget.message?.likeCounts?.like1 ?? 0,
                   ),
                 if (widget.message.likeCounts.like2 > 0 ?? false)
-                  LikeBubble(
+                  EmojiLikeBubble(
                     likeAsset: likeTwoKey,
                     padding: horizontalLikePadding,
                     count: widget.message.likeCounts?.like2 ?? 0,
                   ),
                 if (widget.message.likeCounts.like3 > 0 ?? false)
-                  LikeBubble(
+                  EmojiLikeBubble(
                     likeAsset: likeThreeKey,
                     padding: horizontalLikePadding,
                     count: widget.message.likeCounts?.like3 ?? 0,
@@ -179,4 +143,58 @@ class _IconBubbleState extends State<IconBubble> {
       widget.message.likeCounts.like1 > 0 ||
       widget.message.likeCounts.like2 > 0 ||
       widget.message.likeCounts.like3 > 0;
+}
+
+class MessageReply extends StatelessWidget {
+  final double width;
+  const MessageReply({
+    Key key,
+    @required this.widget,
+    @required this.width,
+  }) : super(key: key);
+
+  final IconBubble widget;
+
+  @override
+  Widget build(BuildContext context) {
+    final message = widget?.message?.repliedToMessage;
+    return Padding(
+      padding: const EdgeInsets.only(top: 10.0),
+      child: Container(
+        height: 63,
+        width: width,
+        decoration: BoxDecoration(
+            color: paleGreyTwo,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(3.7),
+              bottomLeft: Radius.circular(3.7),
+            )),
+        child: Stack(
+          fit: StackFit.loose,
+          children: [
+            Positioned(
+              right: 0,
+              child: Container(
+                width: 5,
+                height: 63,
+                color: cornflower,
+              ),
+            ),
+            Positioned(
+                right: 20,
+                top: 10,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    HebrewText(message.sender?.fullName ?? '',
+                        style: replayTitle),
+                    SizedBox(height: 5),
+                    if (message != null) getReplyBody(message)
+                  ],
+                )),
+          ],
+        ),
+      ),
+    );
+  }
 }

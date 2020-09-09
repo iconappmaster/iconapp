@@ -17,7 +17,7 @@ import 'package:iconapp/screens/chat_screen.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/screens/chat_settings_screen.dart';
 import 'package:iconapp/screens/full_video_screen.dart';
-import 'package:iconapp/screens/full_image_screen.dart';
+import 'package:iconapp/screens/full_screen_photo.dart';
 import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/screens/create_icons_screen.dart';
 import 'package:iconapp/screens/create_categories_screen.dart';
@@ -39,7 +39,7 @@ class Routes {
   static const String chatScreen = '/chat-screen';
   static const String chatSettingsScreen = '/chat-settings-screen';
   static const String videoScreen = '/video-screen';
-  static const String fullImageScreen = '/full-image-screen';
+  static const String fullPhotoScreen = '/full-photo-screen';
   static const String selectIconScreen = '/select-icon-screen';
   static const String createCategoryScreen = '/create-category-screen';
   static const String editConversation = '/edit-conversation';
@@ -58,7 +58,7 @@ class Routes {
     chatScreen,
     chatSettingsScreen,
     videoScreen,
-    fullImageScreen,
+    fullPhotoScreen,
     selectIconScreen,
     createCategoryScreen,
     editConversation,
@@ -83,7 +83,7 @@ class Router extends RouterBase {
     RouteDef(Routes.chatScreen, page: ChatScreen),
     RouteDef(Routes.chatSettingsScreen, page: ChatSettingsScreen),
     RouteDef(Routes.videoScreen, page: VideoScreen),
-    RouteDef(Routes.fullImageScreen, page: FullPhotoScreen),
+    RouteDef(Routes.fullPhotoScreen, page: FullPhotoScreen),
     RouteDef(Routes.selectIconScreen, page: SelectIconScreen),
     RouteDef(Routes.createCategoryScreen, page: CreateCategoryScreen),
     RouteDef(Routes.editConversation, page: EditConversation),
@@ -162,10 +162,14 @@ class Router extends RouterBase {
       );
     },
     FullPhotoScreen: (RouteData data) {
-      var args = data.getArgs<FullImageScreenArguments>(
-          orElse: () => FullImageScreenArguments());
+      var args = data.getArgs<FullPhotoScreenArguments>(
+          orElse: () => FullPhotoScreenArguments());
       return MaterialPageRoute<dynamic>(
-        builder: (context) => FullPhotoScreen(key: args.key, photo: args.photo),
+        builder: (context) => FullPhotoScreen(
+          key: args.key,
+          galleryItems: args.galleryItems,
+          intialIndex: args.intialIndex,
+        ),
         settings: data,
       );
     },
@@ -289,13 +293,15 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
             VideoScreenArguments(key: key, url: url, showToolbar: showToolbar),
       );
 
-  Future<dynamic> pushFullImageScreen({
+  Future<dynamic> pushFullPhotoScreen({
     Key key,
-    PhotoModel photo,
+    List<PhotoModel> galleryItems,
+    int intialIndex,
   }) =>
       pushNamed<dynamic>(
-        Routes.fullImageScreen,
-        arguments: FullImageScreenArguments(key: key, photo: photo),
+        Routes.fullPhotoScreen,
+        arguments: FullPhotoScreenArguments(
+            key: key, galleryItems: galleryItems, intialIndex: intialIndex),
       );
 
   Future<dynamic> pushSelectIconScreen({
@@ -383,11 +389,12 @@ class VideoScreenArguments {
   VideoScreenArguments({this.key, @required this.url, this.showToolbar = true});
 }
 
-//FullImageScreen arguments holder class
-class FullImageScreenArguments {
+//FullPhotoScreen arguments holder class
+class FullPhotoScreenArguments {
   final Key key;
-  final PhotoModel photo;
-  FullImageScreenArguments({this.key, this.photo});
+  final List<PhotoModel> galleryItems;
+  final int intialIndex;
+  FullPhotoScreenArguments({this.key, this.galleryItems, this.intialIndex});
 }
 
 //SelectIconScreen arguments holder class

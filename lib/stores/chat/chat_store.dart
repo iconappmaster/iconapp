@@ -390,6 +390,8 @@ abstract class _ChatStoreBase with Store {
       recordTimer.onExecute.add(StopWatchExecute.stop);
       recordTimer.onExecute.add(StopWatchExecute.reset);
 
+      final duration = recording.duration?.toString()?.split('.')?.first ?? '';
+
       if (recording != null) {
         final msg = MessageModel(
           id: DateTime.now().millisecondsSinceEpoch,
@@ -399,6 +401,9 @@ abstract class _ChatStoreBase with Store {
           timestamp: DateTime.now().millisecondsSinceEpoch,
           likeCounts: LikesCount.initial(),
           messageType: MessageType.voice,
+          extraData: duration,
+          // todo need set replied message
+          
         );
 
         // show pending message
@@ -428,9 +433,9 @@ abstract class _ChatStoreBase with Store {
 
   @action
   void watchMessages() {
-    _messagesSubscription.add(_repository
-        .watchMessages()
-        .listen((message) => _messages.add(message)));
+    _messagesSubscription.add(
+      _repository.watchMessages().listen((message) => _messages.add(message)),
+    );
   }
 
   @action
@@ -479,6 +484,7 @@ abstract class _ChatStoreBase with Store {
       subscription.cancel();
     });
     _conversation = Conversation();
+    _replyMessage = null;
     await recordTimer?.dispose();
   }
 }

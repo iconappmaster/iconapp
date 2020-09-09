@@ -12,7 +12,7 @@ import '../stores/chat/chat_store.dart';
 import '../stores/socket/socket_manager.dart';
 import '../stores/story/story_store.dart';
 import '../widgets/chat/panel_subscribe.dart';
-import '../widgets/chat/panel_compose.dart';
+import '../widgets/chat/compose/panel_compose.dart';
 import '../widgets/chat/settings/change_background.dart';
 import '../widgets/global/blue_divider.dart';
 import '../widgets/story/story_list.dart';

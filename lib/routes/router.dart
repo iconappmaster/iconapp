@@ -6,7 +6,7 @@ import 'package:iconapp/screens/create_categories_screen.dart';
 import 'package:iconapp/screens/create_details_screen.dart';
 import 'package:iconapp/screens/create_icons_screen.dart';
 import 'package:iconapp/screens/descrioption_screen.dart';
-import 'package:iconapp/screens/full_image_screen.dart';
+import 'package:iconapp/screens/full_screen_photo.dart';
 import 'package:iconapp/screens/full_video_screen.dart';
 import 'package:iconapp/screens/rename_conversation.dart';
 import 'package:iconapp/screens/home_screen.dart';

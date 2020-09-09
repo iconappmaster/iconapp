@@ -123,6 +123,8 @@ class _VoiceMessageState extends State<VoiceMessage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                HebrewText(widget.message.sender.fullName,
+                    style: newMessageNumber),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -130,9 +132,8 @@ class _VoiceMessageState extends State<VoiceMessage> {
                       child: Directionality(
                         textDirection: TextDirection.ltr,
                         child: Slider(
-                          
                           inactiveColor: white,
-                          activeColor: purpleBlue,
+                          activeColor: cornflower,
                           onChanged: (v) {
                             final position = v * _duration.inMilliseconds;
                             _audioPlayer
@@ -146,7 +147,6 @@ class _VoiceMessageState extends State<VoiceMessage> {
                               ? _position.inMilliseconds /
                                   _duration.inMilliseconds
                               : 0.0,
-                              
                         ),
                       ),
                     ),
@@ -156,50 +156,40 @@ class _VoiceMessageState extends State<VoiceMessage> {
                             height: 34,
                             width: 34,
                             child: FloatingActionButton(
-                              heroTag: widget.message.id.toString(),
-                              onPressed: () => _isPlaying ? _pause() : _play(),
-                              elevation: 0,
-                              backgroundColor: white,
-                              child: AnimatedSwitcher(
-                                duration: Duration(milliseconds: 250),
-                                transitionBuilder: (child, animation) =>
-                                    ScaleTransition(
-                                  scale: animation,
-                                  child: child,
-                                ),
-                                child: _isPlaying
-                                    ? SvgPicture.asset(
-                                        'assets/images/pause.svg',
-                                        key: Key('pause_button'),
-                                        height: 12,
-                                        width: 12,
-                                      )
-                                    : SvgPicture.asset(
-                                        'assets/images/play.svg',
-                                        height: 12,
-                                        width: 12,
-                                        key: Key('play_button'),
-                                      ),
-                              ),
-                            ),
-                          ),
+                                heroTag: widget.message.id.toString(),
+                                onPressed: () =>
+                                    _isPlaying ? _pause() : _play(),
+                                elevation: 0,
+                                backgroundColor: white,
+                                child: AnimatedSwitcher(
+                                    duration: Duration(milliseconds: 250),
+                                    transitionBuilder: (child, animation) =>
+                                        ScaleTransition(
+                                            scale: animation, child: child),
+                                    child: _isPlaying
+                                        ? SvgPicture.asset(
+                                            'assets/images/pause.svg',
+                                            key: Key('pause_button'),
+                                            height: 12,
+                                            width: 12)
+                                        : SvgPicture.asset(
+                                            'assets/images/play.svg',
+                                            height: 12,
+                                            width: 12,
+                                            key: Key('play_button'))))),
                   ],
                 ),
-                SizedBox(height: 4),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    HebrewText(
-                      widget.message.sender.fullName,
-                      style: newMessageNumber,
-                    ),
-                    Text(
+                Visibility(
+                  visible: _position != null,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 4),
+                    child: HebrewText(
                       _position != null
                           ? '${_durationText ?? ''} / ${_positionText ?? ''}'
                           : _duration != null ? _durationText : '',
                       style: newMessageNumber,
                     ),
-                  ],
+                  ),
                 ),
               ],
             ),

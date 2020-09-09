@@ -8,7 +8,6 @@ import 'controller/story_controller.dart';
 import 'story_video.dart';
 import 'story_image.dart';
 
-
 /// Indicates where the progress indicators should be placed.
 enum ProgressPosition { top, bottom }
 
@@ -394,6 +393,8 @@ class StoryView extends StatefulWidget {
   // Controls the playback of the stories
   final StoryController controller;
 
+  final Function(SwipeDirection) onHorizontalSwipe;
+
   StoryView({
     @required this.storyItems,
     @required this.controller,
@@ -403,6 +404,7 @@ class StoryView extends StatefulWidget {
     this.repeat = false,
     this.inline = false,
     this.onVerticalSwipeComplete,
+    this.onHorizontalSwipe,
   })  : assert(storyItems != null && storyItems.length > 0,
             "[storyItems] should not be null or empty"),
         assert(progressPosition != null, "[progressPosition] cannot be null"),
@@ -417,6 +419,8 @@ class StoryView extends StatefulWidget {
     return StoryViewState();
   }
 }
+
+enum SwipeDirection { left, right }
 
 class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
   AnimationController _animationController;
@@ -658,6 +662,17 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
                     widget.controller.next();
                   }
                 },
+                onPanUpdate: (details) {
+                  if (widget.onHorizontalSwipe != null) {
+                    if (details.delta.dx > 0) {
+                      // swipe right
+                      widget.onHorizontalSwipe(SwipeDirection.right);
+                    } else {
+                      // swipe left
+                      widget.onHorizontalSwipe(SwipeDirection.left);
+                    }
+                  }
+                },
                 onVerticalDragStart: widget.onVerticalSwipeComplete == null
                     ? null
                     : (details) {
@@ -766,7 +781,7 @@ class PageBarState extends State<PageBar> {
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.ltr,
-          child: Row(
+      child: Row(
         children: widget.pages.map((it) {
           return Expanded(
             child: Container(
