@@ -50,7 +50,6 @@ class _IconBubbleState extends State<IconBubble> {
     final horizontalLikePadding = EdgeInsets.symmetric(horizontal: 3);
     return Column(
       children: [
-        
         Row(
           mainAxisAlignment:
               widget.isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
@@ -64,7 +63,6 @@ class _IconBubbleState extends State<IconBubble> {
                   Bubble(
                     elevation: 1,
                     stick: true,
-
                     padding:
                         widget.padding ?? BubbleEdges.symmetric(horizontal: 5),
                     margin:

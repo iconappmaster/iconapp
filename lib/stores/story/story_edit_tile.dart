@@ -24,17 +24,17 @@ class StoryMediaTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final double blur = active ? 30 : 0;
     final double offset = active ? 20 : 0;
-    final double top = active ? 100 : 200;
+    final double top = active ? 50 : 100;
 
     final decoration = BoxDecoration(
       color: white,
       borderRadius: storyBorderRadius,
-      boxShadow: [
-        BoxShadow(
-            color: Colors.black87,
-            blurRadius: blur,
-            offset: Offset(offset, offset))
-      ],
+      // boxShadow: [
+      //   BoxShadow(
+      //       color: Colors.black87,
+      //       blurRadius: blur,
+      //       offset: Offset(offset, offset))
+      // ],
     );
 
     final store = sl<StoryEditStore>();
@@ -48,18 +48,21 @@ class StoryMediaTile extends StatelessWidget {
                   borderRadius: storyBorderRadius,
                   child: NetworkPhoto(
                     url: story.photo?.url ?? '',
+                    height: 150,
+                    width: 130,
                   ))
               : ClipRRect(
                   borderRadius: storyBorderRadius,
-                  child: VideoScreen(url: story.photo.url, showToolbar: false),
+                  child:
+                      VideoScreen(url: story.photo.url, showToolbar: false),
                 ),
           duration: Duration(milliseconds: 400),
           curve: Curves.easeOutQuint,
-          margin: EdgeInsets.only(
-            top: top,
-            bottom: 40,
-            right: 40,
-          ),
+          // margin: EdgeInsets.only(
+          //   top: top,
+          //   bottom: 40,
+          //   right: 40,
+          // ),
           decoration: decoration,
         ),
         Align(

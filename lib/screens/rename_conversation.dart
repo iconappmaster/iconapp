@@ -22,7 +22,7 @@ class EditConversation extends StatelessWidget {
         children: [
           Column(
             children: <Widget>[
-              CreateGroupAppbar(
+              AppBarWithDivider(
                   title: LocaleKeys.create_groupNameAppbarTitle.tr()),
               SizedBox(height: 33),
               Padding(

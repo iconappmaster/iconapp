@@ -115,8 +115,6 @@ class _VoiceMessageState extends State<VoiceMessage> {
           return ReplyButton(message: widget.message);
         },
         child: Container(
-          margin: EdgeInsets.only(
-              left: widget.isMe ? 0 : 100, right: widget.isMe ? 100 : 0),
           child: IconBubble(
             padding: BubbleEdges.symmetric(vertical: 14, horizontal: 14),
             message: widget.message,

@@ -9,12 +9,14 @@ import 'package:video_player/video_player.dart';
 import 'package:path_provider/path_provider.dart';
 
 class VideoScreen extends StatefulWidget {
+  final bool mute;
   final String url;
   final bool showToolbar;
   const VideoScreen({
     Key key,
     @required this.url,
     this.showToolbar = true,
+    this.mute = false,
   }) : super(key: key);
 
   @override
@@ -41,6 +43,10 @@ class _VideoScreenState extends State<VideoScreen> {
   void _startVideoNetwork() {
     _controller = VideoPlayerController.network(widget.url)
       ..initialize().then((_) {
+        if (widget.mute) {
+          _controller.setVolume(0);
+        }
+
         if (mounted)
           setState(() {
             isLoading = false;
@@ -52,6 +58,10 @@ class _VideoScreenState extends State<VideoScreen> {
   void _startVideoLocal() {
     _controller = VideoPlayerController.file(File(widget.url))
       ..initialize().then((_) {
+        if (widget.mute) {
+          _controller.setVolume(0);
+        }
+
         if (mounted)
           setState(() {
             isLoading = false;

@@ -24,7 +24,7 @@ class CreateDetailsScreen extends StatelessWidget {
       builder: (_) => BaseGradientBackground(
         child: Stack(
           children: <Widget>[
-            CreateGroupAppbar(
+            AppBarWithDivider(
                 title: LocaleKeys.create_groupNameAppbarTitle.tr()),
             Positioned(
               top: context.heightPlusStatusbarPerc(.164),

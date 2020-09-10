@@ -74,12 +74,12 @@ class _PhotoMessageState extends State<PhotoMessage> {
   @override
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
-    
+
     final photos = store.conversation.messages
         .where((photo) => photo.messageType == MessageType.photo)
         .map((photo) => PhotoModel(id: photo.id, url: photo.body))
         .toList();
-    
+
     return Likeble(
       isMe: widget.isMe,
       message: widget.message,

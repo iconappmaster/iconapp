@@ -66,8 +66,8 @@ mixin _$StoryEditStore on _StoryEditStoreBase, Store {
       AsyncAction('_StoryEditStoreBase.addPhotoMedia');
 
   @override
-  Future<dynamic> addPhotoMedia() {
-    return _$addPhotoMediaAsyncAction.run(() => super.addPhotoMedia());
+  Future<dynamic> addPhotoMedia(ImageSource source) {
+    return _$addPhotoMediaAsyncAction.run(() => super.addPhotoMedia(source));
   }
 
   final _$addVideoMediaAsyncAction =

@@ -5,13 +5,13 @@ import 'package:iconapp/widgets/global/blue_divider.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import '../../core/extensions/context_ext.dart';
 
-class CreateGroupAppbar extends StatelessWidget {
+class AppBarWithDivider extends StatelessWidget {
   final bool showBack;
   final String title;
   final String subtitle;
   final Function onBackTap;
 
-  const CreateGroupAppbar({
+  const AppBarWithDivider({
     Key key,
     this.showBack = true,
     @required this.title,
@@ -24,7 +24,7 @@ class CreateGroupAppbar extends StatelessWidget {
       children: <Widget>[
         Container(
           margin: EdgeInsets.only(top: context.statusbarHeight()),
-          height: 100,
+          height: 75,
           width: double.infinity,
           child: Stack(
             alignment: Alignment.topCenter,

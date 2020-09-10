@@ -157,6 +157,7 @@ class Router extends RouterBase {
           key: args.key,
           url: args.url,
           showToolbar: args.showToolbar,
+          mute: args.mute,
         ),
         settings: data,
       );
@@ -286,11 +287,12 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
     Key key,
     @required String url,
     bool showToolbar = true,
+    bool mute = false,
   }) =>
       pushNamed<dynamic>(
         Routes.videoScreen,
-        arguments:
-            VideoScreenArguments(key: key, url: url, showToolbar: showToolbar),
+        arguments: VideoScreenArguments(
+            key: key, url: url, showToolbar: showToolbar, mute: mute),
       );
 
   Future<dynamic> pushFullPhotoScreen({
@@ -386,7 +388,12 @@ class VideoScreenArguments {
   final Key key;
   final String url;
   final bool showToolbar;
-  VideoScreenArguments({this.key, @required this.url, this.showToolbar = true});
+  final bool mute;
+  VideoScreenArguments(
+      {this.key,
+      @required this.url,
+      this.showToolbar = true,
+      this.mute = false});
 }
 
 //FullPhotoScreen arguments holder class

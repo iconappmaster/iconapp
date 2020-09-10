@@ -94,10 +94,14 @@ class _TextMessageState extends State<TextMessage> {
                     style: chatMessageName,
                     textAlign: TextAlign.start,
                   ),
-                  SelectableText(
-                    widget.message?.body ?? '',
-                    style: chatMessageBody,
-                    textAlign: TextAlign.start,
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width * .7),
+                    child: SelectableText(
+                      widget.message?.body ?? '',
+                      style: chatMessageBody,
+                      textAlign: TextAlign.start,
+                    ),
                   ),
                   SizedBox(height: 8),
                 ],

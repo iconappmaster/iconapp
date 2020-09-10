@@ -2,6 +2,7 @@ import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/data/models/story_model.dart';
 import 'package:iconapp/stores/story/story_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../core/dependencies/locator.dart';
 import '../../core/firebase/crashlytics.dart';
 import '../../data/models/story_image.dart';
@@ -43,15 +44,19 @@ abstract class _StoryEditStoreBase with Store {
   @computed
   bool get canPublish => _storiesToPublish.isNotEmpty;
 
+  
   @action
-  Future addPhotoMedia() async {
+  Future addPhotoMedia(ImageSource source) async {
     try {
       _isLoading = true;
-      final url = await _mediaStore.uploadPhoto();
+      final url = await _mediaStore.uploadPhoto(source: source);
       final storyImg = StoryImageModel.photo();
-      _storiesToPublish.add(storyImg.copyWith(
+      _storiesToPublish.add(
+        storyImg.copyWith(
           id: DateTime.now().millisecondsSinceEpoch,
-          photo: PhotoModel(url: url)));
+          photo: PhotoModel(url: url),
+        ),
+      );
     } on ServerError catch (e) {
       Crash.report(e.message);
     } finally {
@@ -82,10 +87,9 @@ abstract class _StoryEditStoreBase with Store {
   Future publishStory() async {
     try {
       final story = StoryModel(
-        isNew: true,
-        user: _user.getUser,
-        storyImages: _storiesToPublish.toList()
-      );
+          isNew: true,
+          user: _user.getUser,
+          storyImages: _storiesToPublish.toList());
       await _repository.publishStory(story);
       sl<StoryStore>().refreshStories();
     } on ServerError catch (e) {

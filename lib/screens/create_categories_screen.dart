@@ -23,7 +23,7 @@ class CreateCategoryScreen extends StatelessWidget {
               children: <Widget>[
                 Column(
                   children: <Widget>[
-                    CreateGroupAppbar(
+                    AppBarWithDivider(
                         title: LocaleKeys.create_newGroupTitle.tr(),
                         subtitle: LocaleKeys.create_categoriesSubtitle.tr()),
                     Expanded(
