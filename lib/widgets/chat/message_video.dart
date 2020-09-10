@@ -75,6 +75,7 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
     final store = sl<ChatStore>();
 
     return Likeble(
+      isMe: widget.isMe,
       message: widget.message,
       child: Replyble(
         isEnabled: store.conversation.userRole != UserRole.viewer,

@@ -103,6 +103,7 @@ class _VoiceMessageState extends State<VoiceMessage> {
     final store = sl<ChatStore>();
 
     return Likeble(
+      isMe: widget.isMe,
       message: widget.message,
       child: Replyble(
         isEnabled: store.conversation.userRole != UserRole.viewer,
@@ -128,26 +129,24 @@ class _VoiceMessageState extends State<VoiceMessage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Expanded(
-                      child: Directionality(
-                        textDirection: TextDirection.ltr,
-                        child: Slider(
-                          inactiveColor: white,
-                          activeColor: cornflower,
-                          onChanged: (v) {
-                            final position = v * _duration.inMilliseconds;
-                            _audioPlayer
-                                .seek(Duration(milliseconds: position.round()));
-                          },
-                          value: (_position != null &&
-                                  _duration != null &&
-                                  _position.inMilliseconds > 0 &&
-                                  _position.inMilliseconds <
-                                      _duration.inMilliseconds)
-                              ? _position.inMilliseconds /
-                                  _duration.inMilliseconds
-                              : 0.0,
-                        ),
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: Slider(
+                        inactiveColor: white,
+                        activeColor: cornflower,
+                        onChanged: (v) {
+                          final position = v * _duration.inMilliseconds;
+                          _audioPlayer
+                              .seek(Duration(milliseconds: position.round()));
+                        },
+                        value: (_position != null &&
+                                _duration != null &&
+                                _position.inMilliseconds > 0 &&
+                                _position.inMilliseconds <
+                                    _duration.inMilliseconds)
+                            ? _position.inMilliseconds /
+                                _duration.inMilliseconds
+                            : 0.0,
                       ),
                     ),
                     widget.message.status == MessageStatus.pending

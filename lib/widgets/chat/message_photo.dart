@@ -81,6 +81,7 @@ class _PhotoMessageState extends State<PhotoMessage> {
         .toList();
     
     return Likeble(
+      isMe: widget.isMe,
       message: widget.message,
       child: Replyble(
         isEnabled: store.conversation.userRole != UserRole.viewer,

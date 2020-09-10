@@ -63,8 +63,9 @@ class _CreateConversationTileState extends State<CreateConversationTile>
           });
         },
         child: Container(
-          decoration: BoxDecoration(
-              color: darkIndigo2, borderRadius: BorderRadius.circular(5.3)),
+          decoration: BoxDecoration(boxShadow: [
+            const BoxShadow(color: black10, blurRadius: 5, spreadRadius: 4)
+          ], color: darkIndigo2, borderRadius: BorderRadius.circular(5.3)),
           padding: EdgeInsets.symmetric(horizontal: 17.3, vertical: 15.3),
           margin: EdgeInsets.symmetric(horizontal: 21.7, vertical: 4.85),
           height: 72,

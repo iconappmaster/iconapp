@@ -28,6 +28,8 @@ class CreateCategoryScreen extends StatelessWidget {
                         subtitle: LocaleKeys.create_categoriesSubtitle.tr()),
                     Expanded(
                       child: ListView.builder(
+                        padding: EdgeInsets.only(bottom: 50, top: 20),
+                        physics: BouncingScrollPhysics(),
                         itemCount: store.count,
                         itemBuilder: (context, index) {
                           final category = store.getCategories[index];
@@ -37,7 +39,8 @@ class CreateCategoryScreen extends StatelessWidget {
                             url: category.photo.url,
                             onTap: () {
                               store.updateSelected(category);
-                              ExtendedNavigator.of(context).pushNamed(Routes.createDetailsScreen);
+                              ExtendedNavigator.of(context)
+                                  .pushNamed(Routes.createDetailsScreen);
                             },
                           );
                         },

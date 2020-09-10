@@ -13,11 +13,13 @@ import 'like_model.dart';
 class Likeble extends StatelessWidget {
   final Widget child;
   final MessageModel message;
+  final bool isMe;
 
   const Likeble({
     Key key,
     @required this.child,
     @required this.message,
+    @required this.isMe,
   }) : super(key: key);
 
   @override
@@ -25,6 +27,7 @@ class Likeble extends StatelessWidget {
     final chat = sl<ChatStore>();
 
     return LikeMenu(
+      isMe: isMe,
       menuItems: [
         LikeModel(
           isSelected: message.likeType == likeOneKey,
@@ -51,6 +54,7 @@ class Likeble extends StatelessWidget {
 }
 
 class LikeMenu extends StatefulWidget {
+  final bool isMe;
   final Widget child;
   final double menuItemExtent;
   final double menuWidth;
@@ -63,20 +67,21 @@ class LikeMenu extends StatefulWidget {
   final double bottomOffsetHeight;
   final double menuOffset;
 
-  const LikeMenu(
-      {Key key,
-      @required this.child,
-      @required this.menuItems,
-      this.duration,
-      this.menuBoxDecoration,
-      this.menuItemExtent,
-      this.animateMenuItems,
-      this.blurSize,
-      this.blurBackgroundColor,
-      this.menuWidth,
-      this.bottomOffsetHeight,
-      this.menuOffset})
-      : super(key: key);
+  const LikeMenu({
+    Key key,
+    @required this.child,
+    @required this.menuItems,
+    @required this.isMe,
+    this.duration,
+    this.menuBoxDecoration,
+    this.menuItemExtent,
+    this.animateMenuItems,
+    this.blurSize,
+    this.blurBackgroundColor,
+    this.menuWidth,
+    this.bottomOffsetHeight,
+    this.menuOffset,
+  }) : super(key: key);
 
   @override
   _LikeMenuState createState() => _LikeMenuState();
@@ -119,6 +124,7 @@ class _LikeMenuState extends State<LikeMenu> {
                       return FadeTransition(
                         opacity: animation,
                         child: FocusedMenuDetails(
+                          isMe: widget.isMe,
                           itemExtent: widget.menuItemExtent,
                           menuBoxDecoration: widget.menuBoxDecoration,
                           child: widget.child,
@@ -155,22 +161,24 @@ class FocusedMenuDetails extends StatelessWidget {
   final Color blurBackgroundColor;
   final double bottomOffsetHeight;
   final double menuOffset;
+  final bool isMe;
 
-  const FocusedMenuDetails(
-      {Key key,
-      @required this.menuItems,
-      @required this.child,
-      @required this.childOffset,
-      @required this.childSize,
-      @required this.menuBoxDecoration,
-      @required this.itemExtent,
-      @required this.animateMenu,
-      @required this.blurSize,
-      @required this.blurBackgroundColor,
-      @required this.menuWidth,
-      this.bottomOffsetHeight,
-      this.menuOffset})
-      : super(key: key);
+  const FocusedMenuDetails({
+    Key key,
+    @required this.menuItems,
+    @required this.child,
+    @required this.childOffset,
+    @required this.childSize,
+    @required this.menuBoxDecoration,
+    @required this.itemExtent,
+    @required this.animateMenu,
+    @required this.blurSize,
+    @required this.blurBackgroundColor,
+    @required this.menuWidth,
+    @required this.isMe,
+    this.bottomOffsetHeight,
+    this.menuOffset,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -185,10 +193,11 @@ class FocusedMenuDetails extends StatelessWidget {
     final menuHeight = listHeight < maxMenuHeight ? listHeight : maxMenuHeight;
 
     final leftOffset = (childOffset.dx + maxMenuWidth) < size.width
-        ? childOffset.dx + 20
-        : (childOffset.dx - maxMenuWidth + childSize.width) - 20;
+        ? childOffset.dx + (isMe ? 20 : size.width - 125)
+        : (childOffset.dx - maxMenuWidth + childSize.width) - 100;
 
     final topOffset = (childOffset.dy - menuHeight - menuOffset);
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
@@ -210,7 +219,8 @@ class FocusedMenuDetails extends StatelessWidget {
               top: topOffset,
               left: leftOffset,
               child: TweenAnimationBuilder(
-                duration: Duration(milliseconds: 100),
+                duration: Duration(milliseconds: 650),
+                curve: Curves.easeInOutQuart,
                 builder: (BuildContext context, value, Widget child) {
                   return Transform.scale(
                     scale: value,

@@ -66,6 +66,7 @@ class _TextMessageState extends State<TextMessage> {
     final store = sl<ChatStore>();
 
     return Likeble(
+      isMe: widget.isMe,
       message: widget.message,
       child: Replyble(
         isEnabled: store.conversation.userRole != UserRole.viewer,
@@ -88,10 +89,16 @@ class _TextMessageState extends State<TextMessage> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  HebrewText(widget.message.sender?.fullName ?? '',
-                      style: chatMessageName, textAlign: TextAlign.start),
-                  SelectableText(widget.message?.body ?? '',
-                      style: chatMessageBody, textAlign: TextAlign.start),
+                  HebrewText(
+                    widget.message.sender?.fullName ?? '',
+                    style: chatMessageName,
+                    textAlign: TextAlign.start,
+                  ),
+                  SelectableText(
+                    widget.message?.body ?? '',
+                    style: chatMessageBody,
+                    textAlign: TextAlign.start,
+                  ),
                   SizedBox(height: 8),
                 ],
               ),

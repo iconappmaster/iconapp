@@ -50,6 +50,8 @@ class SelectIconScreen extends StatelessWidget {
                   CreateSearchBar(),
                   Expanded(
                     child: ListView.builder(
+                      padding: EdgeInsets.only(bottom: 50, top: 20),
+                      physics: BouncingScrollPhysics(),
                       itemCount: store.count,
                       itemBuilder: (context, index) {
                         final icon = store.getIcons[index];
