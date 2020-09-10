@@ -21,14 +21,14 @@ class StoryScreen extends StatefulWidget {
 }
 
 class _StoryScreenState extends State<StoryScreen> {
-  PageController _storyController;
   StoryController _storyPageController;
+  // PageController _storyController;
   StoryStore _store;
 
   @override
   void initState() {
     _storyPageController = StoryController();
-    _storyController = PageController();
+    // _storyController = PageController();
     _store = sl<StoryStore>();
     super.initState();
   }
@@ -50,13 +50,13 @@ class _StoryScreenState extends State<StoryScreen> {
           StoryView(
         controller: _storyPageController,
         inline: false,
-        onHorizontalSwipe: (direction) => _onHorizontalSwipe(direction),
+        // onHorizontalSwipe: (direction) => _onHorizontalSwipe(direction),
         onVerticalSwipeComplete: (direction) {
-          if (direction == Direction.down) {
+          if (direction == Direction.down || direction == Direction.up) {
             ExtendedNavigator.of(context).pop();
           }
         },
-        onComplete: () => _onComplete(context),
+        onComplete: () => _onComplete(context, widget.stories),
         onStoryShow: (story) => _store.onStoryShow(story),
         storyItems: widget.stories
             .map((story) =>
@@ -115,24 +115,24 @@ class _StoryScreenState extends State<StoryScreen> {
     // );
   }
 
-  void _onComplete(BuildContext context) {
-    if (_storyController.page == _store.getStories.length - 1) {
-      ExtendedNavigator.of(context).pop();
-    } else {
-      _storyController.nextPage(
-          duration: Duration(seconds: 1), curve: Curves.linear);
-    }
+  void _onComplete(BuildContext context, List<StoryImageModel> stories) {
+    // if (_storyPageController?. == stories.length - 1) {
+    ExtendedNavigator.of(context).pop();
+    // } else {
+    // _storyController.nextPage(
+    // duration: Duration(seconds: 1), curve: Curves.linear);
+    // }
   }
 
-  void _onHorizontalSwipe(SwipeDirection direction) {
-    if (direction == SwipeDirection.right) {
-      _storyController.nextPage(
-          duration: Duration(seconds: 1), curve: Curves.linear);
-    } else {
-      _storyController.previousPage(
-          duration: Duration(seconds: 1), curve: Curves.linear);
-    }
-  }
+  // void _onHorizontalSwipe(SwipeDirection direction) {
+  //   if (direction == SwipeDirection.right) {
+  //     _storyController.nextPage(
+  //         duration: Duration(seconds: 1), curve: Curves.linear);
+  //   } else {
+  //     _storyController.previousPage(
+  //         duration: Duration(seconds: 1), curve: Curves.linear);
+  //   }
+  // }
 }
 
 // StoryView(

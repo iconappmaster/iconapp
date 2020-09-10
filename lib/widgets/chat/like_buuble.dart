@@ -66,8 +66,8 @@ class EmojiPlus extends StatelessWidget {
       padding: padding ?? EdgeInsets.all(0),
       child: SvgPicture.asset(
         likeAsset != null ? likesMap[likeAsset] : 'assets/images/emoji_add.svg',
-        height: 16,
-        width: 16,
+        height: 24,
+        width: 24,
       ),
     );
   }

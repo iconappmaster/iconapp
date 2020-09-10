@@ -50,9 +50,11 @@ class _IconBubbleState extends State<IconBubble> {
     final horizontalLikePadding = EdgeInsets.symmetric(horizontal: 3);
     return Column(
       children: [
-        Stack(
-          fit: StackFit.loose,
+        Row(
+          mainAxisAlignment:
+              widget.isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
           children: [
+            if (widget.isMe) EmojiPlus(likeAsset: widget.message?.likeType),
             GestureDetector(
               onDoubleTap: widget.onDoubleTap,
               onTap: widget.onTap,
@@ -81,9 +83,25 @@ class _IconBubbleState extends State<IconBubble> {
                         children: [
                           if (widget.message?.repliedToMessage != null)
                             MessageReply(widget: widget, width: 200),
-                          
-                          
-                          widget.child,
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              if (widget.message.messageType ==
+                                      MessageType.text &&
+                                  !widget.isMe)
+                                Container(
+                                  width: 40,
+                                  height: 40,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(4.2),
+                                    child: NetworkPhoto(
+                                        url: widget.message.sender.photo.url),
+                                  ),
+                                ),
+                              SizedBox(width: 8),
+                              widget.child,
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -91,11 +109,7 @@ class _IconBubbleState extends State<IconBubble> {
                 ],
               ),
             ),
-            Positioned(
-              top: 10,
-              left: 30,
-              child: EmojiPlus(likeAsset: widget.message?.likeType),
-            ),
+            if (!widget.isMe) EmojiPlus(likeAsset: widget.message?.likeType),
           ],
         ),
         // if (showLikeIndicator)/
