@@ -156,7 +156,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                                       )),
                                 ],
                               ),
-                              margin: EdgeInsets.symmetric(horizontal: 21.7),
+                              margin: EdgeInsets.symmetric(horizontal: 10),
                               width: context.widthPx * .32,
                             ),
                           );

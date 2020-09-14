@@ -14,6 +14,7 @@ class Likeble extends StatelessWidget {
   final Widget child;
   final MessageModel message;
   final bool isMe;
+  
 
   const Likeble({
     Key key,
@@ -109,7 +110,7 @@ class _LikeMenuState extends State<LikeMenu> {
     return GestureDetector(
         behavior: HitTestBehavior.opaque,
         key: containerKey,
-        onDoubleTap: () async {
+        onTap: () async {
           if (chat.conversation.isSubscribed) {
             context.unFocus();
             getOffset();
@@ -188,13 +189,16 @@ class LikeMenuDetails extends StatelessWidget {
 
     final listHeight = menuItems.length * (itemExtent ?? 18.0);
 
-    final maxMenuWidth = menuWidth ?? (size.width * 0.70);
+    // final maxMenuWidth = menuWidth ?? (size.width * 0.70);
 
     final menuHeight = listHeight < maxMenuHeight ? listHeight : maxMenuHeight;
 
-    final leftOffset = (childOffset.dx + maxMenuWidth) < size.width
-        ? childOffset.dx + (isMe ? 15 : size.width - 145)
-        : (childOffset.dx - maxMenuWidth + childSize.width) - 90;
+    final leftOffset = isMe ? size.width * .3 :  size.width * .4 ;
+  
+    
+    // (childOffset.dx + maxMenuWidth) < size.width
+    //     ? childOffset.dx + (isMe ?100 : size.width - 145)
+    //     : (childOffset.dx - maxMenuWidth + childSize.width) + (50);
 
     final topOffset = (childOffset.dy - menuHeight - menuOffset);
 
@@ -219,8 +223,8 @@ class LikeMenuDetails extends StatelessWidget {
               top: topOffset,
               left: leftOffset,
               child: TweenAnimationBuilder(
-                duration: Duration(milliseconds: 650),
-                curve: Curves.easeInOutQuart,
+                duration: Duration(milliseconds: 250),
+                curve: Curves.bounceInOut,
                 builder: (BuildContext context, value, Widget child) {
                   return Transform.scale(
                     scale: value,

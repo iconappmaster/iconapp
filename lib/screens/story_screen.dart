@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cube_transition/cube_transition.dart';
 import 'package:flutter/material.dart';
+import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/story_model.dart';
 import 'package:iconapp/widgets/story/utils.dart';
 import '../core/dependencies/locator.dart';
@@ -50,59 +51,58 @@ class _StoryScreenState extends State<StoryScreen> {
     return Scaffold(
       body: Directionality(
         textDirection: TextDirection.ltr,
-        child: CubePageView(
-          onPageChanged: (page) => print(page),
-          controller: _pageController,
-          children: _allStories.map(
-            (story) {
-              return StoryView(
-                onComplete: () {
-                  if (_pageController.page.toInt() == _allStories.length - 1) {
-                    ExtendedNavigator.of(context).pop();
-                  } else {
-                    _pageController.nextPage(
-                      duration: Duration(milliseconds: 500),
-                      curve: Curves.linear,
-                    );
-                  }
-                },
-                repeat: false,
-                controller: _storyPageController,
-                inline: false,
-                onVerticalSwipeComplete: (direction) {
-                  if (direction == Direction.down ||
-                      direction == Direction.up) {
-                    ExtendedNavigator.of(context).pop();
-                  }
-                },
-                onStoryShow: (story) => _store.onStoryShow(story),
-                storyItems: story.storyImages
-                    .map((story) => story.imageType ==
-                            MediaType.photo.toString().parseEnum()
-                        ? StoryItem.inlineImage(
-                            duration: Duration(seconds: story.duration),
-                            url: story?.photo?.url ?? '',
-                            caption: Text(story?.description ?? ''),
-                            controller: _storyPageController)
-                        : StoryItem.pageVideo(story.photo?.url ?? '',
-                            controller: _storyPageController,
-                            duration: Duration(seconds: story.duration)))
-                    .toList(),
-              );
-            },
-          ).toList(),
-        ),
+        child: Stack(
+            children:  [
+            CubePageView(
+             onPageChanged: (page) => print(page),
+             controller: _pageController,
+             children: _allStories.map(
+               (story) {
+                 return StoryView(
+                   onComplete: () {
+                     if (_pageController.page.toInt() == _allStories.length - 1) {
+                       ExtendedNavigator.of(context).pop();
+                     } else {
+                        _pageController.nextPage(
+                        duration: Duration(milliseconds: 500),
+                        curve: Curves.linear,
+                      );
+                    }
+                  },
+                  repeat: false,
+                  controller: _storyPageController,
+                  inline: false,
+                  onVerticalSwipeComplete: (direction) {
+                    if (direction == Direction.down ||
+                        direction == Direction.up) {
+                      ExtendedNavigator.of(context).pop();
+                    }
+                  },
+                  onStoryShow: (story) => _store.onStoryShow(story),
+                  storyItems: story.storyImages
+                      .map((story) => story.imageType ==
+                              MediaType.photo.toString().parseEnum()
+                          ? StoryItem.inlineImage(
+                              duration: Duration(seconds: story.duration),
+                              url: story?.photo?.url ?? '',
+                              caption: Text(story?.description ?? ''),
+                              controller: _storyPageController)
+                          : StoryItem.pageVideo(story.photo?.url ?? '',
+                              controller: _storyPageController,
+                              duration: Duration(seconds: story.duration)))
+                      .toList(),
+                );
+              },
+            ).toList(),
+          ),
+          Positioned(
+            right: 4,
+            top: 42,
+            child: CloseButton(
+              color: white,
+            ))
+                  ]),
       ),
     );
   }
 }
-
-final colors = [
-  Colors.red,
-  Colors.orange,
-  Colors.black12,
-];
-//   void _onComplete(BuildContext context, List<StoryImageModel> stories) {
-//     ExtendedNavigator.of(context).pop();
-//   }
-// }

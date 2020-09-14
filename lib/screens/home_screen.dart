@@ -75,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     ),
                     Positioned(
-                      top: context.heightPlusStatusbarPerc(.11),
+                      top: context.heightPlusStatusbarPerc(.08),
                       child: StoriesList(
                         mode: stories.mode,
                         show: true,

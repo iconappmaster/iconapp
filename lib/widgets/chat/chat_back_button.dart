@@ -13,7 +13,7 @@ class ChatBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      behavior: HitTestBehavior.translucent,
+      behavior: HitTestBehavior.opaque,
       onTap: () => Navigator.pop(context),
       child: Row(
         children: <Widget>[
@@ -25,8 +25,8 @@ class ChatBackButton extends StatelessWidget {
               child: NetworkPhoto(
                 placeHolder: 'assets/images/group_placeholder.svg',
                 url: url,
-                height: 48,
-                width: 48,
+                height: 42,
+                width: 42,
               ))
         ],
       ),

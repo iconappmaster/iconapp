@@ -4,7 +4,6 @@ import 'package:iconapp/stores/chat/chat_store.dart';
 
 import 'package:flutter/material.dart';
 import '../global/bubble.dart';
-import '../global/like_menu/likes_menu.dart';
 import 'reply_slider.dart';
 import 'icon_bubble.dart';
 import '../../core/dependencies/locator.dart';
@@ -65,61 +64,57 @@ class _TextMessageState extends State<TextMessage> {
 
     final store = sl<ChatStore>();
 
-    return Likeble(
-      isMe: widget.isMe,
-      message: widget.message,
-      child: Replyble(
-        isEnabled: store.conversation.userRole != UserRole.viewer,
-        isOpen: _isOpen,
-        keyName: widget.message.id.toString(),
-        controller: _controller,
-        builder: (context, index, animation, step) {
-          _sliderContext = context;
-          return ReplyButton(message: widget.message);
-        },
-        child: IconBubble(
-          padding: BubbleEdges.only(left: 12, right: 12, top: 15, bottom: 7),
-          message: widget.message,
-          isMe: widget.isMe,
-          child: Stack(children: [
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 8),
-              color: color,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  HebrewText(
-                    widget.message.sender?.fullName ?? '',
-                    style: chatMessageName,
+    return Replyble(
+      isEnabled: store.conversation.userRole != UserRole.viewer,
+      isOpen: _isOpen,
+      keyName: widget.message.id.toString(),
+      controller: _controller,
+      builder: (context, index, animation, step) {
+        _sliderContext = context;
+        return ReplyButton(message: widget.message);
+      },
+      child: IconBubble(
+        padding: BubbleEdges.only(left: 12, right: 12, top: 15, bottom: 7),
+        message: widget.message,
+        isMe: widget.isMe,
+        child: Stack(children: [
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 8),
+            color: color,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                HebrewText(
+                  widget.message.sender?.fullName ?? '',
+                  style: chatMessageName,
+                  textAlign: TextAlign.start,
+                ),
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * .5),
+                  child: SelectableText(
+                    widget.message?.body ?? '',
+                    style: chatMessageBody,
                     textAlign: TextAlign.start,
                   ),
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width * .5),
-                    child: SelectableText(
-                      widget.message?.body ?? '',
-                      style: chatMessageBody,
-                      textAlign: TextAlign.start,
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                ],
-              ),
+                ),
+                SizedBox(height: 8),
+              ],
             ),
-            Positioned(
-              left: 0,
-              bottom: 0,
-              child: HebrewText(
-                widget.message.status == MessageStatus.pending
-                    ? ''
-                    : widget.message?.timestamp?.humanReadableTime() ?? '',
-                style: chatMessageBody.copyWith(fontSize: 9),
-                textAlign: TextAlign.start,
-              ),
-            )
-          ]),
-        ),
+          ),
+          Positioned(
+            left: 0,
+            bottom: 0,
+            child: HebrewText(
+              widget.message.status == MessageStatus.pending
+                  ? ''
+                  : widget.message?.timestamp?.humanReadableTime() ?? '',
+              style: chatMessageBody.copyWith(fontSize: 9),
+              textAlign: TextAlign.start,
+            ),
+          )
+        ]),
       ),
     );
   }

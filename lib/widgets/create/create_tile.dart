@@ -9,13 +9,15 @@ class CreateConversationTile extends StatefulWidget {
   final String url;
   final Function onTap;
   final bool selected;
+  final bool showSelectedCircle;
 
   const CreateConversationTile({
     Key key,
     @required this.onTap,
     @required this.title,
     @required this.url,
-    this.selected = false,
+    this.selected = false, 
+    this.showSelectedCircle = true,
   }) : super(key: key);
 
   @override
@@ -88,7 +90,7 @@ class _CreateConversationTileState extends State<CreateConversationTile>
                 ),
               ],
             ),
-            Positioned(
+            if(widget.showSelectedCircle) Positioned(
               right: 28,
               bottom: 0,
               child: ScaleTransition(

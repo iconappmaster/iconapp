@@ -11,13 +11,12 @@ import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/repositories/media_repository.dart';
 import 'package:iconapp/routes/router.gr.dart';
-import 'package:iconapp/stores/chat/chat_store.dart';
-import 'package:iconapp/widgets/chat/reply_slider.dart';
-import 'package:iconapp/widgets/global/hebrew_input_text.dart';
-import 'package:iconapp/widgets/global/like_menu/likes_menu.dart';
-import 'package:iconapp/widgets/global/network_photo.dart';
-import 'package:iconapp/widgets/global/slidable/slidable.dart';
-import 'package:iconapp/widgets/global/slidable_widget.dart';
+import '../../stores/chat/chat_store.dart';
+import 'reply_slider.dart';
+import '../global/hebrew_input_text.dart';
+import '../global/network_photo.dart';
+import '../global/slidable/slidable.dart';
+import '../global/slidable_widget.dart';
 import 'icon_bubble.dart';
 import '../../core/extensions/int_ext.dart';
 
@@ -74,85 +73,81 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
 
-    return Likeble(
-      isMe: widget.isMe,
-      message: widget.message,
-      child: Replyble(
-        isEnabled: store.conversation.userRole != UserRole.viewer,
-        isOpen: _isOpen,
-        keyName: widget.message.id.toString(),
-        controller: _controller,
-        builder: (context, index, animation, step) {
-          _sliderContext = context;
-          return ReplyButton(message: widget.message);
-        },
-        child: Stack(children: [
-          IconBubble(
-            isMe: widget.isMe,
-            message: widget.message,
-            onTap: () => ExtendedNavigator.of(context).pushNamed(
-                Routes.videoScreen,
-                arguments:
-                    VideoScreenArguments(url: widget.message?.body ?? '')),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                widget.message.body.startsWith('http')
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(4.2),
-                        child: SizedBox(
-                          height: 200,
-                          width: 240,
-                          child: NetworkPhoto(
-                              url: widget.message?.extraData ?? ''),
-                        ))
-                    : ClipRRect(
-                        borderRadius: BorderRadius.circular(4.2),
-                        child: SizedBox(
-                          height: 200,
-                          width: 240,
-                          child: Image.file(
-                            File(widget.message?.extraData ?? ''),
-                          ),
+    return Replyble(
+      isEnabled: store.conversation.userRole != UserRole.viewer,
+      isOpen: _isOpen,
+      keyName: widget.message.id.toString(),
+      controller: _controller,
+      builder: (context, index, animation, step) {
+        _sliderContext = context;
+        return ReplyButton(message: widget.message);
+      },
+      child: Stack(children: [
+        IconBubble(
+          isMe: widget.isMe,
+          message: widget.message,
+          onTap: () => ExtendedNavigator.of(context).pushNamed(
+              Routes.videoScreen,
+              arguments:
+                  VideoScreenArguments(url: widget.message?.body ?? '')),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              widget.message.body.startsWith('http')
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(4.2),
+                      child: SizedBox(
+                        height: 200,
+                        width: 240,
+                        child: NetworkPhoto(
+                            url: widget.message?.extraData ?? ''),
+                      ))
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(4.2),
+                      child: SizedBox(
+                        height: 200,
+                        width: 240,
+                        child: Image.file(
+                          File(widget.message?.extraData ?? ''),
                         ),
                       ),
-                SvgPicture.asset(
-                  'assets/images/play_button.svg',
-                  height: 56,
-                  width: 56,
+                    ),
+              SvgPicture.asset(
+                'assets/images/play_button.svg',
+                height: 56,
+                width: 56,
+              ),
+              Positioned(
+                left: 5,
+                bottom: 5,
+                child: HebrewText(
+                  widget.message.status == MessageStatus.pending
+                      ? ''
+                      : widget.message?.timestamp?.humanReadableTime() ?? '',
+                  style: chatMessageBody.copyWith(fontSize: 9),
+                  textAlign: TextAlign.start,
                 ),
-                Positioned(
-                  left: 5,
-                  bottom: 5,
-                  child: HebrewText(
-                    widget.message.status == MessageStatus.pending
-                        ? ''
-                        : widget.message?.timestamp?.humanReadableTime() ?? '',
-                    style: chatMessageBody.copyWith(fontSize: 9),
-                    textAlign: TextAlign.start,
-                  ),
-                ),
-                Positioned(
-                  right: 5,
-                  bottom: 5,
-                  child: HebrewText(widget.message.sender?.fullName ?? '',
-                      style: chatMessageName, textAlign: TextAlign.start),
-                ),
-              ],
+              ),
+              Positioned(
+                right: 5,
+                bottom: 5,
+                child: HebrewText(widget.message.sender?.fullName ?? '',
+                    style: chatMessageName, textAlign: TextAlign.start),
+              ),
+            ],
+          ),
+        ),
+        if (widget.message.status == MessageStatus.pending)
+          Positioned(
+            left: 100,
+            top: 80,
+            child: CircularProgressIndicator(
+              value: _progress,
+              strokeWidth: 2,
+              backgroundColor: white,
             ),
           ),
-          if (widget.message.status == MessageStatus.pending)
-            Positioned(
-              left: 100,
-              top: 80,
-              child: CircularProgressIndicator(
-                value: _progress,
-                strokeWidth: 2,
-                backgroundColor: white,
-              ),
-            ),
-        ]),
-      ),
+      ]),
     );
   }
 }

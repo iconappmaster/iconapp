@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+import 'package:iconapp/widgets/global/like_menu/likes_menu.dart';
 
 class EmojiLikeBubble extends StatelessWidget {
   final String likeAsset;
@@ -53,22 +54,30 @@ class EmojiLikeBubble extends StatelessWidget {
 class EmojiPlus extends StatelessWidget {
   final String likeAsset;
   final EdgeInsets padding;
+  final bool isMe;
+  final MessageModel message;
 
   const EmojiPlus({
     Key key,
-    this.likeAsset,
-    this.padding,
+   @required  this.likeAsset,
+    this.padding, 
+    @required this.message, 
+    @required  this.isMe,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: padding ?? EdgeInsets.all(0),
-      child: SvgPicture.asset(
-        likeAsset != null ? likesMap[likeAsset] : 'assets/images/emoji_add.svg',
-        height: 24,
-        width: 24,
-      ),
+    return Likeble(
+      isMe: isMe,
+      message: message,
+          child: Padding(
+          padding: padding ?? EdgeInsets.all(0),
+          child: SvgPicture.asset(
+      likeAsset != null ? likesMap[likeAsset] : 'assets/images/emoji_add.svg',
+      height: 24,
+      width: 24,
+          ),
+        ),
     );
   }
 }

@@ -22,14 +22,17 @@ class DrawerIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      icon: SvgPicture.asset(
-        'assets/images/menu_icon.svg',
-        height: 36,
-        width: 36,
-        fit: BoxFit.cover,
+    return Align(
+      alignment: Alignment.centerRight,
+          child: IconButton(
+        icon: SvgPicture.asset(
+          'assets/images/menu_icon.svg',
+          height: 36,
+          width: 36,
+          fit: BoxFit.cover,
+        ),
+        onPressed: () => _scaffoldKey.currentState.openDrawer(),
       ),
-      onPressed: () => _scaffoldKey.currentState.openDrawer(),
     );
   }
 }

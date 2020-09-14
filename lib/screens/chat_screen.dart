@@ -95,9 +95,9 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
               ),
               Positioned(
-                top: context.heightPlusStatusbarPerc(.116),
+                top: context.heightPlusStatusbarPerc(.07),
                 child: StoriesList(
-                    margin: EdgeInsets.only(top: 10),
+                
                     mode: story.mode,
                     show: !upDirection),
               ),

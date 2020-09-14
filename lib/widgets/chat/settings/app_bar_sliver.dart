@@ -78,11 +78,13 @@ class ChatSettingsAppBar implements SliverPersistentHeaderDelegate {
                 right: 21,
                 bottom: 14.7,
                 child: HebrewText(subTitle, style: fieldLabel)),
-            Positioned(right: 21, top: 32, child: IconBackButton()),
+            Positioned(right: 21, top: 32, child: IconBackButton(
+              isArrowDirectionDown: true,
+            )),
             if (settings.isUserAdmin)
               Positioned(
                   left: 21,
-                  bottom: 14.7,
+                  bottom: 8.7,
                   child: IconButton(
                     icon: SvgPicture.asset('assets/images/edit.svg',
                         height: 16.3, width: 16.3),

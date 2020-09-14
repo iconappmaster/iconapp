@@ -10,13 +10,14 @@ class AppBarWithDivider extends StatelessWidget {
   final String title;
   final String subtitle;
   final Function onBackTap;
+  final bool isArrowDirectionDown;
 
   const AppBarWithDivider({
     Key key,
     this.showBack = true,
     @required this.title,
     this.subtitle,
-    this.onBackTap,
+    this.onBackTap, this.isArrowDirectionDown = false,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -30,15 +31,18 @@ class AppBarWithDivider extends StatelessWidget {
             alignment: Alignment.topCenter,
             children: <Widget>[
               Positioned(
-                  top: 20.7, child: HebrewText(title, style: createGroupTitle)),
+                  top: 20.7, child: HebrewText(title, style: createGroupTitle),),
               if (subtitle != null)
                 Positioned(
-                    top: 51.7, child: HebrewText(subtitle, style: fieldLabel)),
+                    top: 51.7, child: HebrewText(subtitle, style: fieldLabel),),
               Positioned(
                   top: 8,
-                  right: 26.7,
-                  child: IconBackButton(
+                  right:8,
+                  child:  
+                
+                  IconBackButton(
                     onBackTap: onBackTap,
+                    isArrowDirectionDown: isArrowDirectionDown,
                   )),
             ],
           ),

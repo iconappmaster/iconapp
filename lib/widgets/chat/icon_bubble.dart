@@ -16,6 +16,7 @@ class IconBubble extends StatefulWidget {
   final BubbleEdges padding;
   final bool isMe;
   final MessageModel message;
+  final Function onEmjiTap;
   const IconBubble({
     Key key,
     @required this.child,
@@ -23,7 +24,7 @@ class IconBubble extends StatefulWidget {
     @required this.isMe,
     this.onTap,
     this.onDoubleTap,
-    this.padding,
+    this.padding, this.onEmjiTap,
   }) : super(key: key);
 
   @override
@@ -54,7 +55,11 @@ class _IconBubbleState extends State<IconBubble> {
           mainAxisAlignment:
               widget.isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
           children: [
-            if (widget.isMe) EmojiPlus(likeAsset: widget.message?.likeType),
+            if (widget.isMe) EmojiPlus(
+              isMe: widget.isMe,
+              message: widget.message,
+              likeAsset: widget.message?.likeType,
+            ),
             GestureDetector(
               onDoubleTap: widget.onDoubleTap,
               onTap: widget.onTap,
@@ -109,7 +114,7 @@ class _IconBubbleState extends State<IconBubble> {
                 ],
               ),
             ),
-            if (!widget.isMe) EmojiPlus(likeAsset: widget.message?.likeType),
+            if (!widget.isMe) EmojiPlus(likeAsset: widget.message?.likeType, isMe: widget.isMe, message: widget.message,),
           ],
         ),
         // if (showLikeIndicator)/

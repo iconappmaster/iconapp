@@ -34,6 +34,7 @@ class CreateCategoryScreen extends StatelessWidget {
                         itemBuilder: (context, index) {
                           final category = store.getCategories[index];
                           return CreateConversationTile(
+                            showSelectedCircle: false,
                             key: Key(category.name),
                             title: category.name,
                             url: category.photo.url,

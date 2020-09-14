@@ -41,6 +41,7 @@ abstract class _MediaStoreBase with Store {
         );
       } else {
         final pickedFile = await _imagePicker.getImage(source: source);
+        if (pickedFile != null) {
         final file = File(pickedFile.path);
         result = await _repository.uploadSinglePhoto(
           file,
@@ -48,8 +49,8 @@ abstract class _MediaStoreBase with Store {
           getPhotoFileName,
           messageId,
         );
+       }
       }
-
       // cancel loadoing
       _isLoading = false;
 

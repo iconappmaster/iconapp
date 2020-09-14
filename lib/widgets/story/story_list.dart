@@ -37,15 +37,15 @@ class StoriesList extends StatefulWidget {
 }
 
 class _StoriesListState extends State<StoriesList>
-    with TickerProviderStateMixin {
+     {
   @override
   Widget build(BuildContext context) {
     final store = sl<StoryStore>();
 
     return Observer(
-      builder: (_) => AnimatedSize(
-        vsync: this,
-        duration: Duration(milliseconds: 600),
+      builder: (_) => AnimatedOpacity(
+        opacity: widget.show ? 1 : 0,
+        duration: Duration(milliseconds: 250),
         child: ClipRect(
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
@@ -53,7 +53,8 @@ class _StoriesListState extends State<StoriesList>
               opacity: .9,
               child: Container(
                 margin: widget.margin,
-                height: widget.show ? context.heightPlusStatusbarPerc(.09) : 0,
+                // height: widget.show ? 100 : 0,
+                height:  100,
                 width: context.widthPx,
                 child: ListView(
                   reverse: true,
@@ -102,7 +103,7 @@ class StoryAddButton extends StatelessWidget {
           Container(
             height: 64,
             width: 64,
-            margin: EdgeInsets.symmetric(horizontal: 10),
+            margin: EdgeInsets.symmetric(horizontal: 5),
             decoration: BoxDecoration(
                 shape: BoxShape.circle, color: Colors.transparent),
             child: Stack(
@@ -124,7 +125,7 @@ class StoryAddButton extends StatelessWidget {
             ),
           ),
           SizedBox(height: 8),
-          HebrewText('הסיפור שלך', style: myStoryCreate),
+          HebrewText('הסיפור שלך', style: myStoryCreate.copyWith(color: white)),
         ],
       ),
     );
@@ -145,36 +146,33 @@ class StoryTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Container(
-                height: 60,
-                width: 60,
-                margin: EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: story.isNew ? storyGradient : whiteGradient,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(3.0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: NetworkPhoto(
-                      url: story.user.photo?.url ?? '',
-                      height: _storySize,
-                      width: _storySize,
-                    ),
-                  ),
+      child: Column(
+         mainAxisAlignment: MainAxisAlignment.center,
+      
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(3.0),
+            child: Container(
+              height: 60,
+              width: 60,
+              margin: EdgeInsets.symmetric(horizontal: 5),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: story.isNew ? storyGradient : whiteGradient,
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: NetworkPhoto(
+                  url: story.user.photo?.url ?? '',
+                  height: _storySize,
+                  width: _storySize,
                 ),
               ),
-              SizedBox(height: 8),
-              HebrewText(story?.user?.fullName ?? '', style: myStory),
-            ],
+            ),
           ),
+          SizedBox(height: 8),
+          HebrewText(story?.user?.fullName ?? '', style: myStory),
         ],
       ),
     );

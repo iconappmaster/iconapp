@@ -16,26 +16,23 @@ class IconAppbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final padding = EdgeInsets.fromLTRB(
-      context.widthPx * .052,
-      context.heightPx * .031,
-      context.widthPx * .031,
-      context.heightPx * .031,
-    );
-
+ 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Container(
           margin: EdgeInsets.only(top: context.statusbarHeight()),
-          padding: padding,
-          height: context.heightPx * .099,
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          height: context.heightPx * .08,
           width: double.infinity,
           child: Stack(
             children: <Widget>[
-              if (showBack) IconBackButton(),
+              if (showBack) Align(alignment: Alignment.centerRight,child: IconBackButton()),
+            
               if (widget != null) widget,
+              
               Align(
-                alignment: Alignment.bottomLeft,
+                alignment: Alignment.centerLeft,
                 child: SvgPicture.asset('assets/images/white_logo.svg',
                     height: 23.7),
               ),

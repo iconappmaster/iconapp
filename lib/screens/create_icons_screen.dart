@@ -40,6 +40,7 @@ class SelectIconScreen extends StatelessWidget {
               Column(
                 children: <Widget>[
                   AppBarWithDivider(
+                    isArrowDirectionDown: true,
                       title: isFromChat
                           ? LocaleKeys.create_addUser.tr()
                           : LocaleKeys.create_newGroupTitle.tr(),

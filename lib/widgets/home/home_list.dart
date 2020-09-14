@@ -38,7 +38,7 @@ class ConversationsList extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 40.0),
                     child: LottieLoader(),
                   ))
-              : ListView.builder(
+                : ListView.builder(
                   controller: controller,
                   itemCount: store.conversations.length,
                   padding: EdgeInsets.only(
