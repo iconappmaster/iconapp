@@ -15,6 +15,13 @@ mixin _$StoryStore on _StoryStoreBase, Store {
   StoryMode get mode => (_$modeComputed ??=
           Computed<StoryMode>(() => super.mode, name: '_StoryStoreBase.mode'))
       .value;
+  Computed<bool> _$showAddButtonComputed;
+
+  @override
+  bool get showAddButton =>
+      (_$showAddButtonComputed ??= Computed<bool>(() => super.showAddButton,
+              name: '_StoryStoreBase.showAddButton'))
+          .value;
   Computed<List<StoryModel>> _$getStoriesComputed;
 
   @override
@@ -53,11 +60,19 @@ mixin _$StoryStore on _StoryStoreBase, Store {
     });
   }
 
-  final _$createStoryAsyncAction = AsyncAction('_StoryStoreBase.createStory');
+  final _$onStoryShowAsyncAction = AsyncAction('_StoryStoreBase.onStoryShow');
 
   @override
-  Future<dynamic> createStory() {
-    return _$createStoryAsyncAction.run(() => super.createStory());
+  Future<dynamic> onStoryShow(StoryItem item) {
+    return _$onStoryShowAsyncAction.run(() => super.onStoryShow(item));
+  }
+
+  final _$onStoryCompletedAsyncAction =
+      AsyncAction('_StoryStoreBase.onStoryCompleted');
+
+  @override
+  Future<dynamic> onStoryCompleted() {
+    return _$onStoryCompletedAsyncAction.run(() => super.onStoryCompleted());
   }
 
   final _$getHomeStoriesAsyncAction =
@@ -77,15 +92,23 @@ mixin _$StoryStore on _StoryStoreBase, Store {
         .run(() => super.getConversationsStories(conversationId));
   }
 
+  final _$refreshStoriesAsyncAction =
+      AsyncAction('_StoryStoreBase.refreshStories');
+
+  @override
+  Future<dynamic> refreshStories() {
+    return _$refreshStoriesAsyncAction.run(() => super.refreshStories());
+  }
+
   final _$_StoryStoreBaseActionController =
       ActionController(name: '_StoryStoreBase');
 
   @override
-  void setMode(StoryMode mode) {
+  void setStoryMode(StoryMode mode) {
     final _$actionInfo = _$_StoryStoreBaseActionController.startAction(
-        name: '_StoryStoreBase.setMode');
+        name: '_StoryStoreBase.setStoryMode');
     try {
-      return super.setMode(mode);
+      return super.setStoryMode(mode);
     } finally {
       _$_StoryStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -95,6 +118,7 @@ mixin _$StoryStore on _StoryStoreBase, Store {
   String toString() {
     return '''
 mode: ${mode},
+showAddButton: ${showAddButton},
 getStories: ${getStories}
     ''';
   }

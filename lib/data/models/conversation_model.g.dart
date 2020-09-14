@@ -26,7 +26,7 @@ _$_Conversation _$_$_ConversationFromJson(Map<String, dynamic> json) {
     lastMessage: json['lastMessage'] == null
         ? null
         : MessageModel.fromJson(json['lastMessage'] as Map<String, dynamic>),
-    unreadMessageCount: json['unreadMessageCount'] as int,
+    numberOfUnreadMessages: json['numberOfUnreadMessages'] as int,
     users: (json['users'] as List)
         ?.map((e) =>
             e == null ? null : UserModel.fromJson(e as Map<String, dynamic>))
@@ -55,7 +55,7 @@ Map<String, dynamic> _$_$_ConversationToJson(_$_Conversation instance) =>
       'name': instance.name,
       'photo': instance.photo,
       'lastMessage': instance.lastMessage,
-      'unreadMessageCount': instance.unreadMessageCount,
+      'numberOfUnreadMessages': instance.numberOfUnreadMessages,
       'users': instance.users,
       'messages': instance.messages,
       'isSubscribed': instance.isSubscribed,

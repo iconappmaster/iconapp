@@ -93,7 +93,7 @@ class HomeDrawer extends StatelessWidget {
                       ),
                     );
                   },
-                  text: 'התנתקות',
+                  text: 'להתנתק',
                 ),
               ),
             ]),

@@ -1,9 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/data/models/story_model.dart';
-import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
-
 
 abstract class StoryRepository {
   // TBD
@@ -15,14 +12,14 @@ abstract class StoryRepository {
   /// This accepts [conversationId] and get the stories in a conversation
   /// with all the 'icons' that are presented in the conversation.
   Future<List<StoryModel>> getConversationsStories(int conversationId);
+
+  Future<StoryModel> publishStory(StoryModel story);
 }
 
 class StoryRepositoryImpl implements StoryRepository {
-
   final RestClient rest;
 
   StoryRepositoryImpl({@required this.rest});
-
 
   @override
   Future<StoryModel> createStory() {
@@ -38,30 +35,9 @@ class StoryRepositoryImpl implements StoryRepository {
   Future<List<StoryModel>> getHomeStories() async {
     return await rest.homeStories();
   }
+
+  @override
+  Future<StoryModel> publishStory(StoryModel story) async {
+    return await rest.publishStory(story);
+  }
 }
-
-final mockStories = [
-  StoryModel(
-      isNew: true,
-      storyImages: [],
-      user: fakeUser,
-      photo: PhotoModel(
-          url:
-              'https://besttv232-ynet-images1-prod.cdn.it.best-tv.com/PicServer5/2018/02/11/8340452/83404465961999801054no.jpg')),
-  StoryModel(
-      isNew: false,
-      storyImages: [],
-      user: fakeUser,
-      photo: PhotoModel(
-          url:
-              'https://besttv232-ynet-images1-prod.cdn.it.best-tv.com/PicServer5/2018/02/11/8340452/83404465961999801054no.jpg')),
-  StoryModel(
-      isNew: false,
-      storyImages: [],
-      user: fakeUser,
-      photo: PhotoModel(
-          url:
-              'https://besttv232-ynet-images1-prod.cdn.it.best-tv.com/PicServer5/2018/02/11/8340452/83404465961999801054no.jpg'))
-];
-
-final fakeUser = UserModel(fullName: 'שם בדוי');

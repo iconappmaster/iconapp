@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
+import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/domain/core/value_validators.dart';
 import 'package:iconapp/stores/auth/auth_store.dart';
 import 'package:iconapp/stores/media/media_store.dart';
@@ -18,8 +19,10 @@ abstract class _OnboardingStoreBase with Store {
   MediaStore _mediaStore;
   UserStore _userStore;
   AuthStore _authStore;
+  SharedPreferencesService _sp;
 
   _OnboardingStoreBase() {
+    _sp = sl<SharedPreferencesService>();
     _mediaStore = sl<MediaStore>();
     _userStore = sl<UserStore>();
     _authStore = sl<AuthStore>();
@@ -73,8 +76,17 @@ abstract class _OnboardingStoreBase with Store {
   Future<Either<Exception, bool>> upadteUser() async {
     try {
       final phone = _userStore.getUser.phone;
+      final token = _sp?.getString(StorageKey.fcmToken) ?? '';
+      
       _state = _state.copyWith(
-          loading: true, userModel: _state.userModel.copyWith(phone: phone));
+        loading: true,
+        userModel: _state.userModel.copyWith(
+          phone: phone,
+          pushToken: token,
+        ),
+      );
+
+      // _state.userModel.copyWith(pushToken:);
       final saved = await _userStore.updateUser(_state.userModel);
       if (saved) _authStore.setSignedIn();
       return right(saved);

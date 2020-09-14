@@ -9,7 +9,7 @@ part of 'rest_client.dart';
 class _RestClient implements RestClient {
   _RestClient(this._dio, {this.baseUrl}) {
     ArgumentError.checkNotNull(_dio, '_dio');
-    this.baseUrl ??= 'http://iconstaging.herokuapp.com/api/v1/';
+    this.baseUrl ??= 'https://iconstaging.herokuapp.com/api/v1/';
   }
 
   final Dio _dio;
@@ -481,16 +481,18 @@ class _RestClient implements RestClient {
   }
 
   @override
-  sendMessage(id, body, type, extraData) async {
+  sendMessage(id, body, type, extraData, messageId) async {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(body, 'body');
     ArgumentError.checkNotNull(type, 'type');
     ArgumentError.checkNotNull(extraData, 'extraData');
+    ArgumentError.checkNotNull(messageId, 'messageId');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'body': body,
       r'messageType': type,
-      r'extraData': extraData
+      r'extraData': extraData,
+      r'repliedToMessageId': messageId
     };
     final _data = <String, dynamic>{};
     final Response<Map<String, dynamic>> _result = await _dio.request(
@@ -584,6 +586,44 @@ class _RestClient implements RestClient {
     var value = _result.data
         .map((dynamic i) => StoryModel.fromJson(i as Map<String, dynamic>))
         .toList();
+    return value;
+  }
+
+  @override
+  viewedStory(imgId) async {
+    ArgumentError.checkNotNull(imgId, 'imgId');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response _result = await _dio.request('stories/$imgId/viewed_story',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = _result.data;
+    return value;
+  }
+
+  @override
+  publishStory(story) async {
+    ArgumentError.checkNotNull(story, 'story');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(story?.toJson() ?? <String, dynamic>{});
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'stories/add_to_story',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = StoryModel.fromJson(_result.data);
     return value;
   }
 }

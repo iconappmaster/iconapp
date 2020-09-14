@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../core/theme.dart';
 import '../routes/router.gr.dart';
 import '../widgets/login/login_background.dart';
@@ -9,6 +10,8 @@ import '../core/extensions/context_ext.dart';
 import '../widgets/global/next_button.dart';
 import '../generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
+
+const policyUrl = 'https://www.icon-app.net/policy';
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -53,7 +56,7 @@ class PrivacyAndTerms extends StatelessWidget {
               style: smallLine.copyWith(decoration: TextDecoration.underline),
               recognizer: TapGestureRecognizer()
                 ..onTap = () async {
-                  // todo send to policy website
+                  if (await canLaunch(policyUrl)) launch(policyUrl);
                 }),
           TextSpan(text: LocaleKeys.policy_prefix.tr(), style: smallLine)
         ]),

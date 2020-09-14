@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:iconapp/core/device/device_info.dart';
+import 'package:iconapp/core/notifications/notifications.dart';
+import 'package:iconapp/stores/story/story_edit_store.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../data/repositories/auth_repository.dart';
 import '../../data/repositories/chat_repository.dart';
@@ -38,7 +41,7 @@ void initLocator() {
       () => LoginRepositoryImpl(restClient: sl()));
 
   // Socket
-  sl.registerLazySingleton<SocketStore>(() => SocketStore());
+  sl.registerLazySingleton<Socket>(() => Socket());
 
   // Prefs
   sl.registerLazySingleton<SharedPreferencesService>(
@@ -104,9 +107,17 @@ void initLocator() {
 
   // Story
   sl.registerLazySingleton<StoryStore>(() => StoryStore());
-  sl.registerLazySingleton<StoryRepository>(
-      () => StoryRepositoryImpl(rest: sl()));
+  sl.registerLazySingleton<StoryEditStore>(() => StoryEditStore());
+  sl.registerLazySingleton<StoryRepository>(() => StoryRepositoryImpl(rest: sl()));
 
   // Bus
   sl.registerLazySingleton<Bus>(() => Bus());
+
+  // Notifications
+  sl.registerLazySingleton<NotificationsManager>(() => NotificationsManager());
+
+  // Device
+  sl.registerLazySingleton<DeviceInfo>(() => DeviceInfo());
+  sl.registerLazySingleton<DeviceInfoRepository>(
+      () => DeviceInfoRepositoryImpl(restClient: sl()));
 }

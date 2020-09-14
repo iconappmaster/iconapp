@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:iconapp/core/dependencies/locator.dart';
-import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/data/models/conversation_model.dart';
-import 'package:iconapp/data/models/message_model.dart';
-import 'package:iconapp/stores/chat/chat_state.dart';
-import 'package:iconapp/stores/chat/chat_store.dart';
-import 'package:iconapp/stores/socket/socket_manager.dart';
-import 'package:iconapp/stores/story/story_store.dart';
-import 'package:iconapp/widgets/chat/message_audio.dart';
-import 'package:iconapp/widgets/chat/message_composer.dart';
-import 'package:iconapp/widgets/chat/message_photo.dart';
-import 'package:iconapp/widgets/chat/message_system.dart';
-import 'package:iconapp/widgets/chat/message_text.dart';
-import 'package:iconapp/widgets/chat/message_video.dart';
-import 'package:iconapp/widgets/chat/settings/change_background.dart';
-import 'package:iconapp/widgets/global/blue_divider.dart';
-import 'package:iconapp/widgets/global/hebrew_input_text.dart';
-import 'package:iconapp/widgets/home/stories_widget.dart';
+import 'package:iconapp/widgets/chat/chat_list.dart';
+import 'package:iconapp/widgets/chat/chat_welcome_dialog.dart';
+import 'package:iconapp/widgets/global/focus_aware.dart';
+import '../core/dependencies/locator.dart';
+import '../core/theme.dart';
+import '../data/models/conversation_model.dart';
+import '../stores/chat/chat_state.dart';
+import '../stores/chat/chat_store.dart';
+import '../stores/socket/socket_manager.dart';
+import '../stores/story/story_store.dart';
+import '../widgets/chat/panel_subscribe.dart';
+import '../widgets/chat/compose/panel_compose.dart';
+import '../widgets/chat/settings/change_background.dart';
+import '../widgets/global/blue_divider.dart';
+import '../widgets/story/story_list.dart';
 import '../widgets/chat/chat_appbar.dart';
 import '../core/extensions/context_ext.dart';
 
@@ -33,66 +30,90 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   ScrollController _controller;
-  bool upDirection = true, flag = true;
+  bool upDirection = false, flag = true;
+  ChatStore chat;
 
   @override
   void initState() {
     initSocket();
 
-    sl<ChatStore>()
-      ..init(widget.conversation)
-      ..watchMessages();
+    chat = sl<ChatStore>();
 
-    sl<StoryStore>()..setMode(StoryMode.conversation);
+    chat
+      ..init(widget.conversation)
+      ..watchMessages()
+      ..watchAddLike()
+      ..watchRemoveLike();
+
+    sl<StoryStore>()..setStoryMode(StoryMode.conversation);
 
     _controller = ScrollController()
       ..addListener(() {
         upDirection =
             _controller.position.userScrollDirection == ScrollDirection.forward;
-        if (upDirection != flag) setState(() {});
+        if (upDirection != flag && mounted) {
+          setState(() {});
+        }
         flag = upDirection;
       });
+
     super.initState();
   }
 
   Future initSocket() async {
-    final socket = sl<SocketStore>();
+    final socket = sl<Socket>();
+
     await socket.subscribeChannel(widget.conversation.id);
-    await socket.bindChannel(messagesEvent);
+
+    socket
+      ..bindMessagesChannel()
+      ..bindAddLikeChannel()
+      ..bindRemoveLikeChannel();
   }
 
   @override
   Widget build(BuildContext context) {
-    final chat = sl<ChatStore>();
     final story = sl<StoryStore>();
 
     return Observer(builder: (_) {
-      return Scaffold(
-        body: Stack(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                gradient:
-                    gradientList[chat?.conversation?.backgroundColor ?? 0],
+      return FocusAwareWidget(
+        child: Scaffold(
+          body: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  gradient:
+                      gradientList[chat?.conversation?.backgroundColor ?? 0],
+                ),
+                child: Column(
+                  children: <Widget>[
+                    ChatAppbar(),
+                    BlueDivider(color: cornflower),
+                    ChatList(scrollController: _controller),
+                    initComposer(chat, _controller),
+                  ],
+                ),
               ),
-              child: Column(
-                children: <Widget>[
-                  ChatAppbar(),
-                  BlueDivider(color: cornflower),
-                  ChatList(scrollController: _controller),
-                  initComposer(chat, _controller),
-                ],
+              Positioned(
+                top: context.heightPlusStatusbarPerc(.116),
+                child: StoriesList(
+                    margin: EdgeInsets.only(top: 10),
+                    mode: story.mode,
+                    show: !upDirection),
               ),
-            ),
-            Positioned(
-              top: context.heightPlusStatusbarPerc(.116),
-              child: StoriesList(
-                  margin: EdgeInsets.only(top: 10),
-                  mode: story.mode,
-                  show: upDirection),
-            ),
-          ],
+              _showWelcomeDialog(chat.conversation?.name ?? ''),
+            ],
+          ),
         ),
+      );
+    });
+  }
+
+  Widget _showWelcomeDialog(String conversationName) {
+    return Observer(builder: (_) {
+      return Visibility(
+        visible: chat.showWelcomeDialog,
+        child: ChatWelcomeDialog(groupName: conversationName),
       );
     });
   }
@@ -101,11 +122,11 @@ class _ChatScreenState extends State<ChatScreen> {
     return Observer(builder: (_) {
       switch (store.composerMode) {
         case ComposerMode.viewer:
-          return ViewerSheet();
+          return Container();
         case ComposerMode.icon:
-          return MessageComposer(controller: controller);
+          return PanelMessageCompose(controller: controller);
         case ComposerMode.subscriber:
-          return SubscriberSheet();
+          return PanelSubscriber();
       }
       return Container();
     });
@@ -114,109 +135,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void dispose() {
     sl<ChatStore>().dispose();
-    sl<SocketStore>().unsubscribeChannel(widget.conversation.id);
+    sl<Socket>().unsubscribeChannel(widget.conversation.id);
     super.dispose();
-  }
-}
-
-class ViewerSheet extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: white,
-      height: 58.7,
-      child: Center(
-        child: RichText(
-          text: TextSpan(children: [
-            TextSpan(text: 'רק ', style: chatCompose),
-            TextSpan(
-                text: 'מנהלי קבוצה ',
-                style: chatCompose.copyWith(color: cornflower)),
-            TextSpan(text: 'יכולים לשלוח הודעה', style: chatCompose),
-          ]),
-        ),
-      ),
-    );
-  }
-}
-
-class SubscriberSheet extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final store = sl<ChatStore>();
-    return Container(
-      color: white,
-      height: 58.7,
-      child: Stack(alignment: Alignment.center, children: [
-        if (store.getState.loading)
-          Positioned(
-            left: 16,
-            child: CircularProgressIndicator(
-              strokeWidth: 1,
-            ),
-          ),
-        Center(
-            child: FlatButton(
-          child: HebrewText('הצטרפות לקבוצה',
-              style: chatCompose.copyWith(color: cornflower)),
-          onPressed: () => store.subscribe(), // TEST THIS - SHOULD BE FIXED
-        )),
-      ]),
-    );
-  }
-}
-
-final chatListKey = GlobalKey<AnimatedListState>();
-
-class ChatList extends StatefulWidget {
-  final ScrollController scrollController;
-
-  const ChatList({Key key, @required this.scrollController}) : super(key: key);
-
-  @override
-  _ChatListState createState() => _ChatListState();
-}
-
-class _ChatListState extends State<ChatList> {
-  @override
-  Widget build(BuildContext context) {
-    final store = sl<ChatStore>();
-
-    return Observer(
-      builder: (_) => Expanded(
-        child: ListView.builder(
-          key: chatListKey,
-          controller: widget.scrollController,
-          physics: BouncingScrollPhysics(),
-          reverse: true,
-          shrinkWrap: true,
-          padding: EdgeInsets.only(bottom: 12),
-          itemCount: store.getMessages.length,
-          itemBuilder: (_, index) {
-            final message = store?.getMessages[index];
-            final isMe = store.isMe(message.sender?.id);
-
-            switch (message.messageType) {
-              case MessageType.text:
-                return TextMessage(
-                  message: message,
-                  isMe: isMe,
-                  index: index,
-                );
-              case MessageType.photo:
-                return PhotoMessage(message: message, isMe: isMe);
-              case MessageType.video:
-                return VideoMessage(message: message, isMe: isMe);
-              case MessageType.voice:
-                return VoiceMessage(message: message, isMe: isMe);
-              case MessageType.system:
-                return SystemMessage(title: message.body);
-            }
-
-            return Container();
-          },
-        ),
-      ),
-    );
   }
 }

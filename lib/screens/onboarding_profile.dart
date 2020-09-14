@@ -35,7 +35,7 @@ class OnboardingProfile extends StatelessWidget {
       store.initPersonalDetails(user);
     }
 
-    return BaseGradientWidget(
+    return BaseGradientBackground(
       child: Observer(
         builder: (_) => Stack(
           alignment: Alignment.topCenter,
@@ -46,7 +46,6 @@ class OnboardingProfile extends StatelessWidget {
             Positioned(
               top: context.heightPlusStatusbarPerc(.138),
               child: UserAvatar(
-                
                 placeholder: 'assets/images/user_icon.svg',
                 showLoading: store.getState.loading,
                 onTap: () async => store.pickAndUploadPhoto(),
@@ -197,8 +196,12 @@ class _SexPickerState extends State<SexPicker> {
     );
   }
 
-  _updateUI() => setState(() {
+  _updateUI() {
+    if (mounted) {
+      setState(() {
         final selectedGender = genderMap.entries.firstWhere((g) => g.value);
         store.updateUserGender(selectedGender.key);
       });
+    }
+  }
 }

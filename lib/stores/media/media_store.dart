@@ -1,11 +1,9 @@
 import 'dart:io';
-
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/repositories/media_repository.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
-
 part 'media_store.g.dart';
 
 class MediaStore = _MediaStoreBase with _$MediaStore;
@@ -28,18 +26,28 @@ abstract class _MediaStoreBase with Store {
   }
 
   Future<String> uploadPhoto(
-      {ImageSource source = ImageSource.gallery, File file}) async {
+      {ImageSource source = ImageSource.gallery,
+      File file,
+      int messageId}) async {
     String result = '';
     try {
       _isLoading = true;
       if (file != null) {
-        result =
-            await _repository.uploadSinglePhoto(file, getPath, getPhotoFileName);
+        result = await _repository.uploadSinglePhoto(
+          file,
+          getPath,
+          getPhotoFileName,
+          messageId,
+        );
       } else {
         final pickedFile = await _imagePicker.getImage(source: source);
         final file = File(pickedFile.path);
-        result =
-            await _repository.uploadSinglePhoto(file, getPath, getPhotoFileName);
+        result = await _repository.uploadSinglePhoto(
+          file,
+          getPath,
+          getPhotoFileName,
+          messageId,
+        );
       }
 
       // cancel loadoing
@@ -55,24 +63,47 @@ abstract class _MediaStoreBase with Store {
     return result;
   }
 
-  Future<String> uploadVideo(
-      {ImageSource source = ImageSource.gallery, String path}) async {
+  Future<String> uploadVideo({
+    ImageSource source = ImageSource.gallery,
+    String path,
+    int messageId,
+  }) async {
+    String result = '';
+
     try {
       _isLoading = true;
-      final result =
-          await _repository.uploadVideo(File(path), getPath, getPhotoFileName);
+      if (path != null) {
+        result = await _repository.uploadVideo(
+            File(path), getPath, getPhotoFileName, messageId);
+      } else {
+        final pickedFile = await _imagePicker.getVideo(source: source);
+        final file = File(pickedFile.path);
+        result = await _repository.uploadVideo(
+          file,
+          getPath,
+          getPhotoFileName,
+          messageId,
+        );
+      }
+
+      // cancel loadoing
       _isLoading = false;
+
       return result;
-    } on Exception catch (_) {
-      return '';
+    } on Exception catch (e) {
+      print(e);
+    } finally {
+      _isLoading = false;
     }
+
+    return result;
   }
 
-  Future<String> uploadAudio(String path) async {
+  Future<String> uploadAudio(String path, messageId) async {
     try {
       _isLoading = true;
       final result =
-          await _repository.uploadAudio(File(path), getPath, getAudioFileName);
+          await _repository.uploadAudio(File(path), getPath, getAudioFileName, messageId);
       _isLoading = false;
       return result;
     } on Exception catch (_) {

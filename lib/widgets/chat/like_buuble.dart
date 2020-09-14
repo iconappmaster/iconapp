@@ -5,12 +5,12 @@ import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 
-class LikeBubble extends StatelessWidget {
+class EmojiLikeBubble extends StatelessWidget {
   final String likeAsset;
   final int count;
   final EdgeInsets padding;
 
-  const LikeBubble({
+  const EmojiLikeBubble({
     Key key,
     this.likeAsset,
     this.count,
@@ -23,7 +23,7 @@ class LikeBubble extends StatelessWidget {
       padding: padding ?? EdgeInsets.all(0),
       child: Container(
         height: 20,
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+        padding: EdgeInsets.symmetric(horizontal: 12),
         alignment: Alignment.center,
         decoration: BoxDecoration(
             color: cornflower, borderRadius: BorderRadius.circular(13.3)),
@@ -36,7 +36,7 @@ class LikeBubble extends StatelessWidget {
               height: 16,
               width: 16,
             ),
-            SizedBox(width: 1),
+            SizedBox(width: 3),
             if (count != null)
               HebrewText(
                 count.toString(),
@@ -45,6 +45,29 @@ class LikeBubble extends StatelessWidget {
               ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class EmojiPlus extends StatelessWidget {
+  final String likeAsset;
+  final EdgeInsets padding;
+
+  const EmojiPlus({
+    Key key,
+    this.likeAsset,
+    this.padding,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: padding ?? EdgeInsets.all(0),
+      child: SvgPicture.asset(
+        likeAsset != null ? likesMap[likeAsset] : 'assets/images/emoji_add.svg',
+        height: 24,
+        width: 24,
       ),
     );
   }

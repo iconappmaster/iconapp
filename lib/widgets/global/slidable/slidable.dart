@@ -686,7 +686,7 @@ class SlidableState extends State<Slidable>
   void open({SlideActionType actionType}) {
     widget.controller?.activeState = this;
 
-    if (actionType != null && _actionType != actionType) {
+    if (actionType != null && _actionType != actionType && mounted) {
       setState(() {
         this.actionType = actionType;
       });
@@ -724,7 +724,7 @@ class SlidableState extends State<Slidable>
     if (_dismissible) {
       _dismissing = true;
       actionType ??= _actionType;
-      if (actionType != _actionType) {
+      if (actionType != _actionType && mounted) {
         setState(() {
           this.actionType = actionType;
         });

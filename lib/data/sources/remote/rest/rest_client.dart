@@ -9,8 +9,8 @@ import 'header_interceptor.dart';
 import 'logger_interceptor.dart';
 part 'rest_client.g.dart';
 
-const String baseUrlProd = 'http://iconproduction.herokuapp.com/api/v1/';
-const String baseUrlStaging = 'http://iconstaging.herokuapp.com/api/v1/';
+const String baseUrlProd = 'https://iconproduction.herokuapp.com/api/v1/';
+const String baseUrlStaging = 'https://iconstaging.herokuapp.com/api/v1/';
 
 @RestApi(baseUrl: baseUrlStaging)
 abstract class RestClient {
@@ -110,6 +110,7 @@ abstract class RestClient {
     @Query('body') String body,
     @Query('messageType') String type,
     @Query('extraData') String extraData,
+    @Query('repliedToMessageId') int messageId,
   );
 
   @POST('messages/{messageId}/like_message')
@@ -117,7 +118,8 @@ abstract class RestClient {
       @Path('messageId') int id, @Query('likeType') String likeType);
 
   @POST('messages/{messageId}/unlike_message')
-  Future<MessageModel> unlikeMessage(@Path('messageId') int id, @Query('likeType') String likeType);
+  Future<MessageModel> unlikeMessage(
+      @Path('messageId') int id, @Query('likeType') String likeType);
 
   // STORY
   @GET('stories/stories_for_home')
@@ -125,6 +127,12 @@ abstract class RestClient {
 
   @GET('stories/stories_for_conversation')
   Future<List<StoryModel>> conversationStories(@Query('conversationId') int id);
+
+  @POST('stories/{imgId}/viewed_story')
+  Future viewedStory(@Path('imgId') int imgId);
+
+  @POST('stories/add_to_story')
+  Future<StoryModel> publishStory(@Body() StoryModel story);
 }
 
 Dio getDioClient() {

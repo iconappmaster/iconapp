@@ -43,6 +43,8 @@ abstract class  LocaleKeys {
   static const welcome_content = 'welcome.content';
   static const welcome = 'welcome';
   static const chat_messageInputHint = 'chat.messageInputHint';
+  static const chat_welcomeTitle = 'chat.welcomeTitle';
+  static const chat_welcomeContent = 'chat.welcomeContent';
   static const chat = 'chat';
   static const disconnect_content = 'disconnect.content';
   static const disconnect = 'disconnect';

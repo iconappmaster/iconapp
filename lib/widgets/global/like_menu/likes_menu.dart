@@ -13,11 +13,13 @@ import 'like_model.dart';
 class Likeble extends StatelessWidget {
   final Widget child;
   final MessageModel message;
+  final bool isMe;
 
   const Likeble({
     Key key,
     @required this.child,
     @required this.message,
+    @required this.isMe,
   }) : super(key: key);
 
   @override
@@ -25,6 +27,7 @@ class Likeble extends StatelessWidget {
     final chat = sl<ChatStore>();
 
     return LikeMenu(
+      isMe: isMe,
       menuItems: [
         LikeModel(
           isSelected: message.likeType == likeOneKey,
@@ -51,6 +54,7 @@ class Likeble extends StatelessWidget {
 }
 
 class LikeMenu extends StatefulWidget {
+  final bool isMe;
   final Widget child;
   final double menuItemExtent;
   final double menuWidth;
@@ -63,20 +67,21 @@ class LikeMenu extends StatefulWidget {
   final double bottomOffsetHeight;
   final double menuOffset;
 
-  const LikeMenu(
-      {Key key,
-      @required this.child,
-      @required this.menuItems,
-      this.duration,
-      this.menuBoxDecoration,
-      this.menuItemExtent,
-      this.animateMenuItems,
-      this.blurSize,
-      this.blurBackgroundColor,
-      this.menuWidth,
-      this.bottomOffsetHeight,
-      this.menuOffset})
-      : super(key: key);
+  const LikeMenu({
+    Key key,
+    @required this.child,
+    @required this.menuItems,
+    @required this.isMe,
+    this.duration,
+    this.menuBoxDecoration,
+    this.menuItemExtent,
+    this.animateMenuItems,
+    this.blurSize,
+    this.blurBackgroundColor,
+    this.menuWidth,
+    this.bottomOffsetHeight,
+    this.menuOffset,
+  }) : super(key: key);
 
   @override
   _LikeMenuState createState() => _LikeMenuState();
@@ -91,53 +96,59 @@ class _LikeMenuState extends State<LikeMenu> {
     RenderBox renderBox = containerKey.currentContext.findRenderObject();
     Size size = renderBox.size;
     Offset offset = renderBox.localToGlobal(Offset.zero);
-    setState(() {
-      this.childOffset = Offset(offset.dx, offset.dy);
-      childSize = size;
-    });
+    if (mounted)
+      setState(() {
+        this.childOffset = Offset(offset.dx, offset.dy);
+        childSize = size;
+      });
   }
 
   @override
   Widget build(BuildContext context) {
+    final chat = sl<ChatStore>();
     return GestureDetector(
         behavior: HitTestBehavior.opaque,
         key: containerKey,
         onDoubleTap: () async {
-          context.unFocus();
-          getOffset();
-          await Navigator.push(
-              context,
-              PageRouteBuilder(
-                  transitionDuration:
-                      widget.duration ?? Duration(milliseconds: 100),
-                  pageBuilder: (context, animation, secondaryAnimation) {
-                    animation = Tween(begin: 0.0, end: 1.0).animate(animation);
-                    return FadeTransition(
-                      opacity: animation,
-                      child: FocusedMenuDetails(
-                        itemExtent: widget.menuItemExtent,
-                        menuBoxDecoration: widget.menuBoxDecoration,
-                        child: widget.child,
-                        childOffset: childOffset,
-                        childSize: childSize,
-                        menuItems: widget.menuItems,
-                        blurSize: widget.blurSize,
-                        menuWidth: widget.menuWidth,
-                        blurBackgroundColor: widget.blurBackgroundColor,
-                        animateMenu: widget.animateMenuItems ?? true,
-                        bottomOffsetHeight: widget.bottomOffsetHeight ?? 0,
-                        menuOffset: widget.menuOffset ?? 0,
-                      ),
-                    );
-                  },
-                  fullscreenDialog: true,
-                  opaque: false));
+          if (chat.conversation.isSubscribed) {
+            context.unFocus();
+            getOffset();
+            await Navigator.push(
+                context,
+                PageRouteBuilder(
+                    transitionDuration:
+                        widget.duration ?? Duration(milliseconds: 100),
+                    pageBuilder: (context, animation, secondaryAnimation) {
+                      animation =
+                          Tween(begin: 0.0, end: 1.0).animate(animation);
+                      return FadeTransition(
+                        opacity: animation,
+                        child: LikeMenuDetails(
+                          isMe: widget.isMe,
+                          itemExtent: widget.menuItemExtent,
+                          menuBoxDecoration: widget.menuBoxDecoration,
+                          child: widget.child,
+                          childOffset: childOffset,
+                          childSize: childSize,
+                          menuItems: widget.menuItems,
+                          blurSize: widget.blurSize,
+                          menuWidth: widget.menuWidth,
+                          blurBackgroundColor: widget.blurBackgroundColor,
+                          animateMenu: widget.animateMenuItems ?? true,
+                          bottomOffsetHeight: widget.bottomOffsetHeight ?? 0,
+                          menuOffset: widget.menuOffset ?? 0,
+                        ),
+                      );
+                    },
+                    fullscreenDialog: true,
+                    opaque: false));
+          }
         },
         child: widget.child);
   }
 }
 
-class FocusedMenuDetails extends StatelessWidget {
+class LikeMenuDetails extends StatelessWidget {
   final List<LikeModel> menuItems;
   final BoxDecoration menuBoxDecoration;
   final Offset childOffset;
@@ -150,22 +161,24 @@ class FocusedMenuDetails extends StatelessWidget {
   final Color blurBackgroundColor;
   final double bottomOffsetHeight;
   final double menuOffset;
+  final bool isMe;
 
-  const FocusedMenuDetails(
-      {Key key,
-      @required this.menuItems,
-      @required this.child,
-      @required this.childOffset,
-      @required this.childSize,
-      @required this.menuBoxDecoration,
-      @required this.itemExtent,
-      @required this.animateMenu,
-      @required this.blurSize,
-      @required this.blurBackgroundColor,
-      @required this.menuWidth,
-      this.bottomOffsetHeight,
-      this.menuOffset})
-      : super(key: key);
+  const LikeMenuDetails({
+    Key key,
+    @required this.menuItems,
+    @required this.child,
+    @required this.childOffset,
+    @required this.childSize,
+    @required this.menuBoxDecoration,
+    @required this.itemExtent,
+    @required this.animateMenu,
+    @required this.blurSize,
+    @required this.blurBackgroundColor,
+    @required this.menuWidth,
+    @required this.isMe,
+    this.bottomOffsetHeight,
+    this.menuOffset,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -180,10 +193,11 @@ class FocusedMenuDetails extends StatelessWidget {
     final menuHeight = listHeight < maxMenuHeight ? listHeight : maxMenuHeight;
 
     final leftOffset = (childOffset.dx + maxMenuWidth) < size.width
-        ? childOffset.dx + 20
-        : (childOffset.dx - maxMenuWidth + childSize.width) - 20;
+        ? childOffset.dx + (isMe ? 15 : size.width - 145)
+        : (childOffset.dx - maxMenuWidth + childSize.width) - 90;
 
     final topOffset = (childOffset.dy - menuHeight - menuOffset);
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
@@ -192,9 +206,7 @@ class FocusedMenuDetails extends StatelessWidget {
           children: <Widget>[
             GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTap: () {
-                  Navigator.pop(context);
-                },
+                onTap: () => Navigator.pop(context),
                 child: BackdropFilter(
                   filter: ImageFilter.blur(
                       sigmaX: blurSize ?? 4, sigmaY: blurSize ?? 4),
@@ -207,7 +219,8 @@ class FocusedMenuDetails extends StatelessWidget {
               top: topOffset,
               left: leftOffset,
               child: TweenAnimationBuilder(
-                duration: Duration(milliseconds: 100),
+                duration: Duration(milliseconds: 650),
+                curve: Curves.easeInOutQuart,
                 builder: (BuildContext context, value, Widget child) {
                   return Transform.scale(
                     scale: value,
@@ -237,7 +250,10 @@ class FocusedMenuDetails extends StatelessWidget {
                                 color: item.isSelected
                                     ? cornflower
                                     : Colors.transparent,
-                                borderRadius: BorderRadius.circular(23)),
+                                borderRadius: getBorderRadius(item.key)
+
+                                // BorderRadius.circular(23),
+                                ),
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: Container(
@@ -248,8 +264,8 @@ class FocusedMenuDetails extends StatelessWidget {
                                   },
                                   child: SvgPicture.asset(
                                     item.asset,
-                                    height: 22,
-                                    width: 22,
+                                    height: 28,
+                                    width: 28,
                                   ),
                                 ),
                               ),
@@ -278,5 +294,30 @@ class FocusedMenuDetails extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  BorderRadius getBorderRadius(String key) {
+    final round = Radius.circular(23);
+    final flat = Radius.circular(0);
+    switch (key) {
+      case likeOneKey:
+        return BorderRadius.only(
+            bottomLeft: flat,
+            topLeft: flat,
+            topRight: round,
+            bottomRight: round);
+      case likeTwoKey:
+        return BorderRadius.only(
+            bottomLeft: flat, topLeft: flat, topRight: flat, bottomRight: flat);
+      case likeThreeKey:
+        return BorderRadius.only(
+            bottomLeft: round,
+            topLeft: round,
+            topRight: flat,
+            bottomRight: flat);
+      default:
+        return BorderRadius.only(
+            bottomLeft: flat, topLeft: flat, topRight: flat, bottomRight: flat);
+    }
   }
 }

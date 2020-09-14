@@ -65,9 +65,10 @@ class _RollingSwitchState extends State<RollingSwitch>
     animation =
         CurvedAnimation(parent: animationController, curve: Curves.easeInOut);
     animationController.addListener(() {
-      setState(() {
-        value = animation.value;
-      });
+      if (mounted)
+        setState(() {
+          value = animation.value;
+        });
     });
   }
 
@@ -162,10 +163,13 @@ class _RollingSwitchState extends State<RollingSwitch>
   }
 
   determine() {
-    setState(() {
-      turnState = genderMap[widget.gender];
-      turnState ? animationController.forward() : animationController.reverse();
-      widget.onChanged(turnState);
-    });
+    if (mounted)
+      setState(() {
+        turnState = genderMap[widget.gender];
+        turnState
+            ? animationController.forward()
+            : animationController.reverse();
+        widget.onChanged(turnState);
+      });
   }
 }

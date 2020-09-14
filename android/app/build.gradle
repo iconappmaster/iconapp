@@ -26,7 +26,7 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 30
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -41,7 +41,7 @@ android {
         
         applicationId "com.icon.iconapp"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -60,7 +60,9 @@ flutter {
 }
 
 dependencies {
+    implementation 'com.google.firebase:firebase-messaging:20.2.4'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.google.firebase:firebase-analytics:17.4.3'/**/
+    implementation 'com.google.firebase:firebase-analytics:17.5.0'/**/
 }
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'io.fabric'

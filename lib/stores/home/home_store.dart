@@ -4,6 +4,7 @@ import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/repositories/home_repository.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/domain/core/errors.dart';
+import 'package:iconapp/stores/user/user_store.dart';
 import 'package:mobx/mobx.dart';
 part 'home_store.g.dart';
 
@@ -11,14 +12,14 @@ class HomeStore = _HomeStoreBase with _$HomeStore;
 
 abstract class _HomeStoreBase with Store {
   HomeRepository _repository;
+  UserStore user;
   SharedPreferencesService _preferencesService;
 
   _HomeStoreBase() {
     _preferencesService = sl<SharedPreferencesService>();
     _repository = sl<HomeRepository>();
-
     _shouldShowWelcomeDialog();
-    getHome();
+    getConversations();
   }
 
   void _shouldShowWelcomeDialog() {
@@ -30,7 +31,7 @@ abstract class _HomeStoreBase with Store {
   bool _loading = false;
 
   @observable
-  ObservableList<Conversation> _categories = ObservableList.of([]);
+  ObservableList<Conversation> _conversations = ObservableList.of([]);
 
   @observable
   bool _showWelcomeDialog = true;
@@ -42,31 +43,32 @@ abstract class _HomeStoreBase with Store {
   bool get isLoading => _loading;
 
   @computed
-  List<Conversation> get conversations => _categories;
-
+  List<Conversation> get conversations => _conversations;
 
   @action
-  void addConversation(Conversation category) {
-    _categories.add(category);
+  void addConversation(Conversation conversation) {
+    _conversations.add(conversation);
   }
 
   @action
-  Future<Either<ServerError, Unit>> getHome() async {
+  Future<Either<ServerError, List<Conversation>>> getConversations() async {
     try {
-      setLoading(true);
-      final categories = await _repository.getHome();
-      _categories.clear();
-      _categories.addAll(categories);
-      setLoading(false);
-      return right(unit);
+      _loading = true;
+      final conversations = await _repository.getHome();
+      setConversations(conversations);
+
+      return right(conversations);
     } on ServerError catch (e) {
       return left(e);
+    } finally {
+      _loading = false;
     }
   }
 
   @action
-  Future setLoading(bool loading) async {
-    _loading = loading;
+  void setConversations(List<Conversation> conversations) {
+    if (conversations.isNotEmpty) _conversations.clear();
+    _conversations.addAll(conversations);
   }
 
   @action

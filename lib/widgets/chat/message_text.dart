@@ -1,11 +1,12 @@
 import 'dart:async';
-import 'package:bubble/bubble.dart';
+import 'package:iconapp/data/models/user_model.dart';
+import 'package:iconapp/stores/chat/chat_store.dart';
+
 import 'package:flutter/material.dart';
-import 'package:iconapp/core/bus.dart';
-import 'package:iconapp/widgets/chat/events/slide_event.dart';
-import 'package:iconapp/widgets/global/like_menu/likes_menu.dart';
+import '../global/bubble.dart';
+import '../global/like_menu/likes_menu.dart';
 import 'reply_slider.dart';
-import 'bubble.dart';
+import 'icon_bubble.dart';
 import '../../core/dependencies/locator.dart';
 import '../../core/theme.dart';
 import '../../data/models/message_model.dart';
@@ -30,9 +31,7 @@ class TextMessage extends StatefulWidget {
 }
 
 class _TextMessageState extends State<TextMessage> {
-  SlidableController controller;
-  SlidableState slide;
-  StreamSubscription<SlidableOpenEvent> subscripbiton;
+  SlidableController _controller;
   BuildContext _sliderContext;
   bool _isOpen = false;
 
@@ -43,22 +42,17 @@ class _TextMessageState extends State<TextMessage> {
   }
 
   void init() {
-    final bus = sl<Bus>();
-    subscripbiton = bus.on<SlidableOpenEvent>().listen((event) {
-      if (widget.index != event.index && _sliderContext != null) {
-        Slidable.of(_sliderContext).close();
-      }
-    });
-
-    controller = SlidableController(
+    _controller = SlidableController(
+      onSlideAnimationChanged: (s) => print(s), // do not remove
       onSlideIsOpenChanged: (isOpen) {
         if (mounted) {
           setState(() {
             _isOpen = isOpen;
+            sl<ChatStore>().setReplyMessage(widget.message);
+            final slide = Slidable.of(_sliderContext);
+            Future.delayed(Duration(milliseconds: 250), () => slide.close());
           });
         }
-
-        if (isOpen) bus.fire(SlidableOpenEvent(widget.index));
       },
     );
   }
@@ -69,35 +63,48 @@ class _TextMessageState extends State<TextMessage> {
         ? blueBerry
         : widget.isMe ? darkIndigo2 : blueberry2;
 
+    final store = sl<ChatStore>();
+
     return Likeble(
+      isMe: widget.isMe,
       message: widget.message,
-      child: ReplySlider(
+      child: Replyble(
+        isEnabled: store.conversation.userRole != UserRole.viewer,
         isOpen: _isOpen,
         keyName: widget.message.id.toString(),
-        controller: controller,
-        builder: _replyBuilder,
+        controller: _controller,
+        builder: (context, index, animation, step) {
+          _sliderContext = context;
+          return ReplyButton(message: widget.message);
+        },
         child: IconBubble(
           padding: BubbleEdges.only(left: 12, right: 12, top: 15, bottom: 7),
           message: widget.message,
           isMe: widget.isMe,
           child: Stack(children: [
             Container(
+              padding: EdgeInsets.symmetric(vertical: 8),
               color: color,
-              child: Padding(
-                padding: EdgeInsets.only(
-                  left: widget.isMe ? 30.0 : 0,
-                  right: widget.isMe ? 0 : 30.0,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    HebrewText(widget.message.sender?.fullName ?? '',
-                        style: chatMessageName, textAlign: TextAlign.start),
-                    SelectableText(widget.message?.body ?? '',
-                        style: chatMessageBody, textAlign: TextAlign.start),
-                  ],
-                ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  HebrewText(
+                    widget.message.sender?.fullName ?? '',
+                    style: chatMessageName,
+                    textAlign: TextAlign.start,
+                  ),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width * .5),
+                    child: SelectableText(
+                      widget.message?.body ?? '',
+                      style: chatMessageBody,
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                ],
               ),
             ),
             Positioned(
@@ -115,16 +122,5 @@ class _TextMessageState extends State<TextMessage> {
         ),
       ),
     );
-  }
-
-  Widget _replyBuilder(context, index, animation, step) {
-    _sliderContext = context;
-    return ReplyButton();
-  }
-
-  @override
-  void dispose() {
-    subscripbiton?.cancel();
-    super.dispose();
   }
 }

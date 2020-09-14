@@ -19,6 +19,8 @@ abstract class ChatRepository {
   Future<MessageModel> likeMessage(int messageId, String likeType);
   Future<MessageModel> unlikeMessage(int messageId, String likeType);
   Stream<MessageModel> watchMessages();
+  Stream<MessageModel> watchAddLike();
+  Stream<MessageModel> watchRemoveLike();
   Future pinConversation(int conversationId, bool isPinned);
   Future conversationViewed(int conversationId);
 }
@@ -26,7 +28,7 @@ abstract class ChatRepository {
 class ChatRepositoryImpl implements ChatRepository {
   final RestClient remote;
   final SharedPreferencesService cache;
-  final SocketStore socket;
+  final Socket socket;
 
   ChatRepositoryImpl({
     @required this.remote,
@@ -80,16 +82,27 @@ class ChatRepositoryImpl implements ChatRepository {
   Future<MessageModel> sendMessage(
       int conversationId, MessageModel message) async {
     return await remote.sendMessage(
-      conversationId,
-      message.body,
-      message.messageType.toString().parseEnum(),
+      conversationId ?? '',
+      message?.body ?? '',
+      message?.messageType?.toString()?.parseEnum() ?? "",
       message?.extraData ?? '',
+      message.repliedToMessage?.id ?? 0,
     );
   }
 
   @override
   Stream<MessageModel> watchMessages() {
     return socket.messageObserver;
+  }
+
+  @override
+  Stream<MessageModel> watchAddLike() {
+    return socket.addedLikeObserver;
+  }
+
+  @override
+  Stream<MessageModel> watchRemoveLike() {
+    return socket.removeLikeObserver;
   }
 
   @override

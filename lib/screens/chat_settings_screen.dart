@@ -31,7 +31,6 @@ class _ChatSettingsScreenState extends State<ChatSettingsScreen> {
     final settings = sl<ChatSettingsStore>();
 
     final iconSettings = [
-      ChangeBackground(),
       _SettingsDivider(),
       ParticipentList(),
     ];
@@ -48,13 +47,12 @@ class _ChatSettingsScreenState extends State<ChatSettingsScreen> {
                   subTitle: settings.getSubtitle),
             ),
             SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  ConversationNotificationsSettings(),
-                  _SettingsDivider(),
-                  if (settings.isUserAdmin) ...iconSettings
-                ],
-              ),
+              delegate: SliverChildListDelegate([
+                ConversationNotificationsSettings(),
+                _SettingsDivider(),
+                if (settings.isUserAdmin) ChangeBackground(),
+                ...iconSettings
+              ]),
             ),
           ],
         ),

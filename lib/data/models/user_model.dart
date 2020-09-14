@@ -20,6 +20,7 @@ abstract class UserModel with _$UserModel {
     String sessionToken,
     UserRole userRole,
     bool didCompleteRegistration,
+    bool didTurnOffNotifications,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>

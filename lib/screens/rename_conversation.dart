@@ -17,12 +17,12 @@ class EditConversation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
-    return BaseGradientWidget(
+    return BaseGradientBackground(
       child: Stack(
         children: [
           Column(
             children: <Widget>[
-              CreateGroupAppbar(
+              AppBarWithDivider(
                   title: LocaleKeys.create_groupNameAppbarTitle.tr()),
               SizedBox(height: 33),
               Padding(
@@ -48,6 +48,7 @@ class EditConversation extends StatelessWidget {
               height: 53,
               width: 53,
               child: FloatingActionButton(
+                heroTag: 'fab2',
                   child: SvgPicture.asset(
                     'assets/images/check.svg',
                     height: 27,

@@ -32,14 +32,14 @@ class SelectIconScreen extends StatelessWidget {
     final isFromChat = this.mode == SelectIconMode.fromChat;
     final store = sl<CreateIconStore>();
     return Observer(
-      builder: (_) => BaseGradientWidget(
+      builder: (_) => BaseGradientBackground(
         gradient: grapeDarkIndigo,
         child: Container(
           child: Stack(
             children: <Widget>[
               Column(
                 children: <Widget>[
-                  CreateGroupAppbar(
+                  AppBarWithDivider(
                       title: isFromChat
                           ? LocaleKeys.create_addUser.tr()
                           : LocaleKeys.create_newGroupTitle.tr(),
@@ -50,6 +50,8 @@ class SelectIconScreen extends StatelessWidget {
                   CreateSearchBar(),
                   Expanded(
                     child: ListView.builder(
+                      padding: EdgeInsets.only(bottom: 50, top: 20),
+                      physics: BouncingScrollPhysics(),
                       itemCount: store.count,
                       itemBuilder: (context, index) {
                         final icon = store.getIcons[index];
@@ -95,10 +97,7 @@ class CreateSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = sl<CreateIconStore>();
-    final transparentBorder = UnderlineInputBorder(
-        borderSide: BorderSide(
-      color: Colors.transparent,
-    ));
+
     return Observer(
       builder: (_) => Container(
         child: Column(children: [

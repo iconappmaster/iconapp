@@ -5,7 +5,8 @@ import 'package:iconapp/screens/chat_settings_screen.dart';
 import 'package:iconapp/screens/create_categories_screen.dart';
 import 'package:iconapp/screens/create_details_screen.dart';
 import 'package:iconapp/screens/create_icons_screen.dart';
-import 'package:iconapp/screens/full_image_screen.dart';
+import 'package:iconapp/screens/descrioption_screen.dart';
+import 'package:iconapp/screens/full_screen_photo.dart';
 import 'package:iconapp/screens/full_video_screen.dart';
 import 'package:iconapp/screens/rename_conversation.dart';
 import 'package:iconapp/screens/home_screen.dart';
@@ -15,6 +16,8 @@ import 'package:iconapp/screens/onboarding_profile.dart';
 import 'package:iconapp/screens/search_results_screen.dart';
 import 'package:iconapp/screens/settings_screen.dart';
 import 'package:iconapp/screens/splash_screen.dart';
+import 'package:iconapp/screens/story_edit_screen.dart';
+import 'package:iconapp/screens/story_screen.dart';
 
 @MaterialAutoRouter(
   generateNavigationHelperExtension: true,
@@ -27,13 +30,16 @@ import 'package:iconapp/screens/splash_screen.dart';
     MaterialRoute(page: AppSettingsScreen),
     MaterialRoute(page: ChatScreen),
     CupertinoRoute(page: ChatSettingsScreen, fullscreenDialog: true),
-    MaterialRoute(page: FullVideoScreen),
-    MaterialRoute(page: FullImageScreen),
+    MaterialRoute(page: VideoScreen),
+    MaterialRoute(page: PhotoGalleryScreen),
     CupertinoRoute(page: SelectIconScreen, fullscreenDialog: true),
     CupertinoRoute(page: CreateCategoryScreen),
     MaterialRoute(page: EditConversation),
     CupertinoRoute(page: CreateDetailsScreen),
     CupertinoRoute(page: SearchResultsScreen),
+    CupertinoRoute(page: StoryScreen),
+    CupertinoRoute(page: StoryEditScreen),
+    CupertinoRoute(page: DescriptionScreen),
   ],
 )
 class $Router {}

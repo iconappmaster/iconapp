@@ -22,6 +22,7 @@ class CreateNextBotton extends StatelessWidget {
       bottom: 25,
       left: 25,
       child: FloatingActionButton(
+        heroTag: 'fab8',
           child: SvgPicture.asset(asset, height: 16.3, width: 16.3),
           backgroundColor: cornflower,
           onPressed: () {
