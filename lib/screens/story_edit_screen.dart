@@ -59,7 +59,6 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
           alignment: Alignment.topCenter,
           children: [
             AppBarWithDivider(title: 'סטורי חדש'),
-
             Positioned(
                 top: context.heightPlusStatusbarPerc(.142),
                 child: SizedBox(
@@ -164,7 +163,6 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                         },
                       ),
                     ))),
-
             AnimatedPositioned(
               duration: Duration(milliseconds: 250),
               top: _edit.canPublish
@@ -272,26 +270,24 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                 ),
               ),
             ),
-
             if (_edit.canPublish)
               Padding(
                 padding: const EdgeInsets.only(bottom: 23.0),
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: NextButton(
-                    onClick: () async {
-                      _edit.publishStory();
-                      ExtendedNavigator.of(context)
-                          .pushStoryScreen(stories: _edit.stories);
-                      ExtendedNavigator.of(context).pop();
-                    },
                     title: 'שיתוף',
+                    onClick: () async {
+                      final result = await _edit.publishStory();
+                      result.fold((error) => null, (story) {
+                        ExtendedNavigator.of(context)
+                            .pushStoryScreen(currentStory: story);
+                        ExtendedNavigator.of(context).pop();
+                      });
+                    },
                   ),
                 ),
               )
-
-            // PublishButton(edit: _edit),
-            // ),
           ],
         ),
       )),

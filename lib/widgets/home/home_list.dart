@@ -138,10 +138,9 @@ class ConversationTile extends StatelessWidget {
                   SizedBox(height: 8.7),
                   Row(
                     children: [
-                      if (model?.unreadMessageCount ?? 0 > 0)
-                        _MessageCounter(count: model?.unreadMessageCount ?? 5),
+                      _MessageCounter(count: model.numberOfUnreadMessages),
                       SizedBox(width: 7),
-                      if (model?.isPinned ?? false) _Pin(),
+                      if (model?.isPinned) _Pin(),
                       if (!model.areNotificationsEnabled)
                         SvgPicture.asset('assets/images/mute.svg',
                             height: _indicatorSize, width: _indicatorSize)

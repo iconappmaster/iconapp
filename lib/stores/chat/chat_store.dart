@@ -364,14 +364,12 @@ abstract class _ChatStoreBase with Store {
         recordTimer.onExecute.add(StopWatchExecute.start);
 
         final appDocDirectory = await getApplicationDocumentsDirectory();
-
         final path =
             '${appDocDirectory.path}/${DateTime.now().millisecondsSinceEpoch}';
 
-        _recorder = FlutterAudioRecorder(
-          path,
-          audioFormat: AudioFormat.AAC,
-        );
+        if (_recorder == null) {
+          _recorder = FlutterAudioRecorder(path, audioFormat: AudioFormat.AAC);
+        }
 
         await _recorder.initialized;
         await _recorder.start();
@@ -403,7 +401,6 @@ abstract class _ChatStoreBase with Store {
           messageType: MessageType.voice,
           extraData: duration,
           // todo need set replied message
-          
         );
 
         // show pending message
@@ -416,10 +413,7 @@ abstract class _ChatStoreBase with Store {
         final mediaMsg = msg.copyWith(body: url);
 
         // update the backend
-        final remote = await _repository.sendMessage(
-          conversation.id,
-          mediaMsg,
-        );
+        final remote = await _repository.sendMessage(conversation.id, mediaMsg);
 
         _updateLocalMessage(
           remote.copyWith(status: MessageStatus.sent, id: msg.id),
@@ -434,7 +428,10 @@ abstract class _ChatStoreBase with Store {
   @action
   void watchMessages() {
     _messagesSubscription.add(
-      _repository.watchMessages().listen((message) => _messages.add(message)),
+      _repository.watchMessages().listen((message) {
+        _setConversationViewed();
+        _messages.add(message);
+      }),
     );
   }
 

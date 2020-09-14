@@ -25,9 +25,10 @@ import 'package:iconapp/screens/rename_conversation.dart';
 import 'package:iconapp/screens/create_details_screen.dart';
 import 'package:iconapp/screens/search_results_screen.dart';
 import 'package:iconapp/screens/story_screen.dart';
-import 'package:iconapp/data/models/story_image.dart';
+import 'package:iconapp/data/models/story_model.dart';
 import 'package:iconapp/screens/story_edit_screen.dart';
 import 'package:iconapp/screens/descrioption_screen.dart';
+import 'package:iconapp/data/models/story_image.dart';
 
 class Routes {
   static const String splashScreen = '/';
@@ -39,7 +40,7 @@ class Routes {
   static const String chatScreen = '/chat-screen';
   static const String chatSettingsScreen = '/chat-settings-screen';
   static const String videoScreen = '/video-screen';
-  static const String fullPhotoScreen = '/full-photo-screen';
+  static const String photoGalleryScreen = '/photo-gallery-screen';
   static const String selectIconScreen = '/select-icon-screen';
   static const String createCategoryScreen = '/create-category-screen';
   static const String editConversation = '/edit-conversation';
@@ -58,7 +59,7 @@ class Routes {
     chatScreen,
     chatSettingsScreen,
     videoScreen,
-    fullPhotoScreen,
+    photoGalleryScreen,
     selectIconScreen,
     createCategoryScreen,
     editConversation,
@@ -83,7 +84,7 @@ class Router extends RouterBase {
     RouteDef(Routes.chatScreen, page: ChatScreen),
     RouteDef(Routes.chatSettingsScreen, page: ChatSettingsScreen),
     RouteDef(Routes.videoScreen, page: VideoScreen),
-    RouteDef(Routes.fullPhotoScreen, page: FullPhotoScreen),
+    RouteDef(Routes.photoGalleryScreen, page: PhotoGalleryScreen),
     RouteDef(Routes.selectIconScreen, page: SelectIconScreen),
     RouteDef(Routes.createCategoryScreen, page: CreateCategoryScreen),
     RouteDef(Routes.editConversation, page: EditConversation),
@@ -162,11 +163,11 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    FullPhotoScreen: (RouteData data) {
-      var args = data.getArgs<FullPhotoScreenArguments>(
-          orElse: () => FullPhotoScreenArguments());
+    PhotoGalleryScreen: (RouteData data) {
+      var args = data.getArgs<PhotoGalleryScreenArguments>(
+          orElse: () => PhotoGalleryScreenArguments());
       return MaterialPageRoute<dynamic>(
-        builder: (context) => FullPhotoScreen(
+        builder: (context) => PhotoGalleryScreen(
           key: args.key,
           galleryItems: args.galleryItems,
           intialIndex: args.intialIndex,
@@ -216,7 +217,8 @@ class Router extends RouterBase {
       var args = data.getArgs<StoryScreenArguments>(
           orElse: () => StoryScreenArguments());
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => StoryScreen(key: args.key, stories: args.stories),
+        builder: (context) =>
+            StoryScreen(key: args.key, currentStory: args.currentStory),
         settings: data,
       );
     },
@@ -295,14 +297,14 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
             key: key, url: url, showToolbar: showToolbar, mute: mute),
       );
 
-  Future<dynamic> pushFullPhotoScreen({
+  Future<dynamic> pushPhotoGalleryScreen({
     Key key,
     List<PhotoModel> galleryItems,
     int intialIndex,
   }) =>
       pushNamed<dynamic>(
-        Routes.fullPhotoScreen,
-        arguments: FullPhotoScreenArguments(
+        Routes.photoGalleryScreen,
+        arguments: PhotoGalleryScreenArguments(
             key: key, galleryItems: galleryItems, intialIndex: intialIndex),
       );
 
@@ -338,11 +340,11 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
 
   Future<dynamic> pushStoryScreen({
     Key key,
-    List<StoryImageModel> stories,
+    StoryModel currentStory,
   }) =>
       pushNamed<dynamic>(
         Routes.storyScreen,
-        arguments: StoryScreenArguments(key: key, stories: stories),
+        arguments: StoryScreenArguments(key: key, currentStory: currentStory),
       );
 
   Future<dynamic> pushStoryEditScreen() =>
@@ -396,12 +398,12 @@ class VideoScreenArguments {
       this.mute = false});
 }
 
-//FullPhotoScreen arguments holder class
-class FullPhotoScreenArguments {
+//PhotoGalleryScreen arguments holder class
+class PhotoGalleryScreenArguments {
   final Key key;
   final List<PhotoModel> galleryItems;
   final int intialIndex;
-  FullPhotoScreenArguments({this.key, this.galleryItems, this.intialIndex});
+  PhotoGalleryScreenArguments({this.key, this.galleryItems, this.intialIndex});
 }
 
 //SelectIconScreen arguments holder class
@@ -424,8 +426,8 @@ class SearchResultsScreenArguments {
 //StoryScreen arguments holder class
 class StoryScreenArguments {
   final Key key;
-  final List<StoryImageModel> stories;
-  StoryScreenArguments({this.key, this.stories});
+  final StoryModel currentStory;
+  StoryScreenArguments({this.key, this.currentStory});
 }
 
 //DescriptionScreen arguments holder class

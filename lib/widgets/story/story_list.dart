@@ -56,20 +56,20 @@ class _StoriesListState extends State<StoriesList>
                 height: widget.show ? context.heightPlusStatusbarPerc(.09) : 0,
                 width: context.widthPx,
                 child: ListView(
+                  reverse: true,
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   physics: BouncingScrollPhysics(),
                   children: [
                     if (store.showAddButton)
                       StoryAddButton(
-                        onTap: () =>
-                            ExtendedNavigator.of(context).pushStoryEditScreen(),
-                      ),
+                          onTap: () => ExtendedNavigator.of(context)
+                              .pushStoryEditScreen()),
                     ...store.getStories
                         .map((story) => StoryTile(
                             story: story,
                             onTap: () => ExtendedNavigator.of(context)
-                                .pushStoryScreen(stories: story.storyImages)))
+                                .pushStoryScreen(currentStory: story)))
                         .toList()
                   ],
                 ),

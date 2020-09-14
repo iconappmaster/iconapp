@@ -82,7 +82,7 @@ mixin _$StoryEditStore on _StoryEditStoreBase, Store {
       AsyncAction('_StoryEditStoreBase.publishStory');
 
   @override
-  Future<dynamic> publishStory() {
+  Future<Either<ServerError, StoryModel>> publishStory() {
     return _$publishStoryAsyncAction.run(() => super.publishStory());
   }
 

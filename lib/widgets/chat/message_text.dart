@@ -96,7 +96,7 @@ class _TextMessageState extends State<TextMessage> {
                   ),
                   ConstrainedBox(
                     constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width * .7),
+                        maxWidth: MediaQuery.of(context).size.width * .5),
                     child: SelectableText(
                       widget.message?.body ?? '',
                       style: chatMessageBody,

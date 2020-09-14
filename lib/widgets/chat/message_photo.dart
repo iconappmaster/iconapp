@@ -101,8 +101,8 @@ class _PhotoMessageState extends State<PhotoMessage> {
                   isMe: widget.isMe,
                   message: widget.message,
                   onTap: () => ExtendedNavigator.of(context).pushNamed(
-                    Routes.fullPhotoScreen,
-                    arguments: FullPhotoScreenArguments(
+                    Routes.photoGalleryScreen,
+                    arguments: PhotoGalleryScreenArguments(
                         galleryItems: photos,
                         intialIndex: photos.indexWhere(
                           (photo) => photo.id == widget.message.id,

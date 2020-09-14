@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 
 class NotificationsManager {
@@ -11,7 +12,8 @@ class NotificationsManager {
     final sp = sl<SharedPreferencesService>();
     _messaging.configure(
       onMessage: (Map<String, dynamic> message) async {
-        _printMsg(message);
+        final msg = MessageModel.fromJson(message);
+        print(msg);
       },
       onLaunch: (Map<String, dynamic> message) async {
         _printMsg(message);
@@ -20,6 +22,7 @@ class NotificationsManager {
         _printMsg(message);
       },
     );
+
     await _messaging.requestNotificationPermissions(
       const IosNotificationSettings(
         sound: true,

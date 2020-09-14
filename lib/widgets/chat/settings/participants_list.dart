@@ -46,6 +46,7 @@ class UnsubscribeButton extends StatelessWidget {
     final chat = sl<ChatStore>();
     final settings = sl<ChatSettingsStore>();
     return Container(
+      height: 50,
       margin: EdgeInsets.symmetric(horizontal: 21.3),
       width: double.infinity,
       child: OutlineButton(
@@ -53,7 +54,7 @@ class UnsubscribeButton extends StatelessWidget {
         color: deepRed,
         borderSide: BorderSide(
           width: .8,
-          color: deepRed,
+          color: cornflower,
         ),
         onPressed: () async {
           await chat.unsubscribe();
@@ -65,7 +66,7 @@ class UnsubscribeButton extends StatelessWidget {
         },
         child: HebrewText(
           'יציאה מהקבוצה',
-          style: flushbar.copyWith(color: scarlet),
+          style: flushbar.copyWith(color: white),
         ),
       ),
     );
@@ -92,7 +93,7 @@ class ParticipentAddButton extends StatelessWidget {
                       width: 45,
                       child: CircularProgressIndicator(backgroundColor: white)),
                 FloatingActionButton(
-                  heroTag: 'fab7',
+                    heroTag: 'fab7',
                     elevation: 2,
                     backgroundColor: cornflower,
                     onPressed: () async {
@@ -264,7 +265,7 @@ class ParticipantAvatar extends StatelessWidget {
 }
 
 class ParticipentsListTitle extends StatelessWidget {
-  final adminsLeft = sl<ChatStore>().conversation?.numberOfAdminsRemaining ?? 0;
+  final conversation = sl<ChatStore>().conversation;
 
   @override
   Widget build(BuildContext context) {
@@ -276,7 +277,9 @@ class ParticipentsListTitle extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           HebrewText('עורכי הקבוצה', style: chatSettings),
-          AdminsCounter(adminsLeft: adminsLeft)
+          if (conversation.userRole != UserRole.viewer)
+            AdminsCounter(
+                adminsLeft: conversation?.numberOfAdminsRemaining ?? 0)
         ],
       ),
     );
@@ -295,7 +298,7 @@ class AdminsCounter extends StatelessWidget {
           borderRadius: BorderRadius.circular(2.7),
           border: Border.all(color: cornflower, width: .7)),
       child: HebrewText(
-        'ניתן להוסיף עוד $adminsLeft עורכים',
+        'ניתן להוסיף עוד $adminsLeft מנהלים',
         style: settingsButton,
       ),
     );

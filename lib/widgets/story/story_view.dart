@@ -616,7 +616,7 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: Colors.black,
       child: Stack(
         children: <Widget>[
           _currentView,
@@ -645,75 +645,74 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
             ),
           ),
           Align(
-              alignment: Alignment.centerRight,
-              heightFactor: 1,
-              child: GestureDetector(
-                onTapDown: (details) {
-                  widget.controller.pause();
-                },
-                onTapCancel: () {
+            alignment: Alignment.centerRight,
+            heightFactor: 1,
+            child:
+
+                //  StoryGestureRightSide(
+                //   controller: widget.controller,
+                //   onVerticalSwipeComplete: widget.onVerticalSwipeComplete,
+                // )
+                GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTapDown: (details) {
+                widget.controller.pause();
+              },
+              onTapCancel: () {
+                widget.controller.play();
+              },
+              onTapUp: (details) {
+                // if debounce timed out (not active) then continue anim
+                if (_nextDebouncer?.isActive == false) {
                   widget.controller.play();
-                },
-                onTapUp: (details) {
-                  // if debounce timed out (not active) then continue anim
-                  if (_nextDebouncer?.isActive == false) {
-                    widget.controller.play();
-                  } else {
-                    widget.controller.next();
-                  }
-                },
-                onPanUpdate: (details) {
-                  if (widget.onHorizontalSwipe != null) {
-                    if (details.delta.dx > 0) {
-                      // swipe right
-                      widget.onHorizontalSwipe(SwipeDirection.right);
-                    } else {
-                      // swipe left
-                      widget.onHorizontalSwipe(SwipeDirection.left);
-                    }
-                  }
-                },
-                onVerticalDragStart: widget.onVerticalSwipeComplete == null
-                    ? null
-                    : (details) {
-                        widget.controller.pause();
-                      },
-                onVerticalDragCancel: widget.onVerticalSwipeComplete == null
-                    ? null
-                    : () {
-                        widget.controller.play();
-                      },
-                onVerticalDragUpdate: widget.onVerticalSwipeComplete == null
-                    ? null
-                    : (details) {
-                        if (verticalDragInfo == null) {
-                          verticalDragInfo = VerticalDragInfo();
-                        }
+                } else {
+                  widget.controller.next();
+                }
+              },
+              onVerticalDragStart: widget.onVerticalSwipeComplete == null
+                  ? null
+                  : (details) {
+                      widget.controller.pause();
+                    },
+              onVerticalDragCancel: widget.onVerticalSwipeComplete == null
+                  ? null
+                  : () {
+                      widget.controller.play();
+                    },
+              onVerticalDragUpdate: widget.onVerticalSwipeComplete == null
+                  ? null
+                  : (details) {
+                      if (verticalDragInfo == null) {
+                        verticalDragInfo = VerticalDragInfo();
+                      }
 
-                        verticalDragInfo.update(details.primaryDelta);
-                      },
-                onVerticalDragEnd: widget.onVerticalSwipeComplete == null
-                    ? null
-                    : (details) {
-                        widget.controller.play();
-                        // finish up drag cycle
-                        if (!verticalDragInfo.cancel &&
-                            widget.onVerticalSwipeComplete != null) {
-                          widget.onVerticalSwipeComplete(
-                              verticalDragInfo.direction);
-                        }
+                      verticalDragInfo.update(details.primaryDelta);
+                    },
+              onVerticalDragEnd: widget.onVerticalSwipeComplete == null
+                  ? null
+                  : (details) {
+                      widget.controller.play();
+                      // finish up drag cycle
+                      if (!verticalDragInfo.cancel &&
+                          widget.onVerticalSwipeComplete != null) {
+                        widget.onVerticalSwipeComplete(
+                            verticalDragInfo.direction);
+                      }
 
-                        verticalDragInfo = null;
-                      },
-              )),
+                      verticalDragInfo = null;
+                    },
+            ),
+          ),
           Align(
             alignment: Alignment.centerLeft,
             heightFactor: 1,
             child: SizedBox(
-                child: GestureDetector(onTap: () {
-                  widget.controller.previous();
-                }),
-                width: 70),
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => widget.controller.previous(),
+              ),
+              width: 70,
+            ),
           ),
         ],
       ),
@@ -870,4 +869,94 @@ class ContrastHelper {
     return luminance(rgb2[0], rgb2[1], rgb2[2]) /
         luminance(rgb1[0], rgb1[1], rgb1[2]);
   }
+}
+
+class StoryGestureRightSide extends StatefulWidget {
+  final StoryController controller;
+
+  /// Callback for when a vertical swipe gesture is detected. If you do not
+  /// want to listen to such event, do not provide it. For instance,
+  /// for inline stories inside ListViews, it is preferrable to not to
+  /// provide this callback so as to enable scroll events on the list view.
+  final Function(Direction) onVerticalSwipeComplete;
+
+  const StoryGestureRightSide({
+    Key key,
+    this.controller,
+    this.onVerticalSwipeComplete,
+  }) : super(key: key);
+
+  @override
+  _StoryGestureRightSideState createState() => _StoryGestureRightSideState();
+}
+
+class _StoryGestureRightSideState extends State<StoryGestureRightSide> {
+  Timer _nextDebouncer;
+  VerticalDragInfo verticalDragInfo;
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTapDown: (details) {
+        widget.controller.pause();
+      },
+      onTapCancel: () {
+        widget.controller.play();
+      },
+      onTapUp: (details) {
+        // if debounce timed out (not active) then continue anim
+        if (_nextDebouncer?.isActive == false) {
+          widget.controller.play();
+        } else {
+          widget.controller.next();
+        }
+      },
+      onVerticalDragStart: widget.onVerticalSwipeComplete == null
+          ? null
+          : (details) {
+              widget.controller.pause();
+            },
+      onVerticalDragCancel: widget.onVerticalSwipeComplete == null
+          ? null
+          : () {
+              widget.controller.play();
+            },
+      onVerticalDragUpdate: widget.onVerticalSwipeComplete == null
+          ? null
+          : (details) {
+              if (verticalDragInfo == null) {
+                verticalDragInfo = VerticalDragInfo();
+              }
+
+              verticalDragInfo.update(details.primaryDelta);
+            },
+      onVerticalDragEnd: widget.onVerticalSwipeComplete == null
+          ? null
+          : (details) {
+              widget.controller.play();
+              // finish up drag cycle
+              if (!verticalDragInfo.cancel &&
+                  widget.onVerticalSwipeComplete != null) {
+                widget.onVerticalSwipeComplete(verticalDragInfo.direction);
+              }
+
+              verticalDragInfo = null;
+            },
+    );
+  }
+
+  // void _clearDebouncer() {
+  //   _nextDebouncer?.cancel();
+  //   _nextDebouncer = null;
+  // }
+
+  // void _removeNextHold() {
+  //   _nextDebouncer?.cancel();
+  //   _nextDebouncer = null;
+  // }
+
+  // void _holdNext() {
+  //   _nextDebouncer?.cancel();
+  //   _nextDebouncer = Timer(Duration(milliseconds: 500), () {});
+  // }
 }

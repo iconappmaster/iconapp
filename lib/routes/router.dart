@@ -31,7 +31,7 @@ import 'package:iconapp/screens/story_screen.dart';
     MaterialRoute(page: ChatScreen),
     CupertinoRoute(page: ChatSettingsScreen, fullscreenDialog: true),
     MaterialRoute(page: VideoScreen),
-    MaterialRoute(page: FullPhotoScreen),
+    MaterialRoute(page: PhotoGalleryScreen),
     CupertinoRoute(page: SelectIconScreen, fullscreenDialog: true),
     CupertinoRoute(page: CreateCategoryScreen),
     MaterialRoute(page: EditConversation),

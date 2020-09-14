@@ -7,11 +7,13 @@ part 'story_model.g.dart';
 
 @JsonSerializable()
 class StoryModel {
+  final int id;
   final bool isNew;
   final UserModel user;
   final List<StoryImageModel> storyImages;
 
   StoryModel({
+    @required this.id,
     @required this.isNew,
     @required this.user,
     @required this.storyImages,

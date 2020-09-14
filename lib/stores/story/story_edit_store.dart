@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/data/models/story_model.dart';
 import 'package:iconapp/stores/story/story_store.dart';
@@ -44,7 +45,6 @@ abstract class _StoryEditStoreBase with Store {
   @computed
   bool get canPublish => _storiesToPublish.isNotEmpty;
 
-  
   @action
   Future addPhotoMedia(ImageSource source) async {
     try {
@@ -84,16 +84,19 @@ abstract class _StoryEditStoreBase with Store {
   }
 
   @action
-  Future publishStory() async {
+  Future<Either<ServerError, StoryModel>> publishStory() async {
     try {
       final story = StoryModel(
+          id: DateTime.now().millisecondsSinceEpoch,
           isNew: true,
           user: _user.getUser,
           storyImages: _storiesToPublish.toList());
-      await _repository.publishStory(story);
+      final storyRes = await _repository.publishStory(story);
       sl<StoryStore>().refreshStories();
+      return right(storyRes);
     } on ServerError catch (e) {
       Crash.report(e.message);
+      return left(e);
     }
   }
 

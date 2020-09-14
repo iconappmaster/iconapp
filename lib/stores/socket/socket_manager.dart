@@ -22,7 +22,6 @@ class Socket {
 
   Channel _channel;
 
-
   void init() async {
     try {
       await Pusher.init(PUSHER_KEY, PusherOptions(cluster: "us2"),
@@ -50,9 +49,7 @@ class Socket {
       final message = MessageModel.fromJson(json);
 
       if (message != null && !user.isMe(message.sender.id)) {
-        messageObserver.add(message.copyWith(
-          likeCounts: LikesCount.initial(),
-        ));
+        messageObserver.add(message.copyWith(likeCounts: LikesCount.initial()));
       }
     });
   }
@@ -66,7 +63,6 @@ class Socket {
     _channel.bind(removedLike,
         (event) => _proccessLikeEventToMessage(removeLikeObserver, event));
   }
-
 
   // Helper
   void _proccessLikeEventToMessage(

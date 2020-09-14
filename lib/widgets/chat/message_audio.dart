@@ -41,11 +41,9 @@ class VoiceMessage extends StatefulWidget {
 class _VoiceMessageState extends State<VoiceMessage> {
   PlayerMode mode;
   MessageModel message;
-
   AudioPlayer _audioPlayer;
   Duration _duration;
   Duration _position;
-
   PlayerState _playerState = PlayerState.stopped;
   StreamSubscription _durationSubscription;
   StreamSubscription _positionSubscription;
@@ -66,12 +64,19 @@ class _VoiceMessageState extends State<VoiceMessage> {
   @override
   void initState() {
     super.initState();
-
     _initSlidable();
     _initAudioPlayer();
   }
 
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   _initSlidable();
+  //   _initAudioPlayer();
+  // }
+
   void _initSlidable() {
+    // init reply abilities
     _controller = SlidableController(
       onSlideAnimationChanged: (s) => print(s), // do not remove
       onSlideIsOpenChanged: (isOpen) {
@@ -148,32 +153,38 @@ class _VoiceMessageState extends State<VoiceMessage> {
                       ),
                     ),
                     widget.message.status == MessageStatus.pending
-                        ? CircularProgressIndicator()
+                        ? CircularProgressIndicator(
+                            strokeWidth: 1,
+                            backgroundColor: Colors.transparent,
+                            valueColor: AlwaysStoppedAnimation<Color>(white))
                         : SizedBox(
                             height: 34,
                             width: 34,
                             child: FloatingActionButton(
-                                heroTag: widget.message.id.toString(),
-                                onPressed: () =>
-                                    _isPlaying ? _pause() : _play(),
-                                elevation: 0,
-                                backgroundColor: white,
-                                child: AnimatedSwitcher(
-                                    duration: Duration(milliseconds: 250),
-                                    transitionBuilder: (child, animation) =>
-                                        ScaleTransition(
-                                            scale: animation, child: child),
-                                    child: _isPlaying
-                                        ? SvgPicture.asset(
-                                            'assets/images/pause.svg',
-                                            key: Key('pause_button'),
-                                            height: 12,
-                                            width: 12)
-                                        : SvgPicture.asset(
-                                            'assets/images/play.svg',
-                                            height: 12,
-                                            width: 12,
-                                            key: Key('play_button'))))),
+                              heroTag: widget.message.id.toString(),
+                              onPressed: () => _isPlaying ? _pause() : _play(),
+                              elevation: 0,
+                              backgroundColor: white,
+                              child: AnimatedSwitcher(
+                                duration: Duration(milliseconds: 250),
+                                transitionBuilder: (child, animation) =>
+                                    ScaleTransition(
+                                        scale: animation, child: child),
+                                child: _isPlaying
+                                    ? SvgPicture.asset(
+                                        'assets/images/pause.svg',
+                                        key: Key('pause_button'),
+                                        height: 12,
+                                        width: 12)
+                                    : SvgPicture.asset(
+                                        'assets/images/play.svg',
+                                        height: 12,
+                                        width: 12,
+                                        key: Key('play_button'),
+                                      ),
+                              ),
+                            ),
+                          ),
                   ],
                 ),
                 Visibility(
@@ -224,17 +235,17 @@ class _VoiceMessageState extends State<VoiceMessage> {
         });
     });
 
-    _audioPlayer.onPlayerStateChanged.listen((state) {
-      if (!mounted) return;
-      setState(() {
-        // _audioPlayerState = state;
-      });
-    });
+    // _audioPlayer.onPlayerStateChanged.listen((state) {
+    //   if (!mounted) return;
+    //   setState(() {
+    //     // _audioPlayerState = state;
+    //   });
+    // });
 
-    _audioPlayer.onNotificationPlayerStateChanged.listen((state) {
-      if (!mounted) return;
-      // setState(() => _audioPlayerState = state);
-    });
+    // _audioPlayer.onNotificationPlayerStateChanged.listen((state) {
+    //   if (!mounted) return;
+    //   // setState(() => _audioPlayerState = state);
+    // });
   }
 
   Future<int> _play() async {
@@ -247,7 +258,8 @@ class _VoiceMessageState extends State<VoiceMessage> {
 
     final result =
         await _audioPlayer.play(this.message.body, position: playPosition);
-    if (result == 1) setState(() => _playerState = PlayerState.playing);
+    if (result == 1 && mounted)
+      setState(() => _playerState = PlayerState.playing);
 
     // default playback rate is 1.0
     // this should be called after _audioPlayer.play() or _audioPlayer.resume()
@@ -259,11 +271,12 @@ class _VoiceMessageState extends State<VoiceMessage> {
 
   Future<int> _pause() async {
     final result = await _audioPlayer.pause();
-    if (result == 1) setState(() => _playerState = PlayerState.paused);
+    if (result == 1 && mounted)
+      setState(() => _playerState = PlayerState.paused);
     return result;
   }
 
   void _onComplete() {
-    setState(() => _playerState = PlayerState.stopped);
+    if (mounted) setState(() => _playerState = PlayerState.stopped);
   }
 }

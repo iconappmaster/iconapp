@@ -9,23 +9,26 @@ class SystemMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
           Material(
-            elevation: 4,
+            elevation: 2,
             color: Colors.transparent,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-              height: 35,
+              constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width * .8),
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
-                  color: blueberry2, borderRadius: BorderRadius.circular(3)),
+                  color: blueberry2, borderRadius: BorderRadius.circular(3.7)),
               child: Center(
                 child: HebrewText(title,
-                    style: systemMessage, textAlign: TextAlign.center),
+                    maxLines: 2,
+                    style: systemMessage,
+                    textAlign: TextAlign.center),
               ),
             ),
           ),

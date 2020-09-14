@@ -24,6 +24,7 @@ class NextButton extends StatelessWidget {
     return AnimatedContainer(
       duration: Duration(milliseconds: 250),
       height: height ?? context.heightPlusStatusbarPerc(.035),
+      width: MediaQuery.of(context).size.width * .9,
       margin: EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
           color: enabled ? cornflower : cornflower.withOpacity(.3),

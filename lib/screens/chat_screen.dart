@@ -101,7 +101,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     mode: story.mode,
                     show: !upDirection),
               ),
-              _showWelcomeDialog(chat.conversation.name),
+              _showWelcomeDialog(chat.conversation?.name ?? ''),
             ],
           ),
         ),

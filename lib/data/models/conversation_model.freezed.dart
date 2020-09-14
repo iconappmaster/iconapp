@@ -27,7 +27,7 @@ class _$ConversationTearOff {
       String name,
       PhotoModel photo,
       MessageModel lastMessage,
-      int unreadMessageCount,
+      int numberOfUnreadMessages,
       List<UserModel> users,
       List<MessageModel> messages,
       bool isSubscribed,
@@ -46,7 +46,7 @@ class _$ConversationTearOff {
       name: name,
       photo: photo,
       lastMessage: lastMessage,
-      unreadMessageCount: unreadMessageCount,
+      numberOfUnreadMessages: numberOfUnreadMessages,
       users: users,
       messages: messages,
       isSubscribed: isSubscribed,
@@ -72,7 +72,7 @@ mixin _$Conversation {
   String get name;
   PhotoModel get photo;
   MessageModel get lastMessage;
-  int get unreadMessageCount;
+  int get numberOfUnreadMessages;
   List<UserModel> get users;
   List<MessageModel> get messages;
   bool get isSubscribed;
@@ -100,7 +100,7 @@ abstract class $ConversationCopyWith<$Res> {
       String name,
       PhotoModel photo,
       MessageModel lastMessage,
-      int unreadMessageCount,
+      int numberOfUnreadMessages,
       List<UserModel> users,
       List<MessageModel> messages,
       bool isSubscribed,
@@ -134,7 +134,7 @@ class _$ConversationCopyWithImpl<$Res> implements $ConversationCopyWith<$Res> {
     Object name = freezed,
     Object photo = freezed,
     Object lastMessage = freezed,
-    Object unreadMessageCount = freezed,
+    Object numberOfUnreadMessages = freezed,
     Object users = freezed,
     Object messages = freezed,
     Object isSubscribed = freezed,
@@ -161,9 +161,9 @@ class _$ConversationCopyWithImpl<$Res> implements $ConversationCopyWith<$Res> {
       lastMessage: lastMessage == freezed
           ? _value.lastMessage
           : lastMessage as MessageModel,
-      unreadMessageCount: unreadMessageCount == freezed
-          ? _value.unreadMessageCount
-          : unreadMessageCount as int,
+      numberOfUnreadMessages: numberOfUnreadMessages == freezed
+          ? _value.numberOfUnreadMessages
+          : numberOfUnreadMessages as int,
       users: users == freezed ? _value.users : users as List<UserModel>,
       messages: messages == freezed
           ? _value.messages
@@ -241,7 +241,7 @@ abstract class _$ConversationCopyWith<$Res>
       String name,
       PhotoModel photo,
       MessageModel lastMessage,
-      int unreadMessageCount,
+      int numberOfUnreadMessages,
       List<UserModel> users,
       List<MessageModel> messages,
       bool isSubscribed,
@@ -281,7 +281,7 @@ class __$ConversationCopyWithImpl<$Res> extends _$ConversationCopyWithImpl<$Res>
     Object name = freezed,
     Object photo = freezed,
     Object lastMessage = freezed,
-    Object unreadMessageCount = freezed,
+    Object numberOfUnreadMessages = freezed,
     Object users = freezed,
     Object messages = freezed,
     Object isSubscribed = freezed,
@@ -308,9 +308,9 @@ class __$ConversationCopyWithImpl<$Res> extends _$ConversationCopyWithImpl<$Res>
       lastMessage: lastMessage == freezed
           ? _value.lastMessage
           : lastMessage as MessageModel,
-      unreadMessageCount: unreadMessageCount == freezed
-          ? _value.unreadMessageCount
-          : unreadMessageCount as int,
+      numberOfUnreadMessages: numberOfUnreadMessages == freezed
+          ? _value.numberOfUnreadMessages
+          : numberOfUnreadMessages as int,
       users: users == freezed ? _value.users : users as List<UserModel>,
       messages: messages == freezed
           ? _value.messages
@@ -344,7 +344,7 @@ class _$_Conversation implements _Conversation {
       this.name,
       this.photo,
       this.lastMessage,
-      this.unreadMessageCount,
+      this.numberOfUnreadMessages,
       this.users,
       this.messages,
       this.isSubscribed,
@@ -377,7 +377,7 @@ class _$_Conversation implements _Conversation {
   @override
   final MessageModel lastMessage;
   @override
-  final int unreadMessageCount;
+  final int numberOfUnreadMessages;
   @override
   final List<UserModel> users;
   @override
@@ -395,7 +395,7 @@ class _$_Conversation implements _Conversation {
 
   @override
   String toString() {
-    return 'Conversation(id: $id, backgroundColor: $backgroundColor, backgroundPhoto: $backgroundPhoto, categoryId: $categoryId, createdBy: $createdBy, isPinned: $isPinned, createdAt: $createdAt, name: $name, photo: $photo, lastMessage: $lastMessage, unreadMessageCount: $unreadMessageCount, users: $users, messages: $messages, isSubscribed: $isSubscribed, numberOfAdminsRemaining: $numberOfAdminsRemaining, numberOfParticipants: $numberOfParticipants, areNotificationsEnabled: $areNotificationsEnabled, userRole: $userRole)';
+    return 'Conversation(id: $id, backgroundColor: $backgroundColor, backgroundPhoto: $backgroundPhoto, categoryId: $categoryId, createdBy: $createdBy, isPinned: $isPinned, createdAt: $createdAt, name: $name, photo: $photo, lastMessage: $lastMessage, numberOfUnreadMessages: $numberOfUnreadMessages, users: $users, messages: $messages, isSubscribed: $isSubscribed, numberOfAdminsRemaining: $numberOfAdminsRemaining, numberOfParticipants: $numberOfParticipants, areNotificationsEnabled: $areNotificationsEnabled, userRole: $userRole)';
   }
 
   @override
@@ -429,9 +429,9 @@ class _$_Conversation implements _Conversation {
             (identical(other.lastMessage, lastMessage) ||
                 const DeepCollectionEquality()
                     .equals(other.lastMessage, lastMessage)) &&
-            (identical(other.unreadMessageCount, unreadMessageCount) ||
-                const DeepCollectionEquality()
-                    .equals(other.unreadMessageCount, unreadMessageCount)) &&
+            (identical(other.numberOfUnreadMessages, numberOfUnreadMessages) ||
+                const DeepCollectionEquality().equals(
+                    other.numberOfUnreadMessages, numberOfUnreadMessages)) &&
             (identical(other.users, users) ||
                 const DeepCollectionEquality().equals(other.users, users)) &&
             (identical(other.messages, messages) ||
@@ -469,7 +469,7 @@ class _$_Conversation implements _Conversation {
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(photo) ^
       const DeepCollectionEquality().hash(lastMessage) ^
-      const DeepCollectionEquality().hash(unreadMessageCount) ^
+      const DeepCollectionEquality().hash(numberOfUnreadMessages) ^
       const DeepCollectionEquality().hash(users) ^
       const DeepCollectionEquality().hash(messages) ^
       const DeepCollectionEquality().hash(isSubscribed) ^
@@ -500,7 +500,7 @@ abstract class _Conversation implements Conversation {
       String name,
       PhotoModel photo,
       MessageModel lastMessage,
-      int unreadMessageCount,
+      int numberOfUnreadMessages,
       List<UserModel> users,
       List<MessageModel> messages,
       bool isSubscribed,
@@ -533,7 +533,7 @@ abstract class _Conversation implements Conversation {
   @override
   MessageModel get lastMessage;
   @override
-  int get unreadMessageCount;
+  int get numberOfUnreadMessages;
   @override
   List<UserModel> get users;
   @override

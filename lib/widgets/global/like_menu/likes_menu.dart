@@ -123,7 +123,7 @@ class _LikeMenuState extends State<LikeMenu> {
                           Tween(begin: 0.0, end: 1.0).animate(animation);
                       return FadeTransition(
                         opacity: animation,
-                        child: FocusedMenuDetails(
+                        child: LikeMenuDetails(
                           isMe: widget.isMe,
                           itemExtent: widget.menuItemExtent,
                           menuBoxDecoration: widget.menuBoxDecoration,
@@ -148,7 +148,7 @@ class _LikeMenuState extends State<LikeMenu> {
   }
 }
 
-class FocusedMenuDetails extends StatelessWidget {
+class LikeMenuDetails extends StatelessWidget {
   final List<LikeModel> menuItems;
   final BoxDecoration menuBoxDecoration;
   final Offset childOffset;
@@ -163,7 +163,7 @@ class FocusedMenuDetails extends StatelessWidget {
   final double menuOffset;
   final bool isMe;
 
-  const FocusedMenuDetails({
+  const LikeMenuDetails({
     Key key,
     @required this.menuItems,
     @required this.child,
@@ -193,8 +193,8 @@ class FocusedMenuDetails extends StatelessWidget {
     final menuHeight = listHeight < maxMenuHeight ? listHeight : maxMenuHeight;
 
     final leftOffset = (childOffset.dx + maxMenuWidth) < size.width
-        ? childOffset.dx + (isMe ? 20 : size.width - 125)
-        : (childOffset.dx - maxMenuWidth + childSize.width) - 100;
+        ? childOffset.dx + (isMe ? 15 : size.width - 145)
+        : (childOffset.dx - maxMenuWidth + childSize.width) - 90;
 
     final topOffset = (childOffset.dy - menuHeight - menuOffset);
 
@@ -250,7 +250,10 @@ class FocusedMenuDetails extends StatelessWidget {
                                 color: item.isSelected
                                     ? cornflower
                                     : Colors.transparent,
-                                borderRadius: BorderRadius.circular(23)),
+                                borderRadius: getBorderRadius(item.key)
+
+                                // BorderRadius.circular(23),
+                                ),
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: Container(
@@ -261,8 +264,8 @@ class FocusedMenuDetails extends StatelessWidget {
                                   },
                                   child: SvgPicture.asset(
                                     item.asset,
-                                    height: 22,
-                                    width: 22,
+                                    height: 28,
+                                    width: 28,
                                   ),
                                 ),
                               ),
@@ -291,5 +294,30 @@ class FocusedMenuDetails extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  BorderRadius getBorderRadius(String key) {
+    final round = Radius.circular(23);
+    final flat = Radius.circular(0);
+    switch (key) {
+      case likeOneKey:
+        return BorderRadius.only(
+            bottomLeft: flat,
+            topLeft: flat,
+            topRight: round,
+            bottomRight: round);
+      case likeTwoKey:
+        return BorderRadius.only(
+            bottomLeft: flat, topLeft: flat, topRight: flat, bottomRight: flat);
+      case likeThreeKey:
+        return BorderRadius.only(
+            bottomLeft: round,
+            topLeft: round,
+            topRight: flat,
+            bottomRight: flat);
+      default:
+        return BorderRadius.only(
+            bottomLeft: flat, topLeft: flat, topRight: flat, bottomRight: flat);
+    }
   }
 }

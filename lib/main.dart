@@ -1,8 +1,8 @@
+import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
-import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/core/notifications/notifications.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/socket/socket_manager.dart';
@@ -10,6 +10,7 @@ import 'package:logger/logger.dart';
 import 'data/sources/local/shared_preferences.dart';
 import 'generated/codegen_loader.g.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 final logger = Logger();
 
@@ -63,8 +64,6 @@ class _MyAppState extends State<MyApp> {
 
     // Pass all uncaught errors from the framework to Crashlytics.
     FlutterError.onError = Crashlytics.instance.recordFlutterError;
-
-    Crash.report('test');
   }
 
   @override
@@ -75,6 +74,10 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    if (Platform.isIOS) {
+      FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
+    }
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       localizationsDelegates: context.localizationDelegates,
