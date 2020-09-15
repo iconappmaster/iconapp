@@ -6,6 +6,7 @@ import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/home/home_store.dart';
+import 'package:iconapp/stores/socket/socket_manager.dart';
 import 'package:iconapp/stores/story/story_store.dart';
 import 'package:iconapp/widgets/bottomsheet/bs_bar.dart';
 import 'package:iconapp/widgets/bottomsheet/bs_nested_modal.dart';
@@ -32,6 +33,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+     
+
     _controller = ScrollController()
       ..addListener(() {
         upDirection =
@@ -40,6 +43,13 @@ class _HomeScreenState extends State<HomeScreen> {
         flag = upDirection;
       });
     super.initState();
+  }
+
+  Future initSocket() async {
+    final socket = sl<Socket>();
+    await socket.subscribeChannel(homeChannelName);
+
+    socket..bindHomeChangeEvent()..bindHomeChangeEvent();
   }
 
   @override
@@ -125,5 +135,11 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context, scrollController) =>
           NestedSheetModal(scrollController: scrollController),
     );
+  }
+
+  @override
+  void dispose() {
+    sl<HomeStore>().dispose();
+    super.dispose();
   }
 }

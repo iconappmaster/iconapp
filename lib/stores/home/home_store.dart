@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:dartz/dartz.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
+import 'package:iconapp/data/models/story_model.dart';
 import 'package:iconapp/data/repositories/home_repository.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/domain/core/errors.dart';
@@ -14,7 +17,9 @@ abstract class _HomeStoreBase with Store {
   HomeRepository _repository;
   UserStore user;
   SharedPreferencesService _preferencesService;
-
+  StreamSubscription<Conversation> _conversationChangedSubscription;
+  StreamSubscription<StoryModel> _storyChangeSubscription;
+  
   _HomeStoreBase() {
     _preferencesService = sl<SharedPreferencesService>();
     _repository = sl<HomeRepository>();
@@ -75,5 +80,28 @@ abstract class _HomeStoreBase with Store {
   Future saveWelcomeSeen() async {
     await _preferencesService.setBool(StorageKey.welcomeDialog, false);
     _showWelcomeDialog = false;
+  }
+
+   @action
+  void watchConversation() {
+    _conversationChangedSubscription =
+      _repository.watchConversation().listen((message) {
+        
+      }
+    );
+  }
+
+   @action
+  void watchStories() {
+    _storyChangeSubscription =  
+      _repository.watchStories().listen((message) {
+        
+      }
+    );
+  }
+
+  Future dispose() {
+    _storyChangeSubscription?.cancel();
+    _conversationChangedSubscription?.cancel();
   }
 }

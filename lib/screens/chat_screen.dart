@@ -63,12 +63,12 @@ class _ChatScreenState extends State<ChatScreen> {
   Future initSocket() async {
     final socket = sl<Socket>();
 
-    await socket.subscribeChannel(widget.conversation.id);
+    await socket.subscribeChannel(widget.conversation.id.toString());
 
     socket
-      ..bindMessagesChannel()
-      ..bindAddLikeChannel()
-      ..bindRemoveLikeChannel();
+      ..bindMessagesEvent()
+      ..bindAddLikeEvent()
+      ..bindRemoveLikeEvent();
   }
 
   @override
