@@ -67,7 +67,7 @@ void initLocator() {
   // Home
   sl.registerLazySingleton<HomeStore>(() => HomeStore());
   sl.registerLazySingleton<HomeRepository>(
-      () => HomeRepositoryImpl(restClient: sl(), socket: sl()));
+      () => HomeRepositoryImpl(restClient: sl(), socket: sl(), cache: sl()));
 
   // Onboarding
   sl.registerLazySingleton<OnboardingStore>(() => OnboardingStore());
@@ -108,16 +108,22 @@ void initLocator() {
   // Story
   sl.registerLazySingleton<StoryStore>(() => StoryStore());
   sl.registerLazySingleton<StoryEditStore>(() => StoryEditStore());
-  sl.registerLazySingleton<StoryRepository>(() => StoryRepositoryImpl(rest: sl()));
+  sl.registerLazySingleton<StoryRepository>(
+    () => StoryRepositoryImpl(rest: sl(), socket: sl()),
+  );
 
   // Bus
   sl.registerLazySingleton<Bus>(() => Bus());
 
   // Notifications
-  sl.registerLazySingleton<NotificationsManager>(() => NotificationsManager());
+  sl.registerLazySingleton<NotificationsManager>(
+    () => NotificationsManager(),
+  );
 
   // Device
   sl.registerLazySingleton<DeviceInfo>(() => DeviceInfo());
+  
   sl.registerLazySingleton<DeviceInfoRepository>(
-      () => DeviceInfoRepositoryImpl(restClient: sl()));
+    () => DeviceInfoRepositoryImpl(restClient: sl()),
+  );
 }

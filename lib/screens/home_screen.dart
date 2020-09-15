@@ -27,14 +27,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  GlobalKey<ScaffoldState> _scaffoldKey;
   ScrollController _controller;
   bool upDirection = true, flag = true;
-
+  HomeStore _store;
+  
   @override
   void initState() {
-     
+    _scaffoldKey = GlobalKey<ScaffoldState>();
+    _store = sl<HomeStore>();
 
+    initSocket();
     _controller = ScrollController()
       ..addListener(() {
         upDirection =
@@ -46,16 +49,19 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future initSocket() async {
+    _store.watchConversation();
+
     final socket = sl<Socket>();
     await socket.subscribeChannel(homeChannelName);
 
-    socket..bindHomeChangeEvent()..bindHomeChangeEvent();
+    socket
+      ..bindHomeChangeEvent()
+      ..bindStoryChangeEvent();
   }
 
   @override
   Widget build(BuildContext context) {
     final stories = sl<StoryStore>();
-    final home = sl<HomeStore>();
 
     return Scaffold(
       key: _scaffoldKey,
@@ -81,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 conversation: conversation));
                         // When return from conversation update the home stories
                         stories.getHomeStories();
-                        home.getConversations();
+                        _store.getConversations();
                       },
                     ),
                     Positioned(
@@ -105,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               showIconsSelected: false,
                               onTap: () => openBottomSheet(context))),
                     ),
-                    showWelcomeDialog(home),
+                    showWelcomeDialog(_store),
                   ],
                 ),
               ),
@@ -139,7 +145,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
-    sl<HomeStore>().dispose();
+    _store?.dispose();
+    sl<StoryStore>().dispose();
     super.dispose();
   }
 }

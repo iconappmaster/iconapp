@@ -115,6 +115,17 @@ mixin _$StoryStore on _StoryStoreBase, Store {
   }
 
   @override
+  void watchStories() {
+    final _$actionInfo = _$_StoryStoreBaseActionController.startAction(
+        name: '_StoryStoreBase.watchStories');
+    try {
+      return super.watchStories();
+    } finally {
+      _$_StoryStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 mode: ${mode},

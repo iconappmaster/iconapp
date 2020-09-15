@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:dartz/dartz.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
-import 'package:iconapp/data/models/story_model.dart';
 import 'package:iconapp/data/repositories/home_repository.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/domain/core/errors.dart';
@@ -18,8 +17,7 @@ abstract class _HomeStoreBase with Store {
   UserStore user;
   SharedPreferencesService _preferencesService;
   StreamSubscription<Conversation> _conversationChangedSubscription;
-  StreamSubscription<StoryModel> _storyChangeSubscription;
-  
+
   _HomeStoreBase() {
     _preferencesService = sl<SharedPreferencesService>();
     _repository = sl<HomeRepository>();
@@ -56,11 +54,21 @@ abstract class _HomeStoreBase with Store {
   }
 
   @action
+  Future getCachedHome() async {
+    final cached = await _repository.getCachedHome();
+    if (cached != null) {
+      updateUi(cached);
+    }
+  }
+
+  @action
   Future<Either<ServerError, List<Conversation>>> getConversations() async {
     try {
       _loading = true;
+      await getCachedHome();
       final conversations = await _repository.getHome();
-      setConversations(conversations);
+      _repository.cacheHome(conversations);
+      updateUi(conversations);
 
       return right(conversations);
     } on ServerError catch (e) {
@@ -71,7 +79,8 @@ abstract class _HomeStoreBase with Store {
   }
 
   @action
-  void setConversations(List<Conversation> conversations) {
+  void updateUi(List<Conversation> conversations) {
+    
     if (conversations.isNotEmpty) _conversations.clear();
     _conversations.addAll(conversations);
   }
@@ -82,26 +91,24 @@ abstract class _HomeStoreBase with Store {
     _showWelcomeDialog = false;
   }
 
-   @action
+  @action
   void watchConversation() {
     _conversationChangedSubscription =
-      _repository.watchConversation().listen((message) {
-        
+        _repository.watchConversation().listen((conversation) {
+      final conversationIndex =
+          _conversations.indexWhere((c) => c.id == conversation.id);
+
+      if (conversationIndex != -1) {
+        // stroy already exists, replace it.
+        _conversations[conversationIndex] = conversation;
+      } else {
+        // add a new story
+        _conversations.add(conversation);
       }
-    );
+    });
   }
 
-   @action
-  void watchStories() {
-    _storyChangeSubscription =  
-      _repository.watchStories().listen((message) {
-        
-      }
-    );
-  }
-
-  Future dispose() {
-    _storyChangeSubscription?.cancel();
+  void dispose() async {
     _conversationChangedSubscription?.cancel();
   }
 }

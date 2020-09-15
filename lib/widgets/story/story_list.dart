@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:iconapp/core/bouncing.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/story_model.dart';
@@ -36,8 +37,7 @@ class StoriesList extends StatefulWidget {
   _StoriesListState createState() => _StoriesListState();
 }
 
-class _StoriesListState extends State<StoriesList>
-     {
+class _StoriesListState extends State<StoriesList> {
   @override
   Widget build(BuildContext context) {
     final store = sl<StoryStore>();
@@ -52,9 +52,10 @@ class _StoriesListState extends State<StoriesList>
             child: Opacity(
               opacity: .9,
               child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 8),
                 margin: widget.margin,
                 // height: widget.show ? 100 : 0,
-                height:  100,
+                height: 100,
                 width: context.widthPx,
                 child: ListView(
                   reverse: true,
@@ -67,10 +68,13 @@ class _StoriesListState extends State<StoriesList>
                           onTap: () => ExtendedNavigator.of(context)
                               .pushStoryEditScreen()),
                     ...store.getStories
-                        .map((story) => StoryTile(
+                        .map(
+                          (story) => StoryTile(
                             story: story,
                             onTap: () => ExtendedNavigator.of(context)
-                                .pushStoryScreen(currentStory: story)))
+                                .pushStoryScreen(currentStory: story),
+                          ),
+                        )
                         .toList()
                   ],
                 ),
@@ -94,8 +98,8 @@ class StoryAddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = sl<UserStore>();
-    return GestureDetector(
-      onTap: onTap,
+    return BouncingWidget(
+      onPressed: onTap,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
@@ -144,11 +148,10 @@ class StoryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
+    return BouncingWidget(
+      onPressed: onTap,
       child: Column(
-         mainAxisAlignment: MainAxisAlignment.center,
-      
+        mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Padding(

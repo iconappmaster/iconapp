@@ -20,6 +20,7 @@ class StoryStore = _StoryStoreBase with _$StoryStore;
 abstract class _StoryStoreBase with Store {
   StoryRepository _repository;
   UserStore _user;
+  StreamSubscription<StoryModel> _storyChangeSubscription;
 
   _StoryStoreBase() {
     _repository = sl<StoryRepository>();
@@ -73,6 +74,21 @@ abstract class _StoryStoreBase with Store {
   }
 
   @action
+  void watchStories() {
+    _storyChangeSubscription = _repository.watchStories().listen((story) {
+      final storyIndex = _stories.indexWhere((s) => s.id == story.id);
+
+      if (storyIndex != -1) {
+        // stroy already exists, replace it.
+        _stories[storyIndex] = story;
+      } else {
+        // add a new story
+        _stories.add(story);
+      }
+    });
+  }
+
+  @action
   Future getConversationsStories(int conversationId) async {
     _mode = StoryMode.conversation;
     final stories = await _repository.getConversationsStories(conversationId);
@@ -92,5 +108,8 @@ abstract class _StoryStoreBase with Store {
         break;
     }
   }
-}
 
+  void dispose() {
+    _storyChangeSubscription?.cancel();
+  }
+}

@@ -77,6 +77,14 @@ mixin _$HomeStore on _HomeStoreBase, Store {
     });
   }
 
+  final _$getCachedHomeAsyncAction =
+      AsyncAction('_HomeStoreBase.getCachedHome');
+
+  @override
+  Future<dynamic> getCachedHome() {
+    return _$getCachedHomeAsyncAction.run(() => super.getCachedHome());
+  }
+
   final _$getConversationsAsyncAction =
       AsyncAction('_HomeStoreBase.getConversations');
 
@@ -108,11 +116,22 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   }
 
   @override
-  void setConversations(List<Conversation> conversations) {
+  void updateUi(List<Conversation> conversations) {
     final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
-        name: '_HomeStoreBase.setConversations');
+        name: '_HomeStoreBase.updateUi');
     try {
-      return super.setConversations(conversations);
+      return super.updateUi(conversations);
+    } finally {
+      _$_HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void watchConversation() {
+    final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
+        name: '_HomeStoreBase.watchConversation');
+    try {
+      return super.watchConversation();
     } finally {
       _$_HomeStoreBaseActionController.endAction(_$actionInfo);
     }

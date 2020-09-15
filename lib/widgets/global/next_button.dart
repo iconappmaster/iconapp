@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iconapp/core/bouncing.dart';
 import 'package:iconapp/core/theme.dart';
 import '../../core/extensions/context_ext.dart';
 import 'hebrew_input_text.dart';
@@ -21,18 +22,18 @@ class NextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 250),
-      height: height ?? context.heightPlusStatusbarPerc(.035),
-      width: MediaQuery.of(context).size.width * .9,
-      margin: EdgeInsets.symmetric(horizontal: 20),
-      decoration: BoxDecoration(
-          color: enabled ? cornflower : cornflower.withOpacity(.3),
-          borderRadius: BorderRadius.circular(2.7)),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: enabled ? onClick : onError,
+    return BouncingWidget(
+      onPressed: enabled ? onClick : onError,
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 250),
+        height: height ?? context.heightPlusStatusbarPerc(.035),
+        width: MediaQuery.of(context).size.width * .9,
+        margin: EdgeInsets.symmetric(horizontal: 20),
+        decoration: BoxDecoration(
+            color: enabled ? cornflower : cornflower.withOpacity(.3),
+            borderRadius: BorderRadius.circular(2.7)),
+        child: Material(
+          color: Colors.transparent,
           child: Center(
             child: HebrewText(
               title ?? LocaleKeys.action_continue.tr(),

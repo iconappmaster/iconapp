@@ -1,20 +1,30 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
-import 'package:iconapp/data/models/story_model.dart';
+import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 import 'package:iconapp/stores/socket/socket_manager.dart';
 
 abstract class HomeRepository {
   Future<List<Conversation>> getHome();
-  Stream<StoryModel> watchStories();
+  Future<List<Conversation>> getCachedHome();
+  Future<bool> cacheHome(List<Conversation> conversation);
+
   Stream<Conversation> watchConversation();
 }
 
 class HomeRepositoryImpl implements HomeRepository {
   RestClient restClient;
   Socket socket;
+  final SharedPreferencesService cache;
 
-  HomeRepositoryImpl({@required this.restClient, @required this.socket});
+  HomeRepositoryImpl({
+    @required this.restClient,
+    @required this.socket,
+    @required this.cache,
+  });
+
   @override
   Future<List<Conversation>> getHome() async {
     return await restClient.getConversations();
@@ -22,11 +32,27 @@ class HomeRepositoryImpl implements HomeRepository {
 
   @override
   Stream<Conversation> watchConversation() {
-    return socket.conversationObserver;
+    return socket.homeConversationObserver;
   }
 
   @override
-  Stream<StoryModel> watchStories() {
-   return socket.storyObserver;
+  Future<List<Conversation>> getCachedHome() async {
+    if (cache.contains(StorageKey.home)) {
+      final cachedJson = await cache.getString(StorageKey.home);
+
+      List<Conversation> conversations = (json.decode(cachedJson) as List)
+          .map((i) => Conversation.fromJson(i))
+          .toList();
+
+      return conversations;
+    }
+
+    return null;
+  }
+
+  @override
+  Future<bool> cacheHome(List<Conversation> conversation) async {
+    final json = jsonEncode(conversation);
+    return await cache.setString(StorageKey.home, json);
   }
 }

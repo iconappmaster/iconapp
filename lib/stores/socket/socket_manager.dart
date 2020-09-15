@@ -28,7 +28,7 @@ class Socket {
   BehaviorSubject<MessageModel> addedLikeObserver = BehaviorSubject();
   BehaviorSubject<MessageModel> removeLikeObserver = BehaviorSubject();
   
-  BehaviorSubject<Conversation> conversationObserver = BehaviorSubject();
+  BehaviorSubject<Conversation> homeConversationObserver = BehaviorSubject();
   BehaviorSubject<StoryModel> storyObserver = BehaviorSubject();
 
   Channel _channel;
@@ -61,7 +61,6 @@ class Socket {
 
       if (story != null) 
         storyObserver.add(story);
-
     });
   }
 
@@ -72,7 +71,7 @@ class Socket {
       final conversation = Conversation.fromJson(json);
 
       if (conversation != null) 
-        conversationObserver.add(conversation);
+        homeConversationObserver.add(conversation);
     });
   }
 

@@ -103,7 +103,6 @@ class _IconBubbleState extends State<IconBubble> {
                                         url: widget.message.sender.photo.url),
                                   ),
                                 ),
-                              SizedBox(width: 8),
                               widget.child,
                             ],
                           ),

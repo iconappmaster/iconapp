@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:iconapp/core/bouncing.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
@@ -38,7 +39,7 @@ class ConversationsList extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 40.0),
                     child: LottieLoader(),
                   ))
-                : ListView.builder(
+              : ListView.builder(
                   controller: controller,
                   itemCount: store.conversations.length,
                   padding: EdgeInsets.only(
@@ -48,9 +49,12 @@ class ConversationsList extends StatelessWidget {
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     final conversation = store.conversations[index];
-                    return ConversationTile(
-                      model: conversation,
-                      onTap: () => onConversationTap(conversation),
+                    return BouncingWidget(
+                      onPressed: () => onConversationTap(conversation),
+                      child: ConversationTile(
+                        model: conversation,
+                        // onTap: () => onConversationTap(conversation),
+                      ),
                     );
                   },
                 ),
@@ -62,12 +66,12 @@ class ConversationsList extends StatelessWidget {
 
 class ConversationTile extends StatelessWidget {
   final Conversation model;
-  final Function onTap;
+  // final Function onTap;
 
   const ConversationTile({
     Key key,
     this.model,
-    @required this.onTap,
+    // @required this.onTap,
   }) : super(key: key);
 
   @override
@@ -87,7 +91,7 @@ class ConversationTile extends StatelessWidget {
         child: Stack(children: [
           InkWell(
             splashColor: cornflower,
-            onTap: onTap,
+            // onTap: onTap,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -168,10 +172,12 @@ class HomeTileLastMessage extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           if (model?.sender?.fullName != null)
-            HebrewText('${model?.sender?.fullName ?? ''}:',
-                overflow: TextOverflow.fade,
-                textAlign: TextAlign.start,
-                style: lastWritten),
+            HebrewText(
+              '${model?.sender?.fullName ?? ''}:',
+              overflow: TextOverflow.fade,
+              textAlign: TextAlign.start,
+              style: lastWritten,
+            ),
 
           SizedBox(width: 3),
 

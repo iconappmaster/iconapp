@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:iconapp/data/models/story_model.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
+import 'package:iconapp/stores/socket/socket_manager.dart';
 
 abstract class StoryRepository {
   // TBD
@@ -14,12 +15,18 @@ abstract class StoryRepository {
   Future<List<StoryModel>> getConversationsStories(int conversationId);
 
   Future<StoryModel> publishStory(StoryModel story);
+
+  Stream<StoryModel> watchStories();
 }
 
 class StoryRepositoryImpl implements StoryRepository {
   final RestClient rest;
+  Socket socket;
 
-  StoryRepositoryImpl({@required this.rest});
+  StoryRepositoryImpl({
+    @required this.rest,
+    @required this.socket,
+  });
 
   @override
   Future<StoryModel> createStory() {
@@ -39,5 +46,10 @@ class StoryRepositoryImpl implements StoryRepository {
   @override
   Future<StoryModel> publishStory(StoryModel story) async {
     return await rest.publishStory(story);
+  }
+
+  @override
+  Stream<StoryModel> watchStories() {
+    return socket.storyObserver;
   }
 }

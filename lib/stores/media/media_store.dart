@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/repositories/media_repository.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:image_picker/image_picker.dart';
@@ -25,38 +26,30 @@ abstract class _MediaStoreBase with Store {
     _userStore = sl<UserStore>();
   }
 
-  Future<String> uploadPhoto(
-      {ImageSource source = ImageSource.gallery,
-      File file,
-      int messageId}) async {
+  Future<String> uploadPhoto({
+    ImageSource source = ImageSource.gallery,
+    File file,
+    int messageId,
+  }) async {
     String result = '';
+
     try {
       _isLoading = true;
       if (file != null) {
         result = await _repository.uploadSinglePhoto(
-          file,
-          getPath,
-          getPhotoFileName,
-          messageId,
-        );
+            file, getPath, getPhotoFileName, messageId);
       } else {
         final pickedFile = await _imagePicker.getImage(source: source);
         if (pickedFile != null) {
-        final file = File(pickedFile.path);
-        result = await _repository.uploadSinglePhoto(
-          file,
-          getPath,
-          getPhotoFileName,
-          messageId,
-        );
-       }
+          final file = File(pickedFile.path);
+          result = await _repository.uploadSinglePhoto(
+              file, getPath, getPhotoFileName, messageId);
+        }
       }
-      // cancel loadoing
       _isLoading = false;
-
       return result;
     } on Exception catch (e) {
-      print(e);
+      Crash.report(e.toString());
     } finally {
       _isLoading = false;
     }
@@ -92,7 +85,7 @@ abstract class _MediaStoreBase with Store {
 
       return result;
     } on Exception catch (e) {
-      print(e);
+      Crash.report(e.toString());
     } finally {
       _isLoading = false;
     }
@@ -103,8 +96,8 @@ abstract class _MediaStoreBase with Store {
   Future<String> uploadAudio(String path, messageId) async {
     try {
       _isLoading = true;
-      final result =
-          await _repository.uploadAudio(File(path), getPath, getAudioFileName, messageId);
+      final result = await _repository.uploadAudio(
+          File(path), getPath, getAudioFileName, messageId);
       _isLoading = false;
       return result;
     } on Exception catch (_) {
@@ -113,6 +106,6 @@ abstract class _MediaStoreBase with Store {
   }
 
   String get getPath => _userStore.getUser.phone;
-  String get getPhotoFileName => '${DateTime.now().millisecondsSinceEpoch}.png';
+  String get getPhotoFileName => '${DateTime.now().millisecondsSinceEpoch}.jpg';
   String get getAudioFileName => '${DateTime.now().millisecondsSinceEpoch}.mp4';
 }

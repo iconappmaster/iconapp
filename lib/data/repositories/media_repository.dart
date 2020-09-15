@@ -2,8 +2,11 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:iconapp/core/bus.dart';
+import 'package:iconapp/core/compression.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/sources/remote/firebase_consts.dart';
+import 'package:path_provider/path_provider.dart';
 
 abstract class MediaRepository {
   Future<String> uploadSinglePhoto(
@@ -26,7 +29,7 @@ class MediaRepositoryImpl implements MediaRepository {
   Future<String> uploadVideo(
       File video, String path, String fileName, int messageId) async {
     final videoPath = "$path/videos/";
- 
+
     return await upload(
       videoPath,
       fileName,
@@ -43,7 +46,7 @@ class MediaRepositoryImpl implements MediaRepository {
     int messageId,
   ) async {
     final audioPath = "$path/audio/";
- 
+
     return await upload(
       audioPath,
       fileName,
@@ -57,8 +60,28 @@ class MediaRepositoryImpl implements MediaRepository {
       [int messageId]) async {
     final storage = FirebaseStorage(storageBucket: firebaseStorageBucket);
     final storageRefOriginal = storage.ref().child(path).child(fileName);
-    final uploadTask = storageRefOriginal.putFile(image);
 
+    final compressed = await _compress(image);
+
+    final uploadTask = storageRefOriginal.putFile(compressed ?? image);
+    _emitProgress(uploadTask, messageId);
+    await uploadTask.onComplete;
+    return await storageRefOriginal.getDownloadURL();
+  }
+
+  Future<File> _compress(File image) async {
+    File compressed;
+    try {
+      final appDocDirectory = await getApplicationDocumentsDirectory();
+      compressed = await compressToFile(image,
+          "${appDocDirectory.path}/compressed_${DateTime.now().millisecondsSinceEpoch}.jpg");
+    } on Exception catch (e) {
+      Crash.report(e.toString());
+    }
+    return compressed;
+  }
+
+  void _emitProgress(StorageUploadTask uploadTask, int messageId) {
     uploadTask.events.listen((event) {
       final snapshot = event.snapshot;
 
@@ -68,8 +91,6 @@ class MediaRepositoryImpl implements MediaRepository {
 
       sl<Bus>().fire(ProgressEvent(progress: progressPercent, id: messageId));
     });
-    await uploadTask.onComplete;
-    return await storageRefOriginal.getDownloadURL();
   }
 }
 

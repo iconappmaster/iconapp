@@ -83,7 +83,7 @@ abstract class _UserStoreBase with Store {
       final result = await home.getConversations();
       result.fold(
         (e) => print(e),
-        (conversations) => home.setConversations(conversations),
+        (conversations) => home.updateUi(conversations),
       );
     } on Exception catch (e) {
       print(e);
