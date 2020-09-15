@@ -41,7 +41,7 @@ class _StoryScreenState extends State<StoryScreen> {
         _store.getStories.indexWhere((s) => s.id == widget.currentStory.id);
 
     print(index);
-    _pageController = PageController(initialPage: index ?? 0);
+    _pageController = PageController();
 
     super.initState();
   }

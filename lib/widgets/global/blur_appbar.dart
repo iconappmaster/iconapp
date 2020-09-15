@@ -28,7 +28,9 @@ class BluredAppbar extends StatelessWidget {
                   ),
                 Padding(
                   padding: const EdgeInsets.only(top: 25.0),
-                  child: IconBackButton(),
+                  child: IconBackButton(
+                    color: Colors.black,
+                  ),
                 ),
               ],
             ),
