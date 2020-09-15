@@ -75,11 +75,34 @@ class _PhotoMessageState extends State<PhotoMessage> {
     final store = sl<ChatStore>();
 
     final photos = store.conversation.messages
-        .where((photo) => (photo.messageType == MessageType.photo))
+        .where((photo) => photo.messageType == MessageType.photo)
         .map((photo) => PhotoModel(id: photo.id, url: photo.body))
         .toList();
 
-      message: widget.message,
+    return Replyble(
+      isEnabled: store.conversation.userRole != UserRole.viewer,
+      isOpen: _isOpen,
+      keyName: widget.message.id.toString(),
+      controller: _controller,
+      builder: (context, index, animation, step) {
+        _sliderContext = context;
+        return ReplyButton(message: widget.message);
+      },
+      child: Container(
+        child: Opacity(
+          opacity: widget.message.status == MessageStatus.pending ? .8 : 1,
+          child: Stack(
+            children: [
+              IconBubble(
+                isMe: widget.isMe,
+                message: widget.message,
+                onTap: () => ExtendedNavigator.of(context).pushNamed(
+                  Routes.photoGalleryScreen,
+                  arguments: PhotoGalleryScreenArguments(
+                      galleryItems: photos,
+                      intialIndex: photos.indexWhere(
+                        (photo) => photo.id == widget.message.id,
+                      )),
                 ),
                 child: Stack(children: [
                   Column(
