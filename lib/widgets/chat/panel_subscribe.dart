@@ -35,15 +35,22 @@ class PanelSubscriber extends StatelessWidget {
       builder: (_) => Stack(
         alignment: Alignment.centerLeft,
         children: [
-          Container(
-            color: white,
-            height: 58.7,
-            child: Center(
-                child: FlatButton(
-              child: CustomText('הצטרפות לקבוצה',
-                  style: chatCompose.copyWith(color: cornflower)),
-              onPressed: () => store.subscribe(), // TEST THIS - SHOULD BE FIXED
-            )),
+          IgnorePointer(
+            ignoring: store.isSubscribing,
+            child: Container(
+              color: white,
+              height: 58.7,
+              child: Center(
+                  child: FlatButton(
+                child: CustomText(
+                  'הצטרפות לקבוצה',
+                  style: chatCompose.copyWith(
+                    color: store.isSubscribing ? Colors.grey : cornflower,
+                  ),
+                ),
+                onPressed: () => store.subscribe(),
+              )),
+            ),
           ),
           if (store.isSubscribing)
             Positioned(

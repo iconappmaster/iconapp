@@ -27,7 +27,7 @@ class ConversationNotificationsSettings extends StatelessWidget {
                 activeColor: cornflower,
                 inactiveTrackColor: blueyGrey.withOpacity(.5),
                 inactiveThumbColor: blueyGrey,
-                value: settings.isNotificationDisabled,
+                value: settings?.isNotificationDisabled ?? false,
                 onChanged: (value) => settings.setNotification(value),
               ),
             ),

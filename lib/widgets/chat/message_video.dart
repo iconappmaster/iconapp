@@ -88,8 +88,7 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
           message: widget.message,
           onTap: () => ExtendedNavigator.of(context).pushNamed(
               Routes.videoScreen,
-              arguments:
-                  VideoScreenArguments(url: widget.message?.body ?? '')),
+              arguments: VideoScreenArguments(url: widget.message?.body ?? '')),
           child: Stack(
             alignment: Alignment.center,
             children: [
@@ -100,7 +99,8 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
                         height: 200,
                         width: 240,
                         child: NetworkPhoto(
-                            url: widget.message?.extraData ?? ''),
+                          url: widget.message?.extraData ?? '',
+                        ),
                       ))
                   : ClipRRect(
                       borderRadius: BorderRadius.circular(4.2),
@@ -109,6 +109,7 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
                         width: 240,
                         child: Image.file(
                           File(widget.message?.extraData ?? ''),
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ),
@@ -139,11 +140,12 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
         ),
         if (widget.message.status == MessageStatus.pending)
           Positioned(
-            left: 100,
-            top: 80,
+            left: 123,
+            top: 92,
             child: CircularProgressIndicator(
               value: _progress,
-              strokeWidth: 2,
+              strokeWidth: 3,
+              valueColor: AlwaysStoppedAnimation<Color>(cornflower),
               backgroundColor: white,
             ),
           ),

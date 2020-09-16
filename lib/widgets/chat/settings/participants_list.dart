@@ -45,28 +45,35 @@ class UnsubscribeButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final chat = sl<ChatStore>();
     final settings = sl<ChatSettingsStore>();
-    return Container(
-      height: 50,
-      margin: EdgeInsets.symmetric(horizontal: 21.3),
-      width: double.infinity,
-      child: OutlineButton(
-        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 90),
-        color: deepRed,
-        borderSide: BorderSide(
-          width: .8,
-          color: cornflower,
-        ),
-        onPressed: () async {
-          await chat.unsubscribe();
-          settings.setUnsubscribeButton(false);
-          context.showFlushbar(
-            message: 'יצאת מהקבוצה',
-            color: uiTintColorFill,
-          );
-        },
-        child: CustomText(
-          'יציאה מהקבוצה',
-          style: flushbar.copyWith(color: white),
+    return Observer(
+      builder: (_) => Container(
+        height: 50,
+        margin: EdgeInsets.symmetric(horizontal: 21.3),
+        width: double.infinity,
+        child: OutlineButton(
+          padding: EdgeInsets.symmetric(vertical: 12, horizontal: 90),
+          color: deepRed,
+          borderSide: BorderSide(
+            width: .8,
+            color: cornflower,
+          ),
+          onPressed: () async {
+            await chat.unsubscribe();
+            settings.setUnsubscribeButton(false);
+            context.showFlushbar(
+              message: 'יצאת מהקבוצה',
+              color: uiTintColorFill,
+            );
+          },
+          child: chat.getState.loading
+              ? SizedBox(
+                  height: 30,
+                  width: 30,
+                  child: CircularProgressIndicator(strokeWidth: 1))
+              : CustomText(
+                  'יציאה מהקבוצה',
+                  style: flushbar.copyWith(color: white),
+                ),
         ),
       ),
     );

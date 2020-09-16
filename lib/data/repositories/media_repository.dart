@@ -22,7 +22,10 @@ class MediaRepositoryImpl implements MediaRepository {
   Future<String> uploadSinglePhoto(
       File image, String path, String fileName, int messageId) async {
     final photoPath = "$path/photos/";
-    return await upload(photoPath, fileName, image, messageId);
+
+    final compressed = await _compress(image);
+
+    return await upload(photoPath, fileName, compressed, messageId);
   }
 
   @override
@@ -56,14 +59,12 @@ class MediaRepositoryImpl implements MediaRepository {
   }
 
   // Uploads the file to Firebase storage !Need to handle error
-  Future upload(String path, String fileName, File image,
+  Future upload(String path, String fileName, File file,
       [int messageId]) async {
     final storage = FirebaseStorage(storageBucket: firebaseStorageBucket);
     final storageRefOriginal = storage.ref().child(path).child(fileName);
 
-    final compressed = await _compress(image);
-
-    final uploadTask = storageRefOriginal.putFile(compressed ?? image);
+    final uploadTask = storageRefOriginal.putFile(file);
     _emitProgress(uploadTask, messageId);
     await uploadTask.onComplete;
     return await storageRefOriginal.getDownloadURL();
