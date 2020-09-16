@@ -3,20 +3,18 @@ import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:iconapp/core/bus.dart';
-import 'package:iconapp/core/dependencies/locator.dart';
-import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/data/models/message_model.dart';
-import 'package:iconapp/data/models/photo_model.dart';
-import 'package:iconapp/data/models/user_model.dart';
-import 'package:iconapp/data/repositories/media_repository.dart';
-import 'package:iconapp/routes/router.gr.dart';
-import 'package:iconapp/stores/chat/chat_store.dart';
-import 'package:iconapp/widgets/chat/reply_slider.dart';
-import 'package:iconapp/widgets/global/hebrew_input_text.dart';
-import 'package:iconapp/widgets/global/network_photo.dart';
-import 'package:iconapp/widgets/global/slidable/slidable.dart';
-
+import '../../core/bus.dart';
+import '../../core/dependencies/locator.dart';
+import '../../core/theme.dart';
+import '../../data/models/message_model.dart';
+import '../../data/models/user_model.dart';
+import '../../data/repositories/media_repository.dart';
+import '../../routes/router.gr.dart';
+import '../../stores/chat/chat_store.dart';
+import 'reply_slider.dart';
+import '../global/hebrew_input_text.dart';
+import '../global/network_photo.dart';
+import '../global/slidable/slidable.dart';
 import '../../core/extensions/int_ext.dart';
 import 'icon_bubble.dart';
 
@@ -74,10 +72,10 @@ class _PhotoMessageState extends State<PhotoMessage> {
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
 
-    final photos = store.conversation.messages
-        .where((photo) => photo.messageType == MessageType.photo)
-        .map((photo) => PhotoModel(id: photo.id, url: photo.body))
-        .toList();
+    // final photos = store.conversation.messages
+    //     .where((photo) => photo.messageType == MessageType.photo)
+    //     .map((photo) => PhotoModel(id: photo.id, url: photo.body))
+    //     .toList();
 
     return Replyble(
       isEnabled: store.conversation.userRole != UserRole.viewer,
@@ -99,37 +97,42 @@ class _PhotoMessageState extends State<PhotoMessage> {
                 onTap: () => ExtendedNavigator.of(context).pushNamed(
                   Routes.photoGalleryScreen,
                   arguments: PhotoGalleryScreenArguments(
-                      galleryItems: photos,
-                      intialIndex: photos.indexWhere(
-                        (photo) => photo.id == widget.message.id,
-                      )),
+                    galleryItems: store.conversationPhotos,
+                    intialIndex: 0
+                    // intialIndex: photos.indexWhere(
+                    //   (photo) => photo.id == widget.message.id,
+                    // ),
+                  ),
                 ),
                 child: Stack(children: [
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      widget.message.body.startsWith('http')
-                          ? SizedBox(
-                              height: 200,
-                              width: 240,
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(4.2),
-                                  child:
-                                      NetworkPhoto(url: widget.message.body)))
-                          : SizedBox(
-                              height: 200,
-                              width: 200,
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(4.2),
-                                  child: Image.file(File(widget.message.body),
-                                      fit: BoxFit.cover))),
-                    ],
+                  Hero(
+                    tag: widget.index,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        widget.message.body.startsWith('http')
+                            ? SizedBox(
+                                height: 200,
+                                width: 240,
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(4.2),
+                                    child:
+                                        NetworkPhoto(url: widget.message.body)))
+                            : SizedBox(
+                                height: 200,
+                                width: 200,
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(4.2),
+                                    child: Image.file(File(widget.message.body),
+                                        fit: BoxFit.cover))),
+                      ],
+                    ),
                   ),
                   Positioned(
                     left: 5,
                     bottom: 5,
-                    child: HebrewText(
+                    child: CustomText(
                       widget.message.status == MessageStatus.pending
                           ? ''
                           : widget.message?.timestamp?.humanReadableTime() ??
@@ -141,7 +144,7 @@ class _PhotoMessageState extends State<PhotoMessage> {
                   Positioned(
                     right: 5,
                     bottom: 5,
-                    child: HebrewText(widget.message.sender?.fullName ?? '',
+                    child: CustomText(widget.message.sender?.fullName ?? '',
                         style: chatMessageName, textAlign: TextAlign.start),
                   ),
                 ]),

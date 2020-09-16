@@ -84,7 +84,7 @@ class _CreateConversationTileState extends State<CreateConversationTile>
                   ),
                 ),
                 SizedBox(width: 19.7),
-                HebrewText(
+                CustomText(
                   widget.title,
                   style: createCategoryTitle,
                 ),

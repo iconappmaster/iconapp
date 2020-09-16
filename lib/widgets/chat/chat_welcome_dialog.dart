@@ -26,7 +26,7 @@ class ChatWelcomeDialog extends StatelessWidget {
         children: <Widget>[
           Positioned(
               top: 14.3,
-              child: HebrewText(
+              child: CustomText(
                   LocaleKeys.chat_welcomeTitle.tr(args: [groupName]),
                   style: dialogTitle)),
           Positioned(
@@ -35,7 +35,7 @@ class ChatWelcomeDialog extends StatelessWidget {
                 height: context.heightPlusStatusbarPerc(.28),
                 width: context.widthPx * .66,
                 child: SingleChildScrollView(
-                  child: HebrewText(LocaleKeys.chat_welcomeContent.tr(),
+                  child: CustomText(LocaleKeys.chat_welcomeContent.tr(),
                       style: dialogContent, textAlign: TextAlign.start),
                 ),
               )),

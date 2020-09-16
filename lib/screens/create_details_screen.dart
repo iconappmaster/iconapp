@@ -64,7 +64,7 @@ class CreateDetailsScreen extends StatelessWidget {
                   SizedBox(height: 9.7),
                   Padding(
                     padding: const EdgeInsets.only(right: 6.0),
-                    child: HebrewText(
+                    child: CustomText(
                       LocaleKeys.create_groupNameDescription.tr(),
                       style: fieldLabel,
                     ),

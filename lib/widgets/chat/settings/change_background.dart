@@ -19,7 +19,7 @@ class ChangeBackground extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          HebrewText('שינוי תמונת רקע', style: chatSettings),
+          CustomText('שינוי תמונת רקע', style: chatSettings),
           ColorSelectButton()
         ],
       ),
@@ -55,7 +55,7 @@ class ColorSelectButton extends StatelessWidget {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           contentPadding: const EdgeInsets.all(16),
           elevation: 10,
-          title: HebrewText('בחר/י צבע רקע', style: changeColorTitle),
+          title: CustomText('בחר/י צבע רקע', style: changeColorTitle),
           content: Container(
             height: 300,
             child: Stack(

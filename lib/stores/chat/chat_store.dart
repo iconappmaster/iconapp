@@ -6,6 +6,7 @@ import 'package:iconapp/core/stop_watch.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/likes.dart';
 import 'package:iconapp/data/models/message_model.dart';
+import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/repositories/chat_repository.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
@@ -79,6 +80,12 @@ abstract class _ChatStoreBase with Store {
 
   @computed
   MessageModel get replayMessage => _replyMessage;
+
+  @computed
+  List<PhotoModel> get conversationPhotos => _conversation.messages
+      .where((message) => message.messageType == MessageType.photo)
+      .map((e) => PhotoModel(url: e.body, description: e.extraData))
+      .toList();
 
   @computed
   ChatState get getState => _state;

@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/story/utils.dart';
 import 'controller/story_controller.dart';
 import 'story_video.dart';
@@ -288,7 +289,7 @@ class StoryItem {
                     color:
                         caption != null ? Colors.black54 : Colors.transparent,
                     child: caption != null
-                        ? Text(
+                        ? CustomText(
                             caption,
                             style: settingsAppbarTitle,
                             textAlign: TextAlign.center,

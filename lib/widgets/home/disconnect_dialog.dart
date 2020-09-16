@@ -1,15 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:iconapp/core/dependencies/locator.dart';
-import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/data/models/user_model.dart';
-import 'package:iconapp/generated/locale_keys.g.dart';
-import 'package:iconapp/stores/auth/auth_store.dart';
-import 'package:iconapp/stores/user/user_store.dart';
-import 'package:iconapp/widgets/global/base_dialog.dart';
-import 'package:iconapp/widgets/global/hebrew_input_text.dart';
-import 'package:iconapp/widgets/global/next_button.dart';
 import 'package:easy_localization/easy_localization.dart';
+import '../../core/dependencies/locator.dart';
+import '../../core/theme.dart';
+import '../../data/models/user_model.dart';
+import '../../generated/locale_keys.g.dart';
+import '../../stores/auth/auth_store.dart';
+import '../../stores/user/user_store.dart';
+import '../global/base_dialog.dart';
+import '../global/hebrew_input_text.dart';
+import '../global/next_button.dart';
 
 class DisconnectDialog extends StatelessWidget {
   final double height;
@@ -29,9 +29,9 @@ class DisconnectDialog extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          HebrewText('יציאה מהמערכת', style: dialogTitle),
+          CustomText('יציאה מהמערכת', style: dialogTitle),
           SizedBox(height: 16),
-          HebrewText(
+          CustomText(
             LocaleKeys.disconnect_content.tr(args: [himHer, isSure, thatYou]),
             style: dialogContent,
             textAlign: TextAlign.start,
@@ -47,7 +47,7 @@ class DisconnectDialog extends StatelessWidget {
           ),
           FlatButton(
             onPressed: () => ExtendedNavigator.of(context).pop(),
-            child: HebrewText(
+            child: CustomText(
               'התחרטתי אל תנתקו אותי',
               style: fieldLabel,
             ),

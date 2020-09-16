@@ -120,7 +120,7 @@ class _SmsCounter extends StatelessWidget {
         visible: store.isPinCodeMode,
         child: Positioned(
           top: context.heightPlusStatusbarPerc(.408),
-          child: HebrewText(
+          child: CustomText(
             LocaleKeys.onboarding_phoneCounting
                 .tr(args: [store.displayCountdown]),
             style: loginSmallText,
@@ -219,7 +219,7 @@ class _OnboardingPhoneSubtitle extends StatelessWidget {
       top: store.isPhoneMode
           ? context.heightPlusStatusbarPerc(.221)
           : context.heightPlusStatusbarPerc(.29),
-      child: HebrewText(
+      child: CustomText(
         store.isPhoneMode
             ? LocaleKeys.onboarding_phoneSubtitle.tr()
             : LocaleKeys.onboarding_enterCode.tr(),
@@ -238,7 +238,7 @@ class _OnboardingPhoneTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Positioned(
       top: context.heightPlusStatusbarPerc(.134),
-      child: HebrewText(
+      child: CustomText(
         LocaleKeys.onboarding_phoneTitle.tr(),
         style: loginBigText,
       ),

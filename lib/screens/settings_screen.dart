@@ -29,7 +29,7 @@ class AppSettingsScreen extends StatelessWidget {
           ),
           Positioned(
               top: context.heightPlusStatusbarPerc(0.04),
-              child: HebrewText('הגדרות', style: searchAppBarTitle)),
+              child: CustomText('הגדרות', style: searchAppBarTitle)),
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
@@ -80,7 +80,7 @@ class AppNotificationTile extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 21.0),
             alignment: Alignment.centerRight,
             height: context.heightPlusStatusbarPerc(.113),
-            child: HebrewText(title, style: appSettingsTile),
+            child: CustomText(title, style: appSettingsTile),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -116,7 +116,7 @@ class AppSettingsTile extends StatelessWidget {
       height: context.heightPlusStatusbarPerc(.113),
       child: Padding(
         padding: const EdgeInsets.all(21.0),
-        child: HebrewText(title, style: appSettingsTile),
+        child: CustomText(title, style: appSettingsTile),
       ),
     );
   }

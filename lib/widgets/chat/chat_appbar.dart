@@ -31,9 +31,9 @@ class ChatAppbar extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    HebrewText(store?.conversation?.name ?? '',
+                    CustomText(store?.conversation?.name ?? '',
                         style: loginBigText),
-                    HebrewText(
+                    CustomText(
                         '${store.conversation?.numberOfParticipants ?? 0} משתתפים',
                         style: fieldLabel), // should come from socket
                   ],

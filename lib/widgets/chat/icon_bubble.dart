@@ -24,7 +24,8 @@ class IconBubble extends StatefulWidget {
     @required this.isMe,
     this.onTap,
     this.onDoubleTap,
-    this.padding, this.onEmjiTap,
+    this.padding,
+    this.onEmjiTap,
   }) : super(key: key);
 
   @override
@@ -55,11 +56,12 @@ class _IconBubbleState extends State<IconBubble> {
           mainAxisAlignment:
               widget.isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
           children: [
-            if (widget.isMe) EmojiPlus(
-              isMe: widget.isMe,
-              message: widget.message,
-              likeAsset: widget.message?.likeType,
-            ),
+            if (widget.isMe)
+              EmojiPlus(
+                isMe: widget.isMe,
+                message: widget.message,
+                likeAsset: widget.message?.likeType,
+              ),
             GestureDetector(
               onDoubleTap: widget.onDoubleTap,
               onTap: widget.onTap,
@@ -87,20 +89,23 @@ class _IconBubbleState extends State<IconBubble> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           if (widget.message?.repliedToMessage != null)
-                            MessageReply(widget: widget, width: 200),
+                            MessageReply(widget: widget, width: 300),
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               if (widget.message.messageType ==
                                       MessageType.text &&
                                   !widget.isMe)
-                                Container(
-                                  width: 40,
-                                  height: 40,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(4.2),
-                                    child: NetworkPhoto(
-                                        url: widget.message.sender.photo.url),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 5.0),
+                                  child: Container(
+                                    width: 40,
+                                    height: 40,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(4.2),
+                                      child: NetworkPhoto(
+                                          url: widget.message.sender.photo.url),
+                                    ),
                                   ),
                                 ),
                               widget.child,
@@ -113,7 +118,12 @@ class _IconBubbleState extends State<IconBubble> {
                 ],
               ),
             ),
-            if (!widget.isMe) EmojiPlus(likeAsset: widget.message?.likeType, isMe: widget.isMe, message: widget.message,),
+            if (!widget.isMe)
+              EmojiPlus(
+                likeAsset: widget.message?.likeType,
+                isMe: widget.isMe,
+                message: widget.message,
+              ),
           ],
         ),
         // if (showLikeIndicator)/
@@ -204,8 +214,12 @@ class MessageReply extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    HebrewText(message.sender?.fullName ?? '',
-                        style: replayTitle),
+                    CustomText(
+                      message.sender?.fullName ?? '',
+                      style: replayTitle,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     SizedBox(height: 5),
                     if (message != null) getReplyBody(message)
                   ],

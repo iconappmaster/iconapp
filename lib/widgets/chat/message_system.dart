@@ -25,7 +25,7 @@ class SystemMessage extends StatelessWidget {
               decoration: BoxDecoration(
                   color: blueberry2, borderRadius: BorderRadius.circular(3.7)),
               child: Center(
-                child: HebrewText(title,
+                child: CustomText(title,
                     maxLines: 2,
                     style: systemMessage,
                     textAlign: TextAlign.center),

@@ -32,7 +32,7 @@ class InputText extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        if (title != null) HebrewText(title, style: fieldLabel),
+        if (title != null) CustomText(title, style: fieldLabel),
         TextFormField(
           key: key,
           initialValue: initialValue,

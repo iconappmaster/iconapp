@@ -154,7 +154,7 @@ class _RollingSwitchState extends State<RollingSwitch>
     return Transform.translate(
       offset: turnState ? Offset(value + 5, 0) : Offset(value - 15, 0),
       child: Center(
-        child: HebrewText(
+        child: CustomText(
           widget.text,
           style: genderIconText,
         ),

@@ -1,15 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:iconapp/core/dependencies/locator.dart';
-import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/routes/router.gr.dart';
-import 'package:iconapp/screens/onboarding_profile.dart';
-import 'package:iconapp/stores/user/user_store.dart';
-import 'package:iconapp/widgets/global/buttons.dart';
-import 'package:iconapp/widgets/global/hebrew_input_text.dart';
-import 'package:iconapp/widgets/global/user_avatar.dart';
-import 'package:iconapp/widgets/home/disconnect_dialog.dart';
+import '../../core/dependencies/locator.dart';
+import '../../core/theme.dart';
+import '../../screens/onboarding_profile.dart';
+import '../../stores/user/user_store.dart';
+import '../global/buttons.dart';
+import '../global/hebrew_input_text.dart';
+import '../global/user_avatar.dart';
+import 'disconnect_dialog.dart';
 
 class DrawerIcon extends StatelessWidget {
   const DrawerIcon({
@@ -24,7 +24,7 @@ class DrawerIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.centerRight,
-          child: IconButton(
+      child: IconButton(
         icon: SvgPicture.asset(
           'assets/images/menu_icon.svg',
           height: 36,
@@ -63,7 +63,7 @@ class HomeDrawer extends StatelessWidget {
                               url: store.getUser?.photo?.url ?? '',
                               onTap: () => print('tap')),
                           SizedBox(height: 12.3),
-                          HebrewText(store.getUser?.fullName ?? 'Name',
+                          CustomText(store.getUser?.fullName ?? 'Name',
                               style: drawerName)
                         ],
                       ),
@@ -80,8 +80,8 @@ class HomeDrawer extends StatelessWidget {
                     DrawerItem(text: 'נתוני פעילות הקבוצה', onTap: () {}),
                   DrawerItem(
                       text: 'הגדרות',
-                      onTap: () =>
-                          ExtendedNavigator.of(context).pushAppSettingsScreen()),
+                      onTap: () => ExtendedNavigator.of(context)
+                          .pushAppSettingsScreen()),
                 ],
               ),
               Positioned(
@@ -126,7 +126,7 @@ class DrawerItem extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: 31.7),
               alignment: Alignment.centerRight,
               height: 70,
-              child: HebrewText(text, style: flushbar)),
+              child: CustomText(text, style: flushbar)),
           _drawerDivider,
         ],
       ),

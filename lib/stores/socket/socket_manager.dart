@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/likes.dart';
 import 'package:iconapp/data/models/message_model.dart';
@@ -19,7 +20,6 @@ const removedLikeEvent = 'removed-like';
 
 const homeChannelName = 'home';
 
-
 const conversationChangedEvent = 'conversation-changed';
 const storyChangedEvent = 'story-changed';
 
@@ -27,7 +27,7 @@ class Socket {
   BehaviorSubject<MessageModel> messageObserver = BehaviorSubject();
   BehaviorSubject<MessageModel> addedLikeObserver = BehaviorSubject();
   BehaviorSubject<MessageModel> removeLikeObserver = BehaviorSubject();
-  
+
   BehaviorSubject<Conversation> homeConversationObserver = BehaviorSubject();
   BehaviorSubject<StoryModel> storyObserver = BehaviorSubject();
 
@@ -38,7 +38,7 @@ class Socket {
       await Pusher.init(PUSHER_KEY, PusherOptions(cluster: "us2"),
           enableLogging: true);
     } on PlatformException catch (e) {
-      print(e.message);
+      Crash.report(e.message);
     }
   }
 
@@ -54,24 +54,20 @@ class Socket {
   }
 
   void bindStoryChangeEvent() {
-  _channel.bind(storyChangedEvent, (event) {
-       
+    _channel.bind(storyChangedEvent, (event) {
       final json = jsonDecode(event.data);
       final story = StoryModel.fromJson(json);
 
-      if (story != null) 
-        storyObserver.add(story);
+      if (story != null) storyObserver.add(story);
     });
   }
 
   void bindHomeChangeEvent() {
-     _channel.bind(conversationChangedEvent, (event) {
-       
+    _channel.bind(conversationChangedEvent, (event) {
       final json = jsonDecode(event.data);
       final conversation = Conversation.fromJson(json);
 
-      if (conversation != null) 
-        homeConversationObserver.add(conversation);
+      if (conversation != null) homeConversationObserver.add(conversation);
     });
   }
 
@@ -81,11 +77,14 @@ class Socket {
       final json = jsonDecode(event.data);
       final message = MessageModel.fromJson(json);
 
-      if (message != null && !user.isMe(message.sender.id)) { // TODO fix this should support system message as well
+      if (message != null &&
+          (!user.isMe(message.sender?.id) || _isSystemMessage(message))) {
         messageObserver.add(message.copyWith(likeCounts: LikesCount.initial()));
       }
     });
   }
+
+  bool _isSystemMessage(MessageModel message) => message.sender == null;
 
   void bindAddLikeEvent() {
     _channel.bind(addedLikeEvent,

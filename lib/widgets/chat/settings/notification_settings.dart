@@ -19,7 +19,7 @@ class ConversationNotificationsSettings extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            HebrewText('השתקת התראות', style: chatSettings),
+            CustomText('השתקת התראות', style: chatSettings),
             Directionality(
               textDirection: TextDirection.ltr,
               child: Switch(

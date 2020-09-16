@@ -114,7 +114,7 @@ class SearchResultTile extends StatelessWidget {
                       width: 41,
                     ))),
             SizedBox(width: 14),
-            HebrewText(conversation.name, style: searchResultTile)
+            CustomText(conversation.name, style: searchResultTile)
           ],
         ),
       ),
@@ -140,7 +140,7 @@ class _Appbar extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: IconBackButton(),
               )),
-          Center(child: HebrewText(title, style: searchAppBarTitle)),
+          Center(child: CustomText(title, style: searchAppBarTitle)),
         ],
       ),
     );

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:iconapp/widgets/chat/chat_list.dart';
-import 'package:iconapp/widgets/chat/chat_welcome_dialog.dart';
-import 'package:iconapp/widgets/global/focus_aware.dart';
+import '../widgets/chat/chat_list.dart';
+import '../widgets/chat/chat_welcome_dialog.dart';
+import '../widgets/global/focus_aware.dart';
 import '../core/dependencies/locator.dart';
 import '../core/theme.dart';
 import '../data/models/conversation_model.dart';
@@ -30,42 +30,45 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   ScrollController _controller;
-  bool upDirection = false, flag = true;
-  ChatStore chat;
+  bool _upDirection = false, _flag = true;
+ 
+  ChatStore _chat;
+  StoryStore _story;
+  Socket _socket;
 
   @override
   void initState() {
     initSocket();
 
-    chat = sl<ChatStore>();
+    _chat = sl<ChatStore>();
+    _story = sl<StoryStore>();
+    _socket = sl<Socket>();
 
-    chat
+    _chat
       ..init(widget.conversation)
       ..watchMessages()
       ..watchAddLike()
       ..watchRemoveLike();
 
-    sl<StoryStore>()..setStoryMode(StoryMode.conversation);
+    _story.setStoryMode(StoryMode.conversation);
 
     _controller = ScrollController()
       ..addListener(() {
-        upDirection =
+        _upDirection =
             _controller.position.userScrollDirection == ScrollDirection.forward;
-        if (upDirection != flag && mounted) {
+        if (_upDirection != _flag && mounted) {
           setState(() {});
         }
-        flag = upDirection;
+        _flag = _upDirection;
       });
 
     super.initState();
   }
 
   Future initSocket() async {
-    final socket = sl<Socket>();
+    await _socket.subscribeChannel(widget.conversation.id.toString());
 
-    await socket.subscribeChannel(widget.conversation.id.toString());
-
-    socket
+    _socket
       ..bindMessagesEvent()
       ..bindAddLikeEvent()
       ..bindRemoveLikeEvent();
@@ -73,54 +76,47 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final story = sl<StoryStore>();
-
-    return Observer(builder: (_) {
-      return FocusAwareWidget(
-        child: Scaffold(
-          body: Stack(
-            children: [
-              Container(
+    return FocusAwareWidget(
+      child: Scaffold(
+        body: Stack(
+          children: [
+            Observer(builder: (_) {
+              return Container(
                 decoration: BoxDecoration(
-                  gradient:
-                      gradientList[chat?.conversation?.backgroundColor ?? 0],
-                ),
+                    gradient: gradientList[
+                        _chat?.conversation?.backgroundColor ?? 0]),
                 child: Column(
                   children: <Widget>[
                     ChatAppbar(),
                     BlueDivider(color: cornflower),
                     ChatList(scrollController: _controller),
-                    initComposer(chat, _controller),
+                    initComposer(_controller),
                   ],
                 ),
-              ),
-              Positioned(
+              );
+            }),
+            Positioned(
                 top: context.heightPlusStatusbarPerc(.07),
-                child: StoriesList(
-                
-                    mode: story.mode,
-                    show: !upDirection),
-              ),
-              _showWelcomeDialog(chat.conversation?.name ?? ''),
-            ],
-          ),
+                child: StoriesList(mode: _story.mode, show: !_upDirection)),
+            _showWelcomeDialog(_chat.conversation?.name ?? ''),
+          ],
         ),
-      );
-    });
+      ),
+    );
   }
 
   Widget _showWelcomeDialog(String conversationName) {
     return Observer(builder: (_) {
       return Visibility(
-        visible: chat.showWelcomeDialog,
+        visible: _chat.showWelcomeDialog,
         child: ChatWelcomeDialog(groupName: conversationName),
       );
     });
   }
 
-  Widget initComposer(ChatStore store, ScrollController controller) {
+  Widget initComposer(ScrollController controller) {
     return Observer(builder: (_) {
-      switch (store.composerMode) {
+      switch (_chat.composerMode) {
         case ComposerMode.viewer:
           return Container();
         case ComposerMode.icon:
@@ -134,8 +130,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void dispose() {
-    sl<ChatStore>().dispose();
-    sl<Socket>().unsubscribeChannel(widget.conversation.id);
+    _chat.dispose();
+    _socket.unsubscribeChannel(widget.conversation.id);
     super.dispose();
   }
 }

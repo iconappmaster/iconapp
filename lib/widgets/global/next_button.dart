@@ -35,7 +35,7 @@ class NextButton extends StatelessWidget {
         child: Material(
           color: Colors.transparent,
           child: Center(
-            child: HebrewText(
+            child: CustomText(
               title ?? LocaleKeys.action_continue.tr(),
               style: button,
             ),

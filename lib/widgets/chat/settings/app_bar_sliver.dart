@@ -72,12 +72,12 @@ class ChatSettingsAppBar implements SliverPersistentHeaderDelegate {
             Positioned(
                 right: 21,
                 bottom: 30.7,
-                child: HebrewText(settings.getConversationName,
+                child: CustomText(settings.getConversationName,
                     style: settingsAppbarTitle)),
             Positioned(
                 right: 21,
                 bottom: 14.7,
-                child: HebrewText(subTitle, style: fieldLabel)),
+                child: CustomText(subTitle, style: fieldLabel)),
             Positioned(right: 21, top: 32, child: IconBackButton(
               isArrowDirectionDown: true,
             )),

@@ -3,16 +3,16 @@ import 'dart:ui';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:iconapp/core/bouncing.dart';
-import 'package:iconapp/core/dependencies/locator.dart';
-import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/data/models/story_model.dart';
 import 'package:iconapp/routes/router.gr.dart';
-import 'package:iconapp/stores/story/story_store.dart';
-import 'package:iconapp/stores/user/user_store.dart';
-import 'package:iconapp/widgets/global/hebrew_input_text.dart';
-import 'package:iconapp/widgets/global/network_photo.dart';
-import 'package:iconapp/widgets/global/plus_circle.dart';
+import '../../core/bouncing.dart';
+import '../../core/dependencies/locator.dart';
+import '../../core/theme.dart';
+import '../../data/models/story_model.dart';
+import '../../stores/story/story_store.dart';
+import '../../stores/user/user_store.dart';
+import '../global/hebrew_input_text.dart';
+import '../global/network_photo.dart';
+import '../global/plus_circle.dart';
 import '../../core/extensions/context_ext.dart';
 
 enum StoryMode { home, conversation }
@@ -129,7 +129,7 @@ class StoryAddButton extends StatelessWidget {
             ),
           ),
           SizedBox(height: 8),
-          HebrewText('הסיפור שלך', style: myStoryCreate.copyWith(color: white)),
+          CustomText('הסיפור שלך', style: myStoryCreate.copyWith(color: white)),
         ],
       ),
     );
@@ -175,7 +175,7 @@ class StoryTile extends StatelessWidget {
             ),
           ),
           SizedBox(height: 8),
-          HebrewText(story?.user?.fullName ?? '', style: myStory),
+          CustomText(story?.user?.fullName ?? '', style: myStory),
         ],
       ),
     );

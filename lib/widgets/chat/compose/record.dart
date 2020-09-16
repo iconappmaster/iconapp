@@ -47,7 +47,7 @@ class RecordingTime extends StatelessWidget {
         if (snapshot.hasData) {
           final timer = snapshot.data;
           final displayTime = StopWatchTimer.getDisplayTime(timer);
-          return HebrewText(
+          return CustomText(
             displayTime,
             style: chatCompose,
           );

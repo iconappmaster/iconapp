@@ -28,7 +28,7 @@ class SearchEmpty extends StatelessWidget {
               height: 124,
             ),
             SizedBox(height: 34.7),
-            HebrewText(text, style: emptyState)
+            CustomText(text, style: emptyState)
           ],
         ),
       ),

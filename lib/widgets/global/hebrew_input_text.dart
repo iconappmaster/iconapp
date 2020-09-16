@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class HebrewText extends StatelessWidget {
-  const HebrewText(
+class CustomText extends StatelessWidget {
+  const CustomText(
     this.text, {
     Key key,
     this.style,

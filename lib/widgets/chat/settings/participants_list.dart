@@ -64,7 +64,7 @@ class UnsubscribeButton extends StatelessWidget {
             color: uiTintColorFill,
           );
         },
-        child: HebrewText(
+        child: CustomText(
           'יציאה מהקבוצה',
           style: flushbar.copyWith(color: white),
         ),
@@ -110,7 +110,7 @@ class ParticipentAddButton extends StatelessWidget {
               ]),
             ),
             SizedBox(width: 16),
-            HebrewText('הוספת עורכ/ת לקבוצה', style: addParticipent)
+            CustomText('הוספת עורכ/ת לקבוצה', style: addParticipent)
           ],
         ),
       );
@@ -146,7 +146,7 @@ class ParticipantTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                HebrewText(currentUser.fullName, style: nameLight),
+                CustomText(currentUser.fullName, style: nameLight),
                 SizedBox(height: 12.3),
                 if (conversation.userRole == UserRole.admin)
                   Row(
@@ -178,7 +178,7 @@ class ParticipantTile extends StatelessWidget {
                             decoration: BoxDecoration(
                                 color: cornflower,
                                 borderRadius: BorderRadius.circular(2.7)),
-                            child: HebrewText('מנהל/ת',
+                            child: CustomText('מנהל/ת',
                                 style: settingsButton.copyWith(color: white)),
                           ),
                         ),
@@ -234,7 +234,7 @@ class SettingsActionButton extends StatelessWidget {
         onPressed: isAdminsLeft ? onTap : null,
         color: backgroundColor ?? Colors.transparent,
         borderSide: BorderSide(color: borderColor, width: .7),
-        child: HebrewText(text, style: textStyle),
+        child: CustomText(text, style: textStyle),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2.7)),
       ),
     );
@@ -276,7 +276,7 @@ class ParticipentsListTitle extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          HebrewText('עורכי הקבוצה', style: chatSettings),
+          CustomText('עורכי הקבוצה', style: chatSettings),
           if (conversation.userRole != UserRole.viewer)
             AdminsCounter(
                 adminsLeft: conversation?.numberOfAdminsRemaining ?? 0)
@@ -297,7 +297,7 @@ class AdminsCounter extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(2.7),
           border: Border.all(color: cornflower, width: .7)),
-      child: HebrewText(
+      child: CustomText(
         'ניתן להוסיף עוד $adminsLeft מנהלים',
         style: settingsButton,
       ),

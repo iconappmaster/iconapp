@@ -147,7 +147,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                                         visible: story.description != null,
                                         child: Padding(
                                           padding: const EdgeInsets.all(4.0),
-                                          child: HebrewText(
+                                          child: CustomText(
                                             story.description,
                                             style: systemMessage,
                                             maxLines: 1,
@@ -259,7 +259,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 16),
-                      child: HebrewText(
+                      child: CustomText(
                         _edit.canPublish
                             ? 'העלו תמונה או סרטון נוסף'
                             : 'העלו תמונה או סרטון',

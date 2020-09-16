@@ -74,18 +74,18 @@ class _TextMessageState extends State<TextMessage> {
         return ReplyButton(message: widget.message);
       },
       child: IconBubble(
-        padding: BubbleEdges.only(left: 12, right: 12, top: 15, bottom: 7),
+        padding: BubbleEdges.only(left: 12, right: 12, top: 5, bottom: 7),
         message: widget.message,
         isMe: widget.isMe,
         child: Stack(children: [
           Container(
-            padding: EdgeInsets.symmetric(vertical: 8),
+            padding: EdgeInsets.symmetric(vertical: 4),
             color: color,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                HebrewText(
+                CustomText(
                   widget.message.sender?.fullName ?? '',
                   style: chatMessageName,
                   textAlign: TextAlign.start,
@@ -106,7 +106,7 @@ class _TextMessageState extends State<TextMessage> {
           Positioned(
             left: 0,
             bottom: 0,
-            child: HebrewText(
+            child: CustomText(
               widget.message.status == MessageStatus.pending
                   ? ''
                   : widget.message?.timestamp?.humanReadableTime() ?? '',

@@ -31,10 +31,10 @@ class AppBarWithDivider extends StatelessWidget {
             alignment: Alignment.topCenter,
             children: <Widget>[
               Positioned(
-                  top: 20.7, child: HebrewText(title, style: createGroupTitle),),
+                  top: 20.7, child: CustomText(title, style: createGroupTitle),),
               if (subtitle != null)
                 Positioned(
-                    top: 51.7, child: HebrewText(subtitle, style: fieldLabel),),
+                    top: 51.7, child: CustomText(subtitle, style: fieldLabel),),
               Positioned(
                   top: 8,
                   right:8,

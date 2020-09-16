@@ -120,7 +120,7 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
               Positioned(
                 left: 5,
                 bottom: 5,
-                child: HebrewText(
+                child: CustomText(
                   widget.message.status == MessageStatus.pending
                       ? ''
                       : widget.message?.timestamp?.humanReadableTime() ?? '',
@@ -131,7 +131,7 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
               Positioned(
                 right: 5,
                 bottom: 5,
-                child: HebrewText(widget.message.sender?.fullName ?? '',
+                child: CustomText(widget.message.sender?.fullName ?? '',
                     style: chatMessageName, textAlign: TextAlign.start),
               ),
             ],

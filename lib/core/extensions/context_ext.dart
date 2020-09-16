@@ -41,7 +41,7 @@ extension ContextExtensions on BuildContext {
       flushbarStyle: FlushbarStyle.FLOATING,
       margin: EdgeInsets.fromLTRB(34, 34, 34, 34),
       duration: Duration(seconds: 2),
-      messageText: HebrewText(message, style: flushbar),
+      messageText: CustomText(message, style: flushbar),
     ).show(this);
   }
 

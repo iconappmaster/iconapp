@@ -61,7 +61,7 @@ class ReplyComposePanel extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        HebrewText(store.replayMessage?.sender?.fullName ?? '',
+                        CustomText(store.replayMessage?.sender?.fullName ?? '',
                             style: replayTitle),
                         SizedBox(height: 5),
                         if (store.replayMessage != null)
@@ -108,7 +108,7 @@ class TextReply extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return HebrewText(
+    return CustomText(
       messsage?.body ?? '',
       style: replayContnet,
       textAlign: TextAlign.start,
@@ -132,7 +132,7 @@ class PhotoReply extends StatelessWidget {
           width: 17,
         ),
         SizedBox(width: 5),
-        HebrewText(
+        CustomText(
           'תמונה',
           style: replayContnet,
           padding: EdgeInsets.only(bottom: 2),
@@ -157,7 +157,7 @@ class VideoReply extends StatelessWidget {
           width: 17,
         ),
         SizedBox(width: 5),
-        HebrewText(
+        CustomText(
           'סרטון',
           style: replayContnet,
           padding: EdgeInsets.only(bottom: 2),
@@ -181,7 +181,7 @@ class AudioReply extends StatelessWidget {
       children: [
         SvgPicture.asset('assets/images/microphone.svg', height: 17, width: 17),
         SizedBox(width: 5),
-        HebrewText(
+        CustomText(
           message.extraData,
           style: replayContnet,
           padding: EdgeInsets.only(bottom: 2),

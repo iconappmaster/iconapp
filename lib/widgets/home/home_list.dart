@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:iconapp/core/bouncing.dart';
-import 'package:iconapp/core/dependencies/locator.dart';
-import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/data/models/conversation_model.dart';
-import 'package:iconapp/data/models/message_model.dart';
-import 'package:iconapp/stores/home/home_store.dart';
-import 'package:iconapp/widgets/global/hebrew_input_text.dart';
-import 'package:iconapp/widgets/global/lottie_loader.dart';
-import 'package:iconapp/widgets/global/network_photo.dart';
-import 'package:iconapp/widgets/global/white_circle.dart';
+import '../../core/bouncing.dart';
+import '../../core/dependencies/locator.dart';
+import '../../core/theme.dart';
+import '../../data/models/conversation_model.dart';
+import '../../data/models/message_model.dart';
+import '../../stores/home/home_store.dart';
+import '../global/hebrew_input_text.dart';
+import '../global/lottie_loader.dart';
+import '../global/network_photo.dart';
+import '../global/white_circle.dart';
 import '../../core/extensions/context_ext.dart';
 import '../../core/extensions/int_ext.dart';
 
@@ -36,7 +36,7 @@ class ConversationsList extends StatelessWidget {
               ? Align(
                   alignment: Alignment.topCenter,
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 40.0),
+                    padding: const EdgeInsets.only(top: 80.0),
                     child: LottieLoader(),
                   ))
               : ListView.builder(
@@ -110,7 +110,7 @@ class ConversationTile extends StatelessWidget {
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.only(top: 6.0),
-                        child: HebrewText(model.name,
+                        child: CustomText(model.name,
                             style: nameWhite,
                             maxLines: 1,
                             textAlign: TextAlign.start),
@@ -118,7 +118,7 @@ class ConversationTile extends StatelessWidget {
                       SizedBox(height: 4),
                       model?.lastMessage != null
                           ? HomeTileLastMessage(model: model?.lastMessage)
-                          : HebrewText('אין הודעות',
+                          : CustomText('אין הודעות',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.start,
@@ -136,7 +136,7 @@ class ConversationTile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  HebrewText(
+                  CustomText(
                       model.lastMessage?.timestamp?.humanReadableTime() ?? '',
                       style: timeOfMessage),
                   SizedBox(height: 8.7),
@@ -172,7 +172,7 @@ class HomeTileLastMessage extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           if (model?.sender?.fullName != null)
-            HebrewText(
+            CustomText(
               '${model?.sender?.fullName ?? ''}:',
               overflow: TextOverflow.fade,
               textAlign: TextAlign.start,
@@ -184,7 +184,7 @@ class HomeTileLastMessage extends StatelessWidget {
           // if we have text
           if (model?.messageType == MessageType.text)
             Flexible(
-              child: HebrewText(model?.body ?? '',
+              child: CustomText(model?.body ?? '',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   textAlign: TextAlign.start,
@@ -197,7 +197,7 @@ class HomeTileLastMessage extends StatelessWidget {
 
           SizedBox(width: 5),
 
-          HebrewText(getTextType() ?? '',
+          CustomText(getTextType() ?? '',
               overflow: TextOverflow.fade,
               textAlign: TextAlign.start,
               style: lastWritten),
@@ -290,7 +290,7 @@ class _MessageCounter extends StatelessWidget {
               ),
             ),
             child: Center(
-                child: HebrewText(count.toString(), style: newMessageNumber)))
+                child: CustomText(count.toString(), style: newMessageNumber)))
         : Container();
   }
 }

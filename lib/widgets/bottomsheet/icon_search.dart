@@ -71,7 +71,7 @@ class IconSearchItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  HebrewText(icon?.fullName ?? '', style: categoryName),
+                  CustomText(icon?.fullName ?? '', style: categoryName),
                 ],
               ),
             ],

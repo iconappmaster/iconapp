@@ -32,7 +32,7 @@ class TransparentButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(6.7),
               side: BorderSide(color: colorToUse)),
           onPressed: onPressed,
-          child: HebrewText(text, style: disconnectButton)),
+          child: CustomText(text, style: disconnectButton)),
     );
   }
 }

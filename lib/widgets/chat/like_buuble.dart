@@ -39,7 +39,7 @@ class EmojiLikeBubble extends StatelessWidget {
             ),
             SizedBox(width: 3),
             if (count != null)
-              HebrewText(
+              CustomText(
                 count.toString(),
                 style: chatMessageBody,
                 maxLines: 1,

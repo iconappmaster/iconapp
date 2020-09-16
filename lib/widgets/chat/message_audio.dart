@@ -117,7 +117,7 @@ class _VoiceMessageState extends State<VoiceMessage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              HebrewText(widget.message.sender.fullName,
+              CustomText(widget.message.sender.fullName,
                   style: newMessageNumber),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -181,7 +181,7 @@ class _VoiceMessageState extends State<VoiceMessage> {
                 visible: _position != null,
                 child: Padding(
                   padding: EdgeInsets.only(top: 4),
-                  child: HebrewText(
+                  child: CustomText(
                     _position != null
                         ? '${_durationText ?? ''} / ${_positionText ?? ''}'
                         : _duration != null ? _durationText : '',

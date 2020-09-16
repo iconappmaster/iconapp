@@ -67,7 +67,7 @@ class CategorySearchTile extends StatelessWidget {
                 placeHolder: 'assets/images/group_placeholder.svg',
               ),
               SizedBox(width: 14),
-              HebrewText(
+              CustomText(
                 category.name,
                 style: categoryName,
               ),

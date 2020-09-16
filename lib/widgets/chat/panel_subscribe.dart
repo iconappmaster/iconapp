@@ -34,7 +34,7 @@ class PanelSubscriber extends StatelessWidget {
       height: 58.7,
       child: Center(
           child: FlatButton(
-        child: HebrewText('הצטרפות לקבוצה',
+        child: CustomText('הצטרפות לקבוצה',
             style: chatCompose.copyWith(color: cornflower)),
         onPressed: () => store.subscribe(), // TEST THIS - SHOULD BE FIXED
       )),

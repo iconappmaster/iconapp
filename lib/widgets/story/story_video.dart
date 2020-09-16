@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:iconapp/widgets/story/utils.dart';
+import 'utils.dart';
 import 'package:video_player/video_player.dart';
 
 import 'controller/story_controller.dart';

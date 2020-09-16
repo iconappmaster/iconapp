@@ -23,6 +23,13 @@ mixin _$ChatStore on _ChatStoreBase, Store {
           Computed<MessageModel>(() => super.replayMessage,
               name: '_ChatStoreBase.replayMessage'))
       .value;
+  Computed<List<PhotoModel>> _$conversationPhotosComputed;
+
+  @override
+  List<PhotoModel> get conversationPhotos => (_$conversationPhotosComputed ??=
+          Computed<List<PhotoModel>>(() => super.conversationPhotos,
+              name: '_ChatStoreBase.conversationPhotos'))
+      .value;
   Computed<ChatState> _$getStateComputed;
 
   @override
@@ -415,6 +422,7 @@ mixin _$ChatStore on _ChatStoreBase, Store {
     return '''
 isReplyMessage: ${isReplyMessage},
 replayMessage: ${replayMessage},
+conversationPhotos: ${conversationPhotos},
 getState: ${getState},
 conversation: ${conversation},
 composerMode: ${composerMode},
