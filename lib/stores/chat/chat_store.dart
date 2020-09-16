@@ -103,6 +103,9 @@ abstract class _ChatStoreBase with Store {
   bool get isInputEmpty => _state.inputMessage.isNotEmpty;
 
   @computed
+  bool get isSubscribing => _state.isSubscribing;
+
+  @computed
   bool get isRecording => _isRecording;
 
   @computed
@@ -121,14 +124,14 @@ abstract class _ChatStoreBase with Store {
   @action
   Future subscribe() async {
     try {
-      _state = _state.copyWith(loading: true);
+      _state = _state.copyWith(isSubscribing: true);
       final result = await _repository.subscribe(conversation.id);
       _conversation = result;
       _determineComposerMode();
     } on ServerError catch (e) {
       Crash.report(e.message);
     } finally {
-      _state = _state.copyWith(loading: false);
+      _state = _state.copyWith(isSubscribing: false);
     }
   }
 

@@ -9,13 +9,13 @@ part of 'chat_settings_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
-  Computed<bool> _$isNotificationComputed;
+  Computed<bool> _$isNotificationDisabledComputed;
 
   @override
-  bool get isNotification =>
-      (_$isNotificationComputed ??= Computed<bool>(() => super.isNotification,
-              name: '_ChatSettingsStoreBase.isNotification'))
-          .value;
+  bool get isNotificationDisabled => (_$isNotificationDisabledComputed ??=
+          Computed<bool>(() => super.isNotificationDisabled,
+              name: '_ChatSettingsStoreBase.isNotificationDisabled'))
+      .value;
   Computed<bool> _$showUnsubscribeButtonComputed;
 
   @override
@@ -80,19 +80,20 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
               name: '_ChatSettingsStoreBase.users'))
           .value;
 
-  final _$_isNotificationAtom =
-      Atom(name: '_ChatSettingsStoreBase._isNotification');
+  final _$_isNotificationDisabledAtom =
+      Atom(name: '_ChatSettingsStoreBase._isNotificationDisabled');
 
   @override
-  bool get _isNotification {
-    _$_isNotificationAtom.reportRead();
-    return super._isNotification;
+  bool get _isNotificationDisabled {
+    _$_isNotificationDisabledAtom.reportRead();
+    return super._isNotificationDisabled;
   }
 
   @override
-  set _isNotification(bool value) {
-    _$_isNotificationAtom.reportWrite(value, super._isNotification, () {
-      super._isNotification = value;
+  set _isNotificationDisabled(bool value) {
+    _$_isNotificationDisabledAtom
+        .reportWrite(value, super._isNotificationDisabled, () {
+      super._isNotificationDisabled = value;
     });
   }
 
@@ -245,7 +246,7 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
   @override
   String toString() {
     return '''
-isNotification: ${isNotification},
+isNotificationDisabled: ${isNotificationDisabled},
 showUnsubscribeButton: ${showUnsubscribeButton},
 isLoadig: ${isLoadig},
 selectedColor: ${selectedColor},

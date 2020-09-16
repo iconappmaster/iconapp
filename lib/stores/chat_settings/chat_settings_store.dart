@@ -24,7 +24,7 @@ abstract class _ChatSettingsStoreBase with Store {
   }
 
   @observable
-  bool _isNotification = false;
+  bool _isNotificationDisabled = false;
 
   @observable
   bool _showUnsubscribeButton = true;
@@ -39,7 +39,7 @@ abstract class _ChatSettingsStoreBase with Store {
   ObservableList<UserModel> _users = ObservableList.of([]);
 
   @computed
-  bool get isNotification => _isNotification;
+  bool get isNotificationDisabled => _isNotificationDisabled;
 
   @computed
   bool get showUnsubscribeButton => _showUnsubscribeButton;
@@ -90,7 +90,7 @@ abstract class _ChatSettingsStoreBase with Store {
     users.clear();
     users.addAll(_chat.conversation?.users);
     _selectedColor = _chat.conversation?.backgroundColor;
-    _isNotification = _chat.conversation?.areNotificationsEnabled ?? true;
+    _isNotificationDisabled = _chat.conversation?.areNotificationsDisabled;
     _showUnsubscribeButton = _chat.conversation.isSubscribed;
   }
 
@@ -200,8 +200,12 @@ abstract class _ChatSettingsStoreBase with Store {
   Future setNotification(bool value) async {
     try {
       _isLoading = true;
-      _isNotification = value;
-      await _repository.setNotification(_chat.conversation.id, value);
+      _isNotificationDisabled =
+          await _repository.setNotification(_chat.conversation.id, value);
+
+      final con = _chat.conversation
+          .copyWith(areNotificationsDisabled: _isNotificationDisabled);
+      _chat.setConversation(con);
     } on Exception catch (e) {
       print(e);
     } finally {

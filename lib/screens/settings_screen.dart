@@ -42,8 +42,6 @@ class AppSettingsScreen extends StatelessWidget {
               ),
               child: ListView(
                 children: [
-                  AppNotificationTile(title: 'השתקת התראות'),
-                  _SettingsDivider(),
                   AppSettingsTile(title: 'הזמנת חברים', onTap: () => 'tap'),
                   _SettingsDivider(),
                   AppSettingsTile(title: 'אודות אייקון', onTap: () => 'tap'),

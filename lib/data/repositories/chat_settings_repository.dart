@@ -11,7 +11,7 @@ abstract class ChatSettingsRepository {
   Future<Conversation> makeUserAdmin(int conversationId, int userId);
   Future<Conversation> updateConversation(
       int conversationId, Conversation conversation);
-  Future setNotification(int conversationId, bool isOn);
+  Future setNotification(int conversationId, bool isNotificationDisabled);
 }
 
 class ChatSettingsRepositoryImpl implements ChatSettingsRepository {
@@ -32,14 +32,12 @@ class ChatSettingsRepositoryImpl implements ChatSettingsRepository {
   }
 
   @override
-  Future<Conversation> removeUser(
-      int conversationId, int userId) async {
+  Future<Conversation> removeUser(int conversationId, int userId) async {
     return await restClient.removeUser(conversationId, userId);
   }
 
   @override
-  Future<Conversation> makeUserAdmin(
-      int conversationId, int userId) async {
+  Future<Conversation> makeUserAdmin(int conversationId, int userId) async {
     return await restClient.makeUserAdmin(conversationId, userId);
   }
 
@@ -50,11 +48,15 @@ class ChatSettingsRepositoryImpl implements ChatSettingsRepository {
   }
 
   @override
-  Future setNotification(int conversationId, bool isOn) async {
-    if (isOn) {
-      return await restClient.turnOnConversationNotifications(conversationId);
+  Future setNotification(
+      int conversationId, bool isNotificationDisabled) async {
+    if (isNotificationDisabled) {
+      await restClient.turnOffConversationNotifications(conversationId);
+      return true;
     } else {
-      return await restClient.turnOffConversationNotifications(conversationId);
+      await restClient.turnOnConversationNotifications(conversationId);
+      return false;
+      
     }
   }
 }

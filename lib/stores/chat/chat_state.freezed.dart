@@ -13,9 +13,13 @@ class _$ChatStateTearOff {
   const _$ChatStateTearOff();
 
 // ignore: unused_element
-  _ChatState call({@required bool loading, @required String inputMessage}) {
+  _ChatState call(
+      {@required bool loading,
+      @required bool isSubscribing,
+      @required String inputMessage}) {
     return _ChatState(
       loading: loading,
+      isSubscribing: isSubscribing,
       inputMessage: inputMessage,
     );
   }
@@ -26,6 +30,7 @@ const $ChatState = _$ChatStateTearOff();
 
 mixin _$ChatState {
   bool get loading;
+  bool get isSubscribing;
   String get inputMessage;
 
   $ChatStateCopyWith<ChatState> get copyWith;
@@ -34,7 +39,7 @@ mixin _$ChatState {
 abstract class $ChatStateCopyWith<$Res> {
   factory $ChatStateCopyWith(ChatState value, $Res Function(ChatState) then) =
       _$ChatStateCopyWithImpl<$Res>;
-  $Res call({bool loading, String inputMessage});
+  $Res call({bool loading, bool isSubscribing, String inputMessage});
 }
 
 class _$ChatStateCopyWithImpl<$Res> implements $ChatStateCopyWith<$Res> {
@@ -47,10 +52,14 @@ class _$ChatStateCopyWithImpl<$Res> implements $ChatStateCopyWith<$Res> {
   @override
   $Res call({
     Object loading = freezed,
+    Object isSubscribing = freezed,
     Object inputMessage = freezed,
   }) {
     return _then(_value.copyWith(
       loading: loading == freezed ? _value.loading : loading as bool,
+      isSubscribing: isSubscribing == freezed
+          ? _value.isSubscribing
+          : isSubscribing as bool,
       inputMessage: inputMessage == freezed
           ? _value.inputMessage
           : inputMessage as String,
@@ -63,7 +72,7 @@ abstract class _$ChatStateCopyWith<$Res> implements $ChatStateCopyWith<$Res> {
           _ChatState value, $Res Function(_ChatState) then) =
       __$ChatStateCopyWithImpl<$Res>;
   @override
-  $Res call({bool loading, String inputMessage});
+  $Res call({bool loading, bool isSubscribing, String inputMessage});
 }
 
 class __$ChatStateCopyWithImpl<$Res> extends _$ChatStateCopyWithImpl<$Res>
@@ -77,10 +86,14 @@ class __$ChatStateCopyWithImpl<$Res> extends _$ChatStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object loading = freezed,
+    Object isSubscribing = freezed,
     Object inputMessage = freezed,
   }) {
     return _then(_ChatState(
       loading: loading == freezed ? _value.loading : loading as bool,
+      isSubscribing: isSubscribing == freezed
+          ? _value.isSubscribing
+          : isSubscribing as bool,
       inputMessage: inputMessage == freezed
           ? _value.inputMessage
           : inputMessage as String,
@@ -89,18 +102,24 @@ class __$ChatStateCopyWithImpl<$Res> extends _$ChatStateCopyWithImpl<$Res>
 }
 
 class _$_ChatState implements _ChatState {
-  const _$_ChatState({@required this.loading, @required this.inputMessage})
+  const _$_ChatState(
+      {@required this.loading,
+      @required this.isSubscribing,
+      @required this.inputMessage})
       : assert(loading != null),
+        assert(isSubscribing != null),
         assert(inputMessage != null);
 
   @override
   final bool loading;
   @override
+  final bool isSubscribing;
+  @override
   final String inputMessage;
 
   @override
   String toString() {
-    return 'ChatState(loading: $loading, inputMessage: $inputMessage)';
+    return 'ChatState(loading: $loading, isSubscribing: $isSubscribing, inputMessage: $inputMessage)';
   }
 
   @override
@@ -110,6 +129,9 @@ class _$_ChatState implements _ChatState {
             (identical(other.loading, loading) ||
                 const DeepCollectionEquality()
                     .equals(other.loading, loading)) &&
+            (identical(other.isSubscribing, isSubscribing) ||
+                const DeepCollectionEquality()
+                    .equals(other.isSubscribing, isSubscribing)) &&
             (identical(other.inputMessage, inputMessage) ||
                 const DeepCollectionEquality()
                     .equals(other.inputMessage, inputMessage)));
@@ -119,6 +141,7 @@ class _$_ChatState implements _ChatState {
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(loading) ^
+      const DeepCollectionEquality().hash(isSubscribing) ^
       const DeepCollectionEquality().hash(inputMessage);
 
   @override
@@ -128,10 +151,14 @@ class _$_ChatState implements _ChatState {
 
 abstract class _ChatState implements ChatState {
   const factory _ChatState(
-      {@required bool loading, @required String inputMessage}) = _$_ChatState;
+      {@required bool loading,
+      @required bool isSubscribing,
+      @required String inputMessage}) = _$_ChatState;
 
   @override
   bool get loading;
+  @override
+  bool get isSubscribing;
   @override
   String get inputMessage;
   @override

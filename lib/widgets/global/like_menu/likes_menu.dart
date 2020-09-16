@@ -14,7 +14,6 @@ class Likeble extends StatelessWidget {
   final Widget child;
   final MessageModel message;
   final bool isMe;
-  
 
   const Likeble({
     Key key,
@@ -143,6 +142,8 @@ class _LikeMenuState extends State<LikeMenu> {
                     },
                     fullscreenDialog: true,
                     opaque: false));
+          } else {
+            context.showFlushbar(message: 'כדי להגיב להודעות אנא הצטרף לקבוצה');
           }
         },
         child: widget.child);
@@ -193,9 +194,8 @@ class LikeMenuDetails extends StatelessWidget {
 
     final menuHeight = listHeight < maxMenuHeight ? listHeight : maxMenuHeight;
 
-    final leftOffset = isMe ? size.width * .3 :  size.width * .4 ;
-  
-    
+    final leftOffset = isMe ? size.width * .3 : size.width * .4;
+
     // (childOffset.dx + maxMenuWidth) < size.width
     //     ? childOffset.dx + (isMe ?100 : size.width - 145)
     //     : (childOffset.dx - maxMenuWidth + childSize.width) + (50);

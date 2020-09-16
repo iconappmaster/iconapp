@@ -5,6 +5,7 @@ part 'chat_state.freezed.dart';
 abstract class ChatState with _$ChatState {
   const factory ChatState({
     @required bool loading,
+    @required bool isSubscribing,
     @required String inputMessage,
     // @required Conversation conversation,
   }) = _ChatState;
@@ -12,6 +13,7 @@ abstract class ChatState with _$ChatState {
   factory ChatState.initial() => ChatState(
         inputMessage: '',
         loading: false,
+        isSubscribing: false,
         // conversation: Conversation(),
       );
 }

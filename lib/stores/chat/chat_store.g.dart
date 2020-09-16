@@ -65,6 +65,13 @@ mixin _$ChatStore on _ChatStoreBase, Store {
       (_$isInputEmptyComputed ??= Computed<bool>(() => super.isInputEmpty,
               name: '_ChatStoreBase.isInputEmpty'))
           .value;
+  Computed<bool> _$isSubscribingComputed;
+
+  @override
+  bool get isSubscribing =>
+      (_$isSubscribingComputed ??= Computed<bool>(() => super.isSubscribing,
+              name: '_ChatStoreBase.isSubscribing'))
+          .value;
   Computed<bool> _$isRecordingComputed;
 
   @override
@@ -428,6 +435,7 @@ conversation: ${conversation},
 composerMode: ${composerMode},
 getMessages: ${getMessages},
 isInputEmpty: ${isInputEmpty},
+isSubscribing: ${isSubscribing},
 isRecording: ${isRecording},
 showWelcomeDialog: ${showWelcomeDialog}
     ''';

@@ -25,7 +25,7 @@ abstract class Conversation with _$Conversation {
     final bool isSubscribed,
     final int numberOfAdminsRemaining,
     final int numberOfParticipants,
-    final bool areNotificationsEnabled,
+    final bool areNotificationsDisabled,
     final UserRole userRole,
     
   }) = _Conversation;
