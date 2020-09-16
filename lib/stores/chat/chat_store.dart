@@ -84,7 +84,12 @@ abstract class _ChatStoreBase with Store {
   @computed
   List<PhotoModel> get conversationPhotos => _conversation.messages
       .where((message) => message.messageType == MessageType.photo)
-      .map((e) => PhotoModel(url: e.body, description: e.extraData))
+      .map((m) => PhotoModel(
+            id: m.id,
+            thumbnail: m.extraData,
+            url: m.body,
+            description: m.extraData,
+          ))
       .toList();
 
   @computed
@@ -216,7 +221,7 @@ abstract class _ChatStoreBase with Store {
   }
 
   @action
-  updateInputText(String input) {
+  void updateInputText(String input) {
     _state = _state.copyWith(inputMessage: input);
   }
 
@@ -230,16 +235,19 @@ abstract class _ChatStoreBase with Store {
   }
 
   @action
-  Future likeUnlikeMessage(MessageModel currentMessage, String likeType) async {
+  Future likeUnlikeMessage(MessageModel msg, String likeType) async {
     try {
-      final messageResult = currentMessage.likeType == likeType
-          ? await _repository.unlikeMessage(currentMessage.id, likeType)
-          : await _repository.likeMessage(currentMessage.id, likeType);
+      setMessagePending(msg);
+      // if the like is already selected the unlike otherwise like.
+      final messageResponse = msg.likeType == likeType
+          ? await _repository.unlikeMessage(msg.id, likeType)
+          : await _repository.likeMessage(msg.id, likeType);
 
-      final index =
-          _messages.indexWhere((message) => message.id == messageResult.id);
+      // find the index of the message in _messages by the id
+      final index = _messages.indexWhere((m) => m.id == messageResponse.id);
 
-      _messages[index] = messageResult;
+      // replace the message response with the message at the index
+      _messages[index] = messageResponse;
     } on ServerError catch (e) {
       Crash.report(e.message);
     }
@@ -249,14 +257,15 @@ abstract class _ChatStoreBase with Store {
   Future sendTextMessage() async {
     try {
       final msg = MessageModel(
-          id: DateTime.now().millisecondsSinceEpoch,
-          sender: _userStore.getUser,
-          body: _state.inputMessage,
-          status: MessageStatus.pending,
-          likeCounts: LikesCount.initial(),
-          timestamp: DateTime.now().millisecondsSinceEpoch,
-          messageType: MessageType.text,
-          repliedToMessage: _replyMessage);
+        id: DateTime.now().millisecondsSinceEpoch,
+        sender: _userStore.getUser,
+        body: _state.inputMessage,
+        status: MessageStatus.pending,
+        likeCounts: LikesCount.initial(),
+        timestamp: DateTime.now().millisecondsSinceEpoch,
+        messageType: MessageType.text,
+        repliedToMessage: _replyMessage,
+      );
 
       _messages.add(msg);
 
@@ -483,8 +492,23 @@ abstract class _ChatStoreBase with Store {
     _messages[index] = message;
   }
 
+  void setMessagePending(MessageModel msg) {
+    // update message status to pending
+    final pendingMessage = _messages
+        .firstWhere((element) => element.id == msg.id)
+        .copyWith(status: MessageStatus.pending);
+
+    // get message index
+    final index =
+        _messages.indexWhere((element) => element.id == pendingMessage.id);
+
+    // replace it
+    _messages[index] = pendingMessage;
+  }
+
   @action
   Future dispose() async {
+    _repository.cacheConversation(conversation);
     _state = ChatState.initial();
     _messages?.clear();
     _messagesSubscription?.forEach((subscription) {

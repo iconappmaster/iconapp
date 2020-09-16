@@ -3,12 +3,12 @@ library focused_menu;
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:iconapp/core/dependencies/locator.dart';
-import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/data/models/message_model.dart';
-import 'package:iconapp/stores/chat/chat_store.dart';
-import '../../../core/extensions/context_ext.dart';
 import 'like_model.dart';
+import '../../../core/dependencies/locator.dart';
+import '../../../core/theme.dart';
+import '../../../data/models/message_model.dart';
+import '../../../stores/chat/chat_store.dart';
+import '../../../core/extensions/context_ext.dart';
 
 class Likeble extends StatelessWidget {
   final Widget child;
@@ -119,8 +119,7 @@ class _LikeMenuState extends State<LikeMenu> {
                     transitionDuration:
                         widget.duration ?? Duration(milliseconds: 100),
                     pageBuilder: (context, animation, secondaryAnimation) {
-                      animation =
-                          Tween(begin: 0.0, end: 1.0).animate(animation);
+                      animation = Tween(begin: 0.0, end: 1.0).animate(animation);
                       return FadeTransition(
                         opacity: animation,
                         child: LikeMenuDetails(
@@ -196,10 +195,6 @@ class LikeMenuDetails extends StatelessWidget {
 
     final leftOffset = isMe ? size.width * .3 : size.width * .4;
 
-    // (childOffset.dx + maxMenuWidth) < size.width
-    //     ? childOffset.dx + (isMe ?100 : size.width - 145)
-    //     : (childOffset.dx - maxMenuWidth + childSize.width) + (50);
-
     final topOffset = (childOffset.dy - menuHeight - menuOffset);
 
     return Scaffold(
@@ -212,13 +207,11 @@ class LikeMenuDetails extends StatelessWidget {
                 behavior: HitTestBehavior.opaque,
                 onTap: () => Navigator.pop(context),
                 child: BackdropFilter(
-                  filter: ImageFilter.blur(
-                      sigmaX: blurSize ?? 4, sigmaY: blurSize ?? 4),
-                  child: Container(
-                    color:
-                        (blurBackgroundColor ?? Colors.black).withOpacity(0.7),
-                  ),
-                )),
+                    filter: ImageFilter.blur(
+                        sigmaX: blurSize ?? 4, sigmaY: blurSize ?? 4),
+                    child: Container(
+                        color: (blurBackgroundColor ?? Colors.black)
+                            .withOpacity(0.7)))),
             Positioned(
               top: topOffset,
               left: leftOffset,
@@ -246,38 +239,36 @@ class LikeMenuDetails extends StatelessWidget {
                                 spreadRadius: 1)
                           ]),
                   child: Row(
-                    children: [
-                      ...menuItems.map(
-                        (item) {
-                          return Container(
-                            decoration: BoxDecoration(
-                                color: item.isSelected
-                                    ? cornflower
-                                    : Colors.transparent,
-                                borderRadius: getBorderRadius(item.key)
+                    children: menuItems.map(
+                      (item) {
+                        return Container(
+                          decoration: BoxDecoration(
+                              color: item.isSelected
+                                  ? cornflower
+                                  : Colors.transparent,
+                              borderRadius: getBorderRadius(item.key)
 
-                                // BorderRadius.circular(23),
-                                ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Container(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                    item.onPressed();
-                                  },
-                                  child: SvgPicture.asset(
-                                    item.asset,
-                                    height: 28,
-                                    width: 28,
-                                  ),
+                              // BorderRadius.circular(23),
+                              ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container(
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                  item.onPressed();
+                                },
+                                child: SvgPicture.asset(
+                                  item.asset,
+                                  height: 28,
+                                  width: 28,
                                 ),
                               ),
                             ),
-                          );
-                        },
-                      ).toList()
-                    ],
+                          ),
+                        );
+                      },
+                    ).toList(),
                   ),
                 ),
               ),

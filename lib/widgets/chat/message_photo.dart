@@ -72,11 +72,6 @@ class _PhotoMessageState extends State<PhotoMessage> {
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
 
-    // final photos = store.conversation.messages
-    //     .where((photo) => photo.messageType == MessageType.photo)
-    //     .map((photo) => PhotoModel(id: photo.id, url: photo.body))
-    //     .toList();
-
     return Replyble(
       isEnabled: store.conversation.userRole != UserRole.viewer,
       isOpen: _isOpen,
@@ -97,11 +92,9 @@ class _PhotoMessageState extends State<PhotoMessage> {
                 onTap: () => ExtendedNavigator.of(context).pushNamed(
                   Routes.photoGalleryScreen,
                   arguments: PhotoGalleryScreenArguments(
-                    galleryItems: store.conversationPhotos,
-                    intialIndex: 0
-                    // intialIndex: photos.indexWhere(
-                    //   (photo) => photo.id == widget.message.id,
-                    // ),
+                    photos: store.conversationPhotos,
+                    intialIndex: store.conversationPhotos
+                        .indexWhere((m) => m.id == widget.message.id),
                   ),
                 ),
                 child: Stack(children: [

@@ -95,21 +95,23 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                                 fit: StackFit.expand,
                                 children: [
                                   Container(
-                                      child: story.imageType ==
-                                              MediaType.photo
-                                                  .toString()
-                                                  .parseEnum()
-                                          ? ClipRRect(
-                                              borderRadius: storyBorderRadius,
-                                              child: NetworkPhoto(
-                                                url: story.photo?.url ?? '',
-                                              ))
-                                          : ClipRRect(
-                                              borderRadius: storyBorderRadius,
-                                              child: VideoScreen(
-                                                  mute: true,
-                                                  url: story.photo.url,
-                                                  showToolbar: false))),
+                                    child: story.imageType ==
+                                            MediaType.photo
+                                                .toString()
+                                                .parseEnum()
+                                        ? ClipRRect(
+                                            borderRadius: storyBorderRadius,
+                                            child: NetworkPhoto(
+                                              url: story.photo?.url ?? '',
+                                            ))
+                                        : ClipRRect(
+                                            borderRadius: storyBorderRadius,
+                                            child: VideoScreen(
+                                                mute: true,
+                                                url: story.photo.url,
+                                                showToolbar: false),
+                                          ),
+                                  ),
                                   Positioned(
                                       left: 5,
                                       child: IconButton(
@@ -169,52 +171,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                   ? context.heightPlusStatusbarPerc(.42)
                   : context.heightPlusStatusbarPerc(.323),
               child: GestureDetector(
-                onTap: () {
-                  showModalBottomSheet(
-                      context: context,
-                      builder: (BuildContext bc) {
-                        return Container(
-                          child: Wrap(
-                            children: <Widget>[
-                              ListTile(
-                                  leading: Icon(Icons.camera),
-                                  title: Text(
-                                    'מצלמה',
-                                    style: replayContnet,
-                                  ),
-                                  onTap: () async {
-                                    _edit.addPhotoMedia(ImageSource.camera);
-                                    await Navigator.pop(context);
-                                    await _animateEnd();
-                                  }),
-                              ListTile(
-                                  leading: Icon(Icons.photo),
-                                  title: Text(
-                                    'גלריה',
-                                    style: replayContnet,
-                                  ),
-                                  onTap: () async {
-                                    _edit.addPhotoMedia(ImageSource.gallery);
-                                    await Navigator.pop(context);
-                                    await _animateEnd();
-                                  }),
-                              ListTile(
-                                leading: Icon(Icons.videocam),
-                                title: Text(
-                                  'סרטון',
-                                  style: replayContnet,
-                                ),
-                                onTap: () async {
-                                  _edit.addVideoMedia();
-                                  await Navigator.pop(context);
-                                  await _animateEnd();
-                                },
-                              ),
-                            ],
-                          ),
-                        );
-                      });
-                },
+                onTap: () async => await _showBtoomSheet(context),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -291,6 +248,54 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
           ],
         ),
       )),
+    );
+  }
+
+  Future _showBtoomSheet(BuildContext context) async {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return Container(
+          child: Wrap(
+            children: <Widget>[
+              ListTile(
+                  leading: Icon(Icons.camera),
+                  title: Text(
+                    'מצלמה',
+                    style: replayContnet,
+                  ),
+                  onTap: () async {
+                    _edit.addPhotoMedia(ImageSource.camera);
+                    await Navigator.pop(context);
+                    await _animateEnd();
+                  }),
+              ListTile(
+                  leading: Icon(Icons.photo),
+                  title: Text(
+                    'גלריה',
+                    style: replayContnet,
+                  ),
+                  onTap: () async {
+                    _edit.addPhotoMedia(ImageSource.gallery);
+                    await Navigator.pop(context);
+                    await _animateEnd();
+                  }),
+              ListTile(
+                leading: Icon(Icons.videocam),
+                title: Text(
+                  'סרטון',
+                  style: replayContnet,
+                ),
+                onTap: () async {
+                  _edit.addVideoMedia();
+                  await Navigator.pop(context);
+                  await _animateEnd();
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 

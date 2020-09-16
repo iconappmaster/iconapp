@@ -59,10 +59,10 @@ class EmojiPlus extends StatelessWidget {
 
   const EmojiPlus({
     Key key,
-   @required  this.likeAsset,
-    this.padding, 
-    @required this.message, 
-    @required  this.isMe,
+    @required this.likeAsset,
+    this.padding,
+    @required this.message,
+    @required this.isMe,
   }) : super(key: key);
 
   @override
@@ -70,14 +70,22 @@ class EmojiPlus extends StatelessWidget {
     return Likeble(
       isMe: isMe,
       message: message,
-          child: Padding(
-          padding: padding ?? EdgeInsets.all(0),
-          child: SvgPicture.asset(
-      likeAsset != null ? likesMap[likeAsset] : 'assets/images/emoji_add.svg',
-      height: 24,
-      width: 24,
-          ),
-        ),
+      child: Padding(
+        padding: padding ?? EdgeInsets.all(0),
+        child: message.status == MessageStatus.pending
+            ? SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(white), strokeWidth: 1))
+            : SvgPicture.asset(
+                likeAsset != null
+                    ? likesMap[likeAsset]
+                    : 'assets/images/emoji_add.svg',
+                height: 24,
+                width: 24,
+              ),
+      ),
     );
   }
 }

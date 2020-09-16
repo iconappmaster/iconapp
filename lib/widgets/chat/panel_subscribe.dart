@@ -4,7 +4,6 @@ import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
-import 'package:iconapp/widgets/global/lottie_loader.dart';
 
 class ViewerPanel extends StatelessWidget {
   @override
@@ -42,12 +41,9 @@ class PanelSubscriber extends StatelessWidget {
               height: 58.7,
               child: Center(
                   child: FlatButton(
-                child: CustomText(
-                  'הצטרפות לקבוצה',
-                  style: chatCompose.copyWith(
-                    color: store.isSubscribing ? Colors.grey : cornflower,
-                  ),
-                ),
+                child: CustomText('הצטרפות לקבוצה',
+                    style: chatCompose.copyWith(
+                        color: store.isSubscribing ? Colors.grey : cornflower)),
                 onPressed: () => store.subscribe(),
               )),
             ),

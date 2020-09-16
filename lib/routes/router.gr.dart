@@ -169,7 +169,7 @@ class Router extends RouterBase {
       return MaterialPageRoute<dynamic>(
         builder: (context) => PhotoGalleryScreen(
           key: args.key,
-          galleryItems: args.galleryItems,
+          galleryItems: args.photos,
           intialIndex: args.intialIndex,
         ),
         settings: data,
@@ -305,7 +305,7 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
       pushNamed<dynamic>(
         Routes.photoGalleryScreen,
         arguments: PhotoGalleryScreenArguments(
-            key: key, galleryItems: galleryItems, intialIndex: intialIndex),
+            key: key, photos: galleryItems, intialIndex: intialIndex),
       );
 
   Future<dynamic> pushSelectIconScreen({
@@ -401,9 +401,9 @@ class VideoScreenArguments {
 //PhotoGalleryScreen arguments holder class
 class PhotoGalleryScreenArguments {
   final Key key;
-  final List<PhotoModel> galleryItems;
+  final List<PhotoModel> photos;
   final int intialIndex;
-  PhotoGalleryScreenArguments({this.key, this.galleryItems, this.intialIndex});
+  PhotoGalleryScreenArguments({this.key, this.photos, this.intialIndex});
 }
 
 //SelectIconScreen arguments holder class

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/chat/compose/send_button.dart';
 import 'package:image_picker/image_picker.dart';
@@ -20,8 +21,8 @@ class ComposeActionButtons extends StatelessWidget {
           children: <Widget>[
             _buildActionButton(
               'assets/images/camera.svg',
-              onTap: () => store.sendPhotoMessage(ImageSource.camera),
-              onLongTap: () => store.sendVideoMessage(ImageSource.camera),
+              onTap: () => _showCameraSheet(context),
+              // onLongTap: () => store.sendVideoMessage(ImageSource.camera),
             ),
             _buildActionButton(
               'assets/images/photo.svg',
@@ -45,6 +46,41 @@ class ComposeActionButtons extends StatelessWidget {
         onTap: onTap,
         child: SvgPicture.asset(asset, height: size, width: size),
       ),
+    );
+  }
+
+  Future _showCameraSheet(BuildContext context) async {
+    final store = sl<ChatStore>();
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return Container(
+          child: Wrap(
+            children: <Widget>[
+              ListTile(
+                  leading: Icon(Icons.camera),
+                  title: Text(
+                    'מצלמה',
+                    style: replayContnet,
+                  ),
+                  onTap: () {
+                    store.sendPhotoMessage(ImageSource.camera);
+                    Navigator.pop(context);
+                  }),
+              ListTile(
+                  leading: Icon(Icons.videocam),
+                  title: Text(
+                    'וידאו',
+                    style: replayContnet,
+                  ),
+                  onTap: () {
+                    store.sendVideoMessage(ImageSource.gallery);
+                    Navigator.pop(context);
+                  }),
+            ],
+          ),
+        );
+      },
     );
   }
 }

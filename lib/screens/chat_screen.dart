@@ -31,7 +31,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   ScrollController _controller;
   bool _upDirection = false, _flag = true;
- 
+
   ChatStore _chat;
   StoryStore _story;
   Socket _socket;
@@ -66,6 +66,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Future initSocket() async {
+    _socket = sl<Socket>();
     await _socket.subscribeChannel(widget.conversation.id.toString());
 
     _socket

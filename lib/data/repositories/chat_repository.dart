@@ -45,8 +45,7 @@ class ChatRepositoryImpl implements ChatRepository {
   Future<Conversation> getCachedConversation(int id) async {
     if (cache.containsCustom(id.converastionKey())) {
       final json = await cache.getCustomString(id.converastionKey());
-      final conversation = Conversation.fromJson(jsonDecode(json));
-      return conversation;
+      return Conversation.fromJson(jsonDecode(json));
     }
 
     return null;

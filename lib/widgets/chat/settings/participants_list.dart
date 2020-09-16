@@ -141,71 +141,69 @@ class ParticipantTile extends StatelessWidget {
 
     final conversation = chatStore.conversation;
 
-    return Observer(
-      builder: (_) => Container(
-        padding: EdgeInsets.only(left: 21, right: 21),
-        height: settingsColumnHeight,
-        child: Row(
-          children: <Widget>[
-            ParticipantAvatar(url: currentUser?.photo?.url),
-            SizedBox(width: 11.3),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                CustomText(currentUser.fullName, style: nameLight),
-                SizedBox(height: 12.3),
-                if (conversation.userRole == UserRole.admin)
-                  Row(
-                    children: <Widget>[
-                      // IF USER IS ADMIN AND NOT ME
-                      if (currentUser.userRole != UserRole.admin &&
-                          notMe(userStore.getUser.id))
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: SettingsActionButton(
-                            isAdminsLeft: settingsStore.isAdminRemaining,
-                            textStyle: settingsButton,
-                            onTap: () =>
-                                settingsStore.makeUserAdmin(currentUser.id),
-                            text: 'הפוך למנהל/ת',
-                            width: 103,
-                            borderColor: cornflower,
-                          ),
-                        ),
-
-                      // MARK AS ADMIN ANY ADMIN USER.
-                      if (currentUser.userRole == UserRole.admin)
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Container(
-                            alignment: Alignment.center,
-                            width: 60.7,
-                            height: 30.7,
-                            decoration: BoxDecoration(
-                                color: cornflower,
-                                borderRadius: BorderRadius.circular(2.7)),
-                            child: CustomText('מנהל/ת',
-                                style: settingsButton.copyWith(color: white)),
-                          ),
-                        ),
-
-                      // IF USER IS ADMIN AND NOT THE CURRENT USER SHOW REMOVE
-                      if (conversation.userRole == UserRole.admin &&
-                          notMe(userStore.getUser.id))
-                        SettingsActionButton(
-                          onTap: () => settingsStore.removeUser(currentUser.id),
-                          text: 'הסרה',
-                          width: 60.7,
-                          borderColor: blueberry2,
+    return Container(
+      padding: EdgeInsets.only(left: 21, right: 21),
+      height: settingsColumnHeight,
+      child: Row(
+        children: <Widget>[
+          ParticipantAvatar(url: currentUser?.photo?.url),
+          SizedBox(width: 11.3),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              CustomText(currentUser.fullName, style: nameLight),
+              SizedBox(height: 12.3),
+              if (conversation.userRole == UserRole.admin)
+                Row(
+                  children: <Widget>[
+                    // IF USER IS ADMIN AND NOT ME
+                    if (currentUser.userRole != UserRole.admin &&
+                        notMe(userStore.getUser.id))
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: SettingsActionButton(
+                          isAdminsLeft: settingsStore.isAdminRemaining,
                           textStyle: settingsButton,
-                        )
-                    ],
-                  )
-              ],
-            )
-          ],
-        ),
+                          onTap: () =>
+                              settingsStore.makeUserAdmin(currentUser.id),
+                          text: 'הפוך למנהל/ת',
+                          width: 103,
+                          borderColor: cornflower,
+                        ),
+                      ),
+
+                    // MARK AS ADMIN ANY ADMIN USER.
+                    if (currentUser.userRole == UserRole.admin)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: 60.7,
+                          height: 30.7,
+                          decoration: BoxDecoration(
+                              color: cornflower,
+                              borderRadius: BorderRadius.circular(2.7)),
+                          child: CustomText('מנהל/ת',
+                              style: settingsButton.copyWith(color: white)),
+                        ),
+                      ),
+
+                    // IF USER IS ADMIN AND NOT THE CURRENT USER SHOW REMOVE
+                    if (conversation.userRole == UserRole.admin &&
+                        notMe(userStore.getUser.id))
+                      SettingsActionButton(
+                        onTap: () => settingsStore.removeUser(currentUser.id),
+                        text: 'הסרה',
+                        width: 60.7,
+                        borderColor: blueberry2,
+                        textStyle: settingsButton,
+                      )
+                  ],
+                )
+            ],
+          )
+        ],
       ),
     );
   }
