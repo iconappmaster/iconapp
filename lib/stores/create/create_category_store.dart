@@ -40,7 +40,7 @@ abstract class _CreateCategoryStoreBase with Store {
 
   @action
   Future updateSelected(Conversation category) async {
-    await Vibration.vibrate();
+    await Vibration.vibrate(duration: 250);
     _selectedCategory = category;
   }
 

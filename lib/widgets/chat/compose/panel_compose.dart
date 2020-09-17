@@ -51,9 +51,8 @@ class _PanelMessageComposeState extends State<PanelMessageCompose> {
                                   ? Recorder(store: store)
                                   : ComposerInput(controller: _controller)),
                           SendButton(
-                            textEditcontroller: _controller,
-                            scrollController: widget.controller,
-                          ),
+                              textEditcontroller: _controller,
+                              scrollController: widget.controller)
                         ],
                       ),
                     ],

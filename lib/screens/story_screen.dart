@@ -59,8 +59,7 @@ class _StoryScreenState extends State<StoryScreen> {
         textDirection: TextDirection.ltr,
         child: Stack(children: [
           CubePageView(
-            onPageChanged: (storyIndex) =>
-                _store.onStoryViewed(_allStories[storyIndex]),
+            onPageChanged: (page) => _store.onStoryViewed(_allStories[page]),
             controller: _pageController,
             children: _allStories.map(
               (story) {
@@ -84,6 +83,7 @@ class _StoryScreenState extends State<StoryScreen> {
                       ExtendedNavigator.of(context).pop();
                     }
                   },
+                  // onStoryShow: (s) => _store.onStoryViewed(story),
                   storyItems: story.storyImages
                       .map((story) => story.imageType ==
                               MediaType.photo.toString().parseEnum()
@@ -101,11 +101,37 @@ class _StoryScreenState extends State<StoryScreen> {
               },
             ).toList(),
           ),
-          RightStoryGestureDetector(
-              storyPageController: _storyPageController,
-              nextDebouncer: _nextDebouncer),
-          LeftStoryGestureDetector(
-            storyPageController: _storyPageController,
+          Align(
+            alignment: Alignment.centerRight,
+            heightFactor: 1,
+            child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTapDown: (details) {
+                _storyPageController.pause();
+              },
+              onTapCancel: () {
+                _storyPageController.play();
+              },
+              onTapUp: (details) {
+                // if debounce timed out (not active) then continue anim
+                if (_nextDebouncer?.isActive == false) {
+                  _storyPageController.play();
+                } else {
+                  _storyPageController.next();
+                }
+              },
+            ),
+          ),
+          Align(
+            alignment: Alignment.centerLeft,
+            heightFactor: 1,
+            child: SizedBox(
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () => _storyPageController.previous(),
+              ),
+              width: 70,
+            ),
           ),
           Positioned(
               right: 4,
@@ -122,69 +148,6 @@ class _StoryScreenState extends State<StoryScreen> {
   void dispose() {
     _clearDebouncer();
     super.dispose();
-  }
-}
-
-class LeftStoryGestureDetector extends StatelessWidget {
-  const LeftStoryGestureDetector({
-    Key key,
-    @required StoryController storyPageController,
-  })  : _storyPageController = storyPageController,
-        super(key: key);
-
-  final StoryController _storyPageController;
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      heightFactor: 1,
-      child: SizedBox(
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () => _storyPageController.previous(),
-        ),
-        width: 70,
-      ),
-    );
-  }
-}
-
-class RightStoryGestureDetector extends StatelessWidget {
-  const RightStoryGestureDetector({
-    Key key,
-    @required StoryController storyPageController,
-    @required Timer nextDebouncer,
-  })  : _storyPageController = storyPageController,
-        _nextDebouncer = nextDebouncer,
-        super(key: key);
-
-  final StoryController _storyPageController;
-  final Timer _nextDebouncer;
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerRight,
-      heightFactor: 1,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTapDown: (details) {
-          _storyPageController.pause();
-        },
-        onTapCancel: () {
-          _storyPageController.play();
-        },
-        onTapUp: (details) {
-          // if debounce timed out (not active) then continue anim
-          if (_nextDebouncer?.isActive == false) {
-            _storyPageController.play();
-          } else {
-            _storyPageController.next();
-          }
-        },
-      ),
-    );
   }
 }
 

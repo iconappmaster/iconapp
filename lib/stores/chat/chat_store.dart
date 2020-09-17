@@ -83,12 +83,14 @@ abstract class _ChatStoreBase with Store {
   @computed
   List<PhotoModel> get conversationPhotos => _conversation.messages
       .where((message) => message.messageType == MessageType.photo)
-      .map((m) => PhotoModel(
-            id: m.id,
-            thumbnail: m.extraData,
-            url: m.body,
-            description: m.extraData,
-          ))
+      .map(
+        (m) => PhotoModel(
+          id: m.id,
+          thumbnail: m.extraData,
+          url: m.body,
+          description: m.extraData,
+        ),
+      )
       .toList();
 
   @computed
@@ -165,7 +167,7 @@ abstract class _ChatStoreBase with Store {
   Future getConversation() async {
     try {
       _state = _state.copyWith(loading: true);
-      await getCachedConversation();
+      // await getCachedConversation();
       final remote = await _repository.getRemoteConversaion(conversation.id);
       updateUi(remote);
       _repository.cacheConversation(conversation);
@@ -474,7 +476,7 @@ abstract class _ChatStoreBase with Store {
 
   @action
   void setConversation(Conversation conversation) {
-    _conversation = conversation;
+    updateUi(conversation);
   }
 
   _updateLocalMessage(MessageModel message, int remoteId) {

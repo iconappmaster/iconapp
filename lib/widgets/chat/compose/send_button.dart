@@ -5,6 +5,7 @@ import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:vibration/vibration.dart';
 
 class SendButton extends StatelessWidget {
   final TextEditingController textEditcontroller;
@@ -30,6 +31,7 @@ class SendButton extends StatelessWidget {
             onLongPress: () async {
               final granted = await Permission.microphone.request().isGranted;
               if (granted) {
+                await Vibration.vibrate(duration: 300);
                 store.startRecording();
               }
             },
