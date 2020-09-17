@@ -253,16 +253,18 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
 
   Future _showBtoomSheet(BuildContext context) async {
     showModalBottomSheet(
+      backgroundColor: cornflower,
       context: context,
       builder: (BuildContext bc) {
         return Container(
           child: Wrap(
             children: <Widget>[
               ListTile(
-                  leading: Icon(Icons.camera),
+                  leading: SvgPicture.asset('assets/images/camera.svg',
+                      height: 40, width: 40, color: white),
                   title: Text(
                     'מצלמה',
-                    style: replayContnet,
+                    style: settingsAppbarTitle,
                   ),
                   onTap: () async {
                     _edit.addPhotoMedia(ImageSource.camera);
@@ -270,21 +272,23 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                     await _animateEnd();
                   }),
               ListTile(
-                  leading: Icon(Icons.photo),
-                  title: Text(
-                    'גלריה',
-                    style: replayContnet,
-                  ),
+                  leading: SvgPicture.asset('assets/images/photo.svg',
+                      height: 40, width: 40, color: white),
+                  title: Text('גלריה', style: settingsAppbarTitle),
                   onTap: () async {
                     _edit.addPhotoMedia(ImageSource.gallery);
                     await Navigator.pop(context);
                     await _animateEnd();
                   }),
               ListTile(
-                leading: Icon(Icons.videocam),
+                leading: Icon(
+                  Icons.videocam,
+                  color: white,
+                  size: 40,
+                ),
                 title: Text(
-                  'סרטון',
-                  style: replayContnet,
+                  'וידאו',
+                  style: settingsAppbarTitle,
                 ),
                 onTap: () async {
                   _edit.addVideoMedia();

@@ -72,7 +72,7 @@ class EmojiPlus extends StatelessWidget {
       message: message,
       child: Padding(
         padding: padding ?? EdgeInsets.all(0),
-        child: message.status == MessageStatus.pending
+        child: message.status == MessageStatus.sendingEmoji
             ? SizedBox(
                 height: 20,
                 width: 20,

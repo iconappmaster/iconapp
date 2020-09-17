@@ -21,23 +21,20 @@ class PhotoGalleryScreen extends StatelessWidget {
         backgroundColor: Colors.black,
         body: Stack(children: [
           Center(
-            child: galleryItems.length > 1
-                ? SizedBox(
-                    height: MediaQuery.of(context).size.height * .8,
-                    child: Swiper(
-                      viewportFraction: 0.8,
-                      scale: 0.9,
-                      itemCount: galleryItems.length,
-                      scrollDirection: Axis.vertical,
-                      index: intialIndex,
-                      physics: BouncingScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        final photo = galleryItems[index];
-                        return NetworkPhoto(url: photo.url);
-                      },
-                    ))
-                : NetworkPhoto(url: galleryItems.first.url),
-          ),
+              child: SizedBox(
+                  height: MediaQuery.of(context).size.height * .8,
+                  child: Swiper(
+                    viewportFraction: 0.8,
+                    scale: 0.9,
+                    itemCount: galleryItems.length,
+                    scrollDirection: Axis.vertical,
+                    index: intialIndex,
+                    physics: BouncingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final photo = galleryItems[index];
+                      return NetworkPhoto(url: photo.url);
+                    },
+                  ))),
           BluredAppbar(),
         ]),
       ),

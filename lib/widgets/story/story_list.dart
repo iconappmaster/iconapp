@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/routes/router.gr.dart';
+import 'package:iconapp/widgets/global/outer_circle.dart';
 import '../../core/bouncing.dart';
 import '../../core/dependencies/locator.dart';
 import '../../core/theme.dart';
@@ -54,8 +55,7 @@ class _StoriesListState extends State<StoriesList> {
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 8),
                 margin: widget.margin,
-                // height: widget.show ? 100 : 0,
-                height: 100,
+                height: 110,
                 width: context.widthPx,
                 child: ListView(
                   reverse: true,
@@ -98,15 +98,15 @@ class StoryAddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = sl<UserStore>();
-    return BouncingWidget(
-      onPressed: onTap,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Container(
-            height: 64,
-            width: 64,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        BouncingWidget(
+          onPressed: onTap,
+          child: Container(
+            height: 66,
+            width: 66,
             margin: EdgeInsets.symmetric(horizontal: 5),
             decoration: BoxDecoration(
                 shape: BoxShape.circle, color: Colors.transparent),
@@ -128,10 +128,10 @@ class StoryAddButton extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 8),
-          CustomText('הסיפור שלך', style: myStoryCreate.copyWith(color: white)),
-        ],
-      ),
+        ),
+        SizedBox(height: 12),
+        CustomText('הסיפור שלך', style: myStoryCreate.copyWith(color: white)),
+      ],
     );
   }
 }
@@ -148,17 +148,17 @@ class StoryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BouncingWidget(
-      onPressed: onTap,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(3.0),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        BouncingWidget(
+          onPressed: onTap,
+          child: OuterCircle(
+            gradient: story.isNew ? redPinkGradient : whiteGradient,
             child: Container(
-              height: 60,
-              width: 60,
+              height: 55,
+              width: 55,
               margin: EdgeInsets.symmetric(horizontal: 5),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
@@ -174,10 +174,10 @@ class StoryTile extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 8),
-          CustomText(story?.user?.fullName ?? '', style: myStory),
-        ],
-      ),
+        ),
+        SizedBox(height: 9),
+        CustomText(story?.user?.fullName ?? '', style: myStory),
+      ],
     );
   }
 }

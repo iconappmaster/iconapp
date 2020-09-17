@@ -17,7 +17,7 @@ import 'package:iconapp/screens/chat_screen.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/screens/chat_settings_screen.dart';
 import 'package:iconapp/screens/full_video_screen.dart';
-import 'package:iconapp/screens/full_screen_photo.dart';
+import 'package:iconapp/screens/photo_gallery_screen.dart';
 import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/screens/create_icons_screen.dart';
 import 'package:iconapp/screens/create_categories_screen.dart';
@@ -29,6 +29,7 @@ import 'package:iconapp/data/models/story_model.dart';
 import 'package:iconapp/screens/story_edit_screen.dart';
 import 'package:iconapp/screens/descrioption_screen.dart';
 import 'package:iconapp/data/models/story_image.dart';
+import 'package:iconapp/widgets/chat/message_photo.dart';
 
 class Routes {
   static const String splashScreen = '/';
@@ -49,6 +50,7 @@ class Routes {
   static const String storyScreen = '/story-screen';
   static const String storyEditScreen = '/story-edit-screen';
   static const String descriptionScreen = '/description-screen';
+  static const String singleImage = '/single-image';
   static const all = <String>{
     splashScreen,
     loginScreen,
@@ -68,6 +70,7 @@ class Routes {
     storyScreen,
     storyEditScreen,
     descriptionScreen,
+    singleImage,
   };
 }
 
@@ -93,6 +96,7 @@ class Router extends RouterBase {
     RouteDef(Routes.storyScreen, page: StoryScreen),
     RouteDef(Routes.storyEditScreen, page: StoryEditScreen),
     RouteDef(Routes.descriptionScreen, page: DescriptionScreen),
+    RouteDef(Routes.singleImage, page: SingleImage),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -169,7 +173,7 @@ class Router extends RouterBase {
       return MaterialPageRoute<dynamic>(
         builder: (context) => PhotoGalleryScreen(
           key: args.key,
-          galleryItems: args.photos,
+          galleryItems: args.galleryItems,
           intialIndex: args.intialIndex,
         ),
         settings: data,
@@ -239,6 +243,13 @@ class Router extends RouterBase {
         settings: data,
       );
     },
+    SingleImage: (RouteData data) {
+      var args = data.getArgs<SingleImageArguments>(nullOk: false);
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => SingleImage(key: args.key, url: args.url),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -305,7 +316,7 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
       pushNamed<dynamic>(
         Routes.photoGalleryScreen,
         arguments: PhotoGalleryScreenArguments(
-            key: key, photos: galleryItems, intialIndex: intialIndex),
+            key: key, galleryItems: galleryItems, intialIndex: intialIndex),
       );
 
   Future<dynamic> pushSelectIconScreen({
@@ -359,6 +370,15 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
         Routes.descriptionScreen,
         arguments: DescriptionScreenArguments(key: key, url: url, type: type),
       );
+
+  Future<dynamic> pushSingleImage({
+    Key key,
+    @required String url,
+  }) =>
+      pushNamed<dynamic>(
+        Routes.singleImage,
+        arguments: SingleImageArguments(key: key, url: url),
+      );
 }
 
 // *************************************************************************
@@ -401,9 +421,9 @@ class VideoScreenArguments {
 //PhotoGalleryScreen arguments holder class
 class PhotoGalleryScreenArguments {
   final Key key;
-  final List<PhotoModel> photos;
+  final List<PhotoModel> galleryItems;
   final int intialIndex;
-  PhotoGalleryScreenArguments({this.key, this.photos, this.intialIndex});
+  PhotoGalleryScreenArguments({this.key, this.galleryItems, this.intialIndex});
 }
 
 //SelectIconScreen arguments holder class
@@ -437,4 +457,11 @@ class DescriptionScreenArguments {
   final MediaType type;
   DescriptionScreenArguments(
       {this.key, @required this.url, @required this.type});
+}
+
+//SingleImage arguments holder class
+class SingleImageArguments {
+  final Key key;
+  final String url;
+  SingleImageArguments({this.key, @required this.url});
 }

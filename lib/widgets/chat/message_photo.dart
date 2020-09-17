@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:iconapp/widgets/global/blur_appbar.dart';
 import '../../core/bus.dart';
 import '../../core/dependencies/locator.dart';
 import '../../core/theme.dart';
@@ -89,14 +90,17 @@ class _PhotoMessageState extends State<PhotoMessage> {
               IconBubble(
                 isMe: widget.isMe,
                 message: widget.message,
-                onTap: () => ExtendedNavigator.of(context).pushNamed(
-                  Routes.photoGalleryScreen,
-                  arguments: PhotoGalleryScreenArguments(
-                    photos: store.conversationPhotos,
-                    intialIndex: store.conversationPhotos
-                        .indexWhere((m) => m.id == widget.message.id),
-                  ),
-                ),
+                onTap: () => store.conversationPhotos.length > 1
+                    ? ExtendedNavigator.of(context).pushNamed(
+                        Routes.photoGalleryScreen,
+                        arguments: PhotoGalleryScreenArguments(
+                          galleryItems: store.conversationPhotos,
+                          intialIndex: store.conversationPhotos
+                              .indexWhere((m) => m.id == widget.message.id),
+                        ),
+                      )
+                    : ExtendedNavigator.of(context)
+                        .pushSingleImage(url: widget.message.body),
                 child: Stack(children: [
                   Hero(
                     tag: widget.index,
@@ -163,5 +167,35 @@ class _PhotoMessageState extends State<PhotoMessage> {
   void dispose() {
     progressSubscription?.cancel();
     super.dispose();
+  } 
+}
+
+class SingleImage extends StatelessWidget {
+  final String url;
+
+  const SingleImage({
+    Key key,
+    @required this.url,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Stack(
+        children: [
+          Center(
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * .8,
+              child: NetworkPhoto(
+                url: url,
+              ),
+            ),
+          ),
+          BluredAppbar(),
+        ],
+      ),
+    );
   }
 }

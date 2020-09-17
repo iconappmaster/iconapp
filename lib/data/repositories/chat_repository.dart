@@ -81,12 +81,13 @@ class ChatRepositoryImpl implements ChatRepository {
   Future<MessageModel> sendMessage(
       int conversationId, MessageModel message) async {
     return await remote.sendMessage(
-      conversationId ?? '',
-      message?.body ?? '',
-      message?.messageType?.toString()?.parseEnum() ?? "",
-      message?.extraData ?? '',
-      message.repliedToMessage?.id ?? 0,
-    );
+        conversationId ?? '',
+        message?.body ?? '',
+        message?.messageType?.toString()?.parseEnum() ?? "",
+        message?.extraData ?? '',
+        message?.repliedToMessage?.id ?? 0,
+        message?.timestamp ?? 0,
+        );
   }
 
   @override

@@ -19,7 +19,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 
 part 'chat_store.g.dart';
@@ -156,9 +155,9 @@ abstract class _ChatStoreBase with Store {
 
   @action
   Future getCachedConversation() async {
-    final local = await _repository.getCachedConversation(conversation.id);
-    if (local != null) {
-      updateUi(local);
+    final cached = await _repository.getCachedConversation(conversation.id);
+    if (cached != null) {
+      updateUi(cached);
     }
   }
 
@@ -237,7 +236,7 @@ abstract class _ChatStoreBase with Store {
   @action
   Future likeUnlikeMessage(MessageModel msg, String likeType) async {
     try {
-      setMessagePending(msg);
+      setMessageStatus(msg, MessageStatus.sendingEmoji);
       // if the like is already selected the unlike otherwise like.
       final messageResponse = msg.likeType == likeType
           ? await _repository.unlikeMessage(msg.id, likeType)
@@ -328,46 +327,48 @@ abstract class _ChatStoreBase with Store {
             : Duration(minutes: 1),
       );
 
-      // get thumbnail from video
-      final thumbnail = await VideoThumbnail.thumbnailFile(
-        video: pickedFile.path,
-        imageFormat: ImageFormat.JPEG,
-        maxWidth: 250,
-        quality: 45,
-      );
+      if (pickedFile != null) {
+        // get thumbnail from video
+        final thumbnail = await VideoThumbnail.thumbnailFile(
+          video: pickedFile?.path ?? '',
+          imageFormat: ImageFormat.JPEG,
+          maxWidth: 250,
+          quality: 45,
+        );
 
-      var msg = MessageModel(
-        extraData: thumbnail,
-        id: DateTime.now().millisecondsSinceEpoch,
-        body: pickedFile.path,
-        sender: _userStore.getUser,
-        status: MessageStatus.pending,
-        likeCounts: LikesCount.initial(),
-        timestamp: DateTime.now().millisecondsSinceEpoch,
-        messageType: MessageType.video,
-      );
+        var msg = MessageModel(
+          extraData: thumbnail ?? '',
+          id: DateTime.now().millisecondsSinceEpoch,
+          body: pickedFile.path,
+          sender: _userStore.getUser,
+          status: MessageStatus.pending,
+          likeCounts: LikesCount.initial(),
+          timestamp: DateTime.now().millisecondsSinceEpoch,
+          messageType: MessageType.video,
+        );
 
-      _messages.add(msg);
+        _messages.add(msg);
 
-      // upload thumbnail and video
-      final firbaseThumbnail =
-          await _mediaStore.uploadPhoto(file: File(thumbnail));
-      final firebaseViceo = await _mediaStore.uploadVideo(
-        path: pickedFile.path,
-        messageId: msg.id,
-      );
+        // upload thumbnail and video
+        final firbaseThumbnail =
+            await _mediaStore.uploadPhoto(file: File(thumbnail));
+        final firebaseViceo = await _mediaStore.uploadVideo(
+          path: pickedFile.path,
+          messageId: msg.id,
+        );
 
-      // send message with firebase links
-      final remote = await _repository.sendMessage(
-        conversation.id,
-        msg.copyWith(
-          body: firebaseViceo,
-          extraData: firbaseThumbnail,
-        ),
-      );
+        // send message with firebase links
+        final remote = await _repository.sendMessage(
+          conversation.id,
+          msg.copyWith(
+            body: firebaseViceo,
+            extraData: firbaseThumbnail,
+          ),
+        );
 
-      _updateLocalMessage(
-          remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
+        _updateLocalMessage(
+            remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
+      }
     } on ServerError catch (e) {
       Crash.report(e.message);
     }
@@ -376,23 +377,21 @@ abstract class _ChatStoreBase with Store {
   @action
   Future startRecording() async {
     try {
-      if (await Permission.microphone.request().isGranted) {
-        _isRecording = true;
+      _isRecording = true;
 
-        recordTimer = StopWatchTimer();
-        recordTimer.onExecute.add(StopWatchExecute.start);
+      recordTimer = StopWatchTimer();
+      recordTimer.onExecute.add(StopWatchExecute.start);
 
-        final appDocDirectory = await getApplicationDocumentsDirectory();
-        final path =
-            '${appDocDirectory.path}/${DateTime.now().millisecondsSinceEpoch}';
+      final appDocDirectory = await getApplicationDocumentsDirectory();
+      final path =
+          '${appDocDirectory.path}/${DateTime.now().millisecondsSinceEpoch}';
 
-        if (_recorder == null) {
-          _recorder = FlutterAudioRecorder(path, audioFormat: AudioFormat.AAC);
-        }
-
-        await _recorder.initialized;
-        await _recorder.start();
+      if (_recorder == null) {
+        _recorder = FlutterAudioRecorder(path, audioFormat: AudioFormat.AAC);
       }
+
+      await _recorder.initialized;
+      await _recorder.start();
     } on ServerError catch (e) {
       Crash.report(e.message);
     }
@@ -402,42 +401,47 @@ abstract class _ChatStoreBase with Store {
   Future stopRecordingAndSend() async {
     try {
       var recording = await _recorder?.stop();
-      _isRecording = false;
-
-      recordTimer.onExecute.add(StopWatchExecute.stop);
-      recordTimer.onExecute.add(StopWatchExecute.reset);
-
-      final duration = recording.duration?.toString()?.split('.')?.first ?? '';
 
       if (recording != null) {
-        final msg = MessageModel(
-          id: DateTime.now().millisecondsSinceEpoch,
-          body: recording.path,
-          sender: _userStore.getUser,
-          status: MessageStatus.pending,
-          timestamp: DateTime.now().millisecondsSinceEpoch,
-          likeCounts: LikesCount.initial(),
-          messageType: MessageType.voice,
-          extraData: duration,
-          // todo need set replied message
-        );
+        _isRecording = false;
 
-        // show pending message
-        _messages.add(msg);
+        recordTimer.onExecute.add(StopWatchExecute.stop);
+        recordTimer.onExecute.add(StopWatchExecute.reset);
 
-        // start uploading the media
-        final url = await _mediaStore.uploadAudio(recording.path, msg.id);
+        final duration =
+            recording.duration?.toString()?.split('.')?.first ?? '';
 
-        // update the boy with firebase url
-        final mediaMsg = msg.copyWith(body: url);
+        if (recording != null) {
+          final msg = MessageModel(
+            id: DateTime.now().millisecondsSinceEpoch,
+            body: recording.path,
+            sender: _userStore.getUser,
+            status: MessageStatus.pending,
+            timestamp: DateTime.now().millisecondsSinceEpoch,
+            likeCounts: LikesCount.initial(),
+            messageType: MessageType.voice,
+            extraData: duration,
+            // todo need set replied message
+          );
 
-        // update the backend
-        final remote = await _repository.sendMessage(conversation.id, mediaMsg);
+          // show pending message
+          _messages.add(msg);
 
-        _updateLocalMessage(
-          remote.copyWith(status: MessageStatus.sent, id: msg.id),
-          remote.id,
-        );
+          // start uploading the media
+          final url = await _mediaStore.uploadAudio(recording.path, msg.id);
+
+          // update the boy with firebase url
+          final mediaMsg = msg.copyWith(body: url);
+
+          // update the backend
+          final remote =
+              await _repository.sendMessage(conversation.id, mediaMsg);
+
+          _updateLocalMessage(
+            remote.copyWith(status: MessageStatus.sent, id: msg.id),
+            remote.id,
+          );
+        }
       }
     } on ServerError catch (e) {
       Crash.report(e.message);
@@ -492,11 +496,11 @@ abstract class _ChatStoreBase with Store {
     _messages[index] = message;
   }
 
-  void setMessagePending(MessageModel msg) {
+  void setMessageStatus(MessageModel msg, MessageStatus status) {
     // update message status to pending
     final pendingMessage = _messages
         .firstWhere((element) => element.id == msg.id)
-        .copyWith(status: MessageStatus.pending);
+        .copyWith(status: status);
 
     // get message index
     final index =

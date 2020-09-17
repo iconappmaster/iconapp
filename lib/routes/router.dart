@@ -6,7 +6,7 @@ import 'package:iconapp/screens/create_categories_screen.dart';
 import 'package:iconapp/screens/create_details_screen.dart';
 import 'package:iconapp/screens/create_icons_screen.dart';
 import 'package:iconapp/screens/descrioption_screen.dart';
-import 'package:iconapp/screens/full_screen_photo.dart';
+import 'package:iconapp/screens/photo_gallery_screen.dart';
 import 'package:iconapp/screens/full_video_screen.dart';
 import 'package:iconapp/screens/rename_conversation.dart';
 import 'package:iconapp/screens/home_screen.dart';
@@ -18,6 +18,7 @@ import 'package:iconapp/screens/settings_screen.dart';
 import 'package:iconapp/screens/splash_screen.dart';
 import 'package:iconapp/screens/story_edit_screen.dart';
 import 'package:iconapp/screens/story_screen.dart';
+import 'package:iconapp/widgets/chat/message_photo.dart';
 
 @MaterialAutoRouter(
   generateNavigationHelperExtension: true,
@@ -40,6 +41,7 @@ import 'package:iconapp/screens/story_screen.dart';
     CupertinoRoute(page: StoryScreen),
     CupertinoRoute(page: StoryEditScreen),
     CupertinoRoute(page: DescriptionScreen),
+    CupertinoRoute(page: SingleImage),
   ],
 )
 class $Router {}

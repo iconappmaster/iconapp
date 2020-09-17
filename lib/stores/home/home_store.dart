@@ -80,8 +80,7 @@ abstract class _HomeStoreBase with Store {
 
   @action
   void updateUi(List<Conversation> conversations) {
-    
-    if (conversations.isNotEmpty) _conversations.clear();
+    _conversations.clear();
     _conversations.addAll(conversations);
   }
 

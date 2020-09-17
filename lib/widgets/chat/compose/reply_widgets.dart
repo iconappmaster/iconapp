@@ -8,10 +8,10 @@ import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
 
-Widget getReplyBody(MessageModel message) {
+Widget getReplyBody(MessageModel message, double width) {
   switch (message.messageType) {
     case MessageType.text:
-      return TextReply(messsage: message);
+      return TextReply(messsage: message, width: width);
     case MessageType.photo:
       return PhotoReply();
     case MessageType.video:
@@ -34,7 +34,7 @@ class ReplyComposePanel extends StatelessWidget {
       builder: (_) => AnimatedContainer(
         duration: Duration(milliseconds: 150),
         curve: Curves.bounceInOut,
-        height: store.isReplyMessage ? 70 : 0,
+        height: store.isReplyMessage ? 90 : 0,
         margin: EdgeInsets.only(left: 7, right: 7, bottom: 8, top: 8),
         decoration: BoxDecoration(
           color: paleGrey,
@@ -46,7 +46,7 @@ class ReplyComposePanel extends StatelessWidget {
               right: 0,
               child: Container(
                 width: 5,
-                height: 70,
+                height: 90,
                 color: cornflower,
               ),
             ),
@@ -65,7 +65,9 @@ class ReplyComposePanel extends StatelessWidget {
                             style: replayTitle),
                         SizedBox(height: 5),
                         if (store.replayMessage != null)
-                          getReplyBody(store.replayMessage),
+                          Expanded(
+                              child: getReplyBody(store.replayMessage,
+                                  MediaQuery.of(context).size.width * .7)),
                       ],
                     ),
                   ),
@@ -101,18 +103,23 @@ class ReplyComposePanel extends StatelessWidget {
 
 class TextReply extends StatelessWidget {
   final MessageModel messsage;
+  final double width;
   const TextReply({
     Key key,
     @required this.messsage,
+    this.width,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return CustomText(
-      messsage?.body ?? '',
-      style: replayContnet,
-      textAlign: TextAlign.start,
-      maxLines: 1,
+    return SizedBox(
+      width: width,
+      child: CustomText(
+        messsage?.body ?? '',
+        style: replayContnet,
+        textAlign: TextAlign.start,
+        maxLines: 2,
+      ),
     );
   }
 }

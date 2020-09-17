@@ -89,7 +89,9 @@ class _IconBubbleState extends State<IconBubble> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           if (widget.message?.repliedToMessage != null)
-                            MessageReply(widget: widget, width: 300),
+                            MessageReply(
+                                widget: widget,
+                                width: MediaQuery.of(context).size.width * .7),
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -126,8 +128,6 @@ class _IconBubbleState extends State<IconBubble> {
               ),
           ],
         ),
-        // if (showLikeIndicator)/
-
         AnimatedContainer(
           duration: Duration(milliseconds: 250),
           height: showLikeIndicator ? 25 : 0,
@@ -189,7 +189,7 @@ class MessageReply extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
       child: Container(
-        height: 63,
+        height: 75,
         width: width,
         decoration: BoxDecoration(
             color: paleGreyTwo,
@@ -204,7 +204,7 @@ class MessageReply extends StatelessWidget {
               right: 0,
               child: Container(
                 width: 5,
-                height: 63,
+                height: 80,
                 color: cornflower,
               ),
             ),
@@ -221,7 +221,11 @@ class MessageReply extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     SizedBox(height: 5),
-                    if (message != null) getReplyBody(message)
+                    if (message != null)
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * .6,
+                        child: getReplyBody(message, width),
+                      )
                   ],
                 )),
           ],

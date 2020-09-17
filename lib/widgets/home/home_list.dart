@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
-import '../../core/bouncing.dart';
 import '../../core/dependencies/locator.dart';
 import '../../core/theme.dart';
 import '../../data/models/conversation_model.dart';
@@ -49,11 +48,12 @@ class ConversationsList extends StatelessWidget {
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     final conversation = store.conversations[index];
-                    return BouncingWidget(
-                      onPressed: () => onConversationTap(conversation),
+                    return GestureDetector(
+                      onTap: () => onConversationTap(
+                        conversation,
+                      ),
                       child: ConversationTile(
                         model: conversation,
-                        // onTap: () => onConversationTap(conversation),
                       ),
                     );
                   },

@@ -4,10 +4,12 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:iconapp/core/bus.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
+import 'package:iconapp/data/repositories/media_repository.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/chat/reply_slider.dart';
 import 'package:iconapp/widgets/global/bubble.dart';
@@ -59,14 +61,21 @@ class _VoiceMessageState extends State<VoiceMessage> {
   SlidableController _controller;
   BuildContext _sliderContext;
   bool _isOpen = false;
+  double _progress = 0;
+  StreamSubscription _progressSubscription;
 
   @override
   void initState() {
     super.initState();
     _initSlidable();
     _initAudioPlayer();
+    _progressSubscription = sl<Bus>().on<ProgressEvent>().listen((event) {
+      if (mounted)
+        setState(() {
+          _progress = event.progress;
+        });
+    });
   }
-
 
   void _initSlidable() {
     // init reply abilities
@@ -87,6 +96,7 @@ class _VoiceMessageState extends State<VoiceMessage> {
 
   @override
   void dispose() {
+    _progressSubscription?.cancel();
     _audioPlayer.dispose();
     _durationSubscription?.cancel();
     _positionSubscription?.cancel();
@@ -137,16 +147,17 @@ class _VoiceMessageState extends State<VoiceMessage> {
                               _position.inMilliseconds > 0 &&
                               _position.inMilliseconds <
                                   _duration.inMilliseconds)
-                          ? _position.inMilliseconds /
-                              _duration.inMilliseconds
+                          ? _position.inMilliseconds / _duration.inMilliseconds
                           : 0.0,
                     ),
                   ),
                   widget.message.status == MessageStatus.pending
                       ? CircularProgressIndicator(
+                          value: _progress,
                           strokeWidth: 1,
-                          backgroundColor: Colors.transparent,
-                          valueColor: AlwaysStoppedAnimation<Color>(white))
+                          backgroundColor: cornflower,
+                          valueColor: AlwaysStoppedAnimation<Color>(white),
+                        )
                       : SizedBox(
                           height: 34,
                           width: 34,
@@ -161,8 +172,7 @@ class _VoiceMessageState extends State<VoiceMessage> {
                                   ScaleTransition(
                                       scale: animation, child: child),
                               child: _isPlaying
-                                  ? SvgPicture.asset(
-                                      'assets/images/pause.svg',
+                                  ? SvgPicture.asset('assets/images/pause.svg',
                                       key: Key('pause_button'),
                                       height: 12,
                                       width: 12)
@@ -223,18 +233,6 @@ class _VoiceMessageState extends State<VoiceMessage> {
           _position = Duration(seconds: 0);
         });
     });
-
-    // _audioPlayer.onPlayerStateChanged.listen((state) {
-    //   if (!mounted) return;
-    //   setState(() {
-    //     // _audioPlayerState = state;
-    //   });
-    // });
-
-    // _audioPlayer.onNotificationPlayerStateChanged.listen((state) {
-    //   if (!mounted) return;
-    //   // setState(() => _audioPlayerState = state);
-    // });
   }
 
   Future<int> _play() async {

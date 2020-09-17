@@ -21,13 +21,11 @@ class ComposeActionButtons extends StatelessWidget {
           children: <Widget>[
             _buildActionButton(
               'assets/images/camera.svg',
-              onTap: () => _showCameraSheet(context),
-              // onLongTap: () => store.sendVideoMessage(ImageSource.camera),
+              onTap: () => _showPhotoSheet(context),
             ),
             _buildActionButton(
               'assets/images/photo.svg',
-              onTap: () => store.sendPhotoMessage(ImageSource.gallery),
-              onLongTap: () => store.sendVideoMessage(ImageSource.gallery),
+              onTap: () => _showGallerySheet(context),
             ),
           ],
         ),
@@ -49,30 +47,65 @@ class ComposeActionButtons extends StatelessWidget {
     );
   }
 
-  Future _showCameraSheet(BuildContext context) async {
+  Future _showPhotoSheet(BuildContext context) async {
     final store = sl<ChatStore>();
     showModalBottomSheet(
+      backgroundColor: cornflower,
       context: context,
       builder: (BuildContext bc) {
         return Container(
           child: Wrap(
             children: <Widget>[
               ListTile(
-                  leading: Icon(Icons.camera),
+                  leading: SvgPicture.asset('assets/images/camera.svg',
+                      height: 40, width: 40, color: white),
                   title: Text(
                     'מצלמה',
-                    style: replayContnet,
+                    style: settingsAppbarTitle,
                   ),
                   onTap: () {
                     store.sendPhotoMessage(ImageSource.camera);
                     Navigator.pop(context);
                   }),
               ListTile(
-                  leading: Icon(Icons.videocam),
+                  leading: SvgPicture.asset('assets/images/camera.svg',
+                      height: 40, width: 40, color: white),
                   title: Text(
                     'וידאו',
-                    style: replayContnet,
+                    style: settingsAppbarTitle,
                   ),
+                  onTap: () {
+                    store.sendVideoMessage(ImageSource.camera);
+                    Navigator.pop(context);
+                  }),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future _showGallerySheet(BuildContext context) async {
+    final store = sl<ChatStore>();
+    showModalBottomSheet(
+      backgroundColor: cornflower,
+      context: context,
+      builder: (BuildContext bc) {
+        return Container(
+          child: Wrap(
+            children: <Widget>[
+              ListTile(
+                  leading: SvgPicture.asset('assets/images/photo.svg',
+                      height: 40, width: 40, color: white),
+                  title: Text('גלריה מצלמה', style: settingsAppbarTitle),
+                  onTap: () {
+                    store.sendPhotoMessage(ImageSource.gallery);
+                    Navigator.pop(context);
+                  }),
+              ListTile(
+                  leading: SvgPicture.asset('assets/images/photo.svg',
+                      height: 40, width: 40, color: white),
+                  title: Text('גלריה וידאו', style: settingsAppbarTitle),
                   onTap: () {
                     store.sendVideoMessage(ImageSource.gallery);
                     Navigator.pop(context);

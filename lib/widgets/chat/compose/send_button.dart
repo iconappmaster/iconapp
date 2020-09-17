@@ -1,10 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class SendButton extends StatelessWidget {
   final TextEditingController textEditcontroller;
@@ -27,7 +27,12 @@ class SendButton extends StatelessWidget {
           height: size,
           width: size,
           child: GestureDetector(
-            onLongPress: () => store.startRecording(),
+            onLongPress: () async {
+              final granted = await Permission.microphone.request().isGranted;
+              if (granted) {
+                store.startRecording();
+              }
+            },
             onLongPressEnd: (d) => store.stopRecordingAndSend(),
             child: FloatingActionButton(
               heroTag: 'fab6',
