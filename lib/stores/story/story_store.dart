@@ -6,7 +6,6 @@ import 'package:iconapp/data/repositories/story_repository.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/story/story_list.dart';
-import 'package:iconapp/widgets/story/story_view.dart';
 import 'package:mobx/mobx.dart';
 part 'story_store.g.dart';
 
@@ -47,13 +46,12 @@ abstract class _StoryStoreBase with Store {
   List<StoryModel> get getStories => _stories.reversed.toList();
 
   @action
-  Future onStoryShow(StoryItem item) async {
-    // todo
-  }
-
-  @action
-  Future onStoryCompleted() async {
-    // todo
+  Future onStoryViewed(StoryModel story) async {
+    try {
+      await _repository.viewedStory(story);
+    } on Exception catch (e) {
+      print(e);
+    }
   }
 
   @action

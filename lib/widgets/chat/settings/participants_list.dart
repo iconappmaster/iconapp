@@ -149,21 +149,21 @@ class ParticipantTile extends StatelessWidget {
           ParticipantAvatar(url: currentUser?.photo?.url),
           SizedBox(width: 11.3),
           Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              CustomText(currentUser.fullName, style: nameLight),
+              CustomText(currentUser?.fullName ?? '', style: nameLight),
               SizedBox(height: 12.3),
               if (conversation.userRole == UserRole.admin)
                 Row(
                   children: <Widget>[
                     // IF USER IS ADMIN AND NOT ME
-                    if (currentUser.userRole != UserRole.admin &&
-                        notMe(userStore.getUser.id))
+                    if (currentUser?.userRole != UserRole.admin &&
+                        notMe(userStore.getUser?.id))
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: SettingsActionButton(
-                          isAdminsLeft: settingsStore.isAdminRemaining,
+                          isAdminsLeft: settingsStore?.isAdminRemaining,
                           textStyle: settingsButton,
                           onTap: () =>
                               settingsStore.makeUserAdmin(currentUser.id),
@@ -191,9 +191,9 @@ class ParticipantTile extends StatelessWidget {
 
                     // IF USER IS ADMIN AND NOT THE CURRENT USER SHOW REMOVE
                     if (conversation.userRole == UserRole.admin &&
-                        notMe(userStore.getUser.id))
+                        notMe(userStore.getUser?.id))
                       SettingsActionButton(
-                        onTap: () => settingsStore.removeUser(currentUser.id),
+                        onTap: () => settingsStore.removeUser(currentUser?.id),
                         text: 'הסרה',
                         width: 60.7,
                         borderColor: blueberry2,

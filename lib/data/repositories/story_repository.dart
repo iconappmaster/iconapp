@@ -16,6 +16,8 @@ abstract class StoryRepository {
 
   Future<StoryModel> publishStory(StoryModel story);
 
+  Future<bool> viewedStory(StoryModel story);
+
   Stream<StoryModel> watchStories();
 }
 
@@ -51,5 +53,11 @@ class StoryRepositoryImpl implements StoryRepository {
   @override
   Stream<StoryModel> watchStories() {
     return socket.storyObserver;
+  }
+
+  @override
+  Future<bool> viewedStory(StoryModel story) async {
+    // todo fix thsi
+    return await rest.viewedStory(story.storyImages.first.id);
   }
 }

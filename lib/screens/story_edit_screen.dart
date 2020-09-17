@@ -262,10 +262,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
               ListTile(
                   leading: SvgPicture.asset('assets/images/camera.svg',
                       height: 40, width: 40, color: white),
-                  title: Text(
-                    'מצלמה',
-                    style: settingsAppbarTitle,
-                  ),
+                  title: Text('מצלמה', style: settingsAppbarTitle),
                   onTap: () async {
                     _edit.addPhotoMedia(ImageSource.camera);
                     await Navigator.pop(context);
@@ -286,10 +283,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                   color: white,
                   size: 40,
                 ),
-                title: Text(
-                  'וידאו',
-                  style: settingsAppbarTitle,
-                ),
+                title: Text('וידאו', style: settingsAppbarTitle),
                 onTap: () async {
                   _edit.addVideoMedia();
                   await Navigator.pop(context);
