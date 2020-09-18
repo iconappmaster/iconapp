@@ -592,12 +592,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  viewedStory(imgId) async {
-    ArgumentError.checkNotNull(imgId, 'imgId');
+  viewedStoryImage(imageId) async {
+    ArgumentError.checkNotNull(imageId, 'imageId');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response _result = await _dio.request('stories/$imgId/viewed_story',
+    final Response _result = await _dio.request('stories/$imageId/viewed_story',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',

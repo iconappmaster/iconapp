@@ -232,17 +232,23 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                 padding: const EdgeInsets.only(bottom: 23.0),
                 child: Align(
                   alignment: Alignment.bottomCenter,
-                  child: NextButton(
-                    title: 'שיתוף',
-                    onClick: () async {
-                      final result = await _edit.publishStory();
-                      result.fold((error) => null, (story) {
-                        ExtendedNavigator.of(context)
-                            .pushStoryScreen(currentStory: story);
-                        ExtendedNavigator.of(context).pop();
-                      });
-                    },
-                  ),
+                  child: _edit.isPublishing
+                      ? CircularProgressIndicator(
+                          strokeWidth: 2,
+                          valueColor: AlwaysStoppedAnimation(white),
+                          semanticsLabel: 'מעלה...',
+                        )
+                      : NextButton(
+                          title: 'שיתוף',
+                          onClick: () async {
+                            final result = await _edit.publishStory();
+                            result.fold((error) => null, (story) {
+                              ExtendedNavigator.of(context)
+                                  .pushStoryScreen(currentStory: story);
+                              ExtendedNavigator.of(context).pop();
+                            });
+                          },
+                        ),
                 ),
               )
           ],

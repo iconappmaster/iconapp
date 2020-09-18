@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/models/story_model.dart';
 import 'package:iconapp/data/repositories/story_repository.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
@@ -48,9 +49,9 @@ abstract class _StoryStoreBase with Store {
   @action
   Future onStoryViewed(StoryModel story) async {
     try {
-      await _repository.viewedStory(story);
+      _repository.viewedStoryImage(story.id);
     } on Exception catch (e) {
-      print(e);
+      Crash.report(e.toString());
     }
   }
 
@@ -90,8 +91,7 @@ abstract class _StoryStoreBase with Store {
   Future getConversationsStories(int conversationId) async {
     _mode = StoryMode.conversation;
     final stories = await _repository.getConversationsStories(conversationId);
-    if (_stories.isNotEmpty) _stories.clear();
-    _stories.addAll(stories);
+    setStories(stories);
   }
 
   @action
@@ -105,6 +105,23 @@ abstract class _StoryStoreBase with Store {
         getConversationsStories(id);
         break;
     }
+  }
+
+  @action
+  void setStories(List<StoryModel> stories) {
+    _stories.clear();
+    _stories.addAll(stories);
+  }
+
+  @action
+  void addStory(StoryModel story) {
+    _stories.add(story);
+  }
+
+  @action
+  void updateStory(StoryModel story) {
+    final index = _stories.indexOf((s) => s.id == story.id);
+    if (index != -1) _stories[index] = story;
   }
 
   void dispose() {

@@ -119,6 +119,39 @@ mixin _$StoryStore on _StoryStoreBase, Store {
   }
 
   @override
+  void setStories(List<StoryModel> stories) {
+    final _$actionInfo = _$_StoryStoreBaseActionController.startAction(
+        name: '_StoryStoreBase.setStories');
+    try {
+      return super.setStories(stories);
+    } finally {
+      _$_StoryStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void addStory(StoryModel story) {
+    final _$actionInfo = _$_StoryStoreBaseActionController.startAction(
+        name: '_StoryStoreBase.addStory');
+    try {
+      return super.addStory(story);
+    } finally {
+      _$_StoryStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void updateStory(StoryModel story) {
+    final _$actionInfo = _$_StoryStoreBaseActionController.startAction(
+        name: '_StoryStoreBase.updateStory');
+    try {
+      return super.updateStory(story);
+    } finally {
+      _$_StoryStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 mode: ${mode},

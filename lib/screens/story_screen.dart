@@ -44,8 +44,12 @@ class _StoryScreenState extends State<StoryScreen> {
     // get the index of the current stroy
     final index =
         _store.getStories.indexWhere((s) => s.id == widget.currentStory.id);
+
     _allStories = _store.getStories;
-    swap(_allStories, index, 0);
+
+    if (_allStories.length > 1) {
+      swap(_allStories, index, 0);
+    }
 
     _storyPageController = StoryController();
     _pageController = PageController();
@@ -83,7 +87,7 @@ class _StoryScreenState extends State<StoryScreen> {
                       ExtendedNavigator.of(context).pop();
                     }
                   },
-                  // onStoryShow: (s) => _store.onStoryViewed(story),
+                  onStoryShow: (s) => _store.onStoryViewed(story),
                   storyItems: story.storyImages
                       .map((story) => story.imageType ==
                               MediaType.photo.toString().parseEnum()
@@ -147,6 +151,7 @@ class _StoryScreenState extends State<StoryScreen> {
   @override
   void dispose() {
     _clearDebouncer();
+    _store.refreshStories();
     super.dispose();
   }
 }

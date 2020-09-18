@@ -130,7 +130,7 @@ abstract class RestClient {
   Future<List<StoryModel>> conversationStories(@Query('conversationId') int id);
 
   @POST('stories/{imgId}/viewed_story')
-  Future viewedStory(@Path('imgId') int imgId);
+  Future viewedStoryImage(@Path('imgId') int imageId);
 
   @POST('stories/add_to_story')
   Future<StoryModel> publishStory(@Body() StoryModel story);

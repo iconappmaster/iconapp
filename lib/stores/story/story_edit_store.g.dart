@@ -16,6 +16,13 @@ mixin _$StoryEditStore on _StoryEditStoreBase, Store {
       (_$isLoadingComputed ??= Computed<bool>(() => super.isLoading,
               name: '_StoryEditStoreBase.isLoading'))
           .value;
+  Computed<bool> _$isPublishingComputed;
+
+  @override
+  bool get isPublishing =>
+      (_$isPublishingComputed ??= Computed<bool>(() => super.isPublishing,
+              name: '_StoryEditStoreBase.isPublishing'))
+          .value;
   Computed<List<StoryImageModel>> _$storiesComputed;
 
   @override
@@ -43,6 +50,21 @@ mixin _$StoryEditStore on _StoryEditStoreBase, Store {
   set _isLoading(bool value) {
     _$_isLoadingAtom.reportWrite(value, super._isLoading, () {
       super._isLoading = value;
+    });
+  }
+
+  final _$_isPublishingAtom = Atom(name: '_StoryEditStoreBase._isPublishing');
+
+  @override
+  bool get _isPublishing {
+    _$_isPublishingAtom.reportRead();
+    return super._isPublishing;
+  }
+
+  @override
+  set _isPublishing(bool value) {
+    _$_isPublishingAtom.reportWrite(value, super._isPublishing, () {
+      super._isPublishing = value;
     });
   }
 
@@ -120,6 +142,7 @@ mixin _$StoryEditStore on _StoryEditStoreBase, Store {
   String toString() {
     return '''
 isLoading: ${isLoading},
+isPublishing: ${isPublishing},
 stories: ${stories},
 canPublish: ${canPublish}
     ''';

@@ -23,21 +23,29 @@ abstract class _StoryEditStoreBase with Store {
   MediaStore _mediaStore;
   UserStore _user;
   StoryRepository _repository;
+  StoryStore _storyStore;
 
   _StoryEditStoreBase() {
     _mediaStore = sl<MediaStore>();
     _repository = sl<StoryRepository>();
     _user = sl<UserStore>();
+    _storyStore = sl<StoryStore>();
   }
 
   @observable
   bool _isLoading = false;
 
   @observable
+  bool _isPublishing = false;
+
+  @observable
   ObservableList<StoryImageModel> _storiesToPublish = ObservableList.of([]);
 
   @computed
   bool get isLoading => _isLoading;
+
+  @computed
+  bool get isPublishing => _isPublishing;
 
   @computed
   List<StoryImageModel> get stories => _storiesToPublish;
@@ -86,17 +94,28 @@ abstract class _StoryEditStoreBase with Store {
   @action
   Future<Either<ServerError, StoryModel>> publishStory() async {
     try {
+      _isPublishing = true;
       final story = StoryModel(
-          id: DateTime.now().millisecondsSinceEpoch,
-          isNew: true,
-          user: _user.getUser,
-          storyImages: _storiesToPublish.toList());
+        id: DateTime.now().millisecondsSinceEpoch,
+        isNew: true,
+        user: _user.getUser,
+        storyImages: _storiesToPublish.toList(),
+      );
+
       final storyRes = await _repository.publishStory(story);
-      sl<StoryStore>().refreshStories();
+
+      if (_storyStore.getStories.isEmpty) {
+        _storyStore.addStory(storyRes);
+      } else {
+        _storyStore.updateStory(storyRes);
+      }
+
       return right(storyRes);
     } on ServerError catch (e) {
       Crash.report(e.message);
       return left(e);
+    } finally {
+      _isPublishing = false;
     }
   }
 
