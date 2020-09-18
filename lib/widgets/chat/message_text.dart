@@ -74,7 +74,7 @@ class _TextMessageState extends State<TextMessage> {
         return ReplyButton(message: widget.message);
       },
       child: IconBubble(
-        padding: BubbleEdges.only(left: 12, right: 12, top: 5, bottom: 7),
+        padding: BubbleEdges.only(top: 5, bottom: 1),
         message: widget.message,
         isMe: widget.isMe,
         child: Stack(children: [
