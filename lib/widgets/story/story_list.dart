@@ -152,8 +152,8 @@ class StoryTile extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        BouncingWidget(
-          onPressed: onTap,
+        GestureDetector(
+          onTap: onTap,
           child: OuterCircle(
             gradient: story.isNew ? redPinkGradient : whiteGradient,
             child: Container(

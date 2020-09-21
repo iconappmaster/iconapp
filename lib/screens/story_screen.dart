@@ -92,14 +92,14 @@ class _StoryScreenState extends State<StoryScreen> {
                       .map((story) => story.imageType ==
                               MediaType.photo.toString().parseEnum()
                           ? StoryItem.inlineImage(
-                              duration: Duration(seconds: story.duration),
+                              duration: Duration(seconds: story?.duration ?? 7),
                               url: story?.photo?.url ?? '',
                               caption: Text(story?.description ?? '',
                                   style: settingsAppbarTitle),
                               controller: _storyPageController)
                           : StoryItem.pageVideo(story.photo?.url ?? '',
                               controller: _storyPageController,
-                              duration: Duration(seconds: story.duration)))
+                              duration: Duration(seconds: story?.duration ?? 7)))
                       .toList(),
                 );
               },

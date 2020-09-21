@@ -4,7 +4,7 @@ import 'package:iconapp/widgets/chat/compose/send_button.dart';
 import 'compose_action_buttons.dart';
 import 'compose_input.dart';
 import 'reply_widgets.dart';
-import 'record.dart';
+import 'recorder.dart';
 import '../../../core/dependencies/locator.dart';
 import '../../../stores/chat/chat_store.dart';
 import '../../../core/theme.dart';

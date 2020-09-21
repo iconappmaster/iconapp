@@ -42,7 +42,7 @@ class _TextMessageState extends State<TextMessage> {
 
   void init() {
     _controller = SlidableController(
-      onSlideAnimationChanged: (s) => print(s), // do not remove
+      onSlideAnimationChanged: (s) => print(s),
       onSlideIsOpenChanged: (isOpen) {
         if (mounted) {
           setState(() {
