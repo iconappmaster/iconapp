@@ -16,11 +16,13 @@ class _$ChatStateTearOff {
   _ChatState call(
       {@required bool loading,
       @required bool isSubscribing,
-      @required String inputMessage}) {
+      @required String inputMessage,
+      @required bool pinLoading}) {
     return _ChatState(
       loading: loading,
       isSubscribing: isSubscribing,
       inputMessage: inputMessage,
+      pinLoading: pinLoading,
     );
   }
 }
@@ -32,6 +34,7 @@ mixin _$ChatState {
   bool get loading;
   bool get isSubscribing;
   String get inputMessage;
+  bool get pinLoading;
 
   $ChatStateCopyWith<ChatState> get copyWith;
 }
@@ -39,7 +42,8 @@ mixin _$ChatState {
 abstract class $ChatStateCopyWith<$Res> {
   factory $ChatStateCopyWith(ChatState value, $Res Function(ChatState) then) =
       _$ChatStateCopyWithImpl<$Res>;
-  $Res call({bool loading, bool isSubscribing, String inputMessage});
+  $Res call(
+      {bool loading, bool isSubscribing, String inputMessage, bool pinLoading});
 }
 
 class _$ChatStateCopyWithImpl<$Res> implements $ChatStateCopyWith<$Res> {
@@ -54,6 +58,7 @@ class _$ChatStateCopyWithImpl<$Res> implements $ChatStateCopyWith<$Res> {
     Object loading = freezed,
     Object isSubscribing = freezed,
     Object inputMessage = freezed,
+    Object pinLoading = freezed,
   }) {
     return _then(_value.copyWith(
       loading: loading == freezed ? _value.loading : loading as bool,
@@ -63,6 +68,8 @@ class _$ChatStateCopyWithImpl<$Res> implements $ChatStateCopyWith<$Res> {
       inputMessage: inputMessage == freezed
           ? _value.inputMessage
           : inputMessage as String,
+      pinLoading:
+          pinLoading == freezed ? _value.pinLoading : pinLoading as bool,
     ));
   }
 }
@@ -72,7 +79,8 @@ abstract class _$ChatStateCopyWith<$Res> implements $ChatStateCopyWith<$Res> {
           _ChatState value, $Res Function(_ChatState) then) =
       __$ChatStateCopyWithImpl<$Res>;
   @override
-  $Res call({bool loading, bool isSubscribing, String inputMessage});
+  $Res call(
+      {bool loading, bool isSubscribing, String inputMessage, bool pinLoading});
 }
 
 class __$ChatStateCopyWithImpl<$Res> extends _$ChatStateCopyWithImpl<$Res>
@@ -88,6 +96,7 @@ class __$ChatStateCopyWithImpl<$Res> extends _$ChatStateCopyWithImpl<$Res>
     Object loading = freezed,
     Object isSubscribing = freezed,
     Object inputMessage = freezed,
+    Object pinLoading = freezed,
   }) {
     return _then(_ChatState(
       loading: loading == freezed ? _value.loading : loading as bool,
@@ -97,6 +106,8 @@ class __$ChatStateCopyWithImpl<$Res> extends _$ChatStateCopyWithImpl<$Res>
       inputMessage: inputMessage == freezed
           ? _value.inputMessage
           : inputMessage as String,
+      pinLoading:
+          pinLoading == freezed ? _value.pinLoading : pinLoading as bool,
     ));
   }
 }
@@ -105,10 +116,12 @@ class _$_ChatState implements _ChatState {
   const _$_ChatState(
       {@required this.loading,
       @required this.isSubscribing,
-      @required this.inputMessage})
+      @required this.inputMessage,
+      @required this.pinLoading})
       : assert(loading != null),
         assert(isSubscribing != null),
-        assert(inputMessage != null);
+        assert(inputMessage != null),
+        assert(pinLoading != null);
 
   @override
   final bool loading;
@@ -116,10 +129,12 @@ class _$_ChatState implements _ChatState {
   final bool isSubscribing;
   @override
   final String inputMessage;
+  @override
+  final bool pinLoading;
 
   @override
   String toString() {
-    return 'ChatState(loading: $loading, isSubscribing: $isSubscribing, inputMessage: $inputMessage)';
+    return 'ChatState(loading: $loading, isSubscribing: $isSubscribing, inputMessage: $inputMessage, pinLoading: $pinLoading)';
   }
 
   @override
@@ -134,7 +149,10 @@ class _$_ChatState implements _ChatState {
                     .equals(other.isSubscribing, isSubscribing)) &&
             (identical(other.inputMessage, inputMessage) ||
                 const DeepCollectionEquality()
-                    .equals(other.inputMessage, inputMessage)));
+                    .equals(other.inputMessage, inputMessage)) &&
+            (identical(other.pinLoading, pinLoading) ||
+                const DeepCollectionEquality()
+                    .equals(other.pinLoading, pinLoading)));
   }
 
   @override
@@ -142,7 +160,8 @@ class _$_ChatState implements _ChatState {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(loading) ^
       const DeepCollectionEquality().hash(isSubscribing) ^
-      const DeepCollectionEquality().hash(inputMessage);
+      const DeepCollectionEquality().hash(inputMessage) ^
+      const DeepCollectionEquality().hash(pinLoading);
 
   @override
   _$ChatStateCopyWith<_ChatState> get copyWith =>
@@ -153,7 +172,8 @@ abstract class _ChatState implements ChatState {
   const factory _ChatState(
       {@required bool loading,
       @required bool isSubscribing,
-      @required String inputMessage}) = _$_ChatState;
+      @required String inputMessage,
+      @required bool pinLoading}) = _$_ChatState;
 
   @override
   bool get loading;
@@ -161,6 +181,8 @@ abstract class _ChatState implements ChatState {
   bool get isSubscribing;
   @override
   String get inputMessage;
+  @override
+  bool get pinLoading;
   @override
   _$ChatStateCopyWith<_ChatState> get copyWith;
 }

@@ -7,14 +7,14 @@ abstract class ChatState with _$ChatState {
     @required bool loading,
     @required bool isSubscribing,
     @required String inputMessage,
-    // @required Conversation conversation,
+    @required bool pinLoading,
   }) = _ChatState;
 
   factory ChatState.initial() => ChatState(
         inputMessage: '',
         loading: false,
         isSubscribing: false,
-        // conversation: Conversation(),
+        pinLoading: false,
       );
 }
 

@@ -79,6 +79,12 @@ abstract class _HomeStoreBase with Store {
   }
 
   @action
+  void updateSingleConversation(Conversation conversation) {
+    _conversations[_conversations.indexWhere((c) => c.id == conversation.id)] =
+        conversation;
+  }
+
+  @action
   void updateUi(List<Conversation> conversations) {
     _conversations.clear();
     _conversations.addAll(conversations);

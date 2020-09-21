@@ -13,6 +13,7 @@ import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/domain/core/errors.dart';
 import 'package:iconapp/stores/chat/chat_state.dart';
 import 'package:iconapp/stores/chat_settings/chat_settings_store.dart';
+import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/stores/media/media_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:image_picker/image_picker.dart';
@@ -30,6 +31,7 @@ abstract class _ChatStoreBase with Store {
   ChatRepository _repository;
   MediaStore _mediaStore;
   UserStore _userStore;
+  HomeStore _homeStore;
   SharedPreferencesService _prefs;
   FlutterAudioRecorder _recorder;
   StopWatchTimer recordTimer;
@@ -38,6 +40,7 @@ abstract class _ChatStoreBase with Store {
     _repository = sl<ChatRepository>();
     _userStore = sl<UserStore>();
     _mediaStore = sl<MediaStore>();
+    _homeStore = sl<HomeStore>();
     _prefs = sl<SharedPreferencesService>();
   }
 
@@ -188,20 +191,21 @@ abstract class _ChatStoreBase with Store {
   @action
   Future pinConversation(bool isPinned) async {
     try {
-      _state = _state.copyWith(loading: true);
+      _state = _state.copyWith(pinLoading: true);
+      await _repository.pinConversation(conversation.id, isPinned);
       _conversation = conversation.copyWith(isPinned: isPinned);
-      _repository.pinConversation(conversation.id, isPinned);
+      _homeStore.updateSingleConversation(conversation);
     } on ServerError catch (e) {
       Crash.report(e.message);
       _conversation = _conversation.copyWith(isPinned: false);
     } finally {
-      _state = _state.copyWith(loading: false);
+      _state = _state.copyWith(pinLoading: false);
     }
   }
 
   @action
   void _addAllMessages() {
-    if (_messages.isNotEmpty) _messages.clear();
+    _messages.clear();
     _messages.addAll(conversation.messages);
   }
 
@@ -275,7 +279,9 @@ abstract class _ChatStoreBase with Store {
       final remote = await _repository.sendMessage(conversation.id, msg);
 
       _updateLocalMessage(
-          remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
+        remote.copyWith(status: MessageStatus.sent, id: msg.id),
+        remote.id,
+      );
 
       _state = _state.copyWith(inputMessage: '');
     } on ServerError catch (e) {
@@ -481,7 +487,7 @@ abstract class _ChatStoreBase with Store {
 
   _updateLocalMessage(MessageModel message, int remoteId) {
     _messages[_messages.indexWhere(
-      (msg) => msg.id == message.id,
+      (m) => m.id == message.id,
     )] = message.copyWith(id: remoteId);
   }
 
@@ -494,19 +500,17 @@ abstract class _ChatStoreBase with Store {
   bool isMe(int id) => (id == _userStore.getUser?.id) ?? false;
 
   void _replaceMessage(MessageModel message) {
-    final index = _messages.indexWhere((msg) => message.id == msg.id);
+    final index = _messages.indexWhere((m) => message.id == m.id);
     _messages[index] = message;
   }
 
   void setMessageStatus(MessageModel msg, MessageStatus status) {
     // update message status to pending
-    final pendingMessage = _messages
-        .firstWhere((element) => element.id == msg.id)
-        .copyWith(status: status);
+    final pendingMessage =
+        _messages.firstWhere((m) => m.id == msg.id).copyWith(status: status);
 
     // get message index
-    final index =
-        _messages.indexWhere((element) => element.id == pendingMessage.id);
+    final index = _messages.indexWhere((m) => m.id == pendingMessage.id);
 
     // replace it
     _messages[index] = pendingMessage;
@@ -517,9 +521,7 @@ abstract class _ChatStoreBase with Store {
     _repository.cacheConversation(conversation);
     _state = ChatState.initial();
     _messages?.clear();
-    _messagesSubscription?.forEach((subscription) {
-      subscription.cancel();
-    });
+    _messagesSubscription?.forEach((subscription) => subscription.cancel());
     _conversation = Conversation();
     _replyMessage = null;
     await recordTimer?.dispose();
