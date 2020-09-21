@@ -63,7 +63,6 @@ class _StoryScreenState extends State<StoryScreen> {
         textDirection: TextDirection.ltr,
         child: Stack(children: [
           CubePageView(
-            onPageChanged: (page) => _store.onStoryViewed(_allStories[page]),
             controller: _pageController,
             children: _allStories.map(
               (story) {
@@ -87,19 +86,21 @@ class _StoryScreenState extends State<StoryScreen> {
                       ExtendedNavigator.of(context).pop();
                     }
                   },
-                  onStoryShow: (s) => _store.onStoryViewed(story),
+                  onStoryShow: (s) => _store.onStoryImageViewed(s.imageId),
                   storyItems: story.storyImages
-                      .map((story) => story.imageType ==
+                      .map((storyImage) => storyImage.imageType ==
                               MediaType.photo.toString().parseEnum()
                           ? StoryItem.inlineImage(
-                              duration: Duration(seconds: story?.duration ?? 7),
-                              url: story?.photo?.url ?? '',
-                              caption: Text(story?.description ?? '',
+                              imageId: storyImage.id,
+                              duration: Duration(seconds: storyImage?.duration ?? 7),
+                              url: storyImage?.photo?.url ?? '',
+                              caption: Text(storyImage?.description ?? '',
                                   style: settingsAppbarTitle),
                               controller: _storyPageController)
-                          : StoryItem.pageVideo(story.photo?.url ?? '',
+                          : StoryItem.pageVideo(storyImage.photo?.url ?? '',
                               controller: _storyPageController,
-                              duration: Duration(seconds: story?.duration ?? 7)))
+                              duration:
+                                  Duration(seconds: storyImage?.duration ?? 7)))
                       .toList(),
                 );
               },

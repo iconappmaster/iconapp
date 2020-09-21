@@ -11,6 +11,7 @@ enum StorageKey {
   conversation,
   fcmToken,
   home,
+  homeTimestamp
 }
 
 class SharedPreferencesService {

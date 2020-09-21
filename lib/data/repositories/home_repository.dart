@@ -7,10 +7,9 @@ import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 import 'package:iconapp/stores/socket/socket_manager.dart';
 
 abstract class HomeRepository {
-  Future<List<Conversation>> getHome();
+  Future<List<Conversation>> getConversations();
   Future<List<Conversation>> getCachedHome();
   Future<bool> cacheHome(List<Conversation> conversation);
-
   Stream<Conversation> watchConversation();
 }
 
@@ -26,7 +25,8 @@ class HomeRepositoryImpl implements HomeRepository {
   });
 
   @override
-  Future<List<Conversation>> getHome() async {
+  Future<List<Conversation>> getConversations() async {
+    final ts = cache.getInt(StorageKey.homeTimestamp) ?? 0;
     return await restClient.getConversations();
   }
 

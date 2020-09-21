@@ -16,7 +16,7 @@ abstract class StoryRepository {
 
   Future<StoryModel> publishStory(StoryModel story);
 
-  Future<bool> viewedStoryImage(int storyId);
+  Future<bool> viewedStoryImage(int imageId);
 
   Future<bool> viewedStory(StoryModel story);
 
@@ -58,8 +58,8 @@ class StoryRepositoryImpl implements StoryRepository {
   }
 
   @override
-  Future<bool> viewedStoryImage(int storyImgId) async {
-    return await rest.viewedStoryImage(storyImgId);
+  Future<bool> viewedStoryImage(int imageId) async {
+    return await rest.viewedStoryImage(imageId);
   }
 
   @override

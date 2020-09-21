@@ -30,12 +30,14 @@ class _HomeScreenState extends State<HomeScreen> {
   GlobalKey<ScaffoldState> _scaffoldKey;
   ScrollController _controller;
   bool upDirection = true, flag = true;
-  HomeStore _store;
-  
+  HomeStore _home;
+  StoryStore _story;
+
   @override
   void initState() {
     _scaffoldKey = GlobalKey<ScaffoldState>();
-    _store = sl<HomeStore>();
+    _home = sl<HomeStore>();
+    _story = sl<StoryStore>();
 
     initSocket();
     _controller = ScrollController()
@@ -49,14 +51,20 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future initSocket() async {
-    _store.watchConversation();
-
     final socket = sl<Socket>();
     await socket.subscribeChannel(homeChannelName);
 
+    _home.watchConversation();
+    _story.watchStories();
+    
     socket
       ..bindHomeChangeEvent()
       ..bindStoryChangeEvent();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
   }
 
   @override
@@ -87,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 conversation: conversation));
                         // When return from conversation update the home stories
                         stories.getHomeStories();
-                        _store.getConversations();
+                        _home.getConversations();
                       },
                     ),
                     Positioned(
@@ -111,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               showIconsSelected: false,
                               onTap: () => openBottomSheet(context))),
                     ),
-                    showWelcomeDialog(_store),
+                    showWelcomeDialog(_home),
                   ],
                 ),
               ),
@@ -145,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
-    _store?.dispose();
+    _home?.dispose();
     sl<StoryStore>().dispose();
     super.dispose();
   }

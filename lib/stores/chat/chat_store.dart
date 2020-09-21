@@ -192,8 +192,8 @@ abstract class _ChatStoreBase with Store {
   Future pinConversation(bool isPinned) async {
     try {
       _state = _state.copyWith(pinLoading: true);
-      await _repository.pinConversation(conversation.id, isPinned);
       _conversation = conversation.copyWith(isPinned: isPinned);
+      await _repository.pinConversation(conversation.id, isPinned);
       _homeStore.updateSingleConversation(conversation);
     } on ServerError catch (e) {
       Crash.report(e.message);

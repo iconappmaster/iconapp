@@ -47,9 +47,9 @@ abstract class _StoryStoreBase with Store {
   List<StoryModel> get getStories => _stories.reversed.toList();
 
   @action
-  Future onStoryViewed(StoryModel story) async {
+  Future onStoryImageViewed(int imageId) async {
     try {
-      _repository.viewedStoryImage(story.id);
+      _repository.viewedStoryImage(imageId);
     } on Exception catch (e) {
       Crash.report(e.toString());
     }
@@ -76,13 +76,14 @@ abstract class _StoryStoreBase with Store {
   void watchStories() {
     _storyChangeSubscription = _repository.watchStories().listen((story) {
       final storyIndex = _stories.indexWhere((s) => s.id == story.id);
-
-      if (storyIndex != -1) {
-        // stroy already exists, replace it.
-        _stories[storyIndex] = story;
-      } else {
-        // add a new story
-        _stories.add(story);
+      if (mode == StoryMode.conversation) {
+        if (storyIndex != -1) {
+          // stroy already exists, replace it.
+          _stories[storyIndex] = story;
+        } else {
+          // add a new story
+          _stories.add(story);
+        }
       }
     });
   }

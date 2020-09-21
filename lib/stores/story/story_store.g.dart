@@ -60,12 +60,13 @@ mixin _$StoryStore on _StoryStoreBase, Store {
     });
   }
 
-  final _$onStoryViewedAsyncAction =
-      AsyncAction('_StoryStoreBase.onStoryViewed');
+  final _$onStoryImageViewedAsyncAction =
+      AsyncAction('_StoryStoreBase.onStoryImageViewed');
 
   @override
-  Future<dynamic> onStoryViewed(StoryModel story) {
-    return _$onStoryViewedAsyncAction.run(() => super.onStoryViewed(story));
+  Future<dynamic> onStoryImageViewed(int imageId) {
+    return _$onStoryImageViewedAsyncAction
+        .run(() => super.onStoryImageViewed(imageId));
   }
 
   final _$getHomeStoriesAsyncAction =

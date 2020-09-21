@@ -44,6 +44,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     init();
+
     super.initState();
   }
 
@@ -52,6 +53,7 @@ class _MyAppState extends State<MyApp> {
     await _initSharedPreferences();
     await sl<Socket>().init();
     await sl<NotificationsManager>().init();
+    sl<Socket>().connect();
     initCrashlytics();
   }
 
@@ -90,5 +92,11 @@ class _MyAppState extends State<MyApp> {
           visualDensity: VisualDensity.adaptivePlatformDensity),
       builder: ExtendedNavigator(router: Router()),
     );
+  }
+
+  @override
+  void dispose() {
+    sl<Socket>().disconnect();
+    super.dispose();
   }
 }

@@ -19,6 +19,8 @@ enum IndicatorHeight { small, large }
 
 /// This is a representation of a story item (or page).
 class StoryItem {
+  final int imageId;
+
   /// Specifies how long the page should be displayed. It should be a reasonable
   /// amount of time greater than 0 milliseconds.
   final Duration duration;
@@ -38,6 +40,7 @@ class StoryItem {
 
   StoryItem(
     this.view, {
+    @required this.imageId,
     this.duration,
     this.shown = false,
   }) : assert(duration != null, "[duration] should not be null");
@@ -97,6 +100,7 @@ class StoryItem {
         ),
         //color: backgroundColor,
       ),
+      imageId: 0,
       shown: shown,
       duration: duration ?? Duration(seconds: 3),
     );
@@ -105,6 +109,7 @@ class StoryItem {
   /// Factory constructor for page images. [controller] should be same instance as
   /// one passed to the `StoryView`
   factory StoryItem.pageImage({
+    @required int imageId,
     @required String url,
     @required StoryController controller,
     BoxFit imageFit = BoxFit.fitWidth,
@@ -148,12 +153,14 @@ class StoryItem {
       ),
       shown: shown,
       duration: duration ?? Duration(seconds: 3),
+      imageId: imageId,
     );
   }
 
   /// Shorthand for creating inline image. [controller] should be same instance as
   /// one passed to the `StoryView`
   factory StoryItem.inlineImage({
+    @required int imageId,
     @required String url,
     @required Text caption,
     @required StoryController controller,
@@ -198,6 +205,7 @@ class StoryItem {
           bottom: Radius.circular(roundedBottom ? 8 : 0),
         ),
       ),
+      imageId: imageId,
       shown: shown,
       duration: duration ?? Duration(seconds: 3),
     );
@@ -208,6 +216,7 @@ class StoryItem {
   factory StoryItem.pageVideo(
     String url, {
     @required StoryController controller,
+    int imageId,
     Duration duration,
     BoxFit imageFit = BoxFit.fitWidth,
     String caption,
@@ -246,6 +255,7 @@ class StoryItem {
             ],
           ),
         ),
+        imageId: imageId,
         shown: shown,
         duration: duration ?? Duration(seconds: 10));
   }
@@ -256,6 +266,7 @@ class StoryItem {
   factory StoryItem.pageProviderImage(
     ImageProvider image, {
     BoxFit imageFit = BoxFit.fitWidth,
+    @required int imageId,
     String caption,
     bool shown = false,
     Duration duration,
@@ -301,6 +312,7 @@ class StoryItem {
             ],
           ),
         ),
+        imageId: imageId,
         shown: shown,
         duration: duration ?? Duration(seconds: 3));
   }
@@ -312,6 +324,7 @@ class StoryItem {
     ImageProvider image, {
     Text caption,
     bool shown = false,
+    @required int imageId,
     bool roundedTop = true,
     bool roundedBottom = false,
     Duration duration,
@@ -345,6 +358,7 @@ class StoryItem {
           ),
         ),
       ),
+      imageId: imageId,
       shown: shown,
       duration: duration ?? Duration(seconds: 3),
     );

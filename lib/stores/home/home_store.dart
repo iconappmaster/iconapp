@@ -15,19 +15,18 @@ class HomeStore = _HomeStoreBase with _$HomeStore;
 abstract class _HomeStoreBase with Store {
   HomeRepository _repository;
   UserStore user;
-  SharedPreferencesService _preferencesService;
+  SharedPreferencesService _sp;
   StreamSubscription<Conversation> _conversationChangedSubscription;
 
   _HomeStoreBase() {
-    _preferencesService = sl<SharedPreferencesService>();
+    _sp = sl<SharedPreferencesService>();
     _repository = sl<HomeRepository>();
     _shouldShowWelcomeDialog();
     getConversations();
   }
 
   void _shouldShowWelcomeDialog() {
-    _showWelcomeDialog =
-        _preferencesService.getBool(StorageKey.welcomeDialog, true);
+    _showWelcomeDialog = _sp.getBool(StorageKey.welcomeDialog, true);
   }
 
   @observable
@@ -66,10 +65,10 @@ abstract class _HomeStoreBase with Store {
     try {
       _loading = true;
       await getCachedHome();
-      final conversations = await _repository.getHome();
+      final conversations = await _repository.getConversations();
       _repository.cacheHome(conversations);
       updateUi(conversations);
-
+      _markHomeTimestamp();
       return right(conversations);
     } on ServerError catch (e) {
       return left(e);
@@ -78,10 +77,15 @@ abstract class _HomeStoreBase with Store {
     }
   }
 
+  void _markHomeTimestamp() {
+    final ts = DateTime.now().microsecondsSinceEpoch;
+    _sp.setInt(StorageKey.homeTimestamp, ts);
+  }
+
   @action
   void updateSingleConversation(Conversation conversation) {
-    _conversations[_conversations.indexWhere((c) => c.id == conversation.id)] =
-        conversation;
+    final index = _conversations.indexWhere((c) => c.id == conversation.id);
+    _conversations[index] = conversation;
   }
 
   @action
@@ -92,7 +96,7 @@ abstract class _HomeStoreBase with Store {
 
   @action
   Future saveWelcomeSeen() async {
-    await _preferencesService.setBool(StorageKey.welcomeDialog, false);
+    await _sp.setBool(StorageKey.welcomeDialog, false);
     _showWelcomeDialog = false;
   }
 
@@ -110,6 +114,8 @@ abstract class _HomeStoreBase with Store {
         // add a new story
         _conversations.add(conversation);
       }
+
+      _repository.cacheHome(_conversations);
     });
   }
 

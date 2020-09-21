@@ -35,20 +35,27 @@ class Socket {
 
   void init() async {
     try {
-      await Pusher.init(PUSHER_KEY, PusherOptions(cluster: "us2"), enableLogging: true);
+      await Pusher.init(PUSHER_KEY, PusherOptions(cluster: "us2"),
+          enableLogging: true);
     } on PlatformException catch (e) {
       Crash.report(e.message);
     }
   }
 
+  Future connect() async {
+    await Pusher.connect();
+  }
+
+  Future disconnect() async {
+    await Pusher.disconnect();
+  }
+
   // I subscribe with the conversaion id
   Future subscribeChannel(String conversationId) async {
-    await Pusher.connect();
     _channel = await Pusher.subscribe(conversationId);
   }
 
   Future unsubscribeChannel(int conversationId) async {
-    await Pusher.disconnect();
     await Pusher.unsubscribe(conversationId.toString());
   }
 

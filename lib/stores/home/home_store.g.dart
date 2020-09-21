@@ -116,6 +116,17 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   }
 
   @override
+  void updateSingleConversation(Conversation conversation) {
+    final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
+        name: '_HomeStoreBase.updateSingleConversation');
+    try {
+      return super.updateSingleConversation(conversation);
+    } finally {
+      _$_HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void updateUi(List<Conversation> conversations) {
     final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
         name: '_HomeStoreBase.updateUi');
