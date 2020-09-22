@@ -1,8 +1,10 @@
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/repositories/chat_settings_repository.dart';
+import 'package:iconapp/domain/core/errors.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/media/media_store.dart';
 import 'package:image_picker/image_picker.dart';
@@ -78,8 +80,8 @@ abstract class _ChatSettingsStoreBase with Store {
           _chat.conversation.id, colorIndex);
       _chat.setConversation(conversation);
       _selectedColor = conversation.backgroundColor;
-    } on Exception catch (e) {
-      print(e);
+    } on ServerError catch (e) {
+      Crash.report(e.message);
     } finally {
       _isLoading = false;
     }
@@ -108,8 +110,8 @@ abstract class _ChatSettingsStoreBase with Store {
 
       users.clear();
       users.addAll(conversation.users);
-    } on Exception catch (e) {
-      print(e);
+    } on ServerError catch (e) {
+      Crash.report(e.message);
     } finally {
       _isLoading = false;
     }
@@ -129,8 +131,8 @@ abstract class _ChatSettingsStoreBase with Store {
 
       users.clear();
       users.addAll(conversation.users);
-    } on Exception catch (e) {
-      print(e);
+    } on ServerError catch (e) {
+      Crash.report(e.message);
     } finally {
       _isLoading = false;
     }
@@ -151,8 +153,8 @@ abstract class _ChatSettingsStoreBase with Store {
 
       users.clear();
       users.addAll(conversation.users);
-    } on Exception catch (e) {
-      print(e);
+    } on ServerError catch (e) {
+      Crash.report(e.message);
     } finally {
       _isLoading = false;
     }
@@ -170,8 +172,8 @@ abstract class _ChatSettingsStoreBase with Store {
       );
 
       chatStore.setConversation(conversation);
-    } on Exception catch (e) {
-      print(e);
+    } on ServerError catch (e) {
+      Crash.report(e.message);
     } finally {
       _isLoading = false;
     }
@@ -189,8 +191,8 @@ abstract class _ChatSettingsStoreBase with Store {
 
         _chat.setConversation(conversation);
       }
-    } on Exception catch (e) {
-      print(e);
+    } on ServerError catch (e) {
+      Crash.report(e.message);
     } finally {
       _isLoading = false;
     }
@@ -200,14 +202,17 @@ abstract class _ChatSettingsStoreBase with Store {
   Future setNotification(bool value) async {
     try {
       _isLoading = true;
+
+      _isNotificationDisabled = value;
+
       _isNotificationDisabled =
           await _repository.setNotification(_chat.conversation.id, value);
 
       final con = _chat.conversation
           .copyWith(areNotificationsDisabled: _isNotificationDisabled);
       _chat.setConversation(con);
-    } on Exception catch (e) {
-      print(e);
+    } on ServerError catch (e) {
+      Crash.report(e.message);
     } finally {
       _isLoading = false;
     }

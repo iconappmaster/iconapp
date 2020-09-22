@@ -19,16 +19,16 @@ import '../generated/locale_keys.g.dart';
 import 'dart:ui' as ui;
 import 'package:easy_localization/easy_localization.dart';
 
-/// [OnboardingPhone] used to verify the user with [Phone] number and
+/// [OnboardingScreen] used to verify the user with [Phone] number and
 /// an [SMS] code that is being sent.
 /// The store for this page is [LoginStore] that manages the [Timer], [VerifyPhone]
 /// call and [VerifyCode] that returns the user with the [Token].
-class OnboardingPhone extends StatefulWidget {
+class OnboardingScreen extends StatefulWidget {
   @override
-  _OnboardingPhoneState createState() => _OnboardingPhoneState();
+  _OnboardingScreenState createState() => _OnboardingScreenState();
 }
 
-class _OnboardingPhoneState extends State<OnboardingPhone> {
+class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     final store = sl<LoginStore>();
@@ -190,7 +190,7 @@ class _PinCode extends StatelessWidget {
                         ..setSignedIn()
                         ..checkCurrentAuthState();
                       ExtendedNavigator.of(ctx).pushNamedAndRemoveUntil(
-                          Routes.splashScreen, (Route<dynamic> route) => false);
+                          Routes.mainNavigator, (Route<dynamic> route) => false);
                     },
                     navigateProfile: () => ExtendedNavigator.of(ctx)
                         .pushOnboardingProfile(mode: OnboardingMode.onboarding),

@@ -107,7 +107,7 @@ class CreateDetailsScreen extends StatelessWidget {
         (s) async {
       await context.showFlushbar(
           color: uiTintColorFill, message: '${store.groupName} נוצרה');
-      ExtendedNavigator.of(context).popUntilPath(Routes.splashScreen);
+      ExtendedNavigator.of(context).popUntilPath(Routes.mainNavigator);
     });
   }
 }

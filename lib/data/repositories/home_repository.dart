@@ -26,7 +26,7 @@ class HomeRepositoryImpl implements HomeRepository {
 
   @override
   Future<List<Conversation>> getConversations() async {
-    final ts = cache.getInt(StorageKey.homeTimestamp) ?? 0;
+    // final ts = cache.getInt(StorageKey.homeTimestamp) ?? 0;
     return await restClient.getConversations();
   }
 
@@ -41,7 +41,7 @@ class HomeRepositoryImpl implements HomeRepository {
       final cachedJson = await cache.getString(StorageKey.home);
 
       List<Conversation> conversations = (json.decode(cachedJson) as List)
-          .map((i) => Conversation.fromJson(i))
+          .map((c) => Conversation.fromJson(c))
           .toList();
 
       return conversations;

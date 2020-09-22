@@ -15,7 +15,7 @@ import 'package:iconapp/screens/onboarding_phone.dart';
 import 'package:iconapp/screens/onboarding_profile.dart';
 import 'package:iconapp/screens/search_results_screen.dart';
 import 'package:iconapp/screens/settings_screen.dart';
-import 'package:iconapp/screens/splash_screen.dart';
+import 'package:iconapp/screens/main_navigator.dart';
 import 'package:iconapp/screens/story_edit_screen.dart';
 import 'package:iconapp/screens/story_screen.dart';
 import 'package:iconapp/widgets/chat/message_photo.dart';
@@ -23,9 +23,9 @@ import 'package:iconapp/widgets/chat/message_photo.dart';
 @MaterialAutoRouter(
   generateNavigationHelperExtension: true,
   routes: [
-    MaterialRoute(page: SplashScreen, initial: true),
+    MaterialRoute(page: MainNavigator, initial: true),
     MaterialRoute(page: LoginScreen),
-    MaterialRoute(page: OnboardingPhone),
+    MaterialRoute(page: OnboardingScreen),
     MaterialRoute(page: OnboardingProfile),
     MaterialRoute(page: HomeScreen),
     MaterialRoute(page: AppSettingsScreen),

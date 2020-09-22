@@ -149,7 +149,7 @@ class ParticipantTile extends StatelessWidget {
           ParticipantAvatar(url: currentUser?.photo?.url),
           SizedBox(width: 11.3),
           Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               CustomText(currentUser?.fullName ?? '', style: nameLight),
@@ -157,7 +157,6 @@ class ParticipantTile extends StatelessWidget {
               if (conversation.userRole == UserRole.admin)
                 Row(
                   children: <Widget>[
-                    // IF USER IS ADMIN AND NOT ME
                     if (currentUser?.userRole != UserRole.admin &&
                         notMe(userStore.getUser?.id))
                       Padding(
@@ -172,8 +171,6 @@ class ParticipantTile extends StatelessWidget {
                           borderColor: cornflower,
                         ),
                       ),
-
-                    // MARK AS ADMIN ANY ADMIN USER.
                     if (currentUser.userRole == UserRole.admin)
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0),
@@ -188,8 +185,6 @@ class ParticipantTile extends StatelessWidget {
                               style: settingsButton.copyWith(color: white)),
                         ),
                       ),
-
-                    // IF USER IS ADMIN AND NOT THE CURRENT USER SHOW REMOVE
                     if (conversation.userRole == UserRole.admin &&
                         notMe(userStore.getUser?.id))
                       SettingsActionButton(

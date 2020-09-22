@@ -75,7 +75,7 @@ class OnboardingProfile extends StatelessWidget {
                 (error) => ctx.showFlushbar(
                     message: LocaleKeys.general_server_error.tr()),
                 (success) => ExtendedNavigator.of(ctx).pushNamedAndRemoveUntil(
-                    Routes.splashScreen, (Route<dynamic> route) => false)));
+                    Routes.mainNavigator, (Route<dynamic> route) => false)));
           }
         },
       ),

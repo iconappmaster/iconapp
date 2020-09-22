@@ -38,22 +38,21 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Future<void> _initSharedPreferences() async =>
-      await sl<SharedPreferencesService>().init();
+  Socket _socket;
 
   @override
   void initState() {
     init();
-
+    _socket = sl<Socket>();
     super.initState();
   }
 
   Future init() async {
     initLocator();
     await _initSharedPreferences();
-    await sl<Socket>().init();
+    await _socket.init();
     await sl<NotificationsManager>().init();
-    sl<Socket>().connect();
+    _socket.connect();
     initCrashlytics();
   }
 
@@ -90,13 +89,18 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity),
-      builder: ExtendedNavigator(router: Router()),
+      builder: ExtendedNavigator(
+        router: Router(),
+      ),
     );
   }
 
   @override
   void dispose() {
-    sl<Socket>().disconnect();
+    _socket.disconnect();
     super.dispose();
   }
+
+  Future<void> _initSharedPreferences() async =>
+      await sl<SharedPreferencesService>().init();
 }

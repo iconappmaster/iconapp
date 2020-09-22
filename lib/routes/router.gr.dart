@@ -7,7 +7,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:iconapp/screens/splash_screen.dart';
+import 'package:iconapp/screens/main_navigator.dart';
 import 'package:iconapp/screens/login_screen.dart';
 import 'package:iconapp/screens/onboarding_phone.dart';
 import 'package:iconapp/screens/onboarding_profile.dart';
@@ -32,9 +32,9 @@ import 'package:iconapp/data/models/story_image.dart';
 import 'package:iconapp/widgets/chat/message_photo.dart';
 
 class Routes {
-  static const String splashScreen = '/';
+  static const String mainNavigator = '/';
   static const String loginScreen = '/login-screen';
-  static const String onboardingPhone = '/onboarding-phone';
+  static const String onboardingScreen = '/onboarding-screen';
   static const String onboardingProfile = '/onboarding-profile';
   static const String homeScreen = '/home-screen';
   static const String appSettingsScreen = '/app-settings-screen';
@@ -52,9 +52,9 @@ class Routes {
   static const String descriptionScreen = '/description-screen';
   static const String singleImage = '/single-image';
   static const all = <String>{
-    splashScreen,
+    mainNavigator,
     loginScreen,
-    onboardingPhone,
+    onboardingScreen,
     onboardingProfile,
     homeScreen,
     appSettingsScreen,
@@ -78,9 +78,9 @@ class Router extends RouterBase {
   @override
   List<RouteDef> get routes => _routes;
   final _routes = <RouteDef>[
-    RouteDef(Routes.splashScreen, page: SplashScreen),
+    RouteDef(Routes.mainNavigator, page: MainNavigator),
     RouteDef(Routes.loginScreen, page: LoginScreen),
-    RouteDef(Routes.onboardingPhone, page: OnboardingPhone),
+    RouteDef(Routes.onboardingScreen, page: OnboardingScreen),
     RouteDef(Routes.onboardingProfile, page: OnboardingProfile),
     RouteDef(Routes.homeScreen, page: HomeScreen),
     RouteDef(Routes.appSettingsScreen, page: AppSettingsScreen),
@@ -101,9 +101,9 @@ class Router extends RouterBase {
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, AutoRouteFactory>{
-    SplashScreen: (RouteData data) {
+    MainNavigator: (RouteData data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => SplashScreen(),
+        builder: (context) => MainNavigator(),
         settings: data,
       );
     },
@@ -113,9 +113,9 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    OnboardingPhone: (RouteData data) {
+    OnboardingScreen: (RouteData data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => OnboardingPhone(),
+        builder: (context) => OnboardingScreen(),
         settings: data,
       );
     },
@@ -258,12 +258,13 @@ class Router extends RouterBase {
 // **************************************************************************
 
 extension RouterNavigationHelperMethods on ExtendedNavigatorState {
-  Future<dynamic> pushSplashScreen() => pushNamed<dynamic>(Routes.splashScreen);
+  Future<dynamic> pushMainNavigator() =>
+      pushNamed<dynamic>(Routes.mainNavigator);
 
   Future<dynamic> pushLoginScreen() => pushNamed<dynamic>(Routes.loginScreen);
 
-  Future<dynamic> pushOnboardingPhone() =>
-      pushNamed<dynamic>(Routes.onboardingPhone);
+  Future<dynamic> pushOnboardingScreen() =>
+      pushNamed<dynamic>(Routes.onboardingScreen);
 
   Future<dynamic> pushOnboardingProfile({
     Key key,
