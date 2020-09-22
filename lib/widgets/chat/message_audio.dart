@@ -15,6 +15,7 @@ import 'package:iconapp/widgets/chat/reply_slider.dart';
 import 'package:iconapp/widgets/global/bubble.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/slidable/slidable.dart';
+import 'package:vibration/vibration.dart';
 
 import 'icon_bubble.dart';
 
@@ -83,7 +84,8 @@ class _VoiceMessageState extends State<VoiceMessage> {
       onSlideAnimationChanged: (s) => print(s), // do not remove
       onSlideIsOpenChanged: (isOpen) {
         if (mounted) {
-          setState(() {
+          setState(() async {
+            await Vibration.vibrate(duration: 150);
             _isOpen = isOpen;
             sl<ChatStore>().setReplyMessage(widget.message);
             final slide = Slidable.of(_sliderContext);

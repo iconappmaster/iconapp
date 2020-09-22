@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:iconapp/data/models/story_model.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
-import 'package:iconapp/stores/socket/socket_manager.dart';
+import 'package:iconapp/data/sources/socket/socket_manager.dart';
 
 abstract class StoryRepository {
   // TBD
@@ -59,6 +59,7 @@ class StoryRepositoryImpl implements StoryRepository {
 
   @override
   Future<bool> viewedStoryImage(int imageId) async {
+
     return await rest.viewedStoryImage(imageId);
   }
 

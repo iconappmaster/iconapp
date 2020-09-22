@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:iconapp/widgets/global/blur_appbar.dart';
+import 'package:vibration/vibration.dart';
 import '../../core/bus.dart';
 import '../../core/dependencies/locator.dart';
 import '../../core/theme.dart';
@@ -58,7 +59,8 @@ class _PhotoMessageState extends State<PhotoMessage> {
       onSlideAnimationChanged: (s) => print(s), // do not remove
       onSlideIsOpenChanged: (isOpen) {
         if (mounted) {
-          setState(() {
+          setState(() async {
+            await Vibration.vibrate(duration: 150);
             _isOpen = isOpen;
             sl<ChatStore>().setReplyMessage(widget.message);
             final slide = Slidable.of(_sliderContext);
@@ -167,7 +169,7 @@ class _PhotoMessageState extends State<PhotoMessage> {
   void dispose() {
     progressSubscription?.cancel();
     super.dispose();
-  } 
+  }
 }
 
 class SingleImage extends StatelessWidget {

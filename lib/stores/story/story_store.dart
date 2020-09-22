@@ -49,7 +49,7 @@ abstract class _StoryStoreBase with Store {
   @action
   Future onStoryImageViewed(int imageId) async {
     try {
-      _repository.viewedStoryImage(imageId);
+      if (imageId != null) _repository.viewedStoryImage(imageId);
     } on Exception catch (e) {
       Crash.report(e.toString());
     }

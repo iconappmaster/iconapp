@@ -7,7 +7,7 @@ import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/routes/router.gr.dart';
-import 'package:iconapp/stores/results/search_results_store.dart';
+import 'package:iconapp/stores/search_results/search_results_store.dart';
 import 'package:iconapp/widgets/global/back_button.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';

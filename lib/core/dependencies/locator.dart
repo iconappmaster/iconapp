@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:iconapp/core/device/device_info.dart';
 import 'package:iconapp/core/notifications/notifications.dart';
+import 'package:iconapp/stores/search_results/search_results_store.dart';
 import 'package:iconapp/stores/story/story_edit_store.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../data/repositories/auth_repository.dart';
@@ -25,9 +26,8 @@ import '../../stores/home/home_store.dart';
 import '../../stores/login/login_store.dart';
 import '../../stores/media/media_store.dart';
 import '../../stores/oboarding/onboarding_store.dart';
-import '../../stores/results/search_results_store.dart';
 import '../../stores/search/search_store.dart';
-import '../../stores/socket/socket_manager.dart';
+import '../../data/sources/socket/socket_manager.dart';
 import '../../stores/story/story_store.dart';
 import '../../data/repositories/user_repository.dart';
 import '../../stores/user/user_store.dart';
@@ -122,7 +122,7 @@ void initLocator() {
 
   // Device
   sl.registerLazySingleton<DeviceInfo>(() => DeviceInfo());
-  
+
   sl.registerLazySingleton<DeviceInfoRepository>(
     () => DeviceInfoRepositoryImpl(restClient: sl()),
   );

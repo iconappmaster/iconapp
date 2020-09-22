@@ -19,16 +19,16 @@ class SystemMessage extends StatelessWidget {
             elevation: 2,
             color: Colors.transparent,
             child: Container(
-              constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width * .8),
               padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
                   color: blueberry2, borderRadius: BorderRadius.circular(3.7)),
               child: Center(
-                child: CustomText(title,
-                    maxLines: 2,
-                    style: systemMessage,
-                    textAlign: TextAlign.center),
+                child: CustomText(
+                  title,
+                  maxLines: 2,
+                  style: systemMessage,
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
           ),

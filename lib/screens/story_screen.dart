@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:iconapp/core/cube.dart';
+import 'package:iconapp/widgets/global/cube.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/story_model.dart';
 import 'package:iconapp/widgets/story/utils.dart';

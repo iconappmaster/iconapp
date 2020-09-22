@@ -11,6 +11,7 @@ import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/repositories/media_repository.dart';
 import 'package:iconapp/routes/router.gr.dart';
+import 'package:vibration/vibration.dart';
 import '../../stores/chat/chat_store.dart';
 import 'reply_slider.dart';
 import '../global/hebrew_input_text.dart';
@@ -58,7 +59,8 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
       onSlideAnimationChanged: (s) => print(s), // do not remove
       onSlideIsOpenChanged: (isOpen) {
         if (mounted) {
-          setState(() {
+          setState(() async {
+            await Vibration.vibrate(duration: 150);
             _isOpen = isOpen;
             sl<ChatStore>().setReplyMessage(widget.message);
             final slide = Slidable.of(_sliderContext);
@@ -105,14 +107,12 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
                   : ClipRRect(
                       borderRadius: BorderRadius.circular(4.2),
                       child: SizedBox(
-                        height: 200,
-                        width: 240,
-                        child: Image.file(
-                          File(widget.message?.extraData ?? ''),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
+                          height: 200,
+                          width: 240,
+                          child: Image.file(
+                            File(widget.message?.extraData ?? ''),
+                            fit: BoxFit.cover,
+                          ))),
               SvgPicture.asset(
                 'assets/images/play_button.svg',
                 height: 56,

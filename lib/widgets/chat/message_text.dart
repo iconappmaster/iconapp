@@ -3,6 +3,8 @@ import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 
 import 'package:flutter/material.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
+import 'package:vibration/vibration.dart';
 import '../global/bubble.dart';
 import 'reply_slider.dart';
 import 'icon_bubble.dart';
@@ -17,12 +19,14 @@ class TextMessage extends StatefulWidget {
   final MessageModel message;
   final bool isMe;
   final int index;
+  final AutoScrollController controller;
 
   const TextMessage({
     Key key,
     @required this.message,
     @required this.isMe,
     @required this.index,
+    @required this.controller,
   }) : super(key: key);
 
   @override
@@ -33,9 +37,11 @@ class _TextMessageState extends State<TextMessage> {
   SlidableController _controller;
   BuildContext _sliderContext;
   bool _isOpen = false;
+  ChatStore _chat;
 
   @override
   void initState() {
+    _chat = sl<ChatStore>();
     init();
     super.initState();
   }
@@ -45,9 +51,10 @@ class _TextMessageState extends State<TextMessage> {
       onSlideAnimationChanged: (s) => print(s),
       onSlideIsOpenChanged: (isOpen) {
         if (mounted) {
-          setState(() {
+          setState(() async {
+            await Vibration.vibrate(duration: 150);
             _isOpen = isOpen;
-            sl<ChatStore>().setReplyMessage(widget.message);
+            _chat.setReplyMessage(widget.message);
             final slide = Slidable.of(_sliderContext);
             Future.delayed(Duration(milliseconds: 250), () => slide.close());
           });
@@ -62,10 +69,8 @@ class _TextMessageState extends State<TextMessage> {
         ? blueBerry
         : widget.isMe ? darkIndigo2 : blueberry2;
 
-    final store = sl<ChatStore>();
-
     return Replyble(
-      isEnabled: store.conversation.userRole != UserRole.viewer,
+      isEnabled: _chat.conversation.userRole != UserRole.viewer,
       isOpen: _isOpen,
       keyName: widget.message.id.toString(),
       controller: _controller,
@@ -74,6 +79,14 @@ class _TextMessageState extends State<TextMessage> {
         return ReplyButton(message: widget.message);
       },
       child: IconBubble(
+        onTap: () {
+          final repliedMessage = widget.message.repliedToMessage;
+          if (repliedMessage != null) {
+            final index =
+                _chat.getMessages.indexWhere((m) => m.id == repliedMessage.id);
+            widget.controller.scrollToIndex(index);
+          }
+        },
         padding: BubbleEdges.only(top: 5, bottom: 1),
         message: widget.message,
         isMe: widget.isMe,

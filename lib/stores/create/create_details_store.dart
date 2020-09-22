@@ -7,7 +7,6 @@ import 'package:iconapp/data/repositories/create_repository.dart';
 import 'package:iconapp/domain/create/create_failure.dart';
 import 'package:iconapp/stores/create/create_category_store.dart';
 import 'package:iconapp/stores/create/create_icon_store.dart';
-import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/stores/media/media_store.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
@@ -19,7 +18,6 @@ abstract class _CreateDetailsStoreBase with Store {
   CreateRepository _repository;
   CreateIconStore _iconStore;
   CreateCategoryStore _categoryStore;
-  HomeStore _homeStore;
   MediaStore _mediaStore;
 
   _CreateDetailsStoreBase() {
@@ -27,8 +25,6 @@ abstract class _CreateDetailsStoreBase with Store {
     _iconStore = sl<CreateIconStore>();
     _categoryStore = sl<CreateCategoryStore>();
     _mediaStore = sl<MediaStore>();
-    _homeStore = sl<HomeStore>();
-    
   }
   @observable
   String _groupName = '';
@@ -76,10 +72,7 @@ abstract class _CreateDetailsStoreBase with Store {
         name: _groupName,
       );
 
-      final conversation = await _repository.createConversation(req);
-
-      _homeStore.addConversation(conversation);
-      // await _homeStore.getHome();
+      await _repository.createConversation(req);
 
       return right(unit);
     } on Exception catch (e) {

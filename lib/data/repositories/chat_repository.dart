@@ -5,7 +5,7 @@ import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
-import 'package:iconapp/stores/socket/socket_manager.dart';
+import 'package:iconapp/data/sources/socket/socket_manager.dart';
 import '../../core/extensions/string_ext.dart';
 import '../../core/extensions/int_ext.dart';
 

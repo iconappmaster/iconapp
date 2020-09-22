@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iconapp/core/bouncing.dart';
+import 'package:iconapp/widgets/global/bouncing.dart';
 import 'package:iconapp/core/theme.dart';
 import '../../core/extensions/context_ext.dart';
 import 'hebrew_input_text.dart';

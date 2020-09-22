@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 import '../widgets/chat/chat_list.dart';
 import '../widgets/chat/chat_welcome_dialog.dart';
 import '../widgets/global/focus_aware.dart';
@@ -9,7 +10,7 @@ import '../core/theme.dart';
 import '../data/models/conversation_model.dart';
 import '../stores/chat/chat_state.dart';
 import '../stores/chat/chat_store.dart';
-import '../stores/socket/socket_manager.dart';
+import '../data/sources/socket/socket_manager.dart';
 import '../stores/story/story_store.dart';
 import '../widgets/chat/panel_subscribe.dart';
 import '../widgets/chat/compose/panel_compose.dart';
@@ -29,7 +30,7 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  ScrollController _controller;
+  AutoScrollController _controller;
   bool _upDirection = false, _flag = true;
 
   ChatStore _chat;
@@ -38,7 +39,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void initState() {
-
     initSocket();
 
     _chat = sl<ChatStore>();
@@ -53,13 +53,17 @@ class _ChatScreenState extends State<ChatScreen> {
 
     _story.setStoryMode(StoryMode.conversation);
 
-    _controller = ScrollController()
-      ..addListener(() {
+    _controller = AutoScrollController(
+      viewportBoundaryGetter: () =>
+          Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
+      axis: Axis.vertical,
+      suggestedRowHeight: 200,
+      initialScrollOffset: 0,
+    )..addListener(() {
         _upDirection =
             _controller.position.userScrollDirection == ScrollDirection.forward;
-        if (_upDirection != _flag && mounted) {
-          setState(() {});
-        }
+        if (_upDirection != _flag && mounted) setState(() {});
+
         _flag = _upDirection;
       });
 

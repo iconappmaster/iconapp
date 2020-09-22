@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/widgets/global/outer_circle.dart';
-import '../../core/bouncing.dart';
+import '../global/bouncing.dart';
 import '../../core/dependencies/locator.dart';
 import '../../core/theme.dart';
 import '../../data/models/story_model.dart';

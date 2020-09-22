@@ -5,7 +5,7 @@ import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/widgets/global/bubble.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
-
+import 'package:scroll_to_index/scroll_to_index.dart';
 import 'compose/reply_widgets.dart';
 import 'like_buuble.dart';
 
@@ -17,6 +17,7 @@ class IconBubble extends StatefulWidget {
   final bool isMe;
   final MessageModel message;
   final Function onEmjiTap;
+  final AutoScrollController controller;
   const IconBubble({
     Key key,
     @required this.child,
@@ -26,6 +27,7 @@ class IconBubble extends StatefulWidget {
     this.onDoubleTap,
     this.padding,
     this.onEmjiTap,
+    this.controller,
   }) : super(key: key);
 
   @override
@@ -106,7 +108,9 @@ class _IconBubbleState extends State<IconBubble> {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(4.2),
                                       child: NetworkPhoto(
-                                          url: widget.message.sender?.photo?.url ?? ''),
+                                          url: widget
+                                                  .message.sender?.photo?.url ??
+                                              ''),
                                     ),
                                   ),
                                 ),
@@ -175,6 +179,7 @@ class _IconBubbleState extends State<IconBubble> {
 
 class MessageReply extends StatelessWidget {
   final double width;
+
   const MessageReply({
     Key key,
     @required this.widget,

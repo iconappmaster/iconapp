@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/global/lottie_loader.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 import 'message_audio.dart';
 import 'message_photo.dart';
@@ -12,7 +14,7 @@ import 'message_text.dart';
 import 'message_video.dart';
 
 class ChatList extends StatefulWidget {
-  final ScrollController scrollController;
+  final AutoScrollController scrollController;
 
   const ChatList({Key key, @required this.scrollController}) : super(key: key);
 
@@ -41,9 +43,19 @@ class _ChatListState extends State<ChatList> {
                   final isMe = store.isMe(message.sender?.id);
 
                   switch (message.messageType) {
+                    
                     case MessageType.text:
-                      return TextMessage(
-                          message: message, isMe: isMe, index: index);
+                      return ScrollableTile(
+                        index: index,
+                        controller: widget.scrollController,
+                        child: TextMessage(
+                          controller: widget.scrollController,
+                          message: message,
+                          isMe: isMe,
+                          index: index,
+                        ),
+                      );
+                    
                     case MessageType.photo:
                       return PhotoMessage(
                           message: message, isMe: isMe, index: index);
@@ -59,6 +71,30 @@ class _ChatListState extends State<ChatList> {
                 },
               ),
       ),
+    );
+  }
+}
+
+class ScrollableTile extends StatelessWidget {
+  final AutoScrollController controller;
+  final int index;
+  final Widget child;
+
+  const ScrollableTile({
+    Key key,
+    this.index,
+    this.controller,
+    this.child,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AutoScrollTag(
+      key: ValueKey(index),
+      controller: controller,
+      index: index,
+      child: child,
+      highlightColor: cornflower.withOpacity(0.1),
     );
   }
 }

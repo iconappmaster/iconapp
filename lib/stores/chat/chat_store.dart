@@ -261,29 +261,31 @@ abstract class _ChatStoreBase with Store {
   @action
   Future sendTextMessage() async {
     try {
-      final msg = MessageModel(
-        id: DateTime.now().millisecondsSinceEpoch,
-        sender: _userStore.getUser,
-        body: _state.inputMessage,
-        status: MessageStatus.pending,
-        likeCounts: LikesCount.initial(),
-        timestamp: DateTime.now().millisecondsSinceEpoch,
-        messageType: MessageType.text,
-        repliedToMessage: _replyMessage,
-      );
+      if (_state.inputMessage.trim().isNotEmpty) {
+        final msg = MessageModel(
+          id: DateTime.now().millisecondsSinceEpoch,
+          sender: _userStore.getUser,
+          body: _state.inputMessage,
+          status: MessageStatus.pending,
+          likeCounts: LikesCount.initial(),
+          timestamp: DateTime.now().millisecondsSinceEpoch,
+          messageType: MessageType.text,
+          repliedToMessage: _replyMessage,
+        );
 
-      _messages.add(msg);
+        _messages.add(msg);
 
-      _replyMessage = null;
+        _replyMessage = null;
 
-      final remote = await _repository.sendMessage(conversation.id, msg);
+        final remote = await _repository.sendMessage(conversation.id, msg);
 
-      _updateLocalMessage(
-        remote.copyWith(status: MessageStatus.sent, id: msg.id),
-        remote.id,
-      );
+        _updateLocalMessage(
+          remote.copyWith(status: MessageStatus.sent, id: msg.id),
+          remote.id,
+        );
 
-      _state = _state.copyWith(inputMessage: '');
+        _state = _state.copyWith(inputMessage: '');
+      }
     } on ServerError catch (e) {
       Crash.report(e.message);
     }
