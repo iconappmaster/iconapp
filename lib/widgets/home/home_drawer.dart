@@ -61,7 +61,9 @@ class HomeDrawer extends StatelessWidget {
                           UserAvatar(
                               showPlus: false,
                               url: store.getUser?.photo?.url ?? '',
-                              onTap: () => print('tap')),
+                              onTap: () => ExtendedNavigator.of(context)
+                                  .pushOnboardingProfile(
+                                      mode: OnboardingMode.drawer)),
                           SizedBox(height: 12.3),
                           CustomText(store.getUser?.fullName ?? 'Name',
                               style: drawerName)

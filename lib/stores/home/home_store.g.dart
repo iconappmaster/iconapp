@@ -77,12 +77,13 @@ mixin _$HomeStore on _HomeStoreBase, Store {
     });
   }
 
-  final _$getCachedHomeAsyncAction =
-      AsyncAction('_HomeStoreBase.getCachedHome');
+  final _$getCachedAndRenderAsyncAction =
+      AsyncAction('_HomeStoreBase.getCachedAndRender');
 
   @override
-  Future<dynamic> getCachedHome() {
-    return _$getCachedHomeAsyncAction.run(() => super.getCachedHome());
+  Future<List<Conversation>> getCachedAndRender() {
+    return _$getCachedAndRenderAsyncAction
+        .run(() => super.getCachedAndRender());
   }
 
   final _$getConversationsAsyncAction =

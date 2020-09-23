@@ -97,9 +97,7 @@ class _VideoScreenState extends State<VideoScreen> {
                   final String dir =
                       (await getApplicationDocumentsDirectory()).path;
                   final String path = '$dir/${DateTime.now()}_video.mp4';
-                  final response = await Dio().download(widget.url, path);
-
-                  print(response);
+                  await Dio().download(widget.url, path);
                 }),
           ),
       ]),

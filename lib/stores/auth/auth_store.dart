@@ -1,4 +1,5 @@
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/domain/core/errors.dart';
 import 'package:mobx/mobx.dart';
@@ -37,9 +38,8 @@ abstract class _AuthStoreBase with Store {
   @action
   void checkCurrentAuthState() {
     final isSignedIn = _repository.isSignIn();
-    _authState = isSignedIn 
-        ? AuthState.authenticated() 
-        : AuthState.unauthenticated();
+    _authState =
+        isSignedIn ? AuthState.authenticated() : AuthState.unauthenticated();
   }
 
   @action
@@ -48,14 +48,13 @@ abstract class _AuthStoreBase with Store {
       if (updateBackend) await _repository.logout();
       await _sharedPreferencesService.clear();
       _authState = AuthState.unauthenticated();
-    } on ServerError catch (_) {
-      print('cant logout');
+    } on ServerError catch (e) {
+      Crash.report(e.message);
     }
   }
-
-  
 }
+
 void clearImagesCache() {
-    final manager = new DefaultCacheManager();
-    manager.emptyCache();
-  }
+  final manager = new DefaultCacheManager();
+  manager.emptyCache();
+}

@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     _home.watchConversation();
     _story.watchStories();
-    
+
     socket
       ..bindHomeChangeEvent()
       ..bindStoryChangeEvent();
@@ -95,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 conversation: conversation));
                         // When return from conversation update the home stories
                         stories.getHomeStories();
-                        _home.getConversations();
+                        // _home.getConversations();
                       },
                     ),
                     Positioned(

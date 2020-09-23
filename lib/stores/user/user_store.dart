@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:iconapp/core/firebase/crashlytics.dart';
+import 'package:iconapp/domain/core/errors.dart';
 import 'package:mobx/mobx.dart';
 import '../../core/dependencies/locator.dart';
 import '../../data/models/user_model.dart';
@@ -82,11 +84,11 @@ abstract class _UserStoreBase with Store {
       final home = sl<HomeStore>();
       final result = await home.getConversations();
       result.fold(
-        (e) => print(e),
+        (e) => Crash.report(e.message),
         (conversations) => home.updateUi(conversations),
       );
-    } on Exception catch (e) {
-      print(e);
+    } on ServerError catch (e) {
+      Crash.report(e.message);
     }
   }
 

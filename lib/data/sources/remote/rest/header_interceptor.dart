@@ -1,5 +1,5 @@
-  import 'dart:async';
-
+import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/main.dart';
@@ -31,7 +31,7 @@ class HeaderInterceptor extends Interceptor {
   Future onError(DioError error) async {
     if (counter < MAX_TRIES && error.response?.statusCode == 403 ||
         error.response?.statusCode == 401) {
-       dio.interceptors.requestLock.unlock();
+      dio.interceptors.requestLock.unlock();
       dio.interceptors.responseLock.unlock();
       sl<AuthStore>().logout(false);
     } else {
@@ -42,5 +42,5 @@ class HeaderInterceptor extends Interceptor {
 
 void addHeaders(RequestOptions options, String token) {
   options.headers['Authorization'] = "Bearer " + token ?? '';
-  logger.d('SESSION TOKEN: $token');
+  if (kDebugMode) logger.d('SESSION TOKEN: $token');
 }

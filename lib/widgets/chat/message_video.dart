@@ -62,7 +62,7 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
       }
     });
     _controller = SlidableController(
-      onSlideAnimationChanged: (s) => print(s), // do not remove
+      // onSlideAnimationChanged: (s) => print(s), // do not remove
       onSlideIsOpenChanged: (isOpen) {
         if (mounted) {
           setState(() async {

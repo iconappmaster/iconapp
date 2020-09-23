@@ -59,7 +59,7 @@ class StoryRepositoryImpl implements StoryRepository {
 
   @override
   Future<bool> viewedStoryImage(int imageId) async {
-
+    if (imageId == 0) return false;
     return await rest.viewedStoryImage(imageId);
   }
 

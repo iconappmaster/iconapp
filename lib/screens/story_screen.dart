@@ -86,7 +86,7 @@ class _StoryScreenState extends State<StoryScreen> {
                       ExtendedNavigator.of(context).pop();
                     }
                   },
-                  onStoryShow: (s) => _store.onStoryImageViewed(s.imageId),
+                  onStoryShow: (s) => _store.onStoryImageViewed(s?.imageId ?? 0),
                   storyItems: story.storyImages
                       .map((storyImage) => storyImage.imageType ==
                               MediaType.photo.toString().parseEnum()

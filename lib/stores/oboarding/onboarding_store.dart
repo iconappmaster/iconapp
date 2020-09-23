@@ -1,9 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
+import 'package:iconapp/domain/core/errors.dart';
 import 'package:iconapp/domain/core/value_validators.dart';
 import 'package:iconapp/stores/auth/auth_store.dart';
 import 'package:iconapp/stores/media/media_store.dart';
@@ -65,8 +67,8 @@ abstract class _OnboardingStoreBase with Store {
           photo: PhotoModel(url: url),
         ),
       );
-    } on Exception catch (_) {
-      print('cant pick photo');
+    } on ServerError catch (e) {
+      Crash.report(e.message);
     } finally {
       _state = _state.copyWith(loading: false);
     }
@@ -77,7 +79,7 @@ abstract class _OnboardingStoreBase with Store {
     try {
       final phone = _userStore.getUser.phone;
       final token = _sp?.getString(StorageKey.fcmToken) ?? '';
-      
+
       _state = _state.copyWith(
         loading: true,
         userModel: _state.userModel.copyWith(

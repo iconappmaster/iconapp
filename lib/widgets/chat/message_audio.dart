@@ -239,7 +239,6 @@ class _VoiceMessageState extends State<VoiceMessage> {
     });
 
     _playerErrorSubscription = _audioPlayer.onPlayerError.listen((msg) {
-      print('audioPlayer error : $msg');
       if (mounted)
         setState(() {
           _playerState = PlayerState.stopped;

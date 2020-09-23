@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dartz/dartz.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/repositories/home_repository.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
@@ -22,7 +23,7 @@ abstract class _HomeStoreBase with Store {
     _sp = sl<SharedPreferencesService>();
     _repository = sl<HomeRepository>();
     _shouldShowWelcomeDialog();
-    getConversations();
+    // getConversations();
   }
 
   void _shouldShowWelcomeDialog() {
@@ -53,33 +54,47 @@ abstract class _HomeStoreBase with Store {
   }
 
   @action
-  Future getCachedHome() async {
+  Future<List<Conversation>> getCachedAndRender() async {
     final cached = await _repository.getCachedHome();
     if (cached != null) {
       updateUi(cached);
+      return cached;
     }
+    return [];
   }
 
   @action
   Future<Either<ServerError, List<Conversation>>> getConversations() async {
     try {
       _loading = true;
-      final conversations = await _repository.getConversations();
-      if (conversations.isNotEmpty) {
-        updateUi(conversations);
-        _markHomeTimestamp();
-        return right(conversations);
-      } else {
-        return right([]);
+
+      // get the last timestamp it's the first time then return 0 as default
+      final timestamp = _sp.getInt(StorageKey.homeTimestamp) ?? 0;
+      _saveFetchTimestamp();
+
+      // try to render the cached conversations if
+      await getCachedAndRender();
+
+      // backend will check if there are any changes since the last time waw fetched and return.
+      final remote = await _repository.getConversations(timestamp);
+
+      // save and render only if there's an update.
+      if (remote.isNotEmpty) {
+        _repository.saveHome(remote);
+        updateUi(remote);
       }
+
+      // return the conversations
+      return right(remote);
     } on ServerError catch (e) {
+      Crash.report(e.message);
       return left(e);
     } finally {
       _loading = false;
     }
   }
 
-  void _markHomeTimestamp() {
+  void _saveFetchTimestamp() {
     final ts = DateTime.now().microsecondsSinceEpoch;
     _sp.setInt(StorageKey.homeTimestamp, ts);
   }
@@ -117,7 +132,7 @@ abstract class _HomeStoreBase with Store {
         _conversations.add(conversation);
       }
 
-      _repository.cacheHome(_conversations);
+      _repository.saveHome(_conversations);
     });
   }
 
