@@ -64,12 +64,14 @@ abstract class _HomeStoreBase with Store {
   Future<Either<ServerError, List<Conversation>>> getConversations() async {
     try {
       _loading = true;
-      await getCachedHome();
       final conversations = await _repository.getConversations();
-      _repository.cacheHome(conversations);
-      updateUi(conversations);
-      _markHomeTimestamp();
-      return right(conversations);
+      if (conversations.isNotEmpty) {
+        updateUi(conversations);
+        _markHomeTimestamp();
+        return right(conversations);
+      } else {
+        return right([]);
+      }
     } on ServerError catch (e) {
       return left(e);
     } finally {

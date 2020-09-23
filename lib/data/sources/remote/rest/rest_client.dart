@@ -71,9 +71,8 @@ abstract class RestClient {
   Future<Conversation> removeUser(
       @Path('conversationId') int conversationId, @Query('userId') int userId);
 
-  // TODO add last_requested_at
   @GET('conversations')
-  Future<List<Conversation>> getConversations();
+  Future<List<Conversation>> getConversations(@Query('lastRequestedAt') int lastRequestedAt);
 
   @POST('conversations')
   Future<Conversation> createConversation(@Body() CreateGroupReq groupReq);

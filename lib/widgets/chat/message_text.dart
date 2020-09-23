@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:vibration/vibration.dart';
 import '../global/bubble.dart';
+import 'chat_list.dart';
 import 'reply_slider.dart';
 import 'icon_bubble.dart';
 import '../../core/dependencies/locator.dart';
@@ -69,65 +70,69 @@ class _TextMessageState extends State<TextMessage> {
         ? blueBerry
         : widget.isMe ? darkIndigo2 : blueberry2;
 
-    return Replyble(
-      isEnabled: _chat.conversation.userRole != UserRole.viewer,
-      isOpen: _isOpen,
-      keyName: widget.message.id.toString(),
-      controller: _controller,
-      builder: (context, index, animation, step) {
-        _sliderContext = context;
-        return ReplyButton(message: widget.message);
-      },
-      child: IconBubble(
-        onTap: () {
-          final repliedMessage = widget.message.repliedToMessage;
-          if (repliedMessage != null) {
-            final index =
-                _chat.getMessages.indexWhere((m) => m.id == repliedMessage.id);
-            widget.controller.scrollToIndex(index);
-          }
+    return ScrollableTile(
+      index: widget.index,
+      controller: widget.controller,
+      child: Replyble(
+        isEnabled: _chat.conversation.userRole != UserRole.viewer,
+        isOpen: _isOpen,
+        keyName: widget.message.id.toString(),
+        controller: _controller,
+        builder: (context, index, animation, step) {
+          _sliderContext = context;
+          return ReplyButton(message: widget.message);
         },
-        padding: BubbleEdges.only(top: 5, bottom: 1),
-        message: widget.message,
-        isMe: widget.isMe,
-        child: Stack(children: [
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 4),
-            color: color,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                CustomText(
-                  widget.message.sender?.fullName ?? '',
-                  style: chatMessageName,
-                  textAlign: TextAlign.start,
-                ),
-                ConstrainedBox(
-                  constraints: BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width * .5),
-                  child: SelectableText(
-                    widget.message?.body ?? '',
-                    style: chatMessageBody,
+        child: IconBubble(
+          onTap: () {
+            final repliedMessage = widget.message.repliedToMessage;
+            if (repliedMessage != null) {
+              final index = _chat.getMessages
+                  .indexWhere((m) => m.id == repliedMessage.id);
+              widget.controller.scrollToIndex(index);
+            }
+          },
+          padding: BubbleEdges.only(top: 5, bottom: 1),
+          message: widget.message,
+          isMe: widget.isMe,
+          child: Stack(children: [
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 4),
+              color: color,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  CustomText(
+                    widget.message.sender?.fullName ?? '',
+                    style: chatMessageName,
                     textAlign: TextAlign.start,
                   ),
-                ),
-                SizedBox(height: 8),
-              ],
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width * .5),
+                    child: SelectableText(
+                      widget.message?.body ?? '',
+                      style: chatMessageBody,
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                ],
+              ),
             ),
-          ),
-          Positioned(
-            left: 0,
-            bottom: 0,
-            child: CustomText(
-              widget.message.status == MessageStatus.pending
-                  ? ''
-                  : widget.message?.timestamp?.humanReadableTime() ?? '',
-              style: chatMessageBody.copyWith(fontSize: 9),
-              textAlign: TextAlign.start,
-            ),
-          )
-        ]),
+            Positioned(
+              left: 0,
+              bottom: 0,
+              child: CustomText(
+                widget.message.status == MessageStatus.pending
+                    ? ''
+                    : widget.message?.timestamp?.humanReadableTime() ?? '',
+                style: chatMessageBody.copyWith(fontSize: 9),
+                textAlign: TextAlign.start,
+              ),
+            )
+          ]),
+        ),
       ),
     );
   }

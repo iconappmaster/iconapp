@@ -41,30 +41,40 @@ class _ChatListState extends State<ChatList> {
                 itemBuilder: (_, index) {
                   final message = store?.getMessages[index];
                   final isMe = store.isMe(message.sender?.id);
-
                   switch (message.messageType) {
-                    
                     case MessageType.text:
-                      return ScrollableTile(
-                        index: index,
-                        controller: widget.scrollController,
-                        child: TextMessage(
+                      return TextMessage(
                           controller: widget.scrollController,
                           message: message,
                           isMe: isMe,
-                          index: index,
-                        ),
-                      );
-                    
+                          index: index);
+
                     case MessageType.photo:
                       return PhotoMessage(
-                          message: message, isMe: isMe, index: index);
+                        controller: widget.scrollController,
+                        message: message,
+                        isMe: isMe,
+                        index: index,
+                      );
+
                     case MessageType.video:
-                      return VideoMessage(message: message, isMe: isMe);
+                      return VideoMessage(
+                        controller: widget.scrollController,
+                        index: index,
+                        message: message,
+                        isMe: isMe,
+                      );
                     case MessageType.voice:
-                      return VoiceMessage(message: message, isMe: isMe);
+                      return VoiceMessage(
+                        controller: widget.scrollController,
+                        index: index,
+                        message: message,
+                        isMe: isMe,
+                      );
                     case MessageType.system:
-                      return SystemMessage(title: message.body);
+                      return SystemMessage(
+                        title: message.body,
+                      );
                   }
 
                   return Container();

@@ -15,8 +15,10 @@ import 'package:iconapp/widgets/chat/reply_slider.dart';
 import 'package:iconapp/widgets/global/bubble.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/slidable/slidable.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:vibration/vibration.dart';
 
+import 'chat_list.dart';
 import 'icon_bubble.dart';
 
 enum PlayerState { stopped, playing, paused }
@@ -26,12 +28,16 @@ class VoiceMessage extends StatefulWidget {
   final PlayerMode mode;
   final MessageModel message;
   final bool isMe;
+  final int index;
+  final AutoScrollController controller;
 
   VoiceMessage({
     Key key,
     @required this.isMe,
     @required this.message,
     this.mode = PlayerMode.MEDIA_PLAYER,
+    @required this.index,
+    @required this.controller,
   }) : super(key: key);
 
   @override
@@ -112,96 +118,102 @@ class _VoiceMessageState extends State<VoiceMessage> {
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
 
-    return Replyble(
-      isEnabled: store.conversation.userRole != UserRole.viewer,
-      isOpen: _isOpen,
-      keyName: widget.message.id.toString(),
-      controller: _controller,
-      builder: (context, index, animation, step) {
-        _sliderContext = context;
-        return ReplyButton(message: widget.message);
-      },
-      child: Container(
-        child: IconBubble(
-          padding: BubbleEdges.symmetric(vertical: 14, horizontal: 14),
-          message: widget.message,
-          isMe: widget.isMe,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomText(widget.message.sender.fullName,
-                  style: newMessageNumber),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Directionality(
-                    textDirection: TextDirection.ltr,
-                    child: Slider(
-                      inactiveColor: white,
-                      activeColor: cornflower,
-                      onChanged: (v) {
-                        final position = v * _duration.inMilliseconds;
-                        _audioPlayer
-                            .seek(Duration(milliseconds: position.round()));
-                      },
-                      value: (_position != null &&
-                              _duration != null &&
-                              _position.inMilliseconds > 0 &&
-                              _position.inMilliseconds <
-                                  _duration.inMilliseconds)
-                          ? _position.inMilliseconds / _duration.inMilliseconds
-                          : 0.0,
+    return ScrollableTile(
+      index: widget.index,
+      controller: widget.controller,
+      child: Replyble(
+        isEnabled: store.conversation.userRole != UserRole.viewer,
+        isOpen: _isOpen,
+        keyName: widget.message.id.toString(),
+        controller: _controller,
+        builder: (context, index, animation, step) {
+          _sliderContext = context;
+          return ReplyButton(message: widget.message);
+        },
+        child: Container(
+          child: IconBubble(
+            padding: BubbleEdges.symmetric(vertical: 14, horizontal: 14),
+            message: widget.message,
+            isMe: widget.isMe,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomText(widget.message.sender.fullName,
+                    style: newMessageNumber),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: Slider(
+                        inactiveColor: white,
+                        activeColor: cornflower,
+                        onChanged: (v) {
+                          final position = v * _duration.inMilliseconds;
+                          _audioPlayer
+                              .seek(Duration(milliseconds: position.round()));
+                        },
+                        value: (_position != null &&
+                                _duration != null &&
+                                _position.inMilliseconds > 0 &&
+                                _position.inMilliseconds <
+                                    _duration.inMilliseconds)
+                            ? _position.inMilliseconds /
+                                _duration.inMilliseconds
+                            : 0.0,
+                      ),
                     ),
-                  ),
-                  widget.message.status == MessageStatus.pending
-                      ? CircularProgressIndicator(
-                          value: _progress,
-                          strokeWidth: 1,
-                          backgroundColor: cornflower,
-                          valueColor: AlwaysStoppedAnimation<Color>(white),
-                        )
-                      : SizedBox(
-                          height: 34,
-                          width: 34,
-                          child: FloatingActionButton(
-                            heroTag: widget.message.id.toString(),
-                            onPressed: () => _isPlaying ? _pause() : _play(),
-                            elevation: 0,
-                            backgroundColor: white,
-                            child: AnimatedSwitcher(
-                              duration: Duration(milliseconds: 250),
-                              transitionBuilder: (child, animation) =>
-                                  ScaleTransition(
-                                      scale: animation, child: child),
-                              child: _isPlaying
-                                  ? SvgPicture.asset('assets/images/pause.svg',
-                                      key: Key('pause_button'),
-                                      height: 12,
-                                      width: 12)
-                                  : SvgPicture.asset(
-                                      'assets/images/play.svg',
-                                      height: 12,
-                                      width: 12,
-                                      key: Key('play_button'),
-                                    ),
+                    widget.message.status == MessageStatus.pending
+                        ? CircularProgressIndicator(
+                            value: _progress,
+                            strokeWidth: 1,
+                            backgroundColor: cornflower,
+                            valueColor: AlwaysStoppedAnimation<Color>(white),
+                          )
+                        : SizedBox(
+                            height: 34,
+                            width: 34,
+                            child: FloatingActionButton(
+                              heroTag: widget.message.id.toString(),
+                              onPressed: () => _isPlaying ? _pause() : _play(),
+                              elevation: 0,
+                              backgroundColor: white,
+                              child: AnimatedSwitcher(
+                                duration: Duration(milliseconds: 250),
+                                transitionBuilder: (child, animation) =>
+                                    ScaleTransition(
+                                        scale: animation, child: child),
+                                child: _isPlaying
+                                    ? SvgPicture.asset(
+                                        'assets/images/pause.svg',
+                                        key: Key('pause_button'),
+                                        height: 12,
+                                        width: 12)
+                                    : SvgPicture.asset(
+                                        'assets/images/play.svg',
+                                        height: 12,
+                                        width: 12,
+                                        key: Key('play_button'),
+                                      ),
+                              ),
                             ),
                           ),
-                        ),
-                ],
-              ),
-              Visibility(
-                visible: _position != null,
-                child: Padding(
-                  padding: EdgeInsets.only(top: 4),
-                  child: CustomText(
-                    _position != null
-                        ? '${_durationText ?? ''} / ${_positionText ?? ''}'
-                        : _duration != null ? _durationText : '',
-                    style: newMessageNumber,
+                  ],
+                ),
+                Visibility(
+                  visible: _position != null,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 4),
+                    child: CustomText(
+                      _position != null
+                          ? '${_durationText ?? ''} / ${_positionText ?? ''}'
+                          : _duration != null ? _durationText : '',
+                      style: newMessageNumber,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

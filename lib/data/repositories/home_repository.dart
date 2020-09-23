@@ -26,8 +26,8 @@ class HomeRepositoryImpl implements HomeRepository {
 
   @override
   Future<List<Conversation>> getConversations() async {
-    // final ts = cache.getInt(StorageKey.homeTimestamp) ?? 0;
-    return await restClient.getConversations();
+    final ts = cache.getInt(StorageKey.homeTimestamp) ?? 0;
+    return await restClient.getConversations(ts);
   }
 
   @override

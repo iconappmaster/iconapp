@@ -72,7 +72,7 @@ abstract class _ChatSettingsStoreBase with Store {
   @computed
   List<UserModel> get users => _users;
 
-  @action
+  @action 
   Future changeBackground(int colorIndex) async {
     try {
       _isLoading = true;

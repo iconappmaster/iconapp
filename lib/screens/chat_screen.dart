@@ -102,7 +102,7 @@ class _ChatScreenState extends State<ChatScreen> {
               );
             }),
             Positioned(
-                top: context.heightPlusStatusbarPerc(.07),
+                top: context.heightPlusStatusbarPerc(.09),
                 child: StoriesList(mode: _story.mode, show: !_upDirection)),
             _showWelcomeDialog(_chat.conversation?.name ?? ''),
           ],

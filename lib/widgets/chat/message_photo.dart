@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:iconapp/widgets/global/blur_appbar.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:vibration/vibration.dart';
 import '../../core/bus.dart';
 import '../../core/dependencies/locator.dart';
@@ -13,6 +14,7 @@ import '../../data/models/user_model.dart';
 import '../../data/repositories/media_repository.dart';
 import '../../routes/router.gr.dart';
 import '../../stores/chat/chat_store.dart';
+import 'chat_list.dart';
 import 'reply_slider.dart';
 import '../global/hebrew_input_text.dart';
 import '../global/network_photo.dart';
@@ -24,12 +26,14 @@ class PhotoMessage extends StatefulWidget {
   final MessageModel message;
   final bool isMe;
   final int index;
+  final AutoScrollController controller;
 
   const PhotoMessage({
     Key key,
     @required this.message,
     @required this.isMe,
     @required this.index,
+    @required this.controller,
   }) : super(key: key);
 
   @override
@@ -75,90 +79,95 @@ class _PhotoMessageState extends State<PhotoMessage> {
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
 
-    return Replyble(
-      isEnabled: store.conversation.userRole != UserRole.viewer,
-      isOpen: _isOpen,
-      keyName: widget.message.id.toString(),
-      controller: _controller,
-      builder: (context, index, animation, step) {
-        _sliderContext = context;
-        return ReplyButton(message: widget.message);
-      },
-      child: Container(
-        child: Opacity(
-          opacity: widget.message.status == MessageStatus.pending ? .8 : 1,
-          child: Stack(
-            children: [
-              IconBubble(
-                isMe: widget.isMe,
-                message: widget.message,
-                onTap: () => store.conversationPhotos.length > 1
-                    ? ExtendedNavigator.of(context).pushNamed(
-                        Routes.photoGalleryScreen,
-                        arguments: PhotoGalleryScreenArguments(
-                          galleryItems: store.conversationPhotos,
-                          intialIndex: store.conversationPhotos
-                              .indexWhere((m) => m.id == widget.message.id),
-                        ),
-                      )
-                    : ExtendedNavigator.of(context)
-                        .pushSingleImage(url: widget.message.body),
-                child: Stack(children: [
-                  Hero(
-                    tag: widget.index,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        widget.message.body.startsWith('http')
-                            ? SizedBox(
-                                height: 200,
-                                width: 240,
-                                child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(4.2),
-                                    child:
-                                        NetworkPhoto(url: widget.message.body)))
-                            : SizedBox(
-                                height: 200,
-                                width: 200,
-                                child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(4.2),
-                                    child: Image.file(File(widget.message.body),
-                                        fit: BoxFit.cover))),
-                      ],
+    return ScrollableTile(
+      index: widget.index,
+      controller: widget.controller,
+      child: Replyble(
+        isEnabled: store.conversation.userRole != UserRole.viewer,
+        isOpen: _isOpen,
+        keyName: widget.message.id.toString(),
+        controller: _controller,
+        builder: (context, index, animation, step) {
+          _sliderContext = context;
+          return ReplyButton(message: widget.message);
+        },
+        child: Container(
+          child: Opacity(
+            opacity: widget.message.status == MessageStatus.pending ? .8 : 1,
+            child: Stack(
+              children: [
+                IconBubble(
+                  isMe: widget.isMe,
+                  message: widget.message,
+                  onTap: () => store.conversationPhotos.length > 1
+                      ? ExtendedNavigator.of(context).pushNamed(
+                          Routes.photoGalleryScreen,
+                          arguments: PhotoGalleryScreenArguments(
+                            galleryItems: store.conversationPhotos,
+                            intialIndex: store.conversationPhotos
+                                .indexWhere((m) => m.id == widget.message.id),
+                          ),
+                        )
+                      : ExtendedNavigator.of(context)
+                          .pushSingleImage(url: widget.message.body),
+                  child: Stack(children: [
+                    Hero(
+                      tag: widget.index,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          widget.message.body.startsWith('http')
+                              ? SizedBox(
+                                  height: 200,
+                                  width: 240,
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(4.2),
+                                      child: NetworkPhoto(
+                                          url: widget.message.body)))
+                              : SizedBox(
+                                  height: 200,
+                                  width: 200,
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(4.2),
+                                      child: Image.file(
+                                          File(widget.message.body),
+                                          fit: BoxFit.cover))),
+                        ],
+                      ),
                     ),
-                  ),
-                  Positioned(
-                    left: 5,
-                    bottom: 5,
-                    child: CustomText(
-                      widget.message.status == MessageStatus.pending
-                          ? ''
-                          : widget.message?.timestamp?.humanReadableTime() ??
-                              '',
-                      style: chatMessageBody.copyWith(fontSize: 9),
-                      textAlign: TextAlign.start,
+                    Positioned(
+                      left: 5,
+                      bottom: 5,
+                      child: CustomText(
+                        widget.message.status == MessageStatus.pending
+                            ? ''
+                            : widget.message?.timestamp?.humanReadableTime() ??
+                                '',
+                        style: chatMessageBody.copyWith(fontSize: 9),
+                        textAlign: TextAlign.start,
+                      ),
                     ),
-                  ),
-                  Positioned(
-                    right: 5,
-                    bottom: 5,
-                    child: CustomText(widget.message.sender?.fullName ?? '',
-                        style: chatMessageName, textAlign: TextAlign.start),
-                  ),
-                ]),
-              ),
-              if (widget.message.status == MessageStatus.pending)
-                Positioned(
-                  left: 100,
-                  top: 80,
-                  child: CircularProgressIndicator(
-                    value: _progress,
-                    strokeWidth: 2,
-                    backgroundColor: white,
-                  ),
+                    Positioned(
+                      right: 5,
+                      bottom: 5,
+                      child: CustomText(widget.message.sender?.fullName ?? '',
+                          style: chatMessageName, textAlign: TextAlign.start),
+                    ),
+                  ]),
                 ),
-            ],
+                if (widget.message.status == MessageStatus.pending)
+                  Positioned(
+                    left: 100,
+                    top: 80,
+                    child: CircularProgressIndicator(
+                      value: _progress,
+                      strokeWidth: 2,
+                      backgroundColor: white,
+                    ),
+                  ),
+              ],
+            ),
           ),
         ),
       ),

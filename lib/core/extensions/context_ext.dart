@@ -51,5 +51,5 @@ extension ContextExtensions on BuildContext {
   heightPlusStatusbarPerc(double height) =>
       heightPx * height + statusbarHeight();
 
-  unFocus() => FocusScope.of(this).requestFocus(new FocusNode());
+  unFocus() => FocusScope.of(this).requestFocus(FocusNode());
 }
