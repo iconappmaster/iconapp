@@ -9,8 +9,8 @@ class PhotoGalleryScreen extends StatelessWidget {
   final int intialIndex;
   const PhotoGalleryScreen({
     Key key,
-    this.galleryItems,
-    this.intialIndex,
+    @required this.galleryItems,
+    @required this.intialIndex,
   }) : super(key: key);
 
   @override

@@ -12,6 +12,7 @@ LikesCount _$LikesCountFromJson(Map<String, dynamic> json) {
   return _LikesCount.fromJson(json);
 }
 
+/// @nodoc
 class _$LikesCountTearOff {
   const _$LikesCountTearOff();
 
@@ -30,11 +31,18 @@ class _$LikesCountTearOff {
       like5: like5,
     );
   }
+
+// ignore: unused_element
+  LikesCount fromJson(Map<String, Object> json) {
+    return LikesCount.fromJson(json);
+  }
 }
 
+/// @nodoc
 // ignore: unused_element
 const $LikesCount = _$LikesCountTearOff();
 
+/// @nodoc
 mixin _$LikesCount {
   @JsonKey(name: 'like_1')
   int get like1;
@@ -51,6 +59,7 @@ mixin _$LikesCount {
   $LikesCountCopyWith<LikesCount> get copyWith;
 }
 
+/// @nodoc
 abstract class $LikesCountCopyWith<$Res> {
   factory $LikesCountCopyWith(
           LikesCount value, $Res Function(LikesCount) then) =
@@ -63,6 +72,7 @@ abstract class $LikesCountCopyWith<$Res> {
       @JsonKey(name: 'like_5') int like5});
 }
 
+/// @nodoc
 class _$LikesCountCopyWithImpl<$Res> implements $LikesCountCopyWith<$Res> {
   _$LikesCountCopyWithImpl(this._value, this._then);
 
@@ -88,6 +98,7 @@ class _$LikesCountCopyWithImpl<$Res> implements $LikesCountCopyWith<$Res> {
   }
 }
 
+/// @nodoc
 abstract class _$LikesCountCopyWith<$Res> implements $LikesCountCopyWith<$Res> {
   factory _$LikesCountCopyWith(
           _LikesCount value, $Res Function(_LikesCount) then) =
@@ -101,6 +112,7 @@ abstract class _$LikesCountCopyWith<$Res> implements $LikesCountCopyWith<$Res> {
       @JsonKey(name: 'like_5') int like5});
 }
 
+/// @nodoc
 class __$LikesCountCopyWithImpl<$Res> extends _$LikesCountCopyWithImpl<$Res>
     implements _$LikesCountCopyWith<$Res> {
   __$LikesCountCopyWithImpl(
@@ -129,6 +141,8 @@ class __$LikesCountCopyWithImpl<$Res> extends _$LikesCountCopyWithImpl<$Res>
 }
 
 @JsonSerializable()
+
+/// @nodoc
 class _$_LikesCount implements _LikesCount {
   const _$_LikesCount(
       {@JsonKey(name: 'like_1') this.like1,

@@ -71,11 +71,14 @@ class OnboardingProfile extends StatelessWidget {
         enabled: !store.getState.loading,
         onClick: () {
           if (_formValidatorKey.currentState.validate()) {
-            store.upadteUser().then((result) => result.fold(
-                (error) => ctx.showFlushbar(
-                    message: LocaleKeys.general_server_error.tr()),
-                (success) => ExtendedNavigator.of(ctx).pushNamedAndRemoveUntil(
-                    Routes.mainNavigator, (Route<dynamic> route) => false)));
+            store.upadteUser().then(
+                  (result) => result.fold(
+                    (error) => ctx.showFlushbar(
+                        message: LocaleKeys.general_server_error.tr()),
+                    (success) => ExtendedNavigator.of(ctx).pushAndRemoveUntil(
+                        Routes.mainNavigator, (route) => false),
+                  ),
+                );
           }
         },
       ),

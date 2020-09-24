@@ -12,6 +12,7 @@ MessageModel _$MessageModelFromJson(Map<String, dynamic> json) {
   return _MessageModel.fromJson(json);
 }
 
+/// @nodoc
 class _$MessageModelTearOff {
   const _$MessageModelTearOff();
 
@@ -44,14 +45,21 @@ class _$MessageModelTearOff {
       repliedToMessage: repliedToMessage,
     );
   }
+
+// ignore: unused_element
+  MessageModel fromJson(Map<String, Object> json) {
+    return MessageModel.fromJson(json);
+  }
 }
 
+/// @nodoc
 // ignore: unused_element
 const $MessageModel = _$MessageModelTearOff();
 
+/// @nodoc
 mixin _$MessageModel {
   int get id;
-  int get localId;
+  int get localId; // used for changes on the message
   int get timestamp;
   String get body;
   bool get wasSeen;
@@ -67,6 +75,7 @@ mixin _$MessageModel {
   $MessageModelCopyWith<MessageModel> get copyWith;
 }
 
+/// @nodoc
 abstract class $MessageModelCopyWith<$Res> {
   factory $MessageModelCopyWith(
           MessageModel value, $Res Function(MessageModel) then) =
@@ -87,8 +96,10 @@ abstract class $MessageModelCopyWith<$Res> {
 
   $UserModelCopyWith<$Res> get sender;
   $LikesCountCopyWith<$Res> get likeCounts;
+  $MessageModelCopyWith<$Res> get repliedToMessage;
 }
 
+/// @nodoc
 class _$MessageModelCopyWithImpl<$Res> implements $MessageModelCopyWith<$Res> {
   _$MessageModelCopyWithImpl(this._value, this._then);
 
@@ -151,8 +162,19 @@ class _$MessageModelCopyWithImpl<$Res> implements $MessageModelCopyWith<$Res> {
       return _then(_value.copyWith(likeCounts: value));
     });
   }
+
+  @override
+  $MessageModelCopyWith<$Res> get repliedToMessage {
+    if (_value.repliedToMessage == null) {
+      return null;
+    }
+    return $MessageModelCopyWith<$Res>(_value.repliedToMessage, (value) {
+      return _then(_value.copyWith(repliedToMessage: value));
+    });
+  }
 }
 
+/// @nodoc
 abstract class _$MessageModelCopyWith<$Res>
     implements $MessageModelCopyWith<$Res> {
   factory _$MessageModelCopyWith(
@@ -177,8 +199,11 @@ abstract class _$MessageModelCopyWith<$Res>
   $UserModelCopyWith<$Res> get sender;
   @override
   $LikesCountCopyWith<$Res> get likeCounts;
+  @override
+  $MessageModelCopyWith<$Res> get repliedToMessage;
 }
 
+/// @nodoc
 class __$MessageModelCopyWithImpl<$Res> extends _$MessageModelCopyWithImpl<$Res>
     implements _$MessageModelCopyWith<$Res> {
   __$MessageModelCopyWithImpl(
@@ -226,6 +251,8 @@ class __$MessageModelCopyWithImpl<$Res> extends _$MessageModelCopyWithImpl<$Res>
 }
 
 @JsonSerializable()
+
+/// @nodoc
 class _$_MessageModel implements _MessageModel {
   const _$_MessageModel(
       {this.id,
@@ -248,7 +275,7 @@ class _$_MessageModel implements _MessageModel {
   final int id;
   @override
   final int localId;
-  @override
+  @override // used for changes on the message
   final int timestamp;
   @override
   final String body;
@@ -360,7 +387,7 @@ abstract class _MessageModel implements MessageModel {
   int get id;
   @override
   int get localId;
-  @override
+  @override // used for changes on the message
   int get timestamp;
   @override
   String get body;

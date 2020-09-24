@@ -12,6 +12,7 @@ SearchModel _$SearchModelFromJson(Map<String, dynamic> json) {
   return _SearchModel.fromJson(json);
 }
 
+/// @nodoc
 class _$SearchModelTearOff {
   const _$SearchModelTearOff();
 
@@ -22,11 +23,18 @@ class _$SearchModelTearOff {
       photo: photo,
     );
   }
+
+// ignore: unused_element
+  SearchModel fromJson(Map<String, Object> json) {
+    return SearchModel.fromJson(json);
+  }
 }
 
+/// @nodoc
 // ignore: unused_element
 const $SearchModel = _$SearchModelTearOff();
 
+/// @nodoc
 mixin _$SearchModel {
   String get name;
   PhotoModel get photo;
@@ -35,6 +43,7 @@ mixin _$SearchModel {
   $SearchModelCopyWith<SearchModel> get copyWith;
 }
 
+/// @nodoc
 abstract class $SearchModelCopyWith<$Res> {
   factory $SearchModelCopyWith(
           SearchModel value, $Res Function(SearchModel) then) =
@@ -44,6 +53,7 @@ abstract class $SearchModelCopyWith<$Res> {
   $PhotoModelCopyWith<$Res> get photo;
 }
 
+/// @nodoc
 class _$SearchModelCopyWithImpl<$Res> implements $SearchModelCopyWith<$Res> {
   _$SearchModelCopyWithImpl(this._value, this._then);
 
@@ -73,6 +83,7 @@ class _$SearchModelCopyWithImpl<$Res> implements $SearchModelCopyWith<$Res> {
   }
 }
 
+/// @nodoc
 abstract class _$SearchModelCopyWith<$Res>
     implements $SearchModelCopyWith<$Res> {
   factory _$SearchModelCopyWith(
@@ -85,6 +96,7 @@ abstract class _$SearchModelCopyWith<$Res>
   $PhotoModelCopyWith<$Res> get photo;
 }
 
+/// @nodoc
 class __$SearchModelCopyWithImpl<$Res> extends _$SearchModelCopyWithImpl<$Res>
     implements _$SearchModelCopyWith<$Res> {
   __$SearchModelCopyWithImpl(
@@ -107,6 +119,8 @@ class __$SearchModelCopyWithImpl<$Res> extends _$SearchModelCopyWithImpl<$Res>
 }
 
 @JsonSerializable()
+
+/// @nodoc
 class _$_SearchModel implements _SearchModel {
   const _$_SearchModel({this.name, this.photo});
 

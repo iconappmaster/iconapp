@@ -41,7 +41,7 @@ class CreateCategoryScreen extends StatelessWidget {
                             onTap: () {
                               store.updateSelected(category);
                               ExtendedNavigator.of(context)
-                                  .pushNamed(Routes.createDetailsScreen);
+                                  .pushCreateDetailsScreen();
                             },
                           );
                         },

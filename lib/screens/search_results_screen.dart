@@ -62,13 +62,9 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                                 ? store.categories[index]
                                 : store.icons[index];
                         return SearchResultTile(
-                          conversation: conversation,
-                          onTap: () => ExtendedNavigator.of(context).pushNamed(
-                            Routes.chatScreen,
-                            arguments:
-                                ChatScreenArguments(conversation: conversation),
-                          ),
-                        );
+                            conversation: conversation,
+                            onTap: () => ExtendedNavigator.of(context)
+                                .pushChatScreen(conversation: conversation));
                       },
                     )
             ],

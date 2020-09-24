@@ -9,6 +9,7 @@ part of 'auth_success.dart';
 
 T _$identity<T>(T value) => value;
 
+/// @nodoc
 class _$AuthSuccessTearOff {
   const _$AuthSuccessTearOff();
 
@@ -23,9 +24,11 @@ class _$AuthSuccessTearOff {
   }
 }
 
+/// @nodoc
 // ignore: unused_element
 const $AuthSuccess = _$AuthSuccessTearOff();
 
+/// @nodoc
 mixin _$AuthSuccess {
   @optionalTypeArgs
   Result when<Result extends Object>({
@@ -51,12 +54,14 @@ mixin _$AuthSuccess {
   });
 }
 
+/// @nodoc
 abstract class $AuthSuccessCopyWith<$Res> {
   factory $AuthSuccessCopyWith(
           AuthSuccess value, $Res Function(AuthSuccess) then) =
       _$AuthSuccessCopyWithImpl<$Res>;
 }
 
+/// @nodoc
 class _$AuthSuccessCopyWithImpl<$Res> implements $AuthSuccessCopyWith<$Res> {
   _$AuthSuccessCopyWithImpl(this._value, this._then);
 
@@ -65,12 +70,14 @@ class _$AuthSuccessCopyWithImpl<$Res> implements $AuthSuccessCopyWith<$Res> {
   final $Res Function(AuthSuccess) _then;
 }
 
+/// @nodoc
 abstract class $NavigateHomeCopyWith<$Res> {
   factory $NavigateHomeCopyWith(
           NavigateHome value, $Res Function(NavigateHome) then) =
       _$NavigateHomeCopyWithImpl<$Res>;
 }
 
+/// @nodoc
 class _$NavigateHomeCopyWithImpl<$Res> extends _$AuthSuccessCopyWithImpl<$Res>
     implements $NavigateHomeCopyWith<$Res> {
   _$NavigateHomeCopyWithImpl(
@@ -81,6 +88,7 @@ class _$NavigateHomeCopyWithImpl<$Res> extends _$AuthSuccessCopyWithImpl<$Res>
   NavigateHome get _value => super._value as NavigateHome;
 }
 
+/// @nodoc
 class _$NavigateHome implements NavigateHome {
   const _$NavigateHome();
 
@@ -152,12 +160,14 @@ abstract class NavigateHome implements AuthSuccess {
   const factory NavigateHome() = _$NavigateHome;
 }
 
+/// @nodoc
 abstract class $NavigateProfileCopyWith<$Res> {
   factory $NavigateProfileCopyWith(
           NavigateProfile value, $Res Function(NavigateProfile) then) =
       _$NavigateProfileCopyWithImpl<$Res>;
 }
 
+/// @nodoc
 class _$NavigateProfileCopyWithImpl<$Res>
     extends _$AuthSuccessCopyWithImpl<$Res>
     implements $NavigateProfileCopyWith<$Res> {
@@ -169,6 +179,7 @@ class _$NavigateProfileCopyWithImpl<$Res>
   NavigateProfile get _value => super._value as NavigateProfile;
 }
 
+/// @nodoc
 class _$NavigateProfile implements NavigateProfile {
   const _$NavigateProfile();
 

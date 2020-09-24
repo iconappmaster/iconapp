@@ -9,6 +9,7 @@ part of 'onboarding_failure.dart';
 
 T _$identity<T>(T value) => value;
 
+/// @nodoc
 class _$OnboardinFailureTearOff {
   const _$OnboardinFailureTearOff();
 
@@ -23,9 +24,11 @@ class _$OnboardinFailureTearOff {
   }
 }
 
+/// @nodoc
 // ignore: unused_element
 const $OnboardinFailure = _$OnboardinFailureTearOff();
 
+/// @nodoc
 mixin _$OnboardinFailure {
   @optionalTypeArgs
   Result when<Result extends Object>({
@@ -51,12 +54,14 @@ mixin _$OnboardinFailure {
   });
 }
 
+/// @nodoc
 abstract class $OnboardinFailureCopyWith<$Res> {
   factory $OnboardinFailureCopyWith(
           OnboardinFailure value, $Res Function(OnboardinFailure) then) =
       _$OnboardinFailureCopyWithImpl<$Res>;
 }
 
+/// @nodoc
 class _$OnboardinFailureCopyWithImpl<$Res>
     implements $OnboardinFailureCopyWith<$Res> {
   _$OnboardinFailureCopyWithImpl(this._value, this._then);
@@ -66,11 +71,13 @@ class _$OnboardinFailureCopyWithImpl<$Res>
   final $Res Function(OnboardinFailure) _then;
 }
 
+/// @nodoc
 abstract class $WrongNameCopyWith<$Res> {
   factory $WrongNameCopyWith(WrongName value, $Res Function(WrongName) then) =
       _$WrongNameCopyWithImpl<$Res>;
 }
 
+/// @nodoc
 class _$WrongNameCopyWithImpl<$Res> extends _$OnboardinFailureCopyWithImpl<$Res>
     implements $WrongNameCopyWith<$Res> {
   _$WrongNameCopyWithImpl(WrongName _value, $Res Function(WrongName) _then)
@@ -80,6 +87,7 @@ class _$WrongNameCopyWithImpl<$Res> extends _$OnboardinFailureCopyWithImpl<$Res>
   WrongName get _value => super._value as WrongName;
 }
 
+/// @nodoc
 class _$WrongName implements WrongName {
   const _$WrongName();
 
@@ -151,11 +159,13 @@ abstract class WrongName implements OnboardinFailure {
   const factory WrongName() = _$WrongName;
 }
 
+/// @nodoc
 abstract class $WrongAgeCopyWith<$Res> {
   factory $WrongAgeCopyWith(WrongAge value, $Res Function(WrongAge) then) =
       _$WrongAgeCopyWithImpl<$Res>;
 }
 
+/// @nodoc
 class _$WrongAgeCopyWithImpl<$Res> extends _$OnboardinFailureCopyWithImpl<$Res>
     implements $WrongAgeCopyWith<$Res> {
   _$WrongAgeCopyWithImpl(WrongAge _value, $Res Function(WrongAge) _then)
@@ -165,6 +175,7 @@ class _$WrongAgeCopyWithImpl<$Res> extends _$OnboardinFailureCopyWithImpl<$Res>
   WrongAge get _value => super._value as WrongAge;
 }
 
+/// @nodoc
 class _$WrongAge implements WrongAge {
   const _$WrongAge();
 

@@ -9,6 +9,7 @@ part of 'chat_state.dart';
 
 T _$identity<T>(T value) => value;
 
+/// @nodoc
 class _$ChatStateTearOff {
   const _$ChatStateTearOff();
 
@@ -27,9 +28,11 @@ class _$ChatStateTearOff {
   }
 }
 
+/// @nodoc
 // ignore: unused_element
 const $ChatState = _$ChatStateTearOff();
 
+/// @nodoc
 mixin _$ChatState {
   bool get loading;
   bool get isSubscribing;
@@ -39,6 +42,7 @@ mixin _$ChatState {
   $ChatStateCopyWith<ChatState> get copyWith;
 }
 
+/// @nodoc
 abstract class $ChatStateCopyWith<$Res> {
   factory $ChatStateCopyWith(ChatState value, $Res Function(ChatState) then) =
       _$ChatStateCopyWithImpl<$Res>;
@@ -46,6 +50,7 @@ abstract class $ChatStateCopyWith<$Res> {
       {bool loading, bool isSubscribing, String inputMessage, bool pinLoading});
 }
 
+/// @nodoc
 class _$ChatStateCopyWithImpl<$Res> implements $ChatStateCopyWith<$Res> {
   _$ChatStateCopyWithImpl(this._value, this._then);
 
@@ -74,6 +79,7 @@ class _$ChatStateCopyWithImpl<$Res> implements $ChatStateCopyWith<$Res> {
   }
 }
 
+/// @nodoc
 abstract class _$ChatStateCopyWith<$Res> implements $ChatStateCopyWith<$Res> {
   factory _$ChatStateCopyWith(
           _ChatState value, $Res Function(_ChatState) then) =
@@ -83,6 +89,7 @@ abstract class _$ChatStateCopyWith<$Res> implements $ChatStateCopyWith<$Res> {
       {bool loading, bool isSubscribing, String inputMessage, bool pinLoading});
 }
 
+/// @nodoc
 class __$ChatStateCopyWithImpl<$Res> extends _$ChatStateCopyWithImpl<$Res>
     implements _$ChatStateCopyWith<$Res> {
   __$ChatStateCopyWithImpl(_ChatState _value, $Res Function(_ChatState) _then)
@@ -112,6 +119,7 @@ class __$ChatStateCopyWithImpl<$Res> extends _$ChatStateCopyWithImpl<$Res>
   }
 }
 
+/// @nodoc
 class _$_ChatState implements _ChatState {
   const _$_ChatState(
       {@required this.loading,

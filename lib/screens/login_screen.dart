@@ -25,8 +25,9 @@ class LoginScreen extends StatelessWidget {
           Positioned(
             bottom: context.heightPx * .091,
             child: NextButton(
-                onClick: () => ExtendedNavigator.of(context)
-                    .pushNamed(Routes.onboardingScreen)),
+              onClick: () =>
+                  ExtendedNavigator.of(context).pushOnboardingScreen(),
+            ),
           ),
           Positioned(bottom: context.heightPx * .04, child: PrivacyAndTerms()),
           Positioned(

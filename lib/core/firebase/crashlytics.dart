@@ -4,12 +4,12 @@ import 'package:iconapp/stores/user/user_store.dart';
 
 class Crash {
   static report(String msg) {
-    final crashlytics = Crashlytics.instance;
+    final crashlytics = FirebaseCrashlytics.instance;
     crashlytics.log(msg);
 
     final user = sl<UserStore>()?.getUser;
     if (user != null) {
-      crashlytics.setUserName(user?.fullName ?? '');
+      crashlytics.log(user?.fullName ?? '');
       crashlytics.setUserIdentifier(user?.id.toString() ?? '');
     }
   }

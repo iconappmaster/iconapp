@@ -46,13 +46,10 @@ class CategorySearchTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: () => ExtendedNavigator.of(context).pushNamed(
-        Routes.searchResultsScreen,
-        arguments: SearchResultsScreenArguments(
-            id: category?.id ?? 0,
-            mode: SearchResulsMode.categories,
-            name: category?.name ?? ''),
-      ),
+      onTap: () => ExtendedNavigator.of(context).pushSearchResultsScreen(
+          id: category?.id ?? 0,
+          mode: SearchResulsMode.categories,
+          name: category?.name ?? ''),   
       child: Material(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 28.7),

@@ -78,9 +78,12 @@ class ChatSettingsAppBar implements SliverPersistentHeaderDelegate {
                 right: 21,
                 bottom: 14.7,
                 child: CustomText(subTitle, style: fieldLabel)),
-            Positioned(right: 21, top: 32, child: IconBackButton(
-              isArrowDirectionDown: true,
-            )),
+            Positioned(
+                right: 21,
+                top: 32,
+                child: IconBackButton(
+                  isArrowDirectionDown: true,
+                )),
             if (settings.isUserAdmin)
               Positioned(
                   left: 21,
@@ -88,8 +91,8 @@ class ChatSettingsAppBar implements SliverPersistentHeaderDelegate {
                   child: IconButton(
                     icon: SvgPicture.asset('assets/images/edit.svg',
                         height: 16.3, width: 16.3),
-                    onPressed: () => ExtendedNavigator.of(context)
-                        .pushNamed(Routes.editConversation),
+                    onPressed: () =>
+                        ExtendedNavigator.of(context).pushEditConversation(),
                   )),
           ],
         ),

@@ -89,13 +89,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     ConversationsList(
                       controller: _controller,
                       onConversationTap: (conversation) async {
-                        await ExtendedNavigator.of(context).pushNamed(
-                            Routes.chatScreen,
-                            arguments: ChatScreenArguments(
-                                conversation: conversation));
-                        // When return from conversation update the home stories
+                        await ExtendedNavigator.of(context)
+                            .pushChatScreen(conversation: conversation);
                         stories.getHomeStories();
-                        // _home.getConversations();
                       },
                     ),
                     Positioned(

@@ -12,6 +12,7 @@ Conversation _$ConversationFromJson(Map<String, dynamic> json) {
   return _Conversation.fromJson(json);
 }
 
+/// @nodoc
 class _$ConversationTearOff {
   const _$ConversationTearOff();
 
@@ -56,11 +57,18 @@ class _$ConversationTearOff {
       userRole: userRole,
     );
   }
+
+// ignore: unused_element
+  Conversation fromJson(Map<String, Object> json) {
+    return Conversation.fromJson(json);
+  }
 }
 
+/// @nodoc
 // ignore: unused_element
 const $Conversation = _$ConversationTearOff();
 
+/// @nodoc
 mixin _$Conversation {
   int get id;
   int get backgroundColor;
@@ -85,6 +93,7 @@ mixin _$Conversation {
   $ConversationCopyWith<Conversation> get copyWith;
 }
 
+/// @nodoc
 abstract class $ConversationCopyWith<$Res> {
   factory $ConversationCopyWith(
           Conversation value, $Res Function(Conversation) then) =
@@ -115,6 +124,7 @@ abstract class $ConversationCopyWith<$Res> {
   $MessageModelCopyWith<$Res> get lastMessage;
 }
 
+/// @nodoc
 class _$ConversationCopyWithImpl<$Res> implements $ConversationCopyWith<$Res> {
   _$ConversationCopyWithImpl(this._value, this._then);
 
@@ -224,6 +234,7 @@ class _$ConversationCopyWithImpl<$Res> implements $ConversationCopyWith<$Res> {
   }
 }
 
+/// @nodoc
 abstract class _$ConversationCopyWith<$Res>
     implements $ConversationCopyWith<$Res> {
   factory _$ConversationCopyWith(
@@ -260,6 +271,7 @@ abstract class _$ConversationCopyWith<$Res>
   $MessageModelCopyWith<$Res> get lastMessage;
 }
 
+/// @nodoc
 class __$ConversationCopyWithImpl<$Res> extends _$ConversationCopyWithImpl<$Res>
     implements _$ConversationCopyWith<$Res> {
   __$ConversationCopyWithImpl(
@@ -332,6 +344,8 @@ class __$ConversationCopyWithImpl<$Res> extends _$ConversationCopyWithImpl<$Res>
 }
 
 @JsonSerializable()
+
+/// @nodoc
 class _$_Conversation implements _Conversation {
   const _$_Conversation(
       {this.id,

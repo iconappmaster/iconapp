@@ -105,11 +105,8 @@ class ParticipentAddButton extends StatelessWidget {
                     backgroundColor: cornflower,
                     onPressed: () async {
                       sl<CreateIconStore>().clear();
-                      final id = await ExtendedNavigator.of(context).pushNamed(
-                          Routes.selectIconScreen,
-                          arguments: SelectIconScreenArguments(
-                              mode: SelectIconMode.fromChat));
-
+                      final id = await ExtendedNavigator.of(context)
+                          .pushSelectIconScreen(mode: SelectIconMode.fromChat);
                       settings.addUser(id);
                     },
                     child: SvgPicture.asset('assets/images/plus.svg',

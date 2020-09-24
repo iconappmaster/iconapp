@@ -9,6 +9,7 @@ part of 'create_state.dart';
 
 T _$identity<T>(T value) => value;
 
+/// @nodoc
 class _$CreateStateTearOff {
   const _$CreateStateTearOff();
 
@@ -25,9 +26,11 @@ class _$CreateStateTearOff {
   }
 }
 
+/// @nodoc
 // ignore: unused_element
 const $CreateState = _$CreateStateTearOff();
 
+/// @nodoc
 mixin _$CreateState {
   bool get loading;
   List<UserModel> get selectedIcons;
@@ -36,6 +39,7 @@ mixin _$CreateState {
   $CreateStateCopyWith<CreateState> get copyWith;
 }
 
+/// @nodoc
 abstract class $CreateStateCopyWith<$Res> {
   factory $CreateStateCopyWith(
           CreateState value, $Res Function(CreateState) then) =
@@ -46,6 +50,7 @@ abstract class $CreateStateCopyWith<$Res> {
       List<int> selectedCategories});
 }
 
+/// @nodoc
 class _$CreateStateCopyWithImpl<$Res> implements $CreateStateCopyWith<$Res> {
   _$CreateStateCopyWithImpl(this._value, this._then);
 
@@ -71,6 +76,7 @@ class _$CreateStateCopyWithImpl<$Res> implements $CreateStateCopyWith<$Res> {
   }
 }
 
+/// @nodoc
 abstract class _$CreateStateCopyWith<$Res>
     implements $CreateStateCopyWith<$Res> {
   factory _$CreateStateCopyWith(
@@ -83,6 +89,7 @@ abstract class _$CreateStateCopyWith<$Res>
       List<int> selectedCategories});
 }
 
+/// @nodoc
 class __$CreateStateCopyWithImpl<$Res> extends _$CreateStateCopyWithImpl<$Res>
     implements _$CreateStateCopyWith<$Res> {
   __$CreateStateCopyWithImpl(
@@ -110,6 +117,7 @@ class __$CreateStateCopyWithImpl<$Res> extends _$CreateStateCopyWithImpl<$Res>
   }
 }
 
+/// @nodoc
 class _$_CreateState implements _CreateState {
   const _$_CreateState(
       {@required this.loading,

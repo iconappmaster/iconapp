@@ -12,6 +12,7 @@ HomeModel _$HomeModelFromJson(Map<String, dynamic> json) {
   return _HomeModel.fromJson(json);
 }
 
+/// @nodoc
 class _$HomeModelTearOff {
   const _$HomeModelTearOff();
 
@@ -22,11 +23,18 @@ class _$HomeModelTearOff {
       categories: categories,
     );
   }
+
+// ignore: unused_element
+  HomeModel fromJson(Map<String, Object> json) {
+    return HomeModel.fromJson(json);
+  }
 }
 
+/// @nodoc
 // ignore: unused_element
 const $HomeModel = _$HomeModelTearOff();
 
+/// @nodoc
 mixin _$HomeModel {
   List<StoryModel> get stories;
   List<Conversation> get categories;
@@ -35,12 +43,14 @@ mixin _$HomeModel {
   $HomeModelCopyWith<HomeModel> get copyWith;
 }
 
+/// @nodoc
 abstract class $HomeModelCopyWith<$Res> {
   factory $HomeModelCopyWith(HomeModel value, $Res Function(HomeModel) then) =
       _$HomeModelCopyWithImpl<$Res>;
   $Res call({List<StoryModel> stories, List<Conversation> categories});
 }
 
+/// @nodoc
 class _$HomeModelCopyWithImpl<$Res> implements $HomeModelCopyWith<$Res> {
   _$HomeModelCopyWithImpl(this._value, this._then);
 
@@ -63,6 +73,7 @@ class _$HomeModelCopyWithImpl<$Res> implements $HomeModelCopyWith<$Res> {
   }
 }
 
+/// @nodoc
 abstract class _$HomeModelCopyWith<$Res> implements $HomeModelCopyWith<$Res> {
   factory _$HomeModelCopyWith(
           _HomeModel value, $Res Function(_HomeModel) then) =
@@ -71,6 +82,7 @@ abstract class _$HomeModelCopyWith<$Res> implements $HomeModelCopyWith<$Res> {
   $Res call({List<StoryModel> stories, List<Conversation> categories});
 }
 
+/// @nodoc
 class __$HomeModelCopyWithImpl<$Res> extends _$HomeModelCopyWithImpl<$Res>
     implements _$HomeModelCopyWith<$Res> {
   __$HomeModelCopyWithImpl(_HomeModel _value, $Res Function(_HomeModel) _then)
@@ -95,6 +107,8 @@ class __$HomeModelCopyWithImpl<$Res> extends _$HomeModelCopyWithImpl<$Res>
 }
 
 @JsonSerializable()
+
+/// @nodoc
 class _$_HomeModel implements _HomeModel {
   const _$_HomeModel({this.stories, this.categories});
 

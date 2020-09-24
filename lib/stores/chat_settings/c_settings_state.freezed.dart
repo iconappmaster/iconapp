@@ -9,6 +9,7 @@ part of 'c_settings_state.dart';
 
 T _$identity<T>(T value) => value;
 
+/// @nodoc
 class _$ChatSettingsStateTearOff {
   const _$ChatSettingsStateTearOff();
 
@@ -25,9 +26,11 @@ class _$ChatSettingsStateTearOff {
   }
 }
 
+/// @nodoc
 // ignore: unused_element
 const $ChatSettingsState = _$ChatSettingsStateTearOff();
 
+/// @nodoc
 mixin _$ChatSettingsState {
   bool get loading;
   bool get notifications;
@@ -36,6 +39,7 @@ mixin _$ChatSettingsState {
   $ChatSettingsStateCopyWith<ChatSettingsState> get copyWith;
 }
 
+/// @nodoc
 abstract class $ChatSettingsStateCopyWith<$Res> {
   factory $ChatSettingsStateCopyWith(
           ChatSettingsState value, $Res Function(ChatSettingsState) then) =
@@ -43,6 +47,7 @@ abstract class $ChatSettingsStateCopyWith<$Res> {
   $Res call({bool loading, bool notifications, List<UserModel> participants});
 }
 
+/// @nodoc
 class _$ChatSettingsStateCopyWithImpl<$Res>
     implements $ChatSettingsStateCopyWith<$Res> {
   _$ChatSettingsStateCopyWithImpl(this._value, this._then);
@@ -69,6 +74,7 @@ class _$ChatSettingsStateCopyWithImpl<$Res>
   }
 }
 
+/// @nodoc
 abstract class _$CreateStateCopyWith<$Res>
     implements $ChatSettingsStateCopyWith<$Res> {
   factory _$CreateStateCopyWith(
@@ -78,6 +84,7 @@ abstract class _$CreateStateCopyWith<$Res>
   $Res call({bool loading, bool notifications, List<UserModel> participants});
 }
 
+/// @nodoc
 class __$CreateStateCopyWithImpl<$Res>
     extends _$ChatSettingsStateCopyWithImpl<$Res>
     implements _$CreateStateCopyWith<$Res> {
@@ -106,6 +113,7 @@ class __$CreateStateCopyWithImpl<$Res>
   }
 }
 
+/// @nodoc
 class _$_CreateState implements _CreateState {
   const _$_CreateState(
       {@required this.loading,

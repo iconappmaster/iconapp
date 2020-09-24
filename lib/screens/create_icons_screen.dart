@@ -84,7 +84,7 @@ class SelectIconScreen extends StatelessWidget {
                   isValid: store.isValid,
                   validationText: LocaleKeys.create_iconValidation.tr(),
                   onTap: () => ExtendedNavigator.of(context)
-                      .pushNamed(Routes.createCategoryScreen),
+                      .pushCreateCategoryScreen(),
                 ),
             ],
           ),

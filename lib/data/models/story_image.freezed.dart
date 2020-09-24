@@ -12,6 +12,7 @@ StoryImageModel _$StoryImageModelFromJson(Map<String, dynamic> json) {
   return _StoryImageModel.fromJson(json);
 }
 
+/// @nodoc
 class _$StoryImageModelTearOff {
   const _$StoryImageModelTearOff();
 
@@ -34,11 +35,18 @@ class _$StoryImageModelTearOff {
       wasViewed: wasViewed,
     );
   }
+
+// ignore: unused_element
+  StoryImageModel fromJson(Map<String, Object> json) {
+    return StoryImageModel.fromJson(json);
+  }
 }
 
+/// @nodoc
 // ignore: unused_element
 const $StoryImageModel = _$StoryImageModelTearOff();
 
+/// @nodoc
 mixin _$StoryImageModel {
   int get id;
   int get createdAt;
@@ -52,6 +60,7 @@ mixin _$StoryImageModel {
   $StoryImageModelCopyWith<StoryImageModel> get copyWith;
 }
 
+/// @nodoc
 abstract class $StoryImageModelCopyWith<$Res> {
   factory $StoryImageModelCopyWith(
           StoryImageModel value, $Res Function(StoryImageModel) then) =
@@ -68,6 +77,7 @@ abstract class $StoryImageModelCopyWith<$Res> {
   $PhotoModelCopyWith<$Res> get photo;
 }
 
+/// @nodoc
 class _$StoryImageModelCopyWithImpl<$Res>
     implements $StoryImageModelCopyWith<$Res> {
   _$StoryImageModelCopyWithImpl(this._value, this._then);
@@ -109,6 +119,7 @@ class _$StoryImageModelCopyWithImpl<$Res>
   }
 }
 
+/// @nodoc
 abstract class _$StoryImageModelCopyWith<$Res>
     implements $StoryImageModelCopyWith<$Res> {
   factory _$StoryImageModelCopyWith(
@@ -128,6 +139,7 @@ abstract class _$StoryImageModelCopyWith<$Res>
   $PhotoModelCopyWith<$Res> get photo;
 }
 
+/// @nodoc
 class __$StoryImageModelCopyWithImpl<$Res>
     extends _$StoryImageModelCopyWithImpl<$Res>
     implements _$StoryImageModelCopyWith<$Res> {
@@ -162,6 +174,8 @@ class __$StoryImageModelCopyWithImpl<$Res>
 }
 
 @JsonSerializable()
+
+/// @nodoc
 class _$_StoryImageModel implements _StoryImageModel {
   const _$_StoryImageModel(
       {this.id,

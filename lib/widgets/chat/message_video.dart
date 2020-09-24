@@ -97,10 +97,8 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
           IconBubble(
             isMe: widget.isMe,
             message: widget.message,
-            onTap: () => ExtendedNavigator.of(context).pushNamed(
-                Routes.videoScreen,
-                arguments:
-                    VideoScreenArguments(url: widget.message?.body ?? '')),
+            onTap: () => ExtendedNavigator.of(context)
+                .pushVideoScreen(url: widget.message?.body ?? ''),
             child: Stack(
               alignment: Alignment.center,
               children: [

@@ -23,7 +23,8 @@ class NetworkPhoto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return url?.endsWith('.svg') ?? false
-        ? SvgPicture.network(url ?? '',
+        ? SvgPicture.asset(
+            url ?? '',
             height: height,
             width: width,
             fit: BoxFit.cover,
@@ -35,14 +36,10 @@ class NetworkPhoto extends StatelessWidget {
                         width: width,
                         placeHolder: placeHolder,
                         placeHolderSize: placeHolderSize))
-                : Container())
+                : Container(),
+          )
         : CachedNetworkImage(
             fadeOutDuration: const Duration(milliseconds: 250),
-            progressIndicatorBuilder: (context, url, progress) => Center(
-                child: SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2))),
             height: height,
             width: width,
             fit: BoxFit.cover,

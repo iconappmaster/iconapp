@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/notifications/notifications.dart';
 import 'package:iconapp/routes/router.gr.dart';
@@ -14,8 +15,51 @@ import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 final logger = Logger();
 
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+NotificationAppLaunchDetails notificationAppLaunchDetails;
+
+class ReceivedNotification {
+  final int id;
+  final String title;
+  final String body;
+  final String payload;
+
+  ReceivedNotification({
+    @required this.id,
+    @required this.title,
+    @required this.body,
+    @required this.payload,
+  });
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  notificationAppLaunchDetails =
+      await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+
+  var initializationSettingsAndroid = AndroidInitializationSettings('app_icon');
+  // Note: permissions aren't requested here just to demonstrate that can be done later using the `requestPermissions()` method
+  // of the `IOSFlutterLocalNotificationsPlugin` class
+  var initializationSettingsIOS = IOSInitializationSettings(
+      requestAlertPermission: false,
+      requestBadgePermission: false,
+      requestSoundPermission: false,
+      onDidReceiveLocalNotification:
+          (int id, String title, String body, String payload) async {
+            debugPrint('notification payload: ' + payload);
+          });
+  
+  var initializationSettings = InitializationSettings(
+      initializationSettingsAndroid, initializationSettingsIOS);
+  
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+      onSelectNotification: (String payload) async {
+    if (payload != null) {
+      debugPrint('notification payload: ' + payload);
+    }
+  });
 
   runApp(
     EasyLocalization(
@@ -61,10 +105,10 @@ class _MyAppState extends State<MyApp> {
     // This is only to be used for confirming that reports are being
     // submitted as expected. It is not intended to be used for everyday
     // development.
-    Crashlytics.instance.enableInDevMode = true;
+    FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
 
     // Pass all uncaught errors from the framework to Crashlytics.
-    FlutterError.onError = Crashlytics.instance.recordFlutterError;
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   }
 
   @override

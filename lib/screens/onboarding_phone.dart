@@ -12,7 +12,6 @@ import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/next_button.dart';
 import 'package:iconapp/widgets/onboarding/base_onboarding_widget.dart';
 import 'package:iconapp/widgets/onboarding/onboarding_appbar.dart';
-import 'package:pin_code_fields/models/pin_theme.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import '../core/extensions/context_ext.dart';
 import '../generated/locale_keys.g.dart';
@@ -162,14 +161,14 @@ class _PinCode extends StatelessWidget {
           child: Directionality(
             textDirection: ui.TextDirection.ltr,
             child: PinCodeTextField(
+              appContext: ctx,
               autoFocus: true,
               length: 6,
               animationType: AnimationType.slide,
-              obsecureText: false,
               pinTheme: pinTheme,
               textStyle: pinCode,
               textInputAction: TextInputAction.done,
-              textInputType: TextInputType.phone,
+              keyboardType: TextInputType.phone,
               animationDuration: Duration(milliseconds: 300),
               backgroundColor: Colors.transparent,
               enableActiveFill: true,
@@ -189,8 +188,8 @@ class _PinCode extends StatelessWidget {
                       sl<AuthStore>()
                         ..setSignedIn()
                         ..checkCurrentAuthState();
-                      ExtendedNavigator.of(ctx).pushNamedAndRemoveUntil(
-                          Routes.mainNavigator, (Route<dynamic> route) => false);
+                      ExtendedNavigator.of(ctx).pushAndRemoveUntil(
+                          Routes.mainNavigator, (route) => false);
                     },
                     navigateProfile: () => ExtendedNavigator.of(ctx)
                         .pushOnboardingProfile(mode: OnboardingMode.onboarding),

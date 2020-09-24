@@ -12,6 +12,7 @@ import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
 import 'package:iconapp/widgets/global/search_empty.dart';
 import 'package:easy_localization/easy_localization.dart';
+
 class IconsSearchWidget extends StatelessWidget {
   final ScrollController controller;
   const IconsSearchWidget({
@@ -46,12 +47,11 @@ class IconSearchItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: InkWell(
-        onTap: () => ExtendedNavigator.of(context).pushNamed(
-            Routes.searchResultsScreen,
-            arguments: SearchResultsScreenArguments(
-                id: icon.id,
-                mode: SearchResulsMode.icons,
-                name: icon.fullName)),
+        onTap: () => ExtendedNavigator.of(context).pushSearchResultsScreen(
+          id: icon.id,
+          mode: SearchResulsMode.icons,
+          name: icon.fullName,
+        ),
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 28.7),
           height: 70,

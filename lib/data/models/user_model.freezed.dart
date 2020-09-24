@@ -12,6 +12,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
   return _UserModel.fromJson(json);
 }
 
+/// @nodoc
 class _$UserModelTearOff {
   const _$UserModelTearOff();
 
@@ -48,11 +49,18 @@ class _$UserModelTearOff {
       didTurnOffNotifications: didTurnOffNotifications,
     );
   }
+
+// ignore: unused_element
+  UserModel fromJson(Map<String, Object> json) {
+    return UserModel.fromJson(json);
+  }
 }
 
+/// @nodoc
 // ignore: unused_element
 const $UserModel = _$UserModelTearOff();
 
+/// @nodoc
 mixin _$UserModel {
   int get id;
   String get fullName;
@@ -73,6 +81,7 @@ mixin _$UserModel {
   $UserModelCopyWith<UserModel> get copyWith;
 }
 
+/// @nodoc
 abstract class $UserModelCopyWith<$Res> {
   factory $UserModelCopyWith(UserModel value, $Res Function(UserModel) then) =
       _$UserModelCopyWithImpl<$Res>;
@@ -95,6 +104,7 @@ abstract class $UserModelCopyWith<$Res> {
   $PhotoModelCopyWith<$Res> get photo;
 }
 
+/// @nodoc
 class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
   _$UserModelCopyWithImpl(this._value, this._then);
 
@@ -156,6 +166,7 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
   }
 }
 
+/// @nodoc
 abstract class _$UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
   factory _$UserModelCopyWith(
           _UserModel value, $Res Function(_UserModel) then) =
@@ -181,6 +192,7 @@ abstract class _$UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
   $PhotoModelCopyWith<$Res> get photo;
 }
 
+/// @nodoc
 class __$UserModelCopyWithImpl<$Res> extends _$UserModelCopyWithImpl<$Res>
     implements _$UserModelCopyWith<$Res> {
   __$UserModelCopyWithImpl(_UserModel _value, $Res Function(_UserModel) _then)
@@ -234,6 +246,8 @@ class __$UserModelCopyWithImpl<$Res> extends _$UserModelCopyWithImpl<$Res>
 }
 
 @JsonSerializable()
+
+/// @nodoc
 class _$_UserModel implements _UserModel {
   const _$_UserModel(
       {this.id,

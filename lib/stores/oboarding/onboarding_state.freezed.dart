@@ -9,6 +9,7 @@ part of 'onboarding_state.dart';
 
 T _$identity<T>(T value) => value;
 
+/// @nodoc
 class _$OnboardingStateTearOff {
   const _$OnboardingStateTearOff();
 
@@ -25,9 +26,11 @@ class _$OnboardingStateTearOff {
   }
 }
 
+/// @nodoc
 // ignore: unused_element
 const $OnboardingState = _$OnboardingStateTearOff();
 
+/// @nodoc
 mixin _$OnboardingState {
   bool get loading;
   String get errorMessage;
@@ -36,6 +39,7 @@ mixin _$OnboardingState {
   $OnboardingStateCopyWith<OnboardingState> get copyWith;
 }
 
+/// @nodoc
 abstract class $OnboardingStateCopyWith<$Res> {
   factory $OnboardingStateCopyWith(
           OnboardingState value, $Res Function(OnboardingState) then) =
@@ -45,6 +49,7 @@ abstract class $OnboardingStateCopyWith<$Res> {
   $UserModelCopyWith<$Res> get userModel;
 }
 
+/// @nodoc
 class _$OnboardingStateCopyWithImpl<$Res>
     implements $OnboardingStateCopyWith<$Res> {
   _$OnboardingStateCopyWithImpl(this._value, this._then);
@@ -80,6 +85,7 @@ class _$OnboardingStateCopyWithImpl<$Res>
   }
 }
 
+/// @nodoc
 abstract class _$OnboardingStateCopyWith<$Res>
     implements $OnboardingStateCopyWith<$Res> {
   factory _$OnboardingStateCopyWith(
@@ -92,6 +98,7 @@ abstract class _$OnboardingStateCopyWith<$Res>
   $UserModelCopyWith<$Res> get userModel;
 }
 
+/// @nodoc
 class __$OnboardingStateCopyWithImpl<$Res>
     extends _$OnboardingStateCopyWithImpl<$Res>
     implements _$OnboardingStateCopyWith<$Res> {
@@ -119,6 +126,7 @@ class __$OnboardingStateCopyWithImpl<$Res>
   }
 }
 
+/// @nodoc
 class _$_OnboardingState
     with DiagnosticableTreeMixin
     implements _OnboardingState {

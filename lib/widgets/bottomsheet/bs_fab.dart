@@ -42,10 +42,7 @@ class BottomSheetFab extends StatelessWidget {
                 iconStore.clear();
                 categoryStore.clear();
                 return ExtendedNavigator.of(context)
-                    .pushNamed(Routes.selectIconScreen,
-                        arguments: SelectIconScreenArguments(
-                          mode: SelectIconMode.fromGroup,
-                        ));
+                    .pushSelectIconScreen(mode: SelectIconMode.fromGroup);
               }
             },
           ),

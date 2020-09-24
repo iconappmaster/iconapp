@@ -9,6 +9,7 @@ part of 'create_failure.dart';
 
 T _$identity<T>(T value) => value;
 
+/// @nodoc
 class _$CreateFailureTearOff {
   const _$CreateFailureTearOff();
 
@@ -23,9 +24,11 @@ class _$CreateFailureTearOff {
   }
 }
 
+/// @nodoc
 // ignore: unused_element
 const $CreateFailure = _$CreateFailureTearOff();
 
+/// @nodoc
 mixin _$CreateFailure {
   @optionalTypeArgs
   Result when<Result extends Object>({
@@ -51,12 +54,14 @@ mixin _$CreateFailure {
   });
 }
 
+/// @nodoc
 abstract class $CreateFailureCopyWith<$Res> {
   factory $CreateFailureCopyWith(
           CreateFailure value, $Res Function(CreateFailure) then) =
       _$CreateFailureCopyWithImpl<$Res>;
 }
 
+/// @nodoc
 class _$CreateFailureCopyWithImpl<$Res>
     implements $CreateFailureCopyWith<$Res> {
   _$CreateFailureCopyWithImpl(this._value, this._then);
@@ -66,11 +71,13 @@ class _$CreateFailureCopyWithImpl<$Res>
   final $Res Function(CreateFailure) _then;
 }
 
+/// @nodoc
 abstract class $NameTakenCopyWith<$Res> {
   factory $NameTakenCopyWith(NameTaken value, $Res Function(NameTaken) then) =
       _$NameTakenCopyWithImpl<$Res>;
 }
 
+/// @nodoc
 class _$NameTakenCopyWithImpl<$Res> extends _$CreateFailureCopyWithImpl<$Res>
     implements $NameTakenCopyWith<$Res> {
   _$NameTakenCopyWithImpl(NameTaken _value, $Res Function(NameTaken) _then)
@@ -80,6 +87,7 @@ class _$NameTakenCopyWithImpl<$Res> extends _$CreateFailureCopyWithImpl<$Res>
   NameTaken get _value => super._value as NameTaken;
 }
 
+/// @nodoc
 class _$NameTaken implements NameTaken {
   const _$NameTaken();
 
@@ -151,12 +159,14 @@ abstract class NameTaken implements CreateFailure {
   const factory NameTaken() = _$NameTaken;
 }
 
+/// @nodoc
 abstract class $GeneralErrorCopyWith<$Res> {
   factory $GeneralErrorCopyWith(
           GeneralError value, $Res Function(GeneralError) then) =
       _$GeneralErrorCopyWithImpl<$Res>;
 }
 
+/// @nodoc
 class _$GeneralErrorCopyWithImpl<$Res> extends _$CreateFailureCopyWithImpl<$Res>
     implements $GeneralErrorCopyWith<$Res> {
   _$GeneralErrorCopyWithImpl(
@@ -167,6 +177,7 @@ class _$GeneralErrorCopyWithImpl<$Res> extends _$CreateFailureCopyWithImpl<$Res>
   GeneralError get _value => super._value as GeneralError;
 }
 
+/// @nodoc
 class _$GeneralError implements GeneralError {
   const _$GeneralError();
 
