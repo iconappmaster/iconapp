@@ -163,6 +163,17 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   }
 
   @override
+  Conversation getConversationById(int id) {
+    final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
+        name: '_HomeStoreBase.getConversationById');
+    try {
+      return super.getConversationById(id);
+    } finally {
+      _$_HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 showWelcomeDialog: ${showWelcomeDialog},
