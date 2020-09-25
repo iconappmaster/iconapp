@@ -1,4 +1,7 @@
 package com.example.iconapp;
 
-public class MainActivity {
+import io.flutter.embedding.android.FlutterActivity;
+
+public class MainActivity extends FlutterActivity {
+
 }

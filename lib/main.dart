@@ -1,13 +1,14 @@
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
-import 'package:iconapp/core/notifications/notifications.dart';
+import 'package:iconapp/routes/router.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/data/sources/socket/socket_manager.dart';
 import 'package:logger/logger.dart';
+import 'core/notifications/fcm.dart';
 import 'data/sources/local/shared_preferences.dart';
 import 'generated/codegen_loader.g.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -15,52 +16,10 @@ import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 final logger = Logger();
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
-NotificationAppLaunchDetails notificationAppLaunchDetails;
-
-class ReceivedNotification {
-  final int id;
-  final String title;
-  final String body;
-  final String payload;
-
-  ReceivedNotification({
-    @required this.id,
-    @required this.title,
-    @required this.body,
-    @required this.payload,
-  });
-}
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  notificationAppLaunchDetails =
-      await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
-
-  var initializationSettingsAndroid = AndroidInitializationSettings('app_icon');
-  // Note: permissions aren't requested here just to demonstrate that can be done later using the `requestPermissions()` method
-  // of the `IOSFlutterLocalNotificationsPlugin` class
-  var initializationSettingsIOS = IOSInitializationSettings(
-      requestAlertPermission: false,
-      requestBadgePermission: false,
-      requestSoundPermission: false,
-      onDidReceiveLocalNotification:
-          (int id, String title, String body, String payload) async {
-            debugPrint('notification payload: ' + payload);
-          });
-  
-  var initializationSettings = InitializationSettings(
-      initializationSettingsAndroid, initializationSettingsIOS);
-  
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-      onSelectNotification: (String payload) async {
-    if (payload != null) {
-      debugPrint('notification payload: ' + payload);
-    }
-  });
-
+  await Firebase.initializeApp();
+  // setFirebase();
   runApp(
     EasyLocalization(
       useOnlyLangCode: false,
@@ -88,6 +47,9 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     init();
     _socket = sl<Socket>();
+
+    // setup firebase listeners
+    sl<Fcm>().setFirebase();
     super.initState();
   }
 
@@ -95,7 +57,7 @@ class _MyAppState extends State<MyApp> {
     initLocator();
     await _initSharedPreferences();
     await _socket.init();
-    await sl<NotificationsManager>().init();
+    // await sl<NotificationsManager>().init();
     _socket.connect();
     initCrashlytics();
   }
@@ -124,6 +86,7 @@ class _MyAppState extends State<MyApp> {
     }
 
     return MaterialApp(
+      navigatorKey: globalNavigator,
       debugShowCheckedModeBanner: false,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,

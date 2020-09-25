@@ -68,13 +68,10 @@ class _StoriesListState extends State<StoriesList> {
                           onTap: () => ExtendedNavigator.of(context)
                               .pushStoryEditScreen()),
                     ...store.getStories
-                        .map(
-                          (story) => StoryTile(
+                        .map((story) => StoryTile(
                             story: story,
                             onTap: () => ExtendedNavigator.of(context)
-                                .pushStoryScreen(currentStory: story),
-                          ),
-                        )
+                                .pushStoryScreen(currentStory: story)))
                         .toList()
                   ],
                 ),
@@ -116,11 +113,15 @@ class StoryAddButton extends StatelessWidget {
                   padding: const EdgeInsets.all(3.0),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(100),
-                    child: NetworkPhoto(
-                      placeHolder: 'assets/images/user_icon.svg',
-                      url: user.getUser?.photo?.url ?? '',
-                      height: _storySize,
-                      width: _storySize,
+                    child: Container(
+                      decoration:
+                          BoxDecoration(shape: BoxShape.circle, color: white),
+                      child: NetworkPhoto(
+                        placeHolder: 'assets/images/user_icon.svg',
+                        url: user.getUser?.photo?.url ?? '',
+                        height: _storySize,
+                        width: _storySize,
+                      ),
                     ),
                   ),
                 ),

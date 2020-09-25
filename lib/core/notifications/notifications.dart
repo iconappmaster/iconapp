@@ -1,69 +1,40 @@
 import 'dart:async';
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
-import 'package:iconapp/data/sources/local/shared_preferences.dart';
+import 'package:iconapp/core/theme.dart';
 
-class NotificationsManager {
-  final _messaging = FirebaseMessaging();
-  StreamSubscription _subscription;
+import 'fcm.dart';
 
-  Future init() async {
-    final sp = sl<SharedPreferencesService>();
-    _messaging.requestNotificationPermissions();
-    _messaging.setAutoInitEnabled(true);
+class NotificationsHelper {
+  final fcm = sl<Fcm>();
 
-    _messaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        // final msg = MessageModel.fromJson(message);
-        print('a');
-      },
-      onBackgroundMessage: myBackgroundMessageHandler,
-      onLaunch: (Map<String, dynamic> message) async {
-        print('a');
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print('a');
-      },
+  Future<void> showNotification(String channelId, String channelName, int id,
+      String title, String body, String payload) async {
+    final androidPlatformChannelSpecifics = AndroidNotificationDetails(
+      channelId,
+      channelName,
+      'main notificaiton channel',
+      importance: Importance.Max,
+      priority: Priority.High,
+      ticker: 'ticker',
+      autoCancel: true,
+      enableLights: true,
+      color: cornflower,
     );
 
-    await _messaging.requestNotificationPermissions(
-      const IosNotificationSettings(
-        sound: true,
-        badge: true,
-        alert: true,
-        provisional: true,
-      ),
+    final iOSPlatformChannelSpecifics = IOSNotificationDetails();
+
+    final platformChannelSpecifics = NotificationDetails(
+      androidPlatformChannelSpecifics,
+      iOSPlatformChannelSpecifics,
     );
 
-    _messaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings) {
-      print('requestNotificationPermissions $settings');
-    });
-
-    _subscription = _messaging.onTokenRefresh
-        .listen((token) => sp.setString(StorageKey.fcmToken, token));
-
-    String token = await _messaging.getToken();
-    sp.setString(StorageKey.fcmToken, token);
-  }
-
-  static Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
-    // if (message.containsKey('data')) {
-    //   // Handle data message
-    //   final dynamic data = message['data'];
-    //   return data;
-    // }
-
-    // if (message.containsKey('notification')) {
-    //   // Handle notification message
-    //   final dynamic notification = message['notification'];
-    //   return message['notification'];
-    // }
-
-    return message['notification'];
-  }
-
-  void dispose() {
-    _subscription?.cancel();
+    await firebasePlugin.show(
+      id,
+      title,
+      body,
+      platformChannelSpecifics,
+      payload: payload,
+    );
   }
 }

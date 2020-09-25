@@ -49,12 +49,11 @@ class ConversationsList extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final conversation = store.conversations[index];
                     return GestureDetector(
-                      onTap: () => onConversationTap(
-                        conversation,
-                      ),
-                      child: ConversationTile(
-                        model: conversation,
-                      ),
+                      onTap: () {
+                        store.resetCount(index);
+                        onConversationTap(conversation);
+                      },
+                      child: ConversationTile(model: conversation),
                     );
                   },
                 ),

@@ -64,7 +64,8 @@ abstract class _HomeStoreBase with Store {
   }
 
   @action
-  Future<Either<ServerError, List<Conversation>>> getConversations() async {
+  Future<Either<ServerError, List<Conversation>>> getConversations(
+      {bool force = false}) async {
     try {
       _loading = true;
 
@@ -76,7 +77,7 @@ abstract class _HomeStoreBase with Store {
       await getCachedAndRender();
 
       // backend will check if there are any changes since the last time waw fetched and return.
-      final remote = await _repository.getConversations(timestamp);
+      final remote = await _repository.getConversations(force ? 0 : timestamp);
 
       // save and render only if there's an update.
       if (remote.isNotEmpty) {
@@ -134,6 +135,17 @@ abstract class _HomeStoreBase with Store {
 
       _repository.saveHome(_conversations);
     });
+  }
+
+  @action
+  void resetCount(int index) {
+    _conversations[index] =
+        _conversations[index].copyWith(numberOfUnreadMessages: 0);
+  }
+
+  @action
+  Conversation getConversationById(int id) {
+    return _conversations.firstWhere((c) => c.id == id);
   }
 
   void dispose() async {

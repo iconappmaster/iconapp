@@ -161,7 +161,7 @@ class _CubePageViewState extends State<CubePageView> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent,
+      color: Colors.black,
       child: Center(
         child: ValueListenableBuilder<double>(
           valueListenable: _pageNotifier,

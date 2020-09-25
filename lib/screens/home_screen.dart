@@ -39,6 +39,8 @@ class _HomeScreenState extends State<HomeScreen> {
     _home = sl<HomeStore>();
     _story = sl<StoryStore>();
 
+    _home.getConversations(force: true);
+
     initSocket();
     _controller = ScrollController()
       ..addListener(() {

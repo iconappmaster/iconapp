@@ -84,7 +84,7 @@ abstract class _ChatStoreBase with Store {
   MessageModel get replayMessage => _replyMessage;
 
   @computed
-  List<PhotoModel> get conversationPhotos => _conversation.messages
+  List<PhotoModel> get conversationPhotos => _messages
       .where((message) => message.messageType == MessageType.photo)
       .map(
         (m) => PhotoModel(
@@ -206,6 +206,7 @@ abstract class _ChatStoreBase with Store {
   @action
   void _addAllMessages() {
     _messages.clear();
+    /// at this point addess only [_messages] for chat ops
     _messages.addAll(conversation.messages);
   }
 

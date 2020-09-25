@@ -49,7 +49,6 @@ class _TextMessageState extends State<TextMessage> {
 
   void init() {
     _controller = SlidableController(
-      // onSlideAnimationChanged: (s) => print(s),
       onSlideIsOpenChanged: (isOpen) {
         if (mounted) {
           setState(() async {
@@ -91,12 +90,12 @@ class _TextMessageState extends State<TextMessage> {
               widget.controller.scrollToIndex(index);
             }
           },
-          padding: BubbleEdges.only(top: 5, bottom: 1),
+          padding: const BubbleEdges.only(top: 5, bottom: 1),
           message: widget.message,
           isMe: widget.isMe,
           child: Stack(children: [
             Container(
-              padding: EdgeInsets.symmetric(vertical: 4),
+              padding: const EdgeInsets.symmetric(vertical: 4),
               color: color,
               child: Column(
                 mainAxisSize: MainAxisSize.min,

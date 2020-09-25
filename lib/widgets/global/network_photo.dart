@@ -40,18 +40,31 @@ class NetworkPhoto extends StatelessWidget {
           )
         : CachedNetworkImage(
             fadeOutDuration: const Duration(milliseconds: 250),
+            placeholder: placeHolder != null
+                ? (context, url) {
+                    return PhotoPlaceHolder(
+                      height: height,
+                      width: width,
+                      placeHolder: placeHolder,
+                      placeHolderSize: placeHolderSize,
+                    );
+                  }
+                : null,
+            progressIndicatorBuilder: placeHolder != null
+                ? null
+                : (context, url, downloadProgress) => Center(
+                    child: SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 1,
+                          value: downloadProgress.progress,
+                          valueColor: AlwaysStoppedAnimation(cornflower),
+                        ))),
             height: height,
             width: width,
             fit: BoxFit.cover,
             imageUrl: url ?? '',
-            placeholder: (_, url) {
-              return PhotoPlaceHolder(
-                height: placeHolderSize ?? height,
-                width: placeHolderSize ?? width,
-                placeHolder:
-                    placeHolder ?? 'assets/imagees/group_placeholder.svg',
-              );
-            },
           );
   }
 }
