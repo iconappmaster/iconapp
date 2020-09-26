@@ -30,21 +30,34 @@ class UserAvatar extends StatelessWidget {
         height: 90,
         child: Stack(children: [
           if (showLoading)
-            SizedBox(height: 75, width: 77, child: CircularProgressIndicator()),
-          Container(
+          SizedBox(
               height: 75,
               width: 75,
-              decoration: BoxDecoration(shape: BoxShape.circle, color: white),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: NetworkPhoto(
+              child: CircularProgressIndicator(
+                strokeWidth: 3,
+                valueColor: AlwaysStoppedAnimation(
+                  cornflower,
+                ),
+              )),
+          Positioned(
+            top: 1,
+            right:1,
+                      child: Container(
+                height: 72,
+                width: 72,
+                decoration: BoxDecoration(shape: BoxShape.circle, color: white),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: NetworkPhoto(
                     placeHolderSize: placeHolderSize,
                     placeHolderPadding: placeHolderPadding,
                     placeHolder: placeholder,
                     url: url,
                     height: 37,
-                    width: 37),
-              )),
+                    width: 37,
+                  ),
+                )),
+          ),
           if (showPlus)
             Align(
               alignment: Alignment.bottomLeft,

@@ -58,11 +58,14 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
   void _initSlidable() {
     progressSubscription = sl<Bus>().on<ProgressEvent>().listen((event) {
       if (event.id != null && event.id == widget.message.id) {
-        if (mounted) setState(() => _progress = event.progress);
+        if (mounted)
+          setState(
+            () => _progress = event.progress,
+          );
       }
     });
     _controller = SlidableController(
-      // onSlideAnimationChanged: (s) => print(s), // do not remove
+      onSlideAnimationChanged: (s) => print(s), // do not remove
       onSlideIsOpenChanged: (isOpen) {
         if (mounted) {
           setState(() async {

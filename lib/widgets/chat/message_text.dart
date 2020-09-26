@@ -35,7 +35,7 @@ class TextMessage extends StatefulWidget {
 }
 
 class _TextMessageState extends State<TextMessage> {
-  SlidableController _controller;
+  SlidableController _slidableController;
   BuildContext _sliderContext;
   bool _isOpen = false;
   ChatStore _chat;
@@ -48,7 +48,8 @@ class _TextMessageState extends State<TextMessage> {
   }
 
   void init() {
-    _controller = SlidableController(
+    _slidableController = SlidableController(
+      onSlideAnimationChanged: (_) => print('onSlideChanged'),
       onSlideIsOpenChanged: (isOpen) {
         if (mounted) {
           setState(() async {
@@ -76,7 +77,7 @@ class _TextMessageState extends State<TextMessage> {
         isEnabled: _chat.conversation.userRole != UserRole.viewer,
         isOpen: _isOpen,
         keyName: widget.message.id.toString(),
-        controller: _controller,
+        controller: _slidableController,
         builder: (context, index, animation, step) {
           _sliderContext = context;
           return ReplyButton(message: widget.message);

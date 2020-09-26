@@ -21,6 +21,7 @@ import 'package:mobx/mobx.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
+import 'package:file_picker/file_picker.dart';
 
 part 'chat_store.g.dart';
 
@@ -328,24 +329,21 @@ abstract class _ChatStoreBase with Store {
     }
   }
 
-  /// TODO check 
-  /// https://github.com/miguelpruivo/flutter_file_picker/
   @action
   Future sendVideoMessage(ImageSource source) async {
     // handle local photo
     try {
       // get image from picker
-      final pickedFile = await sl<ImagePicker>().pi(
-        source: source,
-        maxDuration: source == ImageSource.camera
-            ? Duration(seconds: 10)
-            : Duration(minutes: 1),
+      FilePickerResult pickedFile = await FilePicker.platform.pickFiles(
+        type: FileType.video,
       );
 
       if (pickedFile != null) {
+        File file = File(pickedFile.files.single.path);
+
         // get thumbnail from the video
         final thumbnail = await VideoThumbnail.thumbnailFile(
-          video: pickedFile?.path ?? '',
+          video: file.path ?? '',
           imageFormat: ImageFormat.JPEG,
           maxWidth: 250,
           quality: 45,
@@ -354,7 +352,7 @@ abstract class _ChatStoreBase with Store {
         var msg = MessageModel(
           extraData: thumbnail ?? '',
           id: DateTime.now().millisecondsSinceEpoch,
-          body: pickedFile.path,
+          body: file.path,
           sender: _userStore.getUser,
           status: MessageStatus.pending,
           likeCounts: LikesCount.initial(),
@@ -366,7 +364,7 @@ abstract class _ChatStoreBase with Store {
 
         // upload thumbnail and video
         final firbaseThumbnail = await _mediaStore.uploadPhoto(file: File(thumbnail));
-        final firebaseVideo = await _mediaStore.uploadVideo(path: pickedFile.path, messageId: msg.id);
+        final firebaseVideo = await _mediaStore.uploadVideo(path: file.path, messageId: msg.id);
 
         // send message with firebase links
         final remote = await _repository.sendMessage(
@@ -378,7 +376,9 @@ abstract class _ChatStoreBase with Store {
         );
 
         _updateLocalMessage(
-            remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
+          remote.copyWith(status: MessageStatus.sent, id: msg.id),
+          remote.id,
+        );
       }
     } on ServerError catch (e) {
       Crash.report(e.message);

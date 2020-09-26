@@ -60,7 +60,7 @@ class _PhotoMessageState extends State<PhotoMessage> {
 
   void _initSlidable() {
     _controller = SlidableController(
-      // onSlideAnimationChanged: (s) => print(s), // do not remove
+      onSlideAnimationChanged: (s) => print(s), // do not remove
       onSlideIsOpenChanged: (isOpen) {
         if (mounted) {
           setState(() async {
