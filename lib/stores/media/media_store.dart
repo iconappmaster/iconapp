@@ -67,9 +67,10 @@ abstract class _MediaStoreBase with Store {
     try {
       _isLoading = true;
       if (path != null) {
-        result = await _repository.uploadVideo(
-            File(path), getPath, getPhotoFileName, messageId);
+        // if path exists just upload
+        result = await _repository.uploadVideo(File(path), getPath, getPhotoFileName, messageId);
       } else {
+        // otherwise select from the gallery 
         final pickedFile = await _imagePicker.getVideo(source: source);
         final file = File(pickedFile.path);
         result = await _repository.uploadVideo(

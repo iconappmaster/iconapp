@@ -4,32 +4,36 @@
 // AutoRouteGenerator
 // **************************************************************************
 
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: public_member_api_docs
+
 import 'package:auto_route/auto_route.dart';
-import 'package:iconapp/screens/main_navigator.dart';
-import 'package:iconapp/screens/login_screen.dart';
-import 'package:iconapp/screens/onboarding_phone.dart';
-import 'package:iconapp/screens/onboarding_profile.dart';
-import 'package:iconapp/screens/home_screen.dart';
-import 'package:iconapp/screens/settings_screen.dart';
-import 'package:iconapp/screens/chat_screen.dart';
-import 'package:iconapp/data/models/conversation_model.dart';
-import 'package:iconapp/screens/chat_settings_screen.dart';
-import 'package:iconapp/screens/full_video_screen.dart';
-import 'package:iconapp/screens/photo_gallery_screen.dart';
-import 'package:iconapp/data/models/photo_model.dart';
-import 'package:iconapp/screens/create_icons_screen.dart';
-import 'package:iconapp/screens/create_categories_screen.dart';
-import 'package:iconapp/screens/rename_conversation.dart';
-import 'package:iconapp/screens/create_details_screen.dart';
-import 'package:iconapp/screens/search_results_screen.dart';
-import 'package:iconapp/screens/story_screen.dart';
-import 'package:iconapp/data/models/story_model.dart';
-import 'package:iconapp/screens/story_edit_screen.dart';
-import 'package:iconapp/screens/descrioption_screen.dart';
-import 'package:iconapp/data/models/story_image.dart';
-import 'package:iconapp/widgets/chat/message_photo.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+
+import '../data/models/conversation_model.dart';
+import '../data/models/photo_model.dart';
+import '../data/models/story_image.dart';
+import '../data/models/story_model.dart';
+import '../screens/chat_screen.dart';
+import '../screens/chat_settings_screen.dart';
+import '../screens/create_categories_screen.dart';
+import '../screens/create_details_screen.dart';
+import '../screens/create_icons_screen.dart';
+import '../screens/descrioption_screen.dart';
+import '../screens/full_video_screen.dart';
+import '../screens/home_screen.dart';
+import '../screens/login_screen.dart';
+import '../screens/main_navigator.dart';
+import '../screens/onboarding_phone.dart';
+import '../screens/onboarding_profile.dart';
+import '../screens/photo_gallery_screen.dart';
+import '../screens/rename_conversation.dart';
+import '../screens/search_results_screen.dart';
+import '../screens/settings_screen.dart';
+import '../screens/story_edit_screen.dart';
+import '../screens/story_screen.dart';
+import '../widgets/chat/message_photo.dart';
 
 class Routes {
   static const String mainNavigator = '/';
@@ -101,62 +105,65 @@ class Router extends RouterBase {
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, AutoRouteFactory>{
-    MainNavigator: (RouteData data) {
+    MainNavigator: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => MainNavigator(),
         settings: data,
       );
     },
-    LoginScreen: (RouteData data) {
+    LoginScreen: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => LoginScreen(),
         settings: data,
       );
     },
-    OnboardingScreen: (RouteData data) {
+    OnboardingScreen: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => OnboardingScreen(),
         settings: data,
       );
     },
-    OnboardingProfile: (RouteData data) {
-      var args = data.getArgs<OnboardingProfileArguments>(nullOk: false);
+    OnboardingProfile: (data) {
+      final args = data.getArgs<OnboardingProfileArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
-        builder: (context) => OnboardingProfile(key: args.key, mode: args.mode),
+        builder: (context) => OnboardingProfile(
+          key: args.key,
+          mode: args.mode,
+        ),
         settings: data,
       );
     },
-    HomeScreen: (RouteData data) {
+    HomeScreen: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => HomeScreen(),
         settings: data,
       );
     },
-    AppSettingsScreen: (RouteData data) {
+    AppSettingsScreen: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => AppSettingsScreen(),
         settings: data,
       );
     },
-    ChatScreen: (RouteData data) {
-      var args = data.getArgs<ChatScreenArguments>(nullOk: false);
+    ChatScreen: (data) {
+      final args = data.getArgs<ChatScreenArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
-        builder: (context) =>
-            ChatScreen(key: args.key, conversation: args.conversation),
+        builder: (context) => ChatScreen(
+          key: args.key,
+          conversation: args.conversation,
+        ),
         settings: data,
       );
     },
-    ChatSettingsScreen: (RouteData data) {
-      var args = data.getArgs<ChatSettingsScreenArguments>(
-          orElse: () => ChatSettingsScreenArguments());
+    ChatSettingsScreen: (data) {
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => ChatSettingsScreen(key: args.key),
+        builder: (context) => const ChatSettingsScreen(),
         settings: data,
         fullscreenDialog: true,
       );
     },
-    VideoScreen: (RouteData data) {
-      var args = data.getArgs<VideoScreenArguments>(nullOk: false);
+    VideoScreen: (data) {
+      final args = data.getArgs<VideoScreenArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
         builder: (context) => VideoScreen(
           key: args.key,
@@ -167,8 +174,8 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    PhotoGalleryScreen: (RouteData data) {
-      var args = data.getArgs<PhotoGalleryScreenArguments>(nullOk: false);
+    PhotoGalleryScreen: (data) {
+      final args = data.getArgs<PhotoGalleryScreenArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
         builder: (context) => PhotoGalleryScreen(
           key: args.key,
@@ -178,34 +185,37 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    SelectIconScreen: (RouteData data) {
-      var args = data.getArgs<SelectIconScreenArguments>(nullOk: false);
+    SelectIconScreen: (data) {
+      final args = data.getArgs<SelectIconScreenArguments>(nullOk: false);
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => SelectIconScreen(key: args.key, mode: args.mode),
+        builder: (context) => SelectIconScreen(
+          key: args.key,
+          mode: args.mode,
+        ),
         settings: data,
         fullscreenDialog: true,
       );
     },
-    CreateCategoryScreen: (RouteData data) {
+    CreateCategoryScreen: (data) {
       return CupertinoPageRoute<dynamic>(
         builder: (context) => CreateCategoryScreen(),
         settings: data,
       );
     },
-    EditConversation: (RouteData data) {
+    EditConversation: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => EditConversation(),
         settings: data,
       );
     },
-    CreateDetailsScreen: (RouteData data) {
+    CreateDetailsScreen: (data) {
       return CupertinoPageRoute<dynamic>(
         builder: (context) => CreateDetailsScreen(),
         settings: data,
       );
     },
-    SearchResultsScreen: (RouteData data) {
-      var args = data.getArgs<SearchResultsScreenArguments>(nullOk: false);
+    SearchResultsScreen: (data) {
+      final args = data.getArgs<SearchResultsScreenArguments>(nullOk: false);
       return CupertinoPageRoute<dynamic>(
         builder: (context) => SearchResultsScreen(
           key: args.key,
@@ -216,23 +226,26 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    StoryScreen: (RouteData data) {
-      var args = data.getArgs<StoryScreenArguments>(
-          orElse: () => StoryScreenArguments());
+    StoryScreen: (data) {
+      final args = data.getArgs<StoryScreenArguments>(
+        orElse: () => StoryScreenArguments(),
+      );
       return CupertinoPageRoute<dynamic>(
-        builder: (context) =>
-            StoryScreen(key: args.key, currentStory: args.currentStory),
+        builder: (context) => StoryScreen(
+          key: args.key,
+          currentStory: args.currentStory,
+        ),
         settings: data,
       );
     },
-    StoryEditScreen: (RouteData data) {
+    StoryEditScreen: (data) {
       return CupertinoPageRoute<dynamic>(
         builder: (context) => StoryEditScreen(),
         settings: data,
       );
     },
-    DescriptionScreen: (RouteData data) {
-      var args = data.getArgs<DescriptionScreenArguments>(nullOk: false);
+    DescriptionScreen: (data) {
+      final args = data.getArgs<DescriptionScreenArguments>(nullOk: false);
       return CupertinoPageRoute<dynamic>(
         builder: (context) => DescriptionScreen(
           key: args.key,
@@ -242,59 +255,56 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    SingleImage: (RouteData data) {
-      var args = data.getArgs<SingleImageArguments>(nullOk: false);
+    SingleImage: (data) {
+      final args = data.getArgs<SingleImageArguments>(nullOk: false);
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => SingleImage(key: args.key, url: args.url),
+        builder: (context) => SingleImage(
+          key: args.key,
+          url: args.url,
+        ),
         settings: data,
       );
     },
   };
 }
 
-// *************************************************************************
-// Navigation helper methods extension
-// **************************************************************************
+/// ************************************************************************
+/// Navigation helper methods extension
+/// *************************************************************************
 
-extension RouterNavigationHelperMethods on ExtendedNavigatorState {
-  Future<dynamic> pushMainNavigator() =>
-      pushNamed<dynamic>(Routes.mainNavigator);
+extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
+  Future<dynamic> pushMainNavigator() => push<dynamic>(Routes.mainNavigator);
 
-  Future<dynamic> pushLoginScreen() => pushNamed<dynamic>(Routes.loginScreen);
+  Future<dynamic> pushLoginScreen() => push<dynamic>(Routes.loginScreen);
 
   Future<dynamic> pushOnboardingScreen() =>
-      pushNamed<dynamic>(Routes.onboardingScreen);
+      push<dynamic>(Routes.onboardingScreen);
 
   Future<dynamic> pushOnboardingProfile({
     Key key,
     @required OnboardingMode mode,
   }) =>
-      pushNamed<dynamic>(
+      push<dynamic>(
         Routes.onboardingProfile,
         arguments: OnboardingProfileArguments(key: key, mode: mode),
       );
 
-  Future<dynamic> pushHomeScreen() => pushNamed<dynamic>(Routes.homeScreen);
+  Future<dynamic> pushHomeScreen() => push<dynamic>(Routes.homeScreen);
 
   Future<dynamic> pushAppSettingsScreen() =>
-      pushNamed<dynamic>(Routes.appSettingsScreen);
+      push<dynamic>(Routes.appSettingsScreen);
 
   Future<dynamic> pushChatScreen({
     Key key,
     @required Conversation conversation,
   }) =>
-      pushNamed<dynamic>(
+      push<dynamic>(
         Routes.chatScreen,
         arguments: ChatScreenArguments(key: key, conversation: conversation),
       );
 
-  Future<dynamic> pushChatSettingsScreen({
-    Key key,
-  }) =>
-      pushNamed<dynamic>(
-        Routes.chatSettingsScreen,
-        arguments: ChatSettingsScreenArguments(key: key),
-      );
+  Future<dynamic> pushChatSettingsScreen() =>
+      push<dynamic>(Routes.chatSettingsScreen);
 
   Future<dynamic> pushVideoScreen({
     Key key,
@@ -302,7 +312,7 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
     bool showToolbar = true,
     bool mute = false,
   }) =>
-      pushNamed<dynamic>(
+      push<dynamic>(
         Routes.videoScreen,
         arguments: VideoScreenArguments(
             key: key, url: url, showToolbar: showToolbar, mute: mute),
@@ -313,7 +323,7 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
     @required List<PhotoModel> galleryItems,
     @required int intialIndex,
   }) =>
-      pushNamed<dynamic>(
+      push<dynamic>(
         Routes.photoGalleryScreen,
         arguments: PhotoGalleryScreenArguments(
             key: key, galleryItems: galleryItems, intialIndex: intialIndex),
@@ -323,19 +333,19 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
     Key key,
     @required SelectIconMode mode,
   }) =>
-      pushNamed<dynamic>(
+      push<dynamic>(
         Routes.selectIconScreen,
         arguments: SelectIconScreenArguments(key: key, mode: mode),
       );
 
   Future<dynamic> pushCreateCategoryScreen() =>
-      pushNamed<dynamic>(Routes.createCategoryScreen);
+      push<dynamic>(Routes.createCategoryScreen);
 
   Future<dynamic> pushEditConversation() =>
-      pushNamed<dynamic>(Routes.editConversation);
+      push<dynamic>(Routes.editConversation);
 
   Future<dynamic> pushCreateDetailsScreen() =>
-      pushNamed<dynamic>(Routes.createDetailsScreen);
+      push<dynamic>(Routes.createDetailsScreen);
 
   Future<dynamic> pushSearchResultsScreen({
     Key key,
@@ -343,7 +353,7 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
     @required SearchResulsMode mode,
     @required String name,
   }) =>
-      pushNamed<dynamic>(
+      push<dynamic>(
         Routes.searchResultsScreen,
         arguments: SearchResultsScreenArguments(
             key: key, id: id, mode: mode, name: name),
@@ -353,20 +363,20 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
     Key key,
     StoryModel currentStory,
   }) =>
-      pushNamed<dynamic>(
+      push<dynamic>(
         Routes.storyScreen,
         arguments: StoryScreenArguments(key: key, currentStory: currentStory),
       );
 
   Future<dynamic> pushStoryEditScreen() =>
-      pushNamed<dynamic>(Routes.storyEditScreen);
+      push<dynamic>(Routes.storyEditScreen);
 
   Future<dynamic> pushDescriptionScreen({
     Key key,
     @required String url,
     @required MediaType type,
   }) =>
-      pushNamed<dynamic>(
+      push<dynamic>(
         Routes.descriptionScreen,
         arguments: DescriptionScreenArguments(key: key, url: url, type: type),
       );
@@ -375,37 +385,31 @@ extension RouterNavigationHelperMethods on ExtendedNavigatorState {
     Key key,
     @required String url,
   }) =>
-      pushNamed<dynamic>(
+      push<dynamic>(
         Routes.singleImage,
         arguments: SingleImageArguments(key: key, url: url),
       );
 }
 
-// *************************************************************************
-// Arguments holder classes
-// **************************************************************************
+/// ************************************************************************
+/// Arguments holder classes
+/// *************************************************************************
 
-//OnboardingProfile arguments holder class
+/// OnboardingProfile arguments holder class
 class OnboardingProfileArguments {
   final Key key;
   final OnboardingMode mode;
   OnboardingProfileArguments({this.key, @required this.mode});
 }
 
-//ChatScreen arguments holder class
+/// ChatScreen arguments holder class
 class ChatScreenArguments {
   final Key key;
   final Conversation conversation;
   ChatScreenArguments({this.key, @required this.conversation});
 }
 
-//ChatSettingsScreen arguments holder class
-class ChatSettingsScreenArguments {
-  final Key key;
-  ChatSettingsScreenArguments({this.key});
-}
-
-//VideoScreen arguments holder class
+/// VideoScreen arguments holder class
 class VideoScreenArguments {
   final Key key;
   final String url;
@@ -418,7 +422,7 @@ class VideoScreenArguments {
       this.mute = false});
 }
 
-//PhotoGalleryScreen arguments holder class
+/// PhotoGalleryScreen arguments holder class
 class PhotoGalleryScreenArguments {
   final Key key;
   final List<PhotoModel> galleryItems;
@@ -427,14 +431,14 @@ class PhotoGalleryScreenArguments {
       {this.key, @required this.galleryItems, @required this.intialIndex});
 }
 
-//SelectIconScreen arguments holder class
+/// SelectIconScreen arguments holder class
 class SelectIconScreenArguments {
   final Key key;
   final SelectIconMode mode;
   SelectIconScreenArguments({this.key, @required this.mode});
 }
 
-//SearchResultsScreen arguments holder class
+/// SearchResultsScreen arguments holder class
 class SearchResultsScreenArguments {
   final Key key;
   final int id;
@@ -444,14 +448,14 @@ class SearchResultsScreenArguments {
       {this.key, @required this.id, @required this.mode, @required this.name});
 }
 
-//StoryScreen arguments holder class
+/// StoryScreen arguments holder class
 class StoryScreenArguments {
   final Key key;
   final StoryModel currentStory;
   StoryScreenArguments({this.key, this.currentStory});
 }
 
-//DescriptionScreen arguments holder class
+/// DescriptionScreen arguments holder class
 class DescriptionScreenArguments {
   final Key key;
   final String url;
@@ -460,7 +464,7 @@ class DescriptionScreenArguments {
       {this.key, @required this.url, @required this.type});
 }
 
-//SingleImage arguments holder class
+/// SingleImage arguments holder class
 class SingleImageArguments {
   final Key key;
   final String url;

@@ -206,6 +206,7 @@ abstract class _ChatStoreBase with Store {
   @action
   void _addAllMessages() {
     _messages.clear();
+
     /// at this point addess only [_messages] for chat ops
     _messages.addAll(conversation.messages);
   }
@@ -327,11 +328,14 @@ abstract class _ChatStoreBase with Store {
     }
   }
 
+  /// TODO check 
+  /// https://github.com/miguelpruivo/flutter_file_picker/
   @action
   Future sendVideoMessage(ImageSource source) async {
     // handle local photo
     try {
-      final pickedFile = await sl<ImagePicker>().getVideo(
+      // get image from picker
+      final pickedFile = await sl<ImagePicker>().pi(
         source: source,
         maxDuration: source == ImageSource.camera
             ? Duration(seconds: 10)
@@ -339,7 +343,7 @@ abstract class _ChatStoreBase with Store {
       );
 
       if (pickedFile != null) {
-        // get thumbnail from video
+        // get thumbnail from the video
         final thumbnail = await VideoThumbnail.thumbnailFile(
           video: pickedFile?.path ?? '',
           imageFormat: ImageFormat.JPEG,
@@ -361,18 +365,14 @@ abstract class _ChatStoreBase with Store {
         _messages.add(msg);
 
         // upload thumbnail and video
-        final firbaseThumbnail =
-            await _mediaStore.uploadPhoto(file: File(thumbnail));
-        final firebaseViceo = await _mediaStore.uploadVideo(
-          path: pickedFile.path,
-          messageId: msg.id,
-        );
+        final firbaseThumbnail = await _mediaStore.uploadPhoto(file: File(thumbnail));
+        final firebaseVideo = await _mediaStore.uploadVideo(path: pickedFile.path, messageId: msg.id);
 
         // send message with firebase links
         final remote = await _repository.sendMessage(
           conversation.id,
           msg.copyWith(
-            body: firebaseViceo,
+            body: firebaseVideo,
             extraData: firbaseThumbnail,
           ),
         );

@@ -23,7 +23,7 @@ class MediaRepositoryImpl implements MediaRepository {
       File image, String path, String fileName, int messageId) async {
     final photoPath = "$path/photos/";
 
-    final compressed = await _compress(image);
+    final compressed = await _compressPhoto(image);
 
     return await upload(photoPath, fileName, compressed, messageId);
   }
@@ -33,10 +33,14 @@ class MediaRepositoryImpl implements MediaRepository {
       File video, String path, String fileName, int messageId) async {
     final videoPath = "$path/videos/";
 
+    final info = await compressVideo(video);
+
+    // flutterVideoCompress.compressProgress$.subscribe((event) { });
+    
     return await upload(
       videoPath,
       fileName,
-      video,
+      info.file,
       messageId,
     );
   }
@@ -70,11 +74,11 @@ class MediaRepositoryImpl implements MediaRepository {
     return await storageRefOriginal.getDownloadURL();
   }
 
-  Future<File> _compress(File image) async {
+  Future<File> _compressPhoto(File image) async {
     File compressed;
     try {
       final appDocDirectory = await getApplicationDocumentsDirectory();
-      compressed = await compressToFile(image,
+      compressed = await compressPhotoToFile(image,
           "${appDocDirectory.path}/compressed_${DateTime.now().millisecondsSinceEpoch}.jpg");
     } on Exception catch (e) {
       Crash.report(e.toString());
