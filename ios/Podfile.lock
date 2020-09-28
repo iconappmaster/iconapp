@@ -4,6 +4,40 @@ PODS:
   - CryptoSwift (0.15.0)
   - device_info (0.0.1):
     - Flutter
+  - DKImagePickerController/Core (4.3.2):
+    - DKImagePickerController/ImageDataManager
+    - DKImagePickerController/Resource
+  - DKImagePickerController/ImageDataManager (4.3.2)
+  - DKImagePickerController/PhotoGallery (4.3.2):
+    - DKImagePickerController/Core
+    - DKPhotoGallery
+  - DKImagePickerController/Resource (4.3.2)
+  - DKPhotoGallery (0.0.17):
+    - DKPhotoGallery/Core (= 0.0.17)
+    - DKPhotoGallery/Model (= 0.0.17)
+    - DKPhotoGallery/Preview (= 0.0.17)
+    - DKPhotoGallery/Resource (= 0.0.17)
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Core (0.0.17):
+    - DKPhotoGallery/Model
+    - DKPhotoGallery/Preview
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Model (0.0.17):
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Preview (0.0.17):
+    - DKPhotoGallery/Model
+    - DKPhotoGallery/Resource
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Resource (0.0.17):
+    - SDWebImage
+    - SwiftyGif
+  - file_picker (0.0.1):
+    - DKImagePickerController/PhotoGallery
+    - Flutter
   - Firebase/Analytics (6.26.0):
     - Firebase/Core
   - Firebase/Core (6.26.0):
@@ -177,6 +211,8 @@ PODS:
     - ReachabilitySwift (= 4.3.0)
     - Starscream (~> 3.0.5)
   - ReachabilitySwift (4.3.0)
+  - SDWebImage (5.9.1):
+    - SDWebImage/Core (= 5.9.1)
   - SDWebImage/Core (5.9.1)
   - SDWebImageWebPCoder (0.6.1):
     - libwebp (~> 1.0)
@@ -195,6 +231,7 @@ PODS:
     - Flutter
     - FMDB (~> 2.7.2)
   - Starscream (3.0.6)
+  - SwiftyGif (5.3.0)
   - url_launcher (0.0.1):
     - Flutter
   - url_launcher_linux (0.0.1):
@@ -218,6 +255,7 @@ PODS:
 DEPENDENCIES:
   - audioplayers (from `.symlinks/plugins/audioplayers/ios`)
   - device_info (from `.symlinks/plugins/device_info/ios`)
+  - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - Firebase/Analytics
   - Firebase/Core
   - Firebase/Messaging
@@ -258,6 +296,8 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - CryptoSwift
+    - DKImagePickerController
+    - DKPhotoGallery
     - Firebase
     - FirebaseAnalytics
     - FirebaseAnalyticsInterop
@@ -286,12 +326,15 @@ SPEC REPOS:
     - SDWebImage
     - SDWebImageWebPCoder
     - Starscream
+    - SwiftyGif
 
 EXTERNAL SOURCES:
   audioplayers:
     :path: ".symlinks/plugins/audioplayers/ios"
   device_info:
     :path: ".symlinks/plugins/device_info/ios"
+  file_picker:
+    :path: ".symlinks/plugins/file_picker/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
   firebase_core_web:
@@ -363,6 +406,9 @@ SPEC CHECKSUMS:
   audioplayers: 53f0f30789b10ab2009771c6c79def00980945e4
   CryptoSwift: 769f58a9e89f64e8796c2e59ce5f002dc81a2438
   device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
+  DKImagePickerController: b5eb7f7a388e4643264105d648d01f727110fc3d
+  DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
+  file_picker: 3e6c3790de664ccf9b882732d9db5eaf6b8d4eb1
   Firebase: 7cf5f9c67f03cb3b606d1d6535286e1080e57eb6
   firebase_core: 3134fe79d257d430f163b558caf52a10a87efe8a
   firebase_core_web: d501d8b946b60c8af265428ce483b0fff5ad52d1
@@ -415,6 +461,7 @@ SPEC CHECKSUMS:
   shared_preferences_windows: 36b76d6f54e76ead957e60b49e2f124b4cd3e6ae
   sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
   Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
+  SwiftyGif: e466e86c660d343357ab944a819a101c4127cb40
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
   url_launcher_linux: ac237cb7a8058736e4aae38bdbcc748a4b394cc0
   url_launcher_macos: fd7894421cd39320dce5f292fc99ea9270b2a313
