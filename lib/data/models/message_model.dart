@@ -26,7 +26,7 @@ abstract class MessageModel with _$MessageModel {
       _$MessageModelFromJson(json);
 }
 
-enum MessageStatus { pending, sent, sendingEmoji }
+enum MessageStatus { pending, sent, sendingEmoji, compressing }
 enum MessageType { text, photo, video, voice, system }
 enum LikeType { like_1, like_2, like_3, like_4, like_5 }
 const likeOneKey = 'like_1';

@@ -131,6 +131,11 @@ abstract class _StoryEditStoreBase with Store {
   }
 
   @action
+  void setMyStories(List<StoryImageModel> storyImages) {
+    _storiesToPublish.addAll(storyImages);
+  }
+
+  @action
   void dispose() {
     _storiesToPublish.clear();
   }

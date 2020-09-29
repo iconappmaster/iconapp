@@ -29,6 +29,13 @@ mixin _$StoryStore on _StoryStoreBase, Store {
           Computed<List<StoryModel>>(() => super.getStories,
               name: '_StoryStoreBase.getStories'))
       .value;
+  Computed<StoryModel> _$getMyStoryComputed;
+
+  @override
+  StoryModel get getMyStory =>
+      (_$getMyStoryComputed ??= Computed<StoryModel>(() => super.getMyStory,
+              name: '_StoryStoreBase.getMyStory'))
+          .value;
 
   final _$_modeAtom = Atom(name: '_StoryStoreBase._mode');
 
@@ -157,7 +164,8 @@ mixin _$StoryStore on _StoryStoreBase, Store {
     return '''
 mode: ${mode},
 showAddButton: ${showAddButton},
-getStories: ${getStories}
+getStories: ${getStories},
+getMyStory: ${getMyStory}
     ''';
   }
 }

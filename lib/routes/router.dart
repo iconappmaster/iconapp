@@ -1,6 +1,4 @@
 import 'package:auto_route/auto_route_annotations.dart';
-import 'package:flutter/widgets.dart';
-
 import 'package:iconapp/screens/chat_screen.dart';
 import 'package:iconapp/screens/chat_settings_screen.dart';
 import 'package:iconapp/screens/create_categories_screen.dart';
@@ -20,8 +18,6 @@ import 'package:iconapp/screens/main_navigator.dart';
 import 'package:iconapp/screens/story_edit_screen.dart';
 import 'package:iconapp/screens/story_screen.dart';
 import 'package:iconapp/widgets/chat/message_photo.dart';
-
-final globalNavigator = GlobalKey<NavigatorState>();
 
 @MaterialAutoRouter(
   generateNavigationHelperExtension: true,
@@ -47,4 +43,6 @@ final globalNavigator = GlobalKey<NavigatorState>();
     CupertinoRoute(page: SingleImage),
   ],
 )
-class $Router {}
+class $Router {
+  static String routerName = "route";
+}

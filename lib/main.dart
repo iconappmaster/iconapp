@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/core/keys.dart';
 import 'package:iconapp/routes/router.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/data/sources/socket/socket_manager.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
+
 
 class _MyAppState extends State<MyApp> {
   Socket _socket;
@@ -86,7 +88,7 @@ class _MyAppState extends State<MyApp> {
     }
 
     return MaterialApp(
-      navigatorKey: globalNavigator,
+      navigatorKey: NavigationService.navigationKey,
       debugShowCheckedModeBanner: false,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
@@ -97,6 +99,7 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity),
       builder: ExtendedNavigator(
+        name: $Router.routerName,
         router: Router(),
       ),
     );

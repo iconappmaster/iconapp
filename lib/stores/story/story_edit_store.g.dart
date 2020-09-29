@@ -128,6 +128,17 @@ mixin _$StoryEditStore on _StoryEditStoreBase, Store {
       ActionController(name: '_StoryEditStoreBase');
 
   @override
+  void setMyStories(List<StoryImageModel> storyImages) {
+    final _$actionInfo = _$_StoryEditStoreBaseActionController.startAction(
+        name: '_StoryEditStoreBase.setMyStories');
+    try {
+      return super.setMyStories(storyImages);
+    } finally {
+      _$_StoryEditStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void dispose() {
     final _$actionInfo = _$_StoryEditStoreBaseActionController.startAction(
         name: '_StoryEditStoreBase.dispose');

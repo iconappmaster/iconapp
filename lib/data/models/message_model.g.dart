@@ -91,4 +91,5 @@ const _$MessageStatusEnumMap = {
   MessageStatus.pending: 'pending',
   MessageStatus.sent: 'sent',
   MessageStatus.sendingEmoji: 'sendingEmoji',
+  MessageStatus.compressing: 'compressing',
 };

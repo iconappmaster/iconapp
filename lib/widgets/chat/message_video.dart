@@ -112,8 +112,7 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
                           height: 200,
                           width: 240,
                           child: NetworkPhoto(
-                            url: widget.message?.extraData ?? '',
-                          ),
+                              url: widget.message?.extraData ?? ''),
                         ))
                     : ClipRRect(
                         borderRadius: BorderRadius.circular(4.2),
@@ -126,8 +125,8 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
                             ))),
                 SvgPicture.asset(
                   'assets/images/play_button.svg',
-                  height: 56,
-                  width: 56,
+                  height: 76,
+                  width: 76,
                 ),
                 Positioned(
                   left: 5,
@@ -136,7 +135,7 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
                     widget.message.status == MessageStatus.pending
                         ? ''
                         : widget.message?.timestamp?.humanReadableTime() ?? '',
-                    style: chatMessageBody.copyWith(fontSize: 9),
+                    style: chatMessageBody.copyWith(fontSize: 12),
                     textAlign: TextAlign.start,
                   ),
                 ),
@@ -144,22 +143,58 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
                   right: 5,
                   bottom: 5,
                   child: CustomText(widget.message.sender?.fullName ?? '',
-                      style: chatMessageName, textAlign: TextAlign.start),
+                      style: chatMessageBody.copyWith(
+                        fontSize: 12,
+                      ),
+                      textAlign: TextAlign.start),
                 ),
               ],
             ),
           ),
-          if (widget.message.status == MessageStatus.pending)
-            Positioned(
-              left: 123,
-              top: 92,
-              child: CircularProgressIndicator(
-                value: _progress,
-                strokeWidth: 3,
-                valueColor: AlwaysStoppedAnimation<Color>(cornflower),
-                backgroundColor: white,
+          Visibility(
+            visible: widget.message.status == MessageStatus.pending,
+            child: Positioned(
+              left: 113,
+              top: 83,
+              child: SizedBox(
+                height: 55,
+                width: 55,
+                child: CircularProgressIndicator(
+                  value: _progress,
+                  strokeWidth: 3,
+                  valueColor: AlwaysStoppedAnimation<Color>(cornflower),
+                  backgroundColor: white,
+                ),
               ),
             ),
+          ),
+          Visibility(
+            visible: widget.message.status == MessageStatus.compressing,
+            child: Positioned(
+              left: 113,
+              top: 83,
+              child: SizedBox(
+                height: 55,
+                width: 55,
+                child: CircularProgressIndicator(
+                  strokeWidth: 3,
+                  valueColor: AlwaysStoppedAnimation<Color>(cornflower),
+                  backgroundColor: white,
+                ),
+              ),
+            ),
+          ),
+          Visibility(
+            visible: widget.message.status == MessageStatus.compressing,
+            child: Positioned(
+              left: 80,
+              top: 155,
+              child: CustomText(
+                'מקבץ סרטון...',
+                style: flushbar,
+              ),
+            ),
+          )
         ]),
       ),
     );

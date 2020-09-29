@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:iconapp/core/compression.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/core/stop_watch.dart';
@@ -87,14 +88,11 @@ abstract class _ChatStoreBase with Store {
   @computed
   List<PhotoModel> get conversationPhotos => _messages
       .where((message) => message.messageType == MessageType.photo)
-      .map(
-        (m) => PhotoModel(
+      .map((m) => PhotoModel(
           id: m.id,
           thumbnail: m.extraData,
           url: m.body,
-          description: m.extraData,
-        ),
-      )
+          description: m.extraData))
       .toList();
 
   @computed
@@ -195,7 +193,7 @@ abstract class _ChatStoreBase with Store {
       _state = _state.copyWith(pinLoading: true);
       _conversation = conversation.copyWith(isPinned: isPinned);
       await _repository.pinConversation(conversation.id, isPinned);
-      _homeStore.updateSingleConversation(conversation);
+      _homeStore.setConversationPinned(conversation);
     } on ServerError catch (e) {
       Crash.report(e.message);
       _conversation = _conversation.copyWith(isPinned: false);
@@ -282,7 +280,7 @@ abstract class _ChatStoreBase with Store {
 
         final remote = await _repository.sendMessage(conversation.id, msg);
 
-        _updateLocalMessage(
+        _updateLocalMessageWithRemoteId(
           remote.copyWith(status: MessageStatus.sent, id: msg.id),
           remote.id,
         );
@@ -321,7 +319,7 @@ abstract class _ChatStoreBase with Store {
         final remote = await _repository.sendMessage(
             conversation.id, msg.copyWith(body: url));
 
-        _updateLocalMessage(
+        _updateLocalMessageWithRemoteId(
             remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
       }
     } on ServerError catch (e) {
@@ -334,12 +332,11 @@ abstract class _ChatStoreBase with Store {
     // handle local photo
     try {
       // get image from picker
-      FilePickerResult pickedFile = await FilePicker.platform.pickFiles(
-        type: FileType.video,
-      );
+      final pickedFile =
+          await FilePicker.platform.pickFiles(type: FileType.video);
 
       if (pickedFile != null) {
-        File file = File(pickedFile.files.single.path);
+        final file = File(pickedFile.files.single.path);
 
         // get thumbnail from the video
         final thumbnail = await VideoThumbnail.thumbnailFile(
@@ -354,7 +351,7 @@ abstract class _ChatStoreBase with Store {
           id: DateTime.now().millisecondsSinceEpoch,
           body: file.path,
           sender: _userStore.getUser,
-          status: MessageStatus.pending,
+          status: MessageStatus.compressing,
           likeCounts: LikesCount.initial(),
           timestamp: DateTime.now().millisecondsSinceEpoch,
           messageType: MessageType.video,
@@ -363,8 +360,17 @@ abstract class _ChatStoreBase with Store {
         _messages.add(msg);
 
         // upload thumbnail and video
-        final firbaseThumbnail = await _mediaStore.uploadPhoto(file: File(thumbnail));
-        final firebaseVideo = await _mediaStore.uploadVideo(path: file.path, messageId: msg.id);
+        final firbaseThumbnail =
+            await _mediaStore.uploadPhoto(file: File(thumbnail));
+
+        final info = await compressVideo(file);
+
+        setMessageStatus(msg, MessageStatus.pending);
+
+        final firebaseVideo = await _mediaStore.uploadVideo(
+          video: info.file,
+          messageId: msg.id,
+        );
 
         // send message with firebase links
         final remote = await _repository.sendMessage(
@@ -375,7 +381,7 @@ abstract class _ChatStoreBase with Store {
           ),
         );
 
-        _updateLocalMessage(
+        _updateLocalMessageWithRemoteId(
           remote.copyWith(status: MessageStatus.sent, id: msg.id),
           remote.id,
         );
@@ -448,7 +454,7 @@ abstract class _ChatStoreBase with Store {
           final remote =
               await _repository.sendMessage(conversation.id, mediaMsg);
 
-          _updateLocalMessage(
+          _updateLocalMessageWithRemoteId(
             remote.copyWith(status: MessageStatus.sent, id: msg.id),
             remote.id,
           );
@@ -488,7 +494,7 @@ abstract class _ChatStoreBase with Store {
     updateUi(conversation);
   }
 
-  _updateLocalMessage(MessageModel message, int remoteId) {
+  _updateLocalMessageWithRemoteId(MessageModel message, int remoteId) {
     _messages[_messages.indexWhere(
       (m) => m.id == message.id,
     )] = message.copyWith(id: remoteId);

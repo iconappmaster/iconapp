@@ -59,20 +59,21 @@ abstract class _MediaStoreBase with Store {
 
   Future<String> uploadVideo({
     ImageSource source = ImageSource.gallery,
-    String path,
+    File video,
     int messageId,
   }) async {
     String result = '';
 
     try {
       _isLoading = true;
-      if (path != null) {
+      if (video != null) {
         // if path exists just upload
-        result = await _repository.uploadVideo(File(path), getPath, getPhotoFileName, messageId);
+        result = await _repository.uploadVideo(
+            video, getPath, getPhotoFileName, messageId);
       } else {
-        // otherwise select from the gallery 
         final pickedFile = await _imagePicker.getVideo(source: source);
         final file = File(pickedFile.path);
+
         result = await _repository.uploadVideo(
           file,
           getPath,

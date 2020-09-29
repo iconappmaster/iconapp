@@ -100,10 +100,22 @@ abstract class _HomeStoreBase with Store {
     _sp.setInt(StorageKey.homeTimestamp, ts);
   }
 
+  // will update the conversation with the pinned state and move it to the top
+  // of the list.
   @action
-  void updateSingleConversation(Conversation conversation) {
+  void setConversationPinned(Conversation conversation) {
     final index = _conversations.indexWhere((c) => c.id == conversation.id);
-    _conversations[index] = conversation;
+
+    if (index != -1)
+      _conversations
+        ..removeAt(index)
+        ..insert(0, conversation);
+  }
+
+  @action
+  void updateConversation(Conversation conversation) {
+    final index = _conversations.indexWhere((c) => c.id == conversation.id);
+    if (index != -1) _conversations[index] = conversation;
   }
 
   @action

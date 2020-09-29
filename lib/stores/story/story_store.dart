@@ -8,6 +8,7 @@ import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/story/story_list.dart';
 import 'package:mobx/mobx.dart';
+import '../../core/extensions/int_ext.dart';
 part 'story_store.g.dart';
 
 /// the [StoryStore] is responsible:
@@ -124,6 +125,9 @@ abstract class _StoryStoreBase with Store {
     final index = _stories.indexOf((s) => s.id == story.id);
     if (index != -1) _stories[index] = story;
   }
+
+  @computed
+  StoryModel get getMyStory => _stories.firstWhere((s) => s.user.id.isMe);
 
   void dispose() {
     _storyChangeSubscription?.cancel();

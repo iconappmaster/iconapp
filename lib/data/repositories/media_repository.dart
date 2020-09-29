@@ -30,17 +30,17 @@ class MediaRepositoryImpl implements MediaRepository {
 
   @override
   Future<String> uploadVideo(
-      File video, String path, String fileName, int messageId) async {
+    File video,
+    String path,
+    String fileName,
+    int messageId,
+  ) async {
     final videoPath = "$path/videos/";
 
-    final info = await compressVideo(video);
-
-    // flutterVideoCompress.compressProgress$.subscribe((event) { });
-    
     return await upload(
       videoPath,
       fileName,
-      info.file,
+      video,
       messageId,
     );
   }

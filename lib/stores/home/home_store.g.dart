@@ -119,11 +119,22 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   }
 
   @override
-  void updateSingleConversation(Conversation conversation) {
+  void setConversationPinned(Conversation conversation) {
     final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
-        name: '_HomeStoreBase.updateSingleConversation');
+        name: '_HomeStoreBase.setConversationPinned');
     try {
-      return super.updateSingleConversation(conversation);
+      return super.setConversationPinned(conversation);
+    } finally {
+      _$_HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void updateConversation(Conversation conversation) {
+    final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
+        name: '_HomeStoreBase.updateConversation');
+    try {
+      return super.updateConversation(conversation);
     } finally {
       _$_HomeStoreBaseActionController.endAction(_$actionInfo);
     }

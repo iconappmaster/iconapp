@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:iconapp/core/device/device_info.dart';
+import 'package:iconapp/core/keys.dart';
 import 'package:iconapp/core/notifications/fcm.dart';
-import 'package:iconapp/core/notifications/notifications.dart';
 import 'package:iconapp/stores/search_results/search_results_store.dart';
 import 'package:iconapp/stores/story/story_edit_store.dart';
 import 'package:image_picker/image_picker.dart';
@@ -117,11 +117,11 @@ void initLocator() {
   sl.registerLazySingleton<Bus>(() => Bus());
 
   // Notifications
-  sl.registerLazySingleton<NotificationsHelper>(() => NotificationsHelper());
   sl.registerLazySingleton<Fcm>(() => Fcm());
 
   // Device
   sl.registerLazySingleton<DeviceInfo>(() => DeviceInfo());
+  sl.registerLazySingleton<NavigationService>(() => NavigationService());
 
   sl.registerLazySingleton<DeviceInfoRepository>(
     () => DeviceInfoRepositoryImpl(restClient: sl()),

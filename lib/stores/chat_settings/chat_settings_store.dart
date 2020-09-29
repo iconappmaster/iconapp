@@ -6,6 +6,7 @@ import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/repositories/chat_settings_repository.dart';
 import 'package:iconapp/domain/core/errors.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
+import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/stores/media/media_store.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
@@ -17,11 +18,13 @@ class ChatSettingsStore = _ChatSettingsStoreBase with _$ChatSettingsStore;
 abstract class _ChatSettingsStoreBase with Store {
   ChatSettingsRepository _repository;
   ChatStore _chat;
+  HomeStore _home;
   MediaStore _mediaStore;
 
   _ChatSettingsStoreBase() {
     _repository = sl<ChatSettingsRepository>();
     _chat = sl<ChatStore>();
+    _home = sl<HomeStore>();
     _mediaStore = sl<MediaStore>();
   }
 
@@ -72,7 +75,7 @@ abstract class _ChatSettingsStoreBase with Store {
   @computed
   List<UserModel> get users => _users;
 
-  @action 
+  @action
   Future changeBackground(int colorIndex) async {
     try {
       _isLoading = true;
@@ -201,20 +204,17 @@ abstract class _ChatSettingsStoreBase with Store {
   @action
   Future setNotification(bool value) async {
     try {
-      _isLoading = true;
-
       _isNotificationDisabled = value;
 
       _isNotificationDisabled =
           await _repository.setNotification(_chat.conversation.id, value);
-
-      final con = _chat.conversation
+      final conversation = _chat.conversation
           .copyWith(areNotificationsDisabled: _isNotificationDisabled);
-      _chat.setConversation(con);
+      _chat.setConversation(conversation);
+
+      _home.updateConversation(conversation);
     } on ServerError catch (e) {
       Crash.report(e.message);
-    } finally {
-      _isLoading = false;
     }
   }
 

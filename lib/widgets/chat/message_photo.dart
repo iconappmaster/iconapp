@@ -123,7 +123,7 @@ class _PhotoMessageState extends State<PhotoMessage> {
                                           url: widget.message.body)))
                               : SizedBox(
                                   height: 200,
-                                  width: 200,
+                                  width: 250,
                                   child: ClipRRect(
                                       borderRadius: BorderRadius.circular(4.2),
                                       child: Image.file(
