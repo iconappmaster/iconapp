@@ -26,7 +26,7 @@ class _PanelMessageComposeState extends State<PanelMessageCompose> {
     final store = sl<ChatStore>();
     return Container(
       constraints: BoxConstraints(minHeight: 73.7),
-      color: white,
+      color: composerPanelBackground,
       padding: EdgeInsets.only(top: 0, bottom: 16.3, left: 9.3, right: 9.3),
       child: Column(
         children: [
@@ -35,9 +35,8 @@ class _PanelMessageComposeState extends State<PanelMessageCompose> {
             child: Container(
               constraints: BoxConstraints(minHeight: 41.3),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(26.4),
-                color: paleGrey,
-              ),
+                  borderRadius: BorderRadius.circular(26.4),
+                  color: composerBackground),
               child: Observer(
                 builder: (_) => Stack(
                   alignment: Alignment.center,

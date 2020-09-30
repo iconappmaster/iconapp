@@ -65,6 +65,9 @@ abstract class _ChatStoreBase with Store {
   bool _showWelcomeDialog = true;
 
   @observable
+  bool dataReady = false;
+
+  @observable
   ChatState _state = ChatState.initial();
 
   @observable
@@ -169,11 +172,12 @@ abstract class _ChatStoreBase with Store {
   Future getConversation() async {
     try {
       _state = _state.copyWith(loading: true);
-      // await getCachedConversation();
       final remote = await _repository.getRemoteConversaion(conversation.id);
       updateUi(remote);
+      dataReady = true;
       _repository.cacheConversation(conversation);
     } on ServerError catch (e) {
+      dataReady = false;
       Crash.report(e.message);
     } finally {
       _state = _state.copyWith(loading: false);
@@ -533,6 +537,7 @@ abstract class _ChatStoreBase with Store {
     _messagesSubscription?.forEach((subscription) => subscription.cancel());
     _conversation = Conversation();
     _replyMessage = null;
+    dataReady = false;
     await recordTimer?.dispose();
   }
 }

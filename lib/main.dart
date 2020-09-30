@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/keys.dart';
@@ -19,8 +20,8 @@ final logger = Logger();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  // setFirebase();
+  // await Firebase.initializeApp();
+  
   runApp(
     EasyLocalization(
       useOnlyLangCode: false,
@@ -69,10 +70,10 @@ class _MyAppState extends State<MyApp> {
     // This is only to be used for confirming that reports are being
     // submitted as expected. It is not intended to be used for everyday
     // development.
-    FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+    Crashlytics.instance.enableInDevMode = true;
 
     // Pass all uncaught errors from the framework to Crashlytics.
-    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+    FlutterError.onError = Crashlytics.instance.recordFlutterError;
   }
 
   @override

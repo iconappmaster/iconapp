@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class BouncingWidget extends StatefulWidget {
@@ -29,7 +28,8 @@ class BouncingWidget extends StatefulWidget {
   _BouncingWidgetState createState() => _BouncingWidgetState();
 }
 
-class _BouncingWidgetState extends State<BouncingWidget> with SingleTickerProviderStateMixin {
+class _BouncingWidgetState extends State<BouncingWidget>
+    with SingleTickerProviderStateMixin {
   //// Animation controller
   AnimationController _controller;
 
@@ -53,7 +53,6 @@ class _BouncingWidgetState extends State<BouncingWidget> with SingleTickerProvid
 
   /// Simple getter on widget's animation duration
   Duration get duration => widget.duration;
-
 
   /// We instantiate the animation controller
   /// The idea is to call setState() each time the controller's
@@ -115,7 +114,7 @@ class _BouncingWidgetState extends State<BouncingWidget> with SingleTickerProvid
   /// We reverse the animation and notify the user of a press event
   _onTapUp(TapUpDetails details) {
     Future.delayed(duration, () {
-      _controller.reverse();
+      if (mounted) _controller?.reverse();
     });
 
     _triggerOnPressed();
@@ -153,7 +152,8 @@ class _BouncingWidgetState extends State<BouncingWidget> with SingleTickerProvid
   /// Method called when we need to now if a specific touch position is inside the given
   /// child render box
   bool _isOutsideChildBox(Offset touchPosition) {
-    final RenderBox childRenderBox = _childKey.currentContext.findRenderObject();
+    final RenderBox childRenderBox =
+        _childKey.currentContext.findRenderObject();
     final Size childSize = childRenderBox.size;
     final Offset childPosition = childRenderBox.localToGlobal(Offset.zero);
 

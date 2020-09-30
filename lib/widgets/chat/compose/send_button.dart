@@ -46,7 +46,7 @@ class SendButton extends StatelessWidget {
                   store.sendTextMessage();
                 }
               },
-              backgroundColor: cornflower,
+              backgroundColor: sendColor,
               child: AnimatedSwitcher(
                 duration: Duration(milliseconds: 250),
                 transitionBuilder: (child, animation) => ScaleTransition(

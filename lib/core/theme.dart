@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Colors Palette
 const grape = Color(0xFF52296e);
+
 const darkIndigo = Color(0xFF0a0d37);
 const darkIndigo2 = Color(0xFF100a39);
 const darkIndigoThree = Color(0xFF0d0832);
@@ -32,6 +33,11 @@ const blueberry3 = Color(0xFF4c409f);
 const scarlet = Color(0xFFd0021b);
 const black10 = Color(0x19000000);
 const paleGreyTwo = Color(0xFFe9e6ff);
+
+const sendColor = Color(0xFF6D5FF5);
+const composerBackground = Color(0xFF1A1541);
+const composerPanelBackground = Color(0xFF0E0A36);
+
 // Font Sizes
 // const _fontRubikBold = "RubikBold";
 const _fontRubikRegular = "RubikRagular";

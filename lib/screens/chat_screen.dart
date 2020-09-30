@@ -29,7 +29,7 @@ class ChatScreen extends StatefulWidget {
   _ChatScreenState createState() => _ChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   AutoScrollController _controller;
   bool _upDirection = false, _flag = true;
 
@@ -96,7 +96,17 @@ class _ChatScreenState extends State<ChatScreen> {
                     ChatAppbar(),
                     BlueDivider(color: cornflower),
                     ChatList(scrollController: _controller),
-                    initComposer(_controller),
+                    AnimatedSize(
+                      vsync: this,
+                      child: Container(
+                          height: (_chat.dataReady &&
+                                  _chat.composerMode != ComposerMode.viewer)
+                              ? 82
+                              : 0,
+                          child: initComposer(_controller)),
+                      duration: Duration(milliseconds: 450),
+                      curve: Curves.easeOutBack,
+                    ),
                   ],
                 ),
               );

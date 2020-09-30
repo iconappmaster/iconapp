@@ -42,7 +42,7 @@ class ComposeActionButtons extends StatelessWidget {
         enableFeedback: true,
         onLongPress: onLongTap,
         onTap: onTap,
-        child: SvgPicture.asset(asset, height: size, width: size),
+        child: SvgPicture.asset(asset, height: size, width: size, color: sendColor,),
       ),
     );
   }

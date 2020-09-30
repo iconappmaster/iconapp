@@ -26,6 +26,7 @@ class ComposerInput extends StatelessWidget {
           key: key,
           maxLines: null,
           decoration: InputDecoration(
+              filled: true,
               hintStyle: chatCompose,
               hintText: LocaleKeys.chat_messageInputHint.tr(),
               focusedBorder: transparentBorder,

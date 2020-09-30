@@ -38,7 +38,7 @@ class PanelSubscriber extends StatelessWidget {
             ignoring: store.isSubscribing,
             child: Container(
               color: white,
-              height: 58.7,
+              height: 79.7,
               child: Center(
                   child: FlatButton(
                 child: CustomText('הצטרפות לקבוצה',
