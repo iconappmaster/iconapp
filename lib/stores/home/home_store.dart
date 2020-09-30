@@ -103,13 +103,13 @@ abstract class _HomeStoreBase with Store {
   // will update the conversation with the pinned state and move it to the top
   // of the list.
   @action
-  void setConversationPinned(Conversation conversation) {
+  void setConversationPinned(bool pinned, Conversation conversation) {
     final index = _conversations.indexWhere((c) => c.id == conversation.id);
 
     if (index != -1)
       _conversations
         ..removeAt(index)
-        ..insert(0, conversation);
+        ..insert(pinned ? 0 : _conversations.length, conversation);
   }
 
   @action

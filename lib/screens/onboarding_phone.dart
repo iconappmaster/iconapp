@@ -367,9 +367,9 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
         style: phoneNumber.copyWith(
             color: store.isPhoneMode ? white : white.withOpacity(.4)),
         onChanged: (prefix) {
+          store.updatePhonePrefix(prefix);
           if (prefix.length == 3) {
             prefixFocus.unfocus();
-            store.updatePhonePrefix(prefix);
             FocusScope.of(context).requestFocus(phoneFocus);
           }
         },
@@ -396,9 +396,9 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
           decoration: inputDecor.copyWith(prefixText: '+', prefixStyle: style),
           style: style,
           onChanged: (countryCode) {
+              store.updateCountryCode(countryCode);
             if (countryCode.length == 3) {
               prefixFocus.unfocus();
-              store.updateCountryCode(countryCode);
               FocusScope.of(context).requestFocus(prefixFocus);
             }
           },

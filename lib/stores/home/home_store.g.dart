@@ -119,11 +119,11 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   }
 
   @override
-  void setConversationPinned(Conversation conversation) {
+  void setConversationPinned(bool pinned, Conversation conversation) {
     final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
         name: '_HomeStoreBase.setConversationPinned');
     try {
-      return super.setConversationPinned(conversation);
+      return super.setConversationPinned(pinned, conversation);
     } finally {
       _$_HomeStoreBaseActionController.endAction(_$actionInfo);
     }

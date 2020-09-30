@@ -19,7 +19,6 @@ import 'package:iconapp/widgets/onboarding/onboarding_appbar.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../core/extensions/context_ext.dart';
 
-const debugEnableDeviceSimulator = false;
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -29,7 +28,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   GlobalKey<ScaffoldState> _scaffoldKey;
   ScrollController _controller;
-  bool upDirection = true, flag = true;
   HomeStore _home;
   StoryStore _story;
 
@@ -38,21 +36,15 @@ class _HomeScreenState extends State<HomeScreen> {
     _scaffoldKey = GlobalKey<ScaffoldState>();
     _home = sl<HomeStore>();
     _story = sl<StoryStore>();
-
+    _controller = ScrollController();
     _home.getConversations(force: true);
 
-    initSocket();
-    _controller = ScrollController()
-      ..addListener(() {
-        upDirection =
-            _controller.position.userScrollDirection == ScrollDirection.forward;
-        if (upDirection != flag && mounted) setState(() {});
-        flag = upDirection;
-      });
+    _initSocket();
+
     super.initState();
   }
 
-  Future initSocket() async {
+  Future _initSocket() async {
     final socket = sl<Socket>();
     await socket.subscribeChannel(homeChannelName);
 
@@ -117,7 +109,14 @@ class _HomeScreenState extends State<HomeScreen> {
                               showIconsSelected: false,
                               onTap: () => openBottomSheet(context))),
                     ),
-                    showWelcomeDialog(_home),
+                    Observer(builder: (_) {
+                      return Visibility(
+                        visible: _home.showWelcomeDialog,
+                        child: WelcomeDialog(
+                          onTap: () => _home.saveWelcomeSeen(),
+                        ),
+                      );
+                    }),
                   ],
                 ),
               ),
@@ -126,17 +125,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
-  }
-
-  Widget showWelcomeDialog(HomeStore home) {
-    return Observer(builder: (_) {
-      return Visibility(
-        visible: home.showWelcomeDialog,
-        child: WelcomeDialog(
-          onTap: () => home.saveWelcomeSeen(),
-        ),
-      );
-    });
   }
 
   void openBottomSheet(BuildContext context) {

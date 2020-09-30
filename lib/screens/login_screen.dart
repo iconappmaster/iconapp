@@ -11,7 +11,7 @@ import '../widgets/global/next_button.dart';
 import '../generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-const policyUrl = 'https://www.icon-app.net/policy';
+const policyUrl = 'https://www.icon-app.net/policy-en';
 
 class LoginScreen extends StatelessWidget {
   @override
