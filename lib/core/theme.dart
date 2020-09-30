@@ -186,7 +186,7 @@ const settingsButton = TextStyle(
 );
 
 const chatCompose =
-    TextStyle(fontFamily: _fontRubikRegular, color: dusk, fontSize: 15.9);
+    TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 15.9);
 
 const chatMessageBody = TextStyle(
   fontFamily: _fontRubikRegular,

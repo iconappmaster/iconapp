@@ -118,6 +118,21 @@ mixin _$ChatStore on _ChatStoreBase, Store {
     });
   }
 
+  final _$dataReadyAtom = Atom(name: '_ChatStoreBase.dataReady');
+
+  @override
+  bool get dataReady {
+    _$dataReadyAtom.reportRead();
+    return super.dataReady;
+  }
+
+  @override
+  set dataReady(bool value) {
+    _$dataReadyAtom.reportWrite(value, super.dataReady, () {
+      super.dataReady = value;
+    });
+  }
+
   final _$_stateAtom = Atom(name: '_ChatStoreBase._state');
 
   @override
@@ -426,6 +441,7 @@ mixin _$ChatStore on _ChatStoreBase, Store {
   @override
   String toString() {
     return '''
+dataReady: ${dataReady},
 isReplyMessage: ${isReplyMessage},
 replayMessage: ${replayMessage},
 conversationPhotos: ${conversationPhotos},

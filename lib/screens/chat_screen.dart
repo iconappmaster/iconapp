@@ -98,11 +98,12 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                     ChatList(scrollController: _controller),
                     AnimatedSize(
                       vsync: this,
-                      child: Container(
-                          height: (_chat.dataReady &&
-                                  _chat.composerMode != ComposerMode.viewer)
-                              ? 82
-                              : 0,
+                      child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                              minHeight: (_chat.dataReady &&
+                                      _chat.composerMode != ComposerMode.viewer)
+                                  ? 82
+                                  : 0),
                           child: initComposer(_controller)),
                       duration: Duration(milliseconds: 450),
                       curve: Curves.easeOutBack,

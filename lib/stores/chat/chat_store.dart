@@ -197,7 +197,7 @@ abstract class _ChatStoreBase with Store {
       _state = _state.copyWith(pinLoading: true);
       _conversation = conversation.copyWith(isPinned: isPinned);
       await _repository.pinConversation(conversation.id, isPinned);
-      _homeStore.setConversationPinned(conversation);
+      _homeStore.setConversationPinned(isPinned, conversation);
     } on ServerError catch (e) {
       Crash.report(e.message);
       _conversation = _conversation.copyWith(isPinned: false);
