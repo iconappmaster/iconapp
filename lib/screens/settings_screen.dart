@@ -44,9 +44,12 @@ class AppSettingsScreen extends StatelessWidget {
                 children: [
                   AppSettingsTile(title: 'הזמנת חברים', onTap: () => 'tap'),
                   _SettingsDivider(),
-                  AppSettingsTile(title: 'אודות אייקון', onTap: () => 'tap'),
+                  AppSettingsTile(
+                      title: 'אודות אייקון',
+                      onTap: () async =>
+                          await showAboutDialog(context: context)),
                   _SettingsDivider(),
-                  AppSettingsTile(title: 'מספר גירסה', onTap: () => 'tap'),
+                  AppSettingsTile(title: 'מספר גירסה 1.0', onTap: () => 'tap'),
                 ],
               ),
             ),
@@ -109,12 +112,15 @@ class AppSettingsTile extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.centerRight,
-      height: context.heightPlusStatusbarPerc(.113),
-      child: Padding(
-        padding: const EdgeInsets.all(21.0),
-        child: CustomText(title, style: appSettingsTile),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        alignment: Alignment.centerRight,
+        height: context.heightPlusStatusbarPerc(.113),
+        child: Padding(
+          padding: const EdgeInsets.all(21.0),
+          child: CustomText(title, style: appSettingsTile),
+        ),
       ),
     );
   }

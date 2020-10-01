@@ -12,23 +12,28 @@ class ChatBackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () => Navigator.pop(context),
-      child: Row(
-        children: <Widget>[
-          SvgPicture.asset('assets/images/back_arrow.svg',
-              height: 16.3, width: 16.3),
-          SizedBox(width: 5.3),
-          ClipRRect(
-              borderRadius: BorderRadius.circular(100),
-              child: NetworkPhoto(
-                placeHolder: 'assets/images/group_placeholder.svg',
-                url: url,
-                height: 42,
-                width: 42,
-              ))
-        ],
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+          child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () => Navigator.pop(context),
+          child: Row(
+            children: <Widget>[
+              SvgPicture.asset('assets/images/back_arrow.svg',
+                  height: 16.3, width: 16.3),
+              SizedBox(width: 5.3),
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: NetworkPhoto(
+                    placeHolder: 'assets/images/group_placeholder.svg',
+                    url: url,
+                    height: 42,
+                    width: 42,
+                  ))
+            ],
+          ),
+        ),
       ),
     );
   }
