@@ -72,7 +72,8 @@ abstract class RestClient {
       @Path('conversationId') int conversationId, @Query('userId') int userId);
 
   @GET('conversations')
-  Future<List<Conversation>> getConversations(@Query('lastRequestedAt') int lastRequestedAt);
+  Future<List<Conversation>> getConversations(
+      @Query('lastRequestedAt') int lastRequestedAt);
 
   @POST('conversations')
   Future<Conversation> createConversation(@Body() CreateGroupReq groupReq);
@@ -114,6 +115,18 @@ abstract class RestClient {
     @Query('timestamp') int timestamp,
   );
 
+  // Comments
+  @GET('conversations/{conversationId}/comments')
+  Future<List<MessageModel>> getCommentByConversationId(
+      @Path('conversationId') int id);
+
+  @POST('conversations/{conversationId}/send_comment')
+  Future<MessageModel> sendComment(
+      @Path('conversationId') int id, @Body() MessageModel comment);
+
+  @POST('conversations/{conversationId}/viewed_comments')
+  Future viewedComments(@Path('conversationId') int id);
+
   @POST('messages/{messageId}/like_message')
   Future<MessageModel> likeMessage(
       @Path('messageId') int id, @Query('likeType') String likeType);
@@ -134,9 +147,6 @@ abstract class RestClient {
 
   @POST('stories/add_to_story')
   Future<StoryModel> publishStory(@Body() StoryModel story);
-
-  // Comments 
-  
 }
 
 Dio getDioClient() {
