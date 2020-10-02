@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class BouncingWidget extends StatefulWidget {
+class BouncingGestureDetector extends StatefulWidget {
   /// Child that will receive the bouncing animation
   final Widget child;
 
@@ -16,7 +16,7 @@ class BouncingWidget extends StatefulWidget {
   final Duration duration;
 
   /// BouncingWidget constructor
-  const BouncingWidget({
+  const BouncingGestureDetector({
     Key key,
     @required this.child,
     @required this.onPressed,
@@ -25,10 +25,10 @@ class BouncingWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _BouncingWidgetState createState() => _BouncingWidgetState();
+  _BouncingGestureDetectorState createState() => _BouncingGestureDetectorState();
 }
 
-class _BouncingWidgetState extends State<BouncingWidget>
+class _BouncingGestureDetectorState extends State<BouncingGestureDetector>
     with SingleTickerProviderStateMixin {
   //// Animation controller
   AnimationController _controller;

@@ -33,6 +33,8 @@ class HeaderInterceptor extends Interceptor {
         error.response?.statusCode == 401) {
       dio.interceptors.requestLock.unlock();
       dio.interceptors.responseLock.unlock();
+      // replace this with login
+
       sl<AuthStore>().logout(false);
     } else {
       return error;

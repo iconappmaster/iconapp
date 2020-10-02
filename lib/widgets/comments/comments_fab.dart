@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/widgets/global/bouncing.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 
 class CommentsFab extends StatelessWidget {
   final int count;
   final Function onTap;
 
-  const CommentsFab({Key key, this.count, this.onTap}) : super(key: key);
+  const CommentsFab({
+    Key key,
+    @required this.count,
+    @required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
+    return BouncingGestureDetector(
+      onPressed: onTap,
       child: Stack(children: [
         Container(
-          height: 60,
-          width: 60,
+          height: 70,
+          width: 70,
           decoration: BoxDecoration(
               shape: BoxShape.circle,
               gradient: purpleGradient,
@@ -44,7 +49,8 @@ class CommentsFab extends StatelessWidget {
             ),
             child: Center(
               child: CustomText(
-                count.toString(),
+                count < 999 ? count.toString() : "1k+",
+                maxLines: 1,
                 style: newMessageNumber,
               ),
             ),

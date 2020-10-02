@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:iconapp/widgets/comments/comments_fab.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import '../widgets/chat/chat_list.dart';
 import '../widgets/chat/chat_welcome_dialog.dart';
@@ -115,6 +116,16 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
             Positioned(
                 top: context.heightPlusStatusbarPerc(.09),
                 child: StoriesList(mode: _story.mode, show: !_upDirection)),
+            if (_chat.composerMode != ComposerMode.icon)
+              Positioned(
+                  bottom: 16,
+                  left: 16,
+                  child: CommentsFab(
+                    count:1000,
+                    onTap: () {
+                      // open comments drawer
+                    },
+                  )),
             _showWelcomeDialog(_chat.conversation?.name ?? ''),
           ],
         ),

@@ -22,7 +22,7 @@ class NextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BouncingWidget(
+    return BouncingGestureDetector(
       onPressed: enabled ? onClick : onError,
       child: AnimatedContainer(
         duration: Duration(milliseconds: 250),

@@ -99,7 +99,7 @@ class StoryAddButton extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        BouncingWidget(
+        BouncingGestureDetector(
           onPressed: onTap,
           child: Container(
             height: 66,
