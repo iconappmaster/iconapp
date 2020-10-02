@@ -32,6 +32,36 @@ mixin _$CommentsStore on _CommentsStoreBase, Store {
     });
   }
 
+  final _$_commentInputAtom = Atom(name: '_CommentsStoreBase._commentInput');
+
+  @override
+  String get _commentInput {
+    _$_commentInputAtom.reportRead();
+    return super._commentInput;
+  }
+
+  @override
+  set _commentInput(String value) {
+    _$_commentInputAtom.reportWrite(value, super._commentInput, () {
+      super._commentInput = value;
+    });
+  }
+
+  final _$_isLoadingAtom = Atom(name: '_CommentsStoreBase._isLoading');
+
+  @override
+  bool get _isLoading {
+    _$_isLoadingAtom.reportRead();
+    return super._isLoading;
+  }
+
+  @override
+  set _isLoading(bool value) {
+    _$_isLoadingAtom.reportWrite(value, super._isLoading, () {
+      super._isLoading = value;
+    });
+  }
+
   final _$getCommentsAsyncAction =
       AsyncAction('_CommentsStoreBase.getComments');
 
@@ -41,13 +71,20 @@ mixin _$CommentsStore on _CommentsStoreBase, Store {
         .run(() => super.getComments(conversationId));
   }
 
-  final _$_setCommentsViewedAsyncAction =
-      AsyncAction('_CommentsStoreBase._setCommentsViewed');
+  final _$setCommentsViewedAsyncAction =
+      AsyncAction('_CommentsStoreBase.setCommentsViewed');
 
   @override
-  Future<dynamic> _setCommentsViewed() {
-    return _$_setCommentsViewedAsyncAction
-        .run(() => super._setCommentsViewed());
+  Future<dynamic> setCommentsViewed() {
+    return _$setCommentsViewedAsyncAction.run(() => super.setCommentsViewed());
+  }
+
+  final _$sendCommentAsyncAction =
+      AsyncAction('_CommentsStoreBase.sendComment');
+
+  @override
+  Future<dynamic> sendComment() {
+    return _$sendCommentAsyncAction.run(() => super.sendComment());
   }
 
   final _$_CommentsStoreBaseActionController =
@@ -59,6 +96,17 @@ mixin _$CommentsStore on _CommentsStoreBase, Store {
         name: '_CommentsStoreBase.setComments');
     try {
       return super.setComments(comments);
+    } finally {
+      _$_CommentsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void updateCommentInput(String comment) {
+    final _$actionInfo = _$_CommentsStoreBaseActionController.startAction(
+        name: '_CommentsStoreBase.updateCommentInput');
+    try {
+      return super.updateCommentInput(comment);
     } finally {
       _$_CommentsStoreBaseActionController.endAction(_$actionInfo);
     }

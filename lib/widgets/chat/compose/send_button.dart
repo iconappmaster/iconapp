@@ -4,6 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
+import 'package:iconapp/stores/comments/comments_store.dart';
+import 'package:iconapp/widgets/chat/compose/panel_compose.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:vibration/vibration.dart';
 
@@ -11,16 +13,19 @@ class SendButton extends StatelessWidget {
   final TextEditingController textEditcontroller;
   final ScrollController scrollController;
   static double size = 37.7;
+  final ComposerPanelMode composerMode;
 
   const SendButton({
     Key key,
     @required this.textEditcontroller,
     @required this.scrollController,
+    this.composerMode,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final store = sl<ChatStore>();
+    final chat = sl<ChatStore>();
+    final comments = sl<CommentsStore>();
     return Observer(
       builder: (_) => Padding(
         padding: const EdgeInsets.only(left: 2, right: 7.3),
@@ -32,18 +37,25 @@ class SendButton extends StatelessWidget {
               final granted = await Permission.microphone.request().isGranted;
               if (granted) {
                 await Vibration.vibrate(duration: 300);
-                store.startRecording();
+                chat.startRecording();
               }
             },
-            onLongPressEnd: (d) => store.stopRecordingAndSend(),
+            onLongPressEnd: (d) => chat.stopRecordingAndSend(),
             child: FloatingActionButton(
-              heroTag: 'fab6',
+              heroTag: 'fab',
               elevation: 0,
               onPressed: () async {
-                if (isMessageMode()) {
-                  textEditcontroller.clear();
-                  scrollController.jumpTo(0);
-                  store.sendTextMessage();
+                switch (composerMode) {
+                  case ComposerPanelMode.conversation:
+                    if (isMessageMode()) {
+                      textEditcontroller.clear();
+                      scrollController.jumpTo(0);
+                      chat.sendTextMessage();
+                    }
+                    break;
+                  case ComposerPanelMode.comments:
+                    comments.sendComment();
+                    break;
                 }
               },
               backgroundColor: sendColor,
@@ -53,20 +65,25 @@ class SendButton extends StatelessWidget {
                   scale: animation,
                   child: child,
                 ),
-                child: store.isInputEmpty
-                    ? SvgPicture.asset('assets/images/send_icon.svg',
-                        key: const Key('send'), height: 15.3, width: 15.3)
-                    : SvgPicture.asset('assets/images/microphone.svg',
-                        color: white,
-                        key: const Key('mic'),
-                        height: 15.3,
-                        width: 15.3),
+                child: composerMode == ComposerPanelMode.conversation
+                    ? chat.isInputEmpty ? _sendIcon() : _recordIcon()
+                    : _sendIcon(),
               ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  SvgPicture _recordIcon() {
+    return SvgPicture.asset('assets/images/microphone.svg',
+        color: white, key: const Key('mic'), height: 15.3, width: 15.3);
+  }
+
+  SvgPicture _sendIcon() {
+    return SvgPicture.asset('assets/images/send_icon.svg',
+        key: const Key('send'), height: 15.3, width: 15.3);
   }
 
   bool isMessageMode() => textEditcontroller.text.isNotEmpty;

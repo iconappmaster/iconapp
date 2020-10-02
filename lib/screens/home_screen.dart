@@ -19,7 +19,6 @@ import 'package:iconapp/widgets/onboarding/onboarding_appbar.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../core/extensions/context_ext.dart';
 
-
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -64,7 +63,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final stories = sl<StoryStore>();
-
     return Scaffold(
       key: _scaffoldKey,
       drawer: HomeDrawer(),
@@ -79,7 +77,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 builder: (_) => Stack(
                   alignment: Alignment.topCenter,
                   children: <Widget>[
-                    IconAppbar(widget: DrawerIcon(scaffoldKey: _scaffoldKey)),
+                    IconAppbar(
+                      widget: DrawerIcon(
+                        scaffoldKey: _scaffoldKey,
+                      ),
+                    ),
                     ConversationsList(
                       controller: _controller,
                       onConversationTap: (conversation) async {
@@ -133,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
       expand: true,
       context: context,
       builder: (context, scrollController) =>
-          NestedSheetModal(scrollController: scrollController),
+          SearchSheetModal(scrollController: scrollController),
     );
   }
 

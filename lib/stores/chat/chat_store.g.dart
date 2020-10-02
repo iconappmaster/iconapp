@@ -384,11 +384,11 @@ mixin _$ChatStore on _ChatStoreBase, Store {
   }
 
   @override
-  void updateInputText(String input) {
+  void updateMessageInput(String input) {
     final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
-        name: '_ChatStoreBase.updateInputText');
+        name: '_ChatStoreBase.updateMessageInput');
     try {
-      return super.updateInputText(input);
+      return super.updateMessageInput(input);
     } finally {
       _$_ChatStoreBaseActionController.endAction(_$actionInfo);
     }

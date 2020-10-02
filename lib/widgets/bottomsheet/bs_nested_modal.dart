@@ -10,18 +10,18 @@ import 'bs_search_bar.dart';
 import 'category_search.dart';
 import 'icon_search.dart';
 
-/// The [NestedSheetModal] holds both of the nested scroll search
+/// The [SearchSheetModal] holds both of the nested scroll search
 /// [IconsSearchWidget] and [CategorySearchWidget]
-class NestedSheetModal extends StatefulWidget {
+class SearchSheetModal extends StatefulWidget {
   final ScrollController scrollController;
 
-  const NestedSheetModal({Key key, this.scrollController}) : super(key: key);
+  const SearchSheetModal({Key key, this.scrollController}) : super(key: key);
 
   @override
-  _NestedSheetModalState createState() => _NestedSheetModalState();
+  _SearchSheetModalState createState() => _SearchSheetModalState();
 }
 
-class _NestedSheetModalState extends State<NestedSheetModal> {
+class _SearchSheetModalState extends State<SearchSheetModal> {
   PageController pagerController;
   SearchStore searchStore;
   ReactionDisposer _disposer;

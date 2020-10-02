@@ -231,7 +231,7 @@ abstract class _ChatStoreBase with Store {
   }
 
   @action
-  void updateInputText(String input) {
+  void updateMessageInput(String input) {
     _state = _state.copyWith(inputMessage: input);
   }
 
@@ -284,7 +284,7 @@ abstract class _ChatStoreBase with Store {
 
         final remote = await _repository.sendMessage(conversation.id, msg);
 
-        _updateLocalMessageWithRemoteId(
+        _updateId(
           remote.copyWith(status: MessageStatus.sent, id: msg.id),
           remote.id,
         );
@@ -323,7 +323,7 @@ abstract class _ChatStoreBase with Store {
         final remote = await _repository.sendMessage(
             conversation.id, msg.copyWith(body: url));
 
-        _updateLocalMessageWithRemoteId(
+        _updateId(
             remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
       }
     } on ServerError catch (e) {
@@ -385,7 +385,7 @@ abstract class _ChatStoreBase with Store {
           ),
         );
 
-        _updateLocalMessageWithRemoteId(
+        _updateId(
           remote.copyWith(status: MessageStatus.sent, id: msg.id),
           remote.id,
         );
@@ -458,7 +458,7 @@ abstract class _ChatStoreBase with Store {
           final remote =
               await _repository.sendMessage(conversation.id, mediaMsg);
 
-          _updateLocalMessageWithRemoteId(
+          _updateId(
             remote.copyWith(status: MessageStatus.sent, id: msg.id),
             remote.id,
           );
@@ -498,10 +498,9 @@ abstract class _ChatStoreBase with Store {
     updateUi(conversation);
   }
 
-  _updateLocalMessageWithRemoteId(MessageModel message, int remoteId) {
-    _messages[_messages.indexWhere(
-      (m) => m.id == message.id,
-    )] = message.copyWith(id: remoteId);
+  _updateId(MessageModel message, int newId) {
+    final index = _messages.indexWhere((m) => m.id == message.id);
+    _messages[index] = message.copyWith(id: newId);
   }
 
   @action

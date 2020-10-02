@@ -9,11 +9,17 @@ import '../../../core/dependencies/locator.dart';
 import '../../../stores/chat/chat_store.dart';
 import '../../../core/theme.dart';
 
+enum ComposerPanelMode { conversation, comments }
+
 class PanelMessageCompose extends StatefulWidget {
   final ScrollController controller;
+  final ComposerPanelMode composerMode;
 
-  const PanelMessageCompose({Key key, @required this.controller})
-      : super(key: key);
+  const PanelMessageCompose({
+    Key key,
+    @required this.controller,
+    @required this.composerMode,
+  }) : super(key: key);
   @override
   _PanelMessageComposeState createState() => _PanelMessageComposeState();
 }
@@ -41,7 +47,7 @@ class _PanelMessageComposeState extends State<PanelMessageCompose> {
                 builder: (_) => Stack(
                   alignment: Alignment.center,
                   children: [
-                    if (!store.isRecording) ComposeActionButtons(),
+                    if (!store.isRecording && widget.composerMode == ComposerPanelMode.conversation) ComposeActionButtons(),
                     Row(
                       children: <Widget>[
                         Expanded(
@@ -49,6 +55,7 @@ class _PanelMessageComposeState extends State<PanelMessageCompose> {
                                 ? Recorder(store: store)
                                 : ComposerInput(controller: _controller)),
                         SendButton(
+                            composerMode: widget.composerMode,
                             textEditcontroller: _controller,
                             scrollController: widget.controller)
                       ],

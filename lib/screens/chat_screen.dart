@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:iconapp/stores/comments/comments_store.dart';
+import 'package:iconapp/widgets/comments/comments_bottom_sheet.dart';
 import 'package:iconapp/widgets/comments/comments_fab.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import '../widgets/chat/chat_list.dart';
 import '../widgets/chat/chat_welcome_dialog.dart';
@@ -121,9 +124,21 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                   bottom: 16,
                   left: 16,
                   child: CommentsFab(
-                    count:1000,
+                    count: 1000,
                     onTap: () {
-                      // open comments drawer
+                      sl<CommentsStore>().setCommentsViewed();
+                      return showCupertinoModalBottomSheet(
+                        backgroundColor: Colors.transparent,
+                        closeProgressThreshold: 10,
+                        transitionBackgroundColor: Colors.transparent,
+                        duration: const Duration(milliseconds: 300),
+                        expand: false,
+                        context: context,
+                        builder: (context, scrollController) =>
+                            CommentsBottomSheet(
+                          controller: _controller,
+                        ),
+                      );
                     },
                   )),
             _showWelcomeDialog(_chat.conversation?.name ?? ''),
@@ -148,7 +163,10 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
         case ComposerMode.viewer:
           return Container();
         case ComposerMode.icon:
-          return PanelMessageCompose(controller: controller);
+          return PanelMessageCompose(
+            controller: controller,
+            composerMode: ComposerPanelMode.conversation,
+          );
         case ComposerMode.subscriber:
           return PanelSubscriber();
       }

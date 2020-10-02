@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/widgets/home/conversation_tile.dart';
 import '../../core/dependencies/locator.dart';
-import '../../core/theme.dart';
 import '../../data/models/conversation_model.dart';
-import '../../data/models/message_model.dart';
 import '../../stores/home/home_store.dart';
-import '../global/hebrew_input_text.dart';
 import '../global/lottie_loader.dart';
 import '../../core/extensions/context_ext.dart';
 
@@ -40,7 +36,7 @@ class ConversationsList extends StatelessWidget {
                   padding: EdgeInsets.only(
                       bottom: context.heightPlusStatusbarPerc(.2),
                       top: context.heightPlusStatusbarPerc(.07)),
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     final conversation = store.conversations[index];
