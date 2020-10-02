@@ -25,6 +25,7 @@ abstract class Conversation with _$Conversation {
     final bool isSubscribed,
     final int numberOfAdminsRemaining,
     final int numberOfParticipants,
+    final int numberOfUnreadComments,
     final bool areNotificationsDisabled,
     final UserRole userRole,
     

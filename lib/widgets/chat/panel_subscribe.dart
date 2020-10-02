@@ -37,15 +37,17 @@ class PanelSubscriber extends StatelessWidget {
           IgnorePointer(
             ignoring: store.isSubscribing,
             child: Container(
-              color: white,
+              color: darkIndigo2,
               height: 79.7,
               child: Center(
-                  child: FlatButton(
-                child: CustomText('הצטרפות לקבוצה',
-                    style: chatCompose.copyWith(
-                        color: store.isSubscribing ? Colors.grey : cornflower)),
-                onPressed: () => store.subscribe(),
-              )),
+                child: FlatButton(
+                  child: CustomText('הצטרפות לקבוצה',
+                      style: chatCompose.copyWith(
+                          color:
+                              store.isSubscribing ? Colors.grey : cornflower)),
+                  onPressed: () => store.subscribe(),
+                ),
+              ),
             ),
           ),
           if (store.isSubscribing)

@@ -34,6 +34,7 @@ class _$ConversationTearOff {
       bool isSubscribed,
       int numberOfAdminsRemaining,
       int numberOfParticipants,
+      int numberOfUnreadComments,
       bool areNotificationsDisabled,
       UserRole userRole}) {
     return _Conversation(
@@ -53,6 +54,7 @@ class _$ConversationTearOff {
       isSubscribed: isSubscribed,
       numberOfAdminsRemaining: numberOfAdminsRemaining,
       numberOfParticipants: numberOfParticipants,
+      numberOfUnreadComments: numberOfUnreadComments,
       areNotificationsDisabled: areNotificationsDisabled,
       userRole: userRole,
     );
@@ -86,6 +88,7 @@ mixin _$Conversation {
   bool get isSubscribed;
   int get numberOfAdminsRemaining;
   int get numberOfParticipants;
+  int get numberOfUnreadComments;
   bool get areNotificationsDisabled;
   UserRole get userRole;
 
@@ -115,6 +118,7 @@ abstract class $ConversationCopyWith<$Res> {
       bool isSubscribed,
       int numberOfAdminsRemaining,
       int numberOfParticipants,
+      int numberOfUnreadComments,
       bool areNotificationsDisabled,
       UserRole userRole});
 
@@ -150,6 +154,7 @@ class _$ConversationCopyWithImpl<$Res> implements $ConversationCopyWith<$Res> {
     Object isSubscribed = freezed,
     Object numberOfAdminsRemaining = freezed,
     Object numberOfParticipants = freezed,
+    Object numberOfUnreadComments = freezed,
     Object areNotificationsDisabled = freezed,
     Object userRole = freezed,
   }) {
@@ -186,6 +191,9 @@ class _$ConversationCopyWithImpl<$Res> implements $ConversationCopyWith<$Res> {
       numberOfParticipants: numberOfParticipants == freezed
           ? _value.numberOfParticipants
           : numberOfParticipants as int,
+      numberOfUnreadComments: numberOfUnreadComments == freezed
+          ? _value.numberOfUnreadComments
+          : numberOfUnreadComments as int,
       areNotificationsDisabled: areNotificationsDisabled == freezed
           ? _value.areNotificationsDisabled
           : areNotificationsDisabled as bool,
@@ -258,6 +266,7 @@ abstract class _$ConversationCopyWith<$Res>
       bool isSubscribed,
       int numberOfAdminsRemaining,
       int numberOfParticipants,
+      int numberOfUnreadComments,
       bool areNotificationsDisabled,
       UserRole userRole});
 
@@ -299,6 +308,7 @@ class __$ConversationCopyWithImpl<$Res> extends _$ConversationCopyWithImpl<$Res>
     Object isSubscribed = freezed,
     Object numberOfAdminsRemaining = freezed,
     Object numberOfParticipants = freezed,
+    Object numberOfUnreadComments = freezed,
     Object areNotificationsDisabled = freezed,
     Object userRole = freezed,
   }) {
@@ -335,6 +345,9 @@ class __$ConversationCopyWithImpl<$Res> extends _$ConversationCopyWithImpl<$Res>
       numberOfParticipants: numberOfParticipants == freezed
           ? _value.numberOfParticipants
           : numberOfParticipants as int,
+      numberOfUnreadComments: numberOfUnreadComments == freezed
+          ? _value.numberOfUnreadComments
+          : numberOfUnreadComments as int,
       areNotificationsDisabled: areNotificationsDisabled == freezed
           ? _value.areNotificationsDisabled
           : areNotificationsDisabled as bool,
@@ -364,6 +377,7 @@ class _$_Conversation implements _Conversation {
       this.isSubscribed,
       this.numberOfAdminsRemaining,
       this.numberOfParticipants,
+      this.numberOfUnreadComments,
       this.areNotificationsDisabled,
       this.userRole});
 
@@ -403,13 +417,15 @@ class _$_Conversation implements _Conversation {
   @override
   final int numberOfParticipants;
   @override
+  final int numberOfUnreadComments;
+  @override
   final bool areNotificationsDisabled;
   @override
   final UserRole userRole;
 
   @override
   String toString() {
-    return 'Conversation(id: $id, backgroundColor: $backgroundColor, backgroundPhoto: $backgroundPhoto, categoryId: $categoryId, createdBy: $createdBy, isPinned: $isPinned, createdAt: $createdAt, name: $name, photo: $photo, lastMessage: $lastMessage, numberOfUnreadMessages: $numberOfUnreadMessages, users: $users, messages: $messages, isSubscribed: $isSubscribed, numberOfAdminsRemaining: $numberOfAdminsRemaining, numberOfParticipants: $numberOfParticipants, areNotificationsDisabled: $areNotificationsDisabled, userRole: $userRole)';
+    return 'Conversation(id: $id, backgroundColor: $backgroundColor, backgroundPhoto: $backgroundPhoto, categoryId: $categoryId, createdBy: $createdBy, isPinned: $isPinned, createdAt: $createdAt, name: $name, photo: $photo, lastMessage: $lastMessage, numberOfUnreadMessages: $numberOfUnreadMessages, users: $users, messages: $messages, isSubscribed: $isSubscribed, numberOfAdminsRemaining: $numberOfAdminsRemaining, numberOfParticipants: $numberOfParticipants, numberOfUnreadComments: $numberOfUnreadComments, areNotificationsDisabled: $areNotificationsDisabled, userRole: $userRole)';
   }
 
   @override
@@ -461,6 +477,9 @@ class _$_Conversation implements _Conversation {
             (identical(other.numberOfParticipants, numberOfParticipants) ||
                 const DeepCollectionEquality().equals(
                     other.numberOfParticipants, numberOfParticipants)) &&
+            (identical(other.numberOfUnreadComments, numberOfUnreadComments) ||
+                const DeepCollectionEquality().equals(
+                    other.numberOfUnreadComments, numberOfUnreadComments)) &&
             (identical(
                     other.areNotificationsDisabled, areNotificationsDisabled) ||
                 const DeepCollectionEquality().equals(
@@ -490,6 +509,7 @@ class _$_Conversation implements _Conversation {
       const DeepCollectionEquality().hash(isSubscribed) ^
       const DeepCollectionEquality().hash(numberOfAdminsRemaining) ^
       const DeepCollectionEquality().hash(numberOfParticipants) ^
+      const DeepCollectionEquality().hash(numberOfUnreadComments) ^
       const DeepCollectionEquality().hash(areNotificationsDisabled) ^
       const DeepCollectionEquality().hash(userRole);
 
@@ -521,6 +541,7 @@ abstract class _Conversation implements Conversation {
       bool isSubscribed,
       int numberOfAdminsRemaining,
       int numberOfParticipants,
+      int numberOfUnreadComments,
       bool areNotificationsDisabled,
       UserRole userRole}) = _$_Conversation;
 
@@ -559,6 +580,8 @@ abstract class _Conversation implements Conversation {
   int get numberOfAdminsRemaining;
   @override
   int get numberOfParticipants;
+  @override
+  int get numberOfUnreadComments;
   @override
   bool get areNotificationsDisabled;
   @override

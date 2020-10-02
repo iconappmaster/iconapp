@@ -41,6 +41,62 @@ mixin _$CommentsStore on _CommentsStoreBase, Store {
         .run(() => super.getComments(conversationId));
   }
 
+  final _$_setCommentsViewedAsyncAction =
+      AsyncAction('_CommentsStoreBase._setCommentsViewed');
+
+  @override
+  Future<dynamic> _setCommentsViewed() {
+    return _$_setCommentsViewedAsyncAction
+        .run(() => super._setCommentsViewed());
+  }
+
+  final _$_CommentsStoreBaseActionController =
+      ActionController(name: '_CommentsStoreBase');
+
+  @override
+  void setComments(List<MessageModel> comments) {
+    final _$actionInfo = _$_CommentsStoreBaseActionController.startAction(
+        name: '_CommentsStoreBase.setComments');
+    try {
+      return super.setComments(comments);
+    } finally {
+      _$_CommentsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void watchMessages() {
+    final _$actionInfo = _$_CommentsStoreBaseActionController.startAction(
+        name: '_CommentsStoreBase.watchMessages');
+    try {
+      return super.watchMessages();
+    } finally {
+      _$_CommentsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void watchCommentCount() {
+    final _$actionInfo = _$_CommentsStoreBaseActionController.startAction(
+        name: '_CommentsStoreBase.watchCommentCount');
+    try {
+      return super.watchCommentCount();
+    } finally {
+      _$_CommentsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void diospoe() {
+    final _$actionInfo = _$_CommentsStoreBaseActionController.startAction(
+        name: '_CommentsStoreBase.diospoe');
+    try {
+      return super.diospoe();
+    } finally {
+      _$_CommentsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''

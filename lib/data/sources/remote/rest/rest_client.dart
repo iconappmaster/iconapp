@@ -12,7 +12,7 @@ part 'rest_client.g.dart';
 const String baseUrlProd = 'https://iconproduction.herokuapp.com/api/v1/';
 const String baseUrlStaging = 'https://iconstaging.herokuapp.com/api/v1/';
 
-@RestApi(baseUrl: baseUrlProd)
+@RestApi(baseUrl: baseUrlStaging)
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
@@ -134,6 +134,8 @@ abstract class RestClient {
 
   @POST('stories/add_to_story')
   Future<StoryModel> publishStory(@Body() StoryModel story);
+
+  
 }
 
 Dio getDioClient() {

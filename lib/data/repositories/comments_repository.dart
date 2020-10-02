@@ -18,6 +18,16 @@ class CommentsRepositoryImpl implements CommentsRepository {
   Stream<MessageModel> watchComments() {
     throw UnimplementedError();
   }
+
+  @override
+  Future commentsViewd(int conversationId) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Stream<int> watchCommentsCount() {
+    throw UnimplementedError();
+  }
 }
 
 abstract class CommentsRepository {
@@ -27,6 +37,12 @@ abstract class CommentsRepository {
   // will get all the comments for a conversation (used for init the comments)
   Future<List<MessageModel>> getComments(int conversationId);
 
+  // show that the user viewed the conversation
+  Future commentsViewd(int conversationId);
+
   // will listen on the socket for new comments
   Stream<MessageModel> watchComments();
+
+  // comments count
+  Stream<int> watchCommentsCount();
 }
