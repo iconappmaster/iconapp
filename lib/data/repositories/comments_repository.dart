@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
+import 'package:iconapp/data/sources/socket/socket_manager.dart';
 
 abstract class CommentsRepository {
   // api to send a comment
@@ -9,7 +11,7 @@ abstract class CommentsRepository {
   Future<List<MessageModel>> getComments(int conversationId);
 
   // show that the user viewed the conversation
-  Future commentsViewd(int conversationId);
+  Future viewedComments(int conversationId);
 
   // will listen on the socket for new comments
   Stream<MessageModel> watchComments();
@@ -20,29 +22,35 @@ abstract class CommentsRepository {
 
 class CommentsRepositoryImpl implements CommentsRepository {
   final RestClient client;
+  final Socket socket;
 
-  CommentsRepositoryImpl({this.client});
+  CommentsRepositoryImpl({
+    @required this.socket,
+    @required this.client,
+  });
 
   @override
-  Future sendComment(int conversationId, MessageModel comment) async {}
+  Future sendComment(int conversationId, MessageModel comment) async {
+    return client.sendComment(conversationId, comment);
+  }
 
   @override
-  Future<List<MessageModel>> getComments(int conversationId) {
-    throw UnimplementedError();
+  Future<List<MessageModel>> getComments(int conversationId) async {
+    return client.getCommentByConversationId(conversationId);
   }
 
   @override
   Stream<MessageModel> watchComments() {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future commentsViewd(int conversationId) {
-    throw UnimplementedError();
+    return socket.commentsSubject;
   }
 
   @override
   Stream<int> watchCommentsCount() {
-    throw UnimplementedError();
+    return socket.commentsCountSubject;
+  }
+
+  @override
+  Future viewedComments(int conversationId) async {
+    return await client.viewedComments(conversationId);
   }
 }

@@ -92,17 +92,17 @@ class ChatRepositoryImpl implements ChatRepository {
 
   @override
   Stream<MessageModel> watchMessages() {
-    return socket.messageObserver;
+    return socket.messageSubject;
   }
 
   @override
   Stream<MessageModel> watchAddLike() {
-    return socket.addedLikeObserver;
+    return socket.addedLikeSubject;
   }
 
   @override
   Stream<MessageModel> watchRemoveLike() {
-    return socket.removeLikeObserver;
+    return socket.removeLikeSubject;
   }
 
   @override

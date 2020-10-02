@@ -54,7 +54,7 @@ class StoryRepositoryImpl implements StoryRepository {
 
   @override
   Stream<StoryModel> watchStories() {
-    return socket.storyObserver;
+    return socket.storySubject;
   }
 
   @override

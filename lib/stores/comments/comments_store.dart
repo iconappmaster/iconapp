@@ -36,6 +36,9 @@ abstract class _CommentsStoreBase with Store {
   bool _isLoading = false;
 
   @computed
+  bool get loading => _isLoading;
+
+  @computed
   List<MessageModel> get comments => _comments;
 
   @action
@@ -66,7 +69,7 @@ abstract class _CommentsStoreBase with Store {
   Future setCommentsViewed() async {
     try {
       final conversationId = _chat.conversation.id;
-      await _repository.commentsViewd(conversationId);
+      await _repository.viewedComments(conversationId);
     } on ServerError catch (e) {
       Crash.report(e.message);
     }
@@ -112,7 +115,7 @@ abstract class _CommentsStoreBase with Store {
             await _repository.sendComment(_chat.conversation.id, comment);
 
         // update the id and set the message
-        final index = _comments.indexWhere((m) => m.id == comment.id);
+        final index = _comments.indexWhere((c) => c.id == comment.id);
         _comments[index] = comment.copyWith(id: remote.id);
 
         // reset the comment input

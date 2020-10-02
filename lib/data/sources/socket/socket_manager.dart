@@ -14,22 +14,29 @@ import 'package:rxdart/subjects.dart';
 
 const PUSHER_KEY = '18aa056f999a0341c053';
 
+// Channels 
+const homeChannelName = 'home';
+const commentChannelName = 'comments';
+
+// Events
 const messagesEvent = 'new-message';
 const addedLikeEvent = 'added-like';
 const removedLikeEvent = 'removed-like';
-
-const homeChannelName = 'home';
-
 const conversationChangedEvent = 'conversation-changed';
 const storyChangedEvent = 'story-changed';
+const commentsEvent = 'new-comment';
+const commentsCountEvent = 'comment-count';
 
 class Socket {
-  BehaviorSubject<MessageModel> messageObserver = BehaviorSubject();
-  BehaviorSubject<MessageModel> addedLikeObserver = BehaviorSubject();
-  BehaviorSubject<MessageModel> removeLikeObserver = BehaviorSubject();
+  BehaviorSubject<MessageModel> messageSubject = BehaviorSubject();
+  BehaviorSubject<MessageModel> addedLikeSubject = BehaviorSubject();
+  BehaviorSubject<MessageModel> removeLikeSubject = BehaviorSubject();
 
-  BehaviorSubject<Conversation> homeConversationObserver = BehaviorSubject();
-  BehaviorSubject<StoryModel> storyObserver = BehaviorSubject();
+  BehaviorSubject<Conversation> homeConversationSubject = BehaviorSubject();
+  BehaviorSubject<StoryModel> storySubject = BehaviorSubject();
+
+  BehaviorSubject<MessageModel> commentsSubject = BehaviorSubject();
+  BehaviorSubject<int> commentsCountSubject = BehaviorSubject.seeded(0);
 
   Channel _channel;
 
@@ -59,12 +66,13 @@ class Socket {
     await Pusher.unsubscribe(conversationId.toString());
   }
 
+  // Home
   void bindStoryChangeEvent() {
     _channel.bind(storyChangedEvent, (event) {
       final json = jsonDecode(event.data);
       final story = StoryModel.fromJson(json);
 
-      if (story != null) storyObserver.add(story);
+      if (story != null) storySubject.add(story);
     });
   }
 
@@ -73,10 +81,11 @@ class Socket {
       final json = jsonDecode(event.data);
       final conversation = Conversation.fromJson(json);
 
-      if (conversation != null) homeConversationObserver.add(conversation);
+      if (conversation != null) homeConversationSubject.add(conversation);
     });
   }
 
+  // Conversation 
   void bindMessagesEvent() {
     _channel.bind(messagesEvent, (event) {
       final user = sl<UserStore>();
@@ -85,24 +94,40 @@ class Socket {
 
       if (message != null &&
           (!user.isMe(message.sender?.id) || _isSystemMessage(message))) {
-        messageObserver.add(message.copyWith(likeCounts: LikesCount.initial()));
+        messageSubject.add(message.copyWith(likeCounts: LikesCount.initial()));
       }
     });
   }
 
-  bool _isSystemMessage(MessageModel message) => message.sender == null;
-
+  
   void bindAddLikeEvent() {
     _channel.bind(addedLikeEvent,
-        (event) => _proccessLikeEventToMessage(addedLikeObserver, event));
+        (event) => _proccessLikeEventToMessage(addedLikeSubject, event));
   }
 
   void bindRemoveLikeEvent() {
     _channel.bind(removedLikeEvent,
-        (event) => _proccessLikeEventToMessage(removeLikeObserver, event));
+        (event) => _proccessLikeEventToMessage(removeLikeSubject, event));
   }
 
+  // Comments 
+  void bindGetCommentsEvent() {
+    _channel.bind(commentsEvent,
+        (event) => _proccessLikeEventToMessage(commentsSubject, event));
+  }
+  
+  void bindCommentsCountEvent() {
+    _channel.bind(commentsCountEvent,
+        (count) {
+          // TODO
+          final json = jsonDecode(count.data);
+          commentsCountSubject.add(json);
+        });
+  }
   // Helper
+
+  bool _isSystemMessage(MessageModel message) => message.sender == null;
+
   void _proccessLikeEventToMessage(
       BehaviorSubject<MessageModel> obeserver, Event event) {
     final json = jsonDecode(event.data);

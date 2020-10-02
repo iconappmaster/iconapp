@@ -47,13 +47,18 @@ class _PanelMessageComposeState extends State<PanelMessageCompose> {
                 builder: (_) => Stack(
                   alignment: Alignment.center,
                   children: [
-                    if (!store.isRecording && widget.composerMode == ComposerPanelMode.conversation) ComposeActionButtons(),
+                    if (!store.isRecording &&
+                        widget.composerMode == ComposerPanelMode.conversation)
+                      ComposeActionButtons(),
                     Row(
                       children: <Widget>[
                         Expanded(
                             child: store.isRecording
                                 ? Recorder(store: store)
-                                : ComposerInput(controller: _controller)),
+                                : ComposerInput(
+                                    controller: _controller,
+                                    composerPanelMode: widget.composerMode,
+                                  )),
                         SendButton(
                             composerMode: widget.composerMode,
                             textEditcontroller: _controller,

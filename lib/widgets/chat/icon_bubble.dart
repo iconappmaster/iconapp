@@ -11,6 +11,7 @@ import 'like_buuble.dart';
 
 class IconBubble extends StatefulWidget {
   final Widget child;
+  final bool showPin;
   final Function onTap;
   final Function onDoubleTap;
   final BubbleEdges padding;
@@ -28,6 +29,7 @@ class IconBubble extends StatefulWidget {
     this.padding,
     this.onEmjiTap,
     this.controller,
+    this.showPin = true,
   }) : super(key: key);
 
   @override
@@ -80,7 +82,9 @@ class _IconBubbleState extends State<IconBubble> {
                         ? Alignment.centerLeft
                         : Alignment.centerRight,
                     color: color,
-                    nip: widget.isMe ? BubbleNip.leftTop : BubbleNip.rightTop,
+                    nip: widget.showPin
+                        ? widget.isMe ? BubbleNip.leftTop : BubbleNip.rightTop
+                        : BubbleNip.no,
                     child: ConstrainedBox(
                       constraints: BoxConstraints(
                         minWidth: 80,

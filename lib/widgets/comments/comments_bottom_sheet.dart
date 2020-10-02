@@ -1,54 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/stores/comments/comments_store.dart';
 import 'package:iconapp/widgets/chat/compose/panel_compose.dart';
-
-import '../../core/extensions/context_ext.dart';
+import 'package:iconapp/widgets/chat/message_text.dart';
+import 'package:iconapp/widgets/global/lottie_loader.dart';
 
 class CommentsBottomSheet extends StatelessWidget {
-  final ScrollController controller;
+  final ScrollController chatController;
+  final ScrollController scrollController;
 
   const CommentsBottomSheet({
     Key key,
-    @required this.controller,
+    @required this.chatController,
+    @required this.scrollController,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: context.heightPx * .6),
-      child: NestedScrollView(
-          controller: ScrollController(),
-          physics: ScrollPhysics(parent: PageScrollPhysics()),
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    // Container(
-                    //   color: Colors.red,
-                    //   height: context.heightPx * .4,
-                    // ),
-                    // Container(
-                    //   color: Colors.yellow,
-                    //   height: context.heightPx * .1,
-                    // )
-                  ],
+    final store = sl<CommentsStore>();
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Expanded(
+          child: store.loading
+              ? Center(child: LottieLoader())
+              : ListView.builder(
+                  reverse: true,
+                  controller: scrollController,
+                  shrinkWrap: true,
+                  itemCount: store.comments.length,
+                  itemBuilder: (context, index) {
+                    final comment = store.comments[index];
+                    return TextMessage(
+                      showPin: false,
+                      controller: chatController,
+                      message: comment,
+                      index: index,
+                      isMe: false,
+                    );
+                  },
                 ),
-              ),
-            ];
-          },
-          body: Column(
-            children: [
-              Container(
-                color: Colors.green,
-                height: context.heightPx * .252,
-              ),
-              Material(
-                  child: PanelMessageCompose(
-                composerMode: ComposerPanelMode.comments,
-                controller: controller,
-              ))
-            ],
-          )),
+        ),
+        Material(
+          child: PanelMessageCompose(
+            composerMode: ComposerPanelMode.comments,
+            controller: chatController,
+          ),
+        ),
+      ],
     );
   }
 }

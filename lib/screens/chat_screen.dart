@@ -34,11 +34,12 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
-  AutoScrollController _controller;
+  AutoScrollController _chatController;
   bool _upDirection = false, _flag = true;
 
   ChatStore _chat;
   StoryStore _story;
+  CommentsStore _comments;
   Socket _socket;
 
   @override
@@ -47,6 +48,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
 
     _chat = sl<ChatStore>();
     _story = sl<StoryStore>();
+    _comments = sl<CommentsStore>();
     _socket = sl<Socket>();
 
     _chat
@@ -57,19 +59,22 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
 
     _story.setStoryMode(StoryMode.conversation);
 
-    _controller = AutoScrollController(
+    _chatController = AutoScrollController(
       viewportBoundaryGetter: () =>
           Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
       axis: Axis.vertical,
       suggestedRowHeight: 200,
       initialScrollOffset: 0,
     )..addListener(() {
-        _upDirection =
-            _controller.position.userScrollDirection == ScrollDirection.forward;
+        _upDirection = _chatController.position.userScrollDirection ==
+            ScrollDirection.forward;
         if (_upDirection != _flag && mounted) setState(() {});
 
         _flag = _upDirection;
       });
+
+    
+    _comments.getComments(widget.conversation.id);
 
     super.initState();
   }
@@ -99,7 +104,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                   children: <Widget>[
                     ChatAppbar(),
                     BlueDivider(color: cornflower),
-                    ChatList(scrollController: _controller),
+                    ChatList(scrollController: _chatController),
                     AnimatedSize(
                       vsync: this,
                       child: ConstrainedBox(
@@ -108,7 +113,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                                       _chat.composerMode != ComposerMode.viewer)
                                   ? 82
                                   : 0),
-                          child: initComposer(_controller)),
+                          child: initComposer(_chatController)),
                       duration: Duration(milliseconds: 450),
                       curve: Curves.easeOutBack,
                     ),
@@ -120,27 +125,28 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                 top: context.heightPlusStatusbarPerc(.09),
                 child: StoriesList(mode: _story.mode, show: !_upDirection)),
             if (_chat.composerMode != ComposerMode.icon)
-              Positioned(
-                  bottom: 16,
-                  left: 16,
-                  child: CommentsFab(
-                    count: 1000,
-                    onTap: () {
-                      sl<CommentsStore>().setCommentsViewed();
-                      return showCupertinoModalBottomSheet(
-                        backgroundColor: Colors.transparent,
-                        closeProgressThreshold: 10,
-                        transitionBackgroundColor: Colors.transparent,
-                        duration: const Duration(milliseconds: 300),
-                        expand: false,
-                        context: context,
-                        builder: (context, scrollController) =>
-                            CommentsBottomSheet(
-                          controller: _controller,
-                        ),
-                      );
-                    },
-                  )),
+              Observer(
+                builder: (_) => Positioned(
+                    bottom: 45,
+                    left: 16,
+                    child: CommentsFab(
+                      count: _chat.conversation.numberOfUnreadComments,
+                      onTap: () {
+                        sl<CommentsStore>().setCommentsViewed();
+                        return showMaterialModalBottomSheet(
+                          backgroundColor: Colors.transparent,
+                          duration: const Duration(milliseconds: 300),
+                          context: context,
+                          isDismissible: true,
+                          builder: (context, scrollController) => Padding(
+                              padding: MediaQuery.of(context).viewInsets,
+                              child: CommentsBottomSheet(
+                                  scrollController: scrollController,
+                                  chatController: _chatController)),
+                        );
+                      },
+                    )),
+              ),
             _showWelcomeDialog(_chat.conversation?.name ?? ''),
           ],
         ),

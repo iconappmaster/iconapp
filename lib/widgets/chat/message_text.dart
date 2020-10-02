@@ -20,6 +20,7 @@ class TextMessage extends StatefulWidget {
   final MessageModel message;
   final bool isMe;
   final int index;
+  final bool showPin;
   final AutoScrollController controller;
 
   const TextMessage({
@@ -28,6 +29,7 @@ class TextMessage extends StatefulWidget {
     @required this.isMe,
     @required this.index,
     @required this.controller,
+    this.showPin = true,
   }) : super(key: key);
 
   @override
@@ -83,6 +85,7 @@ class _TextMessageState extends State<TextMessage> {
           return ReplyButton(message: widget.message);
         },
         child: IconBubble(
+          showPin: widget.showPin,
           onTap: () {
             final repliedMessage = widget.message.repliedToMessage;
             if (repliedMessage != null) {

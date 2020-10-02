@@ -31,7 +31,7 @@ class HomeRepositoryImpl implements HomeRepository {
 
   @override
   Stream<Conversation> watchConversation() {
-    return socket.homeConversationObserver;
+    return socket.homeConversationSubject;
   }
 
   @override

@@ -52,7 +52,7 @@ class PanelSubscriber extends StatelessWidget {
           ),
           if (store.isSubscribing)
             Positioned(
-              left: 16,
+              right: 16,
               child: CircularProgressIndicator(
                 strokeWidth: 1,
               ),

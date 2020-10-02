@@ -26,49 +26,47 @@ class SendButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final chat = sl<ChatStore>();
     final comments = sl<CommentsStore>();
-    return Observer(
-      builder: (_) => Padding(
-        padding: const EdgeInsets.only(left: 2, right: 7.3),
-        child: SizedBox(
-          height: size,
-          width: size,
-          child: GestureDetector(
-            onLongPress: () async {
-              final granted = await Permission.microphone.request().isGranted;
-              if (granted) {
-                await Vibration.vibrate(duration: 300);
-                chat.startRecording();
+    return Padding(
+      padding: const EdgeInsets.only(left: 2, right: 7.3),
+      child: SizedBox(
+        height: size,
+        width: size,
+        child: GestureDetector(
+          onLongPress: () async {
+            final granted = await Permission.microphone.request().isGranted;
+            if (granted) {
+              await Vibration.vibrate(duration: 300);
+              chat.startRecording();
+            }
+          },
+          onLongPressEnd: (d) => chat.stopRecordingAndSend(),
+          child: FloatingActionButton(
+            heroTag: 'fab',
+            elevation: 0,
+            onPressed: () async {
+              switch (composerMode) {
+                case ComposerPanelMode.conversation:
+                  if (isMessageMode()) {
+                    textEditcontroller.clear();
+                    scrollController.jumpTo(0);
+                    chat.sendTextMessage();
+                  }
+                  break;
+                case ComposerPanelMode.comments:
+                  comments.sendComment();
+                  break;
               }
             },
-            onLongPressEnd: (d) => chat.stopRecordingAndSend(),
-            child: FloatingActionButton(
-              heroTag: 'fab',
-              elevation: 0,
-              onPressed: () async {
-                switch (composerMode) {
-                  case ComposerPanelMode.conversation:
-                    if (isMessageMode()) {
-                      textEditcontroller.clear();
-                      scrollController.jumpTo(0);
-                      chat.sendTextMessage();
-                    }
-                    break;
-                  case ComposerPanelMode.comments:
-                    comments.sendComment();
-                    break;
-                }
-              },
-              backgroundColor: sendColor,
-              child: AnimatedSwitcher(
-                duration: Duration(milliseconds: 250),
-                transitionBuilder: (child, animation) => ScaleTransition(
-                  scale: animation,
-                  child: child,
-                ),
-                child: composerMode == ComposerPanelMode.conversation
-                    ? chat.isInputEmpty ? _sendIcon() : _recordIcon()
-                    : _sendIcon(),
+            backgroundColor: sendColor,
+            child: AnimatedSwitcher(
+              duration: Duration(milliseconds: 250),
+              transitionBuilder: (child, animation) => ScaleTransition(
+                scale: animation,
+                child: child,
               ),
+              child: composerMode == ComposerPanelMode.conversation
+                  ? chat.isInputEmpty ? _sendIcon() : _recordIcon()
+                  : _sendIcon(),
             ),
           ),
         ),
