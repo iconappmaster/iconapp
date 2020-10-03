@@ -132,5 +132,9 @@ void initLocator() {
   // Comments
   sl.registerLazySingleton<CommentsStore>(() => CommentsStore());
   sl.registerLazySingleton<CommentsRepository>(
-      () => CommentsRepositoryImpl(client: sl()));
+    () => CommentsRepositoryImpl(
+      client: sl(),
+      socket: sl(),
+    ),
+  );
 }

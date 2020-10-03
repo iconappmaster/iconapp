@@ -2,6 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:iconapp/screens/chat_screen.dart';
+import 'package:iconapp/widgets/comments/comments_appbar_icon.dart';
 import 'chat_back_button.dart';
 import '../../core/dependencies/locator.dart';
 import '../../routes/router.gr.dart';
@@ -39,6 +41,12 @@ class ChatAppbar extends StatelessWidget {
                   ],
                 ),
               ),
+              SizedBox(width: 8),
+              CommentsAppBarIcon(
+                onTap: () => showCommentsDialog(context),
+                count: store.conversation?.numberOfUnreadComments ?? 0,
+              ),
+              SizedBox(width: 8),
               Observer(builder: (_) {
                 final pinSize = 30.0;
                 return InkResponse(

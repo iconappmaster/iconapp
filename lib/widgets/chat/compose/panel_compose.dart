@@ -12,12 +12,12 @@ import '../../../core/theme.dart';
 enum ComposerPanelMode { conversation, comments }
 
 class PanelMessageCompose extends StatefulWidget {
-  final ScrollController controller;
+  final ScrollController scrollController;
   final ComposerPanelMode composerMode;
 
   const PanelMessageCompose({
     Key key,
-    @required this.controller,
+    @required this.scrollController,
     @required this.composerMode,
   }) : super(key: key);
   @override
@@ -25,7 +25,7 @@ class PanelMessageCompose extends StatefulWidget {
 }
 
 class _PanelMessageComposeState extends State<PanelMessageCompose> {
-  TextEditingController _controller = TextEditingController();
+  TextEditingController _textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -56,13 +56,14 @@ class _PanelMessageComposeState extends State<PanelMessageCompose> {
                             child: store.isRecording
                                 ? Recorder(store: store)
                                 : ComposerInput(
-                                    controller: _controller,
+                                    controller: _textController,
                                     composerPanelMode: widget.composerMode,
                                   )),
                         SendButton(
-                            composerMode: widget.composerMode,
-                            textEditcontroller: _controller,
-                            scrollController: widget.controller)
+                          composerMode: widget.composerMode,
+                          textEditcontroller: _textController,
+                          scrollController: widget.scrollController,
+                        )
                       ],
                     ),
                   ],

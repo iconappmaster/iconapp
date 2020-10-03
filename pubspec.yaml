@@ -35,19 +35,14 @@ dependencies:
   cached_network_image: ^2.3.2+1
   flutter_svg: ^0.19.0
   lottie: ^0.6.0
-  # animations: ^1.1.2
-  # simple_animations: ^2.2.2
-  # device_simulator: ^0.9.6
   flushbar: ^1.10.4
   image_picker: ^0.6.7+11
   easy_localization: ^2.3.3
   pin_code_fields: ^5.1.0
-  
   modal_bottom_sheet: ^0.2.2
   vibration: ^1.5.0
   flutter_cache_manager: ^1.4.2
   flutter_swiper: ^1.1.6
- 
   video_player: ^0.10.12+4
   audioplayers: ^0.16.1
   permission_handler: ^5.0.1+1
@@ -58,7 +53,6 @@ dependencies:
   video_compress: ^2.0.0
   video_thumbnail: ^0.2.2
   file_picker: ^2.0.3
-
 
 dev_dependencies:
   flutter_test:

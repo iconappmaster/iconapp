@@ -30,9 +30,7 @@ class StoriesList extends StatefulWidget {
     @required this.mode,
     this.margin,
     this.show = false,
-  }) : super(key: key) {
-    sl<StoryStore>().refreshStories();
-  }
+  }) : super(key: key);
 
   @override
   _StoriesListState createState() => _StoriesListState();

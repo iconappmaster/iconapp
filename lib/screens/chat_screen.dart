@@ -44,20 +44,24 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    initSocket();
+    _initDependencies();
+    _initSocket();
 
-    _chat = sl<ChatStore>();
-    _story = sl<StoryStore>();
-    _comments = sl<CommentsStore>();
-    _socket = sl<Socket>();
-
+    // init storey
     _chat
       ..init(widget.conversation)
       ..watchMessages()
       ..watchAddLike()
       ..watchRemoveLike();
 
+    // init story
     _story.setStoryMode(StoryMode.conversation);
+
+    // init comments
+    _comments
+      ..getComments(widget.conversation.id)
+      ..watchCommentCount()
+      ..watchMessages();
 
     _chatController = AutoScrollController(
       viewportBoundaryGetter: () =>
@@ -73,14 +77,17 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
         _flag = _upDirection;
       });
 
-    
-    _comments.getComments(widget.conversation.id);
-
     super.initState();
   }
 
-  Future initSocket() async {
+  void _initDependencies() {
+    _chat = sl<ChatStore>();
+    _story = sl<StoryStore>();
+    _comments = sl<CommentsStore>();
     _socket = sl<Socket>();
+  }
+
+  Future _initSocket() async {
     await _socket.subscribeChannel(widget.conversation.id.toString());
 
     _socket
@@ -131,20 +138,9 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                     left: 16,
                     child: CommentsFab(
                       count: _chat.conversation.numberOfUnreadComments,
-                      onTap: () {
-                        sl<CommentsStore>().setCommentsViewed();
-                        return showMaterialModalBottomSheet(
-                          backgroundColor: Colors.transparent,
-                          duration: const Duration(milliseconds: 300),
-                          context: context,
-                          isDismissible: true,
-                          builder: (context, scrollController) => Padding(
-                              padding: MediaQuery.of(context).viewInsets,
-                              child: CommentsBottomSheet(
-                                  scrollController: scrollController,
-                                  chatController: _chatController)),
-                        );
-                      },
+                      onTap: () => showCommentsDialog(
+                        context,
+                      ),
                     )),
               ),
             _showWelcomeDialog(_chat.conversation?.name ?? ''),
@@ -170,7 +166,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
           return Container();
         case ComposerMode.icon:
           return PanelMessageCompose(
-            controller: controller,
+            scrollController: controller,
             composerMode: ComposerPanelMode.conversation,
           );
         case ComposerMode.subscriber:
@@ -186,4 +182,17 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     _socket.unsubscribeChannel(widget.conversation.id);
     super.dispose();
   }
+}
+
+Future showCommentsDialog(BuildContext context) {
+  sl<CommentsStore>().setCommentsViewed();
+  return showMaterialModalBottomSheet(
+    backgroundColor: Colors.transparent,
+    duration: const Duration(milliseconds: 300),
+    context: context,
+    isDismissible: true,
+    builder: (context, scrollController) => Padding(
+        padding: MediaQuery.of(context).viewInsets,
+        child: CommentsBottomSheet(scrollController: scrollController)),
+  );
 }

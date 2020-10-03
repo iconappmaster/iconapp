@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/global/bouncing.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 
@@ -16,6 +18,7 @@ class CommentsFab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final chat = sl<ChatStore>();
     return BouncingGestureDetector(
       onPressed: onTap,
       child: Stack(children: [
@@ -37,25 +40,26 @@ class CommentsFab extends StatelessWidget {
             ),
           ),
         ),
-        Positioned(
-          top: 0,
-          right: 0,
-          child: Container(
-            height: 25,
-            width: 25,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: redPinkGradient,
-            ),
-            child: Center(
-              child: CustomText(
-                count < 999 ? count.toString() : "1k+",
-                maxLines: 1,
-                style: newMessageNumber,
+        if (chat.conversation.numberOfUnreadComments > 0)
+          Positioned(
+            top: 0,
+            right: 0,
+            child: Container(
+              height: 25,
+              width: 25,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: redPinkGradient,
+              ),
+              child: Center(
+                child: CustomText(
+                  count < 999 ? count.toString() : "1k+",
+                  maxLines: 1,
+                  style: newMessageNumber,
+                ),
               ),
             ),
-          ),
-        )
+          )
       ]),
     );
   }

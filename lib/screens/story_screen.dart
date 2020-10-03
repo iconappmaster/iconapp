@@ -86,13 +86,15 @@ class _StoryScreenState extends State<StoryScreen> {
                       ExtendedNavigator.of(context).pop();
                     }
                   },
-                  onStoryShow: (s) => _store.onStoryImageViewed(s?.imageId ?? 0),
+                  onStoryShow: (s) =>
+                      _store.onStoryImageViewed(s?.imageId ?? 0),
                   storyItems: story.storyImages
                       .map((storyImage) => storyImage.imageType ==
                               MediaType.photo.toString().parseEnum()
                           ? StoryItem.inlineImage(
                               imageId: storyImage.id,
-                              duration: Duration(seconds: storyImage?.duration ?? 7),
+                              duration:
+                                  Duration(seconds: storyImage?.duration ?? 7),
                               url: storyImage?.photo?.url ?? '',
                               caption: Text(storyImage?.description ?? '',
                                   style: settingsAppbarTitle),
@@ -152,7 +154,6 @@ class _StoryScreenState extends State<StoryScreen> {
   @override
   void dispose() {
     _clearDebouncer();
-    _store.refreshStories();
     super.dispose();
   }
 }

@@ -55,7 +55,7 @@ class AppSettingsScreen extends StatelessWidget {
             ),
           ),
           Positioned(
-              bottom: 15,
+              bottom: 25,
               child: CustomText('Developed by Idan Ayalon',
                   style: chatMessageBody.copyWith(color: Colors.black))),
         ],

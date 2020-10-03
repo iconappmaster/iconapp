@@ -277,6 +277,13 @@ final purpleGradient = LinearGradient(colors: [
   darkIndigo,
 ], begin: Alignment.bottomRight, end: Alignment.topLeft);
 
+
+final commentsGradient = LinearGradient(colors: [
+  darkIndigo,
+  grape,
+], begin: Alignment.bottomRight, end: Alignment.topLeft);
+
+
 final redPinkGradient = LinearGradient(colors: [
   lightishRed,
   pinkRed,

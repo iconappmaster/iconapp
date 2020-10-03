@@ -19,6 +19,10 @@ class IconBubble extends StatefulWidget {
   final MessageModel message;
   final Function onEmjiTap;
   final AutoScrollController controller;
+  final Color forcedColord;
+  final bool hideEmoji;
+  final bool hideAvatar;
+
   const IconBubble({
     Key key,
     @required this.child,
@@ -30,6 +34,9 @@ class IconBubble extends StatefulWidget {
     this.onEmjiTap,
     this.controller,
     this.showPin = true,
+    this.forcedColord,
+    this.hideEmoji = false,
+    this.hideAvatar = false,
   }) : super(key: key);
 
   @override
@@ -49,9 +56,11 @@ class _IconBubbleState extends State<IconBubble> {
 
   @override
   Widget build(BuildContext context) {
-    final color = widget.message.status == MessageStatus.pending
-        ? blueBerry
-        : widget.isMe ? darkIndigo2 : blueberry2;
+    final color = widget.forcedColord != null
+        ? widget.forcedColord
+        : widget.message.status == MessageStatus.pending
+            ? blueBerry
+            : widget.isMe ? darkIndigo2 : blueberry2;
 
     final horizontalLikePadding = EdgeInsets.symmetric(horizontal: 3);
     return Column(
@@ -60,7 +69,7 @@ class _IconBubbleState extends State<IconBubble> {
           mainAxisAlignment:
               widget.isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
           children: [
-            if (widget.isMe)
+            if (!widget.hideEmoji && widget.isMe)
               EmojiPlus(
                 isMe: widget.isMe,
                 message: widget.message,
@@ -101,7 +110,8 @@ class _IconBubbleState extends State<IconBubble> {
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              if (widget.message.messageType ==
+                              if (!widget.hideAvatar &&
+                                  widget.message.messageType ==
                                       MessageType.text &&
                                   !widget.isMe)
                                 Padding(
@@ -128,7 +138,7 @@ class _IconBubbleState extends State<IconBubble> {
                 ],
               ),
             ),
-            if (!widget.isMe)
+            if (!widget.hideEmoji && !widget.isMe)
               EmojiPlus(
                 likeAsset: widget.message?.likeType,
                 isMe: widget.isMe,

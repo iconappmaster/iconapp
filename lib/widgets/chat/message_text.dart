@@ -17,10 +17,13 @@ import '../global/slidable/slidable.dart';
 import '../../core/extensions/int_ext.dart';
 
 class TextMessage extends StatefulWidget {
+  final bool hideEmoji;
+  final bool hideAvatar;
   final MessageModel message;
   final bool isMe;
   final int index;
   final bool showPin;
+  final Color forcedColor;
   final AutoScrollController controller;
 
   const TextMessage({
@@ -30,6 +33,9 @@ class TextMessage extends StatefulWidget {
     @required this.index,
     @required this.controller,
     this.showPin = true,
+    this.forcedColor,
+    this.hideEmoji = false,
+    this.hideAvatar = false,
   }) : super(key: key);
 
   @override
@@ -85,6 +91,8 @@ class _TextMessageState extends State<TextMessage> {
           return ReplyButton(message: widget.message);
         },
         child: IconBubble(
+          hideAvatar: widget.hideAvatar,
+          hideEmoji: widget.hideEmoji,
           showPin: widget.showPin,
           onTap: () {
             final repliedMessage = widget.message.repliedToMessage;

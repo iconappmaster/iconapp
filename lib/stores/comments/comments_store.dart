@@ -39,7 +39,7 @@ abstract class _CommentsStoreBase with Store {
   bool get loading => _isLoading;
 
   @computed
-  List<MessageModel> get comments => _comments;
+  List<MessageModel> get comments => _comments.reversed.toList();
 
   @action
   void setComments(List<MessageModel> comments) {
@@ -111,12 +111,12 @@ abstract class _CommentsStoreBase with Store {
 
         _comments.add(comment);
 
-        final remote =
-            await _repository.sendComment(_chat.conversation.id, comment);
+        // final remote =
+        //     await _repository.sendComment(_chat.conversation.id, comment);
 
-        // update the id and set the message
-        final index = _comments.indexWhere((c) => c.id == comment.id);
-        _comments[index] = comment.copyWith(id: remote.id);
+        // // update the id and set the message
+        // final index = _comments.indexWhere((c) => c.id == comment.id);
+        // _comments[index] = comment.copyWith(id: remote.id);
 
         // reset the comment input
         _commentInput = '';
