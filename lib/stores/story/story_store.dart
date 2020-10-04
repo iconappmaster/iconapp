@@ -4,6 +4,7 @@ import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/models/story_model.dart';
 import 'package:iconapp/data/repositories/story_repository.dart';
+import 'package:iconapp/domain/core/errors.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/story/story_list.dart';
@@ -41,38 +42,24 @@ abstract class _StoryStoreBase with Store {
   @computed
   StoryMode get mode => _mode;
 
+  //  if the user is an icon show the add button
   @computed
   bool get showAddButton => _user.getUser.isIcon;
 
+  // get all stories in reveresed order
   @computed
-  List<StoryModel> get getStories => _stories.reversed.toList();
+  List<StoryModel> get stories => _stories.reversed.toList();
 
-  @action
-  Future onStoryImageViewed(int imageId) async {
-    try {
-      _repository.viewedStoryImage(imageId);
-    } on Exception catch (e) {
-      Crash.report(e.toString());
-    }
-  }
+  // wil lget the users story
+  @computed
+  StoryModel get usersStory => _stories.firstWhere((s) => s.user.id.isMe);
 
   @action
   void setStoryMode(StoryMode mode) {
     _mode = mode;
   }
 
-  @action
-  Future getHomeStories() async {
-    _mode = StoryMode.home;
-    try {
-      final stories = await _repository.getHomeStories();
-      if (_stories.isNotEmpty) _stories.clear();
-      _stories.addAll(stories);
-    } on Exception catch (e) {
-      print(e);
-    }
-  }
-
+  // listen to stream of stories
   @action
   void watchStories() {
     _storyChangeSubscription = _repository.watchStories().listen((story) {
@@ -89,15 +76,31 @@ abstract class _StoryStoreBase with Store {
     });
   }
 
-  @action
-  Future getConversationsStories(int conversationId) async {
-    _mode = StoryMode.conversation;
-    final stories = await _repository.getConversationsStories(conversationId);
-    setStories(stories);
-  }
-
+  /// refresh the stories based on the [StoryMode]
   @action
   Future refreshStories() async {
+    Future getConversationsStories(int conversationId) async {
+      _mode = StoryMode.conversation;
+      try {
+        final stories =
+            await _repository.getConversationsStories(conversationId);
+        setStories(stories);
+      } on ServerError catch (e) {
+        Crash.report(e.message);
+      }
+    }
+    
+    Future getHomeStories() async {
+      _mode = StoryMode.home;
+      try {
+        final stories = await _repository.getHomeStories();
+        if (_stories.isNotEmpty) _stories.clear();
+        _stories.addAll(stories);
+      } on ServerError catch (e) {
+        Crash.report(e.message);
+      }
+    }
+
     switch (mode) {
       case StoryMode.home:
         getHomeStories();
@@ -109,12 +112,25 @@ abstract class _StoryStoreBase with Store {
     }
   }
 
+  // when a user views an image mark it as seen. if the user has seen all the photos
+  // then the story will be marked as seen.
+  @action
+  Future onStoryImageViewed(int imageId) async {
+    try {
+      _repository.viewedStoryImage(imageId);
+    } on ServerError catch (e) {
+      Crash.report(e.message);
+    }
+  }
+
+  // set the stories and update the ui
   @action
   void setStories(List<StoryModel> stories) {
     _stories.clear();
     _stories.addAll(stories);
   }
 
+  
   @action
   void addStory(StoryModel story) {
     _stories.add(story);
@@ -125,9 +141,6 @@ abstract class _StoryStoreBase with Store {
     final index = _stories.indexOf((s) => s.id == story.id);
     if (index != -1) _stories[index] = story;
   }
-
-  @computed
-  StoryModel get getMyStory => _stories.firstWhere((s) => s.user.id.isMe);
 
   void dispose() {
     _storyChangeSubscription?.cancel();

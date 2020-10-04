@@ -43,9 +43,9 @@ class _StoryScreenState extends State<StoryScreen> {
 
     // get the index of the current stroy
     final index =
-        _store.getStories.indexWhere((s) => s.id == widget.currentStory.id);
+        _store.stories.indexWhere((s) => s.id == widget.currentStory.id);
 
-    _allStories = _store.getStories;
+    _allStories = _store.stories;
 
     if (_allStories.length > 1) {
       swap(_allStories, index, 0);

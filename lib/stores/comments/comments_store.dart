@@ -111,12 +111,17 @@ abstract class _CommentsStoreBase with Store {
 
         _comments.add(comment);
 
-        // final remote =
-        //     await _repository.sendComment(_chat.conversation.id, comment);
+        var remoteComment =
+            await _repository.sendComment(_chat.conversation.id, comment);
+
+        remoteComment = remoteComment.copyWith(
+          messageType: MessageType.text,
+          likeCounts: LikesCount.initial(),
+        );
 
         // // update the id and set the message
-        // final index = _comments.indexWhere((c) => c.id == comment.id);
-        // _comments[index] = comment.copyWith(id: remote.id);
+        final index = _comments.indexWhere((c) => c.id == comment.id);
+        _comments[index] = comment.copyWith(id: remoteComment.id);
 
         // reset the comment input
         _commentInput = '';

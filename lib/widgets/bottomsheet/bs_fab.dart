@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../core/dependencies/locator.dart';
 import '../../core/theme.dart';
@@ -21,28 +20,26 @@ class BottomSheetFab extends StatelessWidget {
     final iconStore = sl<CreateIconStore>();
     final categoryStore = sl<CreateCategoryStore>();
     final home = sl<HomeStore>();
-    return Observer(
-      builder: (_) => Positioned(
-        left: context.widthPx * .069,
-        bottom: 26,
-        child: SizedBox(
-          height: 53,
-          width: 53,
-          child: FloatingActionButton(
-            heroTag: 'fab3',
-            elevation: 3,
-            child: SvgPicture.asset('assets/images/plus.svg',
-                height: 20.3, width: 20.3),
-            backgroundColor: cornflower,
-            onPressed: () async {
-              if (!home.isLoading) {
-                iconStore.clear();
-                categoryStore.clear();
-                return ExtendedNavigator.of(context)
-                    .pushSelectIconScreen(mode: SelectIconMode.fromGroup);
-              }
-            },
-          ),
+    return Positioned(
+      left: context.widthPx * .069,
+      bottom: 26,
+      child: SizedBox(
+        height: 53,
+        width: 53,
+        child: FloatingActionButton(
+          heroTag: 'fab3',
+          elevation: 3,
+          child: SvgPicture.asset('assets/images/plus.svg',
+              height: 20.3, width: 20.3),
+          backgroundColor: cornflower,
+          onPressed: () async {
+            if (!home.isLoading) {
+              iconStore.clear();
+              categoryStore.clear();
+              return ExtendedNavigator.of(context)
+                  .pushSelectIconScreen(mode: SelectIconMode.fromGroup);
+            }
+          },
         ),
       ),
     );

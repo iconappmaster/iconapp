@@ -5,7 +5,7 @@ import 'package:iconapp/data/sources/socket/socket_manager.dart';
 
 abstract class CommentsRepository {
   // api to send a comment
-  Future sendComment(int conversationId, MessageModel comment);
+  Future<MessageModel> sendComment(int conversationId, MessageModel comment);
 
   // will get all the comments for a conversation (used for init the comments)
   Future<List<MessageModel>> getComments(int conversationId);
@@ -30,7 +30,7 @@ class CommentsRepositoryImpl implements CommentsRepository {
   });
 
   @override
-  Future sendComment(int conversationId, MessageModel comment) async {
+  Future<MessageModel> sendComment(int conversationId, MessageModel comment) async {
     return client.sendComment(conversationId, comment);
   }
 

@@ -104,7 +104,7 @@ abstract class _StoryEditStoreBase with Store {
 
       final storyRes = await _repository.publishStory(story);
 
-      if (_storyStore.getStories.isEmpty) {
+      if (_storyStore.stories.isEmpty) {
         _storyStore.addStory(storyRes);
       } else {
         _storyStore.updateStory(storyRes);

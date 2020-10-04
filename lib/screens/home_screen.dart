@@ -35,9 +35,10 @@ class _HomeScreenState extends State<HomeScreen> {
     _scaffoldKey = GlobalKey<ScaffoldState>();
     _home = sl<HomeStore>();
     _story = sl<StoryStore>();
+
     _controller = ScrollController();
     _home.getConversations(force: true);
-
+    _story.refreshStories();
     _initSocket();
 
     super.initState();
@@ -87,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onConversationTap: (conversation) async {
                         await ExtendedNavigator.of(context)
                             .pushChatScreen(conversation: conversation);
-                        stories.getHomeStories();
+                        stories.refreshStories();
                       },
                     ),
                     Positioned(

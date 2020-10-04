@@ -22,19 +22,19 @@ mixin _$StoryStore on _StoryStoreBase, Store {
       (_$showAddButtonComputed ??= Computed<bool>(() => super.showAddButton,
               name: '_StoryStoreBase.showAddButton'))
           .value;
-  Computed<List<StoryModel>> _$getStoriesComputed;
+  Computed<List<StoryModel>> _$storiesComputed;
 
   @override
-  List<StoryModel> get getStories => (_$getStoriesComputed ??=
-          Computed<List<StoryModel>>(() => super.getStories,
-              name: '_StoryStoreBase.getStories'))
-      .value;
-  Computed<StoryModel> _$getMyStoryComputed;
+  List<StoryModel> get stories =>
+      (_$storiesComputed ??= Computed<List<StoryModel>>(() => super.stories,
+              name: '_StoryStoreBase.stories'))
+          .value;
+  Computed<StoryModel> _$usersStoryComputed;
 
   @override
-  StoryModel get getMyStory =>
-      (_$getMyStoryComputed ??= Computed<StoryModel>(() => super.getMyStory,
-              name: '_StoryStoreBase.getMyStory'))
+  StoryModel get usersStory =>
+      (_$usersStoryComputed ??= Computed<StoryModel>(() => super.usersStory,
+              name: '_StoryStoreBase.usersStory'))
           .value;
 
   final _$_modeAtom = Atom(name: '_StoryStoreBase._mode');
@@ -67,6 +67,14 @@ mixin _$StoryStore on _StoryStoreBase, Store {
     });
   }
 
+  final _$refreshStoriesAsyncAction =
+      AsyncAction('_StoryStoreBase.refreshStories');
+
+  @override
+  Future<dynamic> refreshStories() {
+    return _$refreshStoriesAsyncAction.run(() => super.refreshStories());
+  }
+
   final _$onStoryImageViewedAsyncAction =
       AsyncAction('_StoryStoreBase.onStoryImageViewed');
 
@@ -74,31 +82,6 @@ mixin _$StoryStore on _StoryStoreBase, Store {
   Future<dynamic> onStoryImageViewed(int imageId) {
     return _$onStoryImageViewedAsyncAction
         .run(() => super.onStoryImageViewed(imageId));
-  }
-
-  final _$getHomeStoriesAsyncAction =
-      AsyncAction('_StoryStoreBase.getHomeStories');
-
-  @override
-  Future<dynamic> getHomeStories() {
-    return _$getHomeStoriesAsyncAction.run(() => super.getHomeStories());
-  }
-
-  final _$getConversationsStoriesAsyncAction =
-      AsyncAction('_StoryStoreBase.getConversationsStories');
-
-  @override
-  Future<dynamic> getConversationsStories(int conversationId) {
-    return _$getConversationsStoriesAsyncAction
-        .run(() => super.getConversationsStories(conversationId));
-  }
-
-  final _$refreshStoriesAsyncAction =
-      AsyncAction('_StoryStoreBase.refreshStories');
-
-  @override
-  Future<dynamic> refreshStories() {
-    return _$refreshStoriesAsyncAction.run(() => super.refreshStories());
   }
 
   final _$_StoryStoreBaseActionController =
@@ -164,8 +147,8 @@ mixin _$StoryStore on _StoryStoreBase, Store {
     return '''
 mode: ${mode},
 showAddButton: ${showAddButton},
-getStories: ${getStories},
-getMyStory: ${getMyStory}
+stories: ${stories},
+usersStory: ${usersStory}
     ''';
   }
 }

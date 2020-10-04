@@ -113,7 +113,7 @@ const searchResultTile =
     TextStyle(fontFamily: _fontRubikMedium, color: darkBlueGrey, fontSize: 18);
 
 const loginBigText = TextStyle(
-    fontFamily: _fontRubikMedium, color: white, fontSize: 17.3, height: 1.3);
+    fontFamily: _fontRubikMedium, color: white, fontSize: 20.3, height: 1.3);
 
 const fieldInput =
     TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 17.3);
@@ -275,7 +275,7 @@ const drawerName = TextStyle(
 final purpleGradient = LinearGradient(colors: [
   grape,
   darkIndigo,
-], begin: Alignment.bottomRight, end: Alignment.topLeft);
+], begin: Alignment.topLeft, end: Alignment.bottomRight);
 
 
 final commentsGradient = LinearGradient(colors: [

@@ -42,9 +42,9 @@ class Fcm {
       onMessage: (message) async => _handleNotification(message),
     );
 
-    _messaging
-        .getToken()
-        .then((token) => sp.setString(StorageKey.fcmToken, token));
+    _messaging.getToken().then(
+          (token) => sp.setString(StorageKey.fcmToken, token),
+        );
 
     tokenRefreshSubscription = _messaging.onTokenRefresh.listen(
       (token) => sp.setString(StorageKey.fcmToken, token),
