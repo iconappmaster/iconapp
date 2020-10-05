@@ -535,14 +535,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  setCommentsStatus(id, isCommentOpened, maxUserCount) async {
+  setCommentsStatus(id, commentsMaxUserCount) async {
     ArgumentError.checkNotNull(id, 'id');
-    ArgumentError.checkNotNull(isCommentOpened, 'isCommentOpened');
-    ArgumentError.checkNotNull(maxUserCount, 'maxUserCount');
+    ArgumentError.checkNotNull(commentsMaxUserCount, 'commentsMaxUserCount');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
-      r'isCommentOpened': isCommentOpened,
-      r'maxUserCount': maxUserCount
+      r'commentsMaxUserCount': commentsMaxUserCount
     };
     final _data = <String, dynamic>{};
     final Response<Map<String, dynamic>> _result = await _dio.request(

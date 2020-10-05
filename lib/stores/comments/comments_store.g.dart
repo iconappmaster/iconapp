@@ -29,6 +29,13 @@ mixin _$CommentsStore on _CommentsStoreBase, Store {
       (_$commentsCountComputed ??= Computed<int>(() => super.commentsCount,
               name: '_CommentsStoreBase.commentsCount'))
           .value;
+  Computed<bool> _$isActivatedComputed;
+
+  @override
+  bool get isActivated =>
+      (_$isActivatedComputed ??= Computed<bool>(() => super.isActivated,
+              name: '_CommentsStoreBase.isActivated'))
+          .value;
   Computed<List<MessageModel>> _$commentsComputed;
 
   @override
@@ -127,9 +134,9 @@ mixin _$CommentsStore on _CommentsStoreBase, Store {
       AsyncAction('_CommentsStoreBase.updateCommentSettings');
 
   @override
-  Future<dynamic> updateCommentSettings(bool isOpen, int maxUserCount) {
+  Future<dynamic> updateCommentSettings(int maxUserCount) {
     return _$updateCommentSettingsAsyncAction
-        .run(() => super.updateCommentSettings(isOpen, maxUserCount));
+        .run(() => super.updateCommentSettings(maxUserCount));
   }
 
   final _$_CommentsStoreBaseActionController =
@@ -196,6 +203,7 @@ mixin _$CommentsStore on _CommentsStoreBase, Store {
 loading: ${loading},
 activatingComments: ${activatingComments},
 commentsCount: ${commentsCount},
+isActivated: ${isActivated},
 comments: ${comments}
     ''';
   }

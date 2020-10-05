@@ -5,9 +5,9 @@ import 'package:iconapp/core/theme.dart';
 
 class BaseDialog extends StatelessWidget {
   final Widget child;
-  final double height, width;
+  final double height;
 
-  const BaseDialog({Key key, @required this.child, this.height, this.width})
+  const BaseDialog({Key key, @required this.child, this.height})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,6 @@ class BaseDialog extends StatelessWidget {
             backgroundColor: Colors.transparent,
             child: Container(
               margin: EdgeInsets.all(0),
-              padding: EdgeInsets.all(16),
               height: height,
               decoration: BoxDecoration(
                 gradient: dialogGradient,

@@ -40,7 +40,8 @@ _$_Conversation _$_$_ConversationFromJson(Map<String, dynamic> json) {
     numberOfParticipants: json['numberOfParticipants'] as int,
     numberOfUnreadComments: json['numberOfUnreadComments'] as int,
     areNotificationsDisabled: json['areNotificationsDisabled'] as bool,
-    areCommentsDisabled: json['areCommentsDisabled'] as bool,
+    areCommentsActivated: json['areCommentsActivated'] as bool,
+    commentsMaxUserCount: json['commentsMaxUserCount'] as int,
     userRole: _$enumDecodeNullable(_$UserRoleEnumMap, json['userRole']),
   );
 }
@@ -65,7 +66,8 @@ Map<String, dynamic> _$_$_ConversationToJson(_$_Conversation instance) =>
       'numberOfParticipants': instance.numberOfParticipants,
       'numberOfUnreadComments': instance.numberOfUnreadComments,
       'areNotificationsDisabled': instance.areNotificationsDisabled,
-      'areCommentsDisabled': instance.areCommentsDisabled,
+      'areCommentsActivated': instance.areCommentsActivated,
+      'commentsMaxUserCount': instance.commentsMaxUserCount,
       'userRole': _$UserRoleEnumMap[instance.userRole],
     };
 

@@ -12,7 +12,7 @@ abstract class CommentsRepository {
   Future<List<MessageModel>> getComments(int conversationId);
 
   Future<Conversation> updateCommentSettings(
-      int conversationId, bool isCommentsOpened, int maxUserCount);
+      int conversationId, int maxUserCount);
 
   // show that the user viewed the conversation
   Future viewedComments(int conversationId);
@@ -61,8 +61,7 @@ class CommentsRepositoryImpl implements CommentsRepository {
 
   @override
   Future<Conversation> updateCommentSettings(
-      int conversationId, bool isCommentOpened, int maxUserCount) async {
-    return await client.setCommentsStatus(
-        conversationId, isCommentOpened, maxUserCount);
+      int conversationId, int maxUserCount) async {
+    return await client.setCommentsStatus(conversationId, maxUserCount);
   }
 }

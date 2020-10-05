@@ -95,9 +95,9 @@ const phoneNumber = TextStyle(
     letterSpacing: 1.33);
 
 const button = TextStyle(
-    fontFamily: _fontRubikMedium,
+    fontFamily: _fontRubikRegular,
     color: white,
-    fontSize: 22.3,
+    fontSize: 16.3,
     letterSpacing: 0.18);
 
 const pinCode =

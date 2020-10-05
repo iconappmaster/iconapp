@@ -1,4 +1,3 @@
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/domain/core/errors.dart';
@@ -13,11 +12,11 @@ class AuthStore = _AuthStoreBase with _$AuthStore;
 
 abstract class _AuthStoreBase with Store {
   AuthRepository _repository;
-  SharedPreferencesService _sharedPreferencesService;
+  SharedPreferencesService _sp;
 
   _AuthStoreBase() {
     _repository = sl<AuthRepository>();
-    _sharedPreferencesService = sl<SharedPreferencesService>();
+    _sp = sl<SharedPreferencesService>();
   }
 
   @observable
@@ -46,15 +45,10 @@ abstract class _AuthStoreBase with Store {
   Future logout(bool updateBackend) async {
     try {
       if (updateBackend) await _repository.logout();
-      await _sharedPreferencesService.clear();
+      await _sp.clear();
       _authState = AuthState.unauthenticated();
     } on ServerError catch (e) {
       Crash.report(e.message);
     }
   }
-}
-
-void clearImagesCache() {
-  final manager = new DefaultCacheManager();
-  manager.emptyCache();
 }

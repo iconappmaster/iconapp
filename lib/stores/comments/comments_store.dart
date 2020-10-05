@@ -29,6 +29,8 @@ abstract class _CommentsStoreBase with Store {
     _home = sl<HomeStore>();
     _repository = sl<CommentsRepository>();
   }
+
+  @observable
   @observable
   ObservableList<MessageModel> _comments = ObservableList.of([]);
 
@@ -49,6 +51,9 @@ abstract class _CommentsStoreBase with Store {
 
   @computed
   int get commentsCount => _chat.conversation?.numberOfUnreadComments ?? 0;
+
+  @computed
+  bool get isActivated => _chat.conversation?.areCommentsActivated ?? false;
 
   @computed
   List<MessageModel> get comments => _comments.reversed.toList();
@@ -138,11 +143,11 @@ abstract class _CommentsStoreBase with Store {
   }
 
   @action
-  Future updateCommentSettings(bool isOpen, int maxUserCount) async {
+  Future updateCommentSettings(int maxUserCount) async {
     try {
+      _activatingComments = true;
       final conversation = await _repository.updateCommentSettings(
         _chat.conversation.id,
-        isOpen,
         maxUserCount,
       );
 
@@ -150,6 +155,8 @@ abstract class _CommentsStoreBase with Store {
       _home.updateConversation(conversation);
     } on ServerError catch (e) {
       Crash.report(e.message);
+    } finally {
+      _activatingComments = false;
     }
   }
 
