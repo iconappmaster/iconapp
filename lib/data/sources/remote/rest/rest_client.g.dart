@@ -535,6 +535,30 @@ class _RestClient implements RestClient {
   }
 
   @override
+  setCommentsStatus(id, isCommentOpened, maxUserCount) async {
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(isCommentOpened, 'isCommentOpened');
+    ArgumentError.checkNotNull(maxUserCount, 'maxUserCount');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'isCommentOpened': isCommentOpened,
+      r'maxUserCount': maxUserCount
+    };
+    final _data = <String, dynamic>{};
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'conversations/$id/update_comment_settings',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = Conversation.fromJson(_result.data);
+    return value;
+  }
+
+  @override
   sendComment(id, comment) async {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(comment, 'comment');

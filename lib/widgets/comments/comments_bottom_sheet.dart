@@ -6,11 +6,10 @@ import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
 import 'package:iconapp/widgets/chat/compose/panel_compose.dart';
-import 'package:iconapp/widgets/chat/message_text.dart';
 import 'package:iconapp/widgets/comments/comments_fab.dart';
-import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 import 'package:iconapp/widgets/global/lottie_loader.dart';
-import 'package:scroll_to_index/scroll_to_index.dart';
+
+import 'comments_list.dart';
 
 class CommentsBottomSheet extends StatelessWidget {
   final ScrollController scrollController;
@@ -45,43 +44,11 @@ class CommentsBottomSheet extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Expanded(
-                        child: store.loading
-                            ? Center(child: LottieLoader())
-                            : Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(24.0),
-                                    child: CustomText(
-                                      'תגובות',
-                                      style: loginBigText,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: ListView.builder(
-                                      reverse: true,
-                                      controller: scrollController,
-                                      shrinkWrap: true,
-                                      itemCount: store.comments.length,
-                                      itemBuilder: (context, index) {
-                                        final comment = store.comments[index];
-                                        return TextMessage(
-                                          hideAvatar: true,
-                                          hideEmoji: true,
-                                          forcedColor: cornflower,
-                                          showPin: false,
-                                          controller: AutoScrollController(),
-                                          message: comment,
-                                          index: index,
-                                          isMe: false,
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                      ),
+                          child: store.loading
+                              ? Center(child: LottieLoader())
+                              : CommentsList(controller: scrollController)),
                       Material(
+                        color: Colors.transparent,
                         child: PanelMessageCompose(
                           composerMode: ComposerPanelMode.comments,
                           scrollController: scrollController,

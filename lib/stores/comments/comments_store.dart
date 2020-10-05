@@ -7,6 +7,7 @@ import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/repositories/comments_repository.dart';
 import 'package:iconapp/domain/core/errors.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
+import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:mobx/mobx.dart';
 part 'comments_store.g.dart';
@@ -19,11 +20,13 @@ abstract class _CommentsStoreBase with Store {
 
   ChatStore _chat;
   UserStore _user;
+  HomeStore _home;
   CommentsRepository _repository;
 
   _CommentsStoreBase() {
     _chat = sl<ChatStore>();
     _user = sl<UserStore>();
+    _home = sl<HomeStore>();
     _repository = sl<CommentsRepository>();
   }
   @observable
@@ -38,14 +41,17 @@ abstract class _CommentsStoreBase with Store {
   @computed
   bool get loading => _isLoading;
 
+  @observable
+  bool _activatingComments = false;
+
+  @computed
+  bool get activatingComments => _activatingComments;
+
+  @computed
+  int get commentsCount => _chat.conversation?.numberOfUnreadComments ?? 0;
+
   @computed
   List<MessageModel> get comments => _comments.reversed.toList();
-
-  @action
-  void setComments(List<MessageModel> comments) {
-    _comments.clear();
-    _comments.addAll(comments);
-  }
 
   @action
   void updateCommentInput(String comment) {
@@ -132,8 +138,30 @@ abstract class _CommentsStoreBase with Store {
   }
 
   @action
+  Future updateCommentSettings(bool isOpen, int maxUserCount) async {
+    try {
+      final conversation = await _repository.updateCommentSettings(
+        _chat.conversation.id,
+        isOpen,
+        maxUserCount,
+      );
+
+      _chat.setConversation(conversation);
+      _home.updateConversation(conversation);
+    } on ServerError catch (e) {
+      Crash.report(e.message);
+    }
+  }
+
+  @action
   void diospoe() {
     _subscription?.cancel();
     _countSubscription?.cancel();
+  }
+
+  @action
+  void setComments(List<MessageModel> comments) {
+    _comments.clear();
+    _comments.addAll(comments);
   }
 }

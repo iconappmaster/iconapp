@@ -16,13 +16,13 @@ part 'chat_settings_store.g.dart';
 class ChatSettingsStore = _ChatSettingsStoreBase with _$ChatSettingsStore;
 
 abstract class _ChatSettingsStoreBase with Store {
-  ChatSettingsRepository _repository;
+  ChatSettingsRepository _settingsRepository;
   ChatStore _chat;
   HomeStore _home;
   MediaStore _mediaStore;
 
   _ChatSettingsStoreBase() {
-    _repository = sl<ChatSettingsRepository>();
+    _settingsRepository = sl<ChatSettingsRepository>();
     _chat = sl<ChatStore>();
     _home = sl<HomeStore>();
     _mediaStore = sl<MediaStore>();
@@ -79,7 +79,7 @@ abstract class _ChatSettingsStoreBase with Store {
   Future changeBackground(int colorIndex) async {
     try {
       _isLoading = true;
-      final conversation = await _repository.changeBackgroundColor(
+      final conversation = await _settingsRepository.changeBackgroundColor(
           _chat.conversation.id, colorIndex);
       _chat.setConversation(conversation);
       _selectedColor = conversation.backgroundColor;
@@ -96,6 +96,7 @@ abstract class _ChatSettingsStoreBase with Store {
     users.addAll(_chat.conversation?.users);
     _selectedColor = _chat.conversation?.backgroundColor;
     _isNotificationDisabled = _chat.conversation?.areNotificationsDisabled;
+
     _showUnsubscribeButton = _chat.conversation.isSubscribed;
   }
 
@@ -104,7 +105,7 @@ abstract class _ChatSettingsStoreBase with Store {
     try {
       _isLoading = true;
 
-      final conversation = await _repository.makeUserAdmin(
+      final conversation = await _settingsRepository.makeUserAdmin(
         _chat.conversation.id,
         userId,
       );
@@ -125,7 +126,7 @@ abstract class _ChatSettingsStoreBase with Store {
     try {
       _isLoading = true;
 
-      final conversation = await _repository.removeUser(
+      final conversation = await _settingsRepository.removeUser(
         _chat.conversation.id,
         userId,
       );
@@ -147,7 +148,7 @@ abstract class _ChatSettingsStoreBase with Store {
       final chatStore = sl<ChatStore>();
       _isLoading = true;
 
-      final conversation = await _repository.addUser(
+      final conversation = await _settingsRepository.addUser(
         chatStore.conversation.id,
         userId,
       );
@@ -169,7 +170,7 @@ abstract class _ChatSettingsStoreBase with Store {
       final chatStore = sl<ChatStore>();
       _isLoading = true;
 
-      final conversation = await _repository.updateConversation(
+      final conversation = await _settingsRepository.updateConversation(
         chatStore.conversation.id,
         Conversation(name: groupName),
       );
@@ -188,7 +189,7 @@ abstract class _ChatSettingsStoreBase with Store {
       final url = await _mediaStore.uploadPhoto(source: ImageSource.gallery);
       if (url != null) {
         _isLoading = true;
-        final conversation = await _repository.updateConversation(
+        final conversation = await _settingsRepository.updateConversation(
             _chat.conversation.id,
             Conversation(backgroundPhoto: PhotoModel(url: url)));
 
@@ -205,13 +206,12 @@ abstract class _ChatSettingsStoreBase with Store {
   Future setNotification(bool value) async {
     try {
       _isNotificationDisabled = value;
-
-      _isNotificationDisabled =
-          await _repository.setNotification(_chat.conversation.id, value);
+      _isNotificationDisabled = await _settingsRepository.setNotification(
+          _chat.conversation.id, value);
       final conversation = _chat.conversation
           .copyWith(areNotificationsDisabled: _isNotificationDisabled);
-      _chat.setConversation(conversation);
 
+      _chat.setConversation(conversation);
       _home.updateConversation(conversation);
     } on ServerError catch (e) {
       Crash.report(e.message);

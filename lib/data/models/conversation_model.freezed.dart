@@ -36,6 +36,7 @@ class _$ConversationTearOff {
       int numberOfParticipants,
       int numberOfUnreadComments,
       bool areNotificationsDisabled,
+      bool areCommentsDisabled,
       UserRole userRole}) {
     return _Conversation(
       id: id,
@@ -56,6 +57,7 @@ class _$ConversationTearOff {
       numberOfParticipants: numberOfParticipants,
       numberOfUnreadComments: numberOfUnreadComments,
       areNotificationsDisabled: areNotificationsDisabled,
+      areCommentsDisabled: areCommentsDisabled,
       userRole: userRole,
     );
   }
@@ -90,6 +92,7 @@ mixin _$Conversation {
   int get numberOfParticipants;
   int get numberOfUnreadComments;
   bool get areNotificationsDisabled;
+  bool get areCommentsDisabled;
   UserRole get userRole;
 
   Map<String, dynamic> toJson();
@@ -120,6 +123,7 @@ abstract class $ConversationCopyWith<$Res> {
       int numberOfParticipants,
       int numberOfUnreadComments,
       bool areNotificationsDisabled,
+      bool areCommentsDisabled,
       UserRole userRole});
 
   $PhotoModelCopyWith<$Res> get backgroundPhoto;
@@ -156,6 +160,7 @@ class _$ConversationCopyWithImpl<$Res> implements $ConversationCopyWith<$Res> {
     Object numberOfParticipants = freezed,
     Object numberOfUnreadComments = freezed,
     Object areNotificationsDisabled = freezed,
+    Object areCommentsDisabled = freezed,
     Object userRole = freezed,
   }) {
     return _then(_value.copyWith(
@@ -197,6 +202,9 @@ class _$ConversationCopyWithImpl<$Res> implements $ConversationCopyWith<$Res> {
       areNotificationsDisabled: areNotificationsDisabled == freezed
           ? _value.areNotificationsDisabled
           : areNotificationsDisabled as bool,
+      areCommentsDisabled: areCommentsDisabled == freezed
+          ? _value.areCommentsDisabled
+          : areCommentsDisabled as bool,
       userRole: userRole == freezed ? _value.userRole : userRole as UserRole,
     ));
   }
@@ -268,6 +276,7 @@ abstract class _$ConversationCopyWith<$Res>
       int numberOfParticipants,
       int numberOfUnreadComments,
       bool areNotificationsDisabled,
+      bool areCommentsDisabled,
       UserRole userRole});
 
   @override
@@ -310,6 +319,7 @@ class __$ConversationCopyWithImpl<$Res> extends _$ConversationCopyWithImpl<$Res>
     Object numberOfParticipants = freezed,
     Object numberOfUnreadComments = freezed,
     Object areNotificationsDisabled = freezed,
+    Object areCommentsDisabled = freezed,
     Object userRole = freezed,
   }) {
     return _then(_Conversation(
@@ -351,6 +361,9 @@ class __$ConversationCopyWithImpl<$Res> extends _$ConversationCopyWithImpl<$Res>
       areNotificationsDisabled: areNotificationsDisabled == freezed
           ? _value.areNotificationsDisabled
           : areNotificationsDisabled as bool,
+      areCommentsDisabled: areCommentsDisabled == freezed
+          ? _value.areCommentsDisabled
+          : areCommentsDisabled as bool,
       userRole: userRole == freezed ? _value.userRole : userRole as UserRole,
     ));
   }
@@ -379,6 +392,7 @@ class _$_Conversation implements _Conversation {
       this.numberOfParticipants,
       this.numberOfUnreadComments,
       this.areNotificationsDisabled,
+      this.areCommentsDisabled,
       this.userRole});
 
   factory _$_Conversation.fromJson(Map<String, dynamic> json) =>
@@ -421,11 +435,13 @@ class _$_Conversation implements _Conversation {
   @override
   final bool areNotificationsDisabled;
   @override
+  final bool areCommentsDisabled;
+  @override
   final UserRole userRole;
 
   @override
   String toString() {
-    return 'Conversation(id: $id, backgroundColor: $backgroundColor, backgroundPhoto: $backgroundPhoto, categoryId: $categoryId, createdBy: $createdBy, isPinned: $isPinned, createdAt: $createdAt, name: $name, photo: $photo, lastMessage: $lastMessage, numberOfUnreadMessages: $numberOfUnreadMessages, users: $users, messages: $messages, isSubscribed: $isSubscribed, numberOfAdminsRemaining: $numberOfAdminsRemaining, numberOfParticipants: $numberOfParticipants, numberOfUnreadComments: $numberOfUnreadComments, areNotificationsDisabled: $areNotificationsDisabled, userRole: $userRole)';
+    return 'Conversation(id: $id, backgroundColor: $backgroundColor, backgroundPhoto: $backgroundPhoto, categoryId: $categoryId, createdBy: $createdBy, isPinned: $isPinned, createdAt: $createdAt, name: $name, photo: $photo, lastMessage: $lastMessage, numberOfUnreadMessages: $numberOfUnreadMessages, users: $users, messages: $messages, isSubscribed: $isSubscribed, numberOfAdminsRemaining: $numberOfAdminsRemaining, numberOfParticipants: $numberOfParticipants, numberOfUnreadComments: $numberOfUnreadComments, areNotificationsDisabled: $areNotificationsDisabled, areCommentsDisabled: $areCommentsDisabled, userRole: $userRole)';
   }
 
   @override
@@ -470,8 +486,7 @@ class _$_Conversation implements _Conversation {
             (identical(other.isSubscribed, isSubscribed) ||
                 const DeepCollectionEquality()
                     .equals(other.isSubscribed, isSubscribed)) &&
-            (identical(
-                    other.numberOfAdminsRemaining, numberOfAdminsRemaining) ||
+            (identical(other.numberOfAdminsRemaining, numberOfAdminsRemaining) ||
                 const DeepCollectionEquality().equals(
                     other.numberOfAdminsRemaining, numberOfAdminsRemaining)) &&
             (identical(other.numberOfParticipants, numberOfParticipants) ||
@@ -485,9 +500,11 @@ class _$_Conversation implements _Conversation {
                 const DeepCollectionEquality().equals(
                     other.areNotificationsDisabled,
                     areNotificationsDisabled)) &&
-            (identical(other.userRole, userRole) ||
+            (identical(other.areCommentsDisabled, areCommentsDisabled) ||
                 const DeepCollectionEquality()
-                    .equals(other.userRole, userRole)));
+                    .equals(other.areCommentsDisabled, areCommentsDisabled)) &&
+            (identical(other.userRole, userRole) ||
+                const DeepCollectionEquality().equals(other.userRole, userRole)));
   }
 
   @override
@@ -511,6 +528,7 @@ class _$_Conversation implements _Conversation {
       const DeepCollectionEquality().hash(numberOfParticipants) ^
       const DeepCollectionEquality().hash(numberOfUnreadComments) ^
       const DeepCollectionEquality().hash(areNotificationsDisabled) ^
+      const DeepCollectionEquality().hash(areCommentsDisabled) ^
       const DeepCollectionEquality().hash(userRole);
 
   @override
@@ -543,6 +561,7 @@ abstract class _Conversation implements Conversation {
       int numberOfParticipants,
       int numberOfUnreadComments,
       bool areNotificationsDisabled,
+      bool areCommentsDisabled,
       UserRole userRole}) = _$_Conversation;
 
   factory _Conversation.fromJson(Map<String, dynamic> json) =
@@ -584,6 +603,8 @@ abstract class _Conversation implements Conversation {
   int get numberOfUnreadComments;
   @override
   bool get areNotificationsDisabled;
+  @override
+  bool get areCommentsDisabled;
   @override
   UserRole get userRole;
   @override

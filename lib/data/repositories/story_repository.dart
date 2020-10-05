@@ -4,9 +4,6 @@ import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 import 'package:iconapp/data/sources/socket/socket_manager.dart';
 
 abstract class StoryRepository {
-  // TBD
-  Future<StoryModel> createStory();
-
   /// This API will get all the latest stories and will present the home page
   Future<List<StoryModel>> getHomeStories();
 
@@ -31,11 +28,6 @@ class StoryRepositoryImpl implements StoryRepository {
     @required this.rest,
     @required this.socket,
   });
-
-  @override
-  Future<StoryModel> createStory() {
-    throw UnimplementedError();
-  }
 
   @override
   Future<List<StoryModel>> getConversationsStories(int conversationId) async {

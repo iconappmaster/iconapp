@@ -30,19 +30,17 @@ class UserAvatar extends StatelessWidget {
         height: 90,
         child: Stack(children: [
           if (showLoading)
-          SizedBox(
-              height: 75,
-              width: 75,
-              child: CircularProgressIndicator(
-                strokeWidth: 3,
-                valueColor: AlwaysStoppedAnimation(
-                  cornflower,
-                ),
-              )),
+            SizedBox(
+                height: 75,
+                width: 75,
+                child: CircularProgressIndicator(
+                  strokeWidth: 3,
+                  valueColor: AlwaysStoppedAnimation(cornflower),
+                )),
           Positioned(
             top: 1,
-            right:1,
-                      child: Container(
+            right: 1,
+            child: Container(
                 height: 72,
                 width: 72,
                 decoration: BoxDecoration(shape: BoxShape.circle, color: white),

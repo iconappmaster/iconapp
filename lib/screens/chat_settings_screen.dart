@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/widgets/chat/settings/comments_command.dart';
 import '../stores/chat_settings/chat_settings_store.dart';
 import '../widgets/chat/settings/app_bar_sliver.dart';
 import '../widgets/chat/settings/change_background.dart';
-import '../widgets/chat/settings/notification_settings.dart';
+import '../widgets/chat/settings/notification_toggle.dart';
 import '../widgets/chat/settings/participants_list.dart';
 
 const settingsColumnHeight = 80.0;
@@ -48,9 +49,12 @@ class _ChatSettingsScreenState extends State<ChatSettingsScreen> {
             ),
             SliverList(
               delegate: SliverChildListDelegate([
-                ConversationNotificationsSettings(),
+                NotificationToggle(),
                 _SettingsDivider(),
-                if (settings.isUserAdmin) ChangeBackground(),
+                if (settings.isUserAdmin) ...[
+                  ChangeBackground(),
+                  CommentsCommand(isActivated: true),
+                ],
                 ...iconSettings
               ]),
             ),

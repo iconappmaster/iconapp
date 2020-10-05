@@ -15,6 +15,20 @@ mixin _$CommentsStore on _CommentsStoreBase, Store {
   bool get loading => (_$loadingComputed ??= Computed<bool>(() => super.loading,
           name: '_CommentsStoreBase.loading'))
       .value;
+  Computed<bool> _$activatingCommentsComputed;
+
+  @override
+  bool get activatingComments => (_$activatingCommentsComputed ??=
+          Computed<bool>(() => super.activatingComments,
+              name: '_CommentsStoreBase.activatingComments'))
+      .value;
+  Computed<int> _$commentsCountComputed;
+
+  @override
+  int get commentsCount =>
+      (_$commentsCountComputed ??= Computed<int>(() => super.commentsCount,
+              name: '_CommentsStoreBase.commentsCount'))
+          .value;
   Computed<List<MessageModel>> _$commentsComputed;
 
   @override
@@ -68,6 +82,22 @@ mixin _$CommentsStore on _CommentsStoreBase, Store {
     });
   }
 
+  final _$_activatingCommentsAtom =
+      Atom(name: '_CommentsStoreBase._activatingComments');
+
+  @override
+  bool get _activatingComments {
+    _$_activatingCommentsAtom.reportRead();
+    return super._activatingComments;
+  }
+
+  @override
+  set _activatingComments(bool value) {
+    _$_activatingCommentsAtom.reportWrite(value, super._activatingComments, () {
+      super._activatingComments = value;
+    });
+  }
+
   final _$getCommentsAsyncAction =
       AsyncAction('_CommentsStoreBase.getComments');
 
@@ -93,19 +123,17 @@ mixin _$CommentsStore on _CommentsStoreBase, Store {
     return _$sendCommentAsyncAction.run(() => super.sendComment());
   }
 
-  final _$_CommentsStoreBaseActionController =
-      ActionController(name: '_CommentsStoreBase');
+  final _$updateCommentSettingsAsyncAction =
+      AsyncAction('_CommentsStoreBase.updateCommentSettings');
 
   @override
-  void setComments(List<MessageModel> comments) {
-    final _$actionInfo = _$_CommentsStoreBaseActionController.startAction(
-        name: '_CommentsStoreBase.setComments');
-    try {
-      return super.setComments(comments);
-    } finally {
-      _$_CommentsStoreBaseActionController.endAction(_$actionInfo);
-    }
+  Future<dynamic> updateCommentSettings(bool isOpen, int maxUserCount) {
+    return _$updateCommentSettingsAsyncAction
+        .run(() => super.updateCommentSettings(isOpen, maxUserCount));
   }
+
+  final _$_CommentsStoreBaseActionController =
+      ActionController(name: '_CommentsStoreBase');
 
   @override
   void updateCommentInput(String comment) {
@@ -152,9 +180,22 @@ mixin _$CommentsStore on _CommentsStoreBase, Store {
   }
 
   @override
+  void setComments(List<MessageModel> comments) {
+    final _$actionInfo = _$_CommentsStoreBaseActionController.startAction(
+        name: '_CommentsStoreBase.setComments');
+    try {
+      return super.setComments(comments);
+    } finally {
+      _$_CommentsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 loading: ${loading},
+activatingComments: ${activatingComments},
+commentsCount: ${commentsCount},
 comments: ${comments}
     ''';
   }

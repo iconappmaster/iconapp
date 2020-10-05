@@ -6,7 +6,7 @@ import 'package:iconapp/screens/chat_settings_screen.dart';
 import 'package:iconapp/stores/chat_settings/chat_settings_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
 
-class ConversationNotificationsSettings extends StatelessWidget {
+class NotificationToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settings = sl<ChatSettingsStore>();

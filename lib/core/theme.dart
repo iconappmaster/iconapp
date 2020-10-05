@@ -181,7 +181,7 @@ const settingsAppbarTitle = TextStyle(
 const settingsButton = TextStyle(
   fontFamily: _fontRubikRegular,
   color: white,
-  fontSize: 10.8,
+  fontSize: 11.2,
   letterSpacing: .08,
 );
 
@@ -275,7 +275,7 @@ const drawerName = TextStyle(
 final purpleGradient = LinearGradient(colors: [
   grape,
   darkIndigo,
-], begin: Alignment.topLeft, end: Alignment.bottomRight);
+], begin: Alignment.bottomLeft, end: Alignment.topRight);
 
 
 final commentsGradient = LinearGradient(colors: [

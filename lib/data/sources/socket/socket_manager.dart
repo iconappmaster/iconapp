@@ -14,7 +14,7 @@ import 'package:rxdart/subjects.dart';
 
 const PUSHER_KEY = '18aa056f999a0341c053';
 
-// Channels 
+// Channels
 const homeChannelName = 'home';
 const commentChannelName = 'comments';
 
@@ -79,13 +79,12 @@ class Socket {
   void bindHomeChangeEvent() {
     _channel.bind(conversationChangedEvent, (event) {
       final json = jsonDecode(event.data);
-      final conversation = Conversation.fromJson(json);
-
+      var conversation = Conversation.fromJson(json);
       if (conversation != null) homeConversationSubject.add(conversation);
     });
   }
 
-  // Conversation 
+  // Conversation
   void bindMessagesEvent() {
     _channel.bind(messagesEvent, (event) {
       final user = sl<UserStore>();
@@ -99,7 +98,6 @@ class Socket {
     });
   }
 
-  
   void bindAddLikeEvent() {
     _channel.bind(addedLikeEvent,
         (event) => _proccessLikeEventToMessage(addedLikeSubject, event));
@@ -110,21 +108,20 @@ class Socket {
         (event) => _proccessLikeEventToMessage(removeLikeSubject, event));
   }
 
-  // Comments 
+  // Comments
   void bindGetCommentsEvent() {
     _channel.bind(commentsEvent,
         (event) => _proccessLikeEventToMessage(commentsSubject, event));
   }
-  
+
   void bindCommentsCountEvent() {
-    _channel.bind(commentsCountEvent,
-        (count) {
-          // TODO
-          final json = jsonDecode(count.data);
-          commentsCountSubject.add(json);
-        });
+    _channel.bind(
+      commentsCountEvent,
+      (count) => commentsCountSubject.add(
+        jsonDecode(count.data),
+      ),
+    );
   }
-  // Helper
 
   bool _isSystemMessage(MessageModel message) => message.sender == null;
 

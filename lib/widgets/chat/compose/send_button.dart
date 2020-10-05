@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
@@ -59,15 +60,17 @@ class SendButton extends StatelessWidget {
               }
             },
             backgroundColor: sendColor,
-            child: AnimatedSwitcher(
-              duration: Duration(milliseconds: 250),
-              transitionBuilder: (child, animation) => ScaleTransition(
-                scale: animation,
-                child: child,
+            child: Observer(
+              builder: (_) => AnimatedSwitcher(
+                duration: Duration(milliseconds: 250),
+                transitionBuilder: (child, animation) => ScaleTransition(
+                  scale: animation,
+                  child: child,
+                ),
+                child: composerMode == ComposerPanelMode.conversation
+                    ? chat.isInputEmpty ? _sendIcon() : _recordIcon()
+                    : _sendIcon(),
               ),
-              child: composerMode == ComposerPanelMode.conversation
-                  ? chat.isInputEmpty ? _sendIcon() : _recordIcon()
-                  : _sendIcon(),
             ),
           ),
         ),

@@ -55,7 +55,9 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
       ..watchRemoveLike();
 
     // init story
-    _story.setStoryMode(StoryMode.conversation);
+    _story
+      ..setStoryMode(StoryMode.conversation)
+      ..refreshStories();
 
     // init comments
     _comments
@@ -133,15 +135,16 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                 child: StoriesList(mode: _story.mode, show: !_upDirection)),
             if (_chat.composerMode != ComposerMode.icon)
               Observer(
-                builder: (_) => Positioned(
-                    bottom: 45,
-                    left: 16,
-                    child: CommentsFab(
-                      count: _chat.conversation.numberOfUnreadComments,
-                      onTap: () => showCommentsDialog(
-                        context,
-                      ),
-                    )),
+                builder: (_) => Visibility(
+                  visible: _chat.composerMode != ComposerMode.icon,
+                  child: Positioned(
+                      bottom: 45,
+                      left: 16,
+                      child: CommentsFab(
+                        count: _comments.commentsCount,
+                        onTap: () => showCommentsDialog(context),
+                      )),
+                ),
               ),
             _showWelcomeDialog(_chat.conversation?.name ?? ''),
           ],

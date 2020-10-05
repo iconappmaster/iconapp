@@ -24,6 +24,7 @@ class TextMessage extends StatefulWidget {
   final int index;
   final bool showPin;
   final Color forcedColor;
+  final bool isSwipeEnabled;
   final AutoScrollController controller;
 
   const TextMessage({
@@ -36,6 +37,7 @@ class TextMessage extends StatefulWidget {
     this.forcedColor,
     this.hideEmoji = false,
     this.hideAvatar = false,
+    this.isSwipeEnabled = true,
   }) : super(key: key);
 
   @override
@@ -82,7 +84,7 @@ class _TextMessageState extends State<TextMessage> {
       index: widget.index,
       controller: widget.controller,
       child: Replyble(
-        isEnabled: _chat.conversation.userRole != UserRole.viewer,
+        isEnabled: widget.isSwipeEnabled && _chat.conversation.userRole != UserRole.viewer,
         isOpen: _isOpen,
         keyName: widget.message.id.toString(),
         controller: _slidableController,

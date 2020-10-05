@@ -120,6 +120,12 @@ abstract class RestClient {
   Future<List<MessageModel>> getCommentByConversationId(
       @Path('conversationId') int id);
 
+  @POST('conversations/{conversationId}/update_comment_settings')
+  Future<Conversation> setCommentsStatus(
+      @Path('conversationId') int id,
+      @Query('isCommentOpened') bool isCommentOpened,
+      @Query('maxUserCount') int maxUserCount);
+
   @POST('conversations/{conversationId}/send_comment')
   Future<MessageModel> sendComment(
       @Path('conversationId') int id, @Body() MessageModel comment);
