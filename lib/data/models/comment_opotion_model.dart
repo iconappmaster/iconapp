@@ -10,11 +10,11 @@ class CommentListOption {
   });
 }
 
-final commentsOption = [
+final commentsOptionList = [
   CommentListOption(commentsMaxUserCount: 20, title: 'עד 20'),
   CommentListOption(commentsMaxUserCount: 50, title: 'עד 50'),
   CommentListOption(commentsMaxUserCount: 75, title: 'עד 70'),
   CommentListOption(commentsMaxUserCount: 100, title: 'עד 100'),
   CommentListOption(commentsMaxUserCount: 200, title: 'עד 200'),
-  CommentListOption(commentsMaxUserCount: 0, title: 'ללא הגבלת משתתפים'),
+  CommentListOption(commentsMaxUserCount: 100000, title: 'ללא הגבלת משתתפים'),
 ];

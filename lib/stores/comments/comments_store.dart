@@ -20,13 +20,11 @@ abstract class _CommentsStoreBase with Store {
 
   ChatStore _chat;
   UserStore _user;
-  HomeStore _home;
   CommentsRepository _repository;
 
   _CommentsStoreBase() {
     _chat = sl<ChatStore>();
     _user = sl<UserStore>();
-    _home = sl<HomeStore>();
     _repository = sl<CommentsRepository>();
   }
 
@@ -152,7 +150,6 @@ abstract class _CommentsStoreBase with Store {
       );
 
       _chat.setConversation(conversation);
-      _home.updateConversation(conversation);
     } on ServerError catch (e) {
       Crash.report(e.message);
     } finally {

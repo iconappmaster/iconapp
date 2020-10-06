@@ -535,7 +535,7 @@ class _RestClient implements RestClient {
   }
 
   @override
-  setCommentsStatus(id, commentsMaxUserCount) async {
+  updateCommentSettings(id, commentsMaxUserCount) async {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(commentsMaxUserCount, 'commentsMaxUserCount');
     const _extra = <String, dynamic>{};

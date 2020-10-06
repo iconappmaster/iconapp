@@ -122,7 +122,7 @@ abstract class RestClient {
 
   // if pass 0 to maxUserCount it will diactivate the comments 
   @POST('conversations/{conversationId}/update_comment_settings')
-  Future<Conversation> setCommentsStatus(
+  Future<Conversation> updateCommentSettings(
       @Path('conversationId') int id,
       @Query('commentsMaxUserCount') int commentsMaxUserCount);
 

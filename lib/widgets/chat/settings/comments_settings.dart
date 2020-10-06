@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/screens/chat_settings_screen.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
-
 import 'comment_single_select.dart';
 
 class CommentsSettings extends StatelessWidget {
@@ -70,27 +70,29 @@ class _CommentButtonToggle extends StatelessWidget {
     return SizedBox(
       height: 25,
       width: 80,
-      child: RawMaterialButton(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(2.7),
-            side: BorderSide(color: cornflower)),
-        onPressed: onPressed,
-        highlightColor: isActivated ? Colors.transparent : cornflower,
-        fillColor: isActivated ? Colors.transparent : cornflower,
-        textStyle: settingsButton,
-        child: comments.activatingComments
-            ? SizedBox(
-                height: 15,
-                width: 15,
-                child: CircularProgressIndicator(
-                  strokeWidth: 1,
-                  valueColor: AlwaysStoppedAnimation(
-                    white,
+      child: Observer(
+        builder: (_) => RawMaterialButton(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(2.7),
+              side: BorderSide(color: cornflower)),
+          onPressed: onPressed,
+          highlightColor: isActivated ? Colors.transparent : cornflower,
+          fillColor: isActivated ? Colors.transparent : cornflower,
+          textStyle: settingsButton,
+          child: comments.activatingComments
+              ? SizedBox(
+                  height: 15,
+                  width: 15,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 1,
+                    valueColor: AlwaysStoppedAnimation(
+                      white,
+                    ),
                   ),
-                ),
-              )
-            : CustomText(isActivated ? 'סגירה' : 'פתיחה',
-                maxLines: 1, style: settingsButton),
+                )
+              : CustomText(isActivated ? 'סגירה' : 'פתיחה',
+                  maxLines: 1, style: settingsButton),
+        ),
       ),
     );
   }

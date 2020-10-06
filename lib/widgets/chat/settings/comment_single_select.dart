@@ -21,7 +21,7 @@ class _CommentSingleSelectDialogState extends State<CommentSingleSelectDialog> {
 
   @override
   void initState() {
-    selected = commentsOption.first;
+    selected = commentsOptionList.first;
     super.initState();
   }
 
@@ -36,16 +36,16 @@ class _CommentSingleSelectDialogState extends State<CommentSingleSelectDialog> {
           SizedBox(height: 30),
           ListView.builder(
             shrinkWrap: true,
-            itemCount: commentsOption.length,
+            itemCount: commentsOptionList.length,
             itemBuilder: (context, index) {
-              final option = commentsOption[index];
+              final option = commentsOptionList[index];
               return Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
                 child: GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
-                    selected = commentsOption[index];
+                    selected = commentsOptionList[index];
                     setState(() {});
                   },
                   child: Row(
@@ -56,7 +56,7 @@ class _CommentSingleSelectDialogState extends State<CommentSingleSelectDialog> {
                         child: Radio(
                           activeColor: white,
                           visualDensity: VisualDensity.compact,
-                          value: commentsOption[index],
+                          value: commentsOptionList[index],
                           groupValue: selected,
                           onChanged: (s) {
                             selected = s;

@@ -142,7 +142,13 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                       left: 16,
                       child: CommentsFab(
                         count: _comments.commentsCount,
-                        onTap: () => showCommentsDialog(context),
+                        onTap: () {
+                          if (_chat.conversation.areCommentsActivated) {
+                            showCommentsDialog(context);
+                          } else {
+                            // show popup?
+                          }
+                        },
                       )),
                 ),
               ),
