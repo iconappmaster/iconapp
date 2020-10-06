@@ -30,6 +30,9 @@ abstract class _LoginStoreBase with Store {
   int _currentCountDown = 0;
 
   @observable
+  bool agreeTerms = false;
+
+  @observable
   LoginState _state = LoginState.initial();
 
   @computed
@@ -128,6 +131,11 @@ abstract class _LoginStoreBase with Store {
     } finally {
       _state = _state.copyWith(loading: false);
     }
+  }
+
+  @action
+  void updateTerms(bool value) {
+    agreeTerms = value;
   }
 
   @action

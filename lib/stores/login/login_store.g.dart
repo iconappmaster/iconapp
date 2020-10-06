@@ -68,6 +68,21 @@ mixin _$LoginStore on _LoginStoreBase, Store {
     });
   }
 
+  final _$agreeTermsAtom = Atom(name: '_LoginStoreBase.agreeTerms');
+
+  @override
+  bool get agreeTerms {
+    _$agreeTermsAtom.reportRead();
+    return super.agreeTerms;
+  }
+
+  @override
+  set agreeTerms(bool value) {
+    _$agreeTermsAtom.reportWrite(value, super.agreeTerms, () {
+      super.agreeTerms = value;
+    });
+  }
+
   final _$_stateAtom = Atom(name: '_LoginStoreBase._state');
 
   @override
@@ -152,8 +167,20 @@ mixin _$LoginStore on _LoginStoreBase, Store {
   }
 
   @override
+  void updateTerms(bool value) {
+    final _$actionInfo = _$_LoginStoreBaseActionController.startAction(
+        name: '_LoginStoreBase.updateTerms');
+    try {
+      return super.updateTerms(value);
+    } finally {
+      _$_LoginStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
+agreeTerms: ${agreeTerms},
 displayCountdown: ${displayCountdown},
 counterReachedZero: ${counterReachedZero},
 isPhoneMode: ${isPhoneMode},
