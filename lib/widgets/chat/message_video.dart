@@ -5,6 +5,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/routes/router.gr.dart';
+import 'package:iconapp/widgets/global/report_dialog.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:vibration/vibration.dart';
 import '../../core/bus.dart';
@@ -98,6 +99,14 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
         },
         child: Stack(children: [
           IconBubble(
+            onLongTap: () {
+              showDialog(
+                context: context,
+                child: ReportUserDialog(
+                  user: widget.message.sender,
+                ),
+              );
+            },
             isMe: widget.isMe,
             message: widget.message,
             onTap: () => ExtendedNavigator.of(context)

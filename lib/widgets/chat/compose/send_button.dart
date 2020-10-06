@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:iconapp/core/dependencies/locator.dart';
-import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/stores/chat/chat_store.dart';
-import 'package:iconapp/stores/comments/comments_store.dart';
-import 'package:iconapp/widgets/chat/compose/panel_compose.dart';
+import 'panel_compose.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:vibration/vibration.dart';
+import '../../../core/dependencies/locator.dart';
+import '../../../core/theme.dart';
+import '../../../stores/chat/chat_store.dart';
+import '../../../stores/comments/comments_store.dart';
+import '../../../core/extensions/context_ext.dart';
 
 class SendButton extends StatelessWidget {
   final TextEditingController textEditcontroller;
@@ -53,9 +54,13 @@ class SendButton extends StatelessWidget {
                   }
                   break;
                 case ComposerPanelMode.comments:
-                  textEditcontroller.clear();
-                  scrollController.jumpTo(0);
-                  comments.sendComment();
+                  if (chat.conversation.areCommentsActivated) {
+                    textEditcontroller.clear();
+                    scrollController.jumpTo(0);
+                    comments.sendComment();
+                  } else {
+                    context.showFlushbar(message: 'הערות לא פעילות כרגע');
+                  }
                   break;
               }
             },

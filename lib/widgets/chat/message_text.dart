@@ -3,6 +3,7 @@ import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 
 import 'package:flutter/material.dart';
+import 'package:iconapp/widgets/global/report_dialog.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:vibration/vibration.dart';
 import '../global/bubble.dart';
@@ -84,7 +85,8 @@ class _TextMessageState extends State<TextMessage> {
       index: widget.index,
       controller: widget.controller,
       child: Replyble(
-        isEnabled: widget.isSwipeEnabled && _chat.conversation.userRole != UserRole.viewer,
+        isEnabled: widget.isSwipeEnabled &&
+            _chat.conversation.userRole != UserRole.viewer,
         isOpen: _isOpen,
         keyName: widget.message.id.toString(),
         controller: _slidableController,
@@ -93,6 +95,14 @@ class _TextMessageState extends State<TextMessage> {
           return ReplyButton(message: widget.message);
         },
         child: IconBubble(
+          onLongTap: () {
+            showDialog(
+              context: context,
+              child: ReportUserDialog(
+                user: widget.message.sender,
+              ),
+            );
+          },
           hideAvatar: widget.hideAvatar,
           hideEmoji: widget.hideEmoji,
           showPin: widget.showPin,

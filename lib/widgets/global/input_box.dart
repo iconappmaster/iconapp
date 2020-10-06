@@ -14,6 +14,7 @@ class InputText extends StatelessWidget {
   final TextStyle hintStyle;
   final TextStyle textStyle;
   final EdgeInsets contentPadding;
+  
   const InputText({
     Key key,
     this.title,

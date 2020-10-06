@@ -7,7 +7,6 @@ import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/repositories/comments_repository.dart';
 import 'package:iconapp/domain/core/errors.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
-import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:mobx/mobx.dart';
 part 'comments_store.g.dart';

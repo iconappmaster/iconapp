@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:iconapp/widgets/global/blur_appbar.dart';
+import 'package:iconapp/widgets/global/report_dialog.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:vibration/vibration.dart';
 import '../../core/bus.dart';
@@ -97,6 +98,14 @@ class _PhotoMessageState extends State<PhotoMessage> {
             child: Stack(
               children: [
                 IconBubble(
+                  onLongTap: () {
+                    showDialog(
+                      context: context,
+                      child: ReportUserDialog(
+                        user: widget.message.sender,
+                      ),
+                    );
+                  },
                   isMe: widget.isMe,
                   message: widget.message,
                   onTap: () => store.conversationPhotos.length > 1

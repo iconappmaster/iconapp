@@ -25,6 +25,10 @@ abstract class RestClient {
       @Query('phone') String phone, @Query('login_code') String code);
 
   // USERS
+  @POST('user/report')
+  Future reportUser(
+      @Query('userId') int id, @Query('reportExplanation') String explanation);
+
   @GET('user')
   Future<UserModel> getUser();
 
@@ -120,10 +124,9 @@ abstract class RestClient {
   Future<List<MessageModel>> getCommentByConversationId(
       @Path('conversationId') int id);
 
-  // if pass 0 to maxUserCount it will diactivate the comments 
+  // if pass 0 to maxUserCount it will diactivate the comments
   @POST('conversations/{conversationId}/update_comment_settings')
-  Future<Conversation> updateCommentSettings(
-      @Path('conversationId') int id,
+  Future<Conversation> updateCommentSettings(@Path('conversationId') int id,
       @Query('commentsMaxUserCount') int commentsMaxUserCount);
 
   @POST('conversations/{conversationId}/send_comment')

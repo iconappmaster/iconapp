@@ -58,6 +58,28 @@ class _RestClient implements RestClient {
   }
 
   @override
+  reportUser(id, explanation) async {
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(explanation, 'explanation');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'userId': id,
+      r'reportExplanation': explanation
+    };
+    final _data = <String, dynamic>{};
+    final Response _result = await _dio.request('user/report',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = _result.data;
+    return value;
+  }
+
+  @override
   getUser() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

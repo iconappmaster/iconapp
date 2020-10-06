@@ -14,6 +14,7 @@ class IconBubble extends StatefulWidget {
   final bool showPin;
   final Function onTap;
   final Function onDoubleTap;
+  final Function onLongTap;
   final BubbleEdges padding;
   final bool isMe;
   final MessageModel message;
@@ -28,6 +29,7 @@ class IconBubble extends StatefulWidget {
     @required this.child,
     @required this.message,
     @required this.isMe,
+    @required this.onLongTap,
     this.onTap,
     this.onDoubleTap,
     this.padding,
@@ -69,6 +71,7 @@ class _IconBubbleState extends State<IconBubble> {
           mainAxisAlignment:
               widget.isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
           children: [
+            // show the emoji+ sign in the right side
             if (!widget.hideEmoji && widget.isMe)
               EmojiPlus(
                 isMe: widget.isMe,
@@ -76,6 +79,7 @@ class _IconBubbleState extends State<IconBubble> {
                 likeAsset: widget.message?.likeType,
               ),
             GestureDetector(
+              onLongPress: widget.onLongTap,
               onDoubleTap: widget.onDoubleTap,
               onTap: widget.onTap,
               child: Column(
@@ -138,12 +142,12 @@ class _IconBubbleState extends State<IconBubble> {
                 ],
               ),
             ),
+            // show the emoji+ sign in the left side
             if (!widget.hideEmoji && !widget.isMe)
               EmojiPlus(
-                likeAsset: widget.message?.likeType,
-                isMe: widget.isMe,
-                message: widget.message,
-              ),
+                  likeAsset: widget.message?.likeType,
+                  isMe: widget.isMe,
+                  message: widget.message),
           ],
         ),
         AnimatedContainer(

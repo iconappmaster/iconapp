@@ -35,14 +35,16 @@ class WelcomeDialog extends StatelessWidget {
                 ),
               )),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: NextButton(
-                  height: 44,
-                  title: LocaleKeys.general_iGotIt.tr(),
-                  onClick: () => onTap()),
+            padding: EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 16,
             ),
+            child: Align(
+                alignment: Alignment.bottomCenter,
+                child: NextButton(
+                    height: 44,
+                    title: LocaleKeys.general_iGotIt.tr(),
+                    onClick: onTap)),
           )
         ],
       ),

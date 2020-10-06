@@ -100,8 +100,18 @@ abstract class _UserStoreBase with Store {
       if (token != null) {
         await _userRepository.updateUser(getUser.copyWith(pushToken: token));
       }
-    } on Exception catch (e) {
-      print(e);
+    } on ServerError catch (e) {
+      Crash.report(e.message);
+    }
+  }
+
+  @action
+  Future reportUser(UserModel user, String explanation) async {
+    try {
+      if (explanation.isNotEmpty)
+        await _userRepository.reportUser(user.id, explanation);
+    } on ServerError catch (e) {
+      Crash.report(e.message);
     }
   }
 
