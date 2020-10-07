@@ -8,9 +8,10 @@ import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 abstract class UserRepository {
   Future<UserModel> updateUser(UserModel user);
   Future<UserModel> getRemtoeUser();
-  Future<bool> persistUser(UserModel user);
-  Future<UserModel> getPersistedUser();
+  Future<bool> saveUser(UserModel user);
+  Future<UserModel> getSavedUser();
   Future<bool> reportUser(int userId, String reportExplanation);
+  Future<UserModel> updatePushToken(String pushToken, String os);
   Future turnOnNotifications();
   Future turnOffNotifications();
 }
@@ -28,12 +29,12 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<bool> persistUser(UserModel user) async {
+  Future<bool> saveUser(UserModel user) async {
     return sp.setString(StorageKey.user, jsonEncode(user.toJson()));
   }
 
   @override
-  Future<UserModel> getPersistedUser() async {
+  Future<UserModel> getSavedUser() async {
     UserModel user;
     if (sp.contains(StorageKey.user)) {
       final userJson = sp.getString(StorageKey.user);
@@ -60,5 +61,10 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<bool> reportUser(int userId, String reportExplanation) async {
     return await restClient.reportUser(userId, reportExplanation);
+  }
+
+  @override
+  Future<UserModel> updatePushToken(String pushToken, String os) async {
+    return await restClient.updatePushToken(pushToken, os);
   }
 }

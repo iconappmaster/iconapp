@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import '../../domain/auth/auth_failure.dart';
 import '../sources/remote/rest/rest_client.dart';
@@ -19,7 +20,8 @@ class LoginRepositoryImpl implements LoginRepository {
     try {
       await restClient.verifyPhone(phone);
       return right(unit);
-    } on DioError catch (_) {
+    } on DioError catch (e) {
+      Crash.report(e.message);
       return left(const AuthFailure.serverError());
     }
   }

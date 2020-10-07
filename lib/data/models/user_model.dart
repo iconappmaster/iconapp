@@ -13,6 +13,7 @@ abstract class UserModel with _$UserModel {
     String email,
     UserGender gender,
     PhotoModel photo,
+    String os,
     int age,
     bool isIcon,
     String pushToken,

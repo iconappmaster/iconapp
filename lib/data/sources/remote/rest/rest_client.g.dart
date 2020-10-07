@@ -80,6 +80,29 @@ class _RestClient implements RestClient {
   }
 
   @override
+  updatePushToken(token, operationSystem) async {
+    ArgumentError.checkNotNull(token, 'token');
+    ArgumentError.checkNotNull(operationSystem, 'operationSystem');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'pushToken': token,
+      r'os': operationSystem
+    };
+    final _data = <String, dynamic>{};
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'user/update_push_token',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = UserModel.fromJson(_result.data);
+    return value;
+  }
+
+  @override
   getUser() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

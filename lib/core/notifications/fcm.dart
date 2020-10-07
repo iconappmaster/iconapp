@@ -7,29 +7,32 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
+import 'package:iconapp/stores/auth/auth_store.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/home/home_store.dart';
+import 'package:iconapp/stores/user/user_store.dart';
 
 import 'notifications.dart';
 
 final firebasePlugin = FlutterLocalNotificationsPlugin();
 const channelName = 'fcm_default_channel';
 
+final messaging = FirebaseMessaging();
+
 class Fcm {
   StreamSubscription<String> tokenRefreshSubscription;
 
   void setFirebase() {
     final sp = sl<SharedPreferencesService>();
-
+    final auth = sl<AuthStore>();
+    final user = sl<UserStore>();
     final android = AndroidInitializationSettings('app_icon');
     final ios = IOSInitializationSettings();
     final init = InitializationSettings(android, ios);
     firebasePlugin.initialize(init,
         onSelectNotification: onNotificationClicked);
 
-    final _messaging = FirebaseMessaging();
-
-    _messaging.configure(
+    messaging.configure(
       onLaunch: (message) async {
         print('onLaunch');
         return Future.value();
@@ -42,11 +45,18 @@ class Fcm {
       onMessage: (message) async => _handleNotification(message),
     );
 
-    _messaging.getToken().then(
-          (token) => sp.setString(StorageKey.fcmToken, token),
-        );
+    messaging.getToken().then(
+      (token) {
+        // only send the push token if authenticated.
+        if (auth.isSignedIn) {
+          user.updatePushToken((token));
+        }
 
-    tokenRefreshSubscription = _messaging.onTokenRefresh.listen(
+        return sp.setString(StorageKey.fcmToken, token);
+      },
+    );
+
+    tokenRefreshSubscription = messaging.onTokenRefresh.listen(
       (token) => sp.setString(StorageKey.fcmToken, token),
     );
   }

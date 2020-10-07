@@ -10,6 +10,7 @@ enum StorageKey {
   welcomeDialog,
   conversation,
   fcmToken,
+  sessionToken,
   home,
   homeTimestamp
 }

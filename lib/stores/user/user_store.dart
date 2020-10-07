@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/domain/core/errors.dart';
 import 'package:mobx/mobx.dart';
@@ -25,13 +26,16 @@ abstract class _UserStoreBase with Store {
   UserModel _userModel = UserModel();
 
   @observable
+  String _sessionToken = '';
+
+  @observable
   bool _isNotification = true;
 
   @computed
   bool get isNotification => _isNotification;
 
   @computed
-  String get getToken => _userModel?.sessionToken ?? '';
+  String get getSessionToken => _sessionToken;
 
   @computed
   UserModel get getUser => _userModel;
@@ -42,27 +46,39 @@ abstract class _UserStoreBase with Store {
   @action
   Future init() async {
     try {
-      final persistnetUser = await _userRepository.getPersistedUser();
+      final persistnetUser = await _userRepository.getSavedUser();
       _userModel = persistnetUser;
+      _sessionToken = _prefs.getString(StorageKey.sessionToken);
+
+      // get if notifications are on
       _isNotification = _userModel?.didTurnOffNotifications ?? true;
-      final user = await _userRepository.getRemtoeUser();
-      _userRepository.persistUser(user);
-      _userModel = user;
-      updateFcmToken();
-    } on Exception catch (e) {
-      print(e);
+
+      // fetch the user from remote
+      final remoteUser = await _userRepository.getRemtoeUser();
+
+      // update and persist
+      _userRepository.saveUser(remoteUser);
+
+      setUser(remoteUser);
+    } on ServerError catch (e) {
+      Crash.report(e.message);
     }
   }
 
   @action
-  Future<bool> persistUser(UserModel user) async {
+  Future<bool> save(UserModel user) async {
     return await _prefs.setString(StorageKey.user, jsonEncode(user.toJson()));
+  }
+
+  @action
+  Future<bool> saveSessionToken(String sessionToken) async {
+    return await _prefs.setString(StorageKey.sessionToken, sessionToken);
   }
 
   @action
   Future<bool> updateUser(UserModel user) async {
     final createdUser = await _userRepository.updateUser(user);
-    final saved = await _userRepository.persistUser(createdUser);
+    final saved = await _userRepository.saveUser(createdUser);
     _userModel = createdUser;
     return saved;
   }
@@ -93,13 +109,10 @@ abstract class _UserStoreBase with Store {
   }
 
   @action
-  Future updateFcmToken() async {
+  Future updatePushToken(String pushToken) async {
     try {
-      final token = _prefs.getString(StorageKey.fcmToken);
-
-      if (token != null) {
-        await _userRepository.updateUser(getUser.copyWith(pushToken: token));
-      }
+      final ios = Platform.isIOS;
+      _userRepository.updatePushToken(pushToken, ios ? 'iOS' : 'Android');
     } on ServerError catch (e) {
       Crash.report(e.message);
     }

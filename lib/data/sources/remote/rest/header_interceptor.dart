@@ -2,9 +2,8 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/main.dart';
-import 'package:iconapp/stores/user/user_store.dart';
-
 import '../../../../stores/auth/auth_store.dart';
 
 class HeaderInterceptor extends Interceptor {
@@ -16,9 +15,13 @@ class HeaderInterceptor extends Interceptor {
 
   @override
   Future<FutureOr> onRequest(RequestOptions options) async {
+    final sp = sl<SharedPreferencesService>();
     // GET TOKEN
-    final token = sl<UserStore>().getToken;
-    addHeaders(options, token);
+    if (sp.contains(StorageKey.sessionToken)) {
+      final sessionToken = sp.getString(StorageKey.sessionToken);
+      addHeaders(options, sessionToken);
+    }
+
     return options;
   }
 
@@ -44,5 +47,8 @@ class HeaderInterceptor extends Interceptor {
 
 void addHeaders(RequestOptions options, String token) {
   options.headers['Authorization'] = "Bearer " + token ?? '';
-  if (kDebugMode) logger.d('SESSION TOKEN: $token');
+  if (kDebugMode) {
+    logger.d('Calling: ${options.path}');
+    logger.d('SESSION TOKEN: $token');
+  }
 }

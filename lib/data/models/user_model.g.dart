@@ -16,6 +16,7 @@ _$_UserModel _$_$_UserModelFromJson(Map<String, dynamic> json) {
     photo: json['photo'] == null
         ? null
         : PhotoModel.fromJson(json['photo'] as Map<String, dynamic>),
+    os: json['os'] as String,
     age: json['age'] as int,
     isIcon: json['isIcon'] as bool,
     pushToken: json['pushToken'] as String,
@@ -35,6 +36,7 @@ Map<String, dynamic> _$_$_UserModelToJson(_$_UserModel instance) =>
       'email': instance.email,
       'gender': _$UserGenderEnumMap[instance.gender],
       'photo': instance.photo,
+      'os': instance.os,
       'age': instance.age,
       'isIcon': instance.isIcon,
       'pushToken': instance.pushToken,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
@@ -31,23 +32,25 @@ class CommentsList extends StatelessWidget {
                   'אין עדיין תגובות',
                   style: dialogContent,
                 ))
-              : ListView.builder(
-                  reverse: true,
-                  controller: controller,
-                  itemCount: store.comments.length,
-                  itemBuilder: (context, index) {
-                    final comment = store.comments[index];
-                    return TextMessage(
-                        isSwipeEnabled: false,
-                        hideAvatar: true,
-                        hideEmoji: true,
-                        forcedColor: cornflower,
-                        showPin: false,
-                        controller: AutoScrollController(),
-                        message: comment,
-                        index: index,
-                        isMe: false);
-                  },
+              : Observer(
+                  builder: (_) => ListView.builder(
+                    padding: EdgeInsets.only(bottom: 8, right: 2),
+                    physics: BouncingScrollPhysics(),
+                    reverse: true,
+                    controller: controller,
+                    itemCount: store.comments.length,
+                    itemBuilder: (context, index) => TextMessage(
+                      isSwipeEnabled: false,
+                      hideAvatar: true,
+                      hideEmoji: true,
+                      forcedColor: cornflower,
+                      showPin: false,
+                      controller: AutoScrollController(),
+                      message: store.comments[index],
+                      index: index,
+                      isMe: false,
+                    ),
+                  ),
                 ),
         ),
       ],

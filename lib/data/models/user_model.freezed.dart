@@ -24,6 +24,7 @@ class _$UserModelTearOff {
       String email,
       UserGender gender,
       PhotoModel photo,
+      String os,
       int age,
       bool isIcon,
       String pushToken,
@@ -39,6 +40,7 @@ class _$UserModelTearOff {
       email: email,
       gender: gender,
       photo: photo,
+      os: os,
       age: age,
       isIcon: isIcon,
       pushToken: pushToken,
@@ -68,6 +70,7 @@ mixin _$UserModel {
   String get email;
   UserGender get gender;
   PhotoModel get photo;
+  String get os;
   int get age;
   bool get isIcon;
   String get pushToken;
@@ -92,6 +95,7 @@ abstract class $UserModelCopyWith<$Res> {
       String email,
       UserGender gender,
       PhotoModel photo,
+      String os,
       int age,
       bool isIcon,
       String pushToken,
@@ -120,6 +124,7 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
     Object email = freezed,
     Object gender = freezed,
     Object photo = freezed,
+    Object os = freezed,
     Object age = freezed,
     Object isIcon = freezed,
     Object pushToken = freezed,
@@ -136,6 +141,7 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
       email: email == freezed ? _value.email : email as String,
       gender: gender == freezed ? _value.gender : gender as UserGender,
       photo: photo == freezed ? _value.photo : photo as PhotoModel,
+      os: os == freezed ? _value.os : os as String,
       age: age == freezed ? _value.age : age as int,
       isIcon: isIcon == freezed ? _value.isIcon : isIcon as bool,
       pushToken: pushToken == freezed ? _value.pushToken : pushToken as String,
@@ -179,6 +185,7 @@ abstract class _$UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
       String email,
       UserGender gender,
       PhotoModel photo,
+      String os,
       int age,
       bool isIcon,
       String pushToken,
@@ -209,6 +216,7 @@ class __$UserModelCopyWithImpl<$Res> extends _$UserModelCopyWithImpl<$Res>
     Object email = freezed,
     Object gender = freezed,
     Object photo = freezed,
+    Object os = freezed,
     Object age = freezed,
     Object isIcon = freezed,
     Object pushToken = freezed,
@@ -225,6 +233,7 @@ class __$UserModelCopyWithImpl<$Res> extends _$UserModelCopyWithImpl<$Res>
       email: email == freezed ? _value.email : email as String,
       gender: gender == freezed ? _value.gender : gender as UserGender,
       photo: photo == freezed ? _value.photo : photo as PhotoModel,
+      os: os == freezed ? _value.os : os as String,
       age: age == freezed ? _value.age : age as int,
       isIcon: isIcon == freezed ? _value.isIcon : isIcon as bool,
       pushToken: pushToken == freezed ? _value.pushToken : pushToken as String,
@@ -256,6 +265,7 @@ class _$_UserModel implements _UserModel {
       this.email,
       this.gender,
       this.photo,
+      this.os,
       this.age,
       this.isIcon,
       this.pushToken,
@@ -281,6 +291,8 @@ class _$_UserModel implements _UserModel {
   @override
   final PhotoModel photo;
   @override
+  final String os;
+  @override
   final int age;
   @override
   final bool isIcon;
@@ -299,7 +311,7 @@ class _$_UserModel implements _UserModel {
 
   @override
   String toString() {
-    return 'UserModel(id: $id, fullName: $fullName, phone: $phone, email: $email, gender: $gender, photo: $photo, age: $age, isIcon: $isIcon, pushToken: $pushToken, isPushEnabled: $isPushEnabled, sessionToken: $sessionToken, userRole: $userRole, didCompleteRegistration: $didCompleteRegistration, didTurnOffNotifications: $didTurnOffNotifications)';
+    return 'UserModel(id: $id, fullName: $fullName, phone: $phone, email: $email, gender: $gender, photo: $photo, os: $os, age: $age, isIcon: $isIcon, pushToken: $pushToken, isPushEnabled: $isPushEnabled, sessionToken: $sessionToken, userRole: $userRole, didCompleteRegistration: $didCompleteRegistration, didTurnOffNotifications: $didTurnOffNotifications)';
   }
 
   @override
@@ -319,6 +331,8 @@ class _$_UserModel implements _UserModel {
                 const DeepCollectionEquality().equals(other.gender, gender)) &&
             (identical(other.photo, photo) ||
                 const DeepCollectionEquality().equals(other.photo, photo)) &&
+            (identical(other.os, os) ||
+                const DeepCollectionEquality().equals(other.os, os)) &&
             (identical(other.age, age) ||
                 const DeepCollectionEquality().equals(other.age, age)) &&
             (identical(other.isIcon, isIcon) ||
@@ -354,6 +368,7 @@ class _$_UserModel implements _UserModel {
       const DeepCollectionEquality().hash(email) ^
       const DeepCollectionEquality().hash(gender) ^
       const DeepCollectionEquality().hash(photo) ^
+      const DeepCollectionEquality().hash(os) ^
       const DeepCollectionEquality().hash(age) ^
       const DeepCollectionEquality().hash(isIcon) ^
       const DeepCollectionEquality().hash(pushToken) ^
@@ -381,6 +396,7 @@ abstract class _UserModel implements UserModel {
       String email,
       UserGender gender,
       PhotoModel photo,
+      String os,
       int age,
       bool isIcon,
       String pushToken,
@@ -405,6 +421,8 @@ abstract class _UserModel implements UserModel {
   UserGender get gender;
   @override
   PhotoModel get photo;
+  @override
+  String get os;
   @override
   int get age;
   @override

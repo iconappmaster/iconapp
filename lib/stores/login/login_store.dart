@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/core/notifications/fcm.dart';
 import 'package:iconapp/data/repositories/login_repository.dart';
 import 'package:iconapp/domain/auth/auth_failure.dart';
 import 'package:iconapp/domain/auth/auth_success.dart';
@@ -18,12 +19,12 @@ const defaultCountTimeSec = 17;
 
 abstract class _LoginStoreBase with Store {
   LoginRepository _repository;
-  UserStore _userStore;
+  UserStore _store;
   Timer _timer;
 
   _LoginStoreBase() {
     _repository = sl<LoginRepository>();
-    _userStore = sl<UserStore>();
+    _store = sl<UserStore>();
   }
 
   @observable
@@ -83,9 +84,8 @@ abstract class _LoginStoreBase with Store {
       phonePageState: PhoneOnboardingState.sent,
     );
 
-    final failureOrSuccess = await _repository.verifyPhone(
-      "+" + _state.countryCode + _state.prefix + _state.phone,
-    );
+    final failureOrSuccess = await _repository
+        .verifyPhone("+" + _state.countryCode + _state.prefix + _state.phone);
 
     failureOrSuccess.fold(
       (failure) {
@@ -98,11 +98,8 @@ abstract class _LoginStoreBase with Store {
             ));
       },
       (_) {
-        /// Success
         _state = _state.copyWith(
-          loading: false,
-          phonePageState: PhoneOnboardingState.sent,
-        );
+            loading: false, phonePageState: PhoneOnboardingState.sent);
       },
     );
   }
@@ -115,9 +112,18 @@ abstract class _LoginStoreBase with Store {
     final code = _state.code;
 
     try {
+      // after verifing the code the backend will return the user
+      // save the user and update the store
       final user = await _repository.verifyCode(fullNumber, code);
-      await _userStore.persistUser(user);
-      _userStore.setUser(user);
+
+      _store
+        ..save(user)
+        ..saveSessionToken(user.sessionToken)
+        ..setUser(user);
+
+      messaging.getToken().then(
+            (token) => _store.updatePushToken(token),
+          );
 
       return right(user.didCompleteRegistration
           ? AuthSuccess.navigateHome()

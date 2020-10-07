@@ -16,13 +16,13 @@ mixin _$UserStore on _UserStoreBase, Store {
       (_$isNotificationComputed ??= Computed<bool>(() => super.isNotification,
               name: '_UserStoreBase.isNotification'))
           .value;
-  Computed<String> _$getTokenComputed;
+  Computed<String> _$getSessionTokenComputed;
 
   @override
-  String get getToken =>
-      (_$getTokenComputed ??= Computed<String>(() => super.getToken,
-              name: '_UserStoreBase.getToken'))
-          .value;
+  String get getSessionToken => (_$getSessionTokenComputed ??= Computed<String>(
+          () => super.getSessionToken,
+          name: '_UserStoreBase.getSessionToken'))
+      .value;
   Computed<UserModel> _$getUserComputed;
 
   @override
@@ -53,6 +53,21 @@ mixin _$UserStore on _UserStoreBase, Store {
     });
   }
 
+  final _$_sessionTokenAtom = Atom(name: '_UserStoreBase._sessionToken');
+
+  @override
+  String get _sessionToken {
+    _$_sessionTokenAtom.reportRead();
+    return super._sessionToken;
+  }
+
+  @override
+  set _sessionToken(String value) {
+    _$_sessionTokenAtom.reportWrite(value, super._sessionToken, () {
+      super._sessionToken = value;
+    });
+  }
+
   final _$_isNotificationAtom = Atom(name: '_UserStoreBase._isNotification');
 
   @override
@@ -75,11 +90,20 @@ mixin _$UserStore on _UserStoreBase, Store {
     return _$initAsyncAction.run(() => super.init());
   }
 
-  final _$persistUserAsyncAction = AsyncAction('_UserStoreBase.persistUser');
+  final _$saveAsyncAction = AsyncAction('_UserStoreBase.save');
 
   @override
-  Future<bool> persistUser(UserModel user) {
-    return _$persistUserAsyncAction.run(() => super.persistUser(user));
+  Future<bool> save(UserModel user) {
+    return _$saveAsyncAction.run(() => super.save(user));
+  }
+
+  final _$saveSessionTokenAsyncAction =
+      AsyncAction('_UserStoreBase.saveSessionToken');
+
+  @override
+  Future<bool> saveSessionToken(String sessionToken) {
+    return _$saveSessionTokenAsyncAction
+        .run(() => super.saveSessionToken(sessionToken));
   }
 
   final _$updateUserAsyncAction = AsyncAction('_UserStoreBase.updateUser');
@@ -97,12 +121,21 @@ mixin _$UserStore on _UserStoreBase, Store {
     return _$setNotificationAsyncAction.run(() => super.setNotification(value));
   }
 
-  final _$updateFcmTokenAsyncAction =
-      AsyncAction('_UserStoreBase.updateFcmToken');
+  final _$updatePushTokenAsyncAction =
+      AsyncAction('_UserStoreBase.updatePushToken');
 
   @override
-  Future<dynamic> updateFcmToken() {
-    return _$updateFcmTokenAsyncAction.run(() => super.updateFcmToken());
+  Future<dynamic> updatePushToken(String pushToken) {
+    return _$updatePushTokenAsyncAction
+        .run(() => super.updatePushToken(pushToken));
+  }
+
+  final _$reportUserAsyncAction = AsyncAction('_UserStoreBase.reportUser');
+
+  @override
+  Future<dynamic> reportUser(UserModel user, String explanation) {
+    return _$reportUserAsyncAction
+        .run(() => super.reportUser(user, explanation));
   }
 
   final _$_UserStoreBaseActionController =
@@ -123,7 +156,7 @@ mixin _$UserStore on _UserStoreBase, Store {
   String toString() {
     return '''
 isNotification: ${isNotification},
-getToken: ${getToken},
+getSessionToken: ${getSessionToken},
 getUser: ${getUser},
 notificationState: ${notificationState}
     ''';

@@ -61,7 +61,7 @@ class CommentsBottomSheet extends StatelessWidget {
             ),
           ),
           Positioned(
-              left: 20,
+              left: 30,
               top: 0,
               child: CommentsFab(
                 count: 4,

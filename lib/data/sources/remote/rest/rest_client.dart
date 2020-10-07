@@ -29,6 +29,10 @@ abstract class RestClient {
   Future reportUser(
       @Query('userId') int id, @Query('reportExplanation') String explanation);
 
+  @POST('user/update_push_token')
+  Future<UserModel> updatePushToken(
+      @Query('pushToken') String token, @Query('os') String operationSystem);
+
   @GET('user')
   Future<UserModel> getUser();
 

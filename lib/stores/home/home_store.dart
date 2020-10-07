@@ -115,6 +115,7 @@ abstract class _HomeStoreBase with Store {
   @action
   void updateConversation(Conversation conversation) {
     final index = _conversations.indexWhere((c) => c.id == conversation.id);
+
     if (index != -1) _conversations[index] = conversation;
   }
 
@@ -133,16 +134,23 @@ abstract class _HomeStoreBase with Store {
   @action
   void watchConversation() {
     _conversationChangedSubscription =
-        _repository.watchConversation().listen((conversation) {
-      final conversationIndex =
-          _conversations.indexWhere((c) => c.id == conversation.id);
+        _repository.watchConversation().listen((conversationEvent) {
+      final index =
+          _conversations.indexWhere((c) => c.id == conversationEvent.id);
 
-      if (conversationIndex != -1) {
+      if (index != -1) {
         // stroy already exists, replace it.
-        _conversations[conversationIndex] = conversation;
+
+        final c = _conversations[index];
+
+        _conversations[index] = conversationEvent.copyWith(
+          userRole: c.userRole,
+          isSubscribed: c.isSubscribed,
+          isPinned: c.isPinned,
+        );
       } else {
         // add a new story
-        _conversations.add(conversation);
+        _conversations.add(conversationEvent);
       }
 
       _repository.saveHome(_conversations);
