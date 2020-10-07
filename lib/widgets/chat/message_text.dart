@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
-
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter/material.dart';
+import 'package:iconapp/widgets/global/auto_direction.dart';
 import 'package:iconapp/widgets/global/report_dialog.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:vibration/vibration.dart';
 import '../global/bubble.dart';
 import 'chat_list.dart';
@@ -133,10 +135,16 @@ class _TextMessageState extends State<TextMessage> {
                   ConstrainedBox(
                     constraints: BoxConstraints(
                         maxWidth: MediaQuery.of(context).size.width * .5),
-                    child: SelectableText(
-                      widget.message?.body ?? '',
-                      style: chatMessageBody,
-                      textAlign: TextAlign.start,
+                    child: AutoDirection(
+                      text: widget.message?.body ?? '',
+                      child: Linkify(
+                        linkStyle: TextStyle(color: Colors.blue),
+                        text: widget.message?.body ?? '',
+                        onOpen: _onOpen,
+                        style: chatMessageBody,
+                        textAlign: TextAlign.start,
+                        maxLines: null,
+                      ),
                     ),
                   ),
                   SizedBox(height: 8),
@@ -158,5 +166,13 @@ class _TextMessageState extends State<TextMessage> {
         ),
       ),
     );
+  }
+
+  Future<void> _onOpen(LinkableElement link) async {
+    if (await canLaunch(link.url)) {
+      await launch(link.url);
+    } else {
+      throw 'Could not launch $link';
+    }
   }
 }

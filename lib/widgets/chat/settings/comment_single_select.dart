@@ -28,7 +28,7 @@ class _CommentSingleSelectDialogState extends State<CommentSingleSelectDialog> {
   @override
   Widget build(BuildContext context) {
     return BaseDialog(
-      height: MediaQuery.of(context).size.height * .65,
+      height: MediaQuery.of(context).size.height * .72,
       child: Column(
         children: [
           SizedBox(height: 20),
