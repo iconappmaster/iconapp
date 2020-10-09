@@ -25,10 +25,6 @@ abstract class RestClient {
       @Query('phone') String phone, @Query('login_code') String code);
 
   // USERS
-  @POST('user/report')
-  Future reportUser(
-      @Query('userId') int id, @Query('reportExplanation') String explanation);
-
   @POST('user/update_push_token')
   Future<UserModel> updatePushToken(
       @Query('pushToken') String token, @Query('os') String operationSystem);
@@ -65,6 +61,17 @@ abstract class RestClient {
       @Query('iconUserId') int iconUserId);
 
   // CONVERSATIONS
+
+  @POST('conversations/{conversationId}/report')
+  Future report(
+    @Path('conversationId') int conversationId,
+    @Query('reportExplanation') String explanation,
+  );
+
+  @POST('conversations/{conversationId}/block')
+  Future block(
+    @Path('conversationId') int conversationId,
+  );
 
   @POST('conversations/{conversationId}')
   Future<Conversation> updateConversation(

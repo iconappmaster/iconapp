@@ -23,7 +23,6 @@ abstract class _HomeStoreBase with Store {
     _sp = sl<SharedPreferencesService>();
     _repository = sl<HomeRepository>();
     _shouldShowWelcomeDialog();
-    // getConversations();
   }
 
   void _shouldShowWelcomeDialog() {
@@ -51,6 +50,11 @@ abstract class _HomeStoreBase with Store {
   @action
   void addConversation(Conversation conversation) {
     _conversations.add(conversation);
+  }
+
+  @action
+  void remove(int conversationId) {
+    _conversations.removeWhere((c) => c.id == conversationId);
   }
 
   @action
@@ -135,19 +139,17 @@ abstract class _HomeStoreBase with Store {
   void watchConversation() {
     _conversationChangedSubscription =
         _repository.watchConversation().listen((conversationEvent) {
+      // get the index of the changed conversation in conversations
       final index =
           _conversations.indexWhere((c) => c.id == conversationEvent.id);
 
+      // if index is found the update the conversation with the last message
       if (index != -1) {
-        // stroy already exists, replace it.
+        final messages = _conversations[index].messages;
+        messages.add(conversationEvent.lastMessage);
 
-        final c = _conversations[index];
-
-        _conversations[index] = conversationEvent.copyWith(
-          userRole: c.userRole,
-          isSubscribed: c.isSubscribed,
-          isPinned: c.isPinned,
-        );
+        _conversations[index] = _conversations[index].copyWith(
+            lastMessage: conversationEvent.lastMessage, messages: messages);
       } else {
         // add a new story
         _conversations.add(conversationEvent);

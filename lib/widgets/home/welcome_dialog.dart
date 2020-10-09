@@ -35,10 +35,7 @@ class WelcomeDialog extends StatelessWidget {
                 ),
               )),
           Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 16,
-            ),
+            padding: EdgeInsets.only(bottom: 16),
             child: Align(
                 alignment: Alignment.bottomCenter,
                 child: NextButton(

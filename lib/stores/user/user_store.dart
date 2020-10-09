@@ -117,16 +117,7 @@ abstract class _UserStoreBase with Store {
       Crash.report(e.message);
     }
   }
-
-  @action
-  Future reportUser(UserModel user, String explanation) async {
-    try {
-      if (explanation.isNotEmpty)
-        await _userRepository.reportUser(user.id, explanation);
-    } on ServerError catch (e) {
-      Crash.report(e.message);
-    }
-  }
+ 
 
   bool isMe(int id) => (id == getUser?.id) ?? false;
 }

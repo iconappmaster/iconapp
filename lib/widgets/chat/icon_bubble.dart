@@ -29,7 +29,7 @@ class IconBubble extends StatefulWidget {
     @required this.child,
     @required this.message,
     @required this.isMe,
-    @required this.onLongTap,
+    this.onLongTap,
     this.onTap,
     this.onDoubleTap,
     this.padding,

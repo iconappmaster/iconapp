@@ -4,7 +4,6 @@ import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter/material.dart';
 import 'package:iconapp/widgets/global/auto_direction.dart';
-import 'package:iconapp/widgets/global/report_dialog.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vibration/vibration.dart';
@@ -97,14 +96,7 @@ class _TextMessageState extends State<TextMessage> {
           return ReplyButton(message: widget.message);
         },
         child: IconBubble(
-          onLongTap: () {
-            showDialog(
-              context: context,
-              child: ReportUserDialog(
-                user: widget.message.sender,
-              ),
-            );
-          },
+        
           hideAvatar: widget.hideAvatar,
           hideEmoji: widget.hideEmoji,
           showPin: widget.showPin,

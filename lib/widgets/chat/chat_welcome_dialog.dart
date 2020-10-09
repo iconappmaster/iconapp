@@ -40,7 +40,7 @@ class ChatWelcomeDialog extends StatelessWidget {
                 ),
               )),
           Padding(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.only(bottom:16),
             child: Align(
               alignment: Alignment.bottomCenter,
               child: NextButton(

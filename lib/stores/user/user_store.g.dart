@@ -130,14 +130,6 @@ mixin _$UserStore on _UserStoreBase, Store {
         .run(() => super.updatePushToken(pushToken));
   }
 
-  final _$reportUserAsyncAction = AsyncAction('_UserStoreBase.reportUser');
-
-  @override
-  Future<dynamic> reportUser(UserModel user, String explanation) {
-    return _$reportUserAsyncAction
-        .run(() => super.reportUser(user, explanation));
-  }
-
   final _$_UserStoreBaseActionController =
       ActionController(name: '_UserStoreBase');
 

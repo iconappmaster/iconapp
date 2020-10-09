@@ -23,6 +23,8 @@ abstract class ChatRepository {
   Stream<MessageModel> watchRemoveLike();
   Future pinConversation(int conversationId, bool isPinned);
   Future conversationViewed(int conversationId);
+  Future block(int conversationId);
+  Future report(int conversationId, String text);
 }
 
 class ChatRepositoryImpl implements ChatRepository {
@@ -81,13 +83,13 @@ class ChatRepositoryImpl implements ChatRepository {
   Future<MessageModel> sendMessage(
       int conversationId, MessageModel message) async {
     return await remote.sendMessage(
-        conversationId ?? '',
-        message?.body ?? '',
-        message?.messageType?.toString()?.parseEnum() ?? "",
-        message?.extraData ?? '',
-        message?.repliedToMessage?.id ?? 0,
-        message?.timestamp ?? 0,
-        );
+      conversationId ?? '',
+      message?.body ?? '',
+      message?.messageType?.toString()?.parseEnum() ?? "",
+      message?.extraData ?? '',
+      message?.repliedToMessage?.id ?? 0,
+      message?.timestamp ?? 0,
+    );
   }
 
   @override
@@ -113,5 +115,15 @@ class ChatRepositoryImpl implements ChatRepository {
   @override
   Future conversationViewed(int conversationId) async {
     return await remote.viewedConversation(conversationId);
+  }
+
+  @override
+  Future block(int conversationId) async {
+    return await remote.block(conversationId);
+  }
+
+  @override
+  Future report(int conversationId, String text) async {
+    return await remote.report(conversationId, text);
   }
 }

@@ -177,12 +177,8 @@ class _PinCode extends StatelessWidget {
                 final successFailure = await store.verifySms();
                 successFailure.fold(
                   (error) => error.when(
-                      serverError: () => ctx
-                          .showFlushbar(
-                              message: LocaleKeys.general_server_error)
-                          .tr(),
-                      wrongCode: () => ctx.showFlushbar(
-                          message: LocaleKeys.onboarding_wrongCode.tr())),
+                      serverError: () => ctx.showFlushbar(message: LocaleKeys.general_server_error).tr(),
+                      wrongCode: () => ctx.showFlushbar( message: LocaleKeys.onboarding_wrongCode.tr())),
                   (success) => success.when(
                     navigateHome: () {
                       sl<AuthStore>()
@@ -191,8 +187,7 @@ class _PinCode extends StatelessWidget {
                       ExtendedNavigator.of(ctx).pushAndRemoveUntil(
                           Routes.mainNavigator, (route) => false);
                     },
-                    navigateProfile: () => ExtendedNavigator.of(ctx)
-                        .pushOnboardingProfile(mode: OnboardingMode.onboarding),
+                    navigateProfile: () => ExtendedNavigator.of(ctx) .pushOnboardingProfile(mode: OnboardingMode.onboarding),
                   ),
                 );
               },

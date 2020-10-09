@@ -173,7 +173,9 @@ abstract class _ChatStoreBase with Store {
     try {
       _state = _state.copyWith(loading: true);
       final remote = await _repository.getRemoteConversaion(conversation.id);
-      updateUi(remote);
+
+      if (remote.id == conversation.id) updateUi(remote);
+
       dataReady = true;
       _repository.cacheConversation(conversation);
     } on ServerError catch (e) {
@@ -469,6 +471,27 @@ abstract class _ChatStoreBase with Store {
     }
   }
 
+  // report on abuse from another user
+  @action
+  Future report(String text) async {
+    try {
+      await _repository.report(conversation.id, text);
+    } on ServerError catch (e) {
+      Crash.report(e.message);
+    }
+  }
+
+  // block conversation
+  @action
+  Future block() async {
+    try {
+      await _repository.block(conversation.id);
+      _homeStore.remove(conversation.id);
+    } on ServerError catch (e) {
+      Crash.report(e.message);
+    }
+  }
+
   @action
   void watchMessages() {
     _messagesSubscription.add(
@@ -498,15 +521,15 @@ abstract class _ChatStoreBase with Store {
     updateUi(conversation);
   }
 
-  _updateId(MessageModel message, int newId) {
-    final index = _messages.indexWhere((m) => m.id == message.id);
-    _messages[index] = message.copyWith(id: newId);
-  }
-
   @action
   Future setWelcomeDialogSeen() async {
     await _prefs.setBool(StorageKey.chatWelcome, false);
     _showWelcomeDialog = false;
+  }
+
+  _updateId(MessageModel message, int newId) {
+    final index = _messages.indexWhere((m) => m.id == message.id);
+    _messages[index] = message.copyWith(id: newId);
   }
 
   bool isMe(int id) => (id == _userStore.getUser?.id) ?? false;

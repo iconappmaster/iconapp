@@ -10,7 +10,6 @@ abstract class UserRepository {
   Future<UserModel> getRemtoeUser();
   Future<bool> saveUser(UserModel user);
   Future<UserModel> getSavedUser();
-  Future<bool> reportUser(int userId, String reportExplanation);
   Future<UserModel> updatePushToken(String pushToken, String os);
   Future turnOnNotifications();
   Future turnOffNotifications();
@@ -56,11 +55,6 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future turnOnNotifications() async {
     return await restClient.turnOnNotifications();
-  }
-
-  @override
-  Future<bool> reportUser(int userId, String reportExplanation) async {
-    return await restClient.reportUser(userId, reportExplanation);
   }
 
   @override

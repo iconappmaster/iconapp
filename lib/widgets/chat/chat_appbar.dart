@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/screens/chat_screen.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
 import 'package:iconapp/widgets/comments/comments_appbar_icon.dart';
+import 'package:iconapp/widgets/global/report_dialog.dart';
 import 'chat_back_button.dart';
 import '../../core/dependencies/locator.dart';
 import '../../routes/router.gr.dart';
@@ -21,7 +22,7 @@ class ChatAppbar extends StatelessWidget {
 
     return Observer(
       builder: (_) => Container(
-        height: context.heightPlusStatusbarPerc(.09),
+        height: context.heightPlusStatusbarPerc(.1),
         child: Padding(
           padding: const EdgeInsets.only(left: 15, top: 34.0, right: 21.3),
           child: Row(
@@ -38,12 +39,19 @@ class ChatAppbar extends StatelessWidget {
                     CustomText(store?.conversation?.name ?? '',
                         style: loginBigText),
                     CustomText(
-                        '${store.conversation?.numberOfParticipants ?? 0} משתתפים',
-                        style: fieldLabel), // should come from socket
+                      '${store.conversation?.numberOfParticipants ?? 0} משתתפים',
+                      style: fieldLabel,
+                    ), // should come from socket
                   ],
                 ),
               ),
               SizedBox(width: 8),
+              GestureDetector(
+                  onTap: () {
+                    _showAlertSheet(context);
+                  },
+                  child: Icon(Icons.report, color: white)),
+              SizedBox(width: 10),
               Observer(
                 builder: (_) => CommentsAppBarIcon(
                   onTap: () => showCommentsDialog(context),
@@ -86,4 +94,58 @@ class ChatAppbar extends StatelessWidget {
       ),
     );
   }
+}
+
+Future _showAlertSheet(BuildContext context) async {
+  showModalBottomSheet(
+    context: context,
+    builder: (_) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          SizedBox(
+            height: 10,
+          ),
+          Directionality(
+            textDirection: TextDirection.ltr,
+            child: Text(
+              'What would you like to do?',
+              style: settingsAppbarTitle.copyWith(
+                  fontSize: 20, color: Colors.black),
+            ),
+          ),
+          ListTile(
+              title: Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: Text('Report Abuse',
+                      style: settingsButton.copyWith(
+                          fontSize: 18, color: Colors.black))),
+              onTap: () async {
+                await showDialog(
+                    context: context,
+                    child: ReportUserDialog(
+                      mode: ReportMode.abuse,
+                    ));
+                await Navigator.pop(context);
+              }),
+          ListTile(
+            onTap: () async  {
+               await showDialog(
+                    context: context,
+                    child: ReportUserDialog(
+                      mode: ReportMode.block,
+                    ));
+                Navigator.pop(context);
+                Navigator.pop(context);
+            },
+              title: Directionality(
+            textDirection: TextDirection.ltr,
+            child: Text('Block',
+                style:
+                    settingsButton.copyWith(fontSize: 18, color: Colors.black),),
+          )),
+        ],
+      );
+    },
+  );
 }

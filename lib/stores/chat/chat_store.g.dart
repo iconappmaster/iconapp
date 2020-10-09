@@ -309,6 +309,20 @@ mixin _$ChatStore on _ChatStoreBase, Store {
         .run(() => super.stopRecordingAndSend());
   }
 
+  final _$reportAsyncAction = AsyncAction('_ChatStoreBase.report');
+
+  @override
+  Future<dynamic> report(String text) {
+    return _$reportAsyncAction.run(() => super.report(text));
+  }
+
+  final _$blockAsyncAction = AsyncAction('_ChatStoreBase.block');
+
+  @override
+  Future<dynamic> block() {
+    return _$blockAsyncAction.run(() => super.block());
+  }
+
   final _$setWelcomeDialogSeenAsyncAction =
       AsyncAction('_ChatStoreBase.setWelcomeDialogSeen');
 

@@ -171,7 +171,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                   ? context.heightPlusStatusbarPerc(.42)
                   : context.heightPlusStatusbarPerc(.323),
               child: GestureDetector(
-                onTap: () async => await _showBtoomSheet(context),
+                onTap: () async => await _showBottomSheet(context),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -257,7 +257,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
     );
   }
 
-  Future _showBtoomSheet(BuildContext context) async {
+  Future _showBottomSheet(BuildContext context) async {
     showModalBottomSheet(
       backgroundColor: cornflower,
       context: context,

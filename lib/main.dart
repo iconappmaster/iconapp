@@ -19,7 +19,7 @@ final logger = Logger();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp();
-  
+
   runApp(
     EasyLocalization(
       useOnlyLangCode: false,
@@ -39,7 +39,6 @@ class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
-
 
 class _MyAppState extends State<MyApp> {
   Socket _socket;

@@ -58,28 +58,6 @@ class _RestClient implements RestClient {
   }
 
   @override
-  reportUser(id, explanation) async {
-    ArgumentError.checkNotNull(id, 'id');
-    ArgumentError.checkNotNull(explanation, 'explanation');
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'userId': id,
-      r'reportExplanation': explanation
-    };
-    final _data = <String, dynamic>{};
-    final Response _result = await _dio.request('user/report',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'POST',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    final value = _result.data;
-    return value;
-  }
-
-  @override
   updatePushToken(token, operationSystem) async {
     ArgumentError.checkNotNull(token, 'token');
     ArgumentError.checkNotNull(operationSystem, 'operationSystem');
@@ -268,6 +246,47 @@ class _RestClient implements RestClient {
     var value = _result.data
         .map((dynamic i) => Conversation.fromJson(i as Map<String, dynamic>))
         .toList();
+    return value;
+  }
+
+  @override
+  report(conversationId, explanation) async {
+    ArgumentError.checkNotNull(conversationId, 'conversationId');
+    ArgumentError.checkNotNull(explanation, 'explanation');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'reportExplanation': explanation
+    };
+    final _data = <String, dynamic>{};
+    final Response _result = await _dio.request(
+        'conversations/$conversationId/report',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = _result.data;
+    return value;
+  }
+
+  @override
+  block(conversationId) async {
+    ArgumentError.checkNotNull(conversationId, 'conversationId');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response _result = await _dio.request(
+        'conversations/$conversationId/block',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = _result.data;
     return value;
   }
 

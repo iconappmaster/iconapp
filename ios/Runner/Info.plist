@@ -44,7 +44,7 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>need to acces the calander</string>
 	<key>NSCameraUsageDescription</key>
-	<string>This app requires access to the camera.</string>
+	<string>This app asks for camera permission so that you can upload a profile photo from your phone.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>need to access contacts</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -57,7 +57,7 @@
 	<key>NSMotionUsageDescription</key>
 	<string>needs access to motion data</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app requires access to the photo library.</string>
+	<string>This app requires access to the photo library to upload photos of the user to the chat.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>recognize speech</string>
 	<key>UIBackgroundModes</key>

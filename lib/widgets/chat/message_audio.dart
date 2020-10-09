@@ -14,7 +14,6 @@ import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/chat/reply_slider.dart';
 import 'package:iconapp/widgets/global/bubble.dart';
 import 'package:iconapp/widgets/global/hebrew_input_text.dart';
-import 'package:iconapp/widgets/global/report_dialog.dart';
 import 'package:iconapp/widgets/global/slidable/slidable.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:vibration/vibration.dart';
@@ -133,14 +132,6 @@ class _VoiceMessageState extends State<VoiceMessage> {
         },
         child: Container(
           child: IconBubble(
-            onLongTap: () {
-              showDialog(
-                context: context,
-                child: ReportUserDialog(
-                  user: widget.message.sender,
-                ),
-              );
-            },
             padding: BubbleEdges.symmetric(vertical: 14, horizontal: 14),
             message: widget.message,
             isMe: widget.isMe,
