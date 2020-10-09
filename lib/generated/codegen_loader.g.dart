@@ -1,4 +1,7 @@
 // DO NOT EDIT. This is code generated via package:easy_localization/generate.dart
+
+// ignore_for_file: prefer_single_quotes
+
 import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart' show AssetLoader;
@@ -11,7 +14,7 @@ class CodegenLoader extends AssetLoader{
     return Future.value(mapLocales[locale.toString()]);
   }
 
-    static const Map<String,dynamic> he_HE = {
+  static const Map<String,dynamic> he_HE = {
   "action_continue": "המשך",
   "action_save": "שמור",
   "action_close": "סגור",
@@ -57,18 +60,18 @@ class CodegenLoader extends AssetLoader{
   },
   "welcome": {
     "title": "ברוכים הבאים לאייקון",
-    "content": "קבוצת הצ׳אט שלנו מנוהלת על ידי האייקונים עצמם, אשר כותבים ומובילים את התוכן שאתם\nצופים בו באפליקציה, מצ׳וטטים, מצלמים\nתמונות וסרטונים ומקליטים את קולם כדי שתשמעו אותם\n\nמהיום, שוייכת לקבוצות האייקונים האהובה עליך.\nביכולתך להשפיע על ההודעות בצ׳אט באמצעות,\nמלחיצה על פרצופונים ורגשונים, כך שהם יוכלו לדעת כמה אהבה ותמיכה הם מקבלים ממך."
+    "content": "ברוך הבא ל-Icon! אצלנו תהיה חלק מקהילות\nועולמות תוכן המדברים אליך. קבוצות הצ'אט שלנו מנוהלות\nעל ידי אייקונים, מובילי דעה ויוצרי תוכן המובילים בתחומם\nהקהל הרחב יוכל לצפות בשיחות המתקיימות 24/7 ולהגיב באמצעות חייכנים. מנהל הקבוצה יוכל לפתוח את הקבוצה לשילוב הקהל בשיחה כשיבחר. מהיום אתה חלק מקבוצות האייקונים האהובים עליך."
   },
   "chat": {
     "messageInputHint": "הקלד/י הודעה",
-    "welcomeTitle": "ברוך הבא ל{}",
-    "welcomeContent": "איזה כיף! הטרפת לקבוצה הראשונה שלך.\nבקבוצות תיחשף לשיחות צ׳אט והודעות בין אייקונים.\nתוכל להגיב להודעות ולסטורי באמצעות חייכנים ואימוג׳ים.\nאתה יכול להצטרף לכל קבוצה שמעניינת אותך ואפילו לבחור לעקוב אחר אייקון ספציפי בקבוצות בהן הוא פעיל.\nאתה נכנס למימד חדש, ודא שהאייקונים ידעו שאתה שם."
+    "welcomeTitle": "ברוך הבא ל {}",
+    "welcomeContent": "איזה כיף! הצטרפת לקבוצה הראשונה שלך.\nבקבוצות תיחשף לשיחות צ׳אט והודעות בין אייקונים.\nתוכל להגיב להודעות ולסטורי באמצעות חייכנים ואימוג׳ים.\nאתה יכול להצטרף לכל קבוצה שמעניינת אותך ואפילו לבחור לעקוב אחר אייקון ספציפי בקבוצות בהן הוא פעיל.\nאתה נכנס למימד חדש, ודא שהאייקונים ידעו שאתה שם."
   },
   "disconnect": {
     "content": "אנחנו נתגעגע אלייך, {} {} {} רוצה לצאת מכל הצ׳אטים שלך?"
   }
 };
-  static const Map<String,dynamic> en_US = {
+static const Map<String,dynamic> en_US = {
   "action_continue": "continue",
   "policy": {
     "terms": "bla ",
@@ -82,5 +85,5 @@ class CodegenLoader extends AssetLoader{
     "phone_counting": "bla"
   }
 };
-  static const Map<String, Map<String,dynamic>> mapLocales = {"he_HE": he_HE, "en_US": en_US};
+static const Map<String, Map<String,dynamic>> mapLocales = {"he_HE": he_HE, "en_US": en_US};
 }

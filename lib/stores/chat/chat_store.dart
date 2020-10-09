@@ -138,6 +138,7 @@ abstract class _ChatStoreBase with Store {
       _state = _state.copyWith(isSubscribing: true);
       final result = await _repository.subscribe(conversation.id);
       _conversation = result;
+      _homeStore.updateConversation(conversation);
       _determineComposerMode();
     } on ServerError catch (e) {
       Crash.report(e.message);

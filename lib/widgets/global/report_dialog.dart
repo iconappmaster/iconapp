@@ -27,7 +27,7 @@ class ReportUserDialog extends StatelessWidget {
       textDirection: TextDirection.ltr,
       child: BaseDialog(
         height: context
-            .heightPlusStatusbarPerc(mode == ReportMode.abuse ? .42 : .25),
+            .heightPlusStatusbarPerc(mode == ReportMode.abuse ? .42 : .35),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
