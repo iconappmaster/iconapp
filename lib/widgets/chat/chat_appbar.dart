@@ -129,21 +129,22 @@ Future _showAlertSheet(BuildContext context) async {
                 await Navigator.pop(context);
               }),
           ListTile(
-            onTap: () async  {
-               await showDialog(
+              onTap: () async {
+                await showDialog(
                     context: context,
                     child: ReportUserDialog(
                       mode: ReportMode.block,
                     ));
                 Navigator.pop(context);
-                Navigator.pop(context);
-            },
+              },
               title: Directionality(
-            textDirection: TextDirection.ltr,
-            child: Text('Block',
-                style:
-                    settingsButton.copyWith(fontSize: 18, color: Colors.black),),
-          )),
+                textDirection: TextDirection.ltr,
+                child: Text(
+                  'Block',
+                  style: settingsButton.copyWith(
+                      fontSize: 18, color: Colors.black),
+                ),
+              )),
         ],
       );
     },

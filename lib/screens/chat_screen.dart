@@ -95,7 +95,9 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     _socket
       ..bindMessagesEvent()
       ..bindAddLikeEvent()
-      ..bindRemoveLikeEvent();
+      ..bindRemoveLikeEvent()
+      ..bindCommentsCountEvent()
+      ..bindGetCommentsEvent();
   }
 
   @override

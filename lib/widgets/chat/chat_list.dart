@@ -104,7 +104,7 @@ class ScrollableTile extends StatelessWidget {
       controller: controller,
       index: index,
       child: child,
-      highlightColor: cornflower.withOpacity(0.1),
+      highlightColor: cornflower,
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:iconapp/core/theme.dart';
@@ -14,19 +15,23 @@ Future<void> showTextNotification(String channelId, String channelName,
     channelId,
     channelName,
     'main notificaiton channel',
-    importance: Importance.Max,
-    priority: Priority.High,
+    importance: Importance.max,
+    priority: Priority.high,
     ticker: 'ticker',
     autoCancel: true,
     enableLights: true,
     color: cornflower,
   );
 
-  final iOSPlatformChannelSpecifics = IOSNotificationDetails();
+  final iOSPlatformChannelSpecifics = IOSNotificationDetails(
+    presentAlert: true,
+    presentBadge: true,
+    presentSound: true,
+  );
 
   final platformChannelSpecifics = NotificationDetails(
-    androidPlatformChannelSpecifics,
-    iOSPlatformChannelSpecifics,
+    android: androidPlatformChannelSpecifics,
+    iOS: iOSPlatformChannelSpecifics,
   );
 
   await firebasePlugin.show(
@@ -48,13 +53,27 @@ Future<void> showImageNotification(String channelId, String channelName,
       htmlFormatContentTitle: true,
       summaryText: '$body',
       htmlFormatSummaryText: true);
+
   final android = AndroidNotificationDetails(
     channelId,
     channelName,
     'big photo channel description',
     styleInformation: style,
   );
-  var platformChannel = NotificationDetails(android, null);
+  final ios = IOSNotificationDetails(
+    attachments: [
+      IOSNotificationAttachment(bigPicturePath),
+    ],
+    presentAlert: true,
+    presentBadge: true,
+    presentSound: true,
+  );
+
+  var platformChannel = NotificationDetails(
+    android: android,
+    iOS: ios,
+  );
+
   await firebasePlugin.show(
       0, 'big text title', 'silent body', platformChannel);
 }

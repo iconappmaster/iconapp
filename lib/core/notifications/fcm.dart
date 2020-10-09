@@ -22,16 +22,30 @@ final messaging = FirebaseMessaging();
 class Fcm {
   StreamSubscription<String> tokenRefreshSubscription;
 
-  void setFirebase() {
+  void setFirebase() async {
     final sp = sl<SharedPreferencesService>();
     final auth = sl<AuthStore>();
     final user = sl<UserStore>();
     final android = AndroidInitializationSettings('app_icon');
     final ios = IOSInitializationSettings();
-    final init = InitializationSettings(android, ios);
+    final init = InitializationSettings(
+      android: android,
+      iOS: ios,
+    );
     firebasePlugin.initialize(init,
         onSelectNotification: onNotificationClicked);
 
+    final bool result = await firebasePlugin
+        .resolvePlatformSpecificImplementation<
+            IOSFlutterLocalNotificationsPlugin>()
+        ?.requestPermissions(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
+    if (result) {
+      print(result);
+    }
     messaging.configure(
       onLaunch: (message) async {
         print('onLaunch');
