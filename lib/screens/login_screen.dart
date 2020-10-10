@@ -29,6 +29,7 @@ class LoginScreen extends StatelessWidget {
           Positioned(
             bottom: context.heightPx * .091,
             child: NextButton(
+              title: 'CONTINUE',
               onClick: () {
                 if (login.agreeTerms)
                   ExtendedNavigator.of(context).pushOnboardingScreen();
@@ -37,11 +38,14 @@ class LoginScreen extends StatelessWidget {
               },
             ),
           ),
-          Positioned(bottom: context.heightPx * .027, child: PrivacyAndTerms()),
+          Positioned(bottom: context.heightPx * .017, child: PrivacyAndTerms()),
           Positioned(
-              top: context.heightPx * .249,
-              child: SvgPicture.asset('assets/images/welcome_to_icon.svg',
-                  height: context.heightPx * .18)),
+            top: context.heightPx * .249,
+            child: SvgPicture.asset(
+              'assets/images/welcome_to_icon.svg',
+              height: context.heightPx * .18,
+            ),
+          ),
         ],
       ),
     );
@@ -57,7 +61,25 @@ class PrivacyAndTerms extends StatelessWidget {
   Widget build(BuildContext context) {
     final login = sl<LoginStore>();
     return Row(
+      
       children: [
+        RichText(
+          textAlign: TextAlign.left,
+          text: TextSpan(children: [
+            // TextSpan(text: LocaleKeys.policy_terms.tr(), style: smallLine),
+            TextSpan(
+                text: 'To log in, you must first readand accept our\n',
+                style: smallLine),
+            TextSpan(
+                text: 'terms of use',
+                style: smallLine.copyWith(decoration: TextDecoration.underline),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () async {
+                    if (await canLaunch(policyUrl)) launch(policyUrl);
+                  }),
+            // TextSpan(text: LocaleKeys.policy_prefix.tr(), style: smallLine),
+          ]),
+        ),
         Observer(
           builder: (_) => Theme(
             data: Theme.of(context).copyWith(
@@ -71,19 +93,6 @@ class PrivacyAndTerms extends StatelessWidget {
               onChanged: (bool value) => login.updateTerms(value),
             ),
           ),
-        ),
-        RichText(
-          text: TextSpan(children: [
-            TextSpan(text: LocaleKeys.policy_terms.tr(), style: smallLine),
-            TextSpan(
-                text: LocaleKeys.policy_link.tr(),
-                style: smallLine.copyWith(decoration: TextDecoration.underline),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () async {
-                    if (await canLaunch(policyUrl)) launch(policyUrl);
-                  }),
-            TextSpan(text: LocaleKeys.policy_prefix.tr(), style: smallLine),
-          ]),
         ),
       ],
     );

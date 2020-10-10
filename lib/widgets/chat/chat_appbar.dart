@@ -50,7 +50,7 @@ class ChatAppbar extends StatelessWidget {
                   onTap: () {
                     _showAlertSheet(context);
                   },
-                  child: Icon(Icons.report, color: white)),
+                  child: Icon(Icons.flag, color: white)),
               SizedBox(width: 10),
               Observer(
                 builder: (_) => CommentsAppBarIcon(
@@ -109,7 +109,7 @@ Future _showAlertSheet(BuildContext context) async {
           Directionality(
             textDirection: TextDirection.ltr,
             child: Text(
-              'What would you like to do?',
+               'Report/Block Abusive Content',
               style: settingsAppbarTitle.copyWith(
                   fontSize: 20, color: Colors.black),
             ),
