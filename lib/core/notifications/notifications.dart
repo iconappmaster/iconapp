@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:iconapp/core/theme.dart';
@@ -15,8 +14,8 @@ Future<void> showTextNotification(String channelId, String channelName,
     channelId,
     channelName,
     'main notificaiton channel',
-    importance: Importance.max,
-    priority: Priority.high,
+    importance: Importance.Max,
+    priority: Priority.High,
     ticker: 'ticker',
     autoCancel: true,
     enableLights: true,
@@ -30,8 +29,8 @@ Future<void> showTextNotification(String channelId, String channelName,
   );
 
   final platformChannelSpecifics = NotificationDetails(
-    android: androidPlatformChannelSpecifics,
-    iOS: iOSPlatformChannelSpecifics,
+    androidPlatformChannelSpecifics,
+    iOSPlatformChannelSpecifics,
   );
 
   await firebasePlugin.show(
@@ -70,8 +69,8 @@ Future<void> showImageNotification(String channelId, String channelName,
   );
 
   var platformChannel = NotificationDetails(
-    android: android,
-    iOS: ios,
+    android,
+    ios,
   );
 
   await firebasePlugin.show(
