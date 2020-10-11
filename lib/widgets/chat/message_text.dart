@@ -14,7 +14,7 @@ import 'icon_bubble.dart';
 import '../../core/dependencies/locator.dart';
 import '../../core/theme.dart';
 import '../../data/models/message_model.dart';
-import '../global/hebrew_input_text.dart';
+import '../global/custom_text.dart';
 import '../global/slidable/slidable.dart';
 import '../../core/extensions/int_ext.dart';
 

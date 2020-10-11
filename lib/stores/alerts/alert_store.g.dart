@@ -67,11 +67,13 @@ mixin _$AlertStore on _AlertStoreBase, Store {
     return _$clearAllAsyncAction.run(() => super.clearAll());
   }
 
-  final _$clearAsyncAction = AsyncAction('_AlertStoreBase.clear');
+  final _$clearSpecificAlertAsyncAction =
+      AsyncAction('_AlertStoreBase.clearSpecificAlert');
 
   @override
-  Future<dynamic> clear(int id) {
-    return _$clearAsyncAction.run(() => super.clear(id));
+  Future<dynamic> clearSpecificAlert(int id) {
+    return _$clearSpecificAlertAsyncAction
+        .run(() => super.clearSpecificAlert(id));
   }
 
   @override

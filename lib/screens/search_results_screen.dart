@@ -9,7 +9,7 @@ import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/search_results/search_results_store.dart';
 import 'package:iconapp/widgets/global/back_button.dart';
-import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
 import 'package:iconapp/widgets/global/search_empty.dart';
 import '../core/extensions/context_ext.dart';

@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
-import '../global/hebrew_input_text.dart';
+import '../global/custom_text.dart';
 import '../global/base_dialog.dart';
 import '../global/next_button.dart';
 import '../../core/theme.dart';

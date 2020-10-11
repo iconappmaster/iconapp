@@ -4,7 +4,7 @@ import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/screens/chat_settings_screen.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
-import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+import 'package:iconapp/widgets/global/custom_text.dart';
 import 'comment_single_select.dart';
 
 class CommentsSettings extends StatelessWidget {
@@ -30,13 +30,13 @@ class CommentsSettings extends StatelessWidget {
           _CommentButtonToggle(
             onPressed: () async {
               if (isActivated) {
-                comments.updateCommentSettings(0);
+                comments.setCommentActived(0);
               } else {
                 showDialog(
                   context: context,
                   child: CommentSingleSelectDialog(
                     onTap: (selectedComment) {
-                      comments.updateCommentSettings(
+                      comments.setCommentActived(
                         selectedComment.commentsMaxUserCount,
                       );
                     },

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/widgets/global/back_button.dart';
 import 'package:iconapp/widgets/global/blue_divider.dart';
-import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+import 'package:iconapp/widgets/global/custom_text.dart';
 import '../../core/extensions/context_ext.dart';
 
 class AppBarWithDivider extends StatelessWidget {

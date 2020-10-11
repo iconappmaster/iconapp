@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/stop_watch.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
-import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+import 'package:iconapp/widgets/global/custom_text.dart';
 
 class Recorder extends StatelessWidget {
   const Recorder({

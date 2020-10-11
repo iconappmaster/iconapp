@@ -45,19 +45,18 @@ abstract class _AlertStoreBase with Store {
 
   @action
   Future clearAll() async {
-    _loading = true;
     try {
-      await _repository.clearAllAlerts();
-      _alerts.clear();
+      if (_alerts.isNotEmpty) {
+        await _repository.clearAllAlerts();
+        _alerts.clear();
+      }
     } on ServerError catch (e) {
       Crash.report(e.message);
-    } finally {
-      _loading = false;
     }
   }
 
   @action
-  Future clear(int id) async {
+  Future clearSpecificAlert(int id) async {
     try {
       await _repository.clearSpecificAlert(id);
       _alerts.removeWhere((alert) => alert.id == id);

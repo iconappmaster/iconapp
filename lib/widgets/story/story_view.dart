@@ -4,7 +4,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/story/utils.dart';
 import 'controller/story_controller.dart';
 import 'story_video.dart';

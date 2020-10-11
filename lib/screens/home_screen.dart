@@ -5,6 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/routes/router.gr.dart';
+import 'package:iconapp/stores/alerts/alert_store.dart';
 import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/data/sources/socket/socket_manager.dart';
 import 'package:iconapp/stores/story/story_store.dart';
@@ -29,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   GlobalKey<ScaffoldState> _scaffoldKey;
   ScrollController _controller;
   HomeStore _home;
+  AlertStore _alerts;
   StoryStore _story;
 
   @override
@@ -36,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _scaffoldKey = GlobalKey<ScaffoldState>();
     _home = sl<HomeStore>();
     _story = sl<StoryStore>();
+    _alerts = sl<AlertStore>();
 
     _controller = ScrollController();
     _home.getConversations(force: true);
@@ -59,6 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void didChangeDependencies() {
+    _alerts.getAlerts();
     super.didChangeDependencies();
   }
 

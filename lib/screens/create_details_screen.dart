@@ -8,7 +8,7 @@ import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/create/create_details_store.dart';
 import 'package:iconapp/widgets/create/create_app_bar.dart';
-import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/input_box.dart';
 import 'package:iconapp/widgets/global/user_avatar.dart';
 import 'package:iconapp/widgets/onboarding/base_onboarding_widget.dart';

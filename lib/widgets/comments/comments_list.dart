@@ -4,7 +4,7 @@ import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
 import 'package:iconapp/widgets/chat/message_text.dart';
-import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 class CommentsList extends StatelessWidget {

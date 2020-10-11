@@ -1,11 +1,15 @@
 import 'dart:async';
 
+import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/models/likes.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/repositories/comments_repository.dart';
+import 'package:iconapp/domain/comments/comments_failure.dart';
 import 'package:iconapp/domain/core/errors.dart';
+import 'package:iconapp/stores/alerts/alert_store.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:mobx/mobx.dart';
@@ -19,11 +23,13 @@ abstract class _CommentsStoreBase with Store {
 
   ChatStore _chat;
   UserStore _user;
+  AlertStore _alerts;
   CommentsRepository _repository;
 
   _CommentsStoreBase() {
     _chat = sl<ChatStore>();
     _user = sl<UserStore>();
+    _alerts = sl<AlertStore>();
     _repository = sl<CommentsRepository>();
   }
 
@@ -104,43 +110,52 @@ abstract class _CommentsStoreBase with Store {
   }
 
   @action
-  Future sendComment() async {
+  Future<Either<CommentsFailure, Unit>> sendComment() async {
+    if (_commentInput.trim().isEmpty)
+      return left(const CommentsFailure.messageEmpty());
+
     try {
-      if (_commentInput.trim().isNotEmpty) {
-        final comment = MessageModel(
-          id: DateTime.now().millisecondsSinceEpoch,
-          sender: _user.getUser,
-          body: _commentInput,
-          status: MessageStatus.pending,
-          likeCounts: LikesCount.initial(),
-          timestamp: DateTime.now().millisecondsSinceEpoch,
-          messageType: MessageType.text,
-        );
+      final comment = MessageModel(
+        id: DateTime.now().millisecondsSinceEpoch,
+        sender: _user.getUser,
+        body: _commentInput,
+        status: MessageStatus.pending,
+        likeCounts: LikesCount.initial(),
+        timestamp: DateTime.now().millisecondsSinceEpoch,
+        messageType: MessageType.text,
+      );
 
-        _comments.add(comment);
+      _comments.add(comment);
 
-        var remoteComment =
-            await _repository.sendComment(_chat.conversation.id, comment);
+      var remoteComment =
+          await _repository.sendComment(_chat.conversation.id, comment);
 
-        remoteComment = remoteComment.copyWith(
-          messageType: MessageType.text,
-          likeCounts: LikesCount.initial(),
-        );
+      remoteComment = remoteComment.copyWith(
+        messageType: MessageType.text,
+        likeCounts: LikesCount.initial(),
+      );
 
-        // // update the id and set the message
-        final index = _comments.indexWhere((c) => c.id == comment.id);
-        _comments[index] = comment.copyWith(id: remoteComment.id);
+      // // update the id and set the message
+      final index = _comments.indexWhere((c) => c.id == comment.id);
+      _comments[index] = comment.copyWith(id: remoteComment.id);
 
-        // reset the comment input
-        _commentInput = '';
+      // reset the comment input
+      _commentInput = '';
+
+      return right(unit);
+    } on DioError catch (e) {
+      if (e.response.data['error'] ==
+          "ERROR_EXCEEDED_MAX_USER_COUNT_FOR_COMMENTS") {
+        return left(const CommentsFailure.exceededMaxCount());
+      } else {
+        return left(CommentsFailure.serverError(e.error));
       }
-    } on ServerError catch (e) {
-      Crash.report(e.message);
     }
   }
 
+  /// if the [maxUserCount] is 0 then the comments will be diactivated
   @action
-  Future updateCommentSettings(int maxUserCount) async {
+  Future setCommentActived(int maxUserCount) async {
     try {
       _activatingComments = true;
       final conversation = await _repository.updateCommentSettings(
@@ -149,6 +164,7 @@ abstract class _CommentsStoreBase with Store {
       );
 
       _chat.setConversation(conversation);
+      _alerts.getAlerts();
     } on ServerError catch (e) {
       Crash.report(e.message);
     } finally {

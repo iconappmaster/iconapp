@@ -16,7 +16,7 @@ import '../../routes/router.gr.dart';
 import '../../stores/chat/chat_store.dart';
 import 'chat_list.dart';
 import 'reply_slider.dart';
-import '../global/hebrew_input_text.dart';
+import '../global/custom_text.dart';
 import '../global/network_photo.dart';
 import '../global/slidable/slidable.dart';
 import '../../core/extensions/int_ext.dart';

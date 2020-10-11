@@ -6,7 +6,7 @@ import 'package:iconapp/widgets/global/base_dialog.dart';
 import 'package:iconapp/widgets/global/input_box.dart';
 import 'package:iconapp/widgets/global/next_button.dart';
 import '../../core/extensions/context_ext.dart';
-import 'hebrew_input_text.dart';
+import 'custom_text.dart';
 
 enum ReportMode { block, abuse }
 var _explanationText = '';

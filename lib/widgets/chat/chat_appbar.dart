@@ -12,7 +12,7 @@ import '../../routes/router.gr.dart';
 import '../../stores/chat/chat_store.dart';
 import '../../core/extensions/context_ext.dart';
 import '../../core/theme.dart';
-import '../global/hebrew_input_text.dart';
+import '../global/custom_text.dart';
 
 class ChatAppbar extends StatelessWidget {
   @override

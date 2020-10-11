@@ -10,7 +10,9 @@ class CustomText extends StatelessWidget {
     this.overflow,
     this.maxLength,
     this.padding = const EdgeInsets.all(0),
+    this.textDirection = TextDirection.rtl,
   }) : super(key: key);
+
   final int maxLines;
   final int maxLength;
   final String text;
@@ -18,11 +20,12 @@ class CustomText extends StatelessWidget {
   final TextAlign textAlign;
   final TextOverflow overflow;
   final EdgeInsets padding;
+  final TextDirection textDirection;
 
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: textDirection,
       child: Padding(
         padding: padding,
         child: Text(

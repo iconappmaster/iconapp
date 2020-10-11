@@ -6,12 +6,13 @@ import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/alerts_model.dart';
 import 'package:iconapp/stores/alerts/alert_store.dart';
-import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/lottie_loader.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
 import 'package:iconapp/widgets/onboarding/base_onboarding_widget.dart';
 import '../core/extensions/context_ext.dart';
 import 'package:iconapp/routes/router.gr.dart';
+import 'package:iconapp/widgets/global/timeago.dart' as timeago;
 
 class AlertScreen extends StatelessWidget {
   AlertScreen() {
@@ -39,17 +40,33 @@ class AlertList extends StatelessWidget {
       child: Observer(builder: (_) {
         return store.loading
             ? Center(child: LottieLoader())
-            : ListView.separated(
-                shrinkWrap: true,
-                separatorBuilder: (context, index) => AlertDivider(),
-                padding: EdgeInsets.all(16),
-                physics: BouncingScrollPhysics(),
-                itemBuilder: (context, index) =>
-                    AlertTile(alert: store.alerts[index]),
-                itemCount: store.alerts.length,
-              );
+            : store.alerts.isEmpty
+                ? AlertsEmptyState()
+                : ListView.separated(
+                    shrinkWrap: true,
+                    separatorBuilder: (context, index) => AlertDivider(),
+                    padding: EdgeInsets.all(16),
+                    physics: BouncingScrollPhysics(),
+                    itemBuilder: (context, index) =>
+                        AlertTile(alert: store.alerts[index]),
+                    itemCount: store.alerts.length,
+                  );
       }),
     );
+  }
+}
+
+class AlertsEmptyState extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        // Lottie.asset(
+        //   'assets/animations/message.json',
+        // ),
+        child: CustomText(
+      'אין תגובות חדשות',
+      style: lastWritten,
+    ));
   }
 }
 
@@ -60,12 +77,15 @@ class AlertTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final store = sl<AlertStore>();
     return Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: () {
+          store.clearSpecificAlert(alert.id);
           ExtendedNavigator.of(context)
-              .pushChatScreen(conversation: alert.conversation);
+            ..pushChatScreen(conversation: alert.conversation)
+            ..pop();
         },
         child: SizedBox(
           height: context.heightPlusStatusbarPerc(.1),
@@ -89,7 +109,10 @@ class AlertTile extends StatelessWidget {
                   CustomText(alert.alertMessage, style: alertTileTitle),
                   SizedBox(height: 10),
                   CustomText(
-                    alert.timestamp.toString(),
+                    timeago.format(
+                        DateTime.fromMillisecondsSinceEpoch(
+                            alert.timestamp * 1000),
+                        locale: 'he'),
                     style: loginSmallText.copyWith(color: iris),
                   ),
                 ],
@@ -107,11 +130,10 @@ class AlertAppbar extends StatelessWidget {
   Widget build(BuildContext context) {
     final store = sl<AlertStore>();
     return Container(
-      
       padding: EdgeInsets.symmetric(horizontal: 20),
       height: context.heightPlusStatusbarPerc(.1),
       child: Padding(
-        padding: const EdgeInsets.only(top:25.0),
+        padding: const EdgeInsets.only(top: 25.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -127,7 +149,7 @@ class AlertAppbar extends StatelessWidget {
               height: 30,
               child: OutlineButton(
                 padding: EdgeInsets.only(top: 5, bottom: 5),
-                onPressed: () => store.clearAll,
+                onPressed: () => store.clearAll(),
                 color: Colors.transparent,
                 borderSide: BorderSide(color: blueberry2, width: .7),
                 child: CustomText('נקה הכל', style: myStory),

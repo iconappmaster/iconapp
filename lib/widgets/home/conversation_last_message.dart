@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import '../../core/theme.dart';
-import '../global/hebrew_input_text.dart';
+import '../global/custom_text.dart';
 
 class HomeTileConversationMessage extends StatelessWidget {
   final MessageModel model;

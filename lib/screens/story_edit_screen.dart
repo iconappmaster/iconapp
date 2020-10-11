@@ -9,7 +9,7 @@ import 'package:iconapp/data/models/story_image.dart';
 import 'package:iconapp/data/repositories/media_repository.dart';
 import 'package:iconapp/stores/story/story_edit_store.dart';
 import 'package:iconapp/widgets/create/create_app_bar.dart';
-import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
 import 'package:iconapp/widgets/global/next_button.dart';
 import 'package:iconapp/widgets/onboarding/base_onboarding_widget.dart';

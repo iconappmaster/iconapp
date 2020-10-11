@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/comment_opotion_model.dart';
 import 'package:iconapp/widgets/global/base_dialog.dart';
-import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/next_button.dart';
 
 class CommentSingleSelectDialog extends StatefulWidget {

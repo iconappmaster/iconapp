@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+import 'package:iconapp/widgets/global/custom_text.dart';
 
 class SystemMessage extends StatelessWidget {
   final String title;

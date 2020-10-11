@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'panel_compose.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:vibration/vibration.dart';
@@ -48,16 +49,25 @@ class SendButton extends StatelessWidget {
               switch (composerMode) {
                 case ComposerPanelMode.conversation:
                   if (isMessageMode()) {
+                    
                     textEditcontroller.clear();
                     scrollController.jumpTo(0);
                     chat.sendTextMessage();
                   }
                   break;
+
                 case ComposerPanelMode.comments:
                   if (chat.conversation.areCommentsActivated) {
                     textEditcontroller.clear();
                     scrollController.jumpTo(0);
-                    comments.sendComment();
+                    final result = await comments.sendComment();
+                    result.fold(
+                        (error) => error.when(
+                            messageEmpty: () => print('meesage empty'),
+                            serverError: (e) => Crash.report(e),
+                            exceededMaxCount: context.showFlushbar(
+                                message: 'הקבוצה נסגרה לתגובות בשלב זה.')),
+                        (success) => print('comment sent!'));
                   } else {
                     context.showFlushbar(message: 'הערות לא פעילות כרגע');
                   }

@@ -126,17 +126,17 @@ mixin _$CommentsStore on _CommentsStoreBase, Store {
       AsyncAction('_CommentsStoreBase.sendComment');
 
   @override
-  Future<dynamic> sendComment() {
+  Future<Either<CommentsFailure, Unit>> sendComment() {
     return _$sendCommentAsyncAction.run(() => super.sendComment());
   }
 
-  final _$updateCommentSettingsAsyncAction =
-      AsyncAction('_CommentsStoreBase.updateCommentSettings');
+  final _$setCommentActivedAsyncAction =
+      AsyncAction('_CommentsStoreBase.setCommentActived');
 
   @override
-  Future<dynamic> updateCommentSettings(int maxUserCount) {
-    return _$updateCommentSettingsAsyncAction
-        .run(() => super.updateCommentSettings(maxUserCount));
+  Future<dynamic> setCommentActived(int maxUserCount) {
+    return _$setCommentActivedAsyncAction
+        .run(() => super.setCommentActived(maxUserCount));
   }
 
   final _$_CommentsStoreBaseActionController =

@@ -7,7 +7,7 @@ import '../../core/theme.dart';
 import '../../screens/onboarding_profile.dart';
 import '../../stores/user/user_store.dart';
 import '../global/buttons.dart';
-import '../global/hebrew_input_text.dart';
+import '../global/custom_text.dart';
 import '../global/user_avatar.dart';
 import 'disconnect_dialog.dart';
 

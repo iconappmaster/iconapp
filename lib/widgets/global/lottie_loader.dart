@@ -13,7 +13,11 @@ class LottieLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      child: Lottie.asset(asset, height: size, width: size),
+      child: Lottie.asset(
+        asset,
+        height: size,
+        width: size,
+      ),
     );
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/theme.dart';
 
-import 'hebrew_input_text.dart';
+import 'custom_text.dart';
 
 class SearchEmpty extends StatelessWidget {
   final String text;

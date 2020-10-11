@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../core/theme.dart';
 import '../../data/models/conversation_model.dart';
-import '../global/hebrew_input_text.dart';
+import '../global/custom_text.dart';
 import '../global/network_photo.dart';
 import '../global/white_circle.dart';
 import '../../core/extensions/context_ext.dart';

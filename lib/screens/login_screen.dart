@@ -11,8 +11,8 @@ import '../routes/router.gr.dart';
 import '../widgets/login/login_background.dart';
 import '../core/extensions/context_ext.dart';
 import '../widgets/global/next_button.dart';
-import '../generated/locale_keys.g.dart';
-import 'package:easy_localization/easy_localization.dart';
+// import '../generated/locale_keys.g.dart';
+// import 'package:easy_localization/easy_localization.dart';
 
 const policyUrl = 'https://www.icon-app.net/policy-en';
 

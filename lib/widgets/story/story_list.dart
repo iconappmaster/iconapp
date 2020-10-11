@@ -11,7 +11,7 @@ import '../../core/theme.dart';
 import '../../data/models/story_model.dart';
 import '../../stores/story/story_store.dart';
 import '../../stores/user/user_store.dart';
-import '../global/hebrew_input_text.dart';
+import '../global/custom_text.dart';
 import '../global/network_photo.dart';
 import '../global/plus_circle.dart';
 import '../../core/extensions/context_ext.dart';

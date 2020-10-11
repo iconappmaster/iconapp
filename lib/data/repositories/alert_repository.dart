@@ -4,8 +4,8 @@ import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 
 abstract class AlertRepository {
   Future<List<AlertModel>> getAlerts();
-  Future<bool> clearAllAlerts();
-  Future<bool> clearSpecificAlert(int id);
+  Future clearAllAlerts();
+  Future clearSpecificAlert(int id);
 }
 
 class AlertRepositoryImpl implements AlertRepository {
@@ -16,12 +16,12 @@ class AlertRepositoryImpl implements AlertRepository {
   });
 
   @override
-  Future<bool> clearSpecificAlert(int id) async {
+  Future clearSpecificAlert(int id) async {
     return await rest.clearSpecificAlert(id);
   }
 
   @override
-  Future<bool> clearAllAlerts() async {
+  Future clearAllAlerts() async {
     return await rest.clearAllAlerts();
   }
 

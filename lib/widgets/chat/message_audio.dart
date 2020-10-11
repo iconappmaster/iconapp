@@ -13,7 +13,7 @@ import 'package:iconapp/data/repositories/media_repository.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/chat/reply_slider.dart';
 import 'package:iconapp/widgets/global/bubble.dart';
-import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/slidable/slidable.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:vibration/vibration.dart';

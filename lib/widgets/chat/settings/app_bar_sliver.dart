@@ -8,7 +8,7 @@ import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/chat_settings/chat_settings_store.dart';
 import 'package:iconapp/widgets/global/back_button.dart';
-import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
 
 const appbarHeight = 250.0;

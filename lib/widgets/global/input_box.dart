@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconapp/core/theme.dart';
 
-import 'hebrew_input_text.dart';
+import 'custom_text.dart';
 
 class InputText extends StatelessWidget {
   final String initialValue;

@@ -4,7 +4,7 @@ import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/global/base_dialog.dart';
-import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/next_button.dart';
 import '../../core/extensions/context_ext.dart';
 import 'package:easy_localization/easy_localization.dart';

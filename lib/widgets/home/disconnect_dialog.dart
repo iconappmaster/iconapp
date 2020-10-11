@@ -8,7 +8,7 @@ import '../../generated/locale_keys.g.dart';
 import '../../stores/auth/auth_store.dart';
 import '../../stores/user/user_store.dart';
 import '../global/base_dialog.dart';
-import '../global/hebrew_input_text.dart';
+import '../global/custom_text.dart';
 import '../global/next_button.dart';
 
 class DisconnectDialog extends StatelessWidget {

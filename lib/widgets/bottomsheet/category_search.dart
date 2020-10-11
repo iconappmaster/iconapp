@@ -8,7 +8,7 @@ import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/screens/search_results_screen.dart';
 import 'package:iconapp/stores/search/search_store.dart';
-import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
 import 'package:iconapp/widgets/global/search_empty.dart';
 import 'package:easy_localization/easy_localization.dart';

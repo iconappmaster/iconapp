@@ -5,7 +5,7 @@ import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/screens/onboarding_profile.dart';
 import 'dart:ui';
 import 'dart:math';
-import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+import 'package:iconapp/widgets/global/custom_text.dart';
 
 class RollingSwitch extends StatefulWidget {
   @required

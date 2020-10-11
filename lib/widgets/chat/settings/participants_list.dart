@@ -12,7 +12,7 @@ import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/chat_settings/chat_settings_store.dart';
 import 'package:iconapp/stores/create/create_icon_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
-import 'package:iconapp/widgets/global/hebrew_input_text.dart';
+import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
 import '../../../core/extensions/context_ext.dart';
 

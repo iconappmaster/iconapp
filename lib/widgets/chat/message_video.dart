@@ -14,7 +14,7 @@ import '../../data/models/message_model.dart';
 import '../../data/models/user_model.dart';
 import '../../data/repositories/media_repository.dart';
 import '../../stores/chat/chat_store.dart';
-import '../global/hebrew_input_text.dart';
+import '../global/custom_text.dart';
 import '../global/network_photo.dart';
 import '../global/slidable/slidable.dart';
 import '../global/slidable_widget.dart';
