@@ -18,7 +18,8 @@ import 'package:iconapp/widgets/home/welcome_dialog.dart';
 import 'package:iconapp/widgets/onboarding/onboarding_appbar.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../core/extensions/context_ext.dart';
-  
+import 'alerts_screen.dart';
+
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -64,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final stories = sl<StoryStore>();
-    
+
     return Scaffold(
       key: _scaffoldKey,
       drawer: HomeDrawer(),
@@ -80,8 +81,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   alignment: Alignment.topCenter,
                   children: <Widget>[
                     IconAppbar(
-                      widget: DrawerIcon(
-                        scaffoldKey: _scaffoldKey,
+                      widget: Align(
+                        alignment: Alignment.centerRight,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            DrawerIcon(scaffoldKey: _scaffoldKey),
+                            SizedBox(width: 8),
+                            BellAlert(
+                                onTap: () => ExtendedNavigator.of(context)
+                                    .pushAlertScreen()),
+                          ],
+                        ),
                       ),
                     ),
                     ConversationsList(
@@ -109,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               openBottomSheet(context);
                             }
                           },
-                           child: BottomSheetBar(
+                          child: BottomSheetBar(
                               showCategoriesSelected: false,
                               showIconsSelected: false,
                               onTap: () => openBottomSheet(context))),

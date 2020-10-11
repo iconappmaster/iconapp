@@ -14,6 +14,7 @@ import '../data/models/conversation_model.dart';
 import '../data/models/photo_model.dart';
 import '../data/models/story_image.dart';
 import '../data/models/story_model.dart';
+import '../screens/alerts_screen.dart';
 import '../screens/chat_screen.dart';
 import '../screens/chat_settings_screen.dart';
 import '../screens/create_categories_screen.dart';
@@ -54,6 +55,7 @@ class Routes {
   static const String storyEditScreen = '/story-edit-screen';
   static const String descriptionScreen = '/description-screen';
   static const String singleImage = '/single-image';
+  static const String alertScreen = '/alert-screen';
   static const all = <String>{
     mainNavigator,
     loginScreen,
@@ -74,6 +76,7 @@ class Routes {
     storyEditScreen,
     descriptionScreen,
     singleImage,
+    alertScreen,
   };
 }
 
@@ -100,6 +103,7 @@ class Router extends RouterBase {
     RouteDef(Routes.storyEditScreen, page: StoryEditScreen),
     RouteDef(Routes.descriptionScreen, page: DescriptionScreen),
     RouteDef(Routes.singleImage, page: SingleImage),
+    RouteDef(Routes.alertScreen, page: AlertScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -264,6 +268,12 @@ class Router extends RouterBase {
         settings: data,
       );
     },
+    AlertScreen: (data) {
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => AlertScreen(),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -388,6 +398,8 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
         Routes.singleImage,
         arguments: SingleImageArguments(key: key, url: url),
       );
+
+  Future<dynamic> pushAlertScreen() => push<dynamic>(Routes.alertScreen);
 }
 
 /// ************************************************************************

@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route_annotations.dart';
+import 'package:iconapp/screens/alerts_screen.dart';
 import 'package:iconapp/screens/chat_screen.dart';
 import 'package:iconapp/screens/chat_settings_screen.dart';
 import 'package:iconapp/screens/create_categories_screen.dart';
@@ -41,6 +42,7 @@ import 'package:iconapp/widgets/chat/message_photo.dart';
     CupertinoRoute(page: StoryEditScreen),
     CupertinoRoute(page: DescriptionScreen),
     CupertinoRoute(page: SingleImage),
+    CupertinoRoute(page: AlertScreen),
   ],
 )
 class $Router {

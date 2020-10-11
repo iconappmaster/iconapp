@@ -16,6 +16,12 @@ mixin _$AlertStore on _AlertStoreBase, Store {
       (_$alertsComputed ??= Computed<List<AlertModel>>(() => super.alerts,
               name: '_AlertStoreBase.alerts'))
           .value;
+  Computed<bool> _$loadingComputed;
+
+  @override
+  bool get loading => (_$loadingComputed ??=
+          Computed<bool>(() => super.loading, name: '_AlertStoreBase.loading'))
+      .value;
 
   final _$_alertsAtom = Atom(name: '_AlertStoreBase._alerts');
 
@@ -71,7 +77,8 @@ mixin _$AlertStore on _AlertStoreBase, Store {
   @override
   String toString() {
     return '''
-alerts: ${alerts}
+alerts: ${alerts},
+loading: ${loading}
     ''';
   }
 }

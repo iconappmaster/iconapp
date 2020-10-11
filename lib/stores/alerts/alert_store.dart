@@ -25,6 +25,9 @@ abstract class _AlertStoreBase with Store {
   @computed
   List<AlertModel> get alerts => _alerts;
 
+  @computed
+  bool get loading => _loading;
+
   @action
   Future getAlerts() async {
     // todo
@@ -42,10 +45,9 @@ abstract class _AlertStoreBase with Store {
 
   @action
   Future clearAll() async {
-    // todo
     _loading = true;
     try {
-      await _repository.clearAll();
+      await _repository.clearAllAlerts();
       _alerts.clear();
     } on ServerError catch (e) {
       Crash.report(e.message);
@@ -57,7 +59,7 @@ abstract class _AlertStoreBase with Store {
   @action
   Future clear(int id) async {
     try {
-      await _repository.clearAlert(id);
+      await _repository.clearSpecificAlert(id);
       _alerts.removeWhere((alert) => alert.id == id);
     } on ServerError catch (e) {
       Crash.report(e.message);

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:iconapp/data/models/alerts_model.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/models/story_model.dart';
@@ -12,7 +13,7 @@ part 'rest_client.g.dart';
 const String baseUrlProd = 'https://iconproduction.herokuapp.com/api/v1/';
 const String baseUrlStaging = 'https://iconstaging.herokuapp.com/api/v1/';
 
-@RestApi(baseUrl: baseUrlProd)
+@RestApi(baseUrl: baseUrlStaging)
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
@@ -167,6 +168,17 @@ abstract class RestClient {
 
   @POST('stories/add_to_story')
   Future<StoryModel> publishStory(@Body() StoryModel story);
+
+  // Alerts
+  @GET('alerts') 
+  Future<List<AlertModel>> getAlerts();
+
+  @POST('alerts/clear_all_alerts') 
+  Future clearAllAlerts();
+
+  @POST('alerts/clear_specific_alert') 
+  Future clearSpecificAlert(@Query('userAlertId') int userAlertId);
+
 }
 
 Dio getDioClient() {

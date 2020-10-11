@@ -33,6 +33,7 @@ const blueberry3 = Color(0xFF4c409f);
 const scarlet = Color(0xFFd0021b);
 const black10 = Color(0x19000000);
 const paleGreyTwo = Color(0xFFe9e6ff);
+const iris = Color(0xFF746bb5);
 
 const sendColor = Color(0xFF6D5FF5);
 const composerBackground = Color(0xFF1A1541);
@@ -82,6 +83,13 @@ const disconnectButton = TextStyle(
   fontSize: 16.3,
 );
 
+const alertTitle = TextStyle(
+  fontFamily: _fontRubikMedium,
+  color: white,
+  fontSize: 19.3,
+);
+
+
 const systemMessage = TextStyle(
   fontFamily: _fontRubikRegular,
   color: white,
@@ -123,6 +131,9 @@ const status =
 
 const lastWritten =
     TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 15.3);
+
+const alertTileTitle =
+    TextStyle(fontFamily: _fontRubikMedium, color: white, fontSize: 15.3);
 
 const genderIconText =
     TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 14.4);

@@ -1,15 +1,18 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 
-class AlertModel {
-  final int id;
-  final String description;
-  final int timestamp;
-  final Conversation conversation;
+part 'alerts_model.g.dart';
+part 'alerts_model.freezed.dart';
 
-  AlertModel({
-    this.id,
-    this.description,
-    this.timestamp,
-    this.conversation,
-  });
+@freezed
+abstract class AlertModel with _$AlertModel {
+  const factory AlertModel({
+    int id,
+    String alertMessage,
+    int timestamp,
+    Conversation conversation,
+  }) = _AlertModel;
+
+  factory AlertModel.fromJson(Map<String, dynamic> json) =>
+      _$AlertModelFromJson(json);
 }

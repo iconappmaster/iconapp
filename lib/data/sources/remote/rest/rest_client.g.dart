@@ -9,7 +9,7 @@ part of 'rest_client.dart';
 class _RestClient implements RestClient {
   _RestClient(this._dio, {this.baseUrl}) {
     ArgumentError.checkNotNull(_dio, '_dio');
-    this.baseUrl ??= 'https://iconproduction.herokuapp.com/api/v1/';
+    this.baseUrl ??= 'https://iconstaging.herokuapp.com/api/v1/';
   }
 
   final Dio _dio;
@@ -776,6 +776,60 @@ class _RestClient implements RestClient {
             baseUrl: baseUrl),
         data: _data);
     final value = StoryModel.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  getAlerts() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response<List<dynamic>> _result = await _dio.request('alerts',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    var value = _result.data
+        .map((dynamic i) => AlertModel.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return value;
+  }
+
+  @override
+  clearAllAlerts() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response _result = await _dio.request('alerts/clear_all_alerts',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = _result.data;
+    return value;
+  }
+
+  @override
+  clearSpecificAlert(userAlertId) async {
+    ArgumentError.checkNotNull(userAlertId, 'userAlertId');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'userAlertId': userAlertId};
+    final _data = <String, dynamic>{};
+    final Response _result = await _dio.request('alerts/clear_specific_alert',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = _result.data;
     return value;
   }
 }
