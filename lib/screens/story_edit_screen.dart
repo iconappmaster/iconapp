@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,6 +6,7 @@ import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/story_image.dart';
 import 'package:iconapp/data/repositories/media_repository.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/story/story_edit_store.dart';
 import 'package:iconapp/widgets/create/create_app_bar.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
@@ -18,6 +18,7 @@ import '../core/extensions/context_ext.dart';
 import '../core/extensions/string_ext.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'full_video_screen.dart';
 
@@ -59,7 +60,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
           fit: StackFit.expand,
           alignment: Alignment.topCenter,
           children: [
-            AppBarWithDivider(title: 'סטורי חדש'),
+            AppBarWithDivider(title: LocaleKeys.story_newStory.tr()),
             Positioned(
                 top: context.heightPlusStatusbarPerc(.142),
                 child: SizedBox(
@@ -219,8 +220,8 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                       padding: EdgeInsets.only(top: 16),
                       child: CustomText(
                         _edit.canPublish
-                            ? 'העלו תמונה או סרטון נוסף'
-                            : 'העלו תמונה או סרטון',
+                            ? LocaleKeys.story_addExtraMedia.tr()
+                            : LocaleKeys.story_addMedia.tr(),
                         style: searchAppBarTitle,
                       ),
                     ),
@@ -237,7 +238,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                       ? CircularProgressIndicator(
                           strokeWidth: 2,
                           valueColor: AlwaysStoppedAnimation(white),
-                          semanticsLabel: 'מעלה...',
+                          semanticsLabel: LocaleKeys.story_uploading.tr(),
                         )
                       : NextButton(
                           title: 'שיתוף',
@@ -290,7 +291,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                   color: white,
                   size: 40,
                 ),
-                title: Text('וידאו', style: settingsAppbarTitle),
+                title: Text(LocaleKeys.story_video.tr(), style: settingsAppbarTitle),
                 onTap: () async {
                   _edit.addVideoMedia();
                   await Navigator.pop(context);

@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
 import 'package:iconapp/widgets/chat/message_text.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CommentsList extends StatelessWidget {
   final ScrollController controller;
@@ -23,13 +25,14 @@ class CommentsList extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(24.0),
-          child: CustomText('תגובות', style: loginBigText),
+          child:
+              CustomText(LocaleKeys.comments_title.tr(), style: loginBigText),
         ),
         Expanded(
           child: store.comments.isEmpty
               ? Center(
                   child: CustomText(
-                  'אין עדיין תגובות',
+                  LocaleKeys.comments_noComments.tr(),
                   style: dialogContent,
                 ))
               : Observer(

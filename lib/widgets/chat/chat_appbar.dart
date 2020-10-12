@@ -109,7 +109,7 @@ Future _showAlertSheet(BuildContext context) async {
           Directionality(
             textDirection: TextDirection.ltr,
             child: Text(
-               'Report/Block Abusive Content',
+              'Report/Block Abusive Content',
               style: settingsAppbarTitle.copyWith(
                   fontSize: 20, color: Colors.black),
             ),
@@ -127,6 +127,7 @@ Future _showAlertSheet(BuildContext context) async {
                       mode: ReportMode.abuse,
                     ));
                 await Navigator.pop(context);
+                
               }),
           ListTile(
               onTap: () async {
@@ -135,12 +136,14 @@ Future _showAlertSheet(BuildContext context) async {
                     child: ReportUserDialog(
                       mode: ReportMode.block,
                     ));
-                Navigator.pop(context);
+                await Navigator.pop(context);
+                await Navigator.pop(context);
+                context.showToast('Conversation blocked');
               },
               title: Directionality(
                 textDirection: TextDirection.ltr,
                 child: Text(
-                  'Block',
+                  'Block content',
                   style: settingsButton.copyWith(
                       fontSize: 18, color: Colors.black),
                 ),

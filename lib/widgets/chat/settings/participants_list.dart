@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/user_model.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/screens/chat_settings_screen.dart';
 import 'package:iconapp/screens/create_icons_screen.dart';
@@ -15,6 +16,7 @@ import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
 import '../../../core/extensions/context_ext.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ParticipentList extends StatelessWidget {
   const ParticipentList({Key key}) : super(key: key);
@@ -61,7 +63,7 @@ class UnsubscribeButton extends StatelessWidget {
             await chat.unsubscribe();
             settings.setUnsubscribeButton(false);
             context.showFlushbar(
-              message: 'יצאת מהקבוצה',
+              message: LocaleKeys.chat_exited.tr(),
               color: uiTintColorFill,
             );
           },
@@ -71,7 +73,7 @@ class UnsubscribeButton extends StatelessWidget {
                   width: 30,
                   child: CircularProgressIndicator(strokeWidth: 1))
               : CustomText(
-                  'יציאה מהקבוצה',
+                  LocaleKeys.chat_exit.tr(),
                   style: flushbar.copyWith(color: white),
                 ),
         ),
@@ -114,7 +116,10 @@ class ParticipentAddButton extends StatelessWidget {
               ]),
             ),
             SizedBox(width: 16),
-            CustomText('הוספת עורכ/ת לקבוצה', style: addParticipent)
+            CustomText(
+              LocaleKeys.chat_editGroup.tr(),
+              style: addParticipent,
+            )
           ],
         ),
       );
@@ -163,7 +168,7 @@ class ParticipantTile extends StatelessWidget {
                           textStyle: settingsButton,
                           onTap: () =>
                               settingsStore.makeUserAdmin(currentUser.id),
-                          text: 'הפוך למנהל/ת',
+                          text: LocaleKeys.chat_becomeManager.tr(),
                           width: 103,
                           borderColor: cornflower,
                         ),
@@ -178,7 +183,7 @@ class ParticipantTile extends StatelessWidget {
                           decoration: BoxDecoration(
                               color: cornflower,
                               borderRadius: BorderRadius.circular(2.7)),
-                          child: CustomText('מנהל/ת',
+                          child: CustomText(LocaleKeys.chat_manager.tr(),
                               style: settingsButton.copyWith(color: white)),
                         ),
                       ),
@@ -273,7 +278,7 @@ class ParticipentsListTitle extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          CustomText('עורכי הקבוצה', style: chatSettings),
+          CustomText(LocaleKeys.chat_groupEditors.tr(), style: chatSettings),
           if (conversation.userRole != UserRole.viewer)
             AdminsCounter(
                 adminsLeft: conversation?.numberOfAdminsRemaining ?? 0)
@@ -295,7 +300,7 @@ class AdminsCounter extends StatelessWidget {
           borderRadius: BorderRadius.circular(2.7),
           border: Border.all(color: cornflower, width: .7)),
       child: CustomText(
-        'ניתן להוסיף עוד $adminsLeft מנהלים',
+        LocaleKeys.chat_addManagers.tr(args: [adminsLeft.toString()]),
         style: settingsButton,
       ),
     );

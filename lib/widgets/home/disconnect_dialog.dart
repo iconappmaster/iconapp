@@ -29,12 +29,16 @@ class DisconnectDialog extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          CustomText('יציאה מהמערכת', style: dialogTitle),
           SizedBox(height: 16),
-          CustomText(
-            LocaleKeys.disconnect_content.tr(args: [himHer, isSure, thatYou]),
-            style: dialogContent,
-            textAlign: TextAlign.start,
+          CustomText(LocaleKeys.dialogs_exit.tr(), style: dialogTitle),
+          SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: CustomText(
+              LocaleKeys.disconnect_content.tr(args: [himHer, isSure, thatYou]),
+              style: dialogContent,
+              textAlign: TextAlign.start,
+            ),
           ),
           Spacer(),
           NextButton(
@@ -43,12 +47,12 @@ class DisconnectDialog extends StatelessWidget {
               return sl<AuthStore>().logout(true);
             },
             height: 45,
-            title: 'אני רוצה להתנתק',
+            title: LocaleKeys.dialogs_disconnect.tr(),
           ),
           FlatButton(
             onPressed: () => ExtendedNavigator.of(context).pop(),
             child: CustomText(
-              'התחרטתי אל תנתקו אותי',
+              LocaleKeys.dialogs_dontDisconnect.tr(),
               style: fieldLabel,
             ),
           )

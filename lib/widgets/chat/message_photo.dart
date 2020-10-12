@@ -97,7 +97,6 @@ class _PhotoMessageState extends State<PhotoMessage> {
             child: Stack(
               children: [
                 IconBubble(
-                  
                   isMe: widget.isMe,
                   message: widget.message,
                   onTap: () => store.conversationPhotos.length > 1
@@ -155,12 +154,32 @@ class _PhotoMessageState extends State<PhotoMessage> {
                 ),
                 if (widget.message.status == MessageStatus.pending)
                   Positioned(
-                    left: 100,
+                    left: 110,
                     top: 80,
-                    child: CircularProgressIndicator(
-                      value: _progress,
-                      strokeWidth: 2,
-                      backgroundColor: white,
+                    child: Container(
+                      height: 60,
+                      width: 60,
+                      child: Stack(fit: StackFit.loose, children: [
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          child: Container(
+                            height: 60,
+                            width: 60,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: cornflower.withOpacity(.3)),
+                          ),
+                        ),
+                        Center(
+                          child: CircularProgressIndicator(
+                            value: _progress,
+                            strokeWidth: 4,
+                            backgroundColor: white,
+                            valueColor: AlwaysStoppedAnimation(white),
+                          ),
+                        ),
+                      ]),
                     ),
                   ),
               ],

@@ -338,13 +338,19 @@ abstract class _ChatStoreBase with Store {
   Future sendVideoMessage(ImageSource source) async {
     // handle local photo
     try {
+      File file;
+      if (source == ImageSource.camera) {
+        final pickedFile =
+            await sl<ImagePicker>().getVideo(source: ImageSource.camera);
+        file = File(pickedFile.path);
+      } else if (source == ImageSource.gallery) {
+        final pickedFile =
+            await FilePicker.platform.pickFiles(type: FileType.video);
+        file = File(pickedFile.files.single.path);
+      }
       // get image from picker
-      final pickedFile =
-          await FilePicker.platform.pickFiles(type: FileType.video);
 
-      if (pickedFile != null) {
-        final file = File(pickedFile.files.single.path);
-
+      if (file != null) {
         // get thumbnail from the video
         final thumbnail = await VideoThumbnail.thumbnailFile(
           video: file.path ?? '',

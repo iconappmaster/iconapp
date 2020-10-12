@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/screens/chat_settings_screen.dart';
 import 'package:iconapp/stores/chat_settings/chat_settings_store.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/next_button.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ChangeBackground extends StatelessWidget {
   @override
@@ -19,7 +21,7 @@ class ChangeBackground extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          CustomText('שינוי תמונת רקע', style: chatSettings),
+          CustomText(LocaleKeys.chat_background.tr(), style: chatSettings),
           ColorSelectButton()
         ],
       ),
@@ -55,7 +57,7 @@ class ColorSelectButton extends StatelessWidget {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           contentPadding: const EdgeInsets.all(16),
           elevation: 10,
-          title: CustomText('בחר/י צבע רקע', style: changeColorTitle),
+          title: CustomText(LocaleKeys.chat_chooseColor.tr(), style: changeColorTitle),
           content: Container(
             height: 300,
             child: Stack(

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import '../../core/dependencies/locator.dart';
 import '../../core/theme.dart';
@@ -10,6 +11,7 @@ import '../global/buttons.dart';
 import '../global/custom_text.dart';
 import '../global/user_avatar.dart';
 import 'disconnect_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class DrawerIcon extends StatelessWidget {
   const DrawerIcon({
@@ -73,13 +75,15 @@ class HomeDrawer extends StatelessWidget {
                   ),
                   _drawerDivider,
                   DrawerItem(
-                      text: 'הפרופיל שלי',
+                      text: LocaleKeys.drawer_profile.tr(),
                       onTap: () {
                         ExtendedNavigator.of(context)
                             .pushOnboardingProfile(mode: OnboardingMode.drawer);
                       }),
                   if (store.getUser.isIcon)
-                    DrawerItem(text: 'נתוני פעילות הקבוצה', onTap: () {}),
+                    DrawerItem(
+                        text: LocaleKeys.drawer_groupActivity.tr(),
+                        onTap: () {}),
                   DrawerItem(
                       text: 'הגדרות',
                       onTap: () => ExtendedNavigator.of(context)
@@ -98,7 +102,7 @@ class HomeDrawer extends StatelessWidget {
                       ),
                     );
                   },
-                  text: 'להתנתק',
+                  text: LocaleKeys.drawer_disconnect.tr(),
                 ),
               ),
             ]),

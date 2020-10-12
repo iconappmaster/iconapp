@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/widgets/global/outer_circle.dart';
 import '../global/bouncing.dart';
@@ -15,6 +16,7 @@ import '../global/custom_text.dart';
 import '../global/network_photo.dart';
 import '../global/plus_circle.dart';
 import '../../core/extensions/context_ext.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 enum StoryMode { home, conversation }
 
@@ -129,7 +131,7 @@ class StoryAddButton extends StatelessWidget {
           ),
         ),
         SizedBox(height: 12),
-        CustomText('הסיפור שלך', style: myStoryCreate.copyWith(color: white)),
+        CustomText(LocaleKeys.story_title.tr(), style: myStoryCreate.copyWith(color: white)),
       ],
     );
   }

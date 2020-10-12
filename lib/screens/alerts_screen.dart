@@ -5,7 +5,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/alerts_model.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/alerts/alert_store.dart';
+import 'package:iconapp/widgets/global/bouncing.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/lottie_loader.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
@@ -13,6 +15,7 @@ import 'package:iconapp/widgets/onboarding/base_onboarding_widget.dart';
 import '../core/extensions/context_ext.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/widgets/global/timeago.dart' as timeago;
+import 'package:easy_localization/easy_localization.dart';
 
 class AlertScreen extends StatelessWidget {
   AlertScreen() {
@@ -60,11 +63,8 @@ class AlertsEmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-        // Lottie.asset(
-        //   'assets/animations/message.json',
-        // ),
         child: CustomText(
-      'אין תגובות חדשות',
+      LocaleKeys.alerts_empty.tr(),
       style: lastWritten,
     ));
   }
@@ -143,7 +143,7 @@ class AlertAppbar extends StatelessWidget {
               icon: SvgPicture.asset('assets/images/back_arrow.svg',
                   height: 16.3, width: 16.3),
             ),
-            CustomText('הודעות', style: alertTitle),
+            CustomText(LocaleKeys.alerts_messages.tr(), style: alertTitle),
             Spacer(),
             SizedBox(
               height: 30,
@@ -152,7 +152,8 @@ class AlertAppbar extends StatelessWidget {
                 onPressed: () => store.clearAll(),
                 color: Colors.transparent,
                 borderSide: BorderSide(color: blueberry2, width: .7),
-                child: CustomText('נקה הכל', style: myStory),
+                child:
+                    CustomText(LocaleKeys.alerts_cleanAll.tr(), style: myStory),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(2.7)),
               ),
@@ -165,19 +166,18 @@ class AlertAppbar extends StatelessWidget {
 }
 
 class BellAlert extends StatelessWidget {
-  final Function onTap;
+  final Function onPressed;
 
   const BellAlert({
     Key key,
-    @required this.onTap,
+    @required this.onPressed,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final store = sl<AlertStore>();
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: onTap,
+    return BouncingGestureDetector(
+      onPressed: onPressed,
       child: SizedBox(
         height: 25,
         width: 25,

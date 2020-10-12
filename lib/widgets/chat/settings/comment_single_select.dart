@@ -46,7 +46,7 @@ class _CommentSingleSelectDialogState extends State<CommentSingleSelectDialog> {
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
                     selected = commentsOptionList[index];
-                    setState(() {});
+                    if (mounted) setState(() {});
                   },
                   child: Row(
                     children: [

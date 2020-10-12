@@ -93,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             DrawerIcon(scaffoldKey: _scaffoldKey),
                             SizedBox(width: 8),
                             BellAlert(
-                                onTap: () => ExtendedNavigator.of(context)
+                                onPressed: () => ExtendedNavigator.of(context)
                                     .pushAlertScreen()),
                           ],
                         ),

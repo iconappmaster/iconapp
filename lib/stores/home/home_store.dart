@@ -50,11 +50,13 @@ abstract class _HomeStoreBase with Store {
   @action
   void addConversation(Conversation conversation) {
     _conversations.add(conversation);
+    _repository.saveHome(_conversations);
   }
 
   @action
   void remove(int conversationId) {
     _conversations.removeWhere((c) => c.id == conversationId);
+    _repository.saveHome(_conversations);
   }
 
   @action

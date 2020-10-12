@@ -35,17 +35,17 @@ class Fcm {
     firebasePlugin.initialize(init,
         onSelectNotification: onNotificationClicked);
 
-    final bool result = await firebasePlugin
-        .resolvePlatformSpecificImplementation<
-            IOSFlutterLocalNotificationsPlugin>()
-        ?.requestPermissions(
-          alert: true,
-          badge: true,
-          sound: true,
-        );
-    if (result) {
-      print(result);
-    }
+    // final bool result = await firebasePlugin
+    //     .resolvePlatformSpecificImplementation<
+    //         IOSFlutterLocalNotificationsPlugin>()
+    //     ?.requestPermissions(
+    //       alert: true,
+    //       badge: true,
+    //       sound: true,
+    //     );
+    // if (result) {
+    //   print(result);
+    // }
     messaging.configure(
       onLaunch: (message) async {
         print('onLaunch');

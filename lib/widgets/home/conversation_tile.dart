@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
 import '../../core/theme.dart';
 import '../../data/models/conversation_model.dart';
 import '../global/custom_text.dart';
@@ -8,7 +9,7 @@ import '../global/white_circle.dart';
 import '../../core/extensions/context_ext.dart';
 import '../../core/extensions/int_ext.dart';
 import 'conversation_last_message.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 const double _indicatorSize = 27;
 
 class ConversationTile extends StatelessWidget {
@@ -66,7 +67,7 @@ class ConversationTile extends StatelessWidget {
                       model?.lastMessage != null
                           ? HomeTileConversationMessage(
                               model: model?.lastMessage)
-                          : CustomText('אין הודעות',
+                          : CustomText(LocaleKeys.home_noMessages.tr(),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.start,

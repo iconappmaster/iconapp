@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/screens/chat_settings_screen.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'comment_single_select.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CommentsSettings extends StatelessWidget {
   final bool isActivated;
@@ -26,7 +28,7 @@ class CommentsSettings extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          CustomText('קבוצה פתוחה לתגובות', style: chatSettings),
+          CustomText(LocaleKeys.comments_groupOpened.tr(), style: chatSettings),
           _CommentButtonToggle(
             onPressed: () async {
               if (isActivated) {
@@ -90,8 +92,12 @@ class _CommentButtonToggle extends StatelessWidget {
                     ),
                   ),
                 )
-              : CustomText(isActivated ? 'סגירה' : 'פתיחה',
-                  maxLines: 1, style: settingsButton),
+              : CustomText(
+                  isActivated
+                      ? LocaleKeys.comments_open.tr()
+                      : LocaleKeys.comments_close.tr(),
+                  maxLines: 1,
+                  style: settingsButton),
         ),
       ),
     );

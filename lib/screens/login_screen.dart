@@ -27,18 +27,18 @@ class LoginScreen extends StatelessWidget {
         children: <Widget>[
           LoginBackgroundImage(),
           Positioned(
-            bottom: context.heightPx * .091,
+            bottom: context.heightPx * .145,
             child: NextButton(
               title: 'CONTINUE',
               onClick: () {
                 if (login.agreeTerms)
                   ExtendedNavigator.of(context).pushOnboardingScreen();
                 else
-                  context.showFlushbar(message: 'אנא הסכם לתנאי השימוש');
+                  context.showFlushbar(message: 'Please agree to the tearms');
               },
             ),
           ),
-          Positioned(bottom: context.heightPx * .017, child: PrivacyAndTerms()),
+          Positioned(bottom: context.heightPx * .054, child: PrivacyAndTerms()),
           Positioned(
             top: context.heightPx * .249,
             child: SvgPicture.asset(
@@ -61,14 +61,12 @@ class PrivacyAndTerms extends StatelessWidget {
   Widget build(BuildContext context) {
     final login = sl<LoginStore>();
     return Row(
-      
       children: [
         RichText(
           textAlign: TextAlign.left,
           text: TextSpan(children: [
-            // TextSpan(text: LocaleKeys.policy_terms.tr(), style: smallLine),
             TextSpan(
-                text: 'To log in, you must first readand accept our\n',
+                text: 'To log in, you must first read and accept our\n',
                 style: smallLine),
             TextSpan(
                 text: 'terms of use',

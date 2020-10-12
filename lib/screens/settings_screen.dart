@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/stores/user/user_store.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/widgets/global/back_button.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/login/login_background.dart';
 import '../core/extensions/context_ext.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AppSettingsScreen extends StatelessWidget {
   @override
@@ -29,7 +28,8 @@ class AppSettingsScreen extends StatelessWidget {
           ),
           Positioned(
               top: context.heightPlusStatusbarPerc(0.04),
-              child: CustomText('הגדרות', style: searchAppBarTitle)),
+              child: CustomText(LocaleKeys.settings_title.tr(),
+                  style: searchAppBarTitle)),
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
@@ -42,10 +42,12 @@ class AppSettingsScreen extends StatelessWidget {
               ),
               child: ListView(
                 children: [
-                  AppSettingsTile(title: 'הזמנת חברים', onTap: () => 'tap'),
+                  AppSettingsTile(
+                      title: LocaleKeys.settings_friends.tr(),
+                      onTap: () => 'tap'),
                   _SettingsDivider(),
                   AppSettingsTile(
-                      title: 'אודות אייקון',
+                      title: LocaleKeys.settings_about.tr(),
                       onTap: () async =>
                           await showAboutDialog(context: context)),
                   _SettingsDivider(),
@@ -58,50 +60,6 @@ class AppSettingsScreen extends StatelessWidget {
               bottom: 25,
               child: CustomText('Developed by Idan Ayalon',
                   style: chatMessageBody.copyWith(color: Colors.black))),
-        ],
-      ),
-    );
-  }
-}
-
-class AppNotificationTile extends StatelessWidget {
-  final String title;
-  final bool isOn;
-
-  const AppNotificationTile({
-    Key key,
-    @required this.title,
-    this.isOn,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final userStore = sl<UserStore>();
-    return Observer(
-      builder: (_) => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 21.0),
-            alignment: Alignment.centerRight,
-            height: context.heightPlusStatusbarPerc(.113),
-            child: CustomText(title, style: appSettingsTile),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0),
-            child: Directionality(
-              textDirection: TextDirection.ltr,
-              child: Switch(
-                activeColor: cornflower,
-                activeTrackColor: cornflower.withOpacity(.5),
-                inactiveTrackColor: blueyGrey.withOpacity(.5),
-                inactiveThumbColor: blueyGrey,
-                value: userStore.isNotification,
-                onChanged: (value) async =>
-                    await userStore.setNotification(value),
-              ),
-            ),
-          ),
         ],
       ),
     );
