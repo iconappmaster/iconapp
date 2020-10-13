@@ -165,17 +165,6 @@ mixin _$CommentsStore on _CommentsStoreBase, Store {
   }
 
   @override
-  void watchCommentCount() {
-    final _$actionInfo = _$_CommentsStoreBaseActionController.startAction(
-        name: '_CommentsStoreBase.watchCommentCount');
-    try {
-      return super.watchCommentCount();
-    } finally {
-      _$_CommentsStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void diospoe() {
     final _$actionInfo = _$_CommentsStoreBaseActionController.startAction(
         name: '_CommentsStoreBase.diospoe');

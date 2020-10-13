@@ -3,21 +3,23 @@ import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
+import 'package:iconapp/stores/comments/comments_store.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 
 class CommentsAppBarIcon extends StatelessWidget {
   final Function onTap;
-  final int count;
+  // final int count;
 
   const CommentsAppBarIcon({
     Key key,
     @required this.onTap,
-    @required this.count,
+    // @required this.count,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final chat = sl<ChatStore>();
+    final comments = sl<CommentsStore>();
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -30,9 +32,9 @@ class CommentsAppBarIcon extends StatelessWidget {
                 height: 26, width: 26),
             if (chat.conversation.numberOfUnreadMessages > 0)
               Positioned(
-                  right: 0,
-                  top: 0,
-                  child: Container(
+                right: 0,
+                top: 0,
+                child: Container(
                     height: 18,
                     width: 18,
                     decoration: BoxDecoration(
@@ -40,12 +42,16 @@ class CommentsAppBarIcon extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                     child: Center(
-                      child: CustomText(
-                        count.toString(),
-                        style: newMessageNumber,
-                      ),
-                    ),
-                  ))
+                        child: StreamBuilder<int>(
+                            initialData: 0,
+                            stream: comments.getCommentsCount(),
+                            builder: (context, snapshot) {
+                              return CustomText(
+                                snapshot.data.toString(),
+                                style: newMessageNumber,
+                              );
+                            }))),
+              )
           ],
         ),
       ),

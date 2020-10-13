@@ -64,7 +64,6 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     // init comments
     _comments
       ..getComments(widget.conversation.id)
-      ..watchCommentCount()
       ..watchMessages();
 
     _chatController = AutoScrollController(

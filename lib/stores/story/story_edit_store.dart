@@ -58,13 +58,15 @@ abstract class _StoryEditStoreBase with Store {
     try {
       _isLoading = true;
       final url = await _mediaStore.uploadPhoto(source: source);
-      final storyImg = StoryImageModel.photo();
-      _storiesToPublish.add(
-        storyImg.copyWith(
-          id: DateTime.now().millisecondsSinceEpoch,
-          photo: PhotoModel(url: url),
-        ),
-      );
+      if (url.isNotEmpty) {
+        final storyImg = StoryImageModel.photo();
+        _storiesToPublish.add(
+          storyImg.copyWith(
+            id: DateTime.now().millisecondsSinceEpoch,
+            photo: PhotoModel(url: url),
+          ),
+        );
+      }
     } on ServerError catch (e) {
       Crash.report(e.message);
     } finally {
@@ -77,13 +79,15 @@ abstract class _StoryEditStoreBase with Store {
     try {
       _isLoading = true;
       final url = await _mediaStore.uploadVideo();
-      final storyImg = StoryImageModel.video();
-      _storiesToPublish.add(
-        storyImg.copyWith(
-          id: DateTime.now().millisecondsSinceEpoch,
-          photo: PhotoModel(url: url),
-        ),
-      );
+      if (url.isNotEmpty) {
+        final storyImg = StoryImageModel.video();
+        _storiesToPublish.add(
+          storyImg.copyWith(
+            id: DateTime.now().millisecondsSinceEpoch,
+            photo: PhotoModel(url: url),
+          ),
+        );
+      }
     } on ServerError catch (e) {
       Crash.report(e.message);
     } finally {
@@ -104,11 +108,7 @@ abstract class _StoryEditStoreBase with Store {
 
       final storyRes = await _repository.publishStory(story);
 
-      if (_storyStore.stories.isEmpty) {
-        _storyStore.addStory(storyRes);
-      } else {
-        _storyStore.updateStory(storyRes);
-      }
+      await _storyStore.refreshStories();
 
       return right(storyRes);
     } on ServerError catch (e) {

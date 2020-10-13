@@ -245,8 +245,10 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                           onClick: () async {
                             final result = await _edit.publishStory();
                             result.fold((error) => null, (story) {
-                              ExtendedNavigator.of(context)
-                                  .pushStoryScreen(currentStory: story);
+                              ExtendedNavigator.of(context).pushStoryScreen(
+                                story: story,
+                                isPublishedStory: true,
+                              );
                               ExtendedNavigator.of(context).pop();
                             });
                           },
@@ -291,7 +293,8 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                   color: white,
                   size: 40,
                 ),
-                title: Text(LocaleKeys.story_video.tr(), style: settingsAppbarTitle),
+                title: Text(LocaleKeys.story_video.tr(),
+                    style: settingsAppbarTitle),
                 onTap: () async {
                   _edit.addVideoMedia();
                   await Navigator.pop(context);

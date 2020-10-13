@@ -13,9 +13,7 @@ abstract class StoryRepository {
 
   Future<StoryModel> publishStory(StoryModel story);
 
-  Future<bool> viewedStoryImage(int imageId);
-
-  Future<bool> viewedStory(StoryModel story);
+  Future viewedStoryImage(int imageId);
 
   Stream<StoryModel> watchStories();
 }
@@ -50,13 +48,8 @@ class StoryRepositoryImpl implements StoryRepository {
   }
 
   @override
-  Future<bool> viewedStoryImage(int imageId) async {
+  Future viewedStoryImage(int imageId) async {
     if (imageId == 0) return false;
     return await rest.viewedStoryImage(imageId);
-  }
-
-  @override
-  Future<bool> viewedStory(StoryModel story) {
-    throw UnimplementedError();
   }
 }

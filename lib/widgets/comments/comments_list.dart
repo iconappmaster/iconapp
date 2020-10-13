@@ -32,9 +32,10 @@ class CommentsList extends StatelessWidget {
           child: store.comments.isEmpty
               ? Center(
                   child: CustomText(
-                  LocaleKeys.comments_noComments.tr(),
-                  style: dialogContent,
-                ))
+                    LocaleKeys.comments_noComments.tr(),
+                    style: dialogContent,
+                  ),
+                )
               : Observer(
                   builder: (_) => ListView.builder(
                     padding: EdgeInsets.only(bottom: 8, right: 2),
@@ -43,16 +44,15 @@ class CommentsList extends StatelessWidget {
                     controller: controller,
                     itemCount: store.comments.length,
                     itemBuilder: (context, index) => TextMessage(
-                      isSwipeEnabled: false,
-                      hideAvatar: true,
-                      hideEmoji: true,
-                      forcedColor: cornflower,
-                      showPin: false,
-                      controller: AutoScrollController(),
-                      message: store.comments[index],
-                      index: index,
-                      isMe: false,
-                    ),
+                        isSwipeEnabled: false,
+                        hideAvatar: true,
+                        hideEmoji: true,
+                        forcedColor: cornflower,
+                        showPin: false,
+                        controller: AutoScrollController(),
+                        message: store.comments[index],
+                        index: index,
+                        isMe: false),
                   ),
                 ),
         ),

@@ -230,13 +230,12 @@ class Router extends RouterBase {
       );
     },
     StoryScreen: (data) {
-      final args = data.getArgs<StoryScreenArguments>(
-        orElse: () => StoryScreenArguments(),
-      );
+      final args = data.getArgs<StoryScreenArguments>(nullOk: false);
       return CupertinoPageRoute<dynamic>(
         builder: (context) => StoryScreen(
           key: args.key,
-          currentStory: args.currentStory,
+          story: args.story,
+          isPublishedStory: args.isPublishedStory,
         ),
         settings: data,
       );
@@ -370,11 +369,13 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
 
   Future<dynamic> pushStoryScreen({
     Key key,
-    StoryModel currentStory,
+    @required StoryModel story,
+    @required dynamic isPublishedStory,
   }) =>
       push<dynamic>(
         Routes.storyScreen,
-        arguments: StoryScreenArguments(key: key, currentStory: currentStory),
+        arguments: StoryScreenArguments(
+            key: key, story: story, isPublishedStory: isPublishedStory),
       );
 
   Future<dynamic> pushStoryEditScreen() =>
@@ -462,8 +463,10 @@ class SearchResultsScreenArguments {
 /// StoryScreen arguments holder class
 class StoryScreenArguments {
   final Key key;
-  final StoryModel currentStory;
-  StoryScreenArguments({this.key, this.currentStory});
+  final StoryModel story;
+  final dynamic isPublishedStory;
+  StoryScreenArguments(
+      {this.key, @required this.story, @required this.isPublishedStory});
 }
 
 /// DescriptionScreen arguments holder class

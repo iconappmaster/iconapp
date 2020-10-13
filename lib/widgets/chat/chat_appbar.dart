@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/screens/chat_screen.dart';
-import 'package:iconapp/stores/comments/comments_store.dart';
 import 'package:iconapp/widgets/comments/comments_appbar_icon.dart';
 import 'package:iconapp/widgets/global/report_dialog.dart';
 import 'chat_back_button.dart';
@@ -18,7 +17,6 @@ class ChatAppbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
-    final comment = sl<CommentsStore>();
 
     return Observer(
       builder: (_) => Container(
@@ -55,7 +53,6 @@ class ChatAppbar extends StatelessWidget {
               Observer(
                 builder: (_) => CommentsAppBarIcon(
                   onTap: () => showCommentsDialog(context),
-                  count: comment.commentsCount,
                 ),
               ),
               SizedBox(width: 8),
@@ -126,7 +123,7 @@ Future _showAlertSheet(BuildContext context) async {
                     child: ReportUserDialog(
                       mode: ReportMode.abuse,
                     ));
-                await Navigator.pop(context);                
+                await Navigator.pop(context);
               }),
           ListTile(
               onTap: () async {

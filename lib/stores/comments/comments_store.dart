@@ -96,17 +96,21 @@ abstract class _CommentsStoreBase with Store {
         );
   }
 
-  @action
-  void watchCommentCount() {
-    _countSubscription = _repository.watchCommentsCount().listen(
-      (count) {
-        _chat.setConversation(
-          _chat.conversation.copyWith(
-            numberOfUnreadComments: count,
-          ),
-        );
-      },
-    );
+  // @action
+  // void watchCommentCount() {
+  //   _countSubscription = _repository.watchCommentsCount().listen(
+  //     (count) {
+  //       _chat.setConversation(
+  //         _chat.conversation.copyWith(
+  //           numberOfUnreadComments: count,
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
+
+  Stream<int> getCommentsCount() {
+    return _repository.watchCommentsCount();
   }
 
   @action

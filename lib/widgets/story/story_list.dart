@@ -70,8 +70,11 @@ class _StoriesListState extends State<StoriesList> {
                     ...store.stories
                         .map((story) => StoryTile(
                             story: story,
-                            onTap: () => ExtendedNavigator.of(context)
-                                .pushStoryScreen(currentStory: story)))
+                            onTap: () =>
+                                ExtendedNavigator.of(context).pushStoryScreen(
+                                  story: story,
+                                  isPublishedStory: false,
+                                )))
                         .toList()
                   ],
                 ),
@@ -131,7 +134,8 @@ class StoryAddButton extends StatelessWidget {
           ),
         ),
         SizedBox(height: 12),
-        CustomText(LocaleKeys.story_title.tr(), style: myStoryCreate.copyWith(color: white)),
+        CustomText(LocaleKeys.story_title.tr(),
+            style: myStoryCreate.copyWith(color: white)),
       ],
     );
   }

@@ -14,11 +14,13 @@ import '../widgets/story/story_view.dart';
 import '../core/extensions/string_ext.dart';
 
 class StoryScreen extends StatefulWidget {
-  final StoryModel currentStory;
+  final StoryModel story;
+  final isPublishedStory;
 
   const StoryScreen({
     Key key,
-    this.currentStory,
+    @required this.story,
+    @required this.isPublishedStory,
   }) : super(key: key);
 
   @override
@@ -28,7 +30,7 @@ class StoryScreen extends StatefulWidget {
 class _StoryScreenState extends State<StoryScreen> {
   StoryController _storyPageController;
   PageController _pageController;
-  List<StoryModel> _allStories;
+  List<StoryModel> _allStories = [];
   StoryStore _store;
   Timer _nextDebouncer;
 
@@ -41,14 +43,15 @@ class _StoryScreenState extends State<StoryScreen> {
   void initState() {
     _store = sl<StoryStore>();
 
-    // get the index of the current stroy
-    final index =
-        _store.stories.indexWhere((s) => s.id == widget.currentStory.id);
+    if (widget.isPublishedStory) {
+      _allStories.add(widget.story);
+    } else {
+      _allStories = _store.stories;
+      final index = _store.stories.indexWhere((s) => s.id == widget.story.id);
 
-    _allStories = _store.stories;
-
-    if (_allStories.length > 1) {
-      swap(_allStories, index, 0);
+      if (widget.story.storyImages.length > 1) {
+        swap(_allStories, index, 0);
+      }
     }
 
     _storyPageController = StoryController();
@@ -64,6 +67,9 @@ class _StoryScreenState extends State<StoryScreen> {
         child: Stack(children: [
           CubePageView(
             controller: _pageController,
+            // if it's a published story present only the published one
+            // if the user show stories from the stories list then present
+            // all of the stories
             children: _allStories.map(
               (story) {
                 return StoryView(
@@ -159,7 +165,9 @@ class _StoryScreenState extends State<StoryScreen> {
 }
 
 void swap<T>(List<T> list, int indexA, int indexB) {
-  T tmp = list[indexA];
-  list[indexA] = list[indexB];
-  list[indexB] = tmp;
+  if (list.length > 1) {
+    T tmp = list[indexA];
+    list[indexA] = list[indexB];
+    list[indexB] = tmp;
+  }
 }
