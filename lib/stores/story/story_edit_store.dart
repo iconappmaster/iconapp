@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:iconapp/core/compression.dart';
 import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/data/models/story_model.dart';
 import 'package:iconapp/stores/story/story_store.dart';
@@ -35,12 +39,18 @@ abstract class _StoryEditStoreBase with Store {
   @observable
   bool _isLoading = false;
 
+  @observable  
+  bool _compressing = false;
+
   @observable
   bool _isPublishing = false;
 
   @observable
   ObservableList<StoryImageModel> _storiesToPublish = ObservableList.of([]);
 
+  @computed
+  bool get comporessing => _compressing;
+  
   @computed
   bool get isLoading => _isLoading;
 
@@ -78,15 +88,26 @@ abstract class _StoryEditStoreBase with Store {
   Future addVideoMedia() async {
     try {
       _isLoading = true;
-      final url = await _mediaStore.uploadVideo();
-      if (url.isNotEmpty) {
-        final storyImg = StoryImageModel.video();
-        _storiesToPublish.add(
-          storyImg.copyWith(
-            id: DateTime.now().millisecondsSinceEpoch,
-            photo: PhotoModel(url: url),
-          ),
-        );
+
+      final pickedFile =
+          await FilePicker.platform.pickFiles(type: FileType.video);
+      File file = File(pickedFile.files.single.path);
+      if (file != null) {
+        _compressing = true;
+        final compressed = await compressVideo(file);
+        _compressing = false;
+        final url = await _mediaStore.uploadVideo(video: compressed.file);
+
+        if (url.isNotEmpty) {
+          final storyImg = StoryImageModel.video();
+
+          _storiesToPublish.add(
+            storyImg.copyWith(
+              id: DateTime.now().millisecondsSinceEpoch,
+              photo: PhotoModel(url: url),
+            ),
+          );
+        }
       }
     } on ServerError catch (e) {
       Crash.report(e.message);

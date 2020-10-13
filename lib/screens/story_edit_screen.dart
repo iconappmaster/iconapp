@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:iconapp/core/bus.dart';
-import 'package:iconapp/core/dependencies/locator.dart';
-import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/data/models/story_image.dart';
-import 'package:iconapp/data/repositories/media_repository.dart';
-import 'package:iconapp/generated/locale_keys.g.dart';
-import 'package:iconapp/stores/story/story_edit_store.dart';
-import 'package:iconapp/widgets/create/create_app_bar.dart';
-import 'package:iconapp/widgets/global/custom_text.dart';
-import 'package:iconapp/widgets/global/network_photo.dart';
-import 'package:iconapp/widgets/global/next_button.dart';
-import 'package:iconapp/widgets/onboarding/base_onboarding_widget.dart';
-import 'package:image_picker/image_picker.dart';
-import '../core/extensions/context_ext.dart';
-import '../core/extensions/string_ext.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:image_picker/image_picker.dart';
+import '../core/bus.dart';
+import '../core/dependencies/locator.dart';
+import '../core/theme.dart';
+import '../data/models/story_image.dart';
+import '../data/repositories/media_repository.dart';
+import '../generated/locale_keys.g.dart';
+import '../stores/story/story_edit_store.dart';
+import '../widgets/create/create_app_bar.dart';
+import '../widgets/global/custom_text.dart';
+import '../widgets/global/network_photo.dart';
+import '../widgets/global/next_button.dart';
+import '../widgets/onboarding/base_onboarding_widget.dart';
+import '../core/extensions/context_ext.dart';
+import '../core/extensions/string_ext.dart';
 
 import 'full_video_screen.dart';
 
@@ -173,7 +173,9 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                   ? context.heightPlusStatusbarPerc(.42)
                   : context.heightPlusStatusbarPerc(.323),
               child: GestureDetector(
-                onTap: () async => await _showBottomSheet(context),
+                onTap: () async => _edit.comporessing
+                    ? () {}
+                    : await _showBottomSheet(context),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -185,13 +187,15 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                           child: CircularProgressIndicator(
                             backgroundColor: Colors.transparent,
                             valueColor: AlwaysStoppedAnimation<Color>(white),
-                            value: _progress,
+                            value: _edit.comporessing ? null : _progress,
                             strokeWidth: 7,
                           ),
                         ),
                       Container(
                         decoration: BoxDecoration(
-                          color: cornflower,
+                          color: _edit.comporessing
+                              ? Colors.grey[400]
+                              : cornflower,
                           shape: BoxShape.circle,
                         ),
                         height: 67,
@@ -225,6 +229,16 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                         style: searchAppBarTitle,
                       ),
                     ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Visibility(
+                      visible: _edit.comporessing,
+                      child: CustomText(
+                        'דוחס וידאו...',
+                        style: systemMessage,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -254,7 +268,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                           },
                         ),
                 ),
-              )
+              ),
           ],
         ),
       )),
