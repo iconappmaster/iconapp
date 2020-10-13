@@ -7,19 +7,18 @@ import '../global/custom_text.dart';
 import '../global/network_photo.dart';
 import '../global/white_circle.dart';
 import '../../core/extensions/context_ext.dart';
-import '../../core/extensions/int_ext.dart';
 import 'conversation_last_message.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:iconapp/widgets/global/timeago.dart' as time;
+
 const double _indicatorSize = 27;
 
 class ConversationTile extends StatelessWidget {
   final Conversation model;
-  // final Function onTap;
 
   const ConversationTile({
     Key key,
     this.model,
-    // @required this.onTap,
   }) : super(key: key);
 
   @override
@@ -86,7 +85,11 @@ class ConversationTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   CustomText(
-                      model.lastMessage?.timestamp?.humanReadableTime() ?? '',
+                      time.format(
+                          DateTime.fromMillisecondsSinceEpoch(
+                              model.lastMessage.timestamp * 1000),
+                          locale: 'he'),
+                      // model.lastMessage?.timestamp?.humanReadableTime() ?? '',
                       style: timeOfMessage),
                   SizedBox(height: 8.7),
                   Row(

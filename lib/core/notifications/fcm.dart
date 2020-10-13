@@ -26,26 +26,19 @@ class Fcm {
     final sp = sl<SharedPreferencesService>();
     final auth = sl<AuthStore>();
     final user = sl<UserStore>();
+
     final android = AndroidInitializationSettings('app_icon');
+
     final ios = IOSInitializationSettings();
+
     final init = InitializationSettings(
       android,
       ios,
     );
+
     firebasePlugin.initialize(init,
         onSelectNotification: onNotificationClicked);
 
-    // final bool result = await firebasePlugin
-    //     .resolvePlatformSpecificImplementation<
-    //         IOSFlutterLocalNotificationsPlugin>()
-    //     ?.requestPermissions(
-    //       alert: true,
-    //       badge: true,
-    //       sound: true,
-    //     );
-    // if (result) {
-    //   print(result);
-    // }
     messaging.configure(
       onLaunch: (message) async {
         print('onLaunch');
@@ -56,7 +49,10 @@ class Fcm {
         return Future.value();
       },
       onBackgroundMessage: Platform.isIOS ? null : backgroundHandler,
-      onMessage: (message) async => _handleNotification(message),
+      onMessage: (message) async => _handleNotification(
+        message: message,
+        backgroundMessage: false,
+      ),
     );
 
     messaging.getToken().then(
@@ -97,7 +93,7 @@ class Fcm {
   }
 
   static Future<dynamic> backgroundHandler(Map<String, dynamic> message) async {
-    _handleNotification(message);
+    _handleNotification(message: message, backgroundMessage: true);
     return Future<void>.value();
   }
 
@@ -107,37 +103,49 @@ class Fcm {
   }
 }
 
-void _handleNotification(Map<String, dynamic> message) {
-  final openedConversationId = sl<ChatStore>().conversation?.id ?? 0;
+void _handleNotification(
+    {Map<String, dynamic> message, bool backgroundMessage}) {
+  final dataConversationId = message['data']['conversationId'] as String;
 
-  final conversationId = message['data']['conversationId'] as String;
+  // if there's no data maybe it's FCM problem get the notification data
+  if (dataConversationId == null) {
+    final title = message['notification']['title'];
+    final body = message['notification']['body'];
+    showTextNotification(channelName, channelName, "0", title, body, body);
+  } else {
+    var openedConversationId = 0;
+    
+    if (!backgroundMessage) {
+      openedConversationId = sl<ChatStore>().conversation?.id ?? 0;
+    }
 
-  if (openedConversationId != conversationId) {
-    final body = message['data']['body'] as String;
-    final title = message['data']['title'] as String;
-    final type = message['data']['notificationType'] as String;
+    if (openedConversationId != int.tryParse(dataConversationId)) {
+      final body = message['data']['body'] as String;
+      final title = message['data']['title'] as String;
+      final type = message['data']['notificationType'] as String;
 
-    switch (type) {
-      case "message_text":
-        showTextNotification(
-          channelName,
-          channelName,
-          conversationId,
-          title,
-          body,
-          conversationId,
-        );
-        break;
-      case "message_photo":
-        showImageNotification(
-          channelName,
-          channelName,
-          conversationId,
-          title,
-          body,
-          conversationId,
-        );
-        break;
+      switch (type) {
+        case "message_text":
+          showTextNotification(
+            channelName,
+            channelName,
+            dataConversationId,
+            title,
+            body,
+            dataConversationId,
+          );
+          break;
+        case "message_photo":
+          showImageNotification(
+            channelName,
+            channelName,
+            dataConversationId,
+            title,
+            body,
+            dataConversationId,
+          );
+          break;
+      }
     }
   }
 }

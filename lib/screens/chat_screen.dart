@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
 import 'package:iconapp/widgets/comments/comments_bottom_sheet.dart';
 import 'package:iconapp/widgets/comments/comments_fab.dart';
@@ -23,6 +24,7 @@ import '../widgets/global/blue_divider.dart';
 import '../widgets/story/story_list.dart';
 import '../widgets/chat/chat_appbar.dart';
 import '../core/extensions/context_ext.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ChatScreen extends StatefulWidget {
   final Conversation conversation;
@@ -148,7 +150,8 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                           if (_chat.conversation.areCommentsActivated) {
                             showCommentsDialog(context);
                           } else {
-                            // show popup?
+                            context.showFlushbar(
+                                message: LocaleKeys.comments_closed.tr());
                           }
                         },
                       )),

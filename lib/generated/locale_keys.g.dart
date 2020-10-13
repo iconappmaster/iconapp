@@ -88,6 +88,7 @@ abstract class  LocaleKeys {
   static const comments_groupOpened = 'comments.groupOpened';
   static const comments_open = 'comments.open';
   static const comments_close = 'comments.close';
+  static const comments_closed = 'comments.closed';
   static const comments = 'comments';
 
 }

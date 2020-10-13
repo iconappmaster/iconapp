@@ -174,7 +174,7 @@ class HeMessages implements LookupMessages {
   @override
   String minutes(int minutes) => '$minutes דקות';
   @override
-  String aboutAnHour(int minutes) => 'בערך שעה';
+  String aboutAnHour(int minutes) => 'שעה בערך';
   @override
   String hours(int hours) => '$hours שעות';
   @override
@@ -182,11 +182,11 @@ class HeMessages implements LookupMessages {
   @override
   String days(int days) => '$days ימים';
   @override
-  String aboutAMonth(int days) => 'בערך חודש';
+  String aboutAMonth(int days) => 'חודש בערך';
   @override
   String months(int months) => '$months חודשים';
   @override
-  String aboutAYear(int year) => 'בערך שנה';
+  String aboutAYear(int year) => 'שנה בערך';
   @override
   String years(int years) => '$years שנים';
   @override
