@@ -49,7 +49,6 @@ class SendButton extends StatelessWidget {
               switch (composerMode) {
                 case ComposerPanelMode.conversation:
                   if (isMessageMode()) {
-                    
                     textEditcontroller.clear();
                     scrollController.jumpTo(0);
                     chat.sendTextMessage();
@@ -59,7 +58,7 @@ class SendButton extends StatelessWidget {
                 case ComposerPanelMode.comments:
                   if (chat.conversation.areCommentsActivated) {
                     textEditcontroller.clear();
-                    scrollController.jumpTo(0);
+
                     final result = await comments.sendComment();
                     result.fold(
                         (error) => error.when(
@@ -68,6 +67,7 @@ class SendButton extends StatelessWidget {
                             exceededMaxCount: context.showFlushbar(
                                 message: 'הקבוצה נסגרה לתגובות בשלב זה.')),
                         (success) => print('comment sent!'));
+                    // scrollController.jumpTo(0);
                   } else {
                     context.showFlushbar(message: 'הערות לא פעילות כרגע');
                   }

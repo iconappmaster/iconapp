@@ -137,7 +137,10 @@ abstract class _CommentsStoreBase with Store {
 
       // // update the id and set the message
       final index = _comments.indexWhere((c) => c.id == comment.id);
-      _comments[index] = comment.copyWith(id: remoteComment.id);
+      _comments[index] = comment.copyWith(
+        id: remoteComment.id,
+        status: MessageStatus.sent,
+      );
 
       // reset the comment input
       _commentInput = '';

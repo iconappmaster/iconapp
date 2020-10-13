@@ -126,8 +126,7 @@ Future _showAlertSheet(BuildContext context) async {
                     child: ReportUserDialog(
                       mode: ReportMode.abuse,
                     ));
-                await Navigator.pop(context);
-                
+                await Navigator.pop(context);                
               }),
           ListTile(
               onTap: () async {

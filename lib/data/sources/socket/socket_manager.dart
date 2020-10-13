@@ -110,8 +110,15 @@ class Socket {
 
   // Comments
   void bindGetCommentsEvent() {
-    _channel.bind(commentsEvent,
-        (event) => _proccessLikeEventToMessage(commentsSubject, event));
+    _channel.bind(commentsEvent, (event) {
+      final user = sl<UserStore>();
+      final json = jsonDecode(event.data);
+      final message = MessageModel.fromJson(json);
+
+      if (message != null && !user.isMe(message.sender?.id)) {
+        commentsSubject.add(message);
+      }
+    });
   }
 
   void bindCommentsCountEvent() {

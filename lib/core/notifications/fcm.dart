@@ -114,7 +114,7 @@ void _handleNotification(
     showTextNotification(channelName, channelName, "0", title, body, body);
   } else {
     var openedConversationId = 0;
-    
+
     if (!backgroundMessage) {
       openedConversationId = sl<ChatStore>().conversation?.id ?? 0;
     }
@@ -137,6 +137,27 @@ void _handleNotification(
           break;
         case "message_photo":
           showImageNotification(
+            channelName,
+            channelName,
+            dataConversationId,
+            title,
+            body,
+            dataConversationId,
+          );
+          break;
+        case "message_video":
+          showTextNotification(
+            channelName,
+            channelName,
+            dataConversationId,
+            title,
+            body,
+            dataConversationId,
+          );
+          break;
+
+        case "message_audio":
+          showTextNotification(
             channelName,
             channelName,
             dataConversationId,

@@ -28,7 +28,10 @@ class CommentsSettings extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          CustomText(LocaleKeys.comments_groupOpened.tr(), style: chatSettings),
+          CustomText(
+            LocaleKeys.comments_groupOpened.tr(),
+            style: chatSettings,
+          ),
           _CommentButtonToggle(
             onPressed: () async {
               if (isActivated) {
@@ -94,8 +97,8 @@ class _CommentButtonToggle extends StatelessWidget {
                 )
               : CustomText(
                   isActivated
-                      ? LocaleKeys.comments_open.tr()
-                      : LocaleKeys.comments_close.tr(),
+                      ? LocaleKeys.comments_close.tr()
+                      : LocaleKeys.comments_open.tr(),
                   maxLines: 1,
                   style: settingsButton),
         ),
