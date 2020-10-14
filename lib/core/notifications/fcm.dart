@@ -76,7 +76,7 @@ class Fcm {
       final home = sl<HomeStore>();
       final id = int.parse(conversationId);
       final conversation = home.getConversationById(id);
-
+        
       if (conversation != null) {
         ExtendedNavigator.named($Router.routerName).push(
           Routes.chatScreen,

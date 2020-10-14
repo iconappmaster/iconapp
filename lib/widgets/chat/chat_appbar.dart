@@ -35,6 +35,8 @@ class ChatAppbar extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     CustomText(store?.conversation?.name ?? '',
+                    textAlign: TextAlign.start,
+                    maxLines: 1,
                         style: loginBigText),
                     CustomText(
                       '${store.conversation?.numberOfParticipants ?? 0} משתתפים',

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:iconapp/widgets/global/cube.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/story_model.dart';
-import 'package:iconapp/widgets/story/utils.dart';
 import '../core/dependencies/locator.dart';
 import '../data/models/story_image.dart';
 import '../stores/story/story_store.dart';
@@ -33,7 +32,9 @@ class _StoryScreenState extends State<StoryScreen> {
   List<StoryModel> _allStories = [];
   StoryStore _store;
   Timer _nextDebouncer;
-
+  DragStartDetails dragStartDetails;
+  DragUpdateDetails dragUpdateDetails;
+  
   void _clearDebouncer() {
     _nextDebouncer?.cancel();
     _nextDebouncer = null;
@@ -46,9 +47,11 @@ class _StoryScreenState extends State<StoryScreen> {
     if (widget.isPublishedStory) {
       _allStories.add(widget.story);
     } else {
+      // load all stories
       _allStories = _store.stories;
-      final index = _store.stories.indexWhere((s) => s.id == widget.story.id);
 
+      // find the index of the selected story and present it first
+      final index = _store.stories.indexWhere((s) => s.id == widget.story.id);
       if (widget.story.storyImages.length > 1) {
         swap(_allStories, index, 0);
       }
@@ -86,12 +89,6 @@ class _StoryScreenState extends State<StoryScreen> {
                           curve: Curves.linear);
                     }
                   },
-                  onVerticalSwipeComplete: (direction) {
-                    if (direction == Direction.down ||
-                        direction == Direction.up) {
-                      ExtendedNavigator.of(context).pop();
-                    }
-                  },
                   onStoryShow: (s) =>
                       _store.onStoryImageViewed(s?.imageId ?? 0),
                   storyItems: story.storyImages
@@ -122,6 +119,23 @@ class _StoryScreenState extends State<StoryScreen> {
               onTapDown: (details) {
                 _storyPageController.pause();
               },
+              onVerticalDragStart: (dragDetails) => dragStartDetails = dragDetails,
+              onVerticalDragUpdate: (dragDetails) => dragUpdateDetails = dragDetails,
+              onVerticalDragEnd: (endDetails) {
+                double dx =
+                    dragUpdateDetails.globalPosition.dx - dragStartDetails.globalPosition.dx;
+                double dy =
+                    dragUpdateDetails.globalPosition.dy - dragStartDetails.globalPosition.dy;
+                double velocity = endDetails.primaryVelocity;
+
+                //Convert values to be positive
+                if (dx < 0) dx = -dx;
+                if (dy < 0) dy = -dy;
+
+                if (velocity < 0) {
+                  ExtendedNavigator.of(context).pop();
+                }
+              },
               onTapCancel: () {
                 _storyPageController.play();
               },
@@ -147,10 +161,16 @@ class _StoryScreenState extends State<StoryScreen> {
             ),
           ),
           Positioned(
-              right: 4,
-              top: 42,
-              child: CloseButton(
-                color: white,
+              right: 16,
+              top: 52,
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.grey.withOpacity(.4),
+                ),
+                child: CloseButton(
+                  color: white,
+                ),
               ))
         ]),
       ),
