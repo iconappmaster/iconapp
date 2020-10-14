@@ -2,6 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 enum StorageKey {
   chatWelcome,
+  fcmConversation,
   isFinishedOnboarding,
   user,
   isDev,

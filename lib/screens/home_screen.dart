@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/data/models/conversation_model.dart';
+import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/alerts/alert_store.dart';
 import 'package:iconapp/stores/home/home_store.dart';
@@ -32,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
   HomeStore _home;
   AlertStore _alerts;
   StoryStore _story;
+  SharedPreferencesService _sp;
 
   @override
   void initState() {
@@ -39,11 +44,16 @@ class _HomeScreenState extends State<HomeScreen> {
     _home = sl<HomeStore>();
     _story = sl<StoryStore>();
     _alerts = sl<AlertStore>();
+    _sp = sl<SharedPreferencesService>();
 
     _controller = ScrollController();
     _home.getConversations(force: true);
     _story.refreshStories();
     _initSocket();
+
+    if (_sp.contains(StorageKey.fcmConversation)) {
+      _navigateToChatFromFCM();
+    }
 
     super.initState();
   }
@@ -145,6 +155,13 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  void _navigateToChatFromFCM() {
+    final savedConversation = _sp.getString(StorageKey.fcmConversation);
+    final json = jsonDecode(savedConversation);
+    final conversation = Conversation.fromJson(json);
+    ExtendedNavigator.of(context).pushChatScreen(conversation: conversation);
   }
 
   void openBottomSheet(BuildContext context) {

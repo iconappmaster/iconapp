@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
 import 'package:iconapp/widgets/comments/comments_bottom_sheet.dart';
@@ -43,11 +44,17 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   StoryStore _story;
   CommentsStore _comments;
   Socket _socket;
+  SharedPreferencesService _sp;
 
   @override
   void initState() {
+    
+
     _initDependencies();
     _initSocket();
+
+    // reset 
+    _sp.setString(StorageKey.fcmConversation, null);
 
     // init storey
     _chat
@@ -88,6 +95,8 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     _story = sl<StoryStore>();
     _comments = sl<CommentsStore>();
     _socket = sl<Socket>();
+    _sp = sl<SharedPreferencesService>();
+    
   }
 
   Future _initSocket() async {

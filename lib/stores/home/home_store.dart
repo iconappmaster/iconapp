@@ -168,8 +168,9 @@ abstract class _HomeStoreBase with Store {
   }
 
   @action
-  Conversation getConversationById(int id) {
-    return _conversations.firstWhere((c) => c.id == id);
+  Future<Conversation> getCachedConversationById(int id) async {
+    final cached = await _repository.getCachedHome();
+    return cached.firstWhere((c) => c.id == id);
   }
 
   void dispose() async {

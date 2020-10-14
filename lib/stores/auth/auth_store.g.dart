@@ -56,11 +56,22 @@ mixin _$AuthStore on _AuthStoreBase, Store {
       ActionController(name: '_AuthStoreBase');
 
   @override
-  void checkCurrentAuthState() {
+  void validateAuthState() {
     final _$actionInfo = _$_AuthStoreBaseActionController.startAction(
-        name: '_AuthStoreBase.checkCurrentAuthState');
+        name: '_AuthStoreBase.validateAuthState');
     try {
-      return super.checkCurrentAuthState();
+      return super.validateAuthState();
+    } finally {
+      _$_AuthStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setAuthState(AuthState state) {
+    final _$actionInfo = _$_AuthStoreBaseActionController.startAction(
+        name: '_AuthStoreBase.setAuthState');
+    try {
+      return super.setAuthState(state);
     } finally {
       _$_AuthStoreBaseActionController.endAction(_$actionInfo);
     }

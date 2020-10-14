@@ -104,6 +104,15 @@ mixin _$HomeStore on _HomeStoreBase, Store {
     return _$saveWelcomeSeenAsyncAction.run(() => super.saveWelcomeSeen());
   }
 
+  final _$getCachedConversationByIdAsyncAction =
+      AsyncAction('_HomeStoreBase.getCachedConversationById');
+
+  @override
+  Future<Conversation> getCachedConversationById(int id) {
+    return _$getCachedConversationByIdAsyncAction
+        .run(() => super.getCachedConversationById(id));
+  }
+
   final _$_HomeStoreBaseActionController =
       ActionController(name: '_HomeStoreBase');
 
@@ -179,17 +188,6 @@ mixin _$HomeStore on _HomeStoreBase, Store {
         name: '_HomeStoreBase.resetCount');
     try {
       return super.resetCount(index);
-    } finally {
-      _$_HomeStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  Conversation getConversationById(int id) {
-    final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
-        name: '_HomeStoreBase.getConversationById');
-    try {
-      return super.getConversationById(id);
     } finally {
       _$_HomeStoreBaseActionController.endAction(_$actionInfo);
     }

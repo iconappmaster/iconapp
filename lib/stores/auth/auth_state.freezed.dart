@@ -32,6 +32,13 @@ class _$AuthStateTearOff {
   Unauthenticated unauthenticated() {
     return const Unauthenticated();
   }
+
+// ignore: unused_element
+  OpenChat fromNotificationOpenChat(Conversation conversation) {
+    return OpenChat(
+      conversation,
+    );
+  }
 }
 
 /// @nodoc
@@ -46,6 +53,7 @@ mixin _$AuthState {
     @required Result onboarding(),
     @required Result authenticated(),
     @required Result unauthenticated(),
+    @required Result fromNotificationOpenChat(Conversation conversation),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
@@ -53,6 +61,7 @@ mixin _$AuthState {
     Result onboarding(),
     Result authenticated(),
     Result unauthenticated(),
+    Result fromNotificationOpenChat(Conversation conversation),
     @required Result orElse(),
   });
   @optionalTypeArgs
@@ -61,6 +70,7 @@ mixin _$AuthState {
     @required Result onboarding(Onboarding value),
     @required Result authenticated(Authenticated value),
     @required Result unauthenticated(Unauthenticated value),
+    @required Result fromNotificationOpenChat(OpenChat value),
   });
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
@@ -68,6 +78,7 @@ mixin _$AuthState {
     Result onboarding(Onboarding value),
     Result authenticated(Authenticated value),
     Result unauthenticated(Unauthenticated value),
+    Result fromNotificationOpenChat(OpenChat value),
     @required Result orElse(),
   });
 }
@@ -127,11 +138,13 @@ class _$Initial implements Initial {
     @required Result onboarding(),
     @required Result authenticated(),
     @required Result unauthenticated(),
+    @required Result fromNotificationOpenChat(Conversation conversation),
   }) {
     assert(initial != null);
     assert(onboarding != null);
     assert(authenticated != null);
     assert(unauthenticated != null);
+    assert(fromNotificationOpenChat != null);
     return initial();
   }
 
@@ -142,6 +155,7 @@ class _$Initial implements Initial {
     Result onboarding(),
     Result authenticated(),
     Result unauthenticated(),
+    Result fromNotificationOpenChat(Conversation conversation),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -158,11 +172,13 @@ class _$Initial implements Initial {
     @required Result onboarding(Onboarding value),
     @required Result authenticated(Authenticated value),
     @required Result unauthenticated(Unauthenticated value),
+    @required Result fromNotificationOpenChat(OpenChat value),
   }) {
     assert(initial != null);
     assert(onboarding != null);
     assert(authenticated != null);
     assert(unauthenticated != null);
+    assert(fromNotificationOpenChat != null);
     return initial(this);
   }
 
@@ -173,6 +189,7 @@ class _$Initial implements Initial {
     Result onboarding(Onboarding value),
     Result authenticated(Authenticated value),
     Result unauthenticated(Unauthenticated value),
+    Result fromNotificationOpenChat(OpenChat value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -228,11 +245,13 @@ class _$Onboarding implements Onboarding {
     @required Result onboarding(),
     @required Result authenticated(),
     @required Result unauthenticated(),
+    @required Result fromNotificationOpenChat(Conversation conversation),
   }) {
     assert(initial != null);
     assert(onboarding != null);
     assert(authenticated != null);
     assert(unauthenticated != null);
+    assert(fromNotificationOpenChat != null);
     return onboarding();
   }
 
@@ -243,6 +262,7 @@ class _$Onboarding implements Onboarding {
     Result onboarding(),
     Result authenticated(),
     Result unauthenticated(),
+    Result fromNotificationOpenChat(Conversation conversation),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -259,11 +279,13 @@ class _$Onboarding implements Onboarding {
     @required Result onboarding(Onboarding value),
     @required Result authenticated(Authenticated value),
     @required Result unauthenticated(Unauthenticated value),
+    @required Result fromNotificationOpenChat(OpenChat value),
   }) {
     assert(initial != null);
     assert(onboarding != null);
     assert(authenticated != null);
     assert(unauthenticated != null);
+    assert(fromNotificationOpenChat != null);
     return onboarding(this);
   }
 
@@ -274,6 +296,7 @@ class _$Onboarding implements Onboarding {
     Result onboarding(Onboarding value),
     Result authenticated(Authenticated value),
     Result unauthenticated(Unauthenticated value),
+    Result fromNotificationOpenChat(OpenChat value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -330,11 +353,13 @@ class _$Authenticated implements Authenticated {
     @required Result onboarding(),
     @required Result authenticated(),
     @required Result unauthenticated(),
+    @required Result fromNotificationOpenChat(Conversation conversation),
   }) {
     assert(initial != null);
     assert(onboarding != null);
     assert(authenticated != null);
     assert(unauthenticated != null);
+    assert(fromNotificationOpenChat != null);
     return authenticated();
   }
 
@@ -345,6 +370,7 @@ class _$Authenticated implements Authenticated {
     Result onboarding(),
     Result authenticated(),
     Result unauthenticated(),
+    Result fromNotificationOpenChat(Conversation conversation),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -361,11 +387,13 @@ class _$Authenticated implements Authenticated {
     @required Result onboarding(Onboarding value),
     @required Result authenticated(Authenticated value),
     @required Result unauthenticated(Unauthenticated value),
+    @required Result fromNotificationOpenChat(OpenChat value),
   }) {
     assert(initial != null);
     assert(onboarding != null);
     assert(authenticated != null);
     assert(unauthenticated != null);
+    assert(fromNotificationOpenChat != null);
     return authenticated(this);
   }
 
@@ -376,6 +404,7 @@ class _$Authenticated implements Authenticated {
     Result onboarding(Onboarding value),
     Result authenticated(Authenticated value),
     Result unauthenticated(Unauthenticated value),
+    Result fromNotificationOpenChat(OpenChat value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -432,11 +461,13 @@ class _$Unauthenticated implements Unauthenticated {
     @required Result onboarding(),
     @required Result authenticated(),
     @required Result unauthenticated(),
+    @required Result fromNotificationOpenChat(Conversation conversation),
   }) {
     assert(initial != null);
     assert(onboarding != null);
     assert(authenticated != null);
     assert(unauthenticated != null);
+    assert(fromNotificationOpenChat != null);
     return unauthenticated();
   }
 
@@ -447,6 +478,7 @@ class _$Unauthenticated implements Unauthenticated {
     Result onboarding(),
     Result authenticated(),
     Result unauthenticated(),
+    Result fromNotificationOpenChat(Conversation conversation),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -463,11 +495,13 @@ class _$Unauthenticated implements Unauthenticated {
     @required Result onboarding(Onboarding value),
     @required Result authenticated(Authenticated value),
     @required Result unauthenticated(Unauthenticated value),
+    @required Result fromNotificationOpenChat(OpenChat value),
   }) {
     assert(initial != null);
     assert(onboarding != null);
     assert(authenticated != null);
     assert(unauthenticated != null);
+    assert(fromNotificationOpenChat != null);
     return unauthenticated(this);
   }
 
@@ -478,6 +512,7 @@ class _$Unauthenticated implements Unauthenticated {
     Result onboarding(Onboarding value),
     Result authenticated(Authenticated value),
     Result unauthenticated(Unauthenticated value),
+    Result fromNotificationOpenChat(OpenChat value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -490,4 +525,149 @@ class _$Unauthenticated implements Unauthenticated {
 
 abstract class Unauthenticated implements AuthState {
   const factory Unauthenticated() = _$Unauthenticated;
+}
+
+/// @nodoc
+abstract class $OpenChatCopyWith<$Res> {
+  factory $OpenChatCopyWith(OpenChat value, $Res Function(OpenChat) then) =
+      _$OpenChatCopyWithImpl<$Res>;
+  $Res call({Conversation conversation});
+
+  $ConversationCopyWith<$Res> get conversation;
+}
+
+/// @nodoc
+class _$OpenChatCopyWithImpl<$Res> extends _$AuthStateCopyWithImpl<$Res>
+    implements $OpenChatCopyWith<$Res> {
+  _$OpenChatCopyWithImpl(OpenChat _value, $Res Function(OpenChat) _then)
+      : super(_value, (v) => _then(v as OpenChat));
+
+  @override
+  OpenChat get _value => super._value as OpenChat;
+
+  @override
+  $Res call({
+    Object conversation = freezed,
+  }) {
+    return _then(OpenChat(
+      conversation == freezed
+          ? _value.conversation
+          : conversation as Conversation,
+    ));
+  }
+
+  @override
+  $ConversationCopyWith<$Res> get conversation {
+    if (_value.conversation == null) {
+      return null;
+    }
+    return $ConversationCopyWith<$Res>(_value.conversation, (value) {
+      return _then(_value.copyWith(conversation: value));
+    });
+  }
+}
+
+/// @nodoc
+class _$OpenChat implements OpenChat {
+  const _$OpenChat(this.conversation) : assert(conversation != null);
+
+  @override
+  final Conversation conversation;
+
+  @override
+  String toString() {
+    return 'AuthState.fromNotificationOpenChat(conversation: $conversation)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is OpenChat &&
+            (identical(other.conversation, conversation) ||
+                const DeepCollectionEquality()
+                    .equals(other.conversation, conversation)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(conversation);
+
+  @override
+  $OpenChatCopyWith<OpenChat> get copyWith =>
+      _$OpenChatCopyWithImpl<OpenChat>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result initial(),
+    @required Result onboarding(),
+    @required Result authenticated(),
+    @required Result unauthenticated(),
+    @required Result fromNotificationOpenChat(Conversation conversation),
+  }) {
+    assert(initial != null);
+    assert(onboarding != null);
+    assert(authenticated != null);
+    assert(unauthenticated != null);
+    assert(fromNotificationOpenChat != null);
+    return fromNotificationOpenChat(conversation);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result initial(),
+    Result onboarding(),
+    Result authenticated(),
+    Result unauthenticated(),
+    Result fromNotificationOpenChat(Conversation conversation),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (fromNotificationOpenChat != null) {
+      return fromNotificationOpenChat(conversation);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result initial(Initial value),
+    @required Result onboarding(Onboarding value),
+    @required Result authenticated(Authenticated value),
+    @required Result unauthenticated(Unauthenticated value),
+    @required Result fromNotificationOpenChat(OpenChat value),
+  }) {
+    assert(initial != null);
+    assert(onboarding != null);
+    assert(authenticated != null);
+    assert(unauthenticated != null);
+    assert(fromNotificationOpenChat != null);
+    return fromNotificationOpenChat(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result initial(Initial value),
+    Result onboarding(Onboarding value),
+    Result authenticated(Authenticated value),
+    Result unauthenticated(Unauthenticated value),
+    Result fromNotificationOpenChat(OpenChat value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (fromNotificationOpenChat != null) {
+      return fromNotificationOpenChat(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class OpenChat implements AuthState {
+  const factory OpenChat(Conversation conversation) = _$OpenChat;
+
+  Conversation get conversation;
+  $OpenChatCopyWith<OpenChat> get copyWith;
 }

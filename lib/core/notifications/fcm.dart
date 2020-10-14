@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:iconapp/routes/router.dart';
@@ -36,8 +37,10 @@ class Fcm {
       ios,
     );
 
-    firebasePlugin.initialize(init,
-        onSelectNotification: onNotificationClicked);
+    firebasePlugin.initialize(
+      init,
+      onSelectNotification: onNotificationClicked,
+    );
 
     messaging.configure(
       onLaunch: (message) async {
@@ -51,7 +54,7 @@ class Fcm {
       onBackgroundMessage: Platform.isIOS ? null : backgroundHandler,
       onMessage: (message) async => _handleNotification(
         message: message,
-        backgroundMessage: false,
+        foregroundMessage: true,
       ),
     );
 
@@ -73,15 +76,24 @@ class Fcm {
 
   Future<String> onNotificationClicked(String conversationId) async {
     if (conversationId != null) {
-      final home = sl<HomeStore>();
-      final id = int.parse(conversationId);
-      final conversation = home.getConversationById(id);
-        
-      if (conversation != null) {
-        ExtendedNavigator.named($Router.routerName).push(
-          Routes.chatScreen,
-          arguments: ChatScreenArguments(conversation: conversation),
-        );
+      // parse the convesraton id from string to int
+      final id = int.tryParse(conversationId);
+
+      // check if the parsed is ok
+      if (id != null) {
+        final home = sl<HomeStore>();
+        final sp = sl<SharedPreferencesService>();
+        // get conversation from all cached conversations
+        final conversation = await home.getCachedConversationById(id);
+
+        if (conversation != null) {
+          /// cache the conversation the should be opend. use it on [MainNavigator]
+          final json = jsonEncode(conversation.toJson());
+          await sp.setString(StorageKey.fcmConversation, json);
+
+          ExtendedNavigator.named($Router.routerName)
+              .push(Routes.mainNavigator);
+        }
       }
     }
 
@@ -93,7 +105,7 @@ class Fcm {
   }
 
   static Future<dynamic> backgroundHandler(Map<String, dynamic> message) async {
-    _handleNotification(message: message, backgroundMessage: true);
+    _handleNotification(message: message, foregroundMessage: false);
     return Future<void>.value();
   }
 
@@ -104,18 +116,21 @@ class Fcm {
 }
 
 void _handleNotification(
-    {Map<String, dynamic> message, bool backgroundMessage}) {
+    {Map<String, dynamic> message, bool foregroundMessage}) {
   final dataConversationId = message['data']['conversationId'] as String;
 
-  // if there's no data maybe it's FCM problem get the notification data
+  // Handle notification from FCM (with notification { } payload)
   if (dataConversationId == null) {
     final title = message['notification']['title'];
     final body = message['notification']['body'];
     showTextNotification(channelName, channelName, "0", title, body, body);
   } else {
+    // handle data payload
     var openedConversationId = 0;
 
-    if (!backgroundMessage) {
+    if (foregroundMessage) {
+      // if notification comes from foreground then get the conversationId
+      // that's for not showing notfication to a specific chat when it's open
       openedConversationId = sl<ChatStore>().conversation?.id ?? 0;
     }
 

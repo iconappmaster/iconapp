@@ -92,7 +92,9 @@ abstract class _CommentsStoreBase with Store {
   @action
   void watchMessages() {
     _subscription = _repository.watchComments().listen(
-          (message) => _comments.add(message),
+          (message) {
+            _comments.add(message);
+          },
         );
   }
 

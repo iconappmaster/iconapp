@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/screens/chat_screen.dart';
 import 'package:iconapp/widgets/comments/comments_appbar_icon.dart';
 import 'package:iconapp/widgets/global/report_dialog.dart';
@@ -35,8 +36,8 @@ class ChatAppbar extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     CustomText(store?.conversation?.name ?? '',
-                    textAlign: TextAlign.start,
-                    maxLines: 1,
+                        textAlign: TextAlign.start,
+                        maxLines: 1,
                         style: loginBigText),
                     CustomText(
                       '${store.conversation?.numberOfParticipants ?? 0} משתתפים',
@@ -52,11 +53,12 @@ class ChatAppbar extends StatelessWidget {
                   },
                   child: Icon(Icons.flag, color: white)),
               SizedBox(width: 10),
-              Observer(
-                builder: (_) => CommentsAppBarIcon(
-                  onTap: () => showCommentsDialog(context),
+              if (store.conversation.userRole == UserRole.admin)
+                Observer(
+                  builder: (_) => CommentsAppBarIcon(
+                    onTap: () => showCommentsDialog(context),
+                  ),
                 ),
-              ),
               SizedBox(width: 8),
               Observer(builder: (_) {
                 final pinSize = 30.0;

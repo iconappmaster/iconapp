@@ -35,7 +35,7 @@ abstract class _AuthStoreBase with Store {
   }
 
   @action
-  void checkCurrentAuthState() {
+  void validateAuthState() {
     final isSignedIn = _repository.isSignIn();
     _authState =
         isSignedIn ? AuthState.authenticated() : AuthState.unauthenticated();
@@ -50,5 +50,10 @@ abstract class _AuthStoreBase with Store {
     } on ServerError catch (e) {
       Crash.report(e.message);
     }
+  }
+
+  @action
+  void setAuthState(AuthState state) {
+    _authState = state;
   }
 }

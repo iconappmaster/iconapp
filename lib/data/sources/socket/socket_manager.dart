@@ -12,7 +12,8 @@ import 'package:iconapp/stores/user/user_store.dart';
 import 'package:pusher_websocket_flutter/pusher.dart';
 import 'package:rxdart/subjects.dart';
 
-const PUSHER_KEY = '18aa056f999a0341c053';
+const STAGING_PUSHER_KEY = '18aa056f999a0341c053';
+const PRODUCTION_PUSHER_KEY = '0dd0fc90c38bc3430222';
 
 // Channels
 const homeChannelName = 'home';
@@ -42,7 +43,7 @@ class Socket {
 
   void init() async {
     try {
-      await Pusher.init(PUSHER_KEY, PusherOptions(cluster: "us2"),
+      await Pusher.init(PRODUCTION_PUSHER_KEY, PusherOptions(cluster: "us2"),
           enableLogging: true);
     } on PlatformException catch (e) {
       Crash.report(e.message);

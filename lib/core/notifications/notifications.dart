@@ -6,6 +6,7 @@ import 'package:iconapp/core/theme.dart';
 import 'package:path_provider/path_provider.dart';
 import 'fcm.dart';
 
+
 // class NotificationsHelper {
 
 Future<void> showTextNotification(String channelId, String channelName,
@@ -17,6 +18,9 @@ Future<void> showTextNotification(String channelId, String channelName,
     importance: Importance.Max,
     priority: Priority.High,
     ticker: 'ticker',
+    visibility: NotificationVisibility.Public,
+    playSound: true,
+    sound: RawResourceAndroidNotificationSound('notification'),
     autoCancel: true,
     enableLights: true,
     color: cornflower,

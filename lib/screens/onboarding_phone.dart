@@ -183,7 +183,7 @@ class _PinCode extends StatelessWidget {
                     navigateHome: () {
                       sl<AuthStore>()
                         ..setSignedIn()
-                        ..checkCurrentAuthState();
+                        ..validateAuthState();
                       ExtendedNavigator.of(ctx).pushAndRemoveUntil(
                           Routes.mainNavigator, (route) => false);
                     },
