@@ -193,9 +193,9 @@ PODS:
     - ReachabilitySwift (= 4.3.0)
     - Starscream (~> 3.0.5)
   - ReachabilitySwift (4.3.0)
-  - SDWebImage (5.9.2):
-    - SDWebImage/Core (= 5.9.2)
-  - SDWebImage/Core (5.9.2)
+  - SDWebImage (5.9.3):
+    - SDWebImage/Core (= 5.9.3)
+  - SDWebImage/Core (5.9.3)
   - SDWebImageWebPCoder (0.6.1):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.7)
@@ -428,7 +428,7 @@ SPEC CHECKSUMS:
   pusher_websocket_flutter: ff9a11e48f24d2297bf0d143c99119106cd2d81b
   PusherSwift: d15d6290be0b0b57fd9ac80b03661a6ba24623ec
   ReachabilitySwift: 408477d1b6ed9779dba301953171e017c31241f3
-  SDWebImage: 0b42b8719ab0c5257177d5894306e8a336b21cbb
+  SDWebImage: a31ee8e90a97303529e03fb0c333eae0eacb88e9
   SDWebImageWebPCoder: d0dac55073088d24b2ac1b191a71a8f8d0adac21
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
   shared_preferences_linux: afefbfe8d921e207f01ede8b60373d9e3b566b78
