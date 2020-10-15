@@ -18,9 +18,11 @@ import 'package:iconapp/widgets/global/timeago.dart' as timeago;
 import 'package:easy_localization/easy_localization.dart';
 
 class AlertScreen extends StatelessWidget {
+  
   AlertScreen() {
     sl<AlertStore>().getAlerts();
   }
+
   @override
   Widget build(BuildContext context) {
     return BaseGradientBackground(
@@ -41,9 +43,7 @@ class AlertList extends StatelessWidget {
     final store = sl<AlertStore>();
     return Expanded(
       child: Observer(builder: (_) {
-        return store.loading
-            ? Center(child: LottieLoader())
-            : store.alerts.isEmpty
+        return store.alerts.isEmpty
                 ? AlertsEmptyState()
                 : ListView.separated(
                     shrinkWrap: true,

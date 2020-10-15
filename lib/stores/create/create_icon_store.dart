@@ -41,7 +41,8 @@ abstract class _CreateIconStoreBase with Store {
 
   @action
   Future init() async {
-    final icons = await sl<SearchStore>()?.searchIcons('');
+    final icons = await 
+    sl<SearchStore>()?.searchIcons('');
     final result = icons.getOrElse(() => []);
     if (_icons.isNotEmpty) _icons.clear();
     _icons.addAll(result);

@@ -33,6 +33,7 @@ class BottomSheetFab extends StatelessWidget {
           onPressed: () async {
             iconStore.clear();
             categoryStore.clear();
+            
             return ExtendedNavigator.of(context)
                 .pushSelectIconScreen(mode: SelectIconMode.fromGroup);
           },

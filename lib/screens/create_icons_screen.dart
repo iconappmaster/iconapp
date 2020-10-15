@@ -20,16 +20,25 @@ import 'package:easy_localization/easy_localization.dart';
 
 enum SelectIconMode { fromChat, fromGroup }
 
-class SelectIconScreen extends StatelessWidget {
+class SelectIconScreen extends StatefulWidget {
   final SelectIconMode mode;
 
-  SelectIconScreen({Key key, @required this.mode}) : super(key: key) {
+  SelectIconScreen({Key key, @required this.mode}) : super(key: key);
+
+  @override
+  _SelectIconScreenState createState() => _SelectIconScreenState();
+}
+
+class _SelectIconScreenState extends State<SelectIconScreen> {
+  @override
+  void initState() {
     sl<CreateIconStore>().init;
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final isFromChat = this.mode == SelectIconMode.fromChat;
+    final isFromChat = this.widget.mode == SelectIconMode.fromChat;
     final store = sl<CreateIconStore>();
     return Observer(
       builder: (_) => BaseGradientBackground(
@@ -40,7 +49,7 @@ class SelectIconScreen extends StatelessWidget {
               Column(
                 children: <Widget>[
                   AppBarWithDivider(
-                    isArrowDirectionDown: true,
+                      isArrowDirectionDown: true,
                       title: isFromChat
                           ? LocaleKeys.create_addUser.tr()
                           : LocaleKeys.create_newGroupTitle.tr(),
@@ -63,7 +72,7 @@ class SelectIconScreen extends StatelessWidget {
                           title: icon.fullName,
                           url: icon.photo.url,
                           onTap: () {
-                            switch (mode) {
+                            switch (widget.mode) {
                               case SelectIconMode.fromChat:
                                 ExtendedNavigator.of(context).pop(icon.id);
                                 break;
@@ -78,13 +87,13 @@ class SelectIconScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              if (mode == SelectIconMode.fromGroup)
+              if (widget.mode == SelectIconMode.fromGroup)
                 CreateNextBotton(
                   asset: 'assets/images/go_arrow.svg',
                   isValid: store.isValid,
                   validationText: LocaleKeys.create_iconValidation.tr(),
-                  onTap: () => ExtendedNavigator.of(context)
-                      .pushCreateCategoryScreen(),
+                  onTap: () =>
+                      ExtendedNavigator.of(context).pushCreateCategoryScreen(),
                 ),
             ],
           ),

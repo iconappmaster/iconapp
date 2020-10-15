@@ -52,20 +52,22 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
               _Appbar(title: widget.name),
               store.isEmpty && !store.isLoading
                   ? SearchEmpty(text: LocaleKeys.search_empty_state.tr())
-                  : ListView.builder(
-                      shrinkWrap: true,
-                      physics: BouncingScrollPhysics(),
-                      itemCount: store.count,
-                      itemBuilder: (_, index) {
-                        final conversation =
-                            store.mode == SearchResulsMode.categories
-                                ? store.categories[index]
-                                : store.icons[index];
-                        return SearchResultTile(
-                            conversation: conversation,
-                            onTap: () => ExtendedNavigator.of(context)
-                                .pushChatScreen(conversation: conversation));
-                      },
+                  : Expanded(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: BouncingScrollPhysics(),
+                        itemCount: store.count,
+                        itemBuilder: (_, index) {
+                          final conversation =
+                              store.mode == SearchResulsMode.categories
+                                  ? store.categories[index]
+                                  : store.icons[index];
+                          return SearchResultTile(
+                              conversation: conversation,
+                              onTap: () => ExtendedNavigator.of(context)
+                                  .pushChatScreen(conversation: conversation));
+                        },
+                      ),
                     )
             ],
           ),

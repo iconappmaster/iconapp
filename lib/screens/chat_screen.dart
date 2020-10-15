@@ -48,12 +48,10 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    
-
     _initDependencies();
     _initSocket();
 
-    // reset 
+    // reset
     _sp.setString(StorageKey.fcmConversation, null);
 
     // init storey
@@ -96,7 +94,6 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     _comments = sl<CommentsStore>();
     _socket = sl<Socket>();
     _sp = sl<SharedPreferencesService>();
-    
   }
 
   Future _initSocket() async {
@@ -201,6 +198,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   @override
   void dispose() {
     _chat.dispose();
+    _comments.diospoe();
     _socket.unsubscribeChannel(widget.conversation.id);
     super.dispose();
   }

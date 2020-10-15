@@ -187,7 +187,7 @@ abstract class _ChatSettingsStoreBase with Store {
   Future changeConversationPhoto() async {
     try {
       final url = await _mediaStore.uploadPhoto(source: ImageSource.gallery);
-      if (url != null) {
+      if (url.isNotEmpty) {
         _isLoading = true;
         final conversation = await _settingsRepository.updateConversation(
             _chat.conversation.id,
