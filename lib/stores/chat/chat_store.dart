@@ -19,6 +19,7 @@ import 'package:iconapp/stores/media/media_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
+import 'package:video_compress/video_compress.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
@@ -337,31 +338,15 @@ abstract class _ChatStoreBase with Store {
 
   @action
   Future sendVideoMessage(ImageSource source) async {
-    // handle local photo
+    
     try {
-      File file;
-      if (source == ImageSource.camera) {
-        final pickedFile =
-            await sl<ImagePicker>().getVideo(source: ImageSource.camera);
-        file = File(pickedFile.path);
-      } else if (source == ImageSource.gallery) {
-        final pickedFile =
-            await FilePicker.platform.pickFiles(type: FileType.video);
-        file = File(pickedFile.files.single.path);
-      }
-      // get image from picker
-
+      final pickedFile = await sl<ImagePicker>().getVideo(source: source);
+      File file = File(pickedFile.path);
       if (file != null) {
-        // get thumbnail from the video
-        final thumbnail = await VideoThumbnail.thumbnailFile(
-          video: file.path ?? '',
-          imageFormat: ImageFormat.JPEG,
-          maxWidth: 250,
-          quality: 45,
-        );
+        final thumbnail = await VideoCompress.getFileThumbnail(file.path);
 
         var msg = MessageModel(
-          extraData: thumbnail ?? '',
+          extraData: thumbnail.path ?? '',
           id: DateTime.now().millisecondsSinceEpoch,
           body: file.path,
           sender: _userStore.getUser,
@@ -375,7 +360,7 @@ abstract class _ChatStoreBase with Store {
 
         // upload thumbnail and video
         final firbaseThumbnail =
-            await _mediaStore.uploadPhoto(file: File(thumbnail));
+            await _mediaStore.uploadPhoto(file: File(thumbnail.path));
 
         final info = await compressVideo(file);
 
@@ -396,7 +381,10 @@ abstract class _ChatStoreBase with Store {
         );
 
         _updateId(
-          remote.copyWith(status: MessageStatus.sent, id: msg.id),
+          remote.copyWith(
+            status: MessageStatus.sent,
+            id: msg.id,
+          ),
           remote.id,
         );
       }

@@ -72,11 +72,13 @@ class _VideoScreenState extends State<VideoScreen> {
       backgroundColor: Colors.black,
       body: Stack(children: [
         Center(
-            child: isLoading
-                ? CircularProgressIndicator()
-                : AspectRatio(
-                    aspectRatio: _controller.value.aspectRatio,
-                    child: VideoPlayer(_controller))),
+          child: isLoading
+              ? CircularProgressIndicator()
+              : AspectRatio(
+                  aspectRatio: _controller.value.aspectRatio,
+                  child: VideoPlayer(_controller),
+                ),
+        ),
         if (showReplay)
           ReplayButton(
             onPress: () async {
@@ -85,6 +87,11 @@ class _VideoScreenState extends State<VideoScreen> {
               _controller.play();
             },
           ),
+        Positioned(
+          top: 32,
+          right: 16,
+          child: CloseButton(),
+        ),
       ]),
     );
   }
