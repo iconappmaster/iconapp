@@ -54,11 +54,7 @@ class ChatAppbar extends StatelessWidget {
                   child: Icon(Icons.flag, color: white)),
               SizedBox(width: 10),
               if (store.conversation.userRole == UserRole.admin)
-                Observer(
-                  builder: (_) => CommentsAppBarIcon(
-                    onTap: () => showCommentsDialog(context),
-                  ),
-                ),
+                CommentsAppBarIcon(onTap: () => showCommentsDialog(context)),
               SizedBox(width: 8),
               Observer(builder: (_) {
                 final pinSize = 30.0;

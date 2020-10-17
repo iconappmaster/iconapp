@@ -62,7 +62,7 @@ class IconSearchItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5.3),
                   child: NetworkPhoto(
                     placeHolder: 'assets/images/group_placeholder.svg',
-                    url: icon?.photo?.url ?? '',
+                    imageUrl: icon?.photo?.url ?? '',
                     height: 41.3,
                     width: 41.3,
                   )),

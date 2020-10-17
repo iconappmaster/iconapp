@@ -50,7 +50,7 @@ class UserAvatar extends StatelessWidget {
                     placeHolderSize: placeHolderSize,
                     placeHolderPadding: placeHolderPadding,
                     placeHolder: placeholder,
-                    url: url,
+                    imageUrl: url,
                     height: 37,
                     width: 37,
                   ),

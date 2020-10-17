@@ -126,9 +126,12 @@ class _IconBubbleState extends State<IconBubble> {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(4.2),
                                       child: NetworkPhoto(
-                                          url: widget
-                                                  .message.sender?.photo?.url ??
-                                              ''),
+                                        imageUrl:
+                                            widget.message.sender?.photo != null
+                                                ? widget
+                                                    .message.sender.photo.url
+                                                : '',
+                                      ),
                                     ),
                                   ),
                                 ),

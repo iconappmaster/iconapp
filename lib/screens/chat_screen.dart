@@ -142,7 +142,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
             Positioned(
                 top: context.heightPlusStatusbarPerc(.1),
                 child: StoriesList(mode: _story.mode, show: !_upDirection)),
-            if (_chat.composerMode != ComposerMode.icon)
+            if (_chat.dataReady && _chat.composerMode != ComposerMode.icon)
               Observer(
                 builder: (_) => Visibility(
                   visible: _chat.composerMode != ComposerMode.icon,

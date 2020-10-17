@@ -107,7 +107,7 @@ class SearchResultTile extends StatelessWidget {
                     elevation: 8,
                     child: NetworkPhoto(
                       placeHolder: 'assets/images/group_placeholder.svg',
-                      url: conversation.photo?.url ?? '',
+                      imageUrl: conversation.photo?.url ?? '',
                       height: 41,
                       width: 41,
                     ))),

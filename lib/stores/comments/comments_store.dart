@@ -92,10 +92,10 @@ abstract class _CommentsStoreBase with Store {
   @action
   void watchMessages() {
     _subscription = _repository.watchComments().listen(
-          (message) {
-            _comments.add(message);
-          },
-        );
+      (message) {
+        _comments.add(message);
+      },
+    );
   }
 
   // @action
@@ -118,7 +118,7 @@ abstract class _CommentsStoreBase with Store {
   @action
   Future<Either<CommentsFailure, Unit>> sendComment() async {
     if (_commentInput.trim().isEmpty)
-      return left(const CommentsFailure.messageEmpty());
+      return left(CommentsFailure.serverError('message empty'));
 
     try {
       final comment = MessageModel(

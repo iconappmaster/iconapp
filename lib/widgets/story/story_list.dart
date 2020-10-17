@@ -121,7 +121,7 @@ class StoryAddButton extends StatelessWidget {
                           BoxDecoration(shape: BoxShape.circle, color: white),
                       child: NetworkPhoto(
                         placeHolder: 'assets/images/user_icon.svg',
-                        url: user.getUser?.photo?.url ?? '',
+                        imageUrl: user.getUser?.photo?.url ?? '',
                         height: _storySize,
                         width: _storySize,
                       ),
@@ -172,7 +172,7 @@ class StoryTile extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(100),
                 child: NetworkPhoto(
-                  url: story.user.photo?.url ?? '',
+                  imageUrl: story.user.photo?.url ?? '',
                   height: _storySize,
                   width: _storySize,
                 ),

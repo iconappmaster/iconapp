@@ -29,7 +29,7 @@ class _DescriptionScreenState extends State<DescriptionScreen> {
         fit: StackFit.expand,
         children: [
           widget.type == MediaType.photo
-              ? NetworkPhoto(url: widget.url)
+              ? NetworkPhoto(imageUrl: widget.url)
               : VideoScreen(
                   url: widget.url,
                 ),

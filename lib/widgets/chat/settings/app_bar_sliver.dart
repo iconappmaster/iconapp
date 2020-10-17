@@ -60,11 +60,12 @@ class ChatSettingsAppBar implements SliverPersistentHeaderDelegate {
                     }
                   },
                   child: Stack(children: [
-                    NetworkPhoto(
-                        placeHolder: 'assets/images/group_placeholder.svg',
-                        url: settings.getConversationPhoto,
-                        height: appbarHeight,
-                        width: MediaQuery.of(context).size.width),
+                    if (settings.getConversationPhoto != null)
+                      NetworkPhoto(
+                          placeHolder: 'assets/images/group_placeholder.svg',
+                          imageUrl: settings.getConversationPhoto,
+                          height: appbarHeight,
+                          width: MediaQuery.of(context).size.width),
                     if (settings.isLoadig)
                       Center(child: CircularProgressIndicator()),
                   ]),

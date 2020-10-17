@@ -47,7 +47,7 @@ class ConversationTile extends StatelessWidget {
                     widget: NetworkPhoto(
                         placeHolder: 'assets/images/group_placeholder.svg',
                         placeHolderPadding: 20,
-                        url: model?.backgroundPhoto?.url ?? '',
+                        imageUrl: model?.backgroundPhoto?.url ?? '',
                         height: 56,
                         width: 56)),
                 SizedBox(width: 10.7),

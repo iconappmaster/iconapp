@@ -82,6 +82,7 @@ abstract class _ChatSettingsStoreBase with Store {
       final conversation = await _settingsRepository.changeBackgroundColor(
           _chat.conversation.id, colorIndex);
       _chat.setConversation(conversation);
+      _home.updateConversation(conversation);
       _selectedColor = conversation.backgroundColor;
     } on ServerError catch (e) {
       Crash.report(e.message);
@@ -171,10 +172,8 @@ abstract class _ChatSettingsStoreBase with Store {
       _isLoading = true;
 
       final conversation = await _settingsRepository.updateConversation(
-        chatStore.conversation.id,
-        Conversation(name: groupName),
-      );
-
+          chatStore.conversation.id, Conversation(name: groupName));
+      _home.updateConversation(conversation);
       chatStore.setConversation(conversation);
     } on ServerError catch (e) {
       Crash.report(e.message);
@@ -192,7 +191,7 @@ abstract class _ChatSettingsStoreBase with Store {
         final conversation = await _settingsRepository.updateConversation(
             _chat.conversation.id,
             Conversation(backgroundPhoto: PhotoModel(url: url)));
-
+        _home.updateConversation(conversation);
         _chat.setConversation(conversation);
       }
     } on ServerError catch (e) {

@@ -104,7 +104,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                                         ? ClipRRect(
                                             borderRadius: storyBorderRadius,
                                             child: NetworkPhoto(
-                                              url: story.photo?.url ?? '',
+                                              imageUrl: story.photo?.url ?? '',
                                             ))
                                         : ClipRRect(
                                             borderRadius: storyBorderRadius,

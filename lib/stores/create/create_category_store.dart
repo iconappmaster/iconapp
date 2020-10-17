@@ -35,6 +35,7 @@ abstract class _CreateCategoryStoreBase with Store {
   _init() async {
     final categories = await sl<SearchStore>()?.searchCategories('');
     final result = categories.getOrElse(() => []);
+    if (_categories.isNotEmpty) _categories.clear();
     _categories.addAll(result);
   }
 

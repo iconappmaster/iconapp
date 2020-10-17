@@ -1,12 +1,8 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/widgets/global/blur_appbar.dart';
 import 'package:video_player/video_player.dart';
-import 'package:path_provider/path_provider.dart';
 
 class VideoScreen extends StatefulWidget {
   final bool mute;
@@ -88,17 +84,6 @@ class _VideoScreenState extends State<VideoScreen> {
               await _controller.seekTo(Duration(seconds: 0));
               _controller.play();
             },
-          ),
-        if (widget.showToolbar)
-          BluredAppbar(
-            widget: IconButton(
-                icon: Icon(Icons.file_download, color: white),
-                onPressed: () async {
-                  final String dir =
-                      (await getApplicationDocumentsDirectory()).path;
-                  final String path = '$dir/${DateTime.now()}_video.mp4';
-                  await Dio().download(widget.url, path);
-                }),
           ),
       ]),
     );

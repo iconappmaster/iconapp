@@ -78,7 +78,7 @@ class _CreateConversationTileState extends State<CreateConversationTile>
                   borderRadius: BorderRadius.circular(5.3),
                   child: NetworkPhoto(
                     placeHolder: 'assets/images/group_placeholder.svg',
-                    url: widget.url,
+                    imageUrl: widget.url,
                     height: 41,
                     width: 41,
                   ),

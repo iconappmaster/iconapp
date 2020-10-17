@@ -177,6 +177,8 @@ abstract class _ChatStoreBase with Store {
 
       if (remote.id == conversation.id) updateUi(remote);
 
+      _determineComposerMode();
+
       dataReady = true;
       _repository.cacheConversation(conversation);
     } on ServerError catch (e) {
@@ -190,7 +192,6 @@ abstract class _ChatStoreBase with Store {
   @action
   void updateUi(Conversation conversation) {
     _conversation = conversation;
-    _determineComposerMode();
     _addAllMessages();
   }
 
@@ -567,6 +568,7 @@ abstract class _ChatStoreBase with Store {
     _conversation = Conversation();
     _replyMessage = null;
     dataReady = false;
+    _composerMode = ComposerMode.viewer;
     await recordTimer?.dispose();
   }
 }

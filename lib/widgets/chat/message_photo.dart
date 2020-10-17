@@ -120,7 +120,7 @@ class _PhotoMessageState extends State<PhotoMessage> {
                                   child: ClipRRect(
                                       borderRadius: BorderRadius.circular(4.2),
                                       child: NetworkPhoto(
-                                          url: widget.message.body)))
+                                          imageUrl: widget.message.body)))
                               : SizedBox(
                                   height: 200,
                                   width: 250,
@@ -216,7 +216,7 @@ class SingleImage extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * .8,
               child: NetworkPhoto(
-                url: url,
+                imageUrl: url,
               ),
             ),
           ),

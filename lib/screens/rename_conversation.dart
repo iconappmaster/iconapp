@@ -16,6 +16,8 @@ class EditConversation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var groupName = '';
+
     final store = sl<ChatStore>();
     return BaseGradientBackground(
       child: Stack(
@@ -32,10 +34,10 @@ class EditConversation extends StatelessWidget {
                       child: InputText(
                           validator: _groupNameValidation,
                           contentPadding: const EdgeInsets.only(bottom: 20),
-                          initialValue:
-                              store.conversation?.name ?? '',
-                          onChange: (groupName) => sl<ChatSettingsStore>()
-                              .changeConversationName(groupName),
+                          initialValue: store.conversation?.name ?? '',
+                          onChange: (value) => groupName = value,
+                          // onChange: (groupName) => sl<ChatSettingsStore>()
+                          // .changeConversationName(groupName),
                           hint: 'הקלד/י נושא חדש',
                           hintStyle: flushbar,
                           textStyle: flushbar))),
@@ -48,15 +50,16 @@ class EditConversation extends StatelessWidget {
               height: 53,
               width: 53,
               child: FloatingActionButton(
-                heroTag: 'fab2',
+                  heroTag: 'fab2',
                   child: SvgPicture.asset(
                     'assets/images/check.svg',
                     height: 27,
                     width: 27,
                   ),
                   backgroundColor: cornflower,
-                  onPressed: () {
+                  onPressed: () async {
                     if (_key.currentState.validate()) {
+                      await sl<ChatSettingsStore>().changeConversationName(groupName);
                       ExtendedNavigator.of(context).pop();
                     }
                   }),

@@ -79,7 +79,7 @@ class ReplyComposePanel extends StatelessWidget {
                     width: 50,
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(4.2),
-                        child: NetworkPhoto(url: store?.replayMessage?.body)),
+                        child: NetworkPhoto(imageUrl: store?.replayMessage?.body)),
                   ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8),

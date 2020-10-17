@@ -96,7 +96,6 @@ class _TextMessageState extends State<TextMessage> {
           return ReplyButton(message: widget.message);
         },
         child: IconBubble(
-        
           hideAvatar: widget.hideAvatar,
           hideEmoji: widget.hideEmoji,
           showPin: widget.showPin,
@@ -119,11 +118,8 @@ class _TextMessageState extends State<TextMessage> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  CustomText(
-                    widget.message.sender?.fullName ?? '',
-                    style: chatMessageName,
-                    textAlign: TextAlign.start,
-                  ),
+                  CustomText(widget.message.sender?.fullName ?? '',
+                      style: chatMessageName, textAlign: TextAlign.start),
                   ConstrainedBox(
                     constraints: BoxConstraints(
                         maxWidth: MediaQuery.of(context).size.width * .5),

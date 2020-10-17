@@ -9,7 +9,6 @@ import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/alerts/alert_store.dart';
 import 'package:iconapp/widgets/global/bouncing.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
-import 'package:iconapp/widgets/global/lottie_loader.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
 import 'package:iconapp/widgets/onboarding/base_onboarding_widget.dart';
 import '../core/extensions/context_ext.dart';
@@ -96,7 +95,7 @@ class AlertTile extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(100),
                 child: NetworkPhoto(
-                  url: alert.conversation?.backgroundPhoto?.url ?? '',
+                  imageUrl: alert.conversation?.backgroundPhoto?.url ?? '',
                   height: 44,
                   width: 44,
                 ),

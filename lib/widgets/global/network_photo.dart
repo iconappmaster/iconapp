@@ -5,14 +5,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/theme.dart';
 
 class NetworkPhoto extends StatelessWidget {
-  final String url;
+  final String imageUrl;
   final double height, width;
   final String placeHolder;
   final double placeHolderPadding, placeHolderSize;
 
   const NetworkPhoto({
     Key key,
-    @required this.url,
+    @required this.imageUrl,
     this.height,
     this.width,
     this.placeHolderPadding = 20,
@@ -22,9 +22,10 @@ class NetworkPhoto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return url?.endsWith('.svg') ?? false
+ 
+    return imageUrl.isNotEmpty && imageUrl.endsWith('.svg')
         ? SvgPicture.asset(
-            url ?? '',
+            imageUrl ?? '',
             height: height,
             width: width,
             fit: BoxFit.cover,
@@ -64,7 +65,7 @@ class NetworkPhoto extends StatelessWidget {
             height: height,
             width: width,
             fit: BoxFit.cover,
-            imageUrl: url ?? '',
+            imageUrl: imageUrl,
           );
   }
 }

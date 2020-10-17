@@ -259,7 +259,7 @@ class ParticipantAvatar extends StatelessWidget {
       child: ClipRRect(
           borderRadius: BorderRadius.circular(5.3),
           child: NetworkPhoto(
-            url: url ?? '',
+            imageUrl: url ?? '',
             placeHolder: 'assets/images/group_placeholder.svg',
           )),
     );
