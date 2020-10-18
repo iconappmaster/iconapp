@@ -1,5 +1,7 @@
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/models/user_model.dart';
+import 'package:iconapp/domain/core/errors.dart';
 import 'package:iconapp/stores/search/search_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:vibration/vibration.dart';
@@ -24,8 +26,14 @@ abstract class _CreateIconStoreBase with Store {
   @computed
   List<UserModel> get getIcons => _icons;
 
+  @observable
+  bool _isLoading = false;
+
   @computed
   List<UserModel> get getSelectedIcons => _selected;
+
+  @computed
+  bool get isLoading => _isLoading;
 
   bool isSelected(UserModel icon) => _selected.any((i) => i.id == icon.id);
 
@@ -47,13 +55,20 @@ abstract class _CreateIconStoreBase with Store {
 
   @action
   Future search(String query) async {
-    _search.setSearchMode(SearchMode.icons);
-    final icons = await _search.searchIcons(query);
-    final result = icons.getOrElse(() => []);
+    try {
+      _isLoading = true;
+      _search.setSearchMode(SearchMode.icons);
+      final icons = await _search.searchIcons(query);
+      final result = icons.getOrElse(() => []);
 
-    _icons
-      ..clear()
-      ..addAll(result);
+      _icons
+        ..clear()
+        ..addAll(result);
+    } on ServerError catch (e) {
+      Crash.report(e.message);
+    } finally {
+      _isLoading = false;
+    }
   }
 
   @action

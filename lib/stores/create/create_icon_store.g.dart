@@ -23,6 +23,13 @@ mixin _$CreateIconStore on _CreateIconStoreBase, Store {
           Computed<List<UserModel>>(() => super.getSelectedIcons,
               name: '_CreateIconStoreBase.getSelectedIcons'))
       .value;
+  Computed<bool> _$isLoadingComputed;
+
+  @override
+  bool get isLoading =>
+      (_$isLoadingComputed ??= Computed<bool>(() => super.isLoading,
+              name: '_CreateIconStoreBase.isLoading'))
+          .value;
   Computed<SearchMode> _$getSearchModeComputed;
 
   @override
@@ -73,6 +80,21 @@ mixin _$CreateIconStore on _CreateIconStoreBase, Store {
     });
   }
 
+  final _$_isLoadingAtom = Atom(name: '_CreateIconStoreBase._isLoading');
+
+  @override
+  bool get _isLoading {
+    _$_isLoadingAtom.reportRead();
+    return super._isLoading;
+  }
+
+  @override
+  set _isLoading(bool value) {
+    _$_isLoadingAtom.reportWrite(value, super._isLoading, () {
+      super._isLoading = value;
+    });
+  }
+
   final _$initAsyncAction = AsyncAction('_CreateIconStoreBase.init');
 
   @override
@@ -114,6 +136,7 @@ mixin _$CreateIconStore on _CreateIconStoreBase, Store {
     return '''
 getIcons: ${getIcons},
 getSelectedIcons: ${getSelectedIcons},
+isLoading: ${isLoading},
 getSearchMode: ${getSearchMode},
 isValid: ${isValid},
 count: ${count}

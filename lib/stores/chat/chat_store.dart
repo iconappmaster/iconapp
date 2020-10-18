@@ -20,10 +20,8 @@ import 'package:iconapp/stores/user/user_store.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
 import 'package:video_compress/video_compress.dart';
-import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
-import 'package:file_picker/file_picker.dart';
 
 part 'chat_store.g.dart';
 

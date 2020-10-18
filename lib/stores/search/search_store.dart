@@ -73,6 +73,7 @@ abstract class _SearchStoreBase with Store {
   @action
   Future<Either<ServerError, List<UserModel>>> searchIcons(String query) async {
     try {
+      _loading = true;
       final icons = await _repository.searchIcons(query);
 
       return icons.fold(
@@ -84,6 +85,8 @@ abstract class _SearchStoreBase with Store {
       );
     } on ServerError catch (e) {
       return left(e);
+    } finally {
+      _loading = false;
     }
   }
 

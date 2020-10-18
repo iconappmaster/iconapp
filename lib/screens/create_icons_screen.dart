@@ -12,6 +12,8 @@ import 'package:iconapp/widgets/bottomsheet/bs_search_bar.dart';
 import 'package:iconapp/widgets/create/create_app_bar.dart';
 import 'package:iconapp/widgets/create/create_tile.dart';
 import 'package:iconapp/widgets/create/create_next_button.dart';
+import 'package:iconapp/widgets/global/custom_text.dart';
+import 'package:iconapp/widgets/global/lottie_loader.dart';
 import 'package:iconapp/widgets/onboarding/base_onboarding_widget.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -46,6 +48,20 @@ class _SelectIconScreenState extends State<SelectIconScreen> {
         child: Container(
           child: Stack(
             children: <Widget>[
+              Positioned(
+                left: 16,
+                top: 45,
+                child: MaterialButton(
+                  onPressed: () {
+                    store.search('');
+                  },
+                  height: 30,
+                  child: CustomText(
+                    'הצג הכל',
+                    style: dialogContent,
+                  ),
+                ),
+              ),
               Column(
                 children: <Widget>[
                   AppBarWithDivider(
@@ -57,7 +73,7 @@ class _SelectIconScreenState extends State<SelectIconScreen> {
                           ? LocaleKeys.create_chooseUserToGroup.tr()
                           : LocaleKeys.create_iconSubtitle.tr()),
                   SizedBox(height: 23),
-                  CreateSearchBar(),
+                  SearchBar(),
                   Expanded(
                     child: ListView.builder(
                       padding: EdgeInsets.only(bottom: 50, top: 20),
@@ -95,6 +111,14 @@ class _SelectIconScreenState extends State<SelectIconScreen> {
                   onTap: () =>
                       ExtendedNavigator.of(context).pushCreateCategoryScreen(),
                 ),
+              Observer(
+                builder: (_) => Visibility(
+                  visible: store.isLoading,
+                  child: Center(
+                    child: LottieLoader(),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -103,7 +127,7 @@ class _SelectIconScreenState extends State<SelectIconScreen> {
   }
 }
 
-class CreateSearchBar extends StatelessWidget {
+class SearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = sl<CreateIconStore>();
