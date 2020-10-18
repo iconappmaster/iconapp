@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dartz/dartz.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
+import 'package:iconapp/core/swap.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/repositories/home_repository.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
@@ -140,7 +141,8 @@ abstract class _HomeStoreBase with Store {
   @action
   void watchConversation() {
     _conversationChangedSubscription =
-        _repository.watchConversation().listen((conversationEvent) {
+        _repository.watchConversation().listen((conversationEvent) {   
+
       // get the index of the changed conversation in conversations
       final index =
           _conversations.indexWhere((c) => c.id == conversationEvent.id);
@@ -150,8 +152,15 @@ abstract class _HomeStoreBase with Store {
         final messages = _conversations[index].messages;
         messages.add(conversationEvent.lastMessage);
 
-        _conversations[index] = _conversations[index].copyWith(
-            lastMessage: conversationEvent.lastMessage, messages: messages);
+       final conversation = _conversations[index].copyWith(
+            lastMessage: conversationEvent.lastMessage, messages: messages,);
+        
+        final pinnedAmount = _conversations.where((element) => element.isPinned).length;
+        
+        _conversations
+          ..removeAt(index)
+          ..insert(pinnedAmount > 0 ? pinnedAmount : 0, conversation);
+      
       } else {
         // add a new story
         _conversations.add(conversationEvent);

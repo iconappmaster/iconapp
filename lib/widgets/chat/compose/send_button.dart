@@ -77,8 +77,7 @@ class SendButton extends StatelessWidget {
               }
             },
             backgroundColor: sendColor,
-            child: Observer(
-              builder: (_) => AnimatedSwitcher(
+            child: AnimatedSwitcher(
                 duration: Duration(milliseconds: 250),
                 transitionBuilder: (child, animation) => ScaleTransition(
                   scale: animation,
@@ -91,7 +90,7 @@ class SendButton extends StatelessWidget {
             ),
           ),
         ),
-      ),
+      
     );
   }
 

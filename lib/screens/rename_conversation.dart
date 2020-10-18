@@ -11,6 +11,9 @@ import 'package:iconapp/widgets/global/input_box.dart';
 import 'package:iconapp/widgets/onboarding/base_onboarding_widget.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import '../stores/chat_settings/chat_settings_store.dart';
+import '../widgets/global/lottie_loader.dart';
+
 class EditConversation extends StatelessWidget {
   final _key = GlobalKey<FormState>();
 
@@ -59,12 +62,14 @@ class EditConversation extends StatelessWidget {
                   backgroundColor: cornflower,
                   onPressed: () async {
                     if (_key.currentState.validate()) {
-                      await sl<ChatSettingsStore>().changeConversationName(groupName);
+                      sl<ChatSettingsStore>().changeConversationName(groupName);
                       ExtendedNavigator.of(context).pop();
                     }
                   }),
             ),
-          )
+          ),
+          if (sl<ChatSettingsStore>().isLoadig)
+            Center(child: LottieLoader())
         ],
       ),
     );

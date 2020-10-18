@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:iconapp/core/swap.dart';
 import 'package:iconapp/widgets/global/cube.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/story_model.dart';
@@ -181,13 +182,5 @@ class _StoryScreenState extends State<StoryScreen> {
   void dispose() {
     _clearDebouncer();
     super.dispose();
-  }
-}
-
-void swap<T>(List<T> list, int indexA, int indexB) {
-  if (list.length > 1) {
-    T tmp = list[indexA];
-    list[indexA] = list[indexB];
-    list[indexB] = tmp;
   }
 }
