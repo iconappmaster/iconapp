@@ -81,9 +81,9 @@ class ChatAppbar extends StatelessWidget {
               IconButton(
                 visualDensity: VisualDensity.comfortable,
                 icon: SvgPicture.asset('assets/images/dots.svg',
-                    height: 26, width: 26),
-                onPressed: () =>
-                    ExtendedNavigator.of(context).pushChatSettingsScreen(),
+                    height: 26, width: 26, color: store.dataReady ? white : Colors.grey[400],),
+                onPressed: store.dataReady ? () =>
+                    ExtendedNavigator.of(context).pushChatSettingsScreen() : () {},
               ),
             ],
           ),

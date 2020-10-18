@@ -54,17 +54,14 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     // reset
     _sp.setString(StorageKey.fcmConversation, null);
 
-    // init storey
+    // init chat
     _chat
       ..init(widget.conversation)
       ..watchMessages()
       ..watchAddLike()
       ..watchRemoveLike();
 
-    // init story
-    _story
-      ..setStoryMode(StoryMode.conversation)
-      ..refreshStories();
+    
 
     // init comments
     _comments

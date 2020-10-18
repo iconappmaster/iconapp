@@ -153,7 +153,7 @@ class _IconBubbleState extends State<IconBubble> {
                   message: widget.message),
           ],
         ),
-        AnimatedContainer(
+        if (widget.message.likeCounts != null) AnimatedContainer(
           duration: Duration(milliseconds: 250),
           height: showLikeIndicator ? 25 : 0,
           child: Padding(

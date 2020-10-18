@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:io';
+
+import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:iconapp/core/compression.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
@@ -19,9 +21,11 @@ import 'package:iconapp/stores/media/media_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
-import 'package:video_compress/video_compress.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
+import 'package:video_compress/video_compress.dart';
+
+import '../../widgets/story/story_list.dart';
+import '../story/story_store.dart';
 
 part 'chat_store.g.dart';
 
@@ -50,7 +54,7 @@ abstract class _ChatStoreBase with Store {
       setConversation(conversation);
     }
 
-    sl<ChatSettingsStore>()..init();
+    
     _setConversationViewed();
     getConversation();
 
@@ -173,10 +177,16 @@ abstract class _ChatStoreBase with Store {
     try {
       _state = _state.copyWith(loading: true);
       final remote = await _repository.getRemoteConversaion(conversation.id);
-
+     
       if (remote.id == conversation.id) updateUi(remote);
 
-      _determineComposerMode();
+      await sl<ChatSettingsStore>()..init();
+      // init story
+    await sl<StoryStore>()
+      ..setStoryMode(StoryMode.conversation)
+      ..refreshStories();
+     
+     _determineComposerMode();
 
       dataReady = true;
       _repository.cacheConversation(conversation);
