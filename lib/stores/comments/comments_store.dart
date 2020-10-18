@@ -118,7 +118,7 @@ abstract class _CommentsStoreBase with Store {
   @action
   Future<Either<CommentsFailure, Unit>> sendComment() async {
     if (_commentInput.trim().isEmpty)
-      return left(CommentsFailure.serverError('message empty'));
+      return left(CommentsFailure.messageEmpty());
 
     try {
       final comment = MessageModel(
@@ -153,8 +153,7 @@ abstract class _CommentsStoreBase with Store {
 
       return right(unit);
     } on DioError catch (e) {
-      if (e.response.data['error'] ==
-          "ERROR_EXCEEDED_MAX_USER_COUNT_FOR_COMMENTS") {
+      if (e.response.data['error'] == "ERROR_EXCEEDED_MAX_USER_COUNT_FOR_COMMENTS") {
         return left(const CommentsFailure.exceededMaxCount());
       } else {
         return left(CommentsFailure.serverError(e.error));

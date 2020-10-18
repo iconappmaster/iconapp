@@ -61,13 +61,15 @@ class SendButton extends StatelessWidget {
 
                     final result = await comments.sendComment();
                     result.fold(
-                        (error) => error.when(
-                            messageEmpty: () => print('meesage empty'),
-                            serverError: (e) => Crash.report(e),
-                            exceededMaxCount: context.showFlushbar(
-                                message: 'הקבוצה נסגרה לתגובות בשלב זה.')),
-                        (success) => print('comment sent!'));
-                    // scrollController.jumpTo(0);
+                      (error) => error.maybeWhen(
+                        messageEmpty: () => print('meesage empty'),
+                        serverError: (e) => Crash.report(e),
+                        orElse: () => print(''),
+                        // exceededMaxCount: context.showFlushbar(
+                        //     message: 'הקבוצה נסגרה לתגובות בשלב זה.'),
+                      ),
+                      (success) => print('comment sent!'),
+                    );
                   } else {
                     context.showFlushbar(message: 'הערות לא פעילות כרגע');
                   }

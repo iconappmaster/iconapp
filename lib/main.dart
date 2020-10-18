@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/keys.dart';
 import 'package:iconapp/routes/router.dart';
@@ -20,6 +21,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp();
 
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  
   runApp(
     EasyLocalization(
       useOnlyLangCode: false,
