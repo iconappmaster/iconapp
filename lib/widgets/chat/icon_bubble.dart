@@ -82,7 +82,7 @@ class _IconBubbleState extends State<IconBubble> {
               onLongPress: widget.onLongTap,
               onDoubleTap: widget.onDoubleTap,
               onTap: widget.onTap,
-              child: Column(
+              child: Column( 
                 children: [
                   Bubble(
                     elevation: 1,

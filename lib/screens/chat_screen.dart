@@ -51,19 +51,14 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     _initDependencies();
     _initSocket();
 
-    // reset
     _sp.setString(StorageKey.fcmConversation, null);
 
-    // init chat
     _chat
       ..init(widget.conversation)
       ..watchMessages()
       ..watchAddLike()
       ..watchRemoveLike();
 
-    
-
-    // init comments
     _comments
       ..getComments(widget.conversation.id)
       ..watchMessages();
@@ -124,13 +119,13 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                       vsync: this,
                       child: ConstrainedBox(
                           constraints: BoxConstraints(
-                              minHeight: (_chat.dataReady &&
+                              minHeight: (
                                       _chat.composerMode != ComposerMode.viewer)
                                   ? 82
                                   : 0),
-                          child: initComposer(_chatController)),
-                      duration: Duration(milliseconds: 450),
-                      curve: Curves.easeOutBack,
+                          child: initComposer(_chatController),),
+                      duration: Duration(milliseconds: 350),
+                      curve: Curves.easeInToLinear,
                     ),
                   ],
                 ),
@@ -149,11 +144,17 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                       child: CommentsFab(
                         count: _comments.commentsCount,
                         onTap: () {
-                          if (_chat.conversation.areCommentsActivated) {
+                          if (_chat.conversation.areCommentsActivated && _chat.conversation.isSubscribed) {
                             showCommentsDialog(context);
                           } else {
-                            context.showFlushbar(
+                            if (!_chat.conversation.isSubscribed) {
+                              context.showFlushbar(
+                                message: 'To show the comment you need to subscribe');
+                            } else {
+                              context.showFlushbar(
                                 message: LocaleKeys.comments_closed.tr());
+                            }
+                            
                           }
                         },
                       )),

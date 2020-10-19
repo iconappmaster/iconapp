@@ -59,8 +59,8 @@ class ChatAppbar extends StatelessWidget {
               Observer(builder: (_) {
                 final pinSize = 30.0;
                 return InkResponse(
-                  onTap: () =>
-                      store.pinConversation(!store.conversation.isPinned),
+                  onTap:store.dataReady ? () =>
+                        store.pinConversation(!store.conversation.isPinned) : () {},
                   child: AnimatedSwitcher(
                     duration: Duration(milliseconds: 300),
                     transitionBuilder: (child, animation) =>

@@ -53,8 +53,7 @@ abstract class _ChatStoreBase with Store {
     if (conversation != null) {
       setConversation(conversation);
     }
-
-    
+    _determineComposerMode();
     _setConversationViewed();
     getConversation();
 
@@ -540,7 +539,10 @@ abstract class _ChatStoreBase with Store {
 
   void _replaceMessage(MessageModel message) {
     final index = _messages.indexWhere((m) => message.id == m.id);
-    _messages[index] = message;
+    final selected =_messages[index];
+     _messages[index]= selected.copyWith(
+       likeCounts: message.likeCounts
+     );
   }
 
   void setMessageStatus(MessageModel msg, MessageStatus status) {

@@ -42,52 +42,56 @@ class SendButton extends StatelessWidget {
             }
           },
           onLongPressEnd: (d) => chat.stopRecordingAndSend(),
-          child: FloatingActionButton(
-            heroTag: 'fab',
-            elevation: 0,
-            onPressed: () async {
-              switch (composerMode) {
-                case ComposerPanelMode.conversation:
-                  if (isMessageMode()) {
-                    textEditcontroller.clear();
-                    scrollController.jumpTo(0);
-                    chat.sendTextMessage();
-                  }
-                  break;
+          child: Observer(
+                      builder: (_)=> FloatingActionButton(
+              heroTag: 'fab',
+              elevation: 0,
+              onPressed: () async {
+                switch (composerMode) {
+                  case ComposerPanelMode.conversation:
+                    if (isMessageMode()) {
+                      textEditcontroller.clear();
+                      scrollController.jumpTo(0);
+                      chat.sendTextMessage();
+                    }
+                    break;
 
-                case ComposerPanelMode.comments:
-                  if (chat.conversation.areCommentsActivated) {
-                    textEditcontroller.clear();
+                  case ComposerPanelMode.comments:
+                    if (chat.conversation.areCommentsActivated) {
+                      textEditcontroller.clear();
 
-                    final result = await comments.sendComment();
-                    result.fold(
-                      (error) => error.maybeWhen(
-                        messageEmpty: () => print('meesage empty'),
-                        serverError: (e) => Crash.report(e),
-                        orElse: () => print(''),
-                        // exceededMaxCount: context.showFlushbar(
-                        //     message: 'הקבוצה נסגרה לתגובות בשלב זה.'),
-                      ),
-                      (success) => print('comment sent!'),
-                    );
-                  } else {
-                    context.showFlushbar(message: 'הערות לא פעילות כרגע');
-                  }
-                  break;
-              }
-            },
-            backgroundColor: sendColor,
-            child: AnimatedSwitcher(
-                duration: Duration(milliseconds: 250),
-                transitionBuilder: (child, animation) => ScaleTransition(
-                  scale: animation,
-                  child: child,
-                ),
-                child: composerMode == ComposerPanelMode.conversation
-                    ? chat.isInputEmpty ? _sendIcon() : _recordIcon()
-                    : _sendIcon(),
+                      final result = await comments.sendComment();
+                      result.fold(
+                        (error) => error.maybeWhen(
+                          messageEmpty: () => print('meesage empty'),
+                          serverError: (e) => Crash.report(e),
+                          orElse: () => print(''),
+                          // exceededMaxCount: context.showFlushbar(
+                          //     message: 'הקבוצה נסגרה לתגובות בשלב זה.'),
+                        ),
+                        (success) => print('comment sent!'),
+                      );
+                    } else {
+                      context.showFlushbar(message: 'הערות לא פעילות כרגע');
+                    }
+                    break;
+                }
+              },
+              backgroundColor: chat.dataReady ? sendColor : Colors.grey[400],
+              child: Observer(
+                            builder: (_) => AnimatedSwitcher(
+                    duration: Duration(milliseconds: 250),
+                    transitionBuilder: (child, animation) => ScaleTransition(
+                      scale: animation,
+                      child: child,
+                    ),
+                    child: composerMode == ComposerPanelMode.conversation
+                        ? chat.isInputEmpty ? _sendIcon() : _recordIcon()
+                        : _sendIcon(),
+                  ),
               ),
-            ),
+              ),
+          ),
           ),
         ),
       
