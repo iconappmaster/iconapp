@@ -125,9 +125,10 @@ class Socket {
   void bindCommentsCountEvent() {
     _channel.bind(
       commentsCountEvent,
-      (count) => commentsCountSubject.add(
-        jsonDecode(count.data),
-      ),
+      (count) {
+        final c = jsonDecode(count.data);
+        commentsCountSubject.add(c);
+      },
     );
   }
 

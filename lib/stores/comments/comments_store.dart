@@ -31,9 +31,13 @@ abstract class _CommentsStoreBase with Store {
     _user = sl<UserStore>();
     _alerts = sl<AlertStore>();
     _repository = sl<CommentsRepository>();
+    init();
   }
 
-  @observable
+  void init() {
+    _commentsCount = _chat.conversation?.numberOfUnreadComments ?? 0;
+  }
+
   @observable
   ObservableList<MessageModel> _comments = ObservableList.of([]);
 
@@ -42,6 +46,9 @@ abstract class _CommentsStoreBase with Store {
 
   @observable
   bool _isLoading = false;
+
+  @observable
+  int _commentsCount = 0;
 
   @computed
   bool get loading => _isLoading;
@@ -53,7 +60,7 @@ abstract class _CommentsStoreBase with Store {
   bool get activatingComments => _activatingComments;
 
   @computed
-  int get commentsCount => _chat.conversation?.numberOfUnreadComments ?? 0;
+  int get commentsCount => _commentsCount;
 
   @computed
   bool get isActivated => _chat.conversation?.areCommentsActivated ?? false;
@@ -80,6 +87,11 @@ abstract class _CommentsStoreBase with Store {
   }
 
   @action
+  void setCommentsCount(int count) {
+    _commentsCount = count;
+  }
+
+  @action
   Future setCommentsViewed() async {
     try {
       final conversationId = _chat.conversation.id;
@@ -98,21 +110,11 @@ abstract class _CommentsStoreBase with Store {
     );
   }
 
-  // @action
-  // void watchCommentCount() {
-  //   _countSubscription = _repository.watchCommentsCount().listen(
-  //     (count) {
-  //       _chat.setConversation(
-  //         _chat.conversation.copyWith(
-  //           numberOfUnreadComments: count,
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
-
-  Stream<int> getCommentsCount() {
-    return _repository.watchCommentsCount();
+  @action
+  void watchCommentsCount() {
+    _countSubscription = _repository.watchCommentsCount().listen((count) {
+      _commentsCount = count;
+    });
   }
 
   @action
@@ -153,7 +155,8 @@ abstract class _CommentsStoreBase with Store {
 
       return right(unit);
     } on DioError catch (e) {
-      if (e.response.data['error'] == "ERROR_EXCEEDED_MAX_USER_COUNT_FOR_COMMENTS") {
+      if (e.response.data['error'] ==
+          "ERROR_EXCEEDED_MAX_USER_COUNT_FOR_COMMENTS") {
         return left(const CommentsFailure.exceededMaxCount());
       } else {
         return left(CommentsFailure.serverError(e.error));

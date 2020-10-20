@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
@@ -61,7 +62,8 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
 
     _comments
       ..getComments(widget.conversation.id)
-      ..watchMessages();
+      ..watchMessages()
+      ..watchCommentsCount();
 
     _chatController = AutoScrollController(
       viewportBoundaryGetter: () =>
@@ -118,12 +120,13 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                     AnimatedSize(
                       vsync: this,
                       child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                              minHeight: (
-                                      _chat.composerMode != ComposerMode.viewer)
-                                  ? 82
-                                  : 0),
-                          child: initComposer(_chatController),),
+                        constraints: BoxConstraints(
+                            minHeight:
+                                (_chat.composerMode != ComposerMode.viewer)
+                                    ? 82
+                                    : 0),
+                        child: initComposer(_chatController),
+                      ),
                       duration: Duration(milliseconds: 350),
                       curve: Curves.easeInToLinear,
                     ),
@@ -134,32 +137,32 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
             Positioned(
                 top: context.heightPlusStatusbarPerc(.1),
                 child: StoriesList(mode: _story.mode, show: !_upDirection)),
-            if (_chat.dataReady && _chat.composerMode != ComposerMode.icon)
-              Observer(
-                builder: (_) => Visibility(
-                  visible: _chat.composerMode != ComposerMode.icon,
-                  child: Positioned(
-                      bottom: 45,
-                      left: 16,
-                      child: CommentsFab(
-                        count: _comments.commentsCount,
-                        onTap: () {
-                          if (_chat.conversation.areCommentsActivated && _chat.conversation.isSubscribed) {
-                            showCommentsDialog(context);
+            Observer(
+              builder: (_) => Visibility(
+                visible: _chat.dataReady &&
+                    _chat.conversation.userRole != UserRole.admin,
+                child: Positioned(
+                    bottom: 45,
+                    left: 16,
+                    child: CommentsFab(
+                      onTap: () {
+                        if (_chat.conversation.areCommentsActivated &&
+                            _chat.conversation.isSubscribed) {
+                          showCommentsDialog(context);
+                        } else {
+                          if (!_chat.conversation.isSubscribed) {
+                            context.showFlushbar(
+                                message:
+                                    'To show the comment you need to subscribe');
                           } else {
-                            if (!_chat.conversation.isSubscribed) {
-                              context.showFlushbar(
-                                message: 'To show the comment you need to subscribe');
-                            } else {
-                              context.showFlushbar(
+                            context.showFlushbar(
                                 message: LocaleKeys.comments_closed.tr());
-                            }
-                            
                           }
-                        },
-                      )),
-                ),
+                        }
+                      },
+                    )),
               ),
+            ),
             _showWelcomeDialog(_chat.conversation?.name ?? ''),
           ],
         ),
@@ -203,7 +206,12 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
 }
 
 Future showCommentsDialog(BuildContext context) {
-  sl<CommentsStore>().setCommentsViewed();
+  final comments = sl<CommentsStore>();
+  
+  comments
+    ..setCommentsViewed()
+    ..setCommentsCount(0);
+
   return showMaterialModalBottomSheet(
     backgroundColor: Colors.transparent,
     duration: const Duration(milliseconds: 300),

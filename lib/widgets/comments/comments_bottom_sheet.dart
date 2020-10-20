@@ -63,10 +63,7 @@ class CommentsBottomSheet extends StatelessWidget {
           Positioned(
               left: 30,
               top: 0,
-              child: CommentsFab(
-                count: 4,
-                onTap: () => Navigator.pop(context),
-              )),
+              child: CommentsFab(onTap: () => Navigator.pop(context))),
         ],
       ),
     );

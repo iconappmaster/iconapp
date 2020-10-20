@@ -48,9 +48,7 @@ class ChatAppbar extends StatelessWidget {
               ),
               SizedBox(width: 8),
               GestureDetector(
-                  onTap: () {
-                    _showAlertSheet(context);
-                  },
+                  onTap: () => _showAlertSheet(context),
                   child: Icon(Icons.flag, color: white)),
               SizedBox(width: 10),
               if (store.conversation.userRole == UserRole.admin)
@@ -59,18 +57,23 @@ class ChatAppbar extends StatelessWidget {
               Observer(builder: (_) {
                 final pinSize = 30.0;
                 return InkResponse(
-                  onTap:store.dataReady ? () =>
-                        store.pinConversation(!store.conversation.isPinned) : () {},
+                  onTap: store.dataReady
+                      ? () =>
+                          store.pinConversation(!store.conversation.isPinned)
+                      : () {},
                   child: AnimatedSwitcher(
                     duration: Duration(milliseconds: 300),
                     transitionBuilder: (child, animation) =>
                         ScaleTransition(scale: animation, child: child),
                     child: store.conversation?.isPinned ?? false
                         ? SvgPicture.asset('assets/images/pin_purple.svg',
+                            color:
+                                store.dataReady ? cornflower : Colors.grey[500],
                             key: const Key('pinned'),
                             height: pinSize,
                             width: pinSize)
                         : SvgPicture.asset('assets/images/pin.svg',
+                            color: store.dataReady ? white : Colors.grey[500],
                             key: const Key('unpinned'),
                             height: pinSize,
                             width: pinSize),
@@ -80,10 +83,16 @@ class ChatAppbar extends StatelessWidget {
               SizedBox(width: 6),
               IconButton(
                 visualDensity: VisualDensity.comfortable,
-                icon: SvgPicture.asset('assets/images/dots.svg',
-                    height: 26, width: 26, color: store.dataReady ? white : Colors.grey[400],),
-                onPressed: store.dataReady ? () =>
-                    ExtendedNavigator.of(context).pushChatSettingsScreen() : () {},
+                icon: SvgPicture.asset(
+                  'assets/images/dots.svg',
+                  height: 26,
+                  width: 26,
+                  color: store.dataReady ? white : Colors.grey[400],
+                ),
+                onPressed: store.dataReady
+                    ? () =>
+                        ExtendedNavigator.of(context).pushChatSettingsScreen()
+                    : () {},
               ),
             ],
           ),
@@ -113,10 +122,13 @@ Future _showAlertSheet(BuildContext context) async {
           ),
           ListTile(
               title: Directionality(
-                  textDirection: TextDirection.ltr,
-                  child: Text('Report Abuse',
-                      style: settingsButton.copyWith(
-                          fontSize: 18, color: Colors.black))),
+                textDirection: TextDirection.ltr,
+                child: Text(
+                  'Report Abuse',
+                  style: settingsButton.copyWith(
+                      fontSize: 18, color: Colors.black),
+                ),
+              ),
               onTap: () async {
                 await showDialog(
                     context: context,

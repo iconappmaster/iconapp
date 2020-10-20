@@ -43,7 +43,7 @@ class SendButton extends StatelessWidget {
           },
           onLongPressEnd: (d) => chat.stopRecordingAndSend(),
           child: Observer(
-                      builder: (_)=> FloatingActionButton(
+            builder: (_) => FloatingActionButton(
               heroTag: 'fab',
               elevation: 0,
               onPressed: () async {
@@ -79,22 +79,21 @@ class SendButton extends StatelessWidget {
               },
               backgroundColor: chat.dataReady ? sendColor : Colors.grey[400],
               child: Observer(
-                            builder: (_) => AnimatedSwitcher(
-                    duration: Duration(milliseconds: 250),
-                    transitionBuilder: (child, animation) => ScaleTransition(
-                      scale: animation,
-                      child: child,
-                    ),
-                    child: composerMode == ComposerPanelMode.conversation
-                        ? chat.isInputEmpty ? _sendIcon() : _recordIcon()
-                        : _sendIcon(),
+                builder: (_) => AnimatedSwitcher(
+                  duration: Duration(milliseconds: 250),
+                  transitionBuilder: (child, animation) => ScaleTransition(
+                    scale: animation,
+                    child: child,
                   ),
+                  child: composerMode == ComposerPanelMode.conversation
+                      ? chat.isInputEmpty ? _sendIcon() : _recordIcon()
+                      : _sendIcon(),
+                ),
               ),
-              ),
-          ),
+            ),
           ),
         ),
-      
+      ),
     );
   }
 

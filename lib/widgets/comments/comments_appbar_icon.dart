@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 
@@ -18,7 +18,6 @@ class CommentsAppBarIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final chat = sl<ChatStore>();
     final comments = sl<CommentsStore>();
     return GestureDetector(
       onTap: onTap,
@@ -30,28 +29,24 @@ class CommentsAppBarIcon extends StatelessWidget {
           children: [
             SvgPicture.asset('assets/images/white_bubble.svg',
                 height: 26, width: 26),
-            if (chat.conversation.numberOfUnreadMessages > 0)
-              Positioned(
-                right: 0,
-                top: 0,
-                child: Container(
-                    height: 18,
-                    width: 18,
-                    decoration: BoxDecoration(
-                      gradient: redPinkGradient,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                        child: StreamBuilder<int>(
-                            initialData: 0,
-                            stream: comments.getCommentsCount(),
-                            builder: (context, snapshot) {
-                              return CustomText(
-                                snapshot.data.toString(),
-                                style: newMessageNumber,
-                              );
-                            }))),
-              )
+            Observer(
+                builder: (_) => Visibility(
+                      visible: comments.commentsCount > 0,
+                      child: Positioned(
+                          right: 0,
+                          top: 0,
+                          child: Container(
+                              height: 18,
+                              width: 18,
+                              decoration: BoxDecoration(
+                                gradient: redPinkGradient,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Center(
+                                  child: CustomText(
+                                      comments.commentsCount.toString(),
+                                      style: newMessageNumber)))),
+                    ))
           ],
         ),
       ),

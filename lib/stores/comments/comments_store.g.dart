@@ -89,6 +89,21 @@ mixin _$CommentsStore on _CommentsStoreBase, Store {
     });
   }
 
+  final _$_commentsCountAtom = Atom(name: '_CommentsStoreBase._commentsCount');
+
+  @override
+  int get _commentsCount {
+    _$_commentsCountAtom.reportRead();
+    return super._commentsCount;
+  }
+
+  @override
+  set _commentsCount(int value) {
+    _$_commentsCountAtom.reportWrite(value, super._commentsCount, () {
+      super._commentsCount = value;
+    });
+  }
+
   final _$_activatingCommentsAtom =
       Atom(name: '_CommentsStoreBase._activatingComments');
 
@@ -154,11 +169,33 @@ mixin _$CommentsStore on _CommentsStoreBase, Store {
   }
 
   @override
+  void setCommentsCount(int count) {
+    final _$actionInfo = _$_CommentsStoreBaseActionController.startAction(
+        name: '_CommentsStoreBase.setCommentsCount');
+    try {
+      return super.setCommentsCount(count);
+    } finally {
+      _$_CommentsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void watchMessages() {
     final _$actionInfo = _$_CommentsStoreBaseActionController.startAction(
         name: '_CommentsStoreBase.watchMessages');
     try {
       return super.watchMessages();
+    } finally {
+      _$_CommentsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void watchCommentsCount() {
+    final _$actionInfo = _$_CommentsStoreBaseActionController.startAction(
+        name: '_CommentsStoreBase.watchCommentsCount');
+    try {
+      return super.watchCommentsCount();
     } finally {
       _$_CommentsStoreBaseActionController.endAction(_$actionInfo);
     }
