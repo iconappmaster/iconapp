@@ -760,6 +760,25 @@ class _RestClient implements RestClient {
   }
 
   @override
+  updateStoryDuration(duration) async {
+    ArgumentError.checkNotNull(duration, 'duration');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'duration': duration};
+    final _data = <String, dynamic>{};
+    final Response _result = await _dio.request(
+        'stories/{imgId}/update_story_duration',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = _result.data;
+    return value;
+  }
+
+  @override
   publishStory(story) async {
     ArgumentError.checkNotNull(story, 'story');
     const _extra = <String, dynamic>{};

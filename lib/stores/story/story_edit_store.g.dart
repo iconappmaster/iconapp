@@ -16,6 +16,13 @@ mixin _$StoryEditStore on _StoryEditStoreBase, Store {
       (_$comporessingComputed ??= Computed<bool>(() => super.comporessing,
               name: '_StoryEditStoreBase.comporessing'))
           .value;
+  Computed<int> _$storyDurationComputed;
+
+  @override
+  int get storyDuration =>
+      (_$storyDurationComputed ??= Computed<int>(() => super.storyDuration,
+              name: '_StoryEditStoreBase.storyDuration'))
+          .value;
   Computed<bool> _$isLoadingComputed;
 
   @override
@@ -44,6 +51,21 @@ mixin _$StoryEditStore on _StoryEditStoreBase, Store {
       (_$canPublishComputed ??= Computed<bool>(() => super.canPublish,
               name: '_StoryEditStoreBase.canPublish'))
           .value;
+
+  final _$_storyDurationAtom = Atom(name: '_StoryEditStoreBase._storyDuration');
+
+  @override
+  int get _storyDuration {
+    _$_storyDurationAtom.reportRead();
+    return super._storyDuration;
+  }
+
+  @override
+  set _storyDuration(int value) {
+    _$_storyDurationAtom.reportWrite(value, super._storyDuration, () {
+      super._storyDuration = value;
+    });
+  }
 
   final _$_isLoadingAtom = Atom(name: '_StoryEditStoreBase._isLoading');
 
@@ -114,6 +136,15 @@ mixin _$StoryEditStore on _StoryEditStoreBase, Store {
     return _$addPhotoMediaAsyncAction.run(() => super.addPhotoMedia(source));
   }
 
+  final _$updateStoryDurationAsyncAction =
+      AsyncAction('_StoryEditStoreBase.updateStoryDuration');
+
+  @override
+  Future<dynamic> updateStoryDuration(int duration) {
+    return _$updateStoryDurationAsyncAction
+        .run(() => super.updateStoryDuration(duration));
+  }
+
   final _$addVideoMediaAsyncAction =
       AsyncAction('_StoryEditStoreBase.addVideoMedia');
 
@@ -175,6 +206,7 @@ mixin _$StoryEditStore on _StoryEditStoreBase, Store {
   String toString() {
     return '''
 comporessing: ${comporessing},
+storyDuration: ${storyDuration},
 isLoading: ${isLoading},
 isPublishing: ${isPublishing},
 stories: ${stories},

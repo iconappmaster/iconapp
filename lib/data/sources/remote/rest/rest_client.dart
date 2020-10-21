@@ -165,6 +165,9 @@ abstract class RestClient {
 
   @POST('stories/{imgId}/viewed_story')
   Future viewedStoryImage(@Path('imgId') int imageId);
+  
+  @POST('stories/{imgId}/update_story_duration')
+  Future updateStoryDuration(@Query('duration') int duration);
 
   @POST('stories/add_to_story')
   Future<StoryModel> publishStory(@Body() StoryModel story);

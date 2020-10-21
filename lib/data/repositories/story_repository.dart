@@ -15,6 +15,8 @@ abstract class StoryRepository {
 
   Future viewedStoryImage(int imageId);
 
+  Future updateStoryDuration(int duration);
+
   Stream<StoryModel> watchStories();
 }
 
@@ -51,5 +53,10 @@ class StoryRepositoryImpl implements StoryRepository {
   Future viewedStoryImage(int imageId) async {
     if (imageId == 0) return false;
     return await rest.viewedStoryImage(imageId);
+  }
+
+  @override
+  Future updateStoryDuration(int duration) async {
+    return await rest.updateStoryDuration(duration);
   }
 }

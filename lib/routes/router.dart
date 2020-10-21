@@ -16,6 +16,7 @@ import 'package:iconapp/screens/onboarding_profile.dart';
 import 'package:iconapp/screens/search_results_screen.dart';
 import 'package:iconapp/screens/settings_screen.dart';
 import 'package:iconapp/screens/main_navigator.dart';
+import 'package:iconapp/screens/story_duration_picker.dart';
 import 'package:iconapp/screens/story_edit_screen.dart';
 import 'package:iconapp/screens/story_screen.dart';
 import 'package:iconapp/widgets/chat/message_photo.dart';
@@ -43,6 +44,7 @@ import 'package:iconapp/widgets/chat/message_photo.dart';
     CupertinoRoute(page: DescriptionScreen),
     CupertinoRoute(page: SingleImage),
     CupertinoRoute(page: AlertScreen),
+    CupertinoRoute(page: StoryDurationPicker, fullscreenDialog: true),
   ],
 )
 class $Router {

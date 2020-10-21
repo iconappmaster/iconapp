@@ -4,6 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:iconapp/screens/story_duration_picker.dart';
+import 'package:iconapp/widgets/global/transparent_route.dart';
 import 'package:image_picker/image_picker.dart';
 import '../core/bus.dart';
 import '../core/dependencies/locator.dart';
@@ -60,7 +62,12 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
           fit: StackFit.expand,
           alignment: Alignment.topCenter,
           children: [
-            AppBarWithDivider(title: LocaleKeys.story_newStory.tr()),
+            AppBarWithDivider(
+              title: LocaleKeys.story_newStory.tr(),
+              subtitle: _edit.canPublish
+                  ? LocaleKeys.story_addExtraMedia.tr()
+                  : LocaleKeys.story_addMedia.tr(),
+            ),
             Positioned(
                 top: context.heightPlusStatusbarPerc(.142),
                 child: SizedBox(
@@ -146,18 +153,19 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                                             _edit.deleteStory(story),
                                       )),
                                   Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: Visibility(
-                                        visible: story.description != null,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: CustomText(
-                                            story.description,
-                                            style: systemMessage,
-                                            maxLines: 1,
-                                          ),
+                                    alignment: Alignment.bottomCenter,
+                                    child: Visibility(
+                                      visible: story.description != null,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: CustomText(
+                                          story.description,
+                                          style: systemMessage,
+                                          maxLines: 1,
                                         ),
-                                      )),
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
                               margin: EdgeInsets.symmetric(horizontal: 10),
@@ -220,15 +228,6 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 16),
-                      child: CustomText(
-                        _edit.canPublish
-                            ? LocaleKeys.story_addExtraMedia.tr()
-                            : LocaleKeys.story_addMedia.tr(),
-                        style: searchAppBarTitle,
-                      ),
-                    ),
                     SizedBox(
                       height: 10,
                     ),
@@ -269,6 +268,30 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                         ),
                 ),
               ),
+            Positioned(
+                bottom: context.heightPlusStatusbarPerc(.2),
+                child: Column(
+                  children: [
+                    CustomText(
+                      'משך הסיפור בשעות',
+                      style: dialogTitle,
+                    ),
+                    SizedBox(height: 3),
+                    MaterialButton(
+                      onPressed: () async => Navigator.of(context).push(
+                          TransparentRoute(
+                              builder: (_) => StoryDurationPicker())),
+                      child: Observer(
+                        builder: (_) => CustomText(
+                          _edit.storyDuration.toString(),
+                          style: settingsAppbarTitle.copyWith(
+                            fontSize: 40,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )),
           ],
         ),
       )),

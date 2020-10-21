@@ -194,6 +194,17 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   }
 
   @override
+  void addMessageInConversation(int conversationId, MessageModel msg) {
+    final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
+        name: '_HomeStoreBase.addMessageInConversation');
+    try {
+      return super.addMessageInConversation(conversationId, msg);
+    } finally {
+      _$_HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 showWelcomeDialog: ${showWelcomeDialog},

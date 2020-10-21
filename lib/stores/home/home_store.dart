@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
+import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/repositories/home_repository.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/domain/core/errors.dart';
@@ -140,8 +141,7 @@ abstract class _HomeStoreBase with Store {
   @action
   void watchConversation() {
     _conversationChangedSubscription =
-        _repository.watchConversation().listen((conversationEvent) {   
-
+        _repository.watchConversation().listen((conversationEvent) {
       // get the index of the changed conversation in conversations
       final index =
           _conversations.indexWhere((c) => c.id == conversationEvent.id);
@@ -151,15 +151,12 @@ abstract class _HomeStoreBase with Store {
         final messages = _conversations[index].messages;
         messages.add(conversationEvent.lastMessage);
 
-       final conversation = _conversations[index].copyWith(
-            lastMessage: conversationEvent.lastMessage, messages: messages,);
-        
-        final pinnedAmount = _conversations.where((element) => element.isPinned).length;
-        
-        _conversations
-          ..removeAt(index)
-          ..insert(pinnedAmount > 0 ? pinnedAmount : 0, conversation);
-      
+        final conversation = _conversations[index].copyWith(
+          lastMessage: conversationEvent.lastMessage,
+          messages: messages,
+        );
+
+        _reorderListWherePinnedAtTop(index, conversation);
       } else {
         // add a new story
         _conversations.add(conversationEvent);
@@ -167,6 +164,15 @@ abstract class _HomeStoreBase with Store {
 
       _repository.saveHome(_conversations);
     });
+  }
+
+  void _reorderListWherePinnedAtTop(int index, Conversation conversation) {
+     final pinnedAmount =
+        _conversations.where((element) => element.isPinned).length;
+    
+    _conversations
+      ..removeAt(index)
+      ..insert(pinnedAmount > 0 ? pinnedAmount : 0, conversation);
   }
 
   @action
@@ -179,6 +185,21 @@ abstract class _HomeStoreBase with Store {
   Future<Conversation> getCachedConversationById(int id) async {
     final cached = await _repository.getCachedHome();
     return cached.firstWhere((c) => c.id == id);
+  }
+
+  @action
+  void addMessageInConversation(int conversationId, MessageModel msg) {
+    // get the index of the conversation
+    final index = _conversations.indexWhere((c) => c.id == conversationId);
+
+    // get and and the new message
+    var conversationMessages = _conversations[index].messages;
+    conversationMessages.add(msg);
+
+    // copy the new conversation message to it's messages
+    _conversations[index] = _conversations[index].copyWith(
+      messages: conversationMessages,
+    );
   }
 
   void dispose() async {

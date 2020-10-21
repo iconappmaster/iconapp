@@ -34,12 +34,11 @@ class AppBarWithDivider extends StatelessWidget {
                   top: 20.7, child: CustomText(title, style: createGroupTitle),),
               if (subtitle != null)
                 Positioned(
-                    top: 51.7, child: CustomText(subtitle, style: fieldLabel),),
+                    top: 44.7, child: CustomText(subtitle, style: fieldLabel),),
               Positioned(
                   top: 8,
                   right:8,
                   child:  
-                
                   IconBackButton(
                     onBackTap: onBackTap,
                     isArrowDirectionDown: isArrowDirectionDown,

@@ -176,16 +176,17 @@ abstract class _ChatStoreBase with Store {
     try {
       _state = _state.copyWith(loading: true);
       final remote = await _repository.getRemoteConversaion(conversation.id);
-     
+
       if (remote.id == conversation.id) updateUi(remote);
 
-      await sl<ChatSettingsStore>()..init();
+      await sl<ChatSettingsStore>()
+        ..init();
       // init story
-    await sl<StoryStore>()
-      ..setStoryMode(StoryMode.conversation)
-      ..refreshStories();
-     
-     _determineComposerMode();
+      await sl<StoryStore>()
+        ..setStoryMode(StoryMode.conversation)
+        ..refreshStories();
+
+      _determineComposerMode();
 
       dataReady = true;
       _repository.cacheConversation(conversation);
@@ -345,7 +346,6 @@ abstract class _ChatStoreBase with Store {
 
   @action
   Future sendVideoMessage(ImageSource source) async {
-    
     try {
       final pickedFile = await sl<ImagePicker>().getVideo(source: source);
       File file = File(pickedFile.path);
@@ -463,15 +463,24 @@ abstract class _ChatStoreBase with Store {
           final remote =
               await _repository.sendMessage(conversation.id, mediaMsg);
 
-          _updateId(
+          final updated = _updateId(
             remote.copyWith(status: MessageStatus.sent, id: msg.id),
             remote.id,
           );
+
+          _updateHomeConversation(updated);
         }
       }
     } on ServerError catch (e) {
       Crash.report(e.message);
     }
+  }
+
+  void _updateHomeConversation(MessageModel updated) {
+    _homeStore.addMessageInConversation(
+      conversation.id,
+      updated,
+    );
   }
 
   // report on abuse from another user
@@ -501,6 +510,7 @@ abstract class _ChatStoreBase with Store {
       _repository.watchMessages().listen((message) {
         _setConversationViewed();
         _messages.add(message);
+        _updateHomeConversation(message);
       }),
     );
   }
@@ -530,19 +540,19 @@ abstract class _ChatStoreBase with Store {
     _showWelcomeDialog = false;
   }
 
-  _updateId(MessageModel message, int newId) {
+  MessageModel _updateId(MessageModel message, int newId) {
     final index = _messages.indexWhere((m) => m.id == message.id);
-    _messages[index] = message.copyWith(id: newId);
+    final msg = message.copyWith(id: newId);
+    _messages[index] = msg;
+    return msg;
   }
 
   bool isMe(int id) => (id == _userStore.getUser?.id) ?? false;
 
   void _replaceMessage(MessageModel message) {
     final index = _messages.indexWhere((m) => message.id == m.id);
-    final selected =_messages[index];
-     _messages[index]= selected.copyWith(
-       likeCounts: message.likeCounts
-     );
+    final selected = _messages[index];
+    _messages[index] = selected.copyWith(likeCounts: message.likeCounts);
   }
 
   void setMessageStatus(MessageModel msg, MessageStatus status) {

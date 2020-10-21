@@ -31,6 +31,7 @@ import '../screens/photo_gallery_screen.dart';
 import '../screens/rename_conversation.dart';
 import '../screens/search_results_screen.dart';
 import '../screens/settings_screen.dart';
+import '../screens/story_duration_picker.dart';
 import '../screens/story_edit_screen.dart';
 import '../screens/story_screen.dart';
 import '../widgets/chat/message_photo.dart';
@@ -56,6 +57,7 @@ class Routes {
   static const String descriptionScreen = '/description-screen';
   static const String singleImage = '/single-image';
   static const String alertScreen = '/alert-screen';
+  static const String storyDurationPicker = '/story-duration-picker';
   static const all = <String>{
     mainNavigator,
     loginScreen,
@@ -77,6 +79,7 @@ class Routes {
     descriptionScreen,
     singleImage,
     alertScreen,
+    storyDurationPicker,
   };
 }
 
@@ -104,6 +107,7 @@ class Router extends RouterBase {
     RouteDef(Routes.descriptionScreen, page: DescriptionScreen),
     RouteDef(Routes.singleImage, page: SingleImage),
     RouteDef(Routes.alertScreen, page: AlertScreen),
+    RouteDef(Routes.storyDurationPicker, page: StoryDurationPicker),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -273,6 +277,13 @@ class Router extends RouterBase {
         settings: data,
       );
     },
+    StoryDurationPicker: (data) {
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => StoryDurationPicker(),
+        settings: data,
+        fullscreenDialog: true,
+      );
+    },
   };
 }
 
@@ -401,6 +412,9 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
       );
 
   Future<dynamic> pushAlertScreen() => push<dynamic>(Routes.alertScreen);
+
+  Future<dynamic> pushStoryDurationPicker() =>
+      push<dynamic>(Routes.storyDurationPicker);
 }
 
 /// ************************************************************************
