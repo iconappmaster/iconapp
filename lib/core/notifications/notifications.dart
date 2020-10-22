@@ -6,7 +6,6 @@ import 'package:iconapp/core/theme.dart';
 import 'package:path_provider/path_provider.dart';
 import 'fcm.dart';
 
-
 // class NotificationsHelper {
 
 Future<void> showTextNotification(String channelId, String channelName,
@@ -48,14 +47,15 @@ Future<void> showTextNotification(String channelId, String channelName,
 
 Future<void> showImageNotification(String channelId, String channelName,
     String id, String title, String body, String payload) async {
-  final bigPicturePath = await _downloadAndSaveFile(body, 'Picture');
+  final bigPicturePath = await _downloadAndSaveFile(body, 'picture.jpg');
 
   final style = BigPictureStyleInformation(
-      FilePathAndroidBitmap(bigPicturePath),
-      contentTitle: '$title',
-      htmlFormatContentTitle: true,
-      summaryText: '$body',
-      htmlFormatSummaryText: true);
+    FilePathAndroidBitmap(bigPicturePath),
+    contentTitle: title,
+    htmlFormatContentTitle: true,
+    summaryText: 'תמונה',
+    htmlFormatSummaryText: true,
+  );
 
   final android = AndroidNotificationDetails(
     channelId,
@@ -78,7 +78,7 @@ Future<void> showImageNotification(String channelId, String channelName,
   );
 
   await firebasePlugin.show(
-      0, 'big text title', 'silent body', platformChannel);
+      0, 'Icon', 'תמונה', platformChannel);
 }
 
 Future<String> _downloadAndSaveFile(String url, String fileName) async {
