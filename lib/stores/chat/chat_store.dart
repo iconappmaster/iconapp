@@ -297,10 +297,11 @@ abstract class _ChatStoreBase with Store {
 
         final remote = await _repository.sendMessage(conversation.id, msg);
 
-        _updateId(
+        final updated = _updateId(
           remote.copyWith(status: MessageStatus.sent, id: msg.id),
           remote.id,
         );
+        _updateHomeConversation(updated);
 
         _state = _state.copyWith(inputMessage: '');
       }
@@ -336,8 +337,10 @@ abstract class _ChatStoreBase with Store {
         final remote = await _repository.sendMessage(
             conversation.id, msg.copyWith(body: url));
 
-        _updateId(
+        final updated = _updateId(
             remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
+
+        _updateHomeConversation(updated);
       }
     } on ServerError catch (e) {
       Crash.report(e.message);
@@ -387,13 +390,10 @@ abstract class _ChatStoreBase with Store {
           ),
         );
 
-        _updateId(
-          remote.copyWith(
-            status: MessageStatus.sent,
-            id: msg.id,
-          ),
-          remote.id,
-        );
+        final updated = _updateId(
+            remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
+        
+        _updateHomeConversation(updated);
       }
     } on ServerError catch (e) {
       Crash.report(e.message);

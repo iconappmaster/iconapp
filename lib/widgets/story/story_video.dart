@@ -98,7 +98,7 @@ class StoryVideoState extends State<StoryVideo> {
           });
         }
       } else {
-        setState(() {});
+        if (mounted) setState(() {});
       }
     });
   }

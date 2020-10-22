@@ -66,8 +66,8 @@ abstract class _HomeStoreBase with Store {
     if (cached != null) {
       updateUi(cached);
       return cached;
-    }
-    return [];
+    } else
+      return [];
   }
 
   @action
@@ -158,21 +158,31 @@ abstract class _HomeStoreBase with Store {
 
         _reorderListWherePinnedAtTop(index, conversation);
       } else {
-        // add a new story
+        // if the conversation not found add new one
         _conversations.add(conversationEvent);
       }
 
+      // save
       _repository.saveHome(_conversations);
     });
   }
 
   void _reorderListWherePinnedAtTop(int index, Conversation conversation) {
-     final pinnedAmount =
-        _conversations.where((element) => element.isPinned).length;
-    
-    _conversations
-      ..removeAt(index)
-      ..insert(pinnedAmount > 0 ? pinnedAmount : 0, conversation);
+    if (conversation.isPinned) {
+      // if the conversation is piined just move it to the top
+      _conversations
+        ..removeAt(index)
+        ..insert(0, conversation);
+    } else {
+      // if conversation is not pinned then relocate it under all the pinned
+      // ones.
+      final pinnedAmount =
+          _conversations.where((element) => element.isPinned).length;
+
+      _conversations
+        ..removeAt(index)
+        ..insert(pinnedAmount > 0 ? pinnedAmount : 0, conversation);
+    }
   }
 
   @action
