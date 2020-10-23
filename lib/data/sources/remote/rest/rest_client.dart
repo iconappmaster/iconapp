@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:iconapp/data/models/alerts_model.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/message_model.dart';
@@ -165,28 +166,33 @@ abstract class RestClient {
 
   @POST('stories/{imgId}/viewed_story')
   Future viewedStoryImage(@Path('imgId') int imageId);
-  
+
   @POST('stories/{imgId}/update_story_duration')
   Future updateStoryDuration(@Query('duration') int duration);
 
   @POST('stories/add_to_story')
-  Future<StoryModel> publishStory(@Body() StoryModel story);
+  Future<StoryModel> addToStory(@Body() StoryModel story);
 
   // Alerts
-  @GET('alerts') 
+  @GET('alerts')
   Future<List<AlertModel>> getAlerts();
 
-  @POST('alerts/clear_all_alerts') 
+  @POST('alerts/clear_all_alerts')
   Future clearAllAlerts();
 
-  @POST('alerts/clear_specific_alert') 
+  @POST('alerts/clear_specific_alert')
   Future clearSpecificAlert(@Query('userAlertId') int userAlertId);
-
 }
 
 Dio getDioClient() {
   final dio = Dio();
   dio.interceptors.addAll([
+    DioCacheManager(
+      CacheConfig(
+        baseUrl: baseUrlProd,
+        defaultMaxStale: Duration(days: 7),
+      ),
+    ).interceptor,
     HeaderInterceptor(dio),
     LoggingInterceptors(),
   ]);

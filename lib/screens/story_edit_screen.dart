@@ -256,7 +256,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                       : NextButton(
                           title: 'שיתוף',
                           onClick: () async {
-                            final result = await _edit.publishStory();
+                            final result = await _edit.addToStory();
                             result.fold((error) => null, (story) {
                               ExtendedNavigator.of(context).pushStoryScreen(
                                 story: story,
@@ -272,10 +272,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                 bottom: context.heightPlusStatusbarPerc(.2),
                 child: Column(
                   children: [
-                    CustomText(
-                      'משך הסיפור בשעות',
-                      style: dialogTitle,
-                    ),
+                    CustomText('משך הסיפור בשעות', style: dialogTitle),
                     SizedBox(height: 3),
                     MaterialButton(
                       onPressed: () async => Navigator.of(context).push(

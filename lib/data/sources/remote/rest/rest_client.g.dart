@@ -779,7 +779,7 @@ class _RestClient implements RestClient {
   }
 
   @override
-  publishStory(story) async {
+  addToStory(story) async {
     ArgumentError.checkNotNull(story, 'story');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

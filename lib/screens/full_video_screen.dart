@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:iconapp/widgets/global/rounded_close.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoScreen extends StatefulWidget {
@@ -90,7 +91,7 @@ class _VideoScreenState extends State<VideoScreen> {
         Positioned(
           top: 32,
           right: 16,
-          child: CloseButton(),
+          child: RoundedClose(),
         ),
       ]),
     );

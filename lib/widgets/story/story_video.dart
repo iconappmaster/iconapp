@@ -1,11 +1,9 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'utils.dart';
 import 'package:video_player/video_player.dart';
-
 import 'controller/story_controller.dart';
 
 class VideoLoader {
@@ -145,8 +143,8 @@ class StoryVideoState extends State<StoryVideo> {
   }
 
   @override
-  void dispose() {
-    playerController.dispose();
+  Future dispose() async {
+    await playerController.dispose();
     _streamSubscription?.cancel();
     super.dispose();
   }

@@ -1,11 +1,13 @@
 import 'dart:ui';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/stores/story/story_edit_store.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/list_wheel.dart';
+import 'package:iconapp/widgets/global/next_button.dart';
 import 'package:vibration/vibration.dart';
 
 class StoryDurationPicker extends StatelessWidget {
@@ -27,16 +29,17 @@ class StoryDurationPicker extends StatelessWidget {
                 color: Colors.black45,
                 child: Center(
                     child: WheelChooser.integer(
-                        initValue: story.storyDuration,
-                        selectTextStyle: dialogTitle,
-                        unSelectTextStyle: dialogContent,
-                        magnification: 3,
-                        onValueChanged: (v) async {
-                          Vibration.vibrate(duration: 200);
-                          return story.updateStoryDuration(v);
-                        },
-                        minValue: 1,
-                        maxValue: 12)),
+                  initValue: story.storyDuration,
+                  selectTextStyle: dialogTitle,
+                  unSelectTextStyle: dialogContent,
+                  magnification: 3,
+                  onValueChanged: (duration) async {
+                    Vibration.vibrate(duration: 200);
+                    return story.updateStoryDuration(duration);
+                  },
+                  minValue: 1,
+                  maxValue: 12,
+                )),
               ),
               Positioned(
                   right: 9.5,
@@ -51,6 +54,11 @@ class StoryDurationPicker extends StatelessWidget {
                   style: dialogTitle,
                 ),
               ),
+              Positioned(
+                  bottom: 50,
+                  child: NextButton(
+                      title: 'סגור',
+                      onClick: () => ExtendedNavigator.of(context).pop()))
             ],
           ),
         ),

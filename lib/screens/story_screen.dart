@@ -6,6 +6,7 @@ import 'package:iconapp/core/swap.dart';
 import 'package:iconapp/widgets/global/cube.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/story_model.dart';
+import 'package:iconapp/widgets/global/rounded_close.dart';
 import '../core/dependencies/locator.dart';
 import '../data/models/story_image.dart';
 import '../stores/story/story_store.dart';
@@ -35,7 +36,7 @@ class _StoryScreenState extends State<StoryScreen> {
   Timer _nextDebouncer;
   DragStartDetails dragStartDetails;
   DragUpdateDetails dragUpdateDetails;
-  
+
   void _clearDebouncer() {
     _nextDebouncer?.cancel();
     _nextDebouncer = null;
@@ -120,13 +121,15 @@ class _StoryScreenState extends State<StoryScreen> {
               onTapDown: (details) {
                 _storyPageController.pause();
               },
-              onVerticalDragStart: (dragDetails) => dragStartDetails = dragDetails,
-              onVerticalDragUpdate: (dragDetails) => dragUpdateDetails = dragDetails,
+              onVerticalDragStart: (dragDetails) =>
+                  dragStartDetails = dragDetails,
+              onVerticalDragUpdate: (dragDetails) =>
+                  dragUpdateDetails = dragDetails,
               onVerticalDragEnd: (endDetails) {
-                double dx =
-                    dragUpdateDetails.globalPosition.dx - dragStartDetails.globalPosition.dx;
-                double dy =
-                    dragUpdateDetails.globalPosition.dy - dragStartDetails.globalPosition.dy;
+                double dx = dragUpdateDetails.globalPosition.dx -
+                    dragStartDetails.globalPosition.dx;
+                double dy = dragUpdateDetails.globalPosition.dy -
+                    dragStartDetails.globalPosition.dy;
                 double velocity = endDetails.primaryVelocity;
 
                 //Convert values to be positive
@@ -151,28 +154,19 @@ class _StoryScreenState extends State<StoryScreen> {
             ),
           ),
           Align(
-            alignment: Alignment.centerLeft,
-            heightFactor: 1,
-            child: SizedBox(
-              child: GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () => _storyPageController.previous(),
-              ),
-              width: 70,
-            ),
-          ),
+              alignment: Alignment.centerLeft,
+              heightFactor: 1,
+              child: SizedBox(
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () => _storyPageController.previous(),
+                  ),
+                  width: 70)),
           Positioned(
-              right: 16,
-              top: 52,
-              child: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.grey.withOpacity(.4),
-                ),
-                child: CloseButton(
-                  color: white,
-                ),
-              ))
+            right: 16,
+            top: 52,
+            child: RoundedClose(),
+          )
         ]),
       ),
     );

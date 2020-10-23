@@ -23,7 +23,7 @@ part 'story_edit_store.g.dart';
 /// 2. communicate with the media store and upload the media to firebase
 class StoryEditStore = _StoryEditStoreBase with _$StoryEditStore;
 
-const storyDurationDefault = 12;
+const defaultStoryDuration = 12;
 
 abstract class _StoryEditStoreBase with Store {
   MediaStore _mediaStore;
@@ -39,7 +39,7 @@ abstract class _StoryEditStoreBase with Store {
   }
 
   @observable
-  int _storyDuration = storyDurationDefault;
+  int _storyDuration = defaultStoryDuration;
 
   @observable
   bool _isLoading = false;
@@ -93,13 +93,8 @@ abstract class _StoryEditStoreBase with Store {
   }
 
   @action
-  Future updateStoryDuration(int duration) async {
-    try {
-      await _repository.updateStoryDuration(duration);
-      _storyDuration = duration;
-    } on ServerError catch (e) {
-      Crash.report(e.message);
-    }
+  void updateStoryDuration(int duration) {
+    _storyDuration = duration;
   }
 
   @action
@@ -135,7 +130,7 @@ abstract class _StoryEditStoreBase with Store {
   }
 
   @action
-  Future<Either<ServerError, StoryModel>> publishStory() async {
+  Future<Either<ServerError, StoryModel>> addToStory() async {
     try {
       _isPublishing = true;
       final story = StoryModel(
@@ -145,7 +140,7 @@ abstract class _StoryEditStoreBase with Store {
         storyImages: _storiesToPublish.toList(),
       );
 
-      final storyRes = await _repository.publishStory(story);
+      final storyRes = await _repository.addToStory(story);
 
       await _storyStore.refreshStories();
 
@@ -176,6 +171,7 @@ abstract class _StoryEditStoreBase with Store {
 
   @action
   void dispose() {
+    _storyDuration = defaultStoryDuration;
     _storiesToPublish.clear();
   }
 }

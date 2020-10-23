@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/models/story_model.dart';
@@ -10,9 +9,6 @@ import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/story/story_list.dart';
 import 'package:mobx/mobx.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import '../../core/extensions/int_ext.dart';
 part 'story_store.g.dart';
 
@@ -97,10 +93,15 @@ abstract class _StoryStoreBase with Store {
     Future getHomeStories() async {
       _mode = StoryMode.home;
       try {
+        
         final stories = await _repository.getHomeStories();
-        if (_stories.isNotEmpty) _stories.clear();
-
+        
+        if (_stories.isNotEmpty) 
+          _stories.clear();
+        
+        
         _stories.addAll(stories);
+      
       } on ServerError catch (e) {
         Crash.report(e.message);
       }

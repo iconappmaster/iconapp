@@ -136,15 +136,6 @@ mixin _$StoryEditStore on _StoryEditStoreBase, Store {
     return _$addPhotoMediaAsyncAction.run(() => super.addPhotoMedia(source));
   }
 
-  final _$updateStoryDurationAsyncAction =
-      AsyncAction('_StoryEditStoreBase.updateStoryDuration');
-
-  @override
-  Future<dynamic> updateStoryDuration(int duration) {
-    return _$updateStoryDurationAsyncAction
-        .run(() => super.updateStoryDuration(duration));
-  }
-
   final _$addVideoMediaAsyncAction =
       AsyncAction('_StoryEditStoreBase.addVideoMedia');
 
@@ -153,12 +144,11 @@ mixin _$StoryEditStore on _StoryEditStoreBase, Store {
     return _$addVideoMediaAsyncAction.run(() => super.addVideoMedia());
   }
 
-  final _$publishStoryAsyncAction =
-      AsyncAction('_StoryEditStoreBase.publishStory');
+  final _$addToStoryAsyncAction = AsyncAction('_StoryEditStoreBase.addToStory');
 
   @override
-  Future<Either<ServerError, StoryModel>> publishStory() {
-    return _$publishStoryAsyncAction.run(() => super.publishStory());
+  Future<Either<ServerError, StoryModel>> addToStory() {
+    return _$addToStoryAsyncAction.run(() => super.addToStory());
   }
 
   final _$deleteStoryAsyncAction =
@@ -179,6 +169,17 @@ mixin _$StoryEditStore on _StoryEditStoreBase, Store {
 
   final _$_StoryEditStoreBaseActionController =
       ActionController(name: '_StoryEditStoreBase');
+
+  @override
+  void updateStoryDuration(int duration) {
+    final _$actionInfo = _$_StoryEditStoreBaseActionController.startAction(
+        name: '_StoryEditStoreBase.updateStoryDuration');
+    try {
+      return super.updateStoryDuration(duration);
+    } finally {
+      _$_StoryEditStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void setMyStories(List<StoryImageModel> storyImages) {
