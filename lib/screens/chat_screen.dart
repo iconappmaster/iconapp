@@ -91,14 +91,14 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   }
 
   Future _initSocket() async {
-    await _socket.subscribeChannel(widget.conversation.id.toString());
+    await _socket.subscribeConversationChannel(widget.conversation.id.toString());
 
     _socket
-      ..bindMessagesEvent()
+      ..bindIncomingMessagesEvent()
       ..bindAddLikeEvent()
       ..bindRemoveLikeEvent()
       ..bindCommentsCountEvent()
-      ..bindGetCommentsEvent();
+      ..bindIncomingCommentsEvent();
   }
 
   @override
@@ -203,7 +203,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   void dispose() {
     _chat.dispose();
     _comments.diospoe();
-    _socket.unsubscribeChannel(widget.conversation.id);
+    _socket.unsubscribeConversationChannel(widget.conversation.id.toString());
     super.dispose();
   }
 }

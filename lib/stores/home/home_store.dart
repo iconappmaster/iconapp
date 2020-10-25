@@ -1,10 +1,8 @@
 import 'dart:async';
-
 import 'package:dartz/dartz.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
-import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/repositories/home_repository.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/domain/core/errors.dart';
@@ -140,30 +138,29 @@ abstract class _HomeStoreBase with Store {
 
   @action
   void watchConversation() {
-    _conversationChangedSubscription =
-        _repository.watchConversation().listen((conversationEvent) {
-      // get the index of the changed conversation in conversations
-      final index =
-          _conversations.indexWhere((c) => c.id == conversationEvent.id);
+    _conversationChangedSubscription ??= _repository.watchConversation().listen((conversationEvent) {
 
+      // get the index of the changed conversation in conversations
+      final index = _conversations.indexWhere((c) => c.id == conversationEvent.id);
       // if index is found the update the conversation with the last message
       if (index != -1) {
+        
         final messages = _conversations[index].messages;
+        
         messages.add(conversationEvent.lastMessage);
-
+        
         final conversation = _conversations[index].copyWith(
           lastMessage: conversationEvent.lastMessage,
-          messages: messages,
-        );
+          messages: messages);
 
         _reorderListWherePinnedAtTop(index, conversation);
+
       } else {
         // if the conversation not found add new one
         _conversations.add(conversationEvent);
       }
 
-      // save
-      _repository.saveHome(_conversations);
+      // _repository.saveHome(_conversations);
     });
   }
 
@@ -195,21 +192,6 @@ abstract class _HomeStoreBase with Store {
   Future<Conversation> getCachedConversationById(int id) async {
     final cached = await _repository.getCachedHome();
     return cached.firstWhere((c) => c.id == id);
-  }
-
-  @action
-  void addMessageInConversation(int conversationId, MessageModel msg) {
-    // get the index of the conversation
-    final index = _conversations.indexWhere((c) => c.id == conversationId);
-
-    // get and and the new message
-    var conversationMessages = _conversations[index].messages;
-    conversationMessages.add(msg);
-
-    // copy the new conversation message to it's messages
-    _conversations[index] = _conversations[index].copyWith(
-      messages: conversationMessages,
-    );
   }
 
   void dispose() async {

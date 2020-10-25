@@ -183,7 +183,7 @@ class BellAlert extends StatelessWidget {
         child: Stack(
           children: [
             SvgPicture.asset('assets/images/bell.svg'),
-            BellCountBubble(store: store)
+            BellCountBubble(alerts: store)
           ],
         ),
       ),
@@ -194,16 +194,16 @@ class BellAlert extends StatelessWidget {
 class BellCountBubble extends StatelessWidget {
   const BellCountBubble({
     Key key,
-    @required this.store,
+    @required this.alerts,
   }) : super(key: key);
 
-  final AlertStore store;
+  final AlertStore alerts;
 
   @override
   Widget build(BuildContext context) {
     return Observer(builder: (_) {
       return Visibility(
-        visible: store.alerts?.isNotEmpty,
+        visible: alerts.alertsCount > 0,
         child: Positioned(
           left: 0,
           top: 0,
@@ -216,7 +216,7 @@ class BellCountBubble extends StatelessWidget {
             ),
             child: Center(
                 child: CustomText(
-              store.alerts.length.toString(),
+              alerts.alertsCount.toString(),
               maxLines: 1,
               style: likeStyle,
             )),

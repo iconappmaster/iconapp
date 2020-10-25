@@ -26,7 +26,7 @@ class NetworkPhoto extends StatelessWidget {
       return PhotoPlaceHolder(
           height: height,
           width: width,
-          placeHolder: placeHolder,
+          placeHolder: 'assets/images/user_icon.svg',
           placeHolderSize: placeHolderSize);
 
     return imageUrl.endsWith('.svg')

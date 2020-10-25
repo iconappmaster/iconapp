@@ -22,6 +22,12 @@ abstract class _AlertStoreBase with Store {
   @observable
   bool _loading = false;
 
+  @observable
+  int _alertsCount = 0;
+
+  @computed
+  int get alertsCount => _alertsCount;
+
   @computed
   List<AlertModel> get alerts => _alerts;
 
@@ -33,13 +39,24 @@ abstract class _AlertStoreBase with Store {
     // todo
     _loading = true;
     try {
-      final alerts = await _repository.getAlerts();
+      final response = await _repository.getAlerts();
       _alerts.clear();
-      _alerts.addAll(alerts);
+      _alerts.addAll(response.alerts);
+
+      _alertsCount = response.unseenAlertCount;
     } on ServerError catch (e) {
       Crash.report(e.message);
     } finally {
       _loading = false;
+    }
+  }
+
+  @action
+  Future markAlertsAsSeen() async {
+    try {
+      await _repository.markAlertsAsSeen();
+    } on ServerError catch(e) {
+      Crash.report(e.message);
     }
   }
 

@@ -13,7 +13,6 @@ import 'package:iconapp/stores/alerts/alert_store.dart';
 import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/data/sources/socket/socket_manager.dart';
 import 'package:iconapp/stores/story/story_store.dart';
-import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/bottomsheet/bs_bar.dart';
 import 'package:iconapp/widgets/bottomsheet/bs_nested_modal.dart';
 import 'package:iconapp/widgets/global/focus_aware.dart';
@@ -61,9 +60,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future _initSocket() async {
     final socket = sl<Socket>();
-    await socket.subscribeChannel(homeChannelName);
+    await socket.subscribeHomeChannel(homeChannelName);
 
     _home.watchConversation();
+   
     _story.watchStories();
 
     socket
@@ -80,6 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final story = sl<StoryStore>();
+    final alerts = sl<AlertStore>();
 
     return Scaffold(
       key: _scaffoldKey,
@@ -107,9 +108,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                     DrawerIcon(scaffoldKey: _scaffoldKey),
                                     SizedBox(width: 8),
                                     BellAlert(
-                                        onPressed: () =>
-                                            ExtendedNavigator.of(context)
-                                                .pushAlertScreen())
+                                        onPressed: () {
+                                          alerts.markAlertsAsSeen();
+                                          ExtendedNavigator.of(context)
+                                                .pushAlertScreen();
+                                        })
                                   ],
                                 ))),
                         ConversationsList(
@@ -185,7 +188,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() {
     _home?.dispose();
-    sl<StoryStore>().dispose();
+   _story?.dispose();
+    
     super.dispose();
   }
 }

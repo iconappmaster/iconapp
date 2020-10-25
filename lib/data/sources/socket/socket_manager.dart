@@ -39,7 +39,9 @@ class Socket {
   BehaviorSubject<MessageModel> commentsSubject = BehaviorSubject();
   BehaviorSubject<int> commentsCountSubject = BehaviorSubject.seeded(0);
 
-  Channel _channel;
+  Channel _conversationChannel;
+  Channel _homeChannel;
+
 
   void init() async {
     try {
@@ -59,26 +61,31 @@ class Socket {
   }
 
   // I subscribe with the conversaion id
-  Future subscribeChannel(String conversationId) async {
-    _channel = await Pusher.subscribe(conversationId);
+  Future subscribeConversationChannel(String channelName) async {
+      _conversationChannel = await Pusher.subscribe(channelName);
   }
 
-  Future unsubscribeChannel(int conversationId) async {
-    await Pusher.unsubscribe(conversationId.toString());
+   Future subscribeHomeChannel(String channelName) async {
+      _homeChannel = await Pusher.subscribe(channelName);
   }
 
-  // Home
+
+  Future unsubscribeConversationChannel(String channelName) async {
+    await Pusher.unsubscribe(channelName);
+  }
+  
+  // Story
   void bindStoryChangeEvent() {
-    _channel.bind(storyChangedEvent, (event) {
+    _homeChannel.bind(storyChangedEvent, (event) {
       final json = jsonDecode(event.data);
       final story = StoryModel.fromJson(json);
 
       if (story != null) storySubject.add(story);
     });
   }
-
+  // Home
   void bindHomeChangeEvent() {
-    _channel.bind(conversationChangedEvent, (event) {
+    _homeChannel.bind(conversationChangedEvent, (event) {
       final json = jsonDecode(event.data);
       var conversation = Conversation.fromJson(json);
       if (conversation != null) homeConversationSubject.add(conversation);
@@ -86,8 +93,8 @@ class Socket {
   }
 
   // Conversation
-  void bindMessagesEvent() {
-    _channel.bind(messagesEvent, (event) {
+  void bindIncomingMessagesEvent() {
+    _conversationChannel.bind(messagesEvent, (event) {
       final user = sl<UserStore>();
       final json = jsonDecode(event.data);
       final message = MessageModel.fromJson(json);
@@ -100,18 +107,18 @@ class Socket {
   }
 
   void bindAddLikeEvent() {
-    _channel.bind(addedLikeEvent,
+    _conversationChannel.bind(addedLikeEvent,
         (event) => _proccessLikeEventToMessage(addedLikeSubject, event));
   }
 
   void bindRemoveLikeEvent() {
-    _channel.bind(removedLikeEvent,
+    _conversationChannel.bind(removedLikeEvent,
         (event) => _proccessLikeEventToMessage(removeLikeSubject, event));
   }
 
   // Comments
-  void bindGetCommentsEvent() {
-    _channel.bind(commentsEvent, (event) {
+  void bindIncomingCommentsEvent() {
+    _conversationChannel.bind(commentsEvent, (event) {
       final user = sl<UserStore>();
       final json = jsonDecode(event.data);
       final message = MessageModel.fromJson(json);
@@ -123,7 +130,7 @@ class Socket {
   }
 
   void bindCommentsCountEvent() {
-    _channel.bind(
+    _conversationChannel.bind(
       commentsCountEvent,
       (count) {
         final c = jsonDecode(count.data);

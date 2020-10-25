@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:iconapp/data/models/alerts_model.dart';
+import 'package:iconapp/data/models/alerts_response.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/models/story_model.dart';
@@ -14,7 +15,7 @@ part 'rest_client.g.dart';
 const String baseUrlProd = 'https://iconproduction.herokuapp.com/api/v1/';
 const String baseUrlStaging = 'https://iconstaging.herokuapp.com/api/v1/';
 
-@RestApi(baseUrl: baseUrlStaging)
+@RestApi(baseUrl: baseUrlProd)
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
@@ -176,10 +177,13 @@ abstract class RestClient {
 
   // Alerts
   @GET('alerts')
-  Future<List<AlertModel>> getAlerts();
+  Future<AlertResponse> getAlerts();
 
   @POST('alerts/clear_all_alerts')
   Future clearAllAlerts();
+
+  @POST('alerts/mark_as_seen')
+  Future markAlertAsSeen();
 
   @POST('alerts/clear_specific_alert')
   Future clearSpecificAlert(@Query('userAlertId') int userAlertId);

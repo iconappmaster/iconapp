@@ -39,7 +39,7 @@ class ConversationsList extends StatelessWidget {
                   itemCount: home.conversations.length,
                   padding: EdgeInsets.only(
                     bottom: context.heightPlusStatusbarPerc(.2),
-                    top: addPadding ? context.heightPlusStatusbarPerc(.07) : 0,
+                    top: addPadding ? context.heightPlusStatusbarPerc(.1) : 0,
                   ),
                   physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,

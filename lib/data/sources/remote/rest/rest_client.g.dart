@@ -9,7 +9,7 @@ part of 'rest_client.dart';
 class _RestClient implements RestClient {
   _RestClient(this._dio, {this.baseUrl}) {
     ArgumentError.checkNotNull(_dio, '_dio');
-    this.baseUrl ??= 'https://iconstaging.herokuapp.com/api/v1/';
+    this.baseUrl ??= 'https://iconproduction.herokuapp.com/api/v1/';
   }
 
   final Dio _dio;
@@ -804,7 +804,7 @@ class _RestClient implements RestClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response<List<dynamic>> _result = await _dio.request('alerts',
+    final Response<Map<String, dynamic>> _result = await _dio.request('alerts',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',
@@ -812,9 +812,7 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    var value = _result.data
-        .map((dynamic i) => AlertModel.fromJson(i as Map<String, dynamic>))
-        .toList();
+    final value = AlertResponse.fromJson(_result.data);
     return value;
   }
 
@@ -824,6 +822,23 @@ class _RestClient implements RestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final Response _result = await _dio.request('alerts/clear_all_alerts',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = _result.data;
+    return value;
+  }
+
+  @override
+  markAlertAsSeen() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response _result = await _dio.request('alerts/mark_as_seen',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',

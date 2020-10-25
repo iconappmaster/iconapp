@@ -9,6 +9,13 @@ part of 'alert_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$AlertStore on _AlertStoreBase, Store {
+  Computed<int> _$alertsCountComputed;
+
+  @override
+  int get alertsCount =>
+      (_$alertsCountComputed ??= Computed<int>(() => super.alertsCount,
+              name: '_AlertStoreBase.alertsCount'))
+          .value;
   Computed<List<AlertModel>> _$alertsComputed;
 
   @override
@@ -53,11 +60,34 @@ mixin _$AlertStore on _AlertStoreBase, Store {
     });
   }
 
+  final _$_alertsCountAtom = Atom(name: '_AlertStoreBase._alertsCount');
+
+  @override
+  int get _alertsCount {
+    _$_alertsCountAtom.reportRead();
+    return super._alertsCount;
+  }
+
+  @override
+  set _alertsCount(int value) {
+    _$_alertsCountAtom.reportWrite(value, super._alertsCount, () {
+      super._alertsCount = value;
+    });
+  }
+
   final _$getAlertsAsyncAction = AsyncAction('_AlertStoreBase.getAlerts');
 
   @override
   Future<dynamic> getAlerts() {
     return _$getAlertsAsyncAction.run(() => super.getAlerts());
+  }
+
+  final _$markAlertsAsSeenAsyncAction =
+      AsyncAction('_AlertStoreBase.markAlertsAsSeen');
+
+  @override
+  Future<dynamic> markAlertsAsSeen() {
+    return _$markAlertsAsSeenAsyncAction.run(() => super.markAlertsAsSeen());
   }
 
   final _$clearAllAsyncAction = AsyncAction('_AlertStoreBase.clearAll');
@@ -79,6 +109,7 @@ mixin _$AlertStore on _AlertStoreBase, Store {
   @override
   String toString() {
     return '''
+alertsCount: ${alertsCount},
 alerts: ${alerts},
 loading: ${loading}
     ''';

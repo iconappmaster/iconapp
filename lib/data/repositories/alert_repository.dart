@@ -1,10 +1,11 @@
 import 'package:flutter/foundation.dart';
-import 'package:iconapp/data/models/alerts_model.dart';
+import 'package:iconapp/data/models/alerts_response.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 
 abstract class AlertRepository {
-  Future<List<AlertModel>> getAlerts();
+  Future<AlertResponse> getAlerts();
   Future clearAllAlerts();
+  Future markAlertsAsSeen();
   Future clearSpecificAlert(int id);
 }
 
@@ -26,7 +27,12 @@ class AlertRepositoryImpl implements AlertRepository {
   }
 
   @override
-  Future<List<AlertModel>> getAlerts() async {
+  Future<AlertResponse> getAlerts() async {
     return await rest.getAlerts();
+  }
+
+  @override
+  Future markAlertsAsSeen() async {
+    return await rest.markAlertAsSeen();
   }
 }

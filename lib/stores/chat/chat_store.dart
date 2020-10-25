@@ -32,7 +32,7 @@ part 'chat_store.g.dart';
 class ChatStore = _ChatStoreBase with _$ChatStore;
 
 abstract class _ChatStoreBase with Store {
-  final _messagesSubscription = List<StreamSubscription<MessageModel>>();
+  final _socketSubscription = List<StreamSubscription<MessageModel>>();
   ChatRepository _repository;
   MediaStore _mediaStore;
   UserStore _userStore;
@@ -297,11 +297,11 @@ abstract class _ChatStoreBase with Store {
 
         final remote = await _repository.sendMessage(conversation.id, msg);
 
-        final updated = _updateId(
+         _updateId(
           remote.copyWith(status: MessageStatus.sent, id: msg.id),
           remote.id,
         );
-        _updateHomeConversation(updated);
+       
 
         _state = _state.copyWith(inputMessage: '');
       }
@@ -337,10 +337,10 @@ abstract class _ChatStoreBase with Store {
         final remote = await _repository.sendMessage(
             conversation.id, msg.copyWith(body: url));
 
-        final updated = _updateId(
+       _updateId(
             remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
 
-        _updateHomeConversation(updated);
+       
       }
     } on ServerError catch (e) {
       Crash.report(e.message);
@@ -390,10 +390,9 @@ abstract class _ChatStoreBase with Store {
           ),
         );
 
-        final updated = _updateId(
+        _updateId(
             remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
         
-        _updateHomeConversation(updated);
       }
     } on ServerError catch (e) {
       Crash.report(e.message);
@@ -463,24 +462,15 @@ abstract class _ChatStoreBase with Store {
           final remote =
               await _repository.sendMessage(conversation.id, mediaMsg);
 
-          final updated = _updateId(
+          _updateId(
             remote.copyWith(status: MessageStatus.sent, id: msg.id),
             remote.id,
           );
-
-          _updateHomeConversation(updated);
         }
       }
     } on ServerError catch (e) {
       Crash.report(e.message);
     }
-  }
-
-  void _updateHomeConversation(MessageModel updated) {
-    _homeStore.addMessageInConversation(
-      conversation.id,
-      updated,
-    );
   }
 
   // report on abuse from another user
@@ -506,25 +496,24 @@ abstract class _ChatStoreBase with Store {
 
   @action
   void watchMessages() {
-    _messagesSubscription.add(
+    _socketSubscription.add(
       _repository.watchMessages().listen((message) {
         _setConversationViewed();
         _messages.add(message);
-        _updateHomeConversation(message);
       }),
     );
   }
 
   @action
   void watchAddLike() {
-    _messagesSubscription.add(_repository
+    _socketSubscription.add(_repository
         .watchAddLike()
         .listen((message) => _replaceMessage(message)));
   }
 
   @action
   void watchRemoveLike() {
-    _messagesSubscription.add(_repository
+    _socketSubscription.add(_repository
         .watchRemoveLike()
         .listen((message) => _replaceMessage(message)));
   }
@@ -572,7 +561,7 @@ abstract class _ChatStoreBase with Store {
     _repository.cacheConversation(conversation);
     _state = ChatState.initial();
     _messages?.clear();
-    _messagesSubscription?.forEach((subscription) => subscription.cancel());
+    _socketSubscription?.forEach((subscription) => subscription.cancel());
     _conversation = Conversation();
     _replyMessage = null;
     dataReady = false;
