@@ -14,7 +14,7 @@ part 'rest_client.g.dart';
 const String baseUrlProd = 'https://iconproduction.herokuapp.com/api/v1/';
 const String baseUrlStaging = 'https://iconstaging.herokuapp.com/api/v1/';
 
-@RestApi(baseUrl: baseUrlProd)
+@RestApi(baseUrl: baseUrlStaging)
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
@@ -171,7 +171,8 @@ abstract class RestClient {
   Future updateStoryDuration(@Query('duration') int duration);
 
   @POST('stories/add_to_story')
-  Future<StoryModel> addToStory(@Body() StoryModel story);
+  Future<StoryModel> addToStory(
+      @Body() StoryModel story, @Query('duration') int duration);
 
   // Alerts
   @GET('alerts')

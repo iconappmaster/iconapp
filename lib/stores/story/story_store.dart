@@ -44,7 +44,7 @@ abstract class _StoryStoreBase with Store {
 
   //  if the user is an icon show the add button
   @computed
-  bool get showAddButton => _user.getUser.isIcon;
+  bool get isUserIcon => _user.getUser.isIcon;
 
   // get all stories in reveresed order
   @computed

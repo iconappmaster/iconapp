@@ -11,7 +11,7 @@ abstract class StoryRepository {
   /// with all the 'icons' that are presented in the conversation.
   Future<List<StoryModel>> getConversationsStories(int conversationId);
 
-  Future<StoryModel> addToStory(StoryModel story);
+  Future<StoryModel> addToStory(StoryModel story, int duration);
 
   Future viewedStoryImage(int imageId);
 
@@ -40,8 +40,8 @@ class StoryRepositoryImpl implements StoryRepository {
   }
 
   @override
-  Future<StoryModel> addToStory(StoryModel story) async {
-    return await rest.addToStory(story);
+  Future<StoryModel> addToStory(StoryModel story, int duration) async {
+    return await rest.addToStory(story, duration);
   }
 
   @override

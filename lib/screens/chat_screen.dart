@@ -134,13 +134,16 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                 ),
               );
             }),
-            Positioned(
-                top: context.heightPlusStatusbarPerc(.1),
-                child: StoriesList(mode: _story.mode, show: !_upDirection)),
+            Visibility(
+              visible: _story.isUserIcon || _story.stories.isNotEmpty,
+              child: Positioned(
+                  top: context.heightPlusStatusbarPerc(.1),
+                  child: StoriesList(mode: _story.mode, show: !_upDirection)),
+            ),
             Observer(
               builder: (_) => Visibility(
                 visible: _chat.dataReady &&
-                    _chat.conversation.userRole != UserRole.admin,
+                    _chat.conversation.userRole == UserRole.viewer,
                 child: Positioned(
                     bottom: 45,
                     left: 16,
@@ -207,7 +210,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
 
 Future showCommentsDialog(BuildContext context) {
   final comments = sl<CommentsStore>();
-  
+
   comments
     ..setCommentsViewed()
     ..setCommentsCount(0);

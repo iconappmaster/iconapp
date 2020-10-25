@@ -15,12 +15,12 @@ mixin _$StoryStore on _StoryStoreBase, Store {
   StoryMode get mode => (_$modeComputed ??=
           Computed<StoryMode>(() => super.mode, name: '_StoryStoreBase.mode'))
       .value;
-  Computed<bool> _$showAddButtonComputed;
+  Computed<bool> _$isUserIconComputed;
 
   @override
-  bool get showAddButton =>
-      (_$showAddButtonComputed ??= Computed<bool>(() => super.showAddButton,
-              name: '_StoryStoreBase.showAddButton'))
+  bool get isUserIcon =>
+      (_$isUserIconComputed ??= Computed<bool>(() => super.isUserIcon,
+              name: '_StoryStoreBase.isUserIcon'))
           .value;
   Computed<List<StoryModel>> _$storiesComputed;
 
@@ -146,7 +146,7 @@ mixin _$StoryStore on _StoryStoreBase, Store {
   String toString() {
     return '''
 mode: ${mode},
-showAddButton: ${showAddButton},
+isUserIcon: ${isUserIcon},
 stories: ${stories},
 usersStory: ${usersStory}
     ''';

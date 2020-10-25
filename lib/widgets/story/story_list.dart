@@ -63,7 +63,7 @@ class _StoriesListState extends State<StoriesList> {
                   scrollDirection: Axis.horizontal,
                   physics: BouncingScrollPhysics(),
                   children: [
-                    if (store.showAddButton)
+                    if (store.isUserIcon)
                       StoryAddButton(
                           onTap: () => ExtendedNavigator.of(context)
                               .pushStoryEditScreen()),

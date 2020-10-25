@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:iconapp/stores/story/story_store.dart';
 import 'package:iconapp/widgets/home/conversation_tile.dart';
 import '../../core/dependencies/locator.dart';
 import '../../data/models/conversation_model.dart';
@@ -16,33 +17,37 @@ class ConversationsList extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final store = sl<HomeStore>();
+    final home = sl<HomeStore>();
+    final story = sl<StoryStore>();
+
+    final addPadding = story.isUserIcon || story.stories.isNotEmpty;
+
     return Observer(
-      builder: (_) => Positioned(
-        top: context.heightPlusStatusbarPerc(.12),
+      builder: (_) => Expanded(
         child: Container(
-          height: context.heightPx - context.heightPlusStatusbarPerc(.11),
+          height: context.heightPx,
           width: context.widthPx,
-          child: store.isLoading && store.conversations.length == 0
+          child: home.isLoading && home.conversations.length == 0
               ? Align(
                   alignment: Alignment.topCenter,
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 80.0),
+                    padding: EdgeInsets.only(top: 80.0),
                     child: LottieLoader(),
                   ))
               : ListView.builder(
                   controller: controller,
-                  itemCount: store.conversations.length,
+                  itemCount: home.conversations.length,
                   padding: EdgeInsets.only(
-                      bottom: context.heightPlusStatusbarPerc(.2),
-                      top: context.heightPlusStatusbarPerc(.07)),
+                    bottom: context.heightPlusStatusbarPerc(.2),
+                    top: addPadding ? context.heightPlusStatusbarPerc(.07) : 0,
+                  ),
                   physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    final conversation = store.conversations[index];
+                    final conversation = home.conversations[index];
                     return GestureDetector(
                       onTap: () {
-                        store.resetCount(index);
+                        home.resetCount(index);
                         onConversationTap(conversation);
                       },
                       child: ConversationTile(model: conversation),

@@ -22,7 +22,14 @@ class NetworkPhoto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return imageUrl.isNotEmpty && imageUrl.endsWith('.svg')
+    if (imageUrl.isEmpty || imageUrl == null)
+      return PhotoPlaceHolder(
+          height: height,
+          width: width,
+          placeHolder: placeHolder,
+          placeHolderSize: placeHolderSize);
+
+    return imageUrl.endsWith('.svg')
         ? SvgPicture.asset(
             imageUrl ?? '',
             height: height,
@@ -41,7 +48,12 @@ class NetworkPhoto extends StatelessWidget {
         : CachedNetworkImage(
             fadeOutDuration: const Duration(milliseconds: 250),
             errorWidget: (c, u, e) {
-              return Container();
+              return PhotoPlaceHolder(
+                height: height,
+                width: width,
+                placeHolder: placeHolder,
+                placeHolderSize: placeHolderSize,
+              );
             },
             placeholder: placeHolder != null
                 ? (context, url) {

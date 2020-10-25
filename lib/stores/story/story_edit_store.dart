@@ -50,6 +50,8 @@ abstract class _StoryEditStoreBase with Store {
   @observable
   bool _isPublishing = false;
 
+  
+
   @observable
   ObservableList<StoryImageModel> _storiesToPublish = ObservableList.of([]);
 
@@ -133,6 +135,7 @@ abstract class _StoryEditStoreBase with Store {
   Future<Either<ServerError, StoryModel>> addToStory() async {
     try {
       _isPublishing = true;
+      
       final story = StoryModel(
         id: DateTime.now().millisecondsSinceEpoch,
         isNew: true,
@@ -140,7 +143,7 @@ abstract class _StoryEditStoreBase with Store {
         storyImages: _storiesToPublish.toList(),
       );
 
-      final storyRes = await _repository.addToStory(story);
+      final storyRes = await _repository.addToStory(story, _storyDuration);
 
       await _storyStore.refreshStories();
 

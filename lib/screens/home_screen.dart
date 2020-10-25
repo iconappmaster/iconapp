@@ -13,6 +13,7 @@ import 'package:iconapp/stores/alerts/alert_store.dart';
 import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/data/sources/socket/socket_manager.dart';
 import 'package:iconapp/stores/story/story_store.dart';
+import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/bottomsheet/bs_bar.dart';
 import 'package:iconapp/widgets/bottomsheet/bs_nested_modal.dart';
 import 'package:iconapp/widgets/global/focus_aware.dart';
@@ -78,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final stories = sl<StoryStore>();
+    final story = sl<StoryStore>();
 
     return Scaffold(
       key: _scaffoldKey,
@@ -94,35 +95,42 @@ class _HomeScreenState extends State<HomeScreen> {
                 builder: (_) => Stack(
                   alignment: Alignment.topCenter,
                   children: <Widget>[
-                    IconAppbar(
-                      widget: Align(
-                        alignment: Alignment.centerRight,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            DrawerIcon(scaffoldKey: _scaffoldKey),
-                            SizedBox(width: 8),
-                            BellAlert(
-                                onPressed: () => ExtendedNavigator.of(context)
-                                    .pushAlertScreen()),
-                          ],
+                    Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        IconAppbar(
+                            widget: Align(
+                                alignment: Alignment.centerRight,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    DrawerIcon(scaffoldKey: _scaffoldKey),
+                                    SizedBox(width: 8),
+                                    BellAlert(
+                                        onPressed: () =>
+                                            ExtendedNavigator.of(context)
+                                                .pushAlertScreen())
+                                  ],
+                                ))),
+                        ConversationsList(
+                          controller: _controller,
+                          onConversationTap: (conversation) async {
+                            await ExtendedNavigator.of(context)
+                                .pushChatScreen(conversation: conversation);
+                            story.setStoryMode(StoryMode.home);
+                            story.refreshStories();
+                          },
                         ),
-                      ),
+                      ],
                     ),
-                    ConversationsList(
-                      controller: _controller,
-                      onConversationTap: (conversation) async {
-                        await ExtendedNavigator.of(context)
-                            .pushChatScreen(conversation: conversation);
-                        stories.setStoryMode(StoryMode.home);
-                        stories.refreshStories();
-                      },
-                    ),
-                    Positioned(
-                      top: context.heightPlusStatusbarPerc(.08),
-                      child: StoriesList(
-                        mode: stories.mode,
-                        show: true,
+                    Visibility(
+                      visible: story.isUserIcon || story.stories.isNotEmpty,
+                      child: Positioned(
+                        top: context.heightPlusStatusbarPerc(.08),
+                        child: StoriesList(
+                          mode: story.mode,
+                          show: true,
+                        ),
                       ),
                     ),
                     Align(

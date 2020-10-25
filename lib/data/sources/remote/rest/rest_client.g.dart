@@ -9,7 +9,7 @@ part of 'rest_client.dart';
 class _RestClient implements RestClient {
   _RestClient(this._dio, {this.baseUrl}) {
     ArgumentError.checkNotNull(_dio, '_dio');
-    this.baseUrl ??= 'https://iconproduction.herokuapp.com/api/v1/';
+    this.baseUrl ??= 'https://iconstaging.herokuapp.com/api/v1/';
   }
 
   final Dio _dio;
@@ -779,10 +779,11 @@ class _RestClient implements RestClient {
   }
 
   @override
-  addToStory(story) async {
+  addToStory(story, duration) async {
     ArgumentError.checkNotNull(story, 'story');
+    ArgumentError.checkNotNull(duration, 'duration');
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'duration': duration};
     final _data = <String, dynamic>{};
     _data.addAll(story?.toJson() ?? <String, dynamic>{});
     final Response<Map<String, dynamic>> _result = await _dio.request(
