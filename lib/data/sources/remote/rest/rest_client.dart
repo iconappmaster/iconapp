@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
-import 'package:iconapp/data/models/alerts_model.dart';
 import 'package:iconapp/data/models/alerts_response.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/message_model.dart';
@@ -172,8 +171,8 @@ abstract class RestClient {
   Future updateStoryDuration(@Query('duration') int duration);
 
   @POST('stories/add_to_story')
-  Future<StoryModel> addToStory(
-      @Body() StoryModel story, @Query('duration') int duration);
+  Future<StoryModel> addToStory(@Body() StoryModel story,
+      @Query('numberOfHoursUntilExpiration') int duration);
 
   // Alerts
   @GET('alerts')

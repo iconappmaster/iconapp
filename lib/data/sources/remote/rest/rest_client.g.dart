@@ -783,7 +783,9 @@ class _RestClient implements RestClient {
     ArgumentError.checkNotNull(story, 'story');
     ArgumentError.checkNotNull(duration, 'duration');
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'duration': duration};
+    final queryParameters = <String, dynamic>{
+      r'numberOfHoursUntilExpiration': duration
+    };
     final _data = <String, dynamic>{};
     _data.addAll(story?.toJson() ?? <String, dynamic>{});
     final Response<Map<String, dynamic>> _result = await _dio.request(

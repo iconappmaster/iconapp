@@ -50,9 +50,9 @@ abstract class _ChatStoreBase with Store {
   }
 
   void init([Conversation conversation]) {
-    if (conversation != null) {
+    if (conversation != null) 
       setConversation(conversation);
-    }
+    
     _determineComposerMode();
     _setConversationViewed();
     getConversation();

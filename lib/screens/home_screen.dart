@@ -13,6 +13,7 @@ import 'package:iconapp/stores/alerts/alert_store.dart';
 import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/data/sources/socket/socket_manager.dart';
 import 'package:iconapp/stores/story/story_store.dart';
+import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/bottomsheet/bs_bar.dart';
 import 'package:iconapp/widgets/bottomsheet/bs_nested_modal.dart';
 import 'package:iconapp/widgets/global/focus_aware.dart';
@@ -60,10 +61,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future _initSocket() async {
     final socket = sl<Socket>();
-    await socket.subscribeHomeChannel(homeChannelName);
+    final user = sl<UserStore>();
+    
+    final channelName = "home-${user.getUser.id}";
+    await socket.subscribeHomeChannel(channelName);
 
     _home.watchConversation();
-   
+
     _story.watchStories();
 
     socket
@@ -107,12 +111,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                   children: [
                                     DrawerIcon(scaffoldKey: _scaffoldKey),
                                     SizedBox(width: 8),
-                                    BellAlert(
-                                        onPressed: () {
-                                          alerts.markAlertsAsSeen();
-                                          ExtendedNavigator.of(context)
-                                                .pushAlertScreen();
-                                        })
+                                    BellAlert(onPressed: () {
+                                      alerts.markAlertsAsSeen();
+                                      ExtendedNavigator.of(context)
+                                          .pushAlertScreen();
+                                    })
                                   ],
                                 ))),
                         ConversationsList(
@@ -188,8 +191,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() {
     _home?.dispose();
-   _story?.dispose();
-    
+    _story?.dispose();
+
     super.dispose();
   }
 }
