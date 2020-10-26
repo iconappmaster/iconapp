@@ -11,7 +11,7 @@ import '../../../stores/chat/chat_store.dart';
 import '../../../stores/comments/comments_store.dart';
 import '../../../core/extensions/context_ext.dart';
 
-class SendButton extends StatelessWidget {
+class SendButton extends StatefulWidget {
   final TextEditingController textEditcontroller;
   final ScrollController scrollController;
   static double size = 37.7;
@@ -25,14 +25,19 @@ class SendButton extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _SendButtonState createState() => _SendButtonState();
+}
+
+class _SendButtonState extends State<SendButton> {
+  @override
   Widget build(BuildContext context) {
     final chat = sl<ChatStore>();
     final comments = sl<CommentsStore>();
     return Padding(
       padding: const EdgeInsets.only(left: 2, right: 7.3),
       child: SizedBox(
-        height: size,
-        width: size,
+        height: SendButton.size,
+        width: SendButton.size,
         child: GestureDetector(
           onLongPress: () async {
             final granted = await Permission.microphone.request().isGranted;
@@ -41,24 +46,27 @@ class SendButton extends StatelessWidget {
               chat.startRecording();
             }
           },
-          onLongPressEnd: (d) => chat.stopRecordingAndSend(),
+          onLongPressEnd: (d) async {
+            await chat.stopRecordingAndSend();
+            setState(() {});
+          },
           child: Observer(
             builder: (_) => FloatingActionButton(
               heroTag: 'fab',
               elevation: 0,
               onPressed: () async {
-                switch (composerMode) {
+                switch (widget.composerMode) {
                   case ComposerPanelMode.conversation:
                     if (isMessageMode()) {
-                      textEditcontroller.clear();
-                      scrollController.jumpTo(0);
+                      widget.textEditcontroller.clear();
+                      widget.scrollController.jumpTo(0);
                       chat.sendTextMessage();
                     }
                     break;
 
                   case ComposerPanelMode.comments:
                     if (chat.conversation.areCommentsActivated) {
-                      textEditcontroller.clear();
+                      widget.textEditcontroller.clear();
 
                       final result = await comments.sendComment();
                       result.fold(
@@ -85,7 +93,7 @@ class SendButton extends StatelessWidget {
                     scale: animation,
                     child: child,
                   ),
-                  child: composerMode == ComposerPanelMode.conversation
+                  child: widget.composerMode == ComposerPanelMode.conversation
                       ? chat.isInputEmpty ? _sendIcon() : _recordIcon()
                       : _sendIcon(),
                 ),
@@ -107,5 +115,5 @@ class SendButton extends StatelessWidget {
         key: const Key('send'), height: 15.3, width: 15.3);
   }
 
-  bool isMessageMode() => textEditcontroller.text.isNotEmpty;
+  bool isMessageMode() => widget.textEditcontroller.text.isNotEmpty;
 }

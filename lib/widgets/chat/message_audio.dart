@@ -42,13 +42,12 @@ class VoiceMessage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _VoiceMessageState(message, mode);
+    return _VoiceMessageState();
   }
 }
 
 class _VoiceMessageState extends State<VoiceMessage> {
   PlayerMode mode;
-  MessageModel message;
   AudioPlayer _audioPlayer;
   Duration _duration;
   Duration _position;
@@ -62,8 +61,6 @@ class _VoiceMessageState extends State<VoiceMessage> {
   get _isPlaying => _playerState == PlayerState.playing;
   get _durationText => _duration?.toString()?.split('.')?.first ?? '';
   get _positionText => _position?.toString()?.split('.')?.first ?? '';
-
-  _VoiceMessageState(this.message, this.mode);
 
   SlidableController _controller;
   BuildContext _sliderContext;
@@ -132,7 +129,7 @@ class _VoiceMessageState extends State<VoiceMessage> {
         },
         child: Container(
           child: IconBubble(
-            padding: BubbleEdges.symmetric(vertical: 14, horizontal: 14),
+            padding: BubbleEdges.only(left: 18, top: 5, right: 5, bottom: 5),
             message: widget.message,
             isMe: widget.isMe,
             child: Column(
@@ -171,8 +168,8 @@ class _VoiceMessageState extends State<VoiceMessage> {
                             valueColor: AlwaysStoppedAnimation<Color>(white),
                           )
                         : SizedBox(
-                            height: 34,
-                            width: 34,
+                            height: 35,
+                            width: 35,
                             child: FloatingActionButton(
                               heroTag: widget.message.id.toString(),
                               onPressed: () => _isPlaying ? _pause() : _play(),
@@ -187,12 +184,12 @@ class _VoiceMessageState extends State<VoiceMessage> {
                                     ? SvgPicture.asset(
                                         'assets/images/pause.svg',
                                         key: Key('pause_button'),
-                                        height: 12,
-                                        width: 12)
+                                        height: 10,
+                                        width: 10)
                                     : SvgPicture.asset(
                                         'assets/images/play.svg',
-                                        height: 12,
-                                        width: 12,
+                                        height: 10,
+                                        width: 10,
                                         key: Key('play_button'),
                                       ),
                               ),
@@ -257,7 +254,7 @@ class _VoiceMessageState extends State<VoiceMessage> {
         : null;
 
     final result =
-        await _audioPlayer.play(this.message.body, position: playPosition);
+        await _audioPlayer.play(widget.message.body, position: playPosition);
     if (result == 1 && mounted)
       setState(() => _playerState = PlayerState.playing);
 

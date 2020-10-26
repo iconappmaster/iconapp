@@ -50,9 +50,8 @@ abstract class _ChatStoreBase with Store {
   }
 
   void init([Conversation conversation]) {
-    if (conversation != null) 
-      setConversation(conversation);
-    
+    if (conversation != null) setConversation(conversation);
+
     _determineComposerMode();
     _setConversationViewed();
     getConversation();
@@ -406,11 +405,14 @@ abstract class _ChatStoreBase with Store {
       final path =
           '${appDocDirectory.path}/${DateTime.now().millisecondsSinceEpoch}';
 
-      if (_recorder == null) {
-        _recorder = FlutterAudioRecorder(path, audioFormat: AudioFormat.AAC);
-      }
+      // if (_recorder == null) {
+      _recorder = FlutterAudioRecorder(path, audioFormat: AudioFormat.AAC);
+      // }
 
       await _recorder.initialized;
+
+      // play sound
+
       await _recorder.start();
     } on ServerError catch (e) {
       Crash.report(e.message);
@@ -428,9 +430,6 @@ abstract class _ChatStoreBase with Store {
         recordTimer.onExecute.add(StopWatchExecute.stop);
         recordTimer.onExecute.add(StopWatchExecute.reset);
 
-        final duration =
-            recording.duration?.toString()?.split('.')?.first ?? '';
-
         if (recording != null) {
           final msg = MessageModel(
             id: DateTime.now().millisecondsSinceEpoch,
@@ -440,7 +439,7 @@ abstract class _ChatStoreBase with Store {
             timestamp: DateTime.now().millisecondsSinceEpoch,
             likeCounts: LikesCount.initial(),
             messageType: MessageType.voice,
-            extraData: duration,
+            extraData: recording.duration?.toString()?.split('.')?.first ?? '',
             // todo need set replied message
           );
 
@@ -458,7 +457,10 @@ abstract class _ChatStoreBase with Store {
               await _repository.sendMessage(conversation.id, mediaMsg);
 
           _updateId(
-            remote.copyWith(status: MessageStatus.sent, id: msg.id),
+            remote.copyWith(
+              status: MessageStatus.sent,
+              id: msg.id,
+            ),
             remote.id,
           );
         }

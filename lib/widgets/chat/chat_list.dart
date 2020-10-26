@@ -66,11 +66,10 @@ class _ChatListState extends State<ChatList> {
                       );
                     case MessageType.voice:
                       return VoiceMessage(
-                        controller: widget.scrollController,
-                        index: index,
-                        message: message,
-                        isMe: isMe,
-                      );
+                          controller: widget.scrollController,
+                          index: index,
+                          message: message,
+                          isMe: isMe);
                     case MessageType.system:
                       return SystemMessage(
                         title: message.body,
