@@ -140,7 +140,6 @@ abstract class _ChatStoreBase with Store {
       _state = _state.copyWith(isSubscribing: true);
       final result = await _repository.subscribe(conversation.id);
       _conversation = result;
-      _homeStore.updateConversation(conversation);
       _determineComposerMode();
     } on ServerError catch (e) {
       Crash.report(e.message);
@@ -297,11 +296,10 @@ abstract class _ChatStoreBase with Store {
 
         final remote = await _repository.sendMessage(conversation.id, msg);
 
-         _updateId(
+        _updateId(
           remote.copyWith(status: MessageStatus.sent, id: msg.id),
           remote.id,
         );
-       
 
         _state = _state.copyWith(inputMessage: '');
       }
@@ -337,10 +335,8 @@ abstract class _ChatStoreBase with Store {
         final remote = await _repository.sendMessage(
             conversation.id, msg.copyWith(body: url));
 
-       _updateId(
+        _updateId(
             remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
-
-       
       }
     } on ServerError catch (e) {
       Crash.report(e.message);
@@ -392,7 +388,6 @@ abstract class _ChatStoreBase with Store {
 
         _updateId(
             remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
-        
       }
     } on ServerError catch (e) {
       Crash.report(e.message);
@@ -499,7 +494,9 @@ abstract class _ChatStoreBase with Store {
     _socketSubscription.add(
       _repository.watchMessages().listen((message) {
         _setConversationViewed();
-        _messages.add(message);
+        if (dataReady) {
+          _messages.add(message);
+        }
       }),
     );
   }

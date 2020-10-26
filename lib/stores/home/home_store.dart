@@ -138,29 +138,24 @@ abstract class _HomeStoreBase with Store {
 
   @action
   void watchConversation() {
-    _conversationChangedSubscription ??= _repository.watchConversation().listen((conversationEvent) {
+    _conversationChangedSubscription ??=
+        _repository.watchConversation().listen((socketConversation) {
+      
+      if (socketConversation == null) return;
 
-      // get the index of the changed conversation in conversations
-      final index = _conversations.indexWhere((c) => c.id == conversationEvent.id);
-      // if index is found the update the conversation with the last message
+      // Find index of the conversation based on id
+      final index =
+          _conversations.indexWhere((c) => c.id == socketConversation.id);
+
+      // if the conversation exists the replace the payload with the incoming
+      // socket conversation, if the index not found then add a new conversation
+      // in the list
       if (index != -1) {
-        
-        final messages = _conversations[index].messages;
-        
-        messages.add(conversationEvent.lastMessage);
-        
-        final conversation = _conversations[index].copyWith(
-          lastMessage: conversationEvent.lastMessage,
-          messages: messages);
-
-        _reorderListWherePinnedAtTop(index, conversation);
-
+        _conversations[index] = socketConversation;
+        _reorderListWherePinnedAtTop(index, _conversations[index]);
       } else {
-        // if the conversation not found add new one
-        _conversations.add(conversationEvent);
+        _conversations.add(socketConversation);
       }
-
-      // _repository.saveHome(_conversations);
     });
   }
 

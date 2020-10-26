@@ -272,21 +272,17 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                 bottom: context.heightPlusStatusbarPerc(.2),
                 child: Column(
                   children: [
-                    CustomText('משך הסיפור בשעות', style: dialogTitle),
+                    CustomText('משך זמן תמונה', style: dialogTitle),
                     SizedBox(height: 3),
                     MaterialButton(
-                      onPressed: () async => Navigator.of(context).push(
-                          TransparentRoute(
-                              builder: (_) => StoryDurationPicker())),
-                      child: Observer(
-                        builder: (_) => CustomText(
-                          _edit.storyDuration.toString(),
-                          style: settingsAppbarTitle.copyWith(
-                            fontSize: 40,
-                          ),
-                        ),
-                      ),
-                    ),
+                        onPressed: () async => Navigator.of(context).push(
+                            TransparentRoute(
+                                builder: (_) => StoryDurationPicker())),
+                        child: Observer(
+                            builder: (_) => CustomText(
+                                _edit.storyDuration.toString(),
+                                style: settingsAppbarTitle.copyWith(
+                                    fontSize: 40))))
                   ],
                 )),
           ],
