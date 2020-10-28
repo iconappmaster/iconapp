@@ -195,12 +195,9 @@ abstract class RestClient {
 Dio getDioClient() {
   final dio = Dio();
   dio.interceptors.addAll([
-    DioCacheManager(
-      CacheConfig(
-        baseUrl: baseUrlProd,
-        defaultMaxStale: Duration(days: 7),
-      ),
-    ).interceptor,
+    DioCacheManager(CacheConfig(
+            baseUrl: baseUrlProd, defaultMaxStale: Duration(days: 7)))
+        .interceptor,
     HeaderInterceptor(dio),
     LoggingInterceptors(),
   ]);
