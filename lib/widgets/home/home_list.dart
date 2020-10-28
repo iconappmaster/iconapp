@@ -24,38 +24,37 @@ class ConversationsList extends StatelessWidget {
 
     return Observer(
       builder: (_) => Expanded(
-        child: Container(
-          height: context.heightPx,
-          width: context.widthPx,
-          child: home.isLoading && home.conversations.length == 0
-              ? Align(
-                  alignment: Alignment.topCenter,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 80.0),
-                    child: LottieLoader(),
-                  ))
-              : ListView.builder(
-                  controller: controller,
-                  itemCount: home.conversations.length,
-                  padding: EdgeInsets.only(
-                    bottom: context.heightPlusStatusbarPerc(.2),
-                    top: addPadding ? context.heightPlusStatusbarPerc(.1) : 0,
-                  ),
-                  physics: const BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    final conversation = home.conversations[index];
-                    return GestureDetector(
-                      onTap: () {
-                        home.resetCount(index);
-                        onConversationTap(conversation);
-                      },
-                      child: ConversationTile(model: conversation),
-                    );
-                  },
+          child: Container(
+        height: context.heightPx,
+        width: context.widthPx,
+        child: home.isLoading && home.conversations.length == 0
+            ? Align(
+                alignment: Alignment.topCenter,
+                child: Padding(
+                  padding: EdgeInsets.only(top: 80.0),
+                  child: LottieLoader(),
+                ))
+            : ListView.builder(
+                controller: controller,
+                itemCount: home.conversations.length,
+                padding: EdgeInsets.only(
+                  bottom: context.heightPlusStatusbarPerc(.2),
+                  top: addPadding ? context.heightPlusStatusbarPerc(.1) : 0,
                 ),
-        ),
-      ),
+                physics: const BouncingScrollPhysics(),
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  final conversation = home.conversations[index];
+                  return GestureDetector(
+                    onTap: () {
+                      home.resetCount(index);
+                      onConversationTap(conversation);
+                    },
+                    child: ConversationTile(model: conversation),
+                  );
+                },
+              ),
+      )),
     );
   }
 }

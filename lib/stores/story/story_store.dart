@@ -93,15 +93,11 @@ abstract class _StoryStoreBase with Store {
     Future getHomeStories() async {
       _mode = StoryMode.home;
       try {
-        
         final stories = await _repository.getHomeStories();
-        
-        if (_stories.isNotEmpty) 
-          _stories.clear();
-        
-        
+
+        if (_stories.isNotEmpty) _stories.clear();
+
         _stories.addAll(stories);
-      
       } on ServerError catch (e) {
         Crash.report(e.message);
       }
@@ -145,6 +141,11 @@ abstract class _StoryStoreBase with Store {
   void updateStory(StoryModel story) {
     final index = _stories.indexOf((s) => s.id == story.id);
     if (index != -1) _stories[index] = story;
+  }
+
+  @action
+  void clearStories()  {
+    _stories.clear();
   }
 
   void dispose() {

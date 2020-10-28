@@ -19,6 +19,10 @@ import 'package:iconapp/screens/main_navigator.dart';
 import 'package:iconapp/screens/story_duration_picker.dart';
 import 'package:iconapp/screens/story_edit_screen.dart';
 import 'package:iconapp/screens/story_screen.dart';
+import 'package:iconapp/screens/verify_icon_email_screen.dart';
+import 'package:iconapp/screens/verify_instagram.dart';
+import 'package:iconapp/screens/verify_send_code_screen.dart';
+import 'package:iconapp/screens/verify_welcome.dart';
 import 'package:iconapp/widgets/chat/message_photo.dart';
 
 @MaterialAutoRouter(
@@ -45,6 +49,10 @@ import 'package:iconapp/widgets/chat/message_photo.dart';
     CupertinoRoute(page: SingleImage),
     CupertinoRoute(page: AlertScreen),
     CupertinoRoute(page: StoryDurationPicker, fullscreenDialog: true),
+    CupertinoRoute(page: VerifyWelcomeScreen, fullscreenDialog: true),
+    CupertinoRoute(page: VerifySendCodeScreen, fullscreenDialog: true),
+    CupertinoRoute(page: VerifyIconEmailScreen, fullscreenDialog: true),
+    CupertinoRoute(page: VerifyInstagramScreen, fullscreenDialog: true),
   ],
 )
 class $Router {

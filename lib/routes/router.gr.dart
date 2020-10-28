@@ -34,6 +34,10 @@ import '../screens/settings_screen.dart';
 import '../screens/story_duration_picker.dart';
 import '../screens/story_edit_screen.dart';
 import '../screens/story_screen.dart';
+import '../screens/verify_icon_email_screen.dart';
+import '../screens/verify_instagram.dart';
+import '../screens/verify_send_code_screen.dart';
+import '../screens/verify_welcome.dart';
 import '../widgets/chat/message_photo.dart';
 
 class Routes {
@@ -58,6 +62,10 @@ class Routes {
   static const String singleImage = '/single-image';
   static const String alertScreen = '/alert-screen';
   static const String storyDurationPicker = '/story-duration-picker';
+  static const String verifyWelcomeScreen = '/verify-welcome-screen';
+  static const String verifySendCodeScreen = '/verify-send-code-screen';
+  static const String verifyIconEmailScreen = '/verify-icon-email-screen';
+  static const String verifyInstagramScreen = '/verify-instagram-screen';
   static const all = <String>{
     mainNavigator,
     loginScreen,
@@ -80,6 +88,10 @@ class Routes {
     singleImage,
     alertScreen,
     storyDurationPicker,
+    verifyWelcomeScreen,
+    verifySendCodeScreen,
+    verifyIconEmailScreen,
+    verifyInstagramScreen,
   };
 }
 
@@ -108,6 +120,10 @@ class Router extends RouterBase {
     RouteDef(Routes.singleImage, page: SingleImage),
     RouteDef(Routes.alertScreen, page: AlertScreen),
     RouteDef(Routes.storyDurationPicker, page: StoryDurationPicker),
+    RouteDef(Routes.verifyWelcomeScreen, page: VerifyWelcomeScreen),
+    RouteDef(Routes.verifySendCodeScreen, page: VerifySendCodeScreen),
+    RouteDef(Routes.verifyIconEmailScreen, page: VerifyIconEmailScreen),
+    RouteDef(Routes.verifyInstagramScreen, page: VerifyInstagramScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -284,6 +300,34 @@ class Router extends RouterBase {
         fullscreenDialog: true,
       );
     },
+    VerifyWelcomeScreen: (data) {
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => VerifyWelcomeScreen(),
+        settings: data,
+        fullscreenDialog: true,
+      );
+    },
+    VerifySendCodeScreen: (data) {
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => VerifySendCodeScreen(),
+        settings: data,
+        fullscreenDialog: true,
+      );
+    },
+    VerifyIconEmailScreen: (data) {
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => VerifyIconEmailScreen(),
+        settings: data,
+        fullscreenDialog: true,
+      );
+    },
+    VerifyInstagramScreen: (data) {
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => VerifyInstagramScreen(),
+        settings: data,
+        fullscreenDialog: true,
+      );
+    },
   };
 }
 
@@ -415,6 +459,18 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
 
   Future<dynamic> pushStoryDurationPicker() =>
       push<dynamic>(Routes.storyDurationPicker);
+
+  Future<dynamic> pushVerifyWelcomeScreen() =>
+      push<dynamic>(Routes.verifyWelcomeScreen);
+
+  Future<dynamic> pushVerifySendCodeScreen() =>
+      push<dynamic>(Routes.verifySendCodeScreen);
+
+  Future<dynamic> pushVerifyIconEmailScreen() =>
+      push<dynamic>(Routes.verifyIconEmailScreen);
+
+  Future<dynamic> pushVerifyInstagramScreen() =>
+      push<dynamic>(Routes.verifyInstagramScreen);
 }
 
 /// ************************************************************************

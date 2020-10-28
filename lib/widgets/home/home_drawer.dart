@@ -76,10 +76,14 @@ class HomeDrawer extends StatelessWidget {
                   _drawerDivider,
                   DrawerItem(
                       text: LocaleKeys.drawer_profile.tr(),
-                      onTap: () {
-                        ExtendedNavigator.of(context)
-                            .pushOnboardingProfile(mode: OnboardingMode.drawer);
-                      }),
+                      onTap: () => ExtendedNavigator.of(context)
+                          .pushOnboardingProfile(mode: OnboardingMode.drawer)),
+                  if (store.getUser.isIcon)
+                    DrawerItem(
+                      text: 'הזדהה כאייקון',
+                      onTap: () => ExtendedNavigator.of(context)
+                          .pushVerifyWelcomeScreen(),
+                    ),
                   if (store.getUser.isIcon)
                     DrawerItem(
                         text: LocaleKeys.drawer_groupActivity.tr(),

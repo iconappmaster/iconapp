@@ -5,10 +5,12 @@ import 'package:iconapp/core/keys.dart';
 import 'package:iconapp/core/notifications/fcm.dart';
 import 'package:iconapp/data/repositories/alert_repository.dart';
 import 'package:iconapp/data/repositories/comments_repository.dart';
+import 'package:iconapp/data/repositories/verify_icon_repository.dart';
 import 'package:iconapp/stores/alerts/alert_store.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
 import 'package:iconapp/stores/search_results/search_results_store.dart';
 import 'package:iconapp/stores/story/story_edit_store.dart';
+import 'package:iconapp/stores/verify_icon/verify_icon_store.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../data/repositories/auth_repository.dart';
 import '../../data/repositories/chat_repository.dart';
@@ -139,8 +141,13 @@ void initLocator() {
       socket: sl(),
     ),
   );
-
+  // Alerts
   sl.registerLazySingleton<AlertStore>(() => AlertStore());
   sl.registerLazySingleton<AlertRepository>(
       () => AlertRepositoryImpl(rest: sl()));
+
+  // Verify Icon
+  sl.registerLazySingleton<VerifyIconStore>(() => VerifyIconStore());
+  sl.registerLazySingleton<VerifyIconRepository>(
+      () => VerifyIconRepositoryImpl(rest: sl()));
 }

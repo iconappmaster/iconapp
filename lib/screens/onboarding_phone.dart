@@ -46,7 +46,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             _SmsCounter(store: store),
             _PinCode(store: store),
             _nextButton(store, context),
-            _SendAgain(store: store),
+            SendAgain(store: store),
           ],
         ),
       ),
@@ -77,10 +77,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 }
 
-class _SendAgain extends StatelessWidget {
+class SendAgain extends StatelessWidget {
   final LoginStore store;
 
-  const _SendAgain({Key key, @required this.store}) : super(key: key);
+  const SendAgain({
+    Key key,
+    @required this.store,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Visibility(
@@ -91,12 +94,14 @@ class _SendAgain extends StatelessWidget {
           text: TextSpan(children: [
             TextSpan(text: 'לא קיבלתי את הקוד. ', style: loginSmallText),
             TextSpan(
-                text: 'שלח שוב',
-                style: smallLine.copyWith(
-                    decoration: TextDecoration.underline,
-                    fontWeight: FontWeight.normal),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () async => store.sendAgain()),
+              text: 'שלח שוב',
+              style: smallLine.copyWith(
+                decoration: TextDecoration.underline,
+                fontWeight: FontWeight.normal,
+              ),
+              recognizer: TapGestureRecognizer()
+                ..onTap = () async => store.sendAgain(),
+            ),
           ]),
         ),
       ),
@@ -177,8 +182,12 @@ class _PinCode extends StatelessWidget {
                 final successFailure = await store.verifySms();
                 successFailure.fold(
                   (error) => error.when(
-                      serverError: () => ctx.showFlushbar(message: LocaleKeys.general_server_error).tr(),
-                      wrongCode: () => ctx.showFlushbar( message: LocaleKeys.onboarding_wrongCode.tr())),
+                      serverError: () => ctx
+                          .showFlushbar(
+                              message: LocaleKeys.general_server_error)
+                          .tr(),
+                      wrongCode: () => ctx.showFlushbar(
+                          message: LocaleKeys.onboarding_wrongCode.tr())),
                   (success) => success.when(
                     navigateHome: () {
                       sl<AuthStore>()
@@ -187,7 +196,8 @@ class _PinCode extends StatelessWidget {
                       ExtendedNavigator.of(ctx).pushAndRemoveUntil(
                           Routes.mainNavigator, (route) => false);
                     },
-                    navigateProfile: () => ExtendedNavigator.of(ctx) .pushOnboardingProfile(mode: OnboardingMode.onboarding),
+                    navigateProfile: () => ExtendedNavigator.of(ctx)
+                        .pushOnboardingProfile(mode: OnboardingMode.onboarding),
                   ),
                 );
               },
@@ -391,7 +401,7 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
           decoration: inputDecor.copyWith(prefixText: '+', prefixStyle: style),
           style: style,
           onChanged: (countryCode) {
-              store.updateCountryCode(countryCode);
+            store.updateCountryCode(countryCode);
             if (countryCode.length == 3) {
               prefixFocus.unfocus();
               FocusScope.of(context).requestFocus(prefixFocus);

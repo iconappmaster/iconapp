@@ -34,6 +34,7 @@ const scarlet = Color(0xFFd0021b);
 const black10 = Color(0x19000000);
 const paleGreyTwo = Color(0xFFe9e6ff);
 const iris = Color(0xFF746bb5);
+const pastelPurple = Color(0xFFaa9efc);
 
 const sendColor = Color(0xFF6D5FF5);
 const composerBackground = Color(0xFF1A1541);
@@ -52,6 +53,12 @@ const flushbar = TextStyle(
     color: white,
     fontSize: 16.7,
     letterSpacing: 1.1);
+
+const emailHint = TextStyle(
+  fontFamily: _fontRubikRegular,
+  color: pastelPurple,
+  fontSize: 20,
+);
 
 const searchAppBarTitle = TextStyle(
   fontFamily: _fontRubikMedium,
@@ -88,7 +95,6 @@ const alertTitle = TextStyle(
   color: white,
   fontSize: 19.3,
 );
-
 
 const systemMessage = TextStyle(
   fontFamily: _fontRubikRegular,
@@ -288,12 +294,10 @@ final purpleGradient = LinearGradient(colors: [
   darkIndigo,
 ], begin: Alignment.bottomLeft, end: Alignment.topRight);
 
-
 final commentsGradient = LinearGradient(colors: [
   darkIndigo,
   grape,
 ], begin: Alignment.bottomRight, end: Alignment.topLeft);
-
 
 final redPinkGradient = LinearGradient(colors: [
   lightishRed,

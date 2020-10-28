@@ -186,6 +186,10 @@ abstract class RestClient {
 
   @POST('alerts/clear_specific_alert')
   Future clearSpecificAlert(@Query('userAlertId') int userAlertId);
+
+  // Verification
+  @POST('verification/request_code')
+  Future requestVerificationCode();
 }
 
 Dio getDioClient() {

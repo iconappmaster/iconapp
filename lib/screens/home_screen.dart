@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -62,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Future _initSocket() async {
     final socket = sl<Socket>();
     final user = sl<UserStore>();
-    
+
     final channelName = "home-${user.getUser.id}";
     await socket.subscribeHomeChannel(channelName);
 
@@ -104,27 +103,35 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         IconAppbar(
-                            widget: Align(
-                                alignment: Alignment.centerRight,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    DrawerIcon(scaffoldKey: _scaffoldKey),
-                                    SizedBox(width: 8),
-                                    BellAlert(onPressed: () {
-                                      alerts.markAlertsAsSeen();
-                                      ExtendedNavigator.of(context)
-                                          .pushAlertScreen();
-                                    })
-                                  ],
-                                ))),
+                          widget: Align(
+                            alignment: Alignment.centerRight,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                DrawerIcon(scaffoldKey: _scaffoldKey),
+                                SizedBox(width: 8),
+                                BellAlert(onPressed: () {
+                                  alerts.markAlertsAsSeen();
+                                  ExtendedNavigator.of(context)
+                                      .pushAlertScreen();
+                                })
+                              ],
+                            ),
+                          ),
+                        ),
                         ConversationsList(
                           controller: _controller,
                           onConversationTap: (conversation) async {
+                            
+                            story.clearStories();
+
                             await ExtendedNavigator.of(context)
                                 .pushChatScreen(conversation: conversation);
-                            story.setStoryMode(StoryMode.home);
-                            story.refreshStories();
+
+                            story
+                              ..setStoryMode(StoryMode.home)
+                              ..refreshStories();
+                          
                           },
                         ),
                       ],
