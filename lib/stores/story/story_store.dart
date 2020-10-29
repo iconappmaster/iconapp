@@ -9,7 +9,9 @@ import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/story/story_list.dart';
 import 'package:mobx/mobx.dart';
+
 import '../../core/extensions/int_ext.dart';
+
 part 'story_store.g.dart';
 
 /// the [StoryStore] is responsible:

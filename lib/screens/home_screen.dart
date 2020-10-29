@@ -63,6 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final user = sl<UserStore>();
 
     final channelName = "home-${user.getUser.id}";
+    
     await socket.subscribeHomeChannel(channelName);
 
     _home.watchConversation();
