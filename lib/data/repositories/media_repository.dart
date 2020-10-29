@@ -7,6 +7,7 @@ import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/sources/remote/firebase_consts.dart';
 import 'package:path_provider/path_provider.dart';
+import '../../core/extensions/string_ext.dart';
 
 abstract class MediaRepository {
   Future<String> uploadSinglePhoto(
@@ -24,8 +25,8 @@ class MediaRepositoryImpl implements MediaRepository {
     final photoPath = "$path/photos/";
 
     final compressed = await _compressPhoto(image);
-
-    return await upload(photoPath, fileName, compressed, messageId);
+    final url = await upload(photoPath, fileName, compressed, messageId);
+    return url.toString().removeTokenFromUrl;
   }
 
   @override
@@ -36,13 +37,8 @@ class MediaRepositoryImpl implements MediaRepository {
     int messageId,
   ) async {
     final videoPath = "$path/videos/";
-
-    return await upload(
-      videoPath,
-      fileName,
-      video,
-      messageId,
-    );
+    final url = await upload(videoPath, fileName, video, messageId);
+    return url.toString().removeTokenFromUrl;
   }
 
   @override
@@ -53,13 +49,8 @@ class MediaRepositoryImpl implements MediaRepository {
     int messageId,
   ) async {
     final audioPath = "$path/audio/";
-
-    return await upload(
-      audioPath,
-      fileName,
-      audio,
-      messageId,
-    );
+    final url = await upload(audioPath, fileName, audio, messageId);
+    return url.toString().removeTokenFromUrl;
   }
 
   // Uploads the file to Firebase storage !Need to handle error

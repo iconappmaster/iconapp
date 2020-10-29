@@ -16,18 +16,19 @@ class NetworkPhoto extends StatelessWidget {
     this.height,
     this.width,
     this.placeHolderPadding = 20,
-    this.placeHolder,
-    this.placeHolderSize,
+    this.placeHolder = 'assets/images/user_icon.svg',
+    this.placeHolderSize = 20,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     if (imageUrl.isEmpty || imageUrl == null)
       return PhotoPlaceHolder(
-          height: height,
-          width: width,
-          placeHolder: 'assets/images/user_icon.svg',
-          placeHolderSize: placeHolderSize);
+        height: height,
+        width: width,
+        placeHolder: 'assets/images/user_icon.svg',
+        placeHolderSize: placeHolderSize,
+      );
 
     return imageUrl.endsWith('.svg')
         ? SvgPicture.asset(
@@ -55,6 +56,7 @@ class NetworkPhoto extends StatelessWidget {
                 placeHolderSize: placeHolderSize,
               );
             },
+            
             placeholder: placeHolder != null
                 ? (context, url) {
                     return PhotoPlaceHolder(

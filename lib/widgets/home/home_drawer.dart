@@ -78,12 +78,12 @@ class HomeDrawer extends StatelessWidget {
                       text: LocaleKeys.drawer_profile.tr(),
                       onTap: () => ExtendedNavigator.of(context)
                           .pushOnboardingProfile(mode: OnboardingMode.drawer)),
-                  if (store.getUser.isIcon)
-                    DrawerItem(
-                      text: 'הזדהה כאייקון',
-                      onTap: () => ExtendedNavigator.of(context)
-                          .pushVerifyWelcomeScreen(),
-                    ),
+                  // if (store.getUser.isIcon)
+                  //   DrawerItem(
+                  //     text: 'הזדהה כאייקון',
+                  //     onTap: () => ExtendedNavigator.of(context)
+                  //         .pushVerifyWelcomeScreen(),
+                  //   ),
                   if (store.getUser.isIcon)
                     DrawerItem(
                         text: LocaleKeys.drawer_groupActivity.tr(),

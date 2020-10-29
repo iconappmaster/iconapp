@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconapp/widgets/global/blur_appbar.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
@@ -17,7 +18,6 @@ import '../../stores/chat/chat_store.dart';
 import 'chat_list.dart';
 import 'reply_slider.dart';
 import '../global/custom_text.dart';
-import '../global/network_photo.dart';
 import '../global/slidable/slidable.dart';
 import '../../core/extensions/int_ext.dart';
 import 'icon_bubble.dart';
@@ -115,12 +115,33 @@ class _PhotoMessageState extends State<PhotoMessage> {
                         children: [
                           widget.message.body.startsWith('http')
                               ? SizedBox(
-                                  height: 200,
-                                  width: 240,
+                                  height: 240,
+                                  width: 280,
                                   child: ClipRRect(
                                       borderRadius: BorderRadius.circular(4.2),
-                                      child: NetworkPhoto(
-                                          imageUrl: widget.message.body)))
+                                      child: CachedNetworkImage(
+                                        fadeInCurve: Curves.linear,
+                                        fit: BoxFit.cover,
+                                        useOldImageOnUrlChange: true,
+                                        progressIndicatorBuilder:
+                                            (context, url, data) {
+                                          return Center(
+                                              child: SizedBox(
+                                                  height: 20,
+                                                  width: 20,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    strokeWidth: 1,
+                                                    value: data.progress,
+                                                    valueColor:
+                                                        AlwaysStoppedAnimation(
+                                                            cornflower),
+                                                  )));
+                                        },
+                                        imageUrl: widget.message.body,
+                                        fadeOutDuration:
+                                            const Duration(milliseconds: 250),
+                                      )))
                               : SizedBox(
                                   height: 200,
                                   width: 250,
@@ -215,8 +236,23 @@ class SingleImage extends StatelessWidget {
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * .8,
-              child: NetworkPhoto(
+              child: CachedNetworkImage(
+                fadeInCurve: Curves.bounceIn,
+                fit: BoxFit.cover,
+                useOldImageOnUrlChange: true,
+                progressIndicatorBuilder: (context, url, data) {
+                  return Center(
+                      child: SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 1,
+                            value: data.progress,
+                            valueColor: AlwaysStoppedAnimation(cornflower),
+                          )));
+                },
                 imageUrl: url,
+                fadeOutDuration: const Duration(milliseconds: 250),
               ),
             ),
           ),

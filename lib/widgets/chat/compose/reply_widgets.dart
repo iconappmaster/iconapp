@@ -63,7 +63,7 @@ class ReplyComposePanel extends StatelessWidget {
                       children: [
                         CustomText(store.replayMessage?.sender?.fullName ?? '',
                             style: replayTitle),
-                        SizedBox(height: 5),
+                        SizedBox(height: 2),
                         if (store.replayMessage != null)
                           Expanded(
                               child: getReplyBody(store.replayMessage,

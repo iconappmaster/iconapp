@@ -51,7 +51,7 @@ class VerifyWelcomeScreen extends StatelessWidget {
                   onClick: () {
                     store.canNavigateToSendCode
                         ? ExtendedNavigator.of(context)
-                            .pushVerifySendCodeScreen()
+                            .pushVerifyIconEmailScreen()
                         : context.showFlushbar(message: flush);
                   },
                 ),

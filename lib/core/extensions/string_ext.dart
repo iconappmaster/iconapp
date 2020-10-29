@@ -16,4 +16,6 @@ extension StringExtention on String {
   bool isValidAddress() => RegExp(
           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
       .hasMatch(this);
+
+  String get removeTokenFromUrl => toString().substring(0, this.indexOf('&token'));
 }

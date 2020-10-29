@@ -21,7 +21,7 @@ class CustomText extends StatelessWidget {
   final TextOverflow overflow;
   final EdgeInsets padding;
   final TextDirection textDirection;
-
+  
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -30,6 +30,7 @@ class CustomText extends StatelessWidget {
         padding: padding,
         child: Text(
           text,
+          textScaleFactor: 1,
           overflow: overflow,
           textAlign: textAlign,
           style: style,

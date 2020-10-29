@@ -12,7 +12,7 @@ const welcomeTitle =
 const buttonText = 'לאינסטוש של אייקון';
 const subTitle = 'אנחנו נזהה אותך ונעדכן בהקדם על אישורך כאייקון.';
 
-const iconInstagramUrl = '';
+const iconInstagramUrl = 'https://www.instagram.com/icon_app_/';
 
 // This screen is a welcome screen that force the user to agree to our icon terms
 class VerifyInstagramScreen extends StatelessWidget {

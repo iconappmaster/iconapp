@@ -144,29 +144,31 @@ class _PinCode extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext ctx) {
+  Widget build(BuildContext context) {
     final pinTheme = PinTheme(
         borderWidth: .7,
         inactiveColor: cornflower,
         selectedColor: Colors.transparent,
         selectedFillColor: cornflower,
         inactiveFillColor: Colors.transparent,
-        shape: PinCodeFieldShape.underline,
+        shape: PinCodeFieldShape.box,
         disabledColor: cornflower,
         activeColor: cornflower,
         fieldWidth: 40,
+        
+        fieldHeight: 40,
         activeFillColor: Colors.transparent);
 
     return Visibility(
       visible: store.isPinCodeMode,
       child: Positioned(
-        top: ctx.heightPlusStatusbarPerc(.323),
+        top: context.heightPlusStatusbarPerc(.333),
         child: Container(
-          width: ctx.widthPx * .686,
+          width: context.widthPx * .686,
           child: Directionality(
             textDirection: ui.TextDirection.ltr,
             child: PinCodeTextField(
-              appContext: ctx,
+              appContext: context,
               autoFocus: true,
               length: 6,
               animationType: AnimationType.slide,
@@ -179,24 +181,25 @@ class _PinCode extends StatelessWidget {
               enableActiveFill: true,
               onChanged: (code) => store.updateCode(code),
               onCompleted: (v) async {
-                final successFailure = await store.verifySms();
+                 final successFailure = await store.verifySms();
                 successFailure.fold(
                   (error) => error.when(
-                      serverError: () => ctx
+                      serverError: () => context
                           .showFlushbar(
                               message: LocaleKeys.general_server_error)
                           .tr(),
-                      wrongCode: () => ctx.showFlushbar(
+                      wrongCode: () => context.showFlushbar(
                           message: LocaleKeys.onboarding_wrongCode.tr())),
                   (success) => success.when(
                     navigateHome: () {
                       sl<AuthStore>()
                         ..setSignedIn()
                         ..validateAuthState();
-                      ExtendedNavigator.of(ctx).pushAndRemoveUntil(
+                      
+                      ExtendedNavigator.of(context).pushAndRemoveUntil(
                           Routes.mainNavigator, (route) => false);
                     },
-                    navigateProfile: () => ExtendedNavigator.of(ctx)
+                    navigateProfile: () => ExtendedNavigator.of(context)
                         .pushOnboardingProfile(mode: OnboardingMode.onboarding),
                   ),
                 );

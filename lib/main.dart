@@ -22,7 +22,7 @@ void main() async {
   // await Firebase.initializeApp();
 
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  
+
   runApp(
     EasyLocalization(
       useOnlyLangCode: false,
@@ -60,8 +60,10 @@ class _MyAppState extends State<MyApp> {
     initLocator();
     await _initSharedPreferences();
 
-    await _socket..init()..connect();
-    
+    await _socket
+      ..init()
+      ..connect();
+
     initCrashlytics();
   }
 
@@ -99,10 +101,12 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity),
-      builder: ExtendedNavigator(
-        name: $Router.routerName,
-        router: Router(),
-      ),
+      builder: (context, child) {
+        return ExtendedNavigator(
+          name: $Router.routerName,
+          router: Router(),
+        );
+      },
     );
   }
 

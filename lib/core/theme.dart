@@ -105,7 +105,7 @@ const systemMessage = TextStyle(
 const phoneNumber = TextStyle(
     fontFamily: _fontRubikRegular,
     color: white,
-    fontSize: 20.7,
+    fontSize: 15.7,
     letterSpacing: 1.33);
 
 const button = TextStyle(
@@ -115,7 +115,7 @@ const button = TextStyle(
     letterSpacing: 0.18);
 
 const pinCode =
-    TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 26.7);
+    TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 16.7);
 
 const nameWhite =
     TextStyle(fontFamily: _fontRubikMedium, color: white, fontSize: 18);
@@ -127,7 +127,7 @@ const searchResultTile =
     TextStyle(fontFamily: _fontRubikMedium, color: darkBlueGrey, fontSize: 18);
 
 const loginBigText = TextStyle(
-    fontFamily: _fontRubikMedium, color: white, fontSize: 20.3, height: 1.3);
+    fontFamily: _fontRubikMedium, color: white, fontSize: 16.3, height: 1.3);
 
 const fieldInput =
     TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 17.3);

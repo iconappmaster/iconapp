@@ -304,28 +304,24 @@ class Router extends RouterBase {
       return CupertinoPageRoute<dynamic>(
         builder: (context) => VerifyWelcomeScreen(),
         settings: data,
-        fullscreenDialog: true,
       );
     },
     VerifySendCodeScreen: (data) {
       return CupertinoPageRoute<dynamic>(
         builder: (context) => VerifySendCodeScreen(),
         settings: data,
-        fullscreenDialog: true,
       );
     },
     VerifyIconEmailScreen: (data) {
       return CupertinoPageRoute<dynamic>(
         builder: (context) => VerifyIconEmailScreen(),
         settings: data,
-        fullscreenDialog: true,
       );
     },
     VerifyInstagramScreen: (data) {
       return CupertinoPageRoute<dynamic>(
         builder: (context) => VerifyInstagramScreen(),
         settings: data,
-        fullscreenDialog: true,
       );
     },
   };

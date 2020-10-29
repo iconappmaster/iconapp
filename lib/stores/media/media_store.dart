@@ -107,7 +107,7 @@ abstract class _MediaStoreBase with Store {
     }
   }
 
-  String get getPath => _userStore.getUser.phone;
+  String get getPath => _userStore.getUser.id.toString();
   String get getPhotoFileName => '${DateTime.now().millisecondsSinceEpoch}.jpg';
   String get getAudioFileName => '${DateTime.now().millisecondsSinceEpoch}.mp4';
 }

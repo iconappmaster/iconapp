@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/data/models/user_model.dart';
+import 'package:iconapp/helpers/tutorial.dart';
 import 'package:iconapp/screens/chat_screen.dart';
 import 'package:iconapp/widgets/comments/comments_appbar_icon.dart';
 import 'package:iconapp/widgets/global/report_dialog.dart';
@@ -82,6 +83,7 @@ class ChatAppbar extends StatelessWidget {
               }),
               SizedBox(width: 6),
               IconButton(
+                key: menuKey,
                 visualDensity: VisualDensity.comfortable,
                 icon: SvgPicture.asset(
                   'assets/images/dots.svg',

@@ -3,7 +3,7 @@ description: Icon application
 
 publish_to: 'none'
 
-version: 2.0.1+8
+version: 2.0.1+9
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -57,6 +57,8 @@ dependencies:
   video_compress: ^2.0.0
   video_player: ^0.10.12+4
   video_thumbnail: ^0.2.2
+  tutorial_coach_mark: ^0.5.1
+
 
 dev_dependencies:
   flutter_test:

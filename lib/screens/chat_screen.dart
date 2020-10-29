@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
+import 'package:iconapp/helpers/tutorial.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
 import 'package:iconapp/widgets/comments/comments_bottom_sheet.dart';
 import 'package:iconapp/widgets/comments/comments_fab.dart';
@@ -47,10 +48,18 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   Socket _socket;
   SharedPreferencesService _sp;
 
+  // void _afterLayout(_) {
+  //   Future.delayed(Duration(milliseconds: 100), () {
+  //     showChatTutorial(context);
+  //   });
+  // }
+
   @override
   void initState() {
     _initDependencies();
     _initSocket();
+
+    // WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
 
     _sp.setString(StorageKey.fcmConversation, null);
 
@@ -91,7 +100,8 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   }
 
   Future _initSocket() async {
-    await _socket.subscribeConversationChannel(widget.conversation.id.toString());
+    await _socket
+        .subscribeConversationChannel(widget.conversation.id.toString());
 
     _socket
       ..bindIncomingMessagesEvent()
@@ -120,13 +130,12 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                     AnimatedSize(
                       vsync: this,
                       child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                            minHeight:
-                                (_chat.composerMode != ComposerMode.viewer)
-                                    ? 82
-                                    : 0),
-                        child: initComposer(_chatController),
-                      ),
+                          constraints: BoxConstraints(
+                              minHeight:
+                                  (_chat.composerMode != ComposerMode.viewer)
+                                      ? 82
+                                      : 0),
+                          child: initComposer(_chatController)),
                       duration: Duration(milliseconds: 350),
                       curve: Curves.easeInToLinear,
                     ),

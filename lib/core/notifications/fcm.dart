@@ -165,8 +165,8 @@ void _handleNotification(
             channelName,
             channelName,
             dataConversationId,
-            "הודעה וידאו",
-             "הודעה וידאו",
+             "Icon",
+             "הודעת וידאו חדשה",
             dataConversationId,
           );
           break;
@@ -176,8 +176,8 @@ void _handleNotification(
             channelName,
             channelName,
             dataConversationId,
-            "הודעה קולית",
-             "הודעה קולית",
+            "Icon",
+             "הודעה קולית חדשה",
             dataConversationId,
           );
           break;

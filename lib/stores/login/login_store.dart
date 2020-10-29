@@ -128,6 +128,7 @@ abstract class _LoginStoreBase with Store {
       return right(user.didCompleteRegistration
           ? AuthSuccess.navigateHome()
           : AuthSuccess.navigateProfile());
+   
     } on DioError catch (error) {
       if (error.response.data['error'] == "ERROR_WRONG_SMS") {
         return left(const AuthFailure.wrongCode());

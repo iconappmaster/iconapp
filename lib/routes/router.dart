@@ -49,10 +49,10 @@ import 'package:iconapp/widgets/chat/message_photo.dart';
     CupertinoRoute(page: SingleImage),
     CupertinoRoute(page: AlertScreen),
     CupertinoRoute(page: StoryDurationPicker, fullscreenDialog: true),
-    CupertinoRoute(page: VerifyWelcomeScreen, fullscreenDialog: true),
-    CupertinoRoute(page: VerifySendCodeScreen, fullscreenDialog: true),
-    CupertinoRoute(page: VerifyIconEmailScreen, fullscreenDialog: true),
-    CupertinoRoute(page: VerifyInstagramScreen, fullscreenDialog: true),
+    CupertinoRoute(page: VerifyWelcomeScreen),
+    CupertinoRoute(page: VerifySendCodeScreen),
+    CupertinoRoute(page: VerifyIconEmailScreen),
+    CupertinoRoute(page: VerifyInstagramScreen),
   ],
 )
 class $Router {

@@ -82,7 +82,7 @@ class _IconBubbleState extends State<IconBubble> {
               onLongPress: widget.onLongTap,
               onDoubleTap: widget.onDoubleTap,
               onTap: widget.onTap,
-              child: Column( 
+              child: Column(
                 children: [
                   Bubble(
                     elevation: 1,
@@ -128,8 +128,9 @@ class _IconBubbleState extends State<IconBubble> {
                                       child: NetworkPhoto(
                                         imageUrl:
                                             widget.message.sender?.photo != null
-                                                ? widget
-                                                    .message.sender.photo.url
+                                                ? widget.message.sender?.photo
+                                                        ?.url ??
+                                                    ''
                                                 : '',
                                       ),
                                     ),
@@ -150,44 +151,47 @@ class _IconBubbleState extends State<IconBubble> {
               EmojiPlus(
                   likeAsset: widget.message?.likeType,
                   isMe: widget.isMe,
-                  message: widget.message),
+                  message: widget.message,
+              ),
           ],
         ),
-        if (widget.message.likeCounts != null) AnimatedContainer(
-          duration: Duration(milliseconds: 250),
-          height: showLikeIndicator ? 25 : 0,
-          child: Padding(
-            padding: EdgeInsets.only(
-              left: widget.isMe ? 16 : 0,
-              right: widget.isMe ? 0 : 16,
-              bottom: 4.7,
+        if (widget.message.likeCounts != null)
+          AnimatedContainer(
+            duration: Duration(milliseconds: 250),
+            height: showLikeIndicator ? 25 : 0,
+            child: Padding(
+              padding: EdgeInsets.only(
+                left: widget.isMe ? 16 : 0,
+                right: widget.isMe ? 0 : 16,
+                bottom: 4.7,
+              ),
+              child: Row(
+                mainAxisAlignment: widget.isMe
+                    ? MainAxisAlignment.end
+                    : MainAxisAlignment.start,
+                children: [
+                  if ((widget.message.likeCounts.like1 > 0) ?? false)
+                    EmojiLikeBubble(
+                      likeAsset: likeOneKey,
+                      padding: horizontalLikePadding,
+                      count: widget.message?.likeCounts?.like1 ?? 0,
+                    ),
+                  if (widget.message.likeCounts.like2 > 0 ?? false)
+                    EmojiLikeBubble(
+                      likeAsset: likeTwoKey,
+                      padding: horizontalLikePadding,
+                      count: widget.message.likeCounts?.like2 ?? 0,
+                    ),
+                  if (widget.message.likeCounts.like3 > 0 ?? false)
+                    EmojiLikeBubble(
+                      likeAsset: likeThreeKey,
+                      padding: horizontalLikePadding,
+                      count: widget.message.likeCounts?.like3 ?? 0,
+                    ),
+                ],
+              ),
             ),
-            child: Row(
-              mainAxisAlignment:
-                  widget.isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
-              children: [
-                if ((widget.message.likeCounts.like1 > 0) ?? false)
-                  EmojiLikeBubble(
-                    likeAsset: likeOneKey,
-                    padding: horizontalLikePadding,
-                    count: widget.message?.likeCounts?.like1 ?? 0,
-                  ),
-                if (widget.message.likeCounts.like2 > 0 ?? false)
-                  EmojiLikeBubble(
-                    likeAsset: likeTwoKey,
-                    padding: horizontalLikePadding,
-                    count: widget.message.likeCounts?.like2 ?? 0,
-                  ),
-                if (widget.message.likeCounts.like3 > 0 ?? false)
-                  EmojiLikeBubble(
-                    likeAsset: likeThreeKey,
-                    padding: horizontalLikePadding,
-                    count: widget.message.likeCounts?.like3 ?? 0,
-                  ),
-              ],
-            ),
-          ),
-        )
+          )
       ],
     );
   }
@@ -235,25 +239,23 @@ class MessageReply extends StatelessWidget {
               ),
             ),
             Positioned(
-                right: 20,
-                top: 10,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomText(
-                      message.sender?.fullName ?? '',
+              right: 20,
+              top: 10,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomText(message.sender?.fullName ?? '',
                       style: replayTitle,
                       maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    SizedBox(height: 5),
-                    if (message != null)
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * .6,
-                        child: getReplyBody(message, width),
-                      )
-                  ],
-                )),
+                      overflow: TextOverflow.ellipsis),
+                  if (message != null)
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * .6,
+                      child: getReplyBody(message, width),
+                    )
+                ],
+              ),
+            ),
           ],
         ),
       ),
