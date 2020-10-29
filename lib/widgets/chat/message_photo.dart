@@ -5,6 +5,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconapp/widgets/global/blur_appbar.dart';
+import 'package:iconapp/widgets/global/parallex.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:vibration/vibration.dart';
 import '../../core/bus.dart';
@@ -118,7 +119,11 @@ class _PhotoMessageState extends State<PhotoMessage> {
                                   height: 240,
                                   width: 280,
                                   child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(4.2),
+                                    borderRadius: BorderRadius.circular(4.2),
+                                    child: Parallax.outside(
+                                      
+                                      direction: AxisDirection.up,
+                                      controller: widget.controller,
                                       child: CachedNetworkImage(
                                         fadeInCurve: Curves.linear,
                                         fit: BoxFit.cover,
@@ -141,7 +146,10 @@ class _PhotoMessageState extends State<PhotoMessage> {
                                         imageUrl: widget.message.body,
                                         fadeOutDuration:
                                             const Duration(milliseconds: 250),
-                                      )))
+                                      ),
+                                    ),
+                                  ),
+                                )
                               : SizedBox(
                                   height: 200,
                                   width: 250,
