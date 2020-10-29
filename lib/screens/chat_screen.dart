@@ -4,7 +4,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
-import 'package:iconapp/helpers/tutorial.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
 import 'package:iconapp/widgets/comments/comments_bottom_sheet.dart';
 import 'package:iconapp/widgets/comments/comments_fab.dart';

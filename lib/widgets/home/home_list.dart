@@ -45,13 +45,10 @@ class ConversationsList extends StatelessWidget {
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   final conversation = home.conversations[index];
-                  return GestureDetector(
-                    onTap: () {
-                      home.resetCount(index);
-                      onConversationTap(conversation);
-                    },
-                    child: ConversationTile(model: conversation),
-                  );
+                  return ConversationTile(model: conversation, onTap: () {
+                    home.resetCount(index);
+                    onConversationTap(conversation);
+                  },);
                 },
               ),
       )),

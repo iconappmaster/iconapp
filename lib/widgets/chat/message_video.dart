@@ -112,7 +112,7 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
                           height: 200,
                           width: 240,
                           child: NetworkPhoto(
-                              imageUrl: widget.message?.extraData ?? ''),
+                                imageUrl: widget.message?.extraData ?? ''),
                         ))
                     : ClipRRect(
                         borderRadius: BorderRadius.circular(4.2),
