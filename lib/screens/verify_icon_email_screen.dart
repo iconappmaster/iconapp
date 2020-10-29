@@ -49,7 +49,7 @@ class VerifyIconEmailScreen extends StatelessWidget {
                 onClick: () {
                   final isValid = verify.email.isValidAddress.call();
                   if (isValid) {
-                    ExtendedNavigator.of(context).pushVerifyInstagramScreen();
+                    ExtendedNavigator.of(context).pushVerifySendCodeScreen();
                   }
                 }),
           ),

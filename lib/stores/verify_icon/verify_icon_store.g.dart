@@ -22,6 +22,13 @@ mixin _$VerifyIconStore on _VerifyIconStoreBase, Store {
   bool get loading => (_$loadingComputed ??= Computed<bool>(() => super.loading,
           name: '_VerifyIconStoreBase.loading'))
       .value;
+  Computed<bool> _$codeSentComputed;
+
+  @override
+  bool get codeSent =>
+      (_$codeSentComputed ??= Computed<bool>(() => super.codeSent,
+              name: '_VerifyIconStoreBase.codeSent'))
+          .value;
 
   final _$_loadingAtom = Atom(name: '_VerifyIconStoreBase._loading');
 
@@ -35,6 +42,21 @@ mixin _$VerifyIconStore on _VerifyIconStoreBase, Store {
   set _loading(bool value) {
     _$_loadingAtom.reportWrite(value, super._loading, () {
       super._loading = value;
+    });
+  }
+
+  final _$_codeSentAtom = Atom(name: '_VerifyIconStoreBase._codeSent');
+
+  @override
+  bool get _codeSent {
+    _$_codeSentAtom.reportRead();
+    return super._codeSent;
+  }
+
+  @override
+  set _codeSent(bool value) {
+    _$_codeSentAtom.reportWrite(value, super._codeSent, () {
+      super._codeSent = value;
     });
   }
 
@@ -83,13 +105,27 @@ mixin _$VerifyIconStore on _VerifyIconStoreBase, Store {
     });
   }
 
-  final _$requestVerificationCodeAsyncAction =
-      AsyncAction('_VerifyIconStoreBase.requestVerificationCode');
+  final _$requestIconVerificationCodeAsyncAction =
+      AsyncAction('_VerifyIconStoreBase.requestIconVerificationCode');
 
   @override
-  Future<bool> requestVerificationCode() {
-    return _$requestVerificationCodeAsyncAction
-        .run(() => super.requestVerificationCode());
+  Future<bool> requestIconVerificationCode() {
+    return _$requestIconVerificationCodeAsyncAction
+        .run(() => super.requestIconVerificationCode());
+  }
+
+  final _$_VerifyIconStoreBaseActionController =
+      ActionController(name: '_VerifyIconStoreBase');
+
+  @override
+  void reset() {
+    final _$actionInfo = _$_VerifyIconStoreBaseActionController.startAction(
+        name: '_VerifyIconStoreBase.reset');
+    try {
+      return super.reset();
+    } finally {
+      _$_VerifyIconStoreBaseActionController.endAction(_$actionInfo);
+    }
   }
 
   @override
@@ -99,7 +135,8 @@ agreedRules: ${agreedRules},
 agreedTerms: ${agreedTerms},
 email: ${email},
 canNavigateToSendCode: ${canNavigateToSendCode},
-loading: ${loading}
+loading: ${loading},
+codeSent: ${codeSent}
     ''';
   }
 }

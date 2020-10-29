@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/theme.dart';
@@ -8,7 +9,7 @@ import 'package:iconapp/widgets/onboarding/onboarding_appbar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 const welcomeTitle =
-    'על מנת שנוכל לאשר את זהותך, שלח.י לנו את הקוד שקיבלת בהודעה באינסטוש.';
+    'על מנת שנוכל לאשר את זהותך, שלח/י לנו את הקוד שקיבלת בהודעה באינסטוש.';
 const buttonText = 'לאינסטוש של אייקון';
 const subTitle = 'אנחנו נזהה אותך ונעדכן בהקדם על אישורך כאייקון.';
 
@@ -36,6 +37,8 @@ class VerifyInstagramScreen extends StatelessWidget {
                   onClick: () async {
                     if (await canLaunch(iconInstagramUrl))
                       launch(iconInstagramUrl);
+
+                    ExtendedNavigator.of(context)..pop()..pop()..pop()..pop();
                   }),
             ),
           ),

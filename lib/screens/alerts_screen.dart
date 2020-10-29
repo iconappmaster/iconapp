@@ -87,7 +87,7 @@ class AlertTile extends StatelessWidget {
             ..pop();
         },
         child: SizedBox(
-          height: context.heightPlusStatusbarPerc(.1),
+          height: 70,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -130,7 +130,7 @@ class AlertAppbar extends StatelessWidget {
     final store = sl<AlertStore>();
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20),
-      height: context.heightPlusStatusbarPerc(.1),
+      height: context.heightPlusStatusbarPerc(.08),
       child: Padding(
         padding: const EdgeInsets.only(top: 25.0),
         child: Row(

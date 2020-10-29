@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/routes/router.gr.dart';
+import 'package:iconapp/stores/verify_icon/verify_icon_store.dart';
 import '../../core/dependencies/locator.dart';
 import '../../core/theme.dart';
 import '../../screens/onboarding_profile.dart';
@@ -78,16 +79,18 @@ class HomeDrawer extends StatelessWidget {
                       text: LocaleKeys.drawer_profile.tr(),
                       onTap: () => ExtendedNavigator.of(context)
                           .pushOnboardingProfile(mode: OnboardingMode.drawer)),
+                  if (!store.getUser.isIcon)
+                    DrawerItem(
+                      text: 'הזדהה כאייקון',
+                      onTap: () {
+                        sl<VerifyIconStore>().reset();
+                        ExtendedNavigator.of(context).pushVerifyWelcomeScreen();
+                      },
+                    ),
                   // if (store.getUser.isIcon)
                   //   DrawerItem(
-                  //     text: 'הזדהה כאייקון',
-                  //     onTap: () => ExtendedNavigator.of(context)
-                  //         .pushVerifyWelcomeScreen(),
-                  //   ),
-                  if (store.getUser.isIcon)
-                    DrawerItem(
-                        text: LocaleKeys.drawer_groupActivity.tr(),
-                        onTap: () {}),
+                  //       text: LocaleKeys.drawer_groupActivity.tr(),
+                  //       onTap: () {}),
                   DrawerItem(
                       text: 'הגדרות',
                       onTap: () => ExtendedNavigator.of(context)

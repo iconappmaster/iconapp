@@ -188,8 +188,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void openBottomSheet(BuildContext context) {
     showCupertinoModalBottomSheet(
+      
+      isDismissible: true,
       backgroundColor: Colors.transparent,
       expand: true,
+      
       context: context,
       builder: (context, scrollController) =>
           SearchSheetModal(scrollController: scrollController),

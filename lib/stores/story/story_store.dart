@@ -9,6 +9,7 @@ import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/story/story_list.dart';
 import 'package:mobx/mobx.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 import '../../core/extensions/int_ext.dart';
 
@@ -86,6 +87,7 @@ abstract class _StoryStoreBase with Store {
       try {
         final stories =
             await _repository.getConversationsStories(conversationId);
+
         setStories(stories);
       } on ServerError catch (e) {
         Crash.report(e.message);
@@ -146,7 +148,7 @@ abstract class _StoryStoreBase with Store {
   }
 
   @action
-  void clearStories()  {
+  void clearStories() {
     _stories.clear();
   }
 

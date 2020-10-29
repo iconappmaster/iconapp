@@ -9,7 +9,7 @@ part of 'rest_client.dart';
 class _RestClient implements RestClient {
   _RestClient(this._dio, {this.baseUrl}) {
     ArgumentError.checkNotNull(_dio, '_dio');
-    this.baseUrl ??= 'https://iconstaging.herokuapp.com/api/v1/';
+    this.baseUrl ??= 'https://iconproduction.herokuapp.com/api/v1/';
   }
 
   final Dio _dio;
@@ -103,6 +103,24 @@ class _RestClient implements RestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final Response _result = await _dio.request('user/turn_on_notifications',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = _result.data;
+    return value;
+  }
+
+  @override
+  requestIconVerificationCode() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response _result = await _dio.request(
+        'user/request_icon_verification_code',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -859,23 +877,6 @@ class _RestClient implements RestClient {
     final queryParameters = <String, dynamic>{r'userAlertId': userAlertId};
     final _data = <String, dynamic>{};
     final Response _result = await _dio.request('alerts/clear_specific_alert',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'POST',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    final value = _result.data;
-    return value;
-  }
-
-  @override
-  requestVerificationCode() async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    final Response _result = await _dio.request('verification/request_code',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',

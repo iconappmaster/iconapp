@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 
 abstract class VerifyIconRepository {
-  Future requestVerifyIconCode();
+  Future requestIconVerificationCode();
 }
 
 class VerifyIconRepositoryImpl implements VerifyIconRepository {
@@ -13,7 +13,7 @@ class VerifyIconRepositoryImpl implements VerifyIconRepository {
   });
 
   @override
-  Future requestVerifyIconCode() async {
-    return await rest.requestVerificationCode();
+  Future requestIconVerificationCode() async {
+    return await rest.requestIconVerificationCode();
   }
 }

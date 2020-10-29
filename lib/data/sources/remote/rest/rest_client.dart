@@ -14,7 +14,7 @@ part 'rest_client.g.dart';
 const String baseUrlProd = 'https://iconproduction.herokuapp.com/api/v1/';
 const String baseUrlStaging = 'https://iconstaging.herokuapp.com/api/v1/';
 
-@RestApi(baseUrl: baseUrlStaging)
+@RestApi(baseUrl: baseUrlProd)
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
@@ -35,7 +35,10 @@ abstract class RestClient {
   Future<UserModel> getUser();
 
   @POST('user/turn_on_notifications')
-  Future turnOnNotifications();
+  Future turnOnNotifications(); 
+  
+  @POST('user/request_icon_verification_code')
+  Future requestIconVerificationCode();
 
   @POST('user/turn_off_notifications')
   Future turnOffNotifications();
@@ -187,9 +190,6 @@ abstract class RestClient {
   @POST('alerts/clear_specific_alert')
   Future clearSpecificAlert(@Query('userAlertId') int userAlertId);
 
-  // Verification
-  @POST('verification/request_code')
-  Future requestVerificationCode();
 }
 
 Dio getDioClient() {

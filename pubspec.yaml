@@ -58,6 +58,7 @@ dependencies:
   video_player: ^0.10.12+4
   video_thumbnail: ^0.2.2
   tutorial_coach_mark: ^0.5.1
+  flutter_cache_manager: ^2.0.0
 
 
 dev_dependencies:
