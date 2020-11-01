@@ -34,22 +34,29 @@ class ConversationsList extends StatelessWidget {
                   padding: EdgeInsets.only(top: 80.0),
                   child: LottieLoader(),
                 ))
-            : ListView.builder(
-                controller: controller,
-                itemCount: home.conversations.length,
+            : AnimatedPadding(
+              curve: Curves.easeInBack,
+                duration: Duration(milliseconds: 350),
                 padding: EdgeInsets.only(
-                  bottom: context.heightPlusStatusbarPerc(.2),
-                  top: addPadding ? context.heightPlusStatusbarPerc(.1) : 0,
+                  top: addPadding ? context.heightPlusStatusbarPerc(.08) : 0,
                 ),
-                physics: const BouncingScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  final conversation = home.conversations[index];
-                  return ConversationTile(model: conversation, onTap: () {
-                    home.resetCount(index);
-                    onConversationTap(conversation);
-                  },);
-                },
+                child: ListView.builder(
+                  padding: EdgeInsets.only(bottom: 120),
+                  controller: controller,
+                  itemCount: home.conversations.length,
+                  physics: const BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    final conversation = home.conversations[index];
+                    return ConversationTile(
+                      model: conversation,
+                      onTap: () {
+                        home.resetCount(index);
+                        onConversationTap(conversation);
+                      },
+                    );
+                  },
+                ),
               ),
       )),
     );

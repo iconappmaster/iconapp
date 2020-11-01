@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
@@ -293,45 +295,50 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
 
   Future _showBottomSheet(BuildContext context) async {
     showModalBottomSheet(
-      backgroundColor: cornflower,
+      backgroundColor: Colors.transparent,
       context: context,
       builder: (BuildContext bc) {
-        return Container(
-          child: Wrap(
-            children: <Widget>[
-              ListTile(
-                  leading: SvgPicture.asset('assets/images/camera.svg',
-                      height: 40, width: 40, color: white),
-                  title: Text('מצלמה', style: settingsAppbarTitle),
-                  onTap: () async {
-                    _edit.addPhotoMedia(ImageSource.camera);
-                    await Navigator.pop(context);
-                    await _animateEnd();
-                  }),
-              ListTile(
-                  leading: SvgPicture.asset('assets/images/photo.svg',
-                      height: 40, width: 40, color: white),
-                  title: Text('גלריה', style: settingsAppbarTitle),
-                  onTap: () async {
-                    _edit.addPhotoMedia(ImageSource.gallery);
-                    await Navigator.pop(context);
-                    await _animateEnd();
-                  }),
-              ListTile(
-                leading: Icon(
-                  Icons.videocam,
-                  color: white,
-                  size: 40,
-                ),
-                title: Text(LocaleKeys.story_video.tr(),
-                    style: settingsAppbarTitle),
-                onTap: () async {
-                  _edit.addVideoMedia();
-                  await Navigator.pop(context);
-                  await _animateEnd();
-                },
+        return ClipRRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 6.0, sigmaY: 6.0),
+            child: Container(
+              child: Wrap(
+                children: <Widget>[
+                  ListTile(
+                      leading: SvgPicture.asset('assets/images/camera.svg',
+                          height: 40, width: 40, color: white),
+                      title: Text('מצלמה', style: settingsAppbarTitle),
+                      onTap: () async {
+                        _edit.addPhotoMedia(ImageSource.camera);
+                        await Navigator.pop(context);
+                        await _animateEnd();
+                      }),
+                  ListTile(
+                      leading: SvgPicture.asset('assets/images/photo.svg',
+                          height: 40, width: 40, color: white),
+                      title: Text('גלריה', style: settingsAppbarTitle),
+                      onTap: () async {
+                        _edit.addPhotoMedia(ImageSource.gallery);
+                        await Navigator.pop(context);
+                        await _animateEnd();
+                      }),
+                  ListTile(
+                    leading: Icon(
+                      Icons.videocam,
+                      color: white,
+                      size: 40,
+                    ),
+                    title: Text(LocaleKeys.story_video.tr(),
+                        style: settingsAppbarTitle),
+                    onTap: () async {
+                      _edit.addVideoMedia();
+                      await Navigator.pop(context);
+                      await _animateEnd();
+                    },
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         );
       },

@@ -2,19 +2,19 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:iconapp/core/compression.dart';
-import 'package:iconapp/data/models/photo_model.dart';
-import 'package:iconapp/data/models/story_model.dart';
-import 'package:iconapp/stores/story/story_store.dart';
-import 'package:iconapp/stores/user/user_store.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mobx/mobx.dart';
+import 'story_store.dart';
+import '../user/user_store.dart';
+import '../../core/compression.dart';
+import '../../data/models/photo_model.dart';
+import '../../data/models/story_model.dart';
 import '../../core/dependencies/locator.dart';
 import '../../core/firebase/crashlytics.dart';
 import '../../data/models/story_image.dart';
 import '../../data/repositories/story_repository.dart';
 import '../../domain/core/errors.dart';
 import '../media/media_store.dart';
-import 'package:mobx/mobx.dart';
 
 part 'story_edit_store.g.dart';
 

@@ -42,7 +42,7 @@ abstract class _VerifyIconStoreBase with Store {
   Future<bool> requestIconVerificationCode() async {
     try {
       _loading = true;
-      await _repository.requestIconVerificationCode();
+      await _repository.requestIconVerificationCode(email);
       _codeSent = true;
       return true;
     } on DioError catch (e) {

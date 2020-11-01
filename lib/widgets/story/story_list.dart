@@ -42,7 +42,6 @@ class _StoriesListState extends State<StoriesList> {
   @override
   Widget build(BuildContext context) {
     final store = sl<StoryStore>();
-
     return Observer(
       builder: (_) => AnimatedOpacity(
         opacity: widget.show ? 1 : 0,
@@ -51,11 +50,11 @@ class _StoriesListState extends State<StoriesList> {
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
             child: Opacity(
-              opacity: .9,
+              opacity: .8,
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 8),
                 margin: widget.margin,
-                height: 110,
+                height: context.heightPlusStatusbarPerc(.08),
                 width: context.widthPx,
                 child: ListView(
                   reverse: true,
@@ -105,8 +104,8 @@ class StoryAddButton extends StatelessWidget {
         BouncingGestureDetector(
           onPressed: onTap,
           child: Container(
-            height: 66,
-            width: 66,
+            height: 56,
+            width: 56,
             margin: EdgeInsets.symmetric(horizontal: 5),
             decoration: BoxDecoration(
                 shape: BoxShape.circle, color: Colors.transparent),
@@ -162,8 +161,8 @@ class StoryTile extends StatelessWidget {
           child: OuterCircle(
             gradient: story.isNew ? redPinkGradient : whiteGradient,
             child: Container(
-              height: 55,
-              width: 55,
+              height: 45,
+              width: 45,
               margin: EdgeInsets.symmetric(horizontal: 5),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,

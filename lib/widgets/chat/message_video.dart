@@ -109,36 +109,34 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(4.2),
                         child: SizedBox(
-                          height: 200,
-                          width: 240,
+                          height: 230,
+                          width: MediaQuery.of(context).size.width * .75,
                           child: NetworkPhoto(
-                                imageUrl: widget.message?.extraData ?? ''),
+                              imageUrl: widget.message?.extraData ?? ''),
                         ))
                     : ClipRRect(
                         borderRadius: BorderRadius.circular(4.2),
                         child: SizedBox(
-                            height: 200,
-                            width: 240,
-                            child: Image.file(
-                              File(widget.message?.extraData ?? ''),
-                              fit: BoxFit.cover,
-                            ))),
-                SvgPicture.asset(
-                  'assets/images/play_button.svg',
-                  height: 76,
-                  width: 76,
-                ),
+                          height: 240,
+                          width: 280,
+                          child: Image.file(
+                            File(widget.message?.extraData ?? ''),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                SvgPicture.asset('assets/images/play_button.svg',
+                    height: 76, width: 76),
                 Positioned(
-                  left: 5,
-                  bottom: 5,
-                  child: CustomText(
-                    widget.message.status == MessageStatus.pending
-                        ? ''
-                        : widget.message?.timestamp?.humanReadableTime() ?? '',
-                    style: chatMessageBody.copyWith(fontSize: 12),
-                    textAlign: TextAlign.start,
-                  ),
-                ),
+                    left: 5,
+                    bottom: 5,
+                    child: CustomText(
+                        widget.message.status == MessageStatus.pending
+                            ? ''
+                            : widget.message?.timestamp?.humanReadableTime() ??
+                                '',
+                        style: chatMessageBody.copyWith(fontSize: 12),
+                        textAlign: TextAlign.start)),
                 Positioned(
                   right: 5,
                   bottom: 5,

@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final user = sl<UserStore>();
 
     final channelName = "home-${user.getUser.id}";
-    
+
     await socket.subscribeHomeChannel(channelName);
 
     _home.watchConversation();
@@ -123,7 +123,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         ConversationsList(
                           controller: _controller,
                           onConversationTap: (conversation) async {
-                            
                             story.clearStories();
 
                             await ExtendedNavigator.of(context)
@@ -132,20 +131,15 @@ class _HomeScreenState extends State<HomeScreen> {
                             story
                               ..setStoryMode(StoryMode.home)
                               ..refreshStories();
-                          
                           },
                         ),
                       ],
                     ),
-                    Visibility(
-                      visible: story.isUserIcon || story.stories.isNotEmpty,
-                      child: Positioned(
-                        top: context.heightPlusStatusbarPerc(.08),
-                        child: StoriesList(
+                    Positioned(
+                      top: context.heightPlusStatusbarPerc(.08),
+                      child: StoriesList(
                           mode: story.mode,
-                          show: true,
-                        ),
-                      ),
+                          show: story.isUserIcon || story.stories.isNotEmpty),
                     ),
                     Align(
                       alignment: Alignment.bottomCenter,
@@ -188,11 +182,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void openBottomSheet(BuildContext context) {
     showCupertinoModalBottomSheet(
-      
       isDismissible: true,
       backgroundColor: Colors.transparent,
       expand: true,
-      
       context: context,
       builder: (context, scrollController) =>
           SearchSheetModal(scrollController: scrollController),

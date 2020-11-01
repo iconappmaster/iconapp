@@ -1,25 +1,20 @@
-import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:iconapp/data/models/story_image.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'story_model.g.dart';
+part 'story_model.freezed.dart';
 
-@JsonSerializable()
-class StoryModel {
-  final int id;
-  final bool isNew;
-  final UserModel user;
-  final List<StoryImageModel> storyImages;
-
-  StoryModel({
-    @required this.id,
-    @required this.isNew,
-    @required this.user,
-    @required this.storyImages,
-  });
-
+@freezed
+abstract class StoryModel with _$StoryModel {
+    const factory StoryModel({
+      int id,
+      bool isNew,
+      UserModel user,
+      List<StoryImageModel> storyImages,
+    }) = _StoryModel;
+  
   factory StoryModel.fromJson(Map<String, dynamic> json) =>
       _$StoryModelFromJson(json);
-  Map<String, dynamic> toJson() => _$StoryModelToJson(this);
 }

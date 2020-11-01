@@ -14,7 +14,7 @@ part 'rest_client.g.dart';
 const String baseUrlProd = 'https://iconproduction.herokuapp.com/api/v1/';
 const String baseUrlStaging = 'https://iconstaging.herokuapp.com/api/v1/';
 
-@RestApi(baseUrl: baseUrlProd)
+@RestApi(baseUrl: baseUrlStaging)
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
@@ -28,8 +28,7 @@ abstract class RestClient {
 
   // USERS
   @POST('user/update_push_token')
-  Future<UserModel> updatePushToken(
-      @Query('pushToken') String token, @Query('os') String operationSystem);
+  Future<UserModel> updatePushToken(@Query('pushToken') String token, @Query('os') String operationSystem);
 
   @GET('user')
   Future<UserModel> getUser();
@@ -38,7 +37,7 @@ abstract class RestClient {
   Future turnOnNotifications(); 
   
   @POST('user/request_icon_verification_code')
-  Future requestIconVerificationCode();
+  Future requestIconVerificationCode(@Query('email') String email);
 
   @POST('user/turn_off_notifications')
   Future turnOffNotifications();

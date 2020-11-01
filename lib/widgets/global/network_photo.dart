@@ -16,7 +16,7 @@ class NetworkPhoto extends StatelessWidget {
     this.height,
     this.width,
     this.placeHolderPadding = 20,
-    this.placeHolder = 'assets/images/user_icon.svg',
+    this.placeHolder,
     this.placeHolderSize = 20,
   }) : super(key: key);
 
@@ -56,7 +56,6 @@ class NetworkPhoto extends StatelessWidget {
                 placeHolderSize: placeHolderSize,
               );
             },
-            
             placeholder: placeHolder != null
                 ? (context, url) {
                     return PhotoPlaceHolder(

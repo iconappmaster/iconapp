@@ -116,8 +116,9 @@ class _PhotoMessageState extends State<PhotoMessage> {
                         children: [
                           widget.message.body.startsWith('http')
                               ? SizedBox(
-                                  height: 240,
-                                  width: 280,
+                                  height: 230,
+                                  width:
+                                      MediaQuery.of(context).size.width * .75,
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(4.2),
                                     child: CachedNetworkImage(
@@ -126,17 +127,18 @@ class _PhotoMessageState extends State<PhotoMessage> {
                                       progressIndicatorBuilder:
                                           (context, url, data) {
                                         return Center(
-                                            child: SizedBox(
-                                                height: 20,
-                                                width: 20,
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  strokeWidth: 1,
-                                                  value: data.progress,
-                                                  valueColor:
-                                                      AlwaysStoppedAnimation(
-                                                          cornflower),
-                                                )));
+                                          child: SizedBox(
+                                            height: 20,
+                                            width: 20,
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 1,
+                                              value: data.progress,
+                                              valueColor:
+                                                  AlwaysStoppedAnimation(
+                                                      cornflower),
+                                            ),
+                                          ),
+                                        );
                                       },
                                       imageUrl: widget.message.body,
                                       fadeOutDuration:

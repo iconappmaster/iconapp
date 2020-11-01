@@ -9,7 +9,7 @@ part of 'rest_client.dart';
 class _RestClient implements RestClient {
   _RestClient(this._dio, {this.baseUrl}) {
     ArgumentError.checkNotNull(_dio, '_dio');
-    this.baseUrl ??= 'https://iconproduction.herokuapp.com/api/v1/';
+    this.baseUrl ??= 'https://iconstaging.herokuapp.com/api/v1/';
   }
 
   final Dio _dio;
@@ -115,9 +115,10 @@ class _RestClient implements RestClient {
   }
 
   @override
-  requestIconVerificationCode() async {
+  requestIconVerificationCode(email) async {
+    ArgumentError.checkNotNull(email, 'email');
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'email': email};
     final _data = <String, dynamic>{};
     final Response _result = await _dio.request(
         'user/request_icon_verification_code',

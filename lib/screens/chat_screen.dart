@@ -164,7 +164,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                           if (!_chat.conversation.isSubscribed) {
                             context.showFlushbar(
                                 message:
-                                    'To show the comment you need to subscribe');
+                                    'כדי להציג תגובות, הצטרפ/י לקבוצה');
                           } else {
                             context.showFlushbar(
                                 message: LocaleKeys.comments_closed.tr());
