@@ -124,9 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           controller: _controller,
                           onConversationTap: (conversation) async {
                             story.clearStories();
-
-                            await ExtendedNavigator.of(context)
-                                .pushChatScreen(conversation: conversation);
+                            await ExtendedNavigator.of(context).pushChatScreen(conversation: conversation);
 
                             story
                               ..setStoryMode(StoryMode.home)

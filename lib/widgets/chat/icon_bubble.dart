@@ -112,6 +112,7 @@ class _IconBubbleState extends State<IconBubble> {
                                 widget: widget,
                                 width: MediaQuery.of(context).size.width * .7),
                           Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               if (!widget.hideAvatar &&
@@ -119,7 +120,7 @@ class _IconBubbleState extends State<IconBubble> {
                                       MessageType.text &&
                                   !widget.isMe)
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 5.0),
+                                  padding: const EdgeInsets.only(left: 5.0, top: 7.0),
                                   child: Container(
                                     width: 40,
                                     height: 40,
