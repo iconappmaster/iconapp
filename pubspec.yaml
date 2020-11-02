@@ -3,7 +3,7 @@ description: Icon application
 
 publish_to: 'none'
 
-version: 2.0.1+9
+version: 2.0.1+10
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -59,6 +59,7 @@ dependencies:
   video_thumbnail: ^0.2.2
   tutorial_coach_mark: ^0.5.1
   flutter_cache_manager: ^2.0.0
+  firebase_dynamic_links: ^0.5.1
 
 dev_dependencies:
   flutter_test:

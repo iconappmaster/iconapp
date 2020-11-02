@@ -20,11 +20,10 @@ class ConversationsList extends StatelessWidget {
     final home = sl<HomeStore>();
     final story = sl<StoryStore>();
 
-    final addPadding = story.isUserIcon || story.stories.isNotEmpty;
+    // final addPadding = story.isUserIcon || story.stories.isNotEmpty;
 
     return Observer(
-      builder: (_) => Expanded(
-          child: Container(
+      builder: (_) => Container(
         height: context.heightPx,
         width: context.widthPx,
         child: home.isLoading && home.conversations.length == 0
@@ -34,31 +33,24 @@ class ConversationsList extends StatelessWidget {
                   padding: EdgeInsets.only(top: 80.0),
                   child: LottieLoader(),
                 ))
-            : AnimatedPadding(
-              curve: Curves.easeInBack,
-                duration: Duration(milliseconds: 350),
-                padding: EdgeInsets.only(
-                  top: addPadding ? context.heightPlusStatusbarPerc(.08) : 0,
-                ),
-                child: ListView.builder(
-                  padding: EdgeInsets.only(bottom: 120),
-                  controller: controller,
-                  itemCount: home.conversations.length,
-                  physics: const BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    final conversation = home.conversations[index];
-                    return ConversationTile(
-                      model: conversation,
-                      onTap: () {
-                        home.resetCount(index);
-                        onConversationTap(conversation);
-                      },
-                    );
-                  },
-                ),
+            : ListView.builder(
+                padding: EdgeInsets.only(bottom: 120),
+                controller: controller,
+                itemCount: home.conversations.length,
+                physics: const BouncingScrollPhysics(),
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  final conversation = home.conversations[index];
+                  return ConversationTile(
+                    model: conversation,
+                    onTap: () {
+                      home.resetCount(index);
+                      onConversationTap(conversation);
+                    },
+                  );
+                },
               ),
-      )),
+      ),
     );
   }
 }

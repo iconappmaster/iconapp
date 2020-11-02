@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
@@ -50,8 +51,6 @@ abstract class _StoryEditStoreBase with Store {
   @observable
   bool _isPublishing = false;
 
-  
-
   @observable
   ObservableList<StoryImageModel> _storiesToPublish = ObservableList.of([]);
 
@@ -100,7 +99,43 @@ abstract class _StoryEditStoreBase with Store {
   }
 
   @action
-  Future addVideoMedia() async {
+  Future addCameraVideo() async {
+    try {
+      _isLoading = true;
+      final pickedFile =
+          await sl<ImagePicker>().getVideo(source: ImageSource.camera);
+      File file = File(pickedFile.path);
+
+      if (file != null) {
+        _compressing = true;
+        final compressed = await compressVideo(file);
+        _compressing = false;
+        await _uploadVideo(compressed.file);
+      }
+    } on DioError catch (e) {
+      Crash.report(e.message);
+    } finally {
+      _isLoading = false;
+    }
+  }
+
+  Future _uploadVideo(File file) async {
+    final url = await _mediaStore.uploadVideo(video: file);
+
+    if (url.isNotEmpty) {
+      final storyImg = StoryImageModel.video();
+
+      _storiesToPublish.add(
+        storyImg.copyWith(
+          id: DateTime.now().millisecondsSinceEpoch,
+          photo: PhotoModel(url: url),
+        ),
+      );
+    }
+  }
+
+  @action
+  Future addGalleryVideo() async {
     try {
       _isLoading = true;
 
@@ -111,6 +146,7 @@ abstract class _StoryEditStoreBase with Store {
         _compressing = true;
         final compressed = await compressVideo(file);
         _compressing = false;
+
         final url = await _mediaStore.uploadVideo(video: compressed.file);
 
         if (url.isNotEmpty) {
@@ -135,7 +171,7 @@ abstract class _StoryEditStoreBase with Store {
   Future<Either<ServerError, StoryModel>> addToStory() async {
     try {
       _isPublishing = true;
-      
+
       final story = StoryModel(
         id: DateTime.now().millisecondsSinceEpoch,
         isNew: true,

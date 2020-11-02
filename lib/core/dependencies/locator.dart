@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:iconapp/core/deep_link.dart';
 import 'package:iconapp/core/device/device_info.dart';
 import 'package:iconapp/core/keys.dart';
 import 'package:iconapp/core/notifications/fcm.dart';
@@ -153,4 +154,6 @@ void initLocator() {
       () => VerifyIconRepositoryImpl(rest: sl()));
 
   sl.registerLazySingleton<StoryCacheManager>(() => StoryCacheManager());
+  
+  sl.registerLazySingleton<DynamicLink>(() => DynamicLink());
 }

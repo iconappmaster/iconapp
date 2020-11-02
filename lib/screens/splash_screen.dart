@@ -26,26 +26,28 @@ class SplashScreen extends StatelessWidget {
           ),
         ),
         Positioned(
-            bottom: 100,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 25,
-                  width: 25,
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation(white),
-                    strokeWidth: 1,
-                  ),
+          bottom: 100,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 25,
+                width: 25,
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation(white),
+                  strokeWidth: 1,
                 ),
-                SizedBox(height: 16),
-                Material(
-                    color: Colors.transparent,
-                    child: CustomText(
-                      'מאתחל ...',
-                      style: chatMessageBody,
-                    ))
-              ],
-            ))
+              ),
+              SizedBox(height: 16),
+              Material(
+                color: Colors.transparent,
+                child: CustomText(
+                  'מאתחל ...',
+                  style: chatMessageBody,
+                ),
+              ),
+            ],
+          ),
+        )
       ],
     );
   }

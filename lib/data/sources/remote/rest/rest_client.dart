@@ -28,14 +28,15 @@ abstract class RestClient {
 
   // USERS
   @POST('user/update_push_token')
-  Future<UserModel> updatePushToken(@Query('pushToken') String token, @Query('os') String operationSystem);
+  Future<UserModel> updatePushToken(
+      @Query('pushToken') String token, @Query('os') String operationSystem);
 
   @GET('user')
   Future<UserModel> getUser();
 
   @POST('user/turn_on_notifications')
-  Future turnOnNotifications(); 
-  
+  Future turnOnNotifications();
+
   @POST('user/request_icon_verification_code')
   Future requestIconVerificationCode(@Query('email') String email);
 
@@ -188,7 +189,6 @@ abstract class RestClient {
 
   @POST('alerts/clear_specific_alert')
   Future clearSpecificAlert(@Query('userAlertId') int userAlertId);
-
 }
 
 Dio getDioClient() {

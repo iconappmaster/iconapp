@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:iconapp/core/deep_link.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
@@ -22,7 +23,7 @@ import 'package:iconapp/widgets/story/story_list.dart';
 import 'package:iconapp/widgets/home/welcome_dialog.dart';
 import 'package:iconapp/widgets/onboarding/onboarding_appbar.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import '../core/extensions/context_ext.dart';
+
 import 'alerts_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -37,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
   AlertStore _alerts;
   StoryStore _story;
   SharedPreferencesService _sp;
+  DynamicLink _dynamicLink;
 
   @override
   void initState() {
@@ -45,10 +47,10 @@ class _HomeScreenState extends State<HomeScreen> {
     _story = sl<StoryStore>();
     _alerts = sl<AlertStore>();
     _sp = sl<SharedPreferencesService>();
+    _dynamicLink = sl<DynamicLink>();
 
     _controller = ScrollController();
-    _home.getConversations(force: true);
-    _story.refreshStories();
+
     _initSocket();
 
     if (_sp.contains(StorageKey.fcmConversation)) {
@@ -67,7 +69,6 @@ class _HomeScreenState extends State<HomeScreen> {
     await socket.subscribeHomeChannel(channelName);
 
     _home.watchConversation();
-
     _story.watchStories();
 
     socket
@@ -77,8 +78,27 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void didChangeDependencies() {
-    _alerts.getAlerts();
+    _refreshData();
+    _handleDynamicLinks();
     super.didChangeDependencies();
+  }
+
+  void _refreshData() {
+    _alerts.getAlerts();
+    _story.refreshStories();
+    _home.getConversations(force: true);
+  }
+
+  Future _handleDynamicLinks() async {
+    _dynamicLink.handleDynamicLinks(
+      (id) async {
+        final home = sl<HomeStore>();
+        final conversation = await home.getCachedConversationById(id);
+        if (conversation != null)
+          ExtendedNavigator.of(context)
+              .pushChatScreen(conversation: conversation);
+      },
+    );
   }
 
   @override
@@ -120,25 +140,35 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
-                        ConversationsList(
-                          controller: _controller,
-                          onConversationTap: (conversation) async {
-                            story.clearStories();
-                            await ExtendedNavigator.of(context).pushChatScreen(conversation: conversation);
+                        StoriesList(
+                            mode: story.mode,
+                            show: story.isUserIcon || story.stories.isNotEmpty),
+                        Expanded(
+                          child: RefreshIndicator(
+                            color: white,
+                            strokeWidth: 2,
+                            backgroundColor: cornflower,
+                            onRefresh: () async => _refreshData(),
+                            child: ConversationsList(
+                              controller: _controller,
+                              onConversationTap: (conversation) async {
+                                story.clearStories();
+                                await ExtendedNavigator.of(context)
+                                    .pushChatScreen(conversation: conversation);
 
-                            story
-                              ..setStoryMode(StoryMode.home)
-                              ..refreshStories();
-                          },
+                                story
+                                  ..setStoryMode(StoryMode.home)
+                                  ..refreshStories();
+                              },
+                            ),
+                          ),
                         ),
                       ],
                     ),
-                    Positioned(
-                      top: context.heightPlusStatusbarPerc(.08),
-                      child: StoriesList(
-                          mode: story.mode,
-                          show: story.isUserIcon || story.stories.isNotEmpty),
-                    ),
+                    // Positioned(
+                    //   top: context.heightPlusStatusbarPerc(.08),
+                    //   child: ,
+                    // ),
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: GestureDetector(

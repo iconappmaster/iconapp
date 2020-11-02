@@ -323,15 +323,25 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                         await _animateEnd();
                       }),
                   ListTile(
+                      leading: Icon(Icons.videocam, color: white, size: 40),
+                      title: Text(
+                        'מצלמת וידאו',
+                        style: settingsAppbarTitle,
+                      ),
+                      onTap: () {
+                        _edit.addCameraVideo();
+                        ;
+                        Navigator.pop(context);
+                      }),
+                  ListTile(
                     leading: Icon(
-                      Icons.videocam,
+                      Icons.video_library,
                       color: white,
                       size: 40,
                     ),
-                    title: Text(LocaleKeys.story_video.tr(),
-                        style: settingsAppbarTitle),
+                    title: Text("גלריית וידאו", style: settingsAppbarTitle),
                     onTap: () async {
-                      _edit.addVideoMedia();
+                      _edit.addGalleryVideo();
                       await Navigator.pop(context);
                       await _animateEnd();
                     },

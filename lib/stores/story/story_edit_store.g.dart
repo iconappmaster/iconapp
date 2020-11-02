@@ -136,12 +136,20 @@ mixin _$StoryEditStore on _StoryEditStoreBase, Store {
     return _$addPhotoMediaAsyncAction.run(() => super.addPhotoMedia(source));
   }
 
-  final _$addVideoMediaAsyncAction =
-      AsyncAction('_StoryEditStoreBase.addVideoMedia');
+  final _$addCameraVideoAsyncAction =
+      AsyncAction('_StoryEditStoreBase.addCameraVideo');
 
   @override
-  Future<dynamic> addVideoMedia() {
-    return _$addVideoMediaAsyncAction.run(() => super.addVideoMedia());
+  Future<dynamic> addCameraVideo() {
+    return _$addCameraVideoAsyncAction.run(() => super.addCameraVideo());
+  }
+
+  final _$addGalleryVideoAsyncAction =
+      AsyncAction('_StoryEditStoreBase.addGalleryVideo');
+
+  @override
+  Future<dynamic> addGalleryVideo() {
+    return _$addGalleryVideoAsyncAction.run(() => super.addGalleryVideo());
   }
 
   final _$addToStoryAsyncAction = AsyncAction('_StoryEditStoreBase.addToStory');

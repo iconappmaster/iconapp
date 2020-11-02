@@ -88,11 +88,12 @@ class _VideoScreenState extends State<VideoScreen> {
               _controller.play();
             },
           ),
-        Positioned(
-          top: 32,
-          right: 16,
-          child: RoundedClose(),
-        ),
+        if (widget.showToolbar)
+          Positioned(
+            top: 32,
+            right: 16,
+            child: RoundedClose(),
+          ),
       ]),
     );
   }
