@@ -17,12 +17,12 @@ class ChatBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final chat = sl<ChatStore>();
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: () => Navigator.pop(context),
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => Navigator.pop(context),
+      child: Container(
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
           child: Row(
             children: <Widget>[
               SvgPicture.asset('assets/images/back_arrow.svg',

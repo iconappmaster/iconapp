@@ -5,7 +5,6 @@ import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
-import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/widgets/comments/comments_bottom_sheet.dart';
 import 'package:iconapp/widgets/comments/comments_fab.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -44,7 +43,6 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
 
   ChatStore _chat;
   StoryStore _story;
-  HomeStore _home;
   CommentsStore _comments;
   Socket _socket;
   SharedPreferencesService _sp;
@@ -95,7 +93,6 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     _chat = sl<ChatStore>();
     _story = sl<StoryStore>();
     _comments = sl<CommentsStore>();
-    _home = sl<HomeStore>();
     _socket = sl<Socket>();
     _sp = sl<SharedPreferencesService>();
   }
@@ -224,7 +221,6 @@ Future showCommentsDialog(BuildContext context) {
     ..setCommentsBadge(false);
 
   return showMaterialModalBottomSheet(
-    
     backgroundColor: Colors.transparent,
     duration: const Duration(milliseconds: 300),
     context: context,

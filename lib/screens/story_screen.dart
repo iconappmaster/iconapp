@@ -136,7 +136,7 @@ class _StoryScreenState extends State<StoryScreen> {
                 if (dx < 0) dx = -dx;
                 if (dy < 0) dy = -dy;
 
-                if (velocity < 0) {
+                if (velocity > 0) {
                   ExtendedNavigator.of(context).pop();
                 }
               },

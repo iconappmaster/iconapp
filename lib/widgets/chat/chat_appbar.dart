@@ -24,7 +24,7 @@ class ChatAppbar extends StatelessWidget {
       builder: (_) => Container(
         height: context.heightPlusStatusbarPerc(.1),
         child: Padding(
-          padding: const EdgeInsets.only(left: 15, top: 34.0, right: 21.3),
+          padding: const EdgeInsets.only(left: 15, top: 34.0, right: 8.3),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
