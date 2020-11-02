@@ -20,8 +20,6 @@ abstract class CommentsRepository {
   // will listen on the socket for new comments
   Stream<MessageModel> watchComments();
 
-  // comments count
-  Stream<int> watchCommentsCount();
 }
 
 class CommentsRepositoryImpl implements CommentsRepository {
@@ -47,11 +45,6 @@ class CommentsRepositoryImpl implements CommentsRepository {
   @override
   Stream<MessageModel> watchComments() {
     return socket.commentsSubject;
-  }
-
-  @override
-  Stream<int> watchCommentsCount() {
-    return socket.commentsCountSubject;
   }
 
   @override

@@ -19,97 +19,101 @@ class ConversationTile extends StatelessWidget {
 
   const ConversationTile({
     Key key,
-    @required this.model, @required this.onTap,
+    @required this.model,
+    @required this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:const EdgeInsets.symmetric(vertical: 5, horizontal: 9.3),
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 9.3),
       child: Material(
-          color: darkIndigo2,
-          child: InkWell(
+        color: darkIndigo2,
+        child: InkWell(
           onTap: onTap,
           child: Container(
             height: 81.7,
-           padding: EdgeInsets.only(top: 8.7, bottom: 8.7, right: 4.7, left: 15.7),
-          // margin: EdgeInsets.symmetric(vertical: 5, horizontal: 9.3),
-          width: context.widthPx,
-          decoration: BoxDecoration(
+            padding:
+                EdgeInsets.only(top: 8.7, bottom: 8.7, right: 4.7, left: 15.7),
+            // margin: EdgeInsets.symmetric(vertical: 5, horizontal: 9.3),
+            width: context.widthPx,
+            decoration: BoxDecoration(
               boxShadow: itemShadow,
               borderRadius: BorderRadius.circular(4.8),
-              
-          ),
-          child: Stack(children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(width: 8),
-                    WhiteCircle(
-              widget: NetworkPhoto(
-                  placeHolder: 'assets/images/group_placeholder.svg',
-                  placeHolderPadding: 20,
-                  imageUrl: model?.backgroundPhoto?.url ?? '',
-                  height: 56,
-                  width: 56)),
-                    SizedBox(width: 10.7),
-                    Expanded(
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(top: 6.0),
-                  child: CustomText(model.name,
-                      style: nameWhite,
-                      maxLines: 1,
-                      textAlign: TextAlign.start),
-                ),
-                SizedBox(height: 4),
-                model?.lastMessage != null
-                    ? HomeTileConversationMessage(
-                        model: model?.lastMessage)
-                    : CustomText(LocaleKeys.home_noMessages.tr(),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.start,
-                        style: lastWritten),
-              ],
-          ),
-                    ),
-                  ],
-                ),
-                if (model.lastMessage != null)
-                  Positioned(
-                    top: 3,
-                    left: 0,
-                    child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-              CustomText(
-                  time.format(
-                      DateTime.fromMillisecondsSinceEpoch(
-                          model.lastMessage.timestamp * 1000),
-                      locale: 'he'),
-                  // model.lastMessage?.timestamp?.humanReadableTime() ?? '',
-                  style: timeOfMessage),
-              SizedBox(height: 8.7),
+            ),
+            child: Stack(children: [
               Row(
-                children: [
-                  _MessageCounter(count: model.numberOfUnreadMessages),
-                  SizedBox(width: 7),
-                  if (model?.isPinned) _Pin(),
-                  if (model.areNotificationsDisabled)
-                    SvgPicture.asset('assets/images/mute.svg',
-                        height: _indicatorSize, width: _indicatorSize)
-                ],
-              )
-          ],
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(width: 8),
+                  WhiteCircle(
+                      widget: NetworkPhoto(
+                          placeHolder: 'assets/images/group_placeholder.svg',
+                          placeHolderPadding: 20,
+                          imageUrl: model?.backgroundPhoto?.url ?? '',
+                          height: 56,
+                          width: 56)),
+                  SizedBox(width: 10.7),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(top: 6.0),
+                          child: CustomText(model.name,
+                              style: nameWhite,
+                              maxLines: 1,
+                              textAlign: TextAlign.start),
+                        ),
+                        SizedBox(height: 4),
+                        model?.lastMessage != null
+                            ? HomeTileConversationMessage(
+                                model: model?.lastMessage)
+                            : CustomText(LocaleKeys.home_noMessages.tr(),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.start,
+                                style: lastWritten),
+                      ],
                     ),
                   ),
-              ]),
+                ],
+              ),
+              if (model.lastMessage != null)
+                Positioned(
+                  top: 3,
+                  left: 0,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      CustomText(
+                          time.format(
+                              DateTime.fromMillisecondsSinceEpoch(
+                                  model.lastMessage.timestamp * 1000),
+                              locale: 'he'),
+                          // model.lastMessage?.timestamp?.humanReadableTime() ?? '',
+                          style: timeOfMessage),
+                      SizedBox(height: 8.7),
+                      Row(
+                        children: [
+                          if (model?.shouldShowNewBadge ?? false) _NewBadge(),
+                          SizedBox(width: 7),
+                          if (model?.isPinned) _Pin(),
+                          if (model.areNotificationsDisabled)
+                            SvgPicture.asset(
+                              'assets/images/mute.svg',
+                              height: _indicatorSize,
+                              width: _indicatorSize,
+                            )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+            ]),
+          ),
         ),
-            ),
       ),
     );
   }
@@ -129,30 +133,18 @@ class _Pin extends StatelessWidget {
   }
 }
 
-class _MessageCounter extends StatelessWidget {
-  final int count;
-  const _MessageCounter({
-    Key key,
-    @required this.count,
-  }) : super(key: key);
-
+class _NewBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return count > 0
-        ? Container(
-            height: 20.7,
-            width: 20.7,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: LinearGradient(
-                colors: [
-                  lightishRed,
-                  pinkRed,
-                ],
-              ),
-            ),
-            child: Center(
-                child: CustomText(count.toString(), style: newMessageNumber)))
-        : Container();
+    return Container(
+        padding: EdgeInsets.only(left: 10, right: 10),
+        height: 20.7,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            gradient: LinearGradient(colors: [
+              lightishRed,
+              pinkRed,
+            ])),
+        child: Center(child: CustomText('חדש', style: newMessageNumber)));
   }
 }

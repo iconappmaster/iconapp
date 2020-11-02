@@ -90,10 +90,8 @@ mixin _$HomeStore on _HomeStoreBase, Store {
       AsyncAction('_HomeStoreBase.getConversations');
 
   @override
-  Future<Either<ServerError, List<Conversation>>> getConversations(
-      {bool force = false}) {
-    return _$getConversationsAsyncAction
-        .run(() => super.getConversations(force: force));
+  Future<Either<ServerError, List<Conversation>>> getConversations() {
+    return _$getConversationsAsyncAction.run(() => super.getConversations());
   }
 
   final _$saveWelcomeSeenAsyncAction =
@@ -183,11 +181,11 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   }
 
   @override
-  void resetCount(int index) {
+  void hideBadge(int index) {
     final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
-        name: '_HomeStoreBase.resetCount');
+        name: '_HomeStoreBase.hideBadge');
     try {
-      return super.resetCount(index);
+      return super.hideBadge(index);
     } finally {
       _$_HomeStoreBaseActionController.endAction(_$actionInfo);
     }

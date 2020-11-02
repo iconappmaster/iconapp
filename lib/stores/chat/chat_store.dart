@@ -470,6 +470,11 @@ abstract class _ChatStoreBase with Store {
     }
   }
 
+  @action
+  void hideCommentsBadge() {
+    _conversation = _conversation.copyWith(shouldShowNewBadge: false);
+  }
+
   // report on abuse from another user
   @action
   Future report(String text) async {

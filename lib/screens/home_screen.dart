@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/deep_link.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/core/lifecycle_observer.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
@@ -13,7 +14,6 @@ import 'package:iconapp/stores/alerts/alert_store.dart';
 import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/data/sources/socket/socket_manager.dart';
 import 'package:iconapp/stores/story/story_store.dart';
-import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/bottomsheet/bs_bar.dart';
 import 'package:iconapp/widgets/bottomsheet/bs_nested_modal.dart';
 import 'package:iconapp/widgets/global/focus_aware.dart';
@@ -39,6 +39,8 @@ class _HomeScreenState extends State<HomeScreen> {
   StoryStore _story;
   SharedPreferencesService _sp;
   DynamicLink _dynamicLink;
+  String homeChannelName = 'home';
+  Socket _socket;
 
   @override
   void initState() {
@@ -57,28 +59,33 @@ class _HomeScreenState extends State<HomeScreen> {
       _navigateToChatFromFCM();
     }
 
+    WidgetsBinding.instance.addObserver(
+      LifecycleEventHandler(
+        resumeCallBack: () async {
+          _refreshData();
+        },
+      ),
+    );
+
     super.initState();
   }
 
   Future _initSocket() async {
-    final socket = sl<Socket>();
-    final user = sl<UserStore>();
+    _socket = sl<Socket>();
 
-    final channelName = "home-${user.getUser.id}";
-
-    await socket.subscribeHomeChannel(channelName);
+    await _socket.subscribeHomeChannel(homeChannelName);
 
     _home.watchConversation();
     _story.watchStories();
 
-    socket
+    _socket
       ..bindHomeChangeEvent()
       ..bindStoryChangeEvent();
   }
 
   @override
   void didChangeDependencies() {
-    _refreshData();
+    // todo should this be here?
     _handleDynamicLinks();
     super.didChangeDependencies();
   }
@@ -86,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void _refreshData() {
     _alerts.getAlerts();
     _story.refreshStories();
-    _home.getConversations(force: true);
+    _home.getConversations();
   }
 
   Future _handleDynamicLinks() async {
@@ -141,10 +148,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         Visibility(
-                          visible:  story.isUserIcon || story.stories.isNotEmpty,
-                                                  child: StoriesList(
+                          visible: story.isUserIcon || story.stories.isNotEmpty,
+                          child: StoriesList(
                               mode: story.mode,
-                              show: story.isUserIcon || story.stories.isNotEmpty),
+                              show:
+                                  story.isUserIcon || story.stories.isNotEmpty),
                         ),
                         Expanded(
                           child: RefreshIndicator(
@@ -154,10 +162,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             onRefresh: () async => _refreshData(),
                             child: ConversationsList(
                               controller: _controller,
-                              onConversationTap: (conversation) async {
+                              onConversationTap: (conversation, index) async {
                                 story.clearStories();
                                 await ExtendedNavigator.of(context)
                                     .pushChatScreen(conversation: conversation);
+
+                                _home.hideBadge(index);
 
                                 story
                                   ..setStoryMode(StoryMode.home)
@@ -168,10 +178,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ],
                     ),
-                    // Positioned(
-                    //   top: context.heightPlusStatusbarPerc(.08),
-                    //   child: ,
-                    // ),
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: GestureDetector(
@@ -224,9 +230,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
+    _socket.unsubscribe(homeChannelName);
     _home?.dispose();
     _story?.dispose();
-
     super.dispose();
   }
 }

@@ -35,7 +35,8 @@ abstract class _CommentsStoreBase with Store {
   }
 
   void init() {
-    _commentsCount = _chat.conversation?.numberOfUnreadComments ?? 0;
+    _showNewCommentBadge =
+        _chat.conversation?.shouldShowNewCommentsBadge ?? false;
   }
 
   @observable
@@ -48,7 +49,7 @@ abstract class _CommentsStoreBase with Store {
   bool _isLoading = false;
 
   @observable
-  int _commentsCount = 0;
+  bool _showNewCommentBadge = false;
 
   @computed
   bool get loading => _isLoading;
@@ -60,7 +61,7 @@ abstract class _CommentsStoreBase with Store {
   bool get activatingComments => _activatingComments;
 
   @computed
-  int get commentsCount => _commentsCount;
+  bool get showNewCommentBadge => _showNewCommentBadge;
 
   @computed
   bool get isActivated => _chat.conversation?.areCommentsActivated ?? false;
@@ -87,14 +88,17 @@ abstract class _CommentsStoreBase with Store {
   }
 
   @action
-  void setCommentsCount(int count) {
-    _commentsCount = count;
+  void setCommentsBadge(bool shouldShowCommentsBadge) {
+    _showNewCommentBadge = shouldShowCommentsBadge;
   }
 
   @action
   Future setCommentsViewed() async {
     try {
       final conversationId = _chat.conversation.id;
+
+      _chat.hideCommentsBadge();
+
       await _repository.viewedComments(conversationId);
     } on ServerError catch (e) {
       Crash.report(e.message);
@@ -105,16 +109,15 @@ abstract class _CommentsStoreBase with Store {
   void watchMessages() {
     _subscription = _repository.watchComments().listen(
       (message) {
+        
+        final conversation = _chat.conversation.copyWith(
+          shouldShowNewCommentsBadge: true,
+        );
+        
+        _chat.setConversation(conversation);
         _comments.add(message);
       },
     );
-  }
-
-  @action
-  void watchCommentsCount() {
-    _countSubscription = _repository.watchCommentsCount().listen((count) {
-      _commentsCount = count;
-    });
   }
 
   @action

@@ -409,6 +409,17 @@ mixin _$ChatStore on _ChatStoreBase, Store {
   }
 
   @override
+  void hideCommentsBadge() {
+    final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
+        name: '_ChatStoreBase.hideCommentsBadge');
+    try {
+      return super.hideCommentsBadge();
+    } finally {
+      _$_ChatStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void watchMessages() {
     final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
         name: '_ChatStoreBase.watchMessages');

@@ -26,7 +26,6 @@ const removedLikeEvent = 'removed-like';
 const conversationChangedEvent = 'conversation-changed';
 const storyChangedEvent = 'story-changed';
 const commentsEvent = 'new-comment';
-const commentsCountEvent = 'comment-count';
 
 class Socket {
   BehaviorSubject<MessageModel> messageSubject = BehaviorSubject();
@@ -41,7 +40,6 @@ class Socket {
 
   Channel _conversationChannel;
   Channel _homeChannel;
-
 
   void init() async {
     try {
@@ -62,18 +60,17 @@ class Socket {
 
   // I subscribe with the conversaion id
   Future subscribeConversationChannel(String channelName) async {
-      _conversationChannel = await Pusher.subscribe(channelName);
+    _conversationChannel = await Pusher.subscribe(channelName);
   }
 
-   Future subscribeHomeChannel(String channelName) async {
-      _homeChannel = await Pusher.subscribe(channelName);
+  Future subscribeHomeChannel(String channelName) async {
+    _homeChannel = await Pusher.subscribe(channelName);
   }
 
-
-  Future unsubscribeConversationChannel(String channelName) async {
+  Future unsubscribe(String channelName) async {
     await Pusher.unsubscribe(channelName);
   }
-  
+
   // Story
   void bindStoryChangeEvent() {
     _homeChannel.bind(storyChangedEvent, (event) {
@@ -83,12 +80,15 @@ class Socket {
       if (story != null) storySubject.add(story);
     });
   }
+
   // Home
   void bindHomeChangeEvent() {
     _homeChannel.bind(conversationChangedEvent, (event) {
       final json = jsonDecode(event.data);
-      var conversation = Conversation.fromJson(json);
-      if (conversation != null) homeConversationSubject.add(conversation);
+      final conversation = Conversation.fromJson(json);
+      if (conversation != null) {
+        homeConversationSubject.add(conversation);
+      }
     });
   }
 
@@ -127,16 +127,6 @@ class Socket {
         commentsSubject.add(message);
       }
     });
-  }
-
-  void bindCommentsCountEvent() {
-    _conversationChannel.bind(
-      commentsCountEvent,
-      (count) {
-        final c = jsonDecode(count.data);
-        commentsCountSubject.add(c);
-      },
-    );
   }
 
   bool _isSystemMessage(MessageModel message) => message.sender == null;

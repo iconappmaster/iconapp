@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
-import 'package:iconapp/widgets/global/custom_text.dart';
 
 class CommentsAppBarIcon extends StatelessWidget {
   final Function onTap;
@@ -30,23 +29,22 @@ class CommentsAppBarIcon extends StatelessWidget {
             SvgPicture.asset('assets/images/white_bubble.svg',
                 height: 26, width: 26),
             Observer(
-                builder: (_) => Visibility(
-                      visible: comments.commentsCount > 0,
-                      child: Positioned(
-                          right: 0,
-                          top: 0,
-                          child: Container(
-                              height: 18,
-                              width: 18,
-                              decoration: BoxDecoration(
-                                gradient: redPinkGradient,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Center(
-                                  child: CustomText(
-                                      comments.commentsCount.toString(),
-                                      style: newMessageNumber)))),
-                    ))
+              builder: (_) => Visibility(
+                visible: comments.showNewCommentBadge,
+                child: Positioned(
+                  right: 0,
+                  top: 0,
+                  child: Container(
+                    height: 13,
+                    width: 13,
+                    decoration: BoxDecoration(
+                      gradient: redPinkGradient,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),

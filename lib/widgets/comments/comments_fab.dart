@@ -5,7 +5,6 @@ import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
 import 'package:iconapp/widgets/global/bouncing.dart';
-import 'package:iconapp/widgets/global/custom_text.dart';
 
 class CommentsFab extends StatelessWidget {
   final Function onTap;
@@ -41,29 +40,27 @@ class CommentsFab extends StatelessWidget {
         ),
         Observer(
           builder: (_) => Visibility(
-            visible: comments.commentsCount > 0,
-            child: Positioned(
-                top: 0,
-                right: 0,
-                child: Container(
-                  height: 25,
-                  width: 25,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: redPinkGradient,
-                  ),
-                  child: Center(
-                    child: CustomText(
-                        comments.commentsCount < 999
-                            ? comments.commentsCount.toString()
-                            : "1k+",
-                        maxLines: 1,
-                        style: newMessageNumber),
-                  ),
-                )),
+            visible: comments.showNewCommentBadge,
+            child: NewCommentsRedDot(),
           ),
-        )
+        ),
       ]),
+    );
+  }
+}
+
+class NewCommentsRedDot extends StatelessWidget {
+  const NewCommentsRedDot({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 20,
+      width: 20,
+      decoration:
+          BoxDecoration(shape: BoxShape.circle, gradient: redPinkGradient),
     );
   }
 }

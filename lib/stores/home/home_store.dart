@@ -69,20 +69,15 @@ abstract class _HomeStoreBase with Store {
   }
 
   @action
-  Future<Either<ServerError, List<Conversation>>> getConversations(
-      {bool force = false}) async {
+  Future<Either<ServerError, List<Conversation>>> getConversations() async {
     try {
       _loading = true;
-
-      // get the last timestamp it's the first time then return 0 as default
-      final timestamp = _sp.getInt(StorageKey.homeTimestamp) ?? 0;
-      _saveFetchTimestamp();
 
       // try to render the cached conversations if
       await getCachedAndRender();
 
       // backend will check if there are any changes since the last time waw fetched and return.
-      final remote = await _repository.getConversations(force ? 0 : timestamp);
+      final remote = await _repository.getConversations();
 
       // save and render only if there's an update.
       if (remote.isNotEmpty) {
@@ -98,11 +93,6 @@ abstract class _HomeStoreBase with Store {
     } finally {
       _loading = false;
     }
-  }
-
-  void _saveFetchTimestamp() {
-    final ts = DateTime.now().microsecondsSinceEpoch;
-    _sp.setInt(StorageKey.homeTimestamp, ts);
   }
 
   // will update the conversation with the pinned state and move it to the top
@@ -139,22 +129,24 @@ abstract class _HomeStoreBase with Store {
   @action
   void watchConversation() {
     _conversationChangedSubscription ??=
-        _repository.watchConversation().listen((socketConversation) {
-      
-      if (socketConversation == null) return;
-
+        _repository.watchConversation().listen((socketData) {
       // Find index of the conversation based on id
-      final index =
-          _conversations.indexWhere((c) => c.id == socketConversation.id);
+      final index = _conversations.indexWhere((c) => c.id == socketData.id);
 
       // if the conversation exists the replace the payload with the incoming
       // socket conversation, if the index not found then add a new conversation
       // in the list
       if (index != -1) {
-        _conversations[index] = socketConversation;
+        final updatedConversation = _conversations[index].copyWith(
+          messages: socketData.messages,
+          lastMessage: socketData.lastMessage,
+          shouldShowNewBadge: true,
+        );
+
+        _conversations[index] = updatedConversation;
         _reorderListWherePinnedAtTop(index, _conversations[index]);
       } else {
-        _conversations.add(socketConversation);
+        _conversations.add(socketData);
       }
     });
   }
@@ -178,15 +170,21 @@ abstract class _HomeStoreBase with Store {
   }
 
   @action
-  void resetCount(int index) {
-    _conversations[index] =
-        _conversations[index].copyWith(numberOfUnreadMessages: 0);
+  void hideBadge(int index) {
+    _conversations[index] = _conversations[index].copyWith(
+      shouldShowNewBadge: false,
+    );
   }
 
   @action
   Future<Conversation> getCachedConversationById(int id) async {
-    final cached = await _repository.getCachedHome();
-    return cached.firstWhere((c) => c.id == id);
+    try {
+      final cached = await _repository.getCachedHome();
+      return cached.firstWhere((c) => c.id == id);
+    } on Exception catch (e) {
+      Crash.report(e.toString());
+      return null;
+    }
   }
 
   void dispose() async {

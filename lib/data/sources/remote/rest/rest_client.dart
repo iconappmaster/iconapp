@@ -92,8 +92,7 @@ abstract class RestClient {
       @Path('conversationId') int conversationId, @Query('userId') int userId);
 
   @GET('conversations')
-  Future<List<Conversation>> getConversations(
-      @Query('lastRequestedAt') int lastRequestedAt);
+  Future<List<Conversation>> getConversations();
 
   @POST('conversations')
   Future<Conversation> createConversation(@Body() CreateGroupReq groupReq);

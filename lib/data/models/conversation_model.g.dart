@@ -26,7 +26,7 @@ _$_Conversation _$_$_ConversationFromJson(Map<String, dynamic> json) {
     lastMessage: json['lastMessage'] == null
         ? null
         : MessageModel.fromJson(json['lastMessage'] as Map<String, dynamic>),
-    numberOfUnreadMessages: json['numberOfUnreadMessages'] as int,
+    shouldShowNewBadge: json['shouldShowNewBadge'] as bool,
     users: (json['users'] as List)
         ?.map((e) =>
             e == null ? null : UserModel.fromJson(e as Map<String, dynamic>))
@@ -38,7 +38,7 @@ _$_Conversation _$_$_ConversationFromJson(Map<String, dynamic> json) {
     isSubscribed: json['isSubscribed'] as bool,
     numberOfAdminsRemaining: json['numberOfAdminsRemaining'] as int,
     numberOfParticipants: json['numberOfParticipants'] as int,
-    numberOfUnreadComments: json['numberOfUnreadComments'] as int,
+    shouldShowNewCommentsBadge: json['shouldShowNewCommentsBadge'] as bool,
     areNotificationsDisabled: json['areNotificationsDisabled'] as bool,
     areCommentsActivated: json['areCommentsActivated'] as bool,
     commentsMaxUserCount: json['commentsMaxUserCount'] as int,
@@ -58,13 +58,13 @@ Map<String, dynamic> _$_$_ConversationToJson(_$_Conversation instance) =>
       'name': instance.name,
       'photo': instance.photo,
       'lastMessage': instance.lastMessage,
-      'numberOfUnreadMessages': instance.numberOfUnreadMessages,
+      'shouldShowNewBadge': instance.shouldShowNewBadge,
       'users': instance.users,
       'messages': instance.messages,
       'isSubscribed': instance.isSubscribed,
       'numberOfAdminsRemaining': instance.numberOfAdminsRemaining,
       'numberOfParticipants': instance.numberOfParticipants,
-      'numberOfUnreadComments': instance.numberOfUnreadComments,
+      'shouldShowNewCommentsBadge': instance.shouldShowNewCommentsBadge,
       'areNotificationsDisabled': instance.areNotificationsDisabled,
       'areCommentsActivated': instance.areCommentsActivated,
       'commentsMaxUserCount': instance.commentsMaxUserCount,

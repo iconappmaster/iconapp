@@ -154,7 +154,7 @@ const loginSmallText =
     TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 12.7);
 
 const newMessageNumber =
-    TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 11.2);
+    TextStyle(fontFamily: _fontRubikMedium, color: white, fontSize: 11.2);
 
 const timeOfMessage =
     TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 14);

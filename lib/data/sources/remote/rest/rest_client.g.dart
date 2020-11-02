@@ -371,12 +371,9 @@ class _RestClient implements RestClient {
   }
 
   @override
-  getConversations(lastRequestedAt) async {
-    ArgumentError.checkNotNull(lastRequestedAt, 'lastRequestedAt');
+  getConversations() async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'lastRequestedAt': lastRequestedAt
-    };
+    final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final Response<List<dynamic>> _result = await _dio.request('conversations',
         queryParameters: queryParameters,

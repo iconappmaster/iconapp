@@ -22,13 +22,13 @@ mixin _$CommentsStore on _CommentsStoreBase, Store {
           Computed<bool>(() => super.activatingComments,
               name: '_CommentsStoreBase.activatingComments'))
       .value;
-  Computed<int> _$commentsCountComputed;
+  Computed<bool> _$showNewCommentBadgeComputed;
 
   @override
-  int get commentsCount =>
-      (_$commentsCountComputed ??= Computed<int>(() => super.commentsCount,
-              name: '_CommentsStoreBase.commentsCount'))
-          .value;
+  bool get showNewCommentBadge => (_$showNewCommentBadgeComputed ??=
+          Computed<bool>(() => super.showNewCommentBadge,
+              name: '_CommentsStoreBase.showNewCommentBadge'))
+      .value;
   Computed<bool> _$isActivatedComputed;
 
   @override
@@ -89,18 +89,20 @@ mixin _$CommentsStore on _CommentsStoreBase, Store {
     });
   }
 
-  final _$_commentsCountAtom = Atom(name: '_CommentsStoreBase._commentsCount');
+  final _$_showNewCommentBadgeAtom =
+      Atom(name: '_CommentsStoreBase._showNewCommentBadge');
 
   @override
-  int get _commentsCount {
-    _$_commentsCountAtom.reportRead();
-    return super._commentsCount;
+  bool get _showNewCommentBadge {
+    _$_showNewCommentBadgeAtom.reportRead();
+    return super._showNewCommentBadge;
   }
 
   @override
-  set _commentsCount(int value) {
-    _$_commentsCountAtom.reportWrite(value, super._commentsCount, () {
-      super._commentsCount = value;
+  set _showNewCommentBadge(bool value) {
+    _$_showNewCommentBadgeAtom.reportWrite(value, super._showNewCommentBadge,
+        () {
+      super._showNewCommentBadge = value;
     });
   }
 
@@ -169,11 +171,11 @@ mixin _$CommentsStore on _CommentsStoreBase, Store {
   }
 
   @override
-  void setCommentsCount(int count) {
+  void setCommentsBadge(bool shouldShowCommentsBadge) {
     final _$actionInfo = _$_CommentsStoreBaseActionController.startAction(
-        name: '_CommentsStoreBase.setCommentsCount');
+        name: '_CommentsStoreBase.setCommentsBadge');
     try {
-      return super.setCommentsCount(count);
+      return super.setCommentsBadge(shouldShowCommentsBadge);
     } finally {
       _$_CommentsStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -185,17 +187,6 @@ mixin _$CommentsStore on _CommentsStoreBase, Store {
         name: '_CommentsStoreBase.watchMessages');
     try {
       return super.watchMessages();
-    } finally {
-      _$_CommentsStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void watchCommentsCount() {
-    final _$actionInfo = _$_CommentsStoreBaseActionController.startAction(
-        name: '_CommentsStoreBase.watchCommentsCount');
-    try {
-      return super.watchCommentsCount();
     } finally {
       _$_CommentsStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -228,7 +219,7 @@ mixin _$CommentsStore on _CommentsStoreBase, Store {
     return '''
 loading: ${loading},
 activatingComments: ${activatingComments},
-commentsCount: ${commentsCount},
+showNewCommentBadge: ${showNewCommentBadge},
 isActivated: ${isActivated},
 comments: ${comments}
     ''';

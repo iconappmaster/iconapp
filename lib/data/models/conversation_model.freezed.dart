@@ -28,13 +28,13 @@ class _$ConversationTearOff {
       String name,
       PhotoModel photo,
       MessageModel lastMessage,
-      int numberOfUnreadMessages,
+      bool shouldShowNewBadge,
       List<UserModel> users,
       List<MessageModel> messages,
       bool isSubscribed,
       int numberOfAdminsRemaining,
       int numberOfParticipants,
-      int numberOfUnreadComments,
+      bool shouldShowNewCommentsBadge,
       bool areNotificationsDisabled,
       bool areCommentsActivated,
       int commentsMaxUserCount,
@@ -50,13 +50,13 @@ class _$ConversationTearOff {
       name: name,
       photo: photo,
       lastMessage: lastMessage,
-      numberOfUnreadMessages: numberOfUnreadMessages,
+      shouldShowNewBadge: shouldShowNewBadge,
       users: users,
       messages: messages,
       isSubscribed: isSubscribed,
       numberOfAdminsRemaining: numberOfAdminsRemaining,
       numberOfParticipants: numberOfParticipants,
-      numberOfUnreadComments: numberOfUnreadComments,
+      shouldShowNewCommentsBadge: shouldShowNewCommentsBadge,
       areNotificationsDisabled: areNotificationsDisabled,
       areCommentsActivated: areCommentsActivated,
       commentsMaxUserCount: commentsMaxUserCount,
@@ -86,13 +86,13 @@ mixin _$Conversation {
   String get name;
   PhotoModel get photo;
   MessageModel get lastMessage;
-  int get numberOfUnreadMessages;
+  bool get shouldShowNewBadge;
   List<UserModel> get users;
   List<MessageModel> get messages;
   bool get isSubscribed;
   int get numberOfAdminsRemaining;
   int get numberOfParticipants;
-  int get numberOfUnreadComments;
+  bool get shouldShowNewCommentsBadge;
   bool get areNotificationsDisabled;
   bool get areCommentsActivated;
   int get commentsMaxUserCount;
@@ -118,13 +118,13 @@ abstract class $ConversationCopyWith<$Res> {
       String name,
       PhotoModel photo,
       MessageModel lastMessage,
-      int numberOfUnreadMessages,
+      bool shouldShowNewBadge,
       List<UserModel> users,
       List<MessageModel> messages,
       bool isSubscribed,
       int numberOfAdminsRemaining,
       int numberOfParticipants,
-      int numberOfUnreadComments,
+      bool shouldShowNewCommentsBadge,
       bool areNotificationsDisabled,
       bool areCommentsActivated,
       int commentsMaxUserCount,
@@ -156,13 +156,13 @@ class _$ConversationCopyWithImpl<$Res> implements $ConversationCopyWith<$Res> {
     Object name = freezed,
     Object photo = freezed,
     Object lastMessage = freezed,
-    Object numberOfUnreadMessages = freezed,
+    Object shouldShowNewBadge = freezed,
     Object users = freezed,
     Object messages = freezed,
     Object isSubscribed = freezed,
     Object numberOfAdminsRemaining = freezed,
     Object numberOfParticipants = freezed,
-    Object numberOfUnreadComments = freezed,
+    Object shouldShowNewCommentsBadge = freezed,
     Object areNotificationsDisabled = freezed,
     Object areCommentsActivated = freezed,
     Object commentsMaxUserCount = freezed,
@@ -186,9 +186,9 @@ class _$ConversationCopyWithImpl<$Res> implements $ConversationCopyWith<$Res> {
       lastMessage: lastMessage == freezed
           ? _value.lastMessage
           : lastMessage as MessageModel,
-      numberOfUnreadMessages: numberOfUnreadMessages == freezed
-          ? _value.numberOfUnreadMessages
-          : numberOfUnreadMessages as int,
+      shouldShowNewBadge: shouldShowNewBadge == freezed
+          ? _value.shouldShowNewBadge
+          : shouldShowNewBadge as bool,
       users: users == freezed ? _value.users : users as List<UserModel>,
       messages: messages == freezed
           ? _value.messages
@@ -201,9 +201,9 @@ class _$ConversationCopyWithImpl<$Res> implements $ConversationCopyWith<$Res> {
       numberOfParticipants: numberOfParticipants == freezed
           ? _value.numberOfParticipants
           : numberOfParticipants as int,
-      numberOfUnreadComments: numberOfUnreadComments == freezed
-          ? _value.numberOfUnreadComments
-          : numberOfUnreadComments as int,
+      shouldShowNewCommentsBadge: shouldShowNewCommentsBadge == freezed
+          ? _value.shouldShowNewCommentsBadge
+          : shouldShowNewCommentsBadge as bool,
       areNotificationsDisabled: areNotificationsDisabled == freezed
           ? _value.areNotificationsDisabled
           : areNotificationsDisabled as bool,
@@ -276,13 +276,13 @@ abstract class _$ConversationCopyWith<$Res>
       String name,
       PhotoModel photo,
       MessageModel lastMessage,
-      int numberOfUnreadMessages,
+      bool shouldShowNewBadge,
       List<UserModel> users,
       List<MessageModel> messages,
       bool isSubscribed,
       int numberOfAdminsRemaining,
       int numberOfParticipants,
-      int numberOfUnreadComments,
+      bool shouldShowNewCommentsBadge,
       bool areNotificationsDisabled,
       bool areCommentsActivated,
       int commentsMaxUserCount,
@@ -320,13 +320,13 @@ class __$ConversationCopyWithImpl<$Res> extends _$ConversationCopyWithImpl<$Res>
     Object name = freezed,
     Object photo = freezed,
     Object lastMessage = freezed,
-    Object numberOfUnreadMessages = freezed,
+    Object shouldShowNewBadge = freezed,
     Object users = freezed,
     Object messages = freezed,
     Object isSubscribed = freezed,
     Object numberOfAdminsRemaining = freezed,
     Object numberOfParticipants = freezed,
-    Object numberOfUnreadComments = freezed,
+    Object shouldShowNewCommentsBadge = freezed,
     Object areNotificationsDisabled = freezed,
     Object areCommentsActivated = freezed,
     Object commentsMaxUserCount = freezed,
@@ -350,9 +350,9 @@ class __$ConversationCopyWithImpl<$Res> extends _$ConversationCopyWithImpl<$Res>
       lastMessage: lastMessage == freezed
           ? _value.lastMessage
           : lastMessage as MessageModel,
-      numberOfUnreadMessages: numberOfUnreadMessages == freezed
-          ? _value.numberOfUnreadMessages
-          : numberOfUnreadMessages as int,
+      shouldShowNewBadge: shouldShowNewBadge == freezed
+          ? _value.shouldShowNewBadge
+          : shouldShowNewBadge as bool,
       users: users == freezed ? _value.users : users as List<UserModel>,
       messages: messages == freezed
           ? _value.messages
@@ -365,9 +365,9 @@ class __$ConversationCopyWithImpl<$Res> extends _$ConversationCopyWithImpl<$Res>
       numberOfParticipants: numberOfParticipants == freezed
           ? _value.numberOfParticipants
           : numberOfParticipants as int,
-      numberOfUnreadComments: numberOfUnreadComments == freezed
-          ? _value.numberOfUnreadComments
-          : numberOfUnreadComments as int,
+      shouldShowNewCommentsBadge: shouldShowNewCommentsBadge == freezed
+          ? _value.shouldShowNewCommentsBadge
+          : shouldShowNewCommentsBadge as bool,
       areNotificationsDisabled: areNotificationsDisabled == freezed
           ? _value.areNotificationsDisabled
           : areNotificationsDisabled as bool,
@@ -397,13 +397,13 @@ class _$_Conversation implements _Conversation {
       this.name,
       this.photo,
       this.lastMessage,
-      this.numberOfUnreadMessages,
+      this.shouldShowNewBadge,
       this.users,
       this.messages,
       this.isSubscribed,
       this.numberOfAdminsRemaining,
       this.numberOfParticipants,
-      this.numberOfUnreadComments,
+      this.shouldShowNewCommentsBadge,
       this.areNotificationsDisabled,
       this.areCommentsActivated,
       this.commentsMaxUserCount,
@@ -433,7 +433,7 @@ class _$_Conversation implements _Conversation {
   @override
   final MessageModel lastMessage;
   @override
-  final int numberOfUnreadMessages;
+  final bool shouldShowNewBadge;
   @override
   final List<UserModel> users;
   @override
@@ -445,7 +445,7 @@ class _$_Conversation implements _Conversation {
   @override
   final int numberOfParticipants;
   @override
-  final int numberOfUnreadComments;
+  final bool shouldShowNewCommentsBadge;
   @override
   final bool areNotificationsDisabled;
   @override
@@ -457,7 +457,7 @@ class _$_Conversation implements _Conversation {
 
   @override
   String toString() {
-    return 'Conversation(id: $id, backgroundColor: $backgroundColor, backgroundPhoto: $backgroundPhoto, categoryId: $categoryId, createdBy: $createdBy, isPinned: $isPinned, createdAt: $createdAt, name: $name, photo: $photo, lastMessage: $lastMessage, numberOfUnreadMessages: $numberOfUnreadMessages, users: $users, messages: $messages, isSubscribed: $isSubscribed, numberOfAdminsRemaining: $numberOfAdminsRemaining, numberOfParticipants: $numberOfParticipants, numberOfUnreadComments: $numberOfUnreadComments, areNotificationsDisabled: $areNotificationsDisabled, areCommentsActivated: $areCommentsActivated, commentsMaxUserCount: $commentsMaxUserCount, userRole: $userRole)';
+    return 'Conversation(id: $id, backgroundColor: $backgroundColor, backgroundPhoto: $backgroundPhoto, categoryId: $categoryId, createdBy: $createdBy, isPinned: $isPinned, createdAt: $createdAt, name: $name, photo: $photo, lastMessage: $lastMessage, shouldShowNewBadge: $shouldShowNewBadge, users: $users, messages: $messages, isSubscribed: $isSubscribed, numberOfAdminsRemaining: $numberOfAdminsRemaining, numberOfParticipants: $numberOfParticipants, shouldShowNewCommentsBadge: $shouldShowNewCommentsBadge, areNotificationsDisabled: $areNotificationsDisabled, areCommentsActivated: $areCommentsActivated, commentsMaxUserCount: $commentsMaxUserCount, userRole: $userRole)';
   }
 
   @override
@@ -491,9 +491,9 @@ class _$_Conversation implements _Conversation {
             (identical(other.lastMessage, lastMessage) ||
                 const DeepCollectionEquality()
                     .equals(other.lastMessage, lastMessage)) &&
-            (identical(other.numberOfUnreadMessages, numberOfUnreadMessages) ||
-                const DeepCollectionEquality().equals(
-                    other.numberOfUnreadMessages, numberOfUnreadMessages)) &&
+            (identical(other.shouldShowNewBadge, shouldShowNewBadge) ||
+                const DeepCollectionEquality()
+                    .equals(other.shouldShowNewBadge, shouldShowNewBadge)) &&
             (identical(other.users, users) ||
                 const DeepCollectionEquality().equals(other.users, users)) &&
             (identical(other.messages, messages) ||
@@ -508,9 +508,10 @@ class _$_Conversation implements _Conversation {
             (identical(other.numberOfParticipants, numberOfParticipants) ||
                 const DeepCollectionEquality().equals(
                     other.numberOfParticipants, numberOfParticipants)) &&
-            (identical(other.numberOfUnreadComments, numberOfUnreadComments) ||
+            (identical(other.shouldShowNewCommentsBadge, shouldShowNewCommentsBadge) ||
                 const DeepCollectionEquality().equals(
-                    other.numberOfUnreadComments, numberOfUnreadComments)) &&
+                    other.shouldShowNewCommentsBadge,
+                    shouldShowNewCommentsBadge)) &&
             (identical(other.areNotificationsDisabled, areNotificationsDisabled) ||
                 const DeepCollectionEquality().equals(
                     other.areNotificationsDisabled,
@@ -519,8 +520,7 @@ class _$_Conversation implements _Conversation {
                 const DeepCollectionEquality().equals(
                     other.areCommentsActivated, areCommentsActivated)) &&
             (identical(other.commentsMaxUserCount, commentsMaxUserCount) ||
-                const DeepCollectionEquality().equals(
-                    other.commentsMaxUserCount, commentsMaxUserCount)) &&
+                const DeepCollectionEquality().equals(other.commentsMaxUserCount, commentsMaxUserCount)) &&
             (identical(other.userRole, userRole) || const DeepCollectionEquality().equals(other.userRole, userRole)));
   }
 
@@ -537,13 +537,13 @@ class _$_Conversation implements _Conversation {
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(photo) ^
       const DeepCollectionEquality().hash(lastMessage) ^
-      const DeepCollectionEquality().hash(numberOfUnreadMessages) ^
+      const DeepCollectionEquality().hash(shouldShowNewBadge) ^
       const DeepCollectionEquality().hash(users) ^
       const DeepCollectionEquality().hash(messages) ^
       const DeepCollectionEquality().hash(isSubscribed) ^
       const DeepCollectionEquality().hash(numberOfAdminsRemaining) ^
       const DeepCollectionEquality().hash(numberOfParticipants) ^
-      const DeepCollectionEquality().hash(numberOfUnreadComments) ^
+      const DeepCollectionEquality().hash(shouldShowNewCommentsBadge) ^
       const DeepCollectionEquality().hash(areNotificationsDisabled) ^
       const DeepCollectionEquality().hash(areCommentsActivated) ^
       const DeepCollectionEquality().hash(commentsMaxUserCount) ^
@@ -571,13 +571,13 @@ abstract class _Conversation implements Conversation {
       String name,
       PhotoModel photo,
       MessageModel lastMessage,
-      int numberOfUnreadMessages,
+      bool shouldShowNewBadge,
       List<UserModel> users,
       List<MessageModel> messages,
       bool isSubscribed,
       int numberOfAdminsRemaining,
       int numberOfParticipants,
-      int numberOfUnreadComments,
+      bool shouldShowNewCommentsBadge,
       bool areNotificationsDisabled,
       bool areCommentsActivated,
       int commentsMaxUserCount,
@@ -607,7 +607,7 @@ abstract class _Conversation implements Conversation {
   @override
   MessageModel get lastMessage;
   @override
-  int get numberOfUnreadMessages;
+  bool get shouldShowNewBadge;
   @override
   List<UserModel> get users;
   @override
@@ -619,7 +619,7 @@ abstract class _Conversation implements Conversation {
   @override
   int get numberOfParticipants;
   @override
-  int get numberOfUnreadComments;
+  bool get shouldShowNewCommentsBadge;
   @override
   bool get areNotificationsDisabled;
   @override

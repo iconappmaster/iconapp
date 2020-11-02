@@ -8,7 +8,7 @@ import '../global/lottie_loader.dart';
 import '../../core/extensions/context_ext.dart';
 
 class ConversationsList extends StatelessWidget {
-  final Function(Conversation) onConversationTap;
+  final Function(Conversation, int) onConversationTap;
   final ScrollController controller;
 
   const ConversationsList(
@@ -40,8 +40,8 @@ class ConversationsList extends StatelessWidget {
                   return ConversationTile(
                     model: conversation,
                     onTap: () {
-                      home.resetCount(index);
-                      onConversationTap(conversation);
+                      home.hideBadge(index);
+                      onConversationTap(conversation, index);
                     },
                   );
                 },
