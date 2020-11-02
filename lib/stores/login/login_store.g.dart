@@ -145,17 +145,6 @@ mixin _$LoginStore on _LoginStoreBase, Store {
   }
 
   @override
-  void updatePhonePrefix(String prefix) {
-    final _$actionInfo = _$_LoginStoreBaseActionController.startAction(
-        name: '_LoginStoreBase.updatePhonePrefix');
-    try {
-      return super.updatePhonePrefix(prefix);
-    } finally {
-      _$_LoginStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void updateCode(String code) {
     final _$actionInfo = _$_LoginStoreBaseActionController.startAction(
         name: '_LoginStoreBase.updateCode');

@@ -18,7 +18,7 @@ class StoryCacheManager {
       story.storyImages.forEach((image) async {
         final fileInfo = await cache.getSingleFile(image.photo.url);
         final cachedImage =
-            image.photo.copyWith(url: fileInfo.path, thumbnail: fileInfo.path);
+            image.photo.copyWith(url: fileInfo.path);
 
         _photos.add(cachedImage);
         _cachedImages[story.id] = _photos;

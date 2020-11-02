@@ -15,8 +15,7 @@ class _$LoginStateTearOff {
 
 // ignore: unused_element
   _LoginState call(
-      {@required String prefix,
-      @required String phone,
+      {@required String phone,
       @required String code,
       @required String countryCode,
       @required bool loading,
@@ -24,7 +23,6 @@ class _$LoginStateTearOff {
       @required PhoneOnboardingState phonePageState,
       @required UserModel userModel}) {
     return _LoginState(
-      prefix: prefix,
       phone: phone,
       code: code,
       countryCode: countryCode,
@@ -42,7 +40,7 @@ const $LoginState = _$LoginStateTearOff();
 
 /// @nodoc
 mixin _$LoginState {
-  String get prefix;
+// @required String prefix,
   String get phone;
   String get code;
   String get countryCode;
@@ -60,8 +58,7 @@ abstract class $LoginStateCopyWith<$Res> {
           LoginState value, $Res Function(LoginState) then) =
       _$LoginStateCopyWithImpl<$Res>;
   $Res call(
-      {String prefix,
-      String phone,
+      {String phone,
       String code,
       String countryCode,
       bool loading,
@@ -82,7 +79,6 @@ class _$LoginStateCopyWithImpl<$Res> implements $LoginStateCopyWith<$Res> {
 
   @override
   $Res call({
-    Object prefix = freezed,
     Object phone = freezed,
     Object code = freezed,
     Object countryCode = freezed,
@@ -92,7 +88,6 @@ class _$LoginStateCopyWithImpl<$Res> implements $LoginStateCopyWith<$Res> {
     Object userModel = freezed,
   }) {
     return _then(_value.copyWith(
-      prefix: prefix == freezed ? _value.prefix : prefix as String,
       phone: phone == freezed ? _value.phone : phone as String,
       code: code == freezed ? _value.code : code as String,
       countryCode:
@@ -127,8 +122,7 @@ abstract class _$LoginStateCopyWith<$Res> implements $LoginStateCopyWith<$Res> {
       __$LoginStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String prefix,
-      String phone,
+      {String phone,
       String code,
       String countryCode,
       bool loading,
@@ -152,7 +146,6 @@ class __$LoginStateCopyWithImpl<$Res> extends _$LoginStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object prefix = freezed,
     Object phone = freezed,
     Object code = freezed,
     Object countryCode = freezed,
@@ -162,7 +155,6 @@ class __$LoginStateCopyWithImpl<$Res> extends _$LoginStateCopyWithImpl<$Res>
     Object userModel = freezed,
   }) {
     return _then(_LoginState(
-      prefix: prefix == freezed ? _value.prefix : prefix as String,
       phone: phone == freezed ? _value.phone : phone as String,
       code: code == freezed ? _value.code : code as String,
       countryCode:
@@ -183,16 +175,14 @@ class __$LoginStateCopyWithImpl<$Res> extends _$LoginStateCopyWithImpl<$Res>
 /// @nodoc
 class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
   const _$_LoginState(
-      {@required this.prefix,
-      @required this.phone,
+      {@required this.phone,
       @required this.code,
       @required this.countryCode,
       @required this.loading,
       @required this.errorMessage,
       @required this.phonePageState,
       @required this.userModel})
-      : assert(prefix != null),
-        assert(phone != null),
+      : assert(phone != null),
         assert(code != null),
         assert(countryCode != null),
         assert(loading != null),
@@ -200,9 +190,7 @@ class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
         assert(phonePageState != null),
         assert(userModel != null);
 
-  @override
-  final String prefix;
-  @override
+  @override // @required String prefix,
   final String phone;
   @override
   final String code;
@@ -219,7 +207,7 @@ class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'LoginState(prefix: $prefix, phone: $phone, code: $code, countryCode: $countryCode, loading: $loading, errorMessage: $errorMessage, phonePageState: $phonePageState, userModel: $userModel)';
+    return 'LoginState(phone: $phone, code: $code, countryCode: $countryCode, loading: $loading, errorMessage: $errorMessage, phonePageState: $phonePageState, userModel: $userModel)';
   }
 
   @override
@@ -227,7 +215,6 @@ class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'LoginState'))
-      ..add(DiagnosticsProperty('prefix', prefix))
       ..add(DiagnosticsProperty('phone', phone))
       ..add(DiagnosticsProperty('code', code))
       ..add(DiagnosticsProperty('countryCode', countryCode))
@@ -241,8 +228,6 @@ class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _LoginState &&
-            (identical(other.prefix, prefix) ||
-                const DeepCollectionEquality().equals(other.prefix, prefix)) &&
             (identical(other.phone, phone) ||
                 const DeepCollectionEquality().equals(other.phone, phone)) &&
             (identical(other.code, code) ||
@@ -267,7 +252,6 @@ class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(prefix) ^
       const DeepCollectionEquality().hash(phone) ^
       const DeepCollectionEquality().hash(code) ^
       const DeepCollectionEquality().hash(countryCode) ^
@@ -283,8 +267,7 @@ class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
 
 abstract class _LoginState implements LoginState {
   const factory _LoginState(
-      {@required String prefix,
-      @required String phone,
+      {@required String phone,
       @required String code,
       @required String countryCode,
       @required bool loading,
@@ -292,9 +275,7 @@ abstract class _LoginState implements LoginState {
       @required PhoneOnboardingState phonePageState,
       @required UserModel userModel}) = _$_LoginState;
 
-  @override
-  String get prefix;
-  @override
+  @override // @required String prefix,
   String get phone;
   @override
   String get code;

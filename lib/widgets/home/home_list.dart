@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:iconapp/stores/story/story_store.dart';
 import 'package:iconapp/widgets/home/conversation_tile.dart';
 import '../../core/dependencies/locator.dart';
 import '../../data/models/conversation_model.dart';
@@ -18,9 +17,6 @@ class ConversationsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final home = sl<HomeStore>();
-    final story = sl<StoryStore>();
-
-    // final addPadding = story.isUserIcon || story.stories.isNotEmpty;
 
     return Observer(
       builder: (_) => Container(

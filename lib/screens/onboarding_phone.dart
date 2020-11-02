@@ -332,8 +332,6 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
           children: <Widget>[
             _buildPhone(context, inputDecor, widget.store),
             SizedBox(width: context.widthPx * .04),
-            _buildPrefix(context, inputDecor, widget.store),
-            SizedBox(width: context.widthPx * .04),
             _countryCode(context, inputDecor, widget.store),
           ],
         ));
@@ -342,10 +340,10 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
   Widget _buildPhone(
       BuildContext context, InputDecoration inputDecor, LoginStore store) {
     return Container(
-      width: context.widthPx * .29,
+      width: context.widthPx * .39,
       child: TextField(
         focusNode: phoneFocus,
-        maxLength: 7,
+        maxLength: 12,
         textAlign: TextAlign.center,
         decoration: inputDecor,
         style: phoneNumber.copyWith(
@@ -356,34 +354,34 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
     );
   }
 
-  Widget _buildPrefix(
-    BuildContext context,
-    InputDecoration inputDecor,
-    LoginStore store,
-  ) {
-    return Container(
-      width: context.widthPx * .155,
-      child: TextField(
-        focusNode: prefixFocus,
-        autofocus: true,
-        keyboardType: TextInputType.phone,
-        textAlign: TextAlign.center,
-        controller: prefixController,
-        maxLength: 3,
-        maxLengthEnforced: true,
-        decoration: inputDecor,
-        style: phoneNumber.copyWith(
-            color: store.isPhoneMode ? white : white.withOpacity(.4)),
-        onChanged: (prefix) {
-          store.updatePhonePrefix(prefix);
-          if (prefix.length == 3) {
-            prefixFocus.unfocus();
-            FocusScope.of(context).requestFocus(phoneFocus);
-          }
-        },
-      ),
-    );
-  }
+  // Widget _buildPrefix(
+  //   BuildContext context,
+  //   InputDecoration inputDecor,
+  //   LoginStore store,
+  // ) {
+  //   return Container(
+  //     width: context.widthPx * .155,
+  //     child: TextField(
+  //       focusNode: prefixFocus,
+  //       autofocus: true,
+  //       keyboardType: TextInputType.phone,
+  //       textAlign: TextAlign.center,
+  //       controller: prefixController,
+  //       maxLength: 3,
+  //       maxLengthEnforced: true,
+  //       decoration: inputDecor,
+  //       style: phoneNumber.copyWith(
+  //           color: store.isPhoneMode ? white : white.withOpacity(.4)),
+  //       onChanged: (prefix) {
+  //         store.updatePhonePrefix(prefix);
+  //         if (prefix.length == 3) {
+  //           prefixFocus.unfocus();
+  //           FocusScope.of(context).requestFocus(phoneFocus);
+  //         }
+  //       },
+  //     ),
+  //   );
+  // }
 
   Widget _countryCode(
       BuildContext context, InputDecoration inputDecor, LoginStore store) {

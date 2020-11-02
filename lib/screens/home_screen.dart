@@ -140,9 +140,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
-                        StoriesList(
-                            mode: story.mode,
-                            show: story.isUserIcon || story.stories.isNotEmpty),
+                        Visibility(
+                          visible:  story.isUserIcon || story.stories.isNotEmpty,
+                                                  child: StoriesList(
+                              mode: story.mode,
+                              show: story.isUserIcon || story.stories.isNotEmpty),
+                        ),
                         Expanded(
                           child: RefreshIndicator(
                             color: white,

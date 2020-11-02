@@ -50,7 +50,7 @@ abstract class _LoginStoreBase with Store {
   bool get isPinCodeMode => _state.phonePageState == PhoneOnboardingState.sent;
 
   @computed
-  bool get numberValid => _state.prefix.length == 3 && _state.phone.length >= 7;
+  bool get numberValid => _state.countryCode.length > 1  && _state.phone.length > 3;
 
   @computed
   LoginState get getState => _state;
@@ -65,10 +65,10 @@ abstract class _LoginStoreBase with Store {
     _state = _state.copyWith(countryCode: countryCode);
   }
 
-  @action
-  void updatePhonePrefix(String prefix) {
-    _state = _state.copyWith(prefix: prefix);
-  }
+  // @action
+  // void updatePhonePrefix(String prefix) {
+  //   _state = _state.copyWith(prefix: prefix);
+  // }
 
   @action
   void updateCode(String code) {
@@ -85,7 +85,7 @@ abstract class _LoginStoreBase with Store {
     );
 
     final failureOrSuccess = await _repository
-        .verifyPhone("+" + _state.countryCode + _state.prefix + _state.phone);
+        .verifyPhone("+" + _state.countryCode + _state.phone);
 
     failureOrSuccess.fold(
       (failure) {
@@ -107,14 +107,10 @@ abstract class _LoginStoreBase with Store {
   @action
   Future<Either<AuthFailure, AuthSuccess>> verifySms() async {
     _state = _state.copyWith(loading: true);
-
-    final fullNumber = _state.prefix + _state.phone;
-    final code = _state.code;
-
     try {
       // after verifing the code the backend will return the user
       // save the user and update the store
-      final user = await _repository.verifyCode(fullNumber, code);
+      final user = await _repository.verifyCode(_state.phone, _state.code);
 
       _store
         ..save(user)
