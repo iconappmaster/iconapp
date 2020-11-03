@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
 import 'package:iconapp/widgets/global/bouncing.dart';
 
@@ -27,7 +28,7 @@ class CommentsFab extends StatelessWidget {
               shape: BoxShape.circle,
               gradient: purpleGradient,
               border: Border.all(
-                color: cornflower,
+                color: comments.isActivated ? apple : cornflower,
                 width: 3,
               )),
           child: Center(

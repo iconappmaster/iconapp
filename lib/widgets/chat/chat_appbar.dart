@@ -48,11 +48,9 @@ class ChatAppbar extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 8),
-              GestureDetector(
-                  onTap: () => _showAlertSheet(context),
-                  child: Icon(Icons.flag, color: white)),
+              ReportButton(),
               SizedBox(width: 10),
-              if (store.conversation.userRole == UserRole.admin)
+              if (store.conversation.userRole != UserRole.viewer)
                 CommentsAppBarIcon(onTap: () => showCommentsDialog(context)),
               SizedBox(width: 8),
               Observer(builder: (_) {
@@ -104,7 +102,20 @@ class ChatAppbar extends StatelessWidget {
   }
 }
 
-Future _showAlertSheet(BuildContext context) async {
+class ReportButton extends StatelessWidget {
+  const ReportButton({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+        onTap: () => _showReportBottomSheet(context),
+        child: Icon(Icons.flag, color: white));
+  }
+}
+
+Future _showReportBottomSheet(BuildContext context) async {
   showModalBottomSheet(
     context: context,
     builder: (_) {

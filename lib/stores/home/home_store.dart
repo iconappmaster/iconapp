@@ -6,7 +6,6 @@ import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/repositories/home_repository.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/domain/core/errors.dart';
-import 'package:iconapp/stores/user/user_store.dart';
 import 'package:mobx/mobx.dart';
 part 'home_store.g.dart';
 
@@ -14,7 +13,6 @@ class HomeStore = _HomeStoreBase with _$HomeStore;
 
 abstract class _HomeStoreBase with Store {
   HomeRepository _repository;
-  UserStore user;
   SharedPreferencesService _sp;
   StreamSubscription<Conversation> _conversationChangedSubscription;
 
@@ -145,8 +143,6 @@ abstract class _HomeStoreBase with Store {
 
         _conversations[index] = updatedConversation;
         _reorderListWherePinnedAtTop(index, _conversations[index]);
-      } else {
-        _conversations.add(socketData);
       }
     });
   }

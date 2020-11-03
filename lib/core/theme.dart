@@ -35,7 +35,18 @@ const black10 = Color(0x19000000);
 const paleGreyTwo = Color(0xFFe9e6ff);
 const iris = Color(0xFF746bb5);
 const pastelPurple = Color(0xFFaa9efc);
-
+const pinkish = Color(0xFFe35c67);
+const purpleBlue = Color(0xFF381ce2);
+const cobaltBlue = Color(0xFF002092);
+const topaz = Color(0xFF1ab9c8);
+const pinkRedTwo = Color(0xFFff0467);
+const dustyOrange = Color(0xFFfc7437);
+const darkishBlue = Color(0xFF004b91);
+const apple = Color(0xFF78cc37);
+const softBlue = Color(0xFF5f86ec);
+const purply = Color(0xFF7c4cb0);
+const lightMustard = Color(0xFFfecf60);
+const lighterPurple = Color(0xFF974ef6);
 const sendColor = Color(0xFF6D5FF5);
 const composerBackground = Color(0xFF1A1541);
 const composerPanelBackground = Color(0xFF0E0A36);
@@ -311,18 +322,7 @@ final dialogGradient = LinearGradient(colors: [
 
 // CHAT COLORS GRADIENTS
 
-const pinkish = Color(0xFFe35c67);
-const purpleBlue = Color(0xFF381ce2);
-const cobaltBlue = Color(0xFF002092);
-const topaz = Color(0xFF1ab9c8);
-const pinkRedTwo = Color(0xFFff0467);
-const dustyOrange = Color(0xFFfc7437);
-const darkishBlue = Color(0xFF004b91);
-const apple = Color(0xFF78cc37);
-const softBlue = Color(0xFF5f86ec);
-const purply = Color(0xFF7c4cb0);
-const lightMustard = Color(0xFFfecf60);
-const lighterPurple = Color(0xFF974ef6);
+
 
 final grapeDarkIndigo = LinearGradient(colors: [
   grape,

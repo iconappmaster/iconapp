@@ -26,8 +26,12 @@ class CommentsAppBarIcon extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            SvgPicture.asset('assets/images/white_bubble.svg',
-                height: 26, width: 26),
+            SvgPicture.asset(
+              'assets/images/white_bubble.svg',
+              height: 26,
+              width: 26,
+              color: comments.isActivated ? apple : white,
+            ),
             Observer(
               builder: (_) => Visibility(
                 visible: comments.showNewCommentBadge,
