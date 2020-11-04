@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/widgets/global/rounded_close.dart';
@@ -69,32 +70,38 @@ class _VideoScreenState extends State<VideoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Stack(children: [
-        Center(
-          child: isLoading
-              ? CircularProgressIndicator()
-              : AspectRatio(
-                  aspectRatio: _controller.value.aspectRatio,
-                  child: VideoPlayer(_controller),
-                ),
-        ),
-        if (showReplay)
-          ReplayButton(
-            onPress: () async {
-              if (mounted) setState(() => showReplay = false);
-              await _controller.seekTo(Duration(seconds: 0));
-              _controller.play();
-            },
+    return Dismissible(
+      background: Container(color: Colors.black),
+      onDismissed: (_) => ExtendedNavigator.of(context).pop(),
+      key: Key('video'),
+      direction: DismissDirection.up,
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        body: Stack(children: [
+          Center(
+            child: isLoading
+                ? CircularProgressIndicator()
+                : AspectRatio(
+                    aspectRatio: _controller.value.aspectRatio,
+                    child: VideoPlayer(_controller),
+                  ),
           ),
-        if (widget.showToolbar)
-          Positioned(
-            top: 32,
-            right: 16,
-            child: RoundedClose(),
-          ),
-      ]),
+          if (showReplay)
+            ReplayButton(
+              onPress: () async {
+                if (mounted) setState(() => showReplay = false);
+                await _controller.seekTo(Duration(seconds: 0));
+                _controller.play();
+              },
+            ),
+          if (widget.showToolbar)
+            Positioned(
+              top: 32,
+              right: 16,
+              child: RoundedClose(),
+            ),
+        ]),
+      ),
     );
   }
 

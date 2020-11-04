@@ -43,8 +43,11 @@ class Socket {
 
   void init() async {
     try {
-      await Pusher.init(PRODUCTION_PUSHER_KEY, PusherOptions(cluster: "us2"),
-          enableLogging: true);
+      await Pusher.init(
+        PRODUCTION_PUSHER_KEY,
+        PusherOptions(cluster: "us2"),
+        enableLogging: true,
+      );
     } on PlatformException catch (e) {
       Crash.report(e.message);
     }

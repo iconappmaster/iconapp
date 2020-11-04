@@ -42,7 +42,7 @@ class CommentsList extends StatelessWidget {
                         itemCount: store.comments.length,
                         itemBuilder: (context, index) => TextMessage(
                             isSwipeEnabled: false,
-                            hideAvatar: true,
+                            hideAvatar: false,
                             hideEmoji: true,
                             forcedColor: cornflower,
                             showPin: false,

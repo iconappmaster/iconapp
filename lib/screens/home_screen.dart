@@ -90,10 +90,10 @@ class _HomeScreenState extends State<HomeScreen> {
     super.didChangeDependencies();
   }
 
-  void _refreshData() {
+  Future _refreshData() async {
     _alerts.getAlerts();
     _story.refreshStories();
-    _home.getConversations();
+    await _home.getConversations();
   }
 
   Future _handleDynamicLinks() async {
@@ -159,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             color: white,
                             strokeWidth: 2,
                             backgroundColor: cornflower,
-                            onRefresh: () async => _refreshData(),
+                            onRefresh: () async => await _refreshData(),
                             child: ConversationsList(
                               controller: _controller,
                               onConversationTap: (conversation, index) async {
