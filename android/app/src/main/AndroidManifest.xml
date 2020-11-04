@@ -18,6 +18,10 @@
         android:name=".Application"
         android:icon="@mipmap/ic_launcher"
         android:label="ICON">
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <activity
             android:name=".MainActivity"

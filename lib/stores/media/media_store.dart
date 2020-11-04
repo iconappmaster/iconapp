@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
+import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/repositories/media_repository.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
+import 'package:image_cropper/image_cropper.dart';
 part 'media_store.g.dart';
 
 class MediaStore = _MediaStoreBase with _$MediaStore;
@@ -36,14 +38,21 @@ abstract class _MediaStoreBase with Store {
     try {
       _isLoading = true;
       if (file != null) {
+        // crop
+        final cropped = await crop(file);
         result = await _repository.uploadSinglePhoto(
-            file, getPath, getPhotoFileName, messageId);
+            cropped, getPath, getPhotoFileName, messageId);
       } else {
         final pickedFile = await _imagePicker.getImage(source: source);
+
         if (pickedFile != null) {
           final file = File(pickedFile.path);
+
+          // crop
+          final cropped = await crop(file);
+
           result = await _repository.uploadSinglePhoto(
-              file, getPath, getPhotoFileName, messageId);
+              cropped, getPath, getPhotoFileName, messageId);
         }
       }
       _isLoading = false;
