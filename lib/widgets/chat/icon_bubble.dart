@@ -88,9 +88,9 @@ class _IconBubbleState extends State<IconBubble> {
                     elevation: 1,
                     stick: true,
                     padding:
-                        widget.padding ?? BubbleEdges.symmetric(horizontal: 5),
+                        widget.padding ?? BubbleEdges.symmetric(horizontal: 4),
                     margin:
-                        BubbleEdges.only(right: 9, top: 5, bottom: 5, left: 9),
+                        BubbleEdges.only(right: 4, top: 5, bottom: 5, left: 4),
                     alignment: widget.isMe
                         ? Alignment.centerLeft
                         : Alignment.centerRight,

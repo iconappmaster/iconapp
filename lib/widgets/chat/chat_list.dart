@@ -31,53 +31,60 @@ class _ChatListState extends State<ChatList> {
       builder: (_) => Expanded(
         child: store.getState.loading && store.getMessages.isEmpty
             ? LottieLoader()
-            : ListView.builder(
-                controller: widget.scrollController,
-                physics: BouncingScrollPhysics(),
-                reverse: true,
-                shrinkWrap: true,
-                padding: EdgeInsets.only(bottom: 12, top: 120),
-                itemCount: store.getMessages.length,
-                itemBuilder: (_, index) {
-                  final message = store?.getMessages[index];
-                  final isMe = store.isMe(message.sender?.id);
-                  switch (message.messageType) {
-                    case MessageType.text:
-                      return TextMessage(
-                          controller: widget.scrollController,
-                          message: message,
-                          isMe: isMe,
-                          index: index);
+            : Theme(
+                data: ThemeData(highlightColor: cornflower),
+                child: Scrollbar(
+                  isAlwaysShown: false,
+                  controller: widget.scrollController,
+                  child: ListView.builder(
+                    controller: widget.scrollController,
+                    physics: BouncingScrollPhysics(),
+                    reverse: true,
+                    shrinkWrap: true,
+                    padding: EdgeInsets.only(bottom: 12, top: 120),
+                    itemCount: store.getMessages.length,
+                    itemBuilder: (_, index) {
+                      final message = store?.getMessages[index];
+                      final isMe = store.isMe(message.sender?.id);
+                      switch (message.messageType) {
+                        case MessageType.text:
+                          return TextMessage(
+                              controller: widget.scrollController,
+                              message: message,
+                              isMe: isMe,
+                              index: index);
 
-                    case MessageType.photo:
-                      return PhotoMessage(
-                        controller: widget.scrollController,
-                        message: message,
-                        isMe: isMe,
-                        index: index,
-                      );
+                        case MessageType.photo:
+                          return PhotoMessage(
+                            controller: widget.scrollController,
+                            message: message,
+                            isMe: isMe,
+                            index: index,
+                          );
 
-                    case MessageType.video:
-                      return VideoMessage(
-                        controller: widget.scrollController,
-                        index: index,
-                        message: message,
-                        isMe: isMe,
-                      );
-                    case MessageType.voice:
-                      return VoiceMessage(
-                          controller: widget.scrollController,
-                          index: index,
-                          message: message,
-                          isMe: isMe);
-                    case MessageType.system:
-                      return SystemMessage(
-                        title: message.body,
-                      );
-                  }
+                        case MessageType.video:
+                          return VideoMessage(
+                            controller: widget.scrollController,
+                            index: index,
+                            message: message,
+                            isMe: isMe,
+                          );
+                        case MessageType.voice:
+                          return VoiceMessage(
+                              controller: widget.scrollController,
+                              index: index,
+                              message: message,
+                              isMe: isMe);
+                        case MessageType.system:
+                          return SystemMessage(
+                            title: message.body,
+                          );
+                      }
 
-                  return Container();
-                },
+                      return Container();
+                    },
+                  ),
+                ),
               ),
       ),
     );

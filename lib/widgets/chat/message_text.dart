@@ -96,64 +96,68 @@ class _TextMessageState extends State<TextMessage> {
           return ReplyButton(message: widget.message);
         },
         child: IconBubble(
+          onTap: _scrollToIndex,
           hideAvatar: widget.hideAvatar,
           hideEmoji: widget.hideEmoji,
           showPin: widget.showPin,
-          onTap: () {
-            final repliedMessage = widget.message.repliedToMessage;
-            if (repliedMessage != null) {
-              final index = _chat.getMessages
-                  .indexWhere((m) => m.id == repliedMessage.id);
-              widget.controller.scrollToIndex(index);
-            }
-          },
           padding: const BubbleEdges.only(top: 5, bottom: 1),
           message: widget.message,
           isMe: widget.isMe,
-          child: Stack(children: [
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              color: color,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  CustomText(widget.message.sender?.fullName ?? '',
-                      style: chatMessageName, textAlign: TextAlign.start),
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width * .5),
-                    child: AutoDirection(
-                      text: widget.message?.body ?? '',
-                      child: Linkify(
-                        linkStyle: TextStyle(color: Colors.blue),
+          child: Stack(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                color: color,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    CustomText(widget.message.sender?.fullName ?? '',
+                        style: chatMessageName, textAlign: TextAlign.start),
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width * .5),
+                      child: AutoDirection(
                         text: widget.message?.body ?? '',
-                        onOpen: _onOpen,
-                        style: chatMessageBody,
-                        textAlign: TextAlign.start,
-                        maxLines: null,
+                        child: Linkify(
+                          linkStyle: TextStyle(color: Colors.blue),
+                          text: widget.message?.body ?? '',
+                          onOpen: _onOpen,
+                          style: chatMessageBody,
+                          textAlign: TextAlign.start,
+                          maxLines: null,
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 8),
-                ],
+                    SizedBox(height: 8),
+                  ],
+                ),
               ),
-            ),
-            Positioned(
-              left: 0,
-              bottom: 0,
-              child: CustomText(
-                widget.message.status == MessageStatus.pending
-                    ? ''
-                    : widget.message?.timestamp?.humanReadableTime() ?? '',
-                style: chatMessageBody.copyWith(fontSize: 9),
-                textAlign: TextAlign.start,
-              ),
-            )
-          ]),
+              Positioned(
+                left: 0,
+                bottom: 0,
+                child: CustomText(
+                  widget.message.status == MessageStatus.pending
+                      ? ''
+                      : widget.message?.timestamp?.humanReadableTime() ?? '',
+                  style: chatMessageBody.copyWith(fontSize: 9),
+                  textAlign: TextAlign.start,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  _scrollToIndex() {
+    final repliedMessage = widget.message.repliedToMessage;
+    if (repliedMessage != null) {
+      final index =
+          _chat.getMessages.indexWhere((m) => m.id == repliedMessage.id);
+      widget.controller.scrollToIndex(index);
+    }
   }
 
   Future<void> _onOpen(LinkableElement link) async {

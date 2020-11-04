@@ -151,7 +151,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                 visible: _chat.dataReady &&
                     _chat.conversation.userRole == UserRole.viewer,
                 child: Positioned(
-                    bottom: 45,
+                    bottom: 35,
                     left: 16,
                     child: CommentsFab(
                       onTap: () {

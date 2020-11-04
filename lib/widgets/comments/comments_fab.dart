@@ -3,7 +3,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
 import 'package:iconapp/widgets/global/bouncing.dart';
 
@@ -22,8 +21,8 @@ class CommentsFab extends StatelessWidget {
       onPressed: onTap,
       child: Stack(children: [
         Container(
-          height: 70,
-          width: 70,
+          height: 60,
+          width: 60,
           decoration: BoxDecoration(
               shape: BoxShape.circle,
               gradient: purpleGradient,

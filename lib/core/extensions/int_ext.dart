@@ -4,7 +4,7 @@ import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 
 extension IntExtension on int {
-  String humanReadableTime() => DateFormat('h:mm a')
+  String humanReadableTime() => DateFormat('h:mma')
       .format(DateTime.fromMillisecondsSinceEpoch(this * 1000));
 
   String humanReadableMonthTime() {

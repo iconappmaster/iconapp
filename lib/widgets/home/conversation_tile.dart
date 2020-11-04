@@ -32,9 +32,9 @@ class ConversationTile extends StatelessWidget {
         child: InkWell(
           onTap: onTap,
           child: Container(
-            height: 81.7,
+            height: 80,
             padding:
-                EdgeInsets.only(top: 8.7, bottom: 8.7, right: 4.7, left: 15.7),
+                EdgeInsets.only(top: 8.7, bottom: 8.7, left: 8.7),
             // margin: EdgeInsets.symmetric(vertical: 5, horizontal: 9.3),
             width: context.widthPx,
             decoration: BoxDecoration(
@@ -54,7 +54,7 @@ class ConversationTile extends StatelessWidget {
                           imageUrl: model?.backgroundPhoto?.url ?? '',
                           height: 56,
                           width: 56)),
-                  SizedBox(width: 10.7),
+                  SizedBox(width: 5.7),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
