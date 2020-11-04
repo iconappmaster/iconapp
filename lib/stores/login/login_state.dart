@@ -6,7 +6,6 @@ part 'login_state.freezed.dart';
 @freezed
 abstract class LoginState with _$LoginState {
   const factory LoginState({
-    // @required String prefix,
     @required String phone,
     @required String code,
     @required String countryCode,
@@ -18,7 +17,6 @@ abstract class LoginState with _$LoginState {
 
   factory LoginState.initial() => LoginState(
         countryCode: '972',
-        // prefix: '',
         phone: '',
         code: '',
         loading: false,

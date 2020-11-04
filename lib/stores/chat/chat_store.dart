@@ -66,6 +66,11 @@ abstract class _ChatStoreBase with Store {
   bool _showWelcomeDialog = true;
 
   @observable
+  int limit = 20;
+
+  
+
+  @observable
   bool dataReady = false;
 
   @observable

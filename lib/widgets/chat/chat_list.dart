@@ -6,7 +6,6 @@ import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/global/lottie_loader.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
-
 import 'message_audio.dart';
 import 'message_photo.dart';
 import 'message_system.dart';
@@ -23,6 +22,21 @@ class ChatList extends StatefulWidget {
 }
 
 class _ChatListState extends State<ChatList> {
+
+  @override
+  void initState() { 
+    widget.scrollController.addListener(() { 
+      final controller = widget.scrollController;
+    if (controller.offset >= controller.position.maxScrollExtent &&
+        !controller.position.outOfRange) {
+      
+    }
+  
+    });
+
+    super.initState();
+    
+  }
   @override
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
@@ -31,12 +45,13 @@ class _ChatListState extends State<ChatList> {
       builder: (_) => Expanded(
         child: store.getState.loading && store.getMessages.isEmpty
             ? LottieLoader()
-            : Theme(
-                data: ThemeData(highlightColor: cornflower),
-                child: Scrollbar(
-                  isAlwaysShown: false,
-                  controller: widget.scrollController,
-                  child: ListView.builder(
+            :  Scroller(
+              controller: widget.scrollController,
+              child:
+              
+              
+              
+              ListView.builder(
                     controller: widget.scrollController,
                     physics: BouncingScrollPhysics(),
                     reverse: true,
@@ -80,12 +95,10 @@ class _ChatListState extends State<ChatList> {
                             title: message.body,
                           );
                       }
-
                       return Container();
                     },
                   ),
                 ),
-              ),
       ),
     );
   }
@@ -112,5 +125,21 @@ class ScrollableTile extends StatelessWidget {
       child: child,
       highlightColor: cornflower,
     );
+  }
+}
+
+class Scroller extends StatelessWidget {
+  final Widget child;
+  final ScrollController controller;
+  const Scroller({Key key,@required  this.child, this.controller}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return  Theme(
+                data: ThemeData(highlightColor: cornflower),
+                child: Scrollbar(
+                  isAlwaysShown: false,
+                  controller:controller,
+                  child:child));
   }
 }
