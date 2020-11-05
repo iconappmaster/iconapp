@@ -66,11 +66,6 @@ abstract class _ChatStoreBase with Store {
   bool _showWelcomeDialog = true;
 
   @observable
-  int limit = 20;
-
-  
-
-  @observable
   bool dataReady = false;
 
   @observable
@@ -118,6 +113,9 @@ abstract class _ChatStoreBase with Store {
 
   @computed
   bool get isInputEmpty => _state.inputMessage.isNotEmpty;
+
+  @computed
+  int get firstMessageTimestamp => _conversation.messages.last.timestamp;
 
   @computed
   bool get isSubscribing => _state.isSubscribing;
@@ -175,12 +173,37 @@ abstract class _ChatStoreBase with Store {
   }
 
   @action
+  Future fetchMore() async {
+    final fetchedConversation = await _repository.getRemoteConversaion(
+      conversation.id,
+      PagingConfig.limit,
+      firstMessageTimestamp,
+    );
+
+    final currentMessages = _messages.toList();
+    
+    _messages.clear();
+    
+    _messages.addAll([...fetchedConversation.messages, ...currentMessages]);
+  }
+
+  @action
   Future getConversation() async {
     try {
       _state = _state.copyWith(loading: true);
-      final remote = await _repository.getRemoteConversaion(conversation.id);
 
-      if (remote.id == conversation.id) updateUi(remote);
+      final remote = await _repository.getRemoteConversaion(
+        conversation.id,
+        PagingConfig.limit,
+        firstMessageTimestamp,
+      );
+
+      // check that we are loading the current conversation
+      if (remote.id == conversation.id && remote.messages.isNotEmpty) {
+        updateUi(remote);
+        _repository.cacheConversation(conversation);
+        dataReady = true;
+      }
 
       await sl<ChatSettingsStore>()
         ..init();
@@ -190,9 +213,6 @@ abstract class _ChatStoreBase with Store {
         ..refreshStories();
 
       _determineComposerMode();
-
-      dataReady = true;
-      _repository.cacheConversation(conversation);
     } on ServerError catch (e) {
       dataReady = false;
       Crash.report(e.message);
@@ -201,10 +221,12 @@ abstract class _ChatStoreBase with Store {
     }
   }
 
+  // will set the new conversation and add messages.
   @action
   void updateUi(Conversation conversation) {
     _conversation = conversation;
-    _addAllMessages();
+    final currentMessages = _conversation?.messages ?? [];
+    _messages.addAll(currentMessages);
   }
 
   @action
@@ -220,14 +242,6 @@ abstract class _ChatStoreBase with Store {
     } finally {
       _state = _state.copyWith(pinLoading: false);
     }
-  }
-
-  @action
-  void _addAllMessages() {
-    _messages.clear();
-
-    /// at this point addess only [_messages] for chat ops
-    _messages.addAll(conversation.messages);
   }
 
   @action
@@ -577,4 +591,8 @@ abstract class _ChatStoreBase with Store {
     _composerMode = ComposerMode.viewer;
     await recordTimer?.dispose();
   }
+}
+
+class PagingConfig {
+  static int limit = 20;
 }

@@ -117,7 +117,7 @@ class _LikeMenuState extends State<LikeMenu> {
                 context,
                 PageRouteBuilder(
                     transitionDuration:
-                        widget.duration ?? Duration(milliseconds: 100),
+                        widget.duration ?? const Duration(milliseconds: 100),
                     pageBuilder: (context, animation, secondaryAnimation) {
                       animation = Tween(begin: 0.0, end: 1.0).animate(animation);
                       return FadeTransition(

@@ -25,7 +25,7 @@ class NextButton extends StatelessWidget {
     return BouncingGestureDetector(
       onPressed: enabled ? onClick : onError,
       child: AnimatedContainer(
-        duration: Duration(milliseconds: 250),
+        duration: const Duration(milliseconds: 250),
         height: height ?? context.heightPlusStatusbarPerc(.035),
         width: MediaQuery.of(context).size.width * .9,
         margin: EdgeInsets.symmetric(horizontal: 20),

@@ -65,6 +65,13 @@ mixin _$ChatStore on _ChatStoreBase, Store {
       (_$isInputEmptyComputed ??= Computed<bool>(() => super.isInputEmpty,
               name: '_ChatStoreBase.isInputEmpty'))
           .value;
+  Computed<int> _$firstMessageTimestampComputed;
+
+  @override
+  int get firstMessageTimestamp => (_$firstMessageTimestampComputed ??=
+          Computed<int>(() => super.firstMessageTimestamp,
+              name: '_ChatStoreBase.firstMessageTimestamp'))
+      .value;
   Computed<bool> _$isSubscribingComputed;
 
   @override
@@ -231,6 +238,13 @@ mixin _$ChatStore on _ChatStoreBase, Store {
         .run(() => super.getCachedConversation());
   }
 
+  final _$fetchMoreAsyncAction = AsyncAction('_ChatStoreBase.fetchMore');
+
+  @override
+  Future<dynamic> fetchMore() {
+    return _$fetchMoreAsyncAction.run(() => super.fetchMore());
+  }
+
   final _$getConversationAsyncAction =
       AsyncAction('_ChatStoreBase.getConversation');
 
@@ -376,17 +390,6 @@ mixin _$ChatStore on _ChatStoreBase, Store {
   }
 
   @override
-  void _addAllMessages() {
-    final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
-        name: '_ChatStoreBase._addAllMessages');
-    try {
-      return super._addAllMessages();
-    } finally {
-      _$_ChatStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void _determineComposerMode() {
     final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
         name: '_ChatStoreBase._determineComposerMode');
@@ -475,6 +478,7 @@ conversation: ${conversation},
 composerMode: ${composerMode},
 getMessages: ${getMessages},
 isInputEmpty: ${isInputEmpty},
+firstMessageTimestamp: ${firstMessageTimestamp},
 isSubscribing: ${isSubscribing},
 isRecording: ${isRecording},
 showWelcomeDialog: ${showWelcomeDialog}

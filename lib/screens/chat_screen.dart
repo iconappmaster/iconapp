@@ -47,20 +47,12 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   Socket _socket;
   SharedPreferencesService _sp;
 
-  // void _afterLayout(_) {
-  //   Future.delayed(Duration(milliseconds: 100), () {
-  //     showChatTutorial(context);
-  //   });
-  // }
-
   @override
   void initState() {
     _initDependencies();
     _initSocket();
 
-    // WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
-
-    _sp.setString(StorageKey.fcmConversation, null);
+    _resetFcmConversation();
 
     _chat
       ..init(widget.conversation)
@@ -78,15 +70,23 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
       axis: Axis.vertical,
       suggestedRowHeight: 200,
       initialScrollOffset: 0,
-    )..addListener(() {
-        _upDirection = _chatController.position.userScrollDirection ==
-            ScrollDirection.forward;
-        if (_upDirection != _flag && mounted) setState(() {});
-
-        _flag = _upDirection;
-      });
+    )..addListener(() => _detectScrollUp());
 
     super.initState();
+  }
+
+  void _resetFcmConversation() {
+    if (_sp.contains(StorageKey.fcmConversation)) {
+      _sp.setString(StorageKey.fcmConversation, null);
+    }
+  }
+
+  void _detectScrollUp() {
+    _upDirection =
+        _chatController.position.userScrollDirection == ScrollDirection.forward;
+    if (_upDirection != _flag && mounted) setState(() {});
+
+    _flag = _upDirection;
   }
 
   void _initDependencies() {
@@ -128,12 +128,13 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                       vsync: this,
                       child: ConstrainedBox(
                           constraints: BoxConstraints(
-                              minHeight:
-                                  (_chat.composerMode != ComposerMode.viewer)
-                                      ? 82
-                                      : 0),
+                            minHeight:
+                                (_chat.composerMode != ComposerMode.viewer)
+                                    ? 82
+                                    : 0,
+                          ),
                           child: initComposer(_chatController)),
-                      duration: Duration(milliseconds: 350),
+                      duration: const Duration(milliseconds: 350),
                       curve: Curves.easeInToLinear,
                     ),
                   ],

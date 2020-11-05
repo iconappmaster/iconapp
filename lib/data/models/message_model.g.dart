@@ -9,7 +9,6 @@ part of 'message_model.dart';
 _$_MessageModel _$_$_MessageModelFromJson(Map<String, dynamic> json) {
   return _$_MessageModel(
     id: json['id'] as int,
-    localId: json['localId'] as int,
     timestamp: json['timestamp'] as int,
     body: json['body'] as String,
     wasSeen: json['wasSeen'] as bool,
@@ -34,7 +33,6 @@ _$_MessageModel _$_$_MessageModelFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$_$_MessageModelToJson(_$_MessageModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'localId': instance.localId,
       'timestamp': instance.timestamp,
       'body': instance.body,
       'wasSeen': instance.wasSeen,

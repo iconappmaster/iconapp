@@ -52,21 +52,25 @@ abstract class RestClient {
   // SEARCH
   @GET('categories')
   Future<List<Conversation>> searchCategory(
-      @Query('searchString') String searchString);
+    @Query('searchString') String searchString,
+  );
 
   @GET('icons')
-  Future<List<UserModel>> searchContacts(@Query('searchString') String query);
+  Future<List<UserModel>> searchContacts(
+    @Query('searchString') String query,
+  );
 
   @GET('conversations/get_by_category')
   Future<List<Conversation>> getConversationByCategoryId(
-      @Query('categoryId') int categoryId);
+    @Query('categoryId') int categoryId,
+  );
 
   @GET('conversations/get_by_icon')
   Future<List<Conversation>> getConversationByIconId(
-      @Query('iconUserId') int iconUserId);
+    @Query('iconUserId') int iconUserId,
+  );
 
   // CONVERSATIONS
-
   @POST('conversations/{conversationId}/report')
   Future report(
     @Path('conversationId') int conversationId,
@@ -74,14 +78,13 @@ abstract class RestClient {
   );
 
   @POST('conversations/{conversationId}/block')
-  Future block(
-    @Path('conversationId') int conversationId,
-  );
+  Future block(@Path('conversationId') int conversationId);
 
   @POST('conversations/{conversationId}')
   Future<Conversation> updateConversation(
-      @Path('conversationId') int conversationId,
-      @Body() Conversation conversation);
+    @Path('conversationId') int conversationId,
+    @Body() Conversation conversation,
+  );
 
   @POST('conversations/{conversationId}/add_user')
   Future<Conversation> addUser(
@@ -99,7 +102,9 @@ abstract class RestClient {
 
   @GET('conversations/{conversationId}')
   Future<Conversation> getConversaion(
-      @Path('conversationId') int conversationId);
+      @Path('conversationId') int conversationId,
+      {@Query('limit') int limit,
+      @Query('offset') int offset});
 
   @POST('conversations/{conversationId}/subscribe_to_conversation')
   Future<Conversation> subscribe(@Path('conversationId') int id);

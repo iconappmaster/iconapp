@@ -410,10 +410,14 @@ class _RestClient implements RestClient {
   }
 
   @override
-  getConversaion(conversationId) async {
+  getConversaion(conversationId, {limit, offset}) async {
     ArgumentError.checkNotNull(conversationId, 'conversationId');
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'limit': limit,
+      r'offset': offset
+    };
+    queryParameters.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     final Response<Map<String, dynamic>> _result = await _dio.request(
         'conversations/$conversationId',

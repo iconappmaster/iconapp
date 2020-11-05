@@ -9,7 +9,6 @@ part 'message_model.freezed.dart';
 abstract class MessageModel with _$MessageModel {
   const factory MessageModel({
     final int id,
-    final int localId, // used for changes on the message
     final int timestamp,
     final String body,
     final bool wasSeen,

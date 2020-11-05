@@ -32,7 +32,7 @@ class ReplyComposePanel extends StatelessWidget {
 
     return Observer(
       builder: (_) => AnimatedContainer(
-        duration: Duration(milliseconds: 150),
+        duration: const Duration(milliseconds: 150),
         curve: Curves.bounceInOut,
         height: store.isReplyMessage ? 90 : 0,
         margin: EdgeInsets.only(left: 7, right: 7, bottom: 8, top: 8),

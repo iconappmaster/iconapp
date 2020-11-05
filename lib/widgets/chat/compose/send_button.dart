@@ -88,7 +88,7 @@ class _SendButtonState extends State<SendButton> {
               backgroundColor: chat.dataReady ? sendColor : Colors.grey[400],
               child: Observer(
                 builder: (_) => AnimatedSwitcher(
-                  duration: Duration(milliseconds: 250),
+                  duration: const Duration(milliseconds: 250),
                   transitionBuilder: (child, animation) => ScaleTransition(
                     scale: animation,
                     child: child,

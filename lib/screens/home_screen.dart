@@ -59,6 +59,13 @@ class _HomeScreenState extends State<HomeScreen> {
       _navigateToChatFromFCM();
     }
 
+    _refreshData();
+    _listenLifeCycle();
+
+    super.initState();
+  }
+
+  void _listenLifeCycle() {
     WidgetsBinding.instance.addObserver(
       LifecycleEventHandler(
         resumeCallBack: () async {
@@ -66,8 +73,6 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
     );
-
-    super.initState();
   }
 
   Future _initSocket() async {

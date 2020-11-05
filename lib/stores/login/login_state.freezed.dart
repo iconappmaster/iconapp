@@ -40,7 +40,6 @@ const $LoginState = _$LoginStateTearOff();
 
 /// @nodoc
 mixin _$LoginState {
-// @required String prefix,
   String get phone;
   String get code;
   String get countryCode;
@@ -190,7 +189,7 @@ class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
         assert(phonePageState != null),
         assert(userModel != null);
 
-  @override // @required String prefix,
+  @override
   final String phone;
   @override
   final String code;
@@ -275,7 +274,7 @@ abstract class _LoginState implements LoginState {
       @required PhoneOnboardingState phonePageState,
       @required UserModel userModel}) = _$_LoginState;
 
-  @override // @required String prefix,
+  @override
   String get phone;
   @override
   String get code;
