@@ -6,6 +6,7 @@ import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/global/lottie_loader.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
+
 import 'message_audio.dart';
 import 'message_photo.dart';
 import 'message_system.dart';
@@ -102,6 +103,17 @@ class _ChatListState extends State<ChatList> {
                         return SystemMessage(
                           title: message.body,
                         );
+                      case MessageType.loading:
+                        return Center(
+                            child: SizedBox(
+                          height: 25,
+                          width: 25,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor: AlwaysStoppedAnimation(white),
+                          ),
+                        ));
+                        break;
                     }
                     return Container();
                   },

@@ -64,6 +64,9 @@ class HomeTileConversationMessage extends StatelessWidget {
         return null;
       case MessageType.text:
         return null;
+      case MessageType.loading:
+        return null;
+        break;
     }
 
     return null;
@@ -81,6 +84,9 @@ class HomeTileConversationMessage extends StatelessWidget {
         return '';
       case MessageType.text:
         return '';
+      case MessageType.loading:
+        return null;
+        break;
     }
 
     return null;

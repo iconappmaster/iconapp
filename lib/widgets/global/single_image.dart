@@ -21,29 +21,26 @@ class SingleImage extends StatelessWidget {
         child: Stack(
           children: [
             Center(
-              child: Hero(
-                tag: url,
-                child: PinchZoomImage(
-                  image: CachedNetworkImage(
-                    imageUrl: url,
-                    fadeOutDuration: const Duration(milliseconds: 250),
-                    fadeInCurve: Curves.bounceIn,
-                    fit: BoxFit.cover,
-                    useOldImageOnUrlChange: true,
-                    progressIndicatorBuilder: (context, url, data) {
-                      return Center(
-                        child: SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 1,
-                            value: data.progress,
-                            valueColor: AlwaysStoppedAnimation(cornflower),
-                          ),
+              child: PinchZoomImage(
+                image: CachedNetworkImage(
+                  imageUrl: url,
+                  fadeOutDuration: const Duration(milliseconds: 250),
+                  fadeInCurve: Curves.bounceIn,
+                  fit: BoxFit.cover,
+                  useOldImageOnUrlChange: true,
+                  progressIndicatorBuilder: (context, url, data) {
+                    return Center(
+                      child: SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 1,
+                          value: data.progress,
+                          valueColor: AlwaysStoppedAnimation(cornflower),
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),

@@ -20,6 +20,9 @@ Widget getReplyBody(MessageModel message, double width) {
       return AudioReply(message: message);
     case MessageType.system:
       return Container(); // nothing to do with it
+    case MessageType.loading:
+      return Container(); 
+      break;
   }
   return Container();
 }

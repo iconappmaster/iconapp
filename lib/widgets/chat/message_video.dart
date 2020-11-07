@@ -152,8 +152,8 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
           Visibility(
             visible: widget.message.status == MessageStatus.pending,
             child: Positioned(
-              left: 113,
-              top: 83,
+              left: 140,
+              top: 97,
               child: SizedBox(
                 height: 55,
                 width: 55,

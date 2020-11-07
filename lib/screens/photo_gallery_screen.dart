@@ -36,25 +36,22 @@ class PhotoGalleryScreen extends StatelessWidget {
                       return GestureDetector(
                         onTap: () => ExtendedNavigator.of(context)
                             .pushSingleImage(url: url),
-                        child: Hero(
-                          tag: url,
-                          child: CachedNetworkImage(
-                              fadeOutDuration:
-                                  const Duration(milliseconds: 250),
-                              progressIndicatorBuilder:
-                                  (context, url, downloadProgress) => Center(
-                                      child: SizedBox(
-                                          height: 20,
-                                          width: 20,
-                                          child: CircularProgressIndicator(
-                                            strokeWidth: 1,
-                                            value: downloadProgress.progress,
-                                            valueColor: AlwaysStoppedAnimation(
-                                                cornflower),
-                                          ))),
-                              fit: BoxFit.cover,
-                              imageUrl: url),
-                        ),
+                        child: CachedNetworkImage(
+                            fadeOutDuration:
+                                const Duration(milliseconds: 250),
+                            progressIndicatorBuilder:
+                                (context, url, downloadProgress) => Center(
+                                    child: SizedBox(
+                                        height: 20,
+                                        width: 20,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 1,
+                                          value: downloadProgress.progress,
+                                          valueColor: AlwaysStoppedAnimation(
+                                              cornflower),
+                                        ))),
+                            fit: BoxFit.cover,
+                            imageUrl: url),
                       );
                     }))),
         BluredAppbar(),

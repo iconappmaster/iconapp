@@ -171,11 +171,15 @@ abstract class _ChatStoreBase with Store {
 
   @action
   Future fetchMore() async {
+    _messages.insert(0, MessageModel(messageType: MessageType.loading));
+
     final remote = await _repository.getRemoteConversaion(
       conversation.id,
       limit: PagingConfig.limit,
       offset: firstMessageTimestamp(),
     );
+
+    _messages.removeAt(0);
 
     if (remote.id == conversation.id && remote.messages.isNotEmpty) {
       _conversation = _conversation.copyWith(messages: remote.messages);
