@@ -83,6 +83,7 @@ const _$MessageTypeEnumMap = {
   MessageType.video: 'video',
   MessageType.voice: 'voice',
   MessageType.system: 'system',
+  MessageType.loading: 'loading',
 };
 
 const _$MessageStatusEnumMap = {

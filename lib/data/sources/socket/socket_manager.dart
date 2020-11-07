@@ -44,8 +44,7 @@ class Socket {
   void init() async {
     try {
       await Pusher.init(
-        // PRODUCTION_PUSHER_KEY,
-        STAGING_PUSHER_KEY,
+        PRODUCTION_PUSHER_KEY,
         PusherOptions(cluster: "us2"),
         enableLogging: true,
       );

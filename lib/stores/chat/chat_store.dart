@@ -53,7 +53,7 @@ abstract class _ChatStoreBase with Store {
     if (conversation != null) setConversation(conversation);
 
     _determineComposerMode();
-    _setConversationViewed();
+    setConversationViewed();
     getConversation();
 
     _showWelcomeDialog = _prefs.getBool(StorageKey.chatWelcome, true);
@@ -265,7 +265,7 @@ abstract class _ChatStoreBase with Store {
   }
 
   @action
-  Future _setConversationViewed() async {
+  Future setConversationViewed() async {
     try {
       await _repository.conversationViewed(conversation.id);
     } on ServerError catch (e) {
@@ -518,10 +518,7 @@ abstract class _ChatStoreBase with Store {
   void watchMessages() {
     _socketSubscription.add(
       _repository.watchMessages().listen((message) {
-        _setConversationViewed();
-        if (dataReady) {
-          _messages.add(message);
-        }
+        if (dataReady) _messages.add(message);
       }),
     );
   }
@@ -588,6 +585,7 @@ abstract class _ChatStoreBase with Store {
     _replyMessage = null;
     dataReady = false;
     _composerMode = ComposerMode.viewer;
+    setConversationViewed();
     await recordTimer?.dispose();
   }
 

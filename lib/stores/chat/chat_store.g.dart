@@ -255,13 +255,13 @@ mixin _$ChatStore on _ChatStoreBase, Store {
         .run(() => super.pinConversation(isPinned));
   }
 
-  final _$_setConversationViewedAsyncAction =
-      AsyncAction('_ChatStoreBase._setConversationViewed');
+  final _$setConversationViewedAsyncAction =
+      AsyncAction('_ChatStoreBase.setConversationViewed');
 
   @override
-  Future<dynamic> _setConversationViewed() {
-    return _$_setConversationViewedAsyncAction
-        .run(() => super._setConversationViewed());
+  Future<dynamic> setConversationViewed() {
+    return _$setConversationViewedAsyncAction
+        .run(() => super.setConversationViewed());
   }
 
   final _$likeUnlikeMessageAsyncAction =
