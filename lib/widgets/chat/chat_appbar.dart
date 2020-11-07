@@ -32,19 +32,24 @@ class ChatAppbar extends StatelessWidget {
                   url: store.conversation?.backgroundPhoto?.url ?? ''),
               SizedBox(width: 8),
               Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    CustomText(store?.conversation?.name ?? '',
-                        textAlign: TextAlign.start,
-                        maxLines: 1,
-                        style: loginBigText),
-                    CustomText(
-                      '${store.conversation?.numberOfParticipants ?? 0} משתתפים',
-                      style: fieldLabel,
-                    ), // should come from socket
-                  ],
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () =>
+                      ExtendedNavigator.of(context).pushChatSettingsScreen(),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      CustomText(store?.conversation?.name ?? '',
+                          textAlign: TextAlign.start,
+                          maxLines: 1,
+                          style: loginBigText),
+                      CustomText(
+                        '${store.conversation?.numberOfParticipants ?? 0} משתתפים',
+                        style: fieldLabel,
+                      ), // should come from socket
+                    ],
+                  ),
                 ),
               ),
               SizedBox(width: 8),

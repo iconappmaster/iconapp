@@ -55,19 +55,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
     _initSocket();
 
-    if (_sp.contains(StorageKey.fcmConversation)) {
-      _navigateToChatFromFCM();
-    }
+    if (_sp.contains(StorageKey.fcmConversation)) _navigateToChatFromFCM();
 
-    WidgetsBinding.instance.addObserver(
-      LifecycleEventHandler(
-        resumeCallBack: () async {
-          _refreshData();
-        },
-      ),
-    );
+    _refreshData();
+    _refreshDataOnAppResume();
 
     super.initState();
+  }
+
+  void _refreshDataOnAppResume() {
+    WidgetsBinding.instance.addObserver(
+        LifecycleEventHandler(resumeCallBack: () async => _refreshData()));
   }
 
   Future _initSocket() async {

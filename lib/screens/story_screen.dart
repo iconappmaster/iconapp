@@ -54,9 +54,7 @@ class _StoryScreenState extends State<StoryScreen> {
 
       // find the index of the selected story and present it first
       final index = _store.stories.indexWhere((s) => s.id == widget.story.id);
-      if (widget.story.storyImages.length > 1) {
-        swap(_allStories, index, 0);
-      }
+      swap(_allStories, index, 0);
     }
 
     _storyPageController = StoryController();

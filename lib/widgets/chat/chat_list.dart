@@ -31,59 +31,55 @@ class _ChatListState extends State<ChatList> {
       builder: (_) => Expanded(
         child: store.getState.loading && store.getMessages.isEmpty
             ? LottieLoader()
-            : Theme(
-                data: ThemeData(highlightColor: cornflower),
-                child: Scrollbar(
-                  isAlwaysShown: false,
+            : Scroller(
+                scrollController: widget.scrollController,
+                child: ListView.builder(
                   controller: widget.scrollController,
-                  child: ListView.builder(
-                    controller: widget.scrollController,
-                    physics: BouncingScrollPhysics(),
-                    reverse: true,
-                    shrinkWrap: true,
-                    padding: EdgeInsets.only(bottom: 12, top: 120),
-                    itemCount: store.getMessages.length,
-                    itemBuilder: (_, index) {
-                      final message = store?.getMessages[index];
-                      final isMe = store.isMe(message.sender?.id);
-                      switch (message.messageType) {
-                        case MessageType.text:
-                          return TextMessage(
-                              controller: widget.scrollController,
-                              message: message,
-                              isMe: isMe,
-                              index: index);
-
-                        case MessageType.photo:
-                          return PhotoMessage(
+                  physics: BouncingScrollPhysics(),
+                  reverse: true,
+                  shrinkWrap: true,
+                  padding: EdgeInsets.only(bottom: 12, top: 120),
+                  itemCount: store.getMessages.length,
+                  itemBuilder: (_, index) {
+                    final message = store?.getMessages[index];
+                    final isMe = store.isMe(message.sender?.id);
+                    switch (message.messageType) {
+                      case MessageType.text:
+                        return TextMessage(
                             controller: widget.scrollController,
                             message: message,
                             isMe: isMe,
-                            index: index,
-                          );
+                            index: index);
 
-                        case MessageType.video:
-                          return VideoMessage(
+                      case MessageType.photo:
+                        return PhotoMessage(
+                          controller: widget.scrollController,
+                          message: message,
+                          isMe: isMe,
+                          index: index,
+                        );
+
+                      case MessageType.video:
+                        return VideoMessage(
+                          controller: widget.scrollController,
+                          index: index,
+                          message: message,
+                          isMe: isMe,
+                        );
+                      case MessageType.voice:
+                        return VoiceMessage(
                             controller: widget.scrollController,
                             index: index,
                             message: message,
-                            isMe: isMe,
-                          );
-                        case MessageType.voice:
-                          return VoiceMessage(
-                              controller: widget.scrollController,
-                              index: index,
-                              message: message,
-                              isMe: isMe);
-                        case MessageType.system:
-                          return SystemMessage(
-                            title: message.body,
-                          );
-                      }
+                            isMe: isMe);
+                      case MessageType.system:
+                        return SystemMessage(
+                          title: message.body,
+                        );
+                    }
 
-                      return Container();
-                    },
-                  ),
+                    return Container();
+                  },
                 ),
               ),
       ),
@@ -111,6 +107,26 @@ class ScrollableTile extends StatelessWidget {
       index: index,
       child: child,
       highlightColor: cornflower,
+    );
+  }
+}
+
+class Scroller extends StatelessWidget {
+  final Widget child;
+  final ScrollController scrollController;
+
+  const Scroller({
+    Key key,
+    @required this.child,
+    @required this.scrollController,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Theme(
+      data: ThemeData(highlightColor: cornflower),
+      child: Scrollbar(
+          isAlwaysShown: false, controller: scrollController, child: child),
     );
   }
 }

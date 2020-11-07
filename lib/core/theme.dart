@@ -14,6 +14,7 @@ const strongPink = Color(0xFFff0072);
 const white = Color(0xFFffffff);
 const whiteOpacity30 = Color(0x70ffffff);
 const whiteOpacity20 = Color(0x80ffffff);
+const whiteOpacity50 = Color(0x50ffffff);
 const uiTintColorFill = Color(0xFF00aeaa);
 const cornflower = Color(0xFF725dff);
 const pastelRed = Color(0xFFf44343);

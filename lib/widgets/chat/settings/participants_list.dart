@@ -253,15 +253,18 @@ class ParticipantAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 53.7,
-      width: 53.7,
-      child: ClipRRect(
-          borderRadius: BorderRadius.circular(5.3),
-          child: NetworkPhoto(
-            imageUrl: url ?? '',
-            placeHolder: 'assets/images/group_placeholder.svg',
-          )),
+    return GestureDetector(
+      onTap: () => ExtendedNavigator.of(context).pushSingleImage(url: url),
+      child: Container(
+        height: 53.7,
+        width: 53.7,
+        child: ClipRRect(
+            borderRadius: BorderRadius.circular(5.3),
+            child: NetworkPhoto(
+              imageUrl: url ?? '',
+              placeHolder: 'assets/images/group_placeholder.svg',
+            )),
+      ),
     );
   }
 }

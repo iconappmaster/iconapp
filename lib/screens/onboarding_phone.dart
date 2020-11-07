@@ -155,7 +155,6 @@ class _PinCode extends StatelessWidget {
         disabledColor: cornflower,
         activeColor: cornflower,
         fieldWidth: 40,
-        
         fieldHeight: 40,
         activeFillColor: Colors.transparent);
 
@@ -181,7 +180,7 @@ class _PinCode extends StatelessWidget {
               enableActiveFill: true,
               onChanged: (code) => store.updateCode(code),
               onCompleted: (v) async {
-                 final successFailure = await store.verifySms();
+                final successFailure = await store.verifySms();
                 successFailure.fold(
                   (error) => error.when(
                       serverError: () => context
@@ -195,7 +194,7 @@ class _PinCode extends StatelessWidget {
                       sl<AuthStore>()
                         ..setSignedIn()
                         ..validateAuthState();
-                      
+
                       ExtendedNavigator.of(context).pushAndRemoveUntil(
                           Routes.mainNavigator, (route) => false);
                     },
@@ -342,10 +341,16 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
     return Container(
       width: context.widthPx * .39,
       child: TextField(
+        autofocus: true,
         focusNode: phoneFocus,
         maxLength: 12,
         textAlign: TextAlign.center,
-        decoration: inputDecor,
+        decoration: inputDecor.copyWith(
+          hintText: '0541122244',
+          hintStyle: phoneNumber.copyWith(
+            color: whiteOpacity50,
+          ),
+        ),
         style: phoneNumber.copyWith(
             color: store.isPhoneMode ? white : white.withOpacity(.4)),
         onChanged: (phone) => store.updatePhone(phone),
