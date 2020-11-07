@@ -23,7 +23,7 @@ import 'package:iconapp/screens/verify_icon_email_screen.dart';
 import 'package:iconapp/screens/verify_instagram.dart';
 import 'package:iconapp/screens/verify_send_code_screen.dart';
 import 'package:iconapp/screens/verify_welcome.dart';
-import 'package:iconapp/widgets/chat/message_photo.dart';
+import 'package:iconapp/widgets/global/single_image.dart';
 
 @MaterialAutoRouter(
   generateNavigationHelperExtension: true,
@@ -46,7 +46,7 @@ import 'package:iconapp/widgets/chat/message_photo.dart';
     CupertinoRoute(page: StoryScreen),
     CupertinoRoute(page: StoryEditScreen),
     CupertinoRoute(page: DescriptionScreen),
-    CupertinoRoute(page: SingleImage),
+    MaterialRoute(page: SingleImage),
     CupertinoRoute(page: AlertScreen),
     CupertinoRoute(page: StoryDurationPicker, fullscreenDialog: true),
     CupertinoRoute(page: VerifyWelcomeScreen),

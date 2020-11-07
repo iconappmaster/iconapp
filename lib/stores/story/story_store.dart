@@ -87,8 +87,7 @@ abstract class _StoryStoreBase with Store {
     Future getConversationsStories(int conversationId) async {
       _mode = StoryMode.conversation;
       try {
-        final stories =
-            await _repository.getConversationsStories(conversationId);
+        final stories = await _repository.getConversationsStories(conversationId);
 
         setStories(stories);
       } on ServerError catch (e) {

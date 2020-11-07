@@ -41,7 +41,7 @@ class SplashScreen extends StatelessWidget {
               Material(
                 color: Colors.transparent,
                 child: CustomText(
-                  'מאתחל ...',
+                  'טוען ...',
                   style: chatMessageBody,
                 ),
               ),

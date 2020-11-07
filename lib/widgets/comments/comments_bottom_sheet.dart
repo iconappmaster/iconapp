@@ -35,18 +35,17 @@ class CommentsBottomSheet extends StatelessWidget {
                 topRight: radius,
               ),
               child: Container(
-                height: MediaQuery.of(context).size.height * .6,
-                decoration: BoxDecoration(
-                  gradient: purpleGradient,
-                ),
+                height: MediaQuery.of(context).size.height * .7,
+                decoration: BoxDecoration(gradient: purpleGradient),
                 child: Observer(
                   builder: (_) => Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Expanded(
-                          child: store.loading
-                              ? Center(child: LottieLoader())
-                              : CommentsList(controller: scrollController)),
+                        child: store.loading
+                            ? Center(child: LottieLoader())
+                            : CommentsList(controller: scrollController),
+                      ),
                       Material(
                         color: Colors.transparent,
                         child: PanelMessageCompose(
@@ -61,9 +60,12 @@ class CommentsBottomSheet extends StatelessWidget {
             ),
           ),
           Positioned(
-              left: 30,
-              top: 0,
-              child: CommentsFab(onTap: () => Navigator.pop(context))),
+            left: 30,
+            top: 0,
+            child: CommentsFab(
+              onTap: () => Navigator.pop(context),
+            ),
+          ),
         ],
       ),
     );

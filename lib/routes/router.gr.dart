@@ -38,7 +38,7 @@ import '../screens/verify_icon_email_screen.dart';
 import '../screens/verify_instagram.dart';
 import '../screens/verify_send_code_screen.dart';
 import '../screens/verify_welcome.dart';
-import '../widgets/chat/message_photo.dart';
+import '../widgets/global/single_image.dart';
 
 class Routes {
   static const String mainNavigator = '/';
@@ -279,7 +279,7 @@ class Router extends RouterBase {
     },
     SingleImage: (data) {
       final args = data.getArgs<SingleImageArguments>(nullOk: false);
-      return CupertinoPageRoute<dynamic>(
+      return MaterialPageRoute<dynamic>(
         builder: (context) => SingleImage(
           key: args.key,
           url: args.url,

@@ -65,13 +65,6 @@ mixin _$ChatStore on _ChatStoreBase, Store {
       (_$isInputEmptyComputed ??= Computed<bool>(() => super.isInputEmpty,
               name: '_ChatStoreBase.isInputEmpty'))
           .value;
-  Computed<int> _$firstMessageTimestampComputed;
-
-  @override
-  int get firstMessageTimestamp => (_$firstMessageTimestampComputed ??=
-          Computed<int>(() => super.firstMessageTimestamp,
-              name: '_ChatStoreBase.firstMessageTimestamp'))
-      .value;
   Computed<bool> _$isSubscribingComputed;
 
   @override
@@ -478,7 +471,6 @@ conversation: ${conversation},
 composerMode: ${composerMode},
 getMessages: ${getMessages},
 isInputEmpty: ${isInputEmpty},
-firstMessageTimestamp: ${firstMessageTimestamp},
 isSubscribing: ${isSubscribing},
 isRecording: ${isRecording},
 showWelcomeDialog: ${showWelcomeDialog}

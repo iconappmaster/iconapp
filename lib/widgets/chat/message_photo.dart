@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:iconapp/widgets/global/blur_appbar.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:vibration/vibration.dart';
 import '../../core/bus.dart';
@@ -219,50 +218,5 @@ class _PhotoMessageState extends State<PhotoMessage> {
   void dispose() {
     progressSubscription?.cancel();
     super.dispose();
-  }
-}
-
-class SingleImage extends StatelessWidget {
-  final String url;
-
-  const SingleImage({
-    Key key,
-    @required this.url,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Stack(
-        children: [
-          Center(
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * .8,
-              child: CachedNetworkImage(
-                fadeInCurve: Curves.bounceIn,
-                fit: BoxFit.cover,
-                useOldImageOnUrlChange: true,
-                progressIndicatorBuilder: (context, url, data) {
-                  return Center(
-                      child: SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 1,
-                            value: data.progress,
-                            valueColor: AlwaysStoppedAnimation(cornflower),
-                          )));
-                },
-                imageUrl: url,
-                fadeOutDuration: const Duration(milliseconds: 250),
-              ),
-            ),
-          ),
-          BluredAppbar(),
-        ],
-      ),
-    );
   }
 }

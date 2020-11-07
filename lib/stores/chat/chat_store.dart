@@ -115,9 +115,6 @@ abstract class _ChatStoreBase with Store {
   bool get isInputEmpty => _state.inputMessage.isNotEmpty;
 
   @computed
-  int get firstMessageTimestamp => _conversation.messages.last.timestamp;
-
-  @computed
   bool get isSubscribing => _state.isSubscribing;
 
   @computed
@@ -174,17 +171,19 @@ abstract class _ChatStoreBase with Store {
 
   @action
   Future fetchMore() async {
-    final fetchedConversation = await _repository.getRemoteConversaion(
+    final remote = await _repository.getRemoteConversaion(
       conversation.id,
-      PagingConfig.limit,
-      firstMessageTimestamp,
+      limit: PagingConfig.limit,
+      offset: firstMessageTimestamp(),
     );
 
-    final currentMessages = _messages.toList();
-    
-    _messages.clear();
-    
-    _messages.addAll([...fetchedConversation.messages, ...currentMessages]);
+    if (remote.id == conversation.id && remote.messages.isNotEmpty) {
+      _conversation = _conversation.copyWith(messages: remote.messages);
+
+      final currentMessages = remote.messages.toList();
+
+      _messages.insertAll(0, currentMessages);
+    }
   }
 
   @action
@@ -192,12 +191,8 @@ abstract class _ChatStoreBase with Store {
     try {
       _state = _state.copyWith(loading: true);
 
-      final remote = await _repository.getRemoteConversaion(
-        conversation.id,
-        PagingConfig.limit,
-        firstMessageTimestamp,
-      );
-
+      final remote = await _repository.getRemoteConversaion(conversation.id);
+      _messages.clear();
       // check that we are loading the current conversation
       if (remote.id == conversation.id && remote.messages.isNotEmpty) {
         updateUi(remote);
@@ -590,6 +585,10 @@ abstract class _ChatStoreBase with Store {
     dataReady = false;
     _composerMode = ComposerMode.viewer;
     await recordTimer?.dispose();
+  }
+
+  int firstMessageTimestamp() {
+    return _conversation.messages.first.timestamp;
   }
 }
 

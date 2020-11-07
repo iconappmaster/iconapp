@@ -32,19 +32,23 @@ class ChatAppbar extends StatelessWidget {
                   url: store.conversation?.backgroundPhoto?.url ?? ''),
               SizedBox(width: 8),
               Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    CustomText(store?.conversation?.name ?? '',
-                        textAlign: TextAlign.start,
-                        maxLines: 1,
-                        style: loginBigText),
-                    CustomText(
-                      '${store.conversation?.numberOfParticipants ?? 0} משתתפים',
-                      style: fieldLabel,
-                    ), // should come from socket
-                  ],
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => _openChatSettings(store, context),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      CustomText(store?.conversation?.name ?? '',
+                          textAlign: TextAlign.start,
+                          maxLines: 1,
+                          style: loginBigText),
+                      CustomText(
+                        '${store.conversation?.numberOfParticipants ?? 0} משתתפים',
+                        style: fieldLabel,
+                      ), // should come from socket
+                    ],
+                  ),
                 ),
               ),
               SizedBox(width: 8),
@@ -89,16 +93,19 @@ class ChatAppbar extends StatelessWidget {
                   width: 26,
                   color: store.dataReady ? white : Colors.grey[400],
                 ),
-                onPressed: store.dataReady
-                    ? () =>
-                        ExtendedNavigator.of(context).pushChatSettingsScreen()
-                    : () {},
+                onPressed: _openChatSettings(store, context),
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Function _openChatSettings(ChatStore store, BuildContext context) {
+    return store.dataReady
+        ? () => ExtendedNavigator.of(context).pushChatSettingsScreen()
+        : null;
   }
 }
 

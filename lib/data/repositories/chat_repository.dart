@@ -10,7 +10,8 @@ import '../../core/extensions/string_ext.dart';
 import '../../core/extensions/int_ext.dart';
 
 abstract class ChatRepository {
-  Future<Conversation> getRemoteConversaion(int chatId, int limit, int offset);
+  Future<Conversation> getRemoteConversaion(int chatId,
+      {int limit, int offset});
   Future<Conversation> getCachedConversation(int chatId);
   Future<bool> cacheConversation(Conversation conversation);
   Future<MessageModel> sendMessage(int conversationId, MessageModel message);
@@ -39,8 +40,8 @@ class ChatRepositoryImpl implements ChatRepository {
   });
 
   @override
-  Future<Conversation> getRemoteConversaion(
-      int chatId, int limit, int offset) async {
+  Future<Conversation> getRemoteConversaion(int chatId,
+      {int limit, int offset}) async {
     return await remote.getConversaion(
       chatId,
       limit: limit,

@@ -50,7 +50,7 @@ class _ChatListState extends State<ChatList> {
         child: store.getState.loading && store.getMessages.isEmpty
             ? LottieLoader()
             : Scroller(
-                controller: widget.scrollController,
+                scrollController: widget.scrollController,
                 child: ListView.builder(
                   controller: widget.scrollController,
                   physics: BouncingScrollPhysics(),
@@ -68,6 +68,14 @@ class _ChatListState extends State<ChatList> {
                             message: message,
                             isMe: isMe,
                             index: index);
+
+                      case MessageType.photo:
+                        return PhotoMessage(
+                          controller: widget.scrollController,
+                          message: message,
+                          isMe: isMe,
+                          index: index,
+                        );
 
                       case MessageType.photo:
                         return PhotoMessage(
@@ -130,15 +138,20 @@ class ScrollableTile extends StatelessWidget {
 
 class Scroller extends StatelessWidget {
   final Widget child;
-  final ScrollController controller;
-  const Scroller({Key key, @required this.child, this.controller})
-      : super(key: key);
+
+  final ScrollController scrollController;
+
+  const Scroller({
+    Key key,
+    @required this.child,
+    @required this.scrollController,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Theme(
         data: ThemeData(highlightColor: cornflower),
         child: Scrollbar(
-            isAlwaysShown: false, controller: controller, child: child));
+            isAlwaysShown: false, controller: scrollController, child: child));
   }
 }

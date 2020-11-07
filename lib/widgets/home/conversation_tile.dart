@@ -26,7 +26,7 @@ class ConversationTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 9.3),
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 9.3),
       child: Material(
         color: darkIndigo2,
         child: InkWell(

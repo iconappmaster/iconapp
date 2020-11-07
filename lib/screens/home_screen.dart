@@ -55,9 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     _initSocket();
 
-    if (_sp.contains(StorageKey.fcmConversation)) {
-      _navigateToChatFromFCM();
-    }
+    if (_sp.contains(StorageKey.fcmConversation)) _navigateToChatFromFCM();
 
     _refreshData();
     _listenLifeCycle();
@@ -73,6 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
     );
+ 
   }
 
   Future _initSocket() async {
