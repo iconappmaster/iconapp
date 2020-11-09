@@ -3,7 +3,7 @@ description: Icon application
 
 publish_to: 'none'
 
-version: 2.0.1+12
+version: 2.0.1+13
 
 environment:
   sdk: ">=2.7.0 <3.0.0"

@@ -16,7 +16,7 @@ class CreateConversationTile extends StatefulWidget {
     @required this.onTap,
     @required this.title,
     @required this.url,
-    this.selected = false, 
+    this.selected = false,
     this.showSelectedCircle = true,
   }) : super(key: key);
 
@@ -78,26 +78,27 @@ class _CreateConversationTileState extends State<CreateConversationTile>
                   borderRadius: BorderRadius.circular(5.3),
                   child: NetworkPhoto(
                     placeHolder: 'assets/images/group_placeholder.svg',
-                    imageUrl: widget.url,
+                    imageUrl: widget?.url ?? '',
                     height: 41,
                     width: 41,
                   ),
                 ),
                 SizedBox(width: 19.7),
                 CustomText(
-                  widget.title,
+                  widget?.title ?? '',
                   style: createCategoryTitle,
                 ),
               ],
             ),
-            if(widget.showSelectedCircle) Positioned(
-              right: 28,
-              bottom: 0,
-              child: ScaleTransition(
-                scale: _animation,
-                child: CheckCircle(),
+            if (widget.showSelectedCircle)
+              Positioned(
+                right: 28,
+                bottom: 0,
+                child: ScaleTransition(
+                  scale: _animation,
+                  child: CheckCircle(),
+                ),
               ),
-            ),
           ]),
         ),
       ),

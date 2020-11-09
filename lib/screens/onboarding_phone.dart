@@ -358,36 +358,7 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
       ),
     );
   }
-
-  // Widget _buildPrefix(
-  //   BuildContext context,
-  //   InputDecoration inputDecor,
-  //   LoginStore store,
-  // ) {
-  //   return Container(
-  //     width: context.widthPx * .155,
-  //     child: TextField(
-  //       focusNode: prefixFocus,
-  //       autofocus: true,
-  //       keyboardType: TextInputType.phone,
-  //       textAlign: TextAlign.center,
-  //       controller: prefixController,
-  //       maxLength: 3,
-  //       maxLengthEnforced: true,
-  //       decoration: inputDecor,
-  //       style: phoneNumber.copyWith(
-  //           color: store.isPhoneMode ? white : white.withOpacity(.4)),
-  //       onChanged: (prefix) {
-  //         store.updatePhonePrefix(prefix);
-  //         if (prefix.length == 3) {
-  //           prefixFocus.unfocus();
-  //           FocusScope.of(context).requestFocus(phoneFocus);
-  //         }
-  //       },
-  //     ),
-  //   );
-  // }
-
+ 
   Widget _countryCode(
       BuildContext context, InputDecoration inputDecor, LoginStore store) {
     final style = phoneNumber.copyWith(

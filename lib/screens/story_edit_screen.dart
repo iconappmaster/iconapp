@@ -329,8 +329,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                         style: settingsAppbarTitle,
                       ),
                       onTap: () {
-                        _edit.addCameraVideo();
-                        ;
+                        _edit.uploadVideo(ImageSource.camera);
                         Navigator.pop(context);
                       }),
                   ListTile(
@@ -341,7 +340,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                     ),
                     title: Text("גלריית וידאו", style: settingsAppbarTitle),
                     onTap: () async {
-                      _edit.addGalleryVideo();
+                      _edit.uploadVideo(ImageSource.gallery);
                       await Navigator.pop(context);
                       await _animateEnd();
                     },

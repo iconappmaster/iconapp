@@ -44,7 +44,12 @@ class ComposeActionButtons extends StatelessWidget {
         enableFeedback: true,
         onLongPress: onLongTap,
         onTap: onTap,
-        child: SvgPicture.asset(asset, height: size, width: size, color: sendColor,),
+        child: SvgPicture.asset(
+          asset,
+          height: size,
+          width: size,
+          color: sendColor,
+        ),
       ),
     );
   }
@@ -57,34 +62,29 @@ class ComposeActionButtons extends StatelessWidget {
       builder: (BuildContext bc) {
         return ClipRRect(
             child: BackdropFilter(
-            filter:ImageFilter.blur(sigmaX: 6.0,sigmaY: 6.0),
-              child:Container(
-          child: Wrap(
-            children: <Widget>[
-              ListTile(
-                  leading: SvgPicture.asset('assets/images/camera.svg',
-                      height: 40, width: 40, color: white),
-                  title: Text(
-                    'מצלמה',
-                    style: settingsAppbarTitle,
+                filter: ImageFilter.blur(sigmaX: 6.0, sigmaY: 6.0),
+                child: Container(
+                  child: Wrap(
+                    children: <Widget>[
+                      ListTile(
+                          leading: SvgPicture.asset('assets/images/camera.svg',
+                              height: 40, width: 40, color: white),
+                          title: Text('מצלמה', style: settingsAppbarTitle),
+                          onTap: () {
+                            
+                            store.sendPhotoMessage(ImageSource.camera);
+                            Navigator.pop(context);
+                          }),
+                      ListTile(
+                          leading: Icon(Icons.videocam, color: white, size: 40),
+                          title: Text('וידאו', style: settingsAppbarTitle),
+                          onTap: () {
+                            store.sendVideoMessage(ImageSource.camera);
+                            Navigator.pop(context);
+                          }),
+                    ],
                   ),
-                  onTap: () {
-                    store.sendPhotoMessage(ImageSource.camera);
-                    Navigator.pop(context);
-                  }),
-              ListTile(
-                  leading: Icon(Icons.videocam, color: white, size: 40),
-                  title: Text(
-                    'וידאו',
-                    style: settingsAppbarTitle,
-                  ),
-                  onTap: () {
-                    store.sendVideoMessage(ImageSource.camera);
-                    Navigator.pop(context);
-                  }),
-            ],
-          ),
-            )));
+                )));
       },
     );
   }
@@ -96,12 +96,12 @@ class ComposeActionButtons extends StatelessWidget {
       context: context,
       builder: (BuildContext bc) {
         return ClipRRect(
-            child: BackdropFilter(
-            filter:ImageFilter.blur(sigmaX: 6.0,sigmaY: 6.0),
-              child: Container(
-            child: Wrap(
-              children: <Widget>[
-                ListTile(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 6.0, sigmaY: 6.0),
+            child: Container(
+              child: Wrap(
+                children: <Widget>[
+                  ListTile(
                       leading: SvgPicture.asset('assets/images/photo.svg',
                           height: 40, width: 40, color: white),
                       title: Text('גלריה מצלמה', style: settingsAppbarTitle),
@@ -109,17 +109,21 @@ class ComposeActionButtons extends StatelessWidget {
                         store.sendPhotoMessage(ImageSource.gallery);
                         Navigator.pop(context);
                       }),
-                ListTile(
-                      leading: Icon(Icons.video_library, color: white, size: 40,),
+                  ListTile(
+                      leading: Icon(
+                        Icons.video_library,
+                        color: white,
+                        size: 40,
+                      ),
                       title: Text('גלריה וידאו', style: settingsAppbarTitle),
                       onTap: () {
                         store.sendVideoMessage(ImageSource.gallery);
                         Navigator.pop(context);
                       }),
-              ],
+                ],
+              ),
             ),
           ),
-                  ),
         );
       },
     );

@@ -33,8 +33,7 @@ class ConversationTile extends StatelessWidget {
           onTap: onTap,
           child: Container(
             height: 80,
-            padding:
-                EdgeInsets.only(top: 8.7, bottom: 8.7, left: 8.7),
+            padding: EdgeInsets.only(top: 8.7, bottom: 8.7, left: 8.7),
             // margin: EdgeInsets.symmetric(vertical: 5, horizontal: 9.3),
             width: context.widthPx,
             decoration: BoxDecoration(

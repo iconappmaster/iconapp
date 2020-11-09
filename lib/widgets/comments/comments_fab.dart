@@ -33,15 +33,18 @@ class CommentsFab extends StatelessWidget {
           child: Center(
             child: SvgPicture.asset(
               'assets/images/gold_bubble.svg',
-              height: 35,
-              width: 34,
+              height: 30,
+              width: 30,
             ),
           ),
         ),
         Observer(
           builder: (_) => Visibility(
             visible: comments.showNewCommentBadge,
-            child: NewCommentsRedDot(),
+            child: Positioned(
+            right: 5,
+            top: 0,
+              child: NewCommentsRedDot()),
           ),
         ),
       ]),
@@ -57,8 +60,8 @@ class NewCommentsRedDot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 20,
-      width: 20,
+      height: 15,
+      width: 15,
       decoration:
           BoxDecoration(shape: BoxShape.circle, gradient: redPinkGradient),
     );

@@ -1,4 +1,5 @@
 // MESSAGE TYPES
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/message_model.dart';
@@ -7,6 +8,7 @@ import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'compose/reply_widgets.dart';
+import 'package:iconapp/routes/router.gr.dart';
 import 'like_buuble.dart';
 
 class IconBubble extends StatefulWidget {
@@ -74,10 +76,9 @@ class _IconBubbleState extends State<IconBubble> {
             // show the emoji+ sign in the right side
             if (!widget.hideEmoji && widget.isMe)
               EmojiPlus(
-                isMe: widget.isMe,
-                message: widget.message,
-                likeAsset: widget.message?.likeType,
-              ),
+                  isMe: widget.isMe,
+                  message: widget.message,
+                  likeAsset: widget.message?.likeType),
             GestureDetector(
               onLongPress: widget.onLongTap,
               onDoubleTap: widget.onDoubleTap,
@@ -120,19 +121,33 @@ class _IconBubbleState extends State<IconBubble> {
                                       MessageType.text &&
                                   !widget.isMe)
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 5.0, top: 7.0),
+                                  padding: const EdgeInsets.only(
+                                      left: 5.0, top: 7.0),
                                   child: Container(
                                     width: 40,
                                     height: 40,
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(4.2),
-                                      child: NetworkPhoto(
-                                        imageUrl:
-                                            widget.message.sender?.photo != null
-                                                ? widget.message.sender?.photo
-                                                        ?.url ??
-                                                    ''
-                                                : '',
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          if (widget.message.sender?.photo?.url !=
+                                              null)
+                                            ExtendedNavigator.of(context)
+                                                .pushSingleImage(
+                                              url: widget.message.sender?.photo
+                                                      ?.url ??
+                                                  '',
+                                            );
+                                        },
+                                        child: NetworkPhoto(
+                                          imageUrl:
+                                              widget.message.sender?.photo !=
+                                                      null
+                                                  ? widget.message.sender?.photo
+                                                          ?.url ??
+                                                      ''
+                                                  : '',
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -150,9 +165,9 @@ class _IconBubbleState extends State<IconBubble> {
             // show the emoji+ sign in the left side
             if (!widget.hideEmoji && !widget.isMe)
               EmojiPlus(
-                  likeAsset: widget.message?.likeType,
-                  isMe: widget.isMe,
-                  message: widget.message,
+                likeAsset: widget.message?.likeType,
+                isMe: widget.isMe,
+                message: widget.message,
               ),
           ],
         ),

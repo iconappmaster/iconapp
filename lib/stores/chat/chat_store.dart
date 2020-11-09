@@ -310,6 +310,7 @@ abstract class _ChatStoreBase with Store {
         _messages.add(msg);
 
         _replyMessage = null;
+        _state = _state.copyWith(inputMessage: '');
 
         final remote = await _repository.sendMessage(conversation.id, msg);
 
@@ -317,8 +318,6 @@ abstract class _ChatStoreBase with Store {
           remote.copyWith(status: MessageStatus.sent, id: msg.id),
           remote.id,
         );
-
-        _state = _state.copyWith(inputMessage: '');
       }
     } on ServerError catch (e) {
       Crash.report(e.message);

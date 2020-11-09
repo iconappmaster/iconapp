@@ -44,9 +44,8 @@ class ChatAppbar extends StatelessWidget {
                           maxLines: 1,
                           style: loginBigText),
                       CustomText(
-                        '${store.conversation?.numberOfParticipants ?? 0} משתתפים',
-                        style: fieldLabel,
-                      ), // should come from socket
+                          '${store.conversation?.users?.length ?? 0} אייקונים, ${store.conversation?.numberOfParticipants ?? 0} עוקבים',
+                          style: fieldLabel), // should come from socket
                     ],
                   ),
                 ),

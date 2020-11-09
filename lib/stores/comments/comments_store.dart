@@ -109,11 +109,9 @@ abstract class _CommentsStoreBase with Store {
   void watchMessages() {
     _subscription = _repository.watchComments().listen(
       (message) {
-        
-        final conversation = _chat.conversation.copyWith(
-          shouldShowNewCommentsBadge: true,
-        );
-        
+        final conversation =
+            _chat.conversation.copyWith(shouldShowNewCommentsBadge: true);
+        _showNewCommentBadge = true;
         _chat.setConversation(conversation);
         _comments.add(message);
       },
