@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/repositories/search_repository.dart';
@@ -66,6 +67,7 @@ abstract class _SearchStoreBase with Store {
         },
       );
     } on ServerError catch (e) {
+      Crash.report(e.message);
       return left(e);
     }
   }

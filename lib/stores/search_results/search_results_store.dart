@@ -1,4 +1,5 @@
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/repositories/search_repository.dart';
 import 'package:iconapp/domain/core/errors.dart';
@@ -74,8 +75,8 @@ abstract class _SearchResultStoreBase with Store {
           _categoryConversation.addAll(result);
           break;
       }
-    } on ServerError catch (_) {
-      print('error');
+    } on ServerError catch (e) {
+      Crash.report(e.message);
     } finally {
       isLoading = false;
     }

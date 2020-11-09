@@ -3,6 +3,7 @@ import 'package:iconapp/core/crop.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/repositories/media_repository.dart';
+import 'package:iconapp/domain/core/errors.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
@@ -92,8 +93,8 @@ abstract class _MediaStoreBase with Store {
       _isLoading = false;
 
       return result;
-    } on Exception catch (e) {
-      Crash.report(e.toString());
+    } on ServerError catch (e) {
+      Crash.report(e.message);
     } finally {
       _isLoading = false;
     }

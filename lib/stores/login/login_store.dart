@@ -50,7 +50,8 @@ abstract class _LoginStoreBase with Store {
   bool get isPinCodeMode => _state.phonePageState == PhoneOnboardingState.sent;
 
   @computed
-  bool get numberValid => _state.countryCode.length > 1  && _state.phone.length > 3;
+  bool get numberValid =>
+      _state.countryCode.length > 1 && _state.phone.length > 3;
 
   @computed
   LoginState get getState => _state;
@@ -64,11 +65,6 @@ abstract class _LoginStoreBase with Store {
   void updateCountryCode(String countryCode) {
     _state = _state.copyWith(countryCode: countryCode);
   }
-
-  // @action
-  // void updatePhonePrefix(String prefix) {
-  //   _state = _state.copyWith(prefix: prefix);
-  // }
 
   @action
   void updateCode(String code) {
@@ -84,8 +80,8 @@ abstract class _LoginStoreBase with Store {
       phonePageState: PhoneOnboardingState.sent,
     );
 
-    final failureOrSuccess = await _repository
-        .verifyPhone("+" + _state.countryCode + _state.phone);
+    final failureOrSuccess =
+        await _repository.verifyPhone("+" + _state.countryCode + _state.phone);
 
     failureOrSuccess.fold(
       (failure) {
@@ -124,7 +120,6 @@ abstract class _LoginStoreBase with Store {
       return right(user.didCompleteRegistration
           ? AuthSuccess.navigateHome()
           : AuthSuccess.navigateProfile());
-   
     } on DioError catch (error) {
       if (error.response.data['error'] == "ERROR_WRONG_SMS") {
         return left(const AuthFailure.wrongCode());

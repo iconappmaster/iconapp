@@ -93,6 +93,7 @@ abstract class _OnboardingStoreBase with Store {
       if (saved) _authStore.setSignedIn();
       return right(saved);
     } on DioError catch (e) {
+      Crash.report(e.message);
       return left(e);
     } finally {
       _state = _state.copyWith(loading: false);

@@ -19,13 +19,13 @@ abstract class ChatRepository {
   Future<Conversation> unsubscribe(int id);
   Future<MessageModel> likeMessage(int messageId, String likeType);
   Future<MessageModel> unlikeMessage(int messageId, String likeType);
-  Stream<MessageModel> watchMessages();
-  Stream<MessageModel> watchAddLike();
-  Stream<MessageModel> watchRemoveLike();
   Future pinConversation(int conversationId, bool isPinned);
   Future conversationViewed(int conversationId);
   Future block(int conversationId);
   Future report(int conversationId, String text);
+  Stream<MessageModel> watchMessages();
+  Stream<MessageModel> watchAddLike();
+  Stream<MessageModel> watchRemoveLike();
 }
 
 class ChatRepositoryImpl implements ChatRepository {
