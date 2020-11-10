@@ -16,6 +16,13 @@ mixin _$HomeStore on _HomeStoreBase, Store {
           () => super.showWelcomeDialog,
           name: '_HomeStoreBase.showWelcomeDialog'))
       .value;
+  Computed<bool> _$showForceUpdateComputed;
+
+  @override
+  bool get showForceUpdate =>
+      (_$showForceUpdateComputed ??= Computed<bool>(() => super.showForceUpdate,
+              name: '_HomeStoreBase.showForceUpdate'))
+          .value;
   Computed<bool> _$isLoadingComputed;
 
   @override
@@ -43,6 +50,21 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   set _loading(bool value) {
     _$_loadingAtom.reportWrite(value, super._loading, () {
       super._loading = value;
+    });
+  }
+
+  final _$_showForceUpdateAtom = Atom(name: '_HomeStoreBase._showForceUpdate');
+
+  @override
+  bool get _showForceUpdate {
+    _$_showForceUpdateAtom.reportRead();
+    return super._showForceUpdate;
+  }
+
+  @override
+  set _showForceUpdate(bool value) {
+    _$_showForceUpdateAtom.reportWrite(value, super._showForceUpdate, () {
+      super._showForceUpdate = value;
     });
   }
 
@@ -84,6 +106,14 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   Future<List<Conversation>> getCachedAndRender() {
     return _$getCachedAndRenderAsyncAction
         .run(() => super.getCachedAndRender());
+  }
+
+  final _$checkAppVersionAsyncAction =
+      AsyncAction('_HomeStoreBase.checkAppVersion');
+
+  @override
+  Future<dynamic> checkAppVersion() {
+    return _$checkAppVersionAsyncAction.run(() => super.checkAppVersion());
   }
 
   final _$getConversationsAsyncAction =
@@ -195,6 +225,7 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   String toString() {
     return '''
 showWelcomeDialog: ${showWelcomeDialog},
+showForceUpdate: ${showForceUpdate},
 isLoading: ${isLoading},
 conversations: ${conversations}
     ''';

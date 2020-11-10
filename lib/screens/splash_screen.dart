@@ -26,7 +26,7 @@ class SplashScreen extends StatelessWidget {
           ),
         ),
         Positioned(
-          bottom: 100,
+          bottom: 25,
           child: Column(
             children: [
               SizedBox(

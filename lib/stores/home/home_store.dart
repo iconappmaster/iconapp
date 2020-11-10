@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:dartz/dartz.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
@@ -7,6 +8,7 @@ import 'package:iconapp/data/repositories/home_repository.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/domain/core/errors.dart';
 import 'package:mobx/mobx.dart';
+
 part 'home_store.g.dart';
 
 class HomeStore = _HomeStoreBase with _$HomeStore;
@@ -30,6 +32,9 @@ abstract class _HomeStoreBase with Store {
   bool _loading = false;
 
   @observable
+  bool _showForceUpdate = false;
+
+  @observable
   ObservableList<Conversation> _conversations = ObservableList.of([]);
 
   @observable
@@ -37,6 +42,9 @@ abstract class _HomeStoreBase with Store {
 
   @computed
   bool get showWelcomeDialog => _showWelcomeDialog;
+
+  @computed
+  bool get showForceUpdate => _showForceUpdate;
 
   @computed
   bool get isLoading => _loading;
@@ -64,6 +72,16 @@ abstract class _HomeStoreBase with Store {
       return cached;
     } else
       return [];
+  }
+
+  @action
+  Future checkAppVersion() async {
+    try {
+    final showForceUpdate = await _repository.updateAppVersion();
+    _showForceUpdate = showForceUpdate;
+    } on ServerError catch (e) {
+      Crash.report(e.message);
+    } 
   }
 
   @action

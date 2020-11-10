@@ -15,7 +15,7 @@ const String baseUrlProd = 'https://iconproduction.herokuapp.com/api/v1/';
 const String baseUrlStaging = 'https://iconstaging.herokuapp.com/api/v1/';
 
 // UNDO THIS
-@RestApi(baseUrl: baseUrlProd)
+@RestApi(baseUrl: baseUrlStaging)
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
@@ -194,6 +194,9 @@ abstract class RestClient {
 
   @POST('alerts/clear_specific_alert')
   Future clearSpecificAlert(@Query('userAlertId') int userAlertId);
+
+  @POST('user/update_app_version')
+  Future<bool> updateAppVersion(@Query('appVersion') String appVersion);
 }
 
 Dio getDioClient() {

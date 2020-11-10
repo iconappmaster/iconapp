@@ -9,7 +9,7 @@ part of 'rest_client.dart';
 class _RestClient implements RestClient {
   _RestClient(this._dio, {this.baseUrl}) {
     ArgumentError.checkNotNull(_dio, '_dio');
-    this.baseUrl ??= 'https://iconproduction.herokuapp.com/api/v1/';
+    this.baseUrl ??= 'https://iconstaging.herokuapp.com/api/v1/';
   }
 
   final Dio _dio;
@@ -879,6 +879,24 @@ class _RestClient implements RestClient {
     final queryParameters = <String, dynamic>{r'userAlertId': userAlertId};
     final _data = <String, dynamic>{};
     final Response _result = await _dio.request('alerts/clear_specific_alert',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = _result.data;
+    return value;
+  }
+
+  @override
+  updateAppVersion(appVersion) async {
+    ArgumentError.checkNotNull(appVersion, 'appVersion');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'appVersion': appVersion};
+    final _data = <String, dynamic>{};
+    final Response<bool> _result = await _dio.request('user/update_app_version',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',

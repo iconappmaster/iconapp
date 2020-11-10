@@ -17,6 +17,7 @@ import 'package:iconapp/stores/story/story_store.dart';
 import 'package:iconapp/widgets/bottomsheet/bs_bar.dart';
 import 'package:iconapp/widgets/bottomsheet/bs_nested_modal.dart';
 import 'package:iconapp/widgets/global/focus_aware.dart';
+import 'package:iconapp/widgets/home/force_update_dialog.dart';
 import 'package:iconapp/widgets/home/home_drawer.dart';
 import 'package:iconapp/widgets/home/home_list.dart';
 import 'package:iconapp/widgets/story/story_list.dart';
@@ -71,7 +72,6 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
     );
- 
   }
 
   Future _initSocket() async {
@@ -79,7 +79,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
     await _socket.subscribeHomeChannel(homeChannelName);
 
-    _home.watchConversation();
+    _home
+      ..watchConversation()
+      ..checkAppVersion();
+
     _story.watchStories();
 
     _socket
@@ -198,12 +201,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Observer(builder: (_) {
                       return Visibility(
-                        visible: _home.showWelcomeDialog,
-                        child: WelcomeDialog(
-                          onTap: () => _home.saveWelcomeSeen(),
-                        ),
-                      );
+                          visible:
+                              !_home.showForceUpdate && _home.showWelcomeDialog,
+                          child: WelcomeDialog(
+                              onTap: () => _home.saveWelcomeSeen()));
                     }),
+                    Observer(
+                      builder: (_) => Visibility(
+                        visible: _home.showForceUpdate,
+                        child: AbsorbPointer(
+                          child: ForceUpdateDialog(),
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),

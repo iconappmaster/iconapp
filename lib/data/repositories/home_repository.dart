@@ -5,12 +5,16 @@ import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 import 'package:iconapp/data/sources/socket/socket_manager.dart';
+import 'package:package_info/package_info.dart';
+
 
 abstract class HomeRepository {
   Future<List<Conversation>> getConversations();
   Future<List<Conversation>> getCachedHome();
   Future<bool> saveHome(List<Conversation> conversation);
+  Future<bool> updateAppVersion();
   Stream<Conversation> watchConversation();
+
 }
 
 class HomeRepositoryImpl implements HomeRepository {
@@ -53,5 +57,13 @@ class HomeRepositoryImpl implements HomeRepository {
   Future<bool> saveHome(List<Conversation> conversation) async {
     final json = jsonEncode(conversation);
     return await cache.setString(StorageKey.home, json);
+  }
+
+  @override
+  Future<bool> updateAppVersion() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+    final version = packageInfo.version;
+    final showForceUpdate = await restClient.updateAppVersion(version);
+    return showForceUpdate;
   }
 }
