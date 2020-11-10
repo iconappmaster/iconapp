@@ -56,7 +56,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
     _initSocket();
 
-    if (_sp.contains(StorageKey.fcmConversation)) _navigateToChatFromFCM();
+    if (_sp.contains(StorageKey.fcmConversation)) {
+      _navigateToChatFromFCM();
+    }
 
     _refreshData();
     _listenLifeCycle();
@@ -66,12 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _listenLifeCycle() {
     WidgetsBinding.instance.addObserver(
-      LifecycleEventHandler(
-        resumeCallBack: () async {
-          _refreshData();
-        },
-      ),
-    );
+        LifecycleEventHandler(resumeCallBack: () async => _refreshData()));
   }
 
   Future _initSocket() async {
@@ -156,33 +153,30 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         Visibility(
                           visible: story.isUserIcon || story.stories.isNotEmpty,
-                          child: StoriesList(
-                              mode: story.mode,
-                              show:
-                                  story.isUserIcon || story.stories.isNotEmpty),
+                          child: StoriesList(mode: story.mode),
                         ),
                         Expanded(
-                          child: RefreshIndicator(
-                            color: white,
-                            strokeWidth: 2,
-                            backgroundColor: cornflower,
-                            onRefresh: () async => await _refreshData(),
-                            child: ConversationsList(
-                              controller: _controller,
-                              onConversationTap: (conversation, index) async {
-                                story.clearStories();
-                                await ExtendedNavigator.of(context)
-                                    .pushChatScreen(conversation: conversation);
+                            child: RefreshIndicator(
+                                color: white,
+                                strokeWidth: 2,
+                                backgroundColor: cornflower,
+                                onRefresh: () async => await _refreshData(),
+                                child: ConversationsList(
+                                  controller: _controller,
+                                  onConversationTap:
+                                      (conversation, index) async {
+                                    story.clearStories();
+                                    await ExtendedNavigator.of(context)
+                                        .pushChatScreen(
+                                            conversation: conversation);
 
-                                _home.hideBadge(index);
+                                    _home.hideBadge(index);
 
-                                story
-                                  ..setStoryMode(StoryMode.home)
-                                  ..refreshStories();
-                              },
-                            ),
-                          ),
-                        ),
+                                    story
+                                      ..setStoryMode(StoryMode.home)
+                                      ..refreshStories();
+                                  },
+                                )))
                       ],
                     ),
                     Align(

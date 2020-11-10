@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>LSApplicationQueriesSchemes</key>
-<	array>
+	<array>
         <string>itms</string>
 	</array>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
