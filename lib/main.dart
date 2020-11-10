@@ -59,7 +59,7 @@ class _MyAppState extends State<MyApp> {
   Future init() async {
     initLocator();
     await _initSharedPreferences();
-
+    
     await _socket
       ..init()
       ..connect();

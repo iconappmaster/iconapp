@@ -91,22 +91,31 @@ class _StoryScreenState extends State<StoryScreen> {
                   },
                   onStoryShow: (s) =>
                       _store.onStoryImageViewed(s?.imageId ?? 0),
-                  storyItems: story.storyImages
-                      .map((storyImage) => storyImage.imageType ==
-                              MediaType.photo.toString().parseEnum()
-                          ? StoryItem.inlineImage(
-                              imageId: storyImage.id,
-                              duration:
-                                  Duration(seconds: storyImage?.duration ?? 7),
-                              url: storyImage?.photo?.url ?? '',
-                              caption: Text(storyImage?.description ?? '',
-                                  style: settingsAppbarTitle),
-                              controller: _storyPageController)
-                          : StoryItem.pageVideo(storyImage.photo?.url ?? '',
-                              controller: _storyPageController,
-                              duration:
-                                  Duration(seconds: storyImage?.duration ?? 7)))
-                      .toList(),
+                  storyItems: story.storyImages.map((storyImage) {
+                    switch (storyImage.imageType) {
+                      case MediaType.photo:
+                        return StoryItem.inlineImage(
+                            imageId: storyImage.id,
+                            duration:
+                                Duration(seconds: storyImage?.duration ?? 7),
+                            url: storyImage?.photo?.url ?? '',
+                            caption: Text(storyImage?.description ?? '',
+                                style: settingsAppbarTitle),
+                            controller: _storyPageController);
+                        break;
+                      case MediaType.video:
+                        StoryItem.pageVideo(storyImage.photo?.url ?? '',
+                            controller: _storyPageController,
+                            duration:
+                                Duration(seconds: storyImage?.duration ?? 7));
+                        break;
+                      case MediaType.ad:
+                        return StoryItem.ad(
+                          adUnitId: '/22166703028/icon_start_splash',
+                        );
+                        break;
+                    }
+                  }).toList(),
                 );
               },
             ).toList(),

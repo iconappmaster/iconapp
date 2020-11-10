@@ -21,7 +21,7 @@ class _$StoryImageModelTearOff {
       {int id,
       int createdAt,
       PhotoModel photo,
-      String imageType,
+      MediaType imageType,
       String description,
       int duration,
       bool wasViewed}) {
@@ -51,7 +51,7 @@ mixin _$StoryImageModel {
   int get id;
   int get createdAt;
   PhotoModel get photo;
-  String get imageType;
+  MediaType get imageType;
   String get description;
   int get duration;
   bool get wasViewed;
@@ -69,7 +69,7 @@ abstract class $StoryImageModelCopyWith<$Res> {
       {int id,
       int createdAt,
       PhotoModel photo,
-      String imageType,
+      MediaType imageType,
       String description,
       int duration,
       bool wasViewed});
@@ -100,7 +100,8 @@ class _$StoryImageModelCopyWithImpl<$Res>
       id: id == freezed ? _value.id : id as int,
       createdAt: createdAt == freezed ? _value.createdAt : createdAt as int,
       photo: photo == freezed ? _value.photo : photo as PhotoModel,
-      imageType: imageType == freezed ? _value.imageType : imageType as String,
+      imageType:
+          imageType == freezed ? _value.imageType : imageType as MediaType,
       description:
           description == freezed ? _value.description : description as String,
       duration: duration == freezed ? _value.duration : duration as int,
@@ -130,7 +131,7 @@ abstract class _$StoryImageModelCopyWith<$Res>
       {int id,
       int createdAt,
       PhotoModel photo,
-      String imageType,
+      MediaType imageType,
       String description,
       int duration,
       bool wasViewed});
@@ -164,7 +165,8 @@ class __$StoryImageModelCopyWithImpl<$Res>
       id: id == freezed ? _value.id : id as int,
       createdAt: createdAt == freezed ? _value.createdAt : createdAt as int,
       photo: photo == freezed ? _value.photo : photo as PhotoModel,
-      imageType: imageType == freezed ? _value.imageType : imageType as String,
+      imageType:
+          imageType == freezed ? _value.imageType : imageType as MediaType,
       description:
           description == freezed ? _value.description : description as String,
       duration: duration == freezed ? _value.duration : duration as int,
@@ -196,7 +198,7 @@ class _$_StoryImageModel implements _StoryImageModel {
   @override
   final PhotoModel photo;
   @override
-  final String imageType;
+  final MediaType imageType;
   @override
   final String description;
   @override
@@ -260,7 +262,7 @@ abstract class _StoryImageModel implements StoryImageModel {
       {int id,
       int createdAt,
       PhotoModel photo,
-      String imageType,
+      MediaType imageType,
       String description,
       int duration,
       bool wasViewed}) = _$_StoryImageModel;
@@ -275,7 +277,7 @@ abstract class _StoryImageModel implements StoryImageModel {
   @override
   PhotoModel get photo;
   @override
-  String get imageType;
+  MediaType get imageType;
   @override
   String get description;
   @override

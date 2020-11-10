@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:iconapp/core/ads/dfp_ad.dart';
 import 'package:iconapp/core/deep_link.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/lifecycle_observer.dart';
@@ -71,7 +72,6 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
     );
- 
   }
 
   Future _initSocket() async {
@@ -152,12 +152,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         Visibility(
-                          visible: story.isUserIcon || story.stories.isNotEmpty,
-                          child: StoriesList(
+                            visible: _showStory(story),
+                            child: StoriesList(
                               mode: story.mode,
-                              show:
-                                  story.isUserIcon || story.stories.isNotEmpty),
-                        ),
+                            )),
                         Expanded(
                           child: RefreshIndicator(
                             color: white,
@@ -168,6 +166,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               controller: _controller,
                               onConversationTap: (conversation, index) async {
                                 story.clearStories();
+
+                                await _home.interstitialAd.show();
+
                                 await ExtendedNavigator.of(context)
                                     .pushChatScreen(conversation: conversation);
 
@@ -213,6 +214,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  bool _showStory(StoryStore story) =>
+      story.isUserIcon || story.stories.isNotEmpty;
 
   void _navigateToChatFromFCM() {
     final savedConversation = _sp.getString(StorageKey.fcmConversation);

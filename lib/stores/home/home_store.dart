@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:dartz/dartz.dart';
+import 'package:iconapp/core/ads/fullscreen_ad.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
@@ -15,11 +16,14 @@ abstract class _HomeStoreBase with Store {
   HomeRepository _repository;
   SharedPreferencesService _sp;
   StreamSubscription<Conversation> _conversationChangedSubscription;
+  InterstitialAd interstitialAd;
 
   _HomeStoreBase() {
     _sp = sl<SharedPreferencesService>();
     _repository = sl<HomeRepository>();
     _shouldShowWelcomeDialog();
+    interstitialAd =
+        InterstitialAd(adUnitId: '/22166703028/icon_start_splash');
   }
 
   void _shouldShowWelcomeDialog() {
@@ -82,8 +86,6 @@ abstract class _HomeStoreBase with Store {
         _repository.saveHome(remote);
         updateUi(remote);
       }
-
-      // return the conversations
       return right(remote);
     } on ServerError catch (e) {
       Crash.report(e.message);

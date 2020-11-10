@@ -18,11 +18,16 @@ class _$StoryModelTearOff {
 
 // ignore: unused_element
   _StoryModel call(
-      {int id, bool isNew, UserModel user, List<StoryImageModel> storyImages}) {
+      {int id,
+      bool isNew,
+      UserModel user,
+      StoryType type,
+      List<StoryImageModel> storyImages}) {
     return _StoryModel(
       id: id,
       isNew: isNew,
       user: user,
+      type: type,
       storyImages: storyImages,
     );
   }
@@ -42,6 +47,7 @@ mixin _$StoryModel {
   int get id;
   bool get isNew;
   UserModel get user;
+  StoryType get type;
   List<StoryImageModel> get storyImages;
 
   Map<String, dynamic> toJson();
@@ -54,7 +60,11 @@ abstract class $StoryModelCopyWith<$Res> {
           StoryModel value, $Res Function(StoryModel) then) =
       _$StoryModelCopyWithImpl<$Res>;
   $Res call(
-      {int id, bool isNew, UserModel user, List<StoryImageModel> storyImages});
+      {int id,
+      bool isNew,
+      UserModel user,
+      StoryType type,
+      List<StoryImageModel> storyImages});
 
   $UserModelCopyWith<$Res> get user;
 }
@@ -72,12 +82,14 @@ class _$StoryModelCopyWithImpl<$Res> implements $StoryModelCopyWith<$Res> {
     Object id = freezed,
     Object isNew = freezed,
     Object user = freezed,
+    Object type = freezed,
     Object storyImages = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as int,
       isNew: isNew == freezed ? _value.isNew : isNew as bool,
       user: user == freezed ? _value.user : user as UserModel,
+      type: type == freezed ? _value.type : type as StoryType,
       storyImages: storyImages == freezed
           ? _value.storyImages
           : storyImages as List<StoryImageModel>,
@@ -102,7 +114,11 @@ abstract class _$StoryModelCopyWith<$Res> implements $StoryModelCopyWith<$Res> {
       __$StoryModelCopyWithImpl<$Res>;
   @override
   $Res call(
-      {int id, bool isNew, UserModel user, List<StoryImageModel> storyImages});
+      {int id,
+      bool isNew,
+      UserModel user,
+      StoryType type,
+      List<StoryImageModel> storyImages});
 
   @override
   $UserModelCopyWith<$Res> get user;
@@ -123,12 +139,14 @@ class __$StoryModelCopyWithImpl<$Res> extends _$StoryModelCopyWithImpl<$Res>
     Object id = freezed,
     Object isNew = freezed,
     Object user = freezed,
+    Object type = freezed,
     Object storyImages = freezed,
   }) {
     return _then(_StoryModel(
       id: id == freezed ? _value.id : id as int,
       isNew: isNew == freezed ? _value.isNew : isNew as bool,
       user: user == freezed ? _value.user : user as UserModel,
+      type: type == freezed ? _value.type : type as StoryType,
       storyImages: storyImages == freezed
           ? _value.storyImages
           : storyImages as List<StoryImageModel>,
@@ -140,7 +158,8 @@ class __$StoryModelCopyWithImpl<$Res> extends _$StoryModelCopyWithImpl<$Res>
 
 /// @nodoc
 class _$_StoryModel implements _StoryModel {
-  const _$_StoryModel({this.id, this.isNew, this.user, this.storyImages});
+  const _$_StoryModel(
+      {this.id, this.isNew, this.user, this.type, this.storyImages});
 
   factory _$_StoryModel.fromJson(Map<String, dynamic> json) =>
       _$_$_StoryModelFromJson(json);
@@ -152,11 +171,13 @@ class _$_StoryModel implements _StoryModel {
   @override
   final UserModel user;
   @override
+  final StoryType type;
+  @override
   final List<StoryImageModel> storyImages;
 
   @override
   String toString() {
-    return 'StoryModel(id: $id, isNew: $isNew, user: $user, storyImages: $storyImages)';
+    return 'StoryModel(id: $id, isNew: $isNew, user: $user, type: $type, storyImages: $storyImages)';
   }
 
   @override
@@ -169,6 +190,8 @@ class _$_StoryModel implements _StoryModel {
                 const DeepCollectionEquality().equals(other.isNew, isNew)) &&
             (identical(other.user, user) ||
                 const DeepCollectionEquality().equals(other.user, user)) &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)) &&
             (identical(other.storyImages, storyImages) ||
                 const DeepCollectionEquality()
                     .equals(other.storyImages, storyImages)));
@@ -180,6 +203,7 @@ class _$_StoryModel implements _StoryModel {
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(isNew) ^
       const DeepCollectionEquality().hash(user) ^
+      const DeepCollectionEquality().hash(type) ^
       const DeepCollectionEquality().hash(storyImages);
 
   @override
@@ -197,6 +221,7 @@ abstract class _StoryModel implements StoryModel {
       {int id,
       bool isNew,
       UserModel user,
+      StoryType type,
       List<StoryImageModel> storyImages}) = _$_StoryModel;
 
   factory _StoryModel.fromJson(Map<String, dynamic> json) =
@@ -208,6 +233,8 @@ abstract class _StoryModel implements StoryModel {
   bool get isNew;
   @override
   UserModel get user;
+  @override
+  StoryType get type;
   @override
   List<StoryImageModel> get storyImages;
   @override

@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:iconapp/core/ads/dfp_ad.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/story/utils.dart';
@@ -208,6 +209,18 @@ class StoryItem {
       imageId: imageId,
       shown: shown,
       duration: duration ?? Duration(seconds: 3),
+    );
+  }
+
+  factory StoryItem.ad({
+    int id,
+    String adUnitId,
+  }) {
+    return StoryItem(
+      Center(child: DFPBannerAdd(adUnitId: adUnitId, isDeveloper: true)),
+      shown: true,
+      imageId: id,
+      duration: Duration(seconds: 20),
     );
   }
 
@@ -760,7 +773,7 @@ class PageBarState extends State<PageBar> {
     spacing = count > 15 ? 1 : count > 10 ? 2 : 4;
 
     widget.animation.addListener(() {
-     if  (mounted) setState(() {});
+      if (mounted) setState(() {});
     });
   }
 

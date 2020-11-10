@@ -3,7 +3,10 @@ import 'dart:async';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/core/story_cacher.dart';
+import 'package:iconapp/data/models/photo_model.dart';
+import 'package:iconapp/data/models/story_image.dart';
 import 'package:iconapp/data/models/story_model.dart';
+import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/repositories/story_repository.dart';
 import 'package:iconapp/domain/core/errors.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
@@ -87,7 +90,8 @@ abstract class _StoryStoreBase with Store {
     Future getConversationsStories(int conversationId) async {
       _mode = StoryMode.conversation;
       try {
-        final stories = await _repository.getConversationsStories(conversationId);
+        final stories =
+            await _repository.getConversationsStories(conversationId);
 
         setStories(stories);
       } on ServerError catch (e) {
@@ -103,8 +107,10 @@ abstract class _StoryStoreBase with Store {
         await _storyCacheManager.downloadStories(stories);
 
         if (_stories.isNotEmpty) _stories.clear();
-        
-        _stories.addAll(stories);
+
+        _stories
+          ..addAll(stories)
+          ..add(fakeAd);
       } on ServerError catch (e) {
         Crash.report(e.message);
       }
@@ -159,3 +165,22 @@ abstract class _StoryStoreBase with Store {
     _storyChangeSubscription?.cancel();
   }
 }
+
+final fakeAd = StoryModel(
+  isNew: true,
+  storyImages: [
+    StoryImageModel(
+      wasViewed: true,
+      imageType: MediaType.ad,
+      duration: 10,
+    )
+  ],
+  type: StoryType.ad,
+  user: UserModel(
+    photo: PhotoModel(
+        url:
+            'https://www.ynet.co.il/PicServer5/2017/10/30/8120242/812024001000100640360no.jpg',
+        description: 'סופר פארם'),
+    fullName: 'סופר פארם',
+  ),
+);

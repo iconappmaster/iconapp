@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:iconapp/data/models/photo_model.dart';
-import '../../core/extensions/string_ext.dart';
 part 'story_image.freezed.dart';
 part 'story_image.g.dart';
 
@@ -12,26 +11,24 @@ abstract class StoryImageModel with _$StoryImageModel {
     final int id,
     final int createdAt,
     final PhotoModel photo,
-    final String imageType,
+    final MediaType imageType,
     final String description,
     final int duration,
     final bool wasViewed,
   }) = _StoryImageModel;
 
   factory StoryImageModel.photo() => StoryImageModel(
-    duration: defaultSlideDuration,
-    imageType: MediaType.photo.toString().parseEnum(),
-  );
+        duration: defaultSlideDuration,
+        imageType: MediaType.photo,
+      );
 
   factory StoryImageModel.video() => StoryImageModel(
-    duration: defaultSlideDuration,
-    imageType: MediaType.video.toString().parseEnum(),
-  );
-  
+        duration: defaultSlideDuration,
+        imageType: MediaType.video,
+      );
 
-  
   factory StoryImageModel.fromJson(Map<String, dynamic> json) =>
       _$StoryImageModelFromJson(json);
 }
 
-enum MediaType { photo, video }
+enum MediaType { photo, video, ad }

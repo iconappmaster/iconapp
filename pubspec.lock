@@ -384,6 +384,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  flutter_google_ad_manager:
+    dependency: "direct main"
+    description:
+      name: flutter_google_ad_manager
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.11.1"
   flutter_image_compress:
     dependency: "direct main"
     description:
