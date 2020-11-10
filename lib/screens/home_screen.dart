@@ -3,7 +3,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:iconapp/core/ads/dfp_ad.dart';
 import 'package:iconapp/core/deep_link.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/lifecycle_observer.dart';
@@ -154,6 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Visibility(
                             visible: _showStory(story),
                             child: StoriesList(
+                              show: _showStory(story),
                               mode: story.mode,
                             )),
                         Expanded(
@@ -167,7 +167,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               onConversationTap: (conversation, index) async {
                                 story.clearStories();
 
-                                await _home.interstitialAd.show();
+                                // await _home.interstitialAd.show();
+                                await ExtendedNavigator.of(context)
+                                    .pushWebViewAdScreen();
 
                                 await ExtendedNavigator.of(context)
                                     .pushChatScreen(conversation: conversation);

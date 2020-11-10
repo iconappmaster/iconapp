@@ -30,8 +30,8 @@ class StoriesList extends StatefulWidget {
   StoriesList({
     Key key,
     @required this.mode,
+    @required this.show,
     this.margin,
-    this.show = false,
   }) : super(key: key);
 
   @override

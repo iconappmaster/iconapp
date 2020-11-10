@@ -12,7 +12,6 @@ import '../data/models/story_image.dart';
 import '../stores/story/story_store.dart';
 import '../widgets/story/controller/story_controller.dart';
 import '../widgets/story/story_view.dart';
-import '../core/extensions/string_ext.dart';
 
 class StoryScreen extends StatefulWidget {
   final StoryModel story;

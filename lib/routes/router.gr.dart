@@ -10,6 +10,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../core/ads/webview_ad.dart';
 import '../data/models/conversation_model.dart';
 import '../data/models/photo_model.dart';
 import '../data/models/story_image.dart';
@@ -66,6 +67,7 @@ class Routes {
   static const String verifySendCodeScreen = '/verify-send-code-screen';
   static const String verifyIconEmailScreen = '/verify-icon-email-screen';
   static const String verifyInstagramScreen = '/verify-instagram-screen';
+  static const String webViewAdScreen = '/web-view-ad-screen';
   static const all = <String>{
     mainNavigator,
     loginScreen,
@@ -92,6 +94,7 @@ class Routes {
     verifySendCodeScreen,
     verifyIconEmailScreen,
     verifyInstagramScreen,
+    webViewAdScreen,
   };
 }
 
@@ -124,6 +127,7 @@ class Router extends RouterBase {
     RouteDef(Routes.verifySendCodeScreen, page: VerifySendCodeScreen),
     RouteDef(Routes.verifyIconEmailScreen, page: VerifyIconEmailScreen),
     RouteDef(Routes.verifyInstagramScreen, page: VerifyInstagramScreen),
+    RouteDef(Routes.webViewAdScreen, page: WebViewAdScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -324,6 +328,13 @@ class Router extends RouterBase {
         settings: data,
       );
     },
+    WebViewAdScreen: (data) {
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => WebViewAdScreen(),
+        settings: data,
+        fullscreenDialog: true,
+      );
+    },
   };
 }
 
@@ -467,6 +478,9 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
 
   Future<dynamic> pushVerifyInstagramScreen() =>
       push<dynamic>(Routes.verifyInstagramScreen);
+
+  Future<dynamic> pushWebViewAdScreen() =>
+      push<dynamic>(Routes.webViewAdScreen);
 }
 
 /// ************************************************************************

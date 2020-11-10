@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route_annotations.dart';
+import 'package:iconapp/core/ads/webview_ad.dart';
 import 'package:iconapp/screens/alerts_screen.dart';
 import 'package:iconapp/screens/chat_screen.dart';
 import 'package:iconapp/screens/chat_settings_screen.dart';
@@ -53,6 +54,7 @@ import 'package:iconapp/widgets/global/single_image.dart';
     CupertinoRoute(page: VerifySendCodeScreen),
     CupertinoRoute(page: VerifyIconEmailScreen),
     CupertinoRoute(page: VerifyInstagramScreen),
+    CupertinoRoute(page: WebViewAdScreen, fullscreenDialog: true),
   ],
 )
 class $Router {
