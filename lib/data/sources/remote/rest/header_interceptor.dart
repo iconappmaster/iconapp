@@ -16,7 +16,7 @@ class HeaderInterceptor extends Interceptor {
   @override
   Future<FutureOr> onRequest(RequestOptions options) async {
     final sp = sl<SharedPreferencesService>();
-    // GET TOKEN
+    
     if (sp.contains(StorageKey.sessionToken)) {
       final sessionToken = sp.getString(StorageKey.sessionToken);
       addHeaders(options, sessionToken);
@@ -36,7 +36,6 @@ class HeaderInterceptor extends Interceptor {
         error.response?.statusCode == 401) {
       dio.interceptors.requestLock.unlock();
       dio.interceptors.responseLock.unlock();
-      // replace this with login
 
       sl<AuthStore>().logout(false);
     } else {

@@ -59,7 +59,7 @@ class _MyAppState extends State<MyApp> {
   Future init() async {
     initLocator();
     await _initSharedPreferences();
-    
+
     await _socket
       ..init()
       ..connect();
@@ -101,12 +101,8 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity),
-      builder: (context, child) {
-        return ExtendedNavigator(
-          name: $Router.routerName,
-          router: Router(),
-        );
-      },
+      builder: (_, child) =>
+          ExtendedNavigator(name: $Router.routerName, router: Router()),
     );
   }
 

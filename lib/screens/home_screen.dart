@@ -169,7 +169,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                 // await _home.interstitialAd.show();
                                 await ExtendedNavigator.of(context)
-                                    .pushWebViewAdScreen();
+                                    .pushWebViewAdScreen(
+                                  initialUrl: '',
+                                );
 
                                 await ExtendedNavigator.of(context)
                                     .pushChatScreen(conversation: conversation);

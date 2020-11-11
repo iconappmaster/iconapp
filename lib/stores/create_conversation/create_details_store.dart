@@ -7,12 +7,13 @@ import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/data/repositories/create_repository.dart';
 import 'package:iconapp/domain/core/errors.dart';
 import 'package:iconapp/domain/create/create_failure.dart';
-import 'package:iconapp/stores/create/create_category_store.dart';
-import 'package:iconapp/stores/create/create_icon_store.dart';
 import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/stores/media/media_store.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
+
+import 'create_category_store.dart';
+import 'create_icon_store.dart';
 part 'create_details_store.g.dart';
 
 class CreateDetailsStore = _CreateDetailsStoreBase with _$CreateDetailsStore;

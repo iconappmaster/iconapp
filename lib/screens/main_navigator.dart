@@ -24,6 +24,7 @@ class MainNavigator extends StatelessWidget {
       await home.getConversations();
     }
 
+    // if not authenticated validate the authentication state
     auth.validateAuthState();
   }
 

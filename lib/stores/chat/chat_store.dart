@@ -507,7 +507,7 @@ abstract class _ChatStoreBase with Store {
   Future block() async {
     try {
       await _repository.block(conversation.id);
-      _homeStore.remove(conversation.id);
+      _homeStore.removeConversation(conversation.id);
     } on ServerError catch (e) {
       Crash.report(e.message);
     }

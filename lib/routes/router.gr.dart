@@ -329,8 +329,12 @@ class Router extends RouterBase {
       );
     },
     WebViewAdScreen: (data) {
+      final args = data.getArgs<WebViewAdScreenArguments>(nullOk: false);
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => WebViewAdScreen(),
+        builder: (context) => WebViewAdScreen(
+          key: args.key,
+          initialUrl: args.initialUrl,
+        ),
         settings: data,
         fullscreenDialog: true,
       );
@@ -479,8 +483,14 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
   Future<dynamic> pushVerifyInstagramScreen() =>
       push<dynamic>(Routes.verifyInstagramScreen);
 
-  Future<dynamic> pushWebViewAdScreen() =>
-      push<dynamic>(Routes.webViewAdScreen);
+  Future<dynamic> pushWebViewAdScreen({
+    Key key,
+    @required String initialUrl,
+  }) =>
+      push<dynamic>(
+        Routes.webViewAdScreen,
+        arguments: WebViewAdScreenArguments(key: key, initialUrl: initialUrl),
+      );
 }
 
 /// ************************************************************************
@@ -563,4 +573,11 @@ class SingleImageArguments {
   final Key key;
   final String url;
   SingleImageArguments({this.key, @required this.url});
+}
+
+/// WebViewAdScreen arguments holder class
+class WebViewAdScreenArguments {
+  final Key key;
+  final String initialUrl;
+  WebViewAdScreenArguments({this.key, @required this.initialUrl});
 }

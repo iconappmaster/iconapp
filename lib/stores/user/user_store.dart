@@ -48,6 +48,7 @@ abstract class _UserStoreBase with Store {
     try {
       final persistnetUser = await _userRepository.getSavedUser();
       _userModel = persistnetUser;
+      
       _sessionToken = _prefs.getString(StorageKey.sessionToken);
 
       // get if notifications are on

@@ -6,7 +6,7 @@ import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/routes/router.gr.dart';
-import 'package:iconapp/stores/create/create_icon_store.dart';
+import 'package:iconapp/stores/create_conversation/create_icon_store.dart';
 import 'package:iconapp/stores/search/search_store.dart';
 import 'package:iconapp/widgets/bottomsheet/bs_search_bar.dart';
 import 'package:iconapp/widgets/create/create_app_bar.dart';

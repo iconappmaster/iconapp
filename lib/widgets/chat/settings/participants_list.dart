@@ -11,7 +11,7 @@ import 'package:iconapp/screens/chat_settings_screen.dart';
 import 'package:iconapp/screens/create_icons_screen.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/chat_settings/chat_settings_store.dart';
-import 'package:iconapp/stores/create/create_icon_store.dart';
+import 'package:iconapp/stores/create_conversation/create_icon_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
@@ -116,10 +116,7 @@ class ParticipentAddButton extends StatelessWidget {
               ]),
             ),
             SizedBox(width: 16),
-            CustomText(
-              LocaleKeys.chat_editGroup.tr(),
-              style: addParticipent,
-            )
+            CustomText(LocaleKeys.chat_editGroup.tr(), style: addParticipent)
           ],
         ),
       );

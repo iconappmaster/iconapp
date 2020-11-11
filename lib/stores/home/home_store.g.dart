@@ -126,11 +126,11 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   }
 
   @override
-  void remove(int conversationId) {
+  void removeConversation(int conversationId) {
     final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
         name: '_HomeStoreBase.remove');
     try {
-      return super.remove(conversationId);
+      return super.removeConversation(conversationId);
     } finally {
       _$_HomeStoreBaseActionController.endAction(_$actionInfo);
     }

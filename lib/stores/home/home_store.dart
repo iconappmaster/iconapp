@@ -22,8 +22,7 @@ abstract class _HomeStoreBase with Store {
     _sp = sl<SharedPreferencesService>();
     _repository = sl<HomeRepository>();
     _shouldShowWelcomeDialog();
-    interstitialAd =
-        InterstitialAd(adUnitId: '/22166703028/icon_start_splash');
+    interstitialAd = InterstitialAd(adUnitId: '/22166703028/icon_start_splash');
   }
 
   void _shouldShowWelcomeDialog() {
@@ -49,28 +48,6 @@ abstract class _HomeStoreBase with Store {
   List<Conversation> get conversations => _conversations;
 
   @action
-  void addConversation(Conversation conversation) {
-    _conversations.add(conversation);
-    _repository.saveHome(_conversations);
-  }
-
-  @action
-  void remove(int conversationId) {
-    _conversations.removeWhere((c) => c.id == conversationId);
-    _repository.saveHome(_conversations);
-  }
-
-  @action
-  Future<List<Conversation>> getCachedAndRender() async {
-    final cached = await _repository.getCachedHome();
-    if (cached != null) {
-      updateUi(cached);
-      return cached;
-    } else
-      return [];
-  }
-
-  @action
   Future<Either<ServerError, List<Conversation>>> getConversations() async {
     try {
       _loading = true;
@@ -93,6 +70,28 @@ abstract class _HomeStoreBase with Store {
     } finally {
       _loading = false;
     }
+  }
+
+  @action
+  void addConversation(Conversation conversation) {
+    _conversations.add(conversation);
+    _repository.saveHome(_conversations);
+  }
+
+  @action
+  void removeConversation(int conversationId) {
+    _conversations.removeWhere((c) => c.id == conversationId);
+    _repository.saveHome(_conversations);
+  }
+
+  @action
+  Future<List<Conversation>> getCachedAndRender() async {
+    final cached = await _repository.getCachedHome();
+    if (cached != null) {
+      updateUi(cached);
+      return cached;
+    } else
+      return [];
   }
 
   // will update the conversation with the pinned state and move it to the top
