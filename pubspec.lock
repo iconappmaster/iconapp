@@ -183,6 +183,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.1"
+  country_code_picker:
+    dependency: "direct main"
+    description:
+      name: country_code_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.6.0"
   crypto:
     dependency: transitive
     description:
@@ -342,13 +349,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_animated_dialog:
-    dependency: "direct main"
-    description:
-      name: flutter_animated_dialog
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.0"
   flutter_audio_recorder:
     dependency: "direct main"
     description:

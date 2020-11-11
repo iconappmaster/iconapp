@@ -17,6 +17,7 @@ import '../core/extensions/context_ext.dart';
 import '../generated/locale_keys.g.dart';
 import 'dart:ui' as ui;
 import 'package:easy_localization/easy_localization.dart';
+import 'package:country_code_picker/country_code_picker.dart';
 
 /// [OnboardingScreen] used to verify the user with [Phone] number and
 /// an [SMS] code that is being sent.
@@ -41,7 +42,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             IconAppbar(showBack: true),
             _OnboardingPhoneTitle(),
             _OnboardingPhoneSubtitle(store: store),
-            PhoneNumberInput(store: store),
+            PhoneNumberInput(),
             _CheckSign(store: store),
             _SmsCounter(store: store),
             _PinCode(store: store),
@@ -64,8 +65,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               context.unFocus();
               store.verifyPhone();
             },
-            onError: () => context.showFlushbar(
-                message: LocaleKeys.onboarding_phone_tooShort.tr()),
           )),
     );
   }
@@ -89,7 +88,7 @@ class SendAgain extends StatelessWidget {
     return Visibility(
       visible: store.isPinCodeMode,
       child: Positioned(
-        top: context.heightPlusStatusbarPerc(.444),
+        top: context.heightPlusStatusbarPerc(.49),
         child: RichText(
           text: TextSpan(children: [
             TextSpan(text: 'לא קיבלתי את הקוד. ', style: loginSmallText),
@@ -123,10 +122,10 @@ class _SmsCounter extends StatelessWidget {
       builder: (_) => Visibility(
         visible: store.isPinCodeMode,
         child: Positioned(
-          top: context.heightPlusStatusbarPerc(.408),
-          child: CustomText(
+          top: context.heightPlusStatusbarPerc(.46),
+          child: CustomText(int.tryParse(store.displayCountdown) > 0 ? 
             LocaleKeys.onboarding_phoneCounting
-                .tr(args: [store.displayCountdown]),
+                .tr(args: [store.displayCountdown]) : 'הגיע?',
             style: loginSmallText,
           ),
         ),
@@ -161,7 +160,7 @@ class _PinCode extends StatelessWidget {
     return Visibility(
       visible: store.isPinCodeMode,
       child: Positioned(
-        top: context.heightPlusStatusbarPerc(.333),
+        top: context.heightPlusStatusbarPerc(.38),
         child: Container(
           width: context.widthPx * .686,
           child: Directionality(
@@ -223,8 +222,8 @@ class _OnboardingPhoneSubtitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Positioned(
       top: store.isPhoneMode
-          ? context.heightPlusStatusbarPerc(.221)
-          : context.heightPlusStatusbarPerc(.29),
+          ? context.heightPlusStatusbarPerc(.21)
+          : context.heightPlusStatusbarPerc(.335),
       child: CustomText(
         store.isPhoneMode
             ? LocaleKeys.onboarding_phoneSubtitle.tr()
@@ -265,8 +264,8 @@ class _CheckSign extends StatelessWidget {
     return Visibility(
       visible: store.isPinCodeMode,
       child: Positioned(
-        top: context.heightPlusStatusbarPerc(.212),
-        right: context.widthPx * .06,
+        top: context.heightPlusStatusbarPerc(.21),
+        right: context.widthPx * .36,
         child: Stack(children: [
           if (store.getState.loading)
             SizedBox(
@@ -285,30 +284,10 @@ class _CheckSign extends StatelessWidget {
   }
 }
 
-class PhoneNumberInput extends StatefulWidget {
-  final LoginStore store;
-
-  const PhoneNumberInput({Key key, @required this.store}) : super(key: key);
-  @override
-  _PhoneNumberInputState createState() => _PhoneNumberInputState();
-}
-
-class _PhoneNumberInputState extends State<PhoneNumberInput> {
-  final prefixController = TextEditingController(text: '05');
-  final _countryCodeController = TextEditingController(text: '972');
-  final phoneFocus = FocusNode();
-  final prefixFocus = FocusNode();
-  final countryCodeFocus = FocusNode();
-
-  @override
-  void initState() {
-    prefixController.selection = TextSelection.fromPosition(
-        TextPosition(offset: prefixController.text.length));
-    super.initState();
-  }
-
+class PhoneNumberInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final store = sl<LoginStore>();
     final inputDecor = const InputDecoration(
       counterText: '',
       enabledBorder:
@@ -323,15 +302,29 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
     return AnimatedPositioned(
         curve: Curves.easeInOut,
         duration: const Duration(milliseconds: 700),
-        top: widget.store.isPhoneMode
+        top: store.isPhoneMode
             ? context.heightPlusStatusbarPerc(.272)
             : context.heightPlusStatusbarPerc(.2),
-        child: Wrap(
-          direction: Axis.horizontal,
+        child: Column(
+          // direction: Axis.vertical,
           children: <Widget>[
-            _buildPhone(context, inputDecor, widget.store),
-            SizedBox(width: context.widthPx * .04),
-            _countryCode(context, inputDecor, widget.store),
+            CountryCodePicker(
+              onChanged: (countryCode) {
+                store.updateCountryCode(countryCode.dialCode);
+              },
+              initialSelection: 'IL',
+              favorite: ['+972', 'IL'],
+              showCountryOnly: true,
+              textStyle: phoneNumber,
+              showOnlyCountryWhenClosed: false,
+              alignLeft: false,
+              hideMainText: true,
+              onInit: (countryCode) =>
+                  store.updateCountryCode(countryCode.dialCode),
+            ),
+            SizedBox(width: context.widthPx * .08),
+            _buildPhone(context, inputDecor, store),
+            // _countryCode(context, inputDecor, widget.store),
           ],
         ));
   }
@@ -339,52 +332,18 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
   Widget _buildPhone(
       BuildContext context, InputDecoration inputDecor, LoginStore store) {
     return Container(
-      width: context.widthPx * .39,
+      width: context.widthPx * .7,
       child: TextField(
         autofocus: true,
-        focusNode: phoneFocus,
         maxLength: 12,
         textAlign: TextAlign.center,
         decoration: inputDecor.copyWith(
-          hintText: '0541122244',
-          hintStyle: phoneNumber.copyWith(
-            color: whiteOpacity50,
-          ),
-        ),
+            hintText: 'לדוגמא: 054-1122244',
+            hintStyle: phoneNumber.copyWith(color: whiteOpacity50)),
         style: phoneNumber.copyWith(
             color: store.isPhoneMode ? white : white.withOpacity(.4)),
         onChanged: (phone) => store.updatePhone(phone),
         keyboardType: TextInputType.phone,
-      ),
-    );
-  }
- 
-  Widget _countryCode(
-      BuildContext context, InputDecoration inputDecor, LoginStore store) {
-    final style = phoneNumber.copyWith(
-        color: store.isPhoneMode ? white : white.withOpacity(.4));
-    return Container(
-      width: context.widthPx * .155,
-      child: Directionality(
-        textDirection: ui.TextDirection.ltr,
-        child: TextField(
-          focusNode: countryCodeFocus,
-          autofocus: false,
-          keyboardType: TextInputType.phone,
-          textAlign: TextAlign.center,
-          maxLength: 3,
-          controller: _countryCodeController,
-          maxLengthEnforced: true,
-          decoration: inputDecor.copyWith(prefixText: '+', prefixStyle: style),
-          style: style,
-          onChanged: (countryCode) {
-            store.updateCountryCode(countryCode);
-            if (countryCode.length == 3) {
-              prefixFocus.unfocus();
-              FocusScope.of(context).requestFocus(prefixFocus);
-            }
-          },
-        ),
       ),
     );
   }
