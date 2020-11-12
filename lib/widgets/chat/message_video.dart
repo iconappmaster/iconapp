@@ -82,7 +82,6 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
   @override
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
-
     return ScrollableTile(
       index: widget.index,
       controller: widget.controller,
@@ -124,23 +123,19 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
                           ),
                         ),
                       ),
-                if (widget.message.status == MessageStatus.sent)
-                  Positioned(
-                    top: 70,
-                    child: SvgPicture.asset(
-                      'assets/images/play_button.svg',
-                      height: 76,
-                      width: 76
-                    ),
-                  ),
+                Positioned(
+                  left: 98,
+                  top: 70,
+                  child: SvgPicture.asset('assets/images/play_button.svg',
+                      height: 76, width: 76),
+                ),
                 Positioned(
                     left: 5,
                     bottom: 5,
                     child: CustomText(
                         widget.message.status == MessageStatus.pending
                             ? ''
-                            : widget.message?.timestamp
-                                    ?.humanReadableTime() ??
+                            : widget.message?.timestamp?.humanReadableTime() ??
                                 '',
                         style: chatMessageBody.copyWith(fontSize: 12),
                         textAlign: TextAlign.start)),
@@ -159,7 +154,7 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
           Visibility(
             visible: widget.message.status == MessageStatus.pending,
             child: Positioned(
-              left: 142,
+              left: 122,
               top: 91,
               child: SizedBox(
                 height: 55,
@@ -176,7 +171,7 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
           Visibility(
             visible: widget.message.status == MessageStatus.compressing,
             child: Positioned(
-              left: 142,
+              left: 122,
               top: 91,
               child: SizedBox(
                 height: 55,

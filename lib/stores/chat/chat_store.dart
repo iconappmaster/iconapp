@@ -67,6 +67,9 @@ abstract class _ChatStoreBase with Store {
   bool _showWelcomeDialog = true;
 
   @observable
+  bool _uploading = false;
+
+  @observable
   bool dataReady = false;
 
   @observable
@@ -86,6 +89,9 @@ abstract class _ChatStoreBase with Store {
 
   @computed
   bool get isReplyMessage => _replyMessage != null;
+
+  @computed
+  bool get uploading => _uploading;
 
   @computed
   MessageModel get replayMessage => _replyMessage;
@@ -387,8 +393,10 @@ abstract class _ChatStoreBase with Store {
       File file = File(pickedFile.path);
       if (file != null) {
         final thumbnail = await VideoCompress.getFileThumbnail(file.path);
-
-        var msg = MessageModel(
+        
+        _uploading = true;
+      
+        final msg = MessageModel(
           extraData: thumbnail.path ?? '',
           id: DateTime.now().millisecondsSinceEpoch,
           body: file.path,
@@ -428,6 +436,8 @@ abstract class _ChatStoreBase with Store {
       }
     } on ServerError catch (e) {
       Crash.report(e.message);
+    } finally {
+      _uploading = false;
     }
   }
 

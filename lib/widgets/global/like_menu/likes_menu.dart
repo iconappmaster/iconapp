@@ -121,27 +121,27 @@ class _MessageMenuState extends State<MessageMenu> {
         behavior: HitTestBehavior.opaque,
         key: containerKey,
         onLongPress: () {
-          if (widget.isMe) {
-            showModalBottomSheet(
-                context: context,
-                builder: (_) {
-                  return Container(
-                    child: Wrap(
-                      children: <Widget>[
-                        ListTile(
-                            leading: Icon(
-                              Icons.delete,
-                              color: pinkRed,
-                            ),
-                            title: Text('מחק הודעה',
-                                style: settingsAppbarTitle.copyWith(
-                                    color: pinkRed)),
-                            onTap: () => chat.deleteMessage(widget.message.id)),
-                      ],
-                    ),
-                  );
-                });
-          }
+          // if (widget.isMe) {
+          //   showModalBottomSheet(
+          //       context: context,
+          //       builder: (_) {
+          //         return Container(
+          //           child: Wrap(
+          //             children: <Widget>[
+          //               ListTile(
+          //                   leading: Icon(
+          //                     Icons.delete,
+          //                     color: pinkRed,
+          //                   ),
+          //                   title: Text('מחק הודעה',
+          //                       style: settingsAppbarTitle.copyWith(
+          //                           color: pinkRed)),
+          //                   onTap: () => chat.deleteMessage(widget.message.id)),
+          //             ],
+          //           ),
+          //         );
+          //       });
+          // }
         },
         onTap: () async {
           if (chat.conversation.isSubscribed) {

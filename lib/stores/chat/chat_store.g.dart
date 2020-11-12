@@ -16,6 +16,13 @@ mixin _$ChatStore on _ChatStoreBase, Store {
       (_$isReplyMessageComputed ??= Computed<bool>(() => super.isReplyMessage,
               name: '_ChatStoreBase.isReplyMessage'))
           .value;
+  Computed<bool> _$uploadingComputed;
+
+  @override
+  bool get uploading =>
+      (_$uploadingComputed ??= Computed<bool>(() => super.uploading,
+              name: '_ChatStoreBase.uploading'))
+          .value;
   Computed<MessageModel> _$replayMessageComputed;
 
   @override
@@ -115,6 +122,21 @@ mixin _$ChatStore on _ChatStoreBase, Store {
   set _showWelcomeDialog(bool value) {
     _$_showWelcomeDialogAtom.reportWrite(value, super._showWelcomeDialog, () {
       super._showWelcomeDialog = value;
+    });
+  }
+
+  final _$_uploadingAtom = Atom(name: '_ChatStoreBase._uploading');
+
+  @override
+  bool get _uploading {
+    _$_uploadingAtom.reportRead();
+    return super._uploading;
+  }
+
+  @override
+  set _uploading(bool value) {
+    _$_uploadingAtom.reportWrite(value, super._uploading, () {
+      super._uploading = value;
     });
   }
 
@@ -472,6 +494,7 @@ mixin _$ChatStore on _ChatStoreBase, Store {
     return '''
 dataReady: ${dataReady},
 isReplyMessage: ${isReplyMessage},
+uploading: ${uploading},
 replayMessage: ${replayMessage},
 conversationPhotos: ${conversationPhotos},
 getState: ${getState},
