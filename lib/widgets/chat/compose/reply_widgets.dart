@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/message_model.dart';
+import 'package:iconapp/screens/full_video_screen.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
@@ -21,7 +22,7 @@ Widget getReplyBody(MessageModel message, double width) {
     case MessageType.system:
       return Container(); // nothing to do with it
     case MessageType.loading:
-      return Container(); 
+      return Container();
       break;
   }
   return Container();
@@ -81,8 +82,16 @@ class ReplyComposePanel extends StatelessWidget {
                     height: 50,
                     width: 50,
                     child: ClipRRect(
-                        borderRadius: BorderRadius.circular(4.2),
-                        child: NetworkPhoto(imageUrl: store?.replayMessage?.body)),
+                      borderRadius: BorderRadius.circular(4.2),
+                      child:
+                          store.replayMessage?.messageType == MessageType.photo
+                              ? NetworkPhoto(
+                                  imageUrl: store?.replayMessage?.body ?? '')
+                              : VideoScreen(
+                                  url: store?.replayMessage?.body ?? '',
+                                  mute: true,
+                                ),
+                    ),
                   ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8),

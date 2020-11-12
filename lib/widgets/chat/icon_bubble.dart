@@ -73,7 +73,6 @@ class _IconBubbleState extends State<IconBubble> {
             mainAxisAlignment:
                 widget.isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
             children: [
-              // show the emoji+ sign in the right side
               if (!widget.hideEmoji && widget.isMe)
                 EmojiPlus(
                     isMe: widget.isMe,

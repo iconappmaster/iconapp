@@ -112,68 +112,75 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return FocusAwareWidget(
       child: Scaffold(
-        body: Stack(
-          children: [
-            Observer(builder: (_) {
-              return Container(
-                decoration: BoxDecoration(
-                    gradient: gradientList[
-                        _chat?.conversation?.backgroundColor ?? 0]),
-                child: Column(
-                  children: <Widget>[
-                    ChatAppbar(),
-                    BlueDivider(color: cornflower),
-                    ChatList(scrollController: _chatController),
-                    AnimatedSize(
-                      vsync: this,
-                      child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                            minHeight:
-                                (_chat.composerMode != ComposerMode.viewer)
-                                    ? 82
-                                    : 0,
-                          ),
-                          child: initComposer(_chatController)),
-                      duration: const Duration(milliseconds: 350),
-                      curve: Curves.easeInToLinear,
-                    ),
-                  ],
-                ),
-              );
-            }),
-            Visibility(
-              visible: _story.isUserIcon || _story.stories.isNotEmpty,
-              child: Positioned(
-                  top: context.heightPlusStatusbarPerc(.1),
-                  child: StoriesList(mode: _story.mode, show: !_upDirection)),
-            ),
-            Observer(
-              builder: (_) => Visibility(
-                visible: _chat.dataReady &&
-                    _chat.conversation.userRole == UserRole.viewer,
+        body: WillPopScope(
+          onWillPop: () async {
+            if (_chat.uploading) context.showToast('מעלה קובץ אנא המתן...');
+
+            return !_chat.uploading;
+          },
+          child: Stack(
+            children: [
+              Observer(builder: (_) {
+                return Container(
+                  decoration: BoxDecoration(
+                      gradient: gradientList[
+                          _chat?.conversation?.backgroundColor ?? 0]),
+                  child: Column(
+                    children: <Widget>[
+                      ChatAppbar(),
+                      BlueDivider(color: cornflower),
+                      ChatList(scrollController: _chatController),
+                      AnimatedSize(
+                        vsync: this,
+                        child: ConstrainedBox(
+                            constraints: BoxConstraints(
+                              minHeight:
+                                  (_chat.composerMode != ComposerMode.viewer)
+                                      ? 82
+                                      : 0,
+                            ),
+                            child: initComposer(_chatController)),
+                        duration: const Duration(milliseconds: 350),
+                        curve: Curves.easeInToLinear,
+                      ),
+                    ],
+                  ),
+                );
+              }),
+              Visibility(
+                visible: _story.isUserIcon || _story.stories.isNotEmpty,
                 child: Positioned(
-                    bottom: 35,
-                    left: 16,
-                    child: CommentsFab(
-                      onTap: () {
-                        if (_chat.conversation.areCommentsActivated &&
-                            _chat.conversation.isSubscribed) {
-                          showCommentsDialog(context);
-                        } else {
-                          if (!_chat.conversation.isSubscribed) {
-                            context.showFlushbar(
-                                message: 'כדי להציג תגובות, הצטרפ/י לקבוצה');
-                          } else {
-                            context.showFlushbar(
-                                message: LocaleKeys.comments_closed.tr());
-                          }
-                        }
-                      },
-                    )),
+                    top: context.heightPlusStatusbarPerc(.1),
+                    child: StoriesList(mode: _story.mode, show: !_upDirection)),
               ),
-            ),
-            _showWelcomeDialog(_chat.conversation?.name ?? ''),
-          ],
+              Observer(
+                builder: (_) => Visibility(
+                  visible: _chat.dataReady &&
+                      _chat.conversation.userRole == UserRole.viewer,
+                  child: Positioned(
+                      bottom: 35,
+                      left: 16,
+                      child: CommentsFab(
+                        onTap: () {
+                          if (_chat.conversation.areCommentsActivated &&
+                              _chat.conversation.isSubscribed) {
+                            showCommentsDialog(context);
+                          } else {
+                            if (!_chat.conversation.isSubscribed) {
+                              context.showFlushbar(
+                                  message: 'כדי להציג תגובות, הצטרפ/י לקבוצה');
+                            } else {
+                              context.showFlushbar(
+                                  message: LocaleKeys.comments_closed.tr());
+                            }
+                          }
+                        },
+                      )),
+                ),
+              ),
+              _showWelcomeDialog(_chat.conversation?.name ?? ''),
+            ],
+          ),
         ),
       ),
     );

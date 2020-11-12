@@ -27,6 +27,7 @@ class MessageGestureDetector extends StatelessWidget {
     final chat = sl<ChatStore>();
 
     return MessageMenu(
+      message: message,
       isMe: isMe,
       menuItems: [
         MenuModel(
@@ -60,6 +61,7 @@ class MessageGestureDetector extends StatelessWidget {
 }
 
 class MessageMenu extends StatefulWidget {
+  final MessageModel message;
   final bool isMe;
   final Widget child;
   final double menuItemExtent;
@@ -89,6 +91,7 @@ class MessageMenu extends StatefulWidget {
     this.menuWidth,
     this.bottomOffsetHeight,
     this.menuOffset,
+    this.message,
   }) : super(key: key);
 
   @override
@@ -118,29 +121,27 @@ class _MessageMenuState extends State<MessageMenu> {
         behavior: HitTestBehavior.opaque,
         key: containerKey,
         onLongPress: () {
-          showModalBottomSheet(
-              context: context,
-              builder: (_) {
-                return Container(
-                  child: Wrap(
-                    children: <Widget>[
-                      ListTile(
-                          leading: Icon(
-                            Icons.delete,
-                            color: pinkRed,
-                          ),
-                          title: Text(
-                            'מחק הודעה',
-                            style: settingsAppbarTitle.copyWith(
+          if (widget.isMe) {
+            showModalBottomSheet(
+                context: context,
+                builder: (_) {
+                  return Container(
+                    child: Wrap(
+                      children: <Widget>[
+                        ListTile(
+                            leading: Icon(
+                              Icons.delete,
                               color: pinkRed,
                             ),
-                          ),
-                          onTap: () {}),
-                    ],
-                  ),
-                );
-              });
-          // return _showMessageMenu(context);
+                            title: Text('מחק הודעה',
+                                style: settingsAppbarTitle.copyWith(
+                                    color: pinkRed)),
+                            onTap: () => chat.deleteMessage(widget.message.id)),
+                      ],
+                    ),
+                  );
+                });
+          }
         },
         onTap: () async {
           if (chat.conversation.isSubscribed) {

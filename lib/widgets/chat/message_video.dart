@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -109,8 +108,8 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(4.2),
                         child: SizedBox(
-                          height: 230,
-                          width: MediaQuery.of(context).size.width * .75,
+                          height: 240,
+                          width: 280,
                           child: NetworkPhoto(
                               imageUrl: widget.message?.extraData ?? ''),
                         ))
@@ -125,15 +124,23 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
                           ),
                         ),
                       ),
-                SvgPicture.asset('assets/images/play_button.svg',
-                    height: 76, width: 76),
+                if (widget.message.status == MessageStatus.sent)
+                  Positioned(
+                    top: 70,
+                    child: SvgPicture.asset(
+                      'assets/images/play_button.svg',
+                      height: 76,
+                      width: 76
+                    ),
+                  ),
                 Positioned(
                     left: 5,
                     bottom: 5,
                     child: CustomText(
                         widget.message.status == MessageStatus.pending
                             ? ''
-                            : widget.message?.timestamp?.humanReadableTime() ??
+                            : widget.message?.timestamp
+                                    ?.humanReadableTime() ??
                                 '',
                         style: chatMessageBody.copyWith(fontSize: 12),
                         textAlign: TextAlign.start)),
@@ -152,14 +159,14 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
           Visibility(
             visible: widget.message.status == MessageStatus.pending,
             child: Positioned(
-              left: 140,
-              top: 97,
+              left: 142,
+              top: 91,
               child: SizedBox(
                 height: 55,
                 width: 55,
                 child: CircularProgressIndicator(
                   value: _progress,
-                  strokeWidth: 3,
+                  strokeWidth: 6,
                   valueColor: AlwaysStoppedAnimation<Color>(cornflower),
                   backgroundColor: white,
                 ),
@@ -169,13 +176,13 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
           Visibility(
             visible: widget.message.status == MessageStatus.compressing,
             child: Positioned(
-              left: 113,
-              top: 83,
+              left: 142,
+              top: 91,
               child: SizedBox(
                 height: 55,
                 width: 55,
                 child: CircularProgressIndicator(
-                  strokeWidth: 3,
+                  strokeWidth: 6,
                   valueColor: AlwaysStoppedAnimation<Color>(cornflower),
                   backgroundColor: white,
                 ),
@@ -185,8 +192,8 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
           Visibility(
             visible: widget.message.status == MessageStatus.compressing,
             child: Positioned(
-              left: 80,
-              top: 155,
+              left: 100,
+              top: 175,
               child: CustomText(
                 'מקבץ סרטון...',
                 style: flushbar,
