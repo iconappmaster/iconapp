@@ -23,6 +23,7 @@ abstract class ChatRepository {
   Future conversationViewed(int conversationId);
   Future block(int conversationId);
   Future report(int conversationId, String text);
+  Future<bool> deleteMessage(int conversationId, int messageId);
   Stream<MessageModel> watchMessages();
   Stream<MessageModel> watchAddLike();
   Stream<MessageModel> watchRemoveLike();
@@ -131,5 +132,10 @@ class ChatRepositoryImpl implements ChatRepository {
   @override
   Future report(int conversationId, String text) async {
     return await remote.report(conversationId, text);
+  }
+
+  @override
+  Future<bool> deleteMessage(int conversationId, int messageId) async {
+    return await remote.deleteMessage(conversationId, messageId);
   }
 }

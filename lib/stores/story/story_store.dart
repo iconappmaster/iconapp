@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
-import 'package:iconapp/core/story_cacher.dart';
+// import 'package:iconapp/core/story_cacher.dart';
 import 'package:iconapp/data/models/story_model.dart';
 import 'package:iconapp/data/repositories/story_repository.dart';
 import 'package:iconapp/domain/core/errors.dart';
@@ -25,11 +25,11 @@ class StoryStore = _StoryStoreBase with _$StoryStore;
 abstract class _StoryStoreBase with Store {
   StoryRepository _repository;
   UserStore _user;
-  StoryCacheManager _storyCacheManager;
+  // StoryCacheManager _storyCacheManager;
   StreamSubscription<StoryModel> _storyChangeSubscription;
 
   _StoryStoreBase() {
-    _storyCacheManager = sl<StoryCacheManager>();
+    // _storyCacheManager = sl<StoryCacheManager>();
     _repository = sl<StoryRepository>();
     _user = sl<UserStore>();
   }
@@ -100,9 +100,10 @@ abstract class _StoryStoreBase with Store {
       try {
         final stories = await _repository.getHomeStories();
 
-        await _storyCacheManager.downloadStories(stories);
+        // await _storyCacheManager.downloadStories(stories);
 
-        if (_stories.isNotEmpty) _stories.clear();
+        if (_stories.isNotEmpty) 
+          _stories.clear();
         
         _stories.addAll(stories);
       } on ServerError catch (e) {

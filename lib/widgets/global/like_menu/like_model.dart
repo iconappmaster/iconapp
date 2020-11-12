@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class LikeModel {
+class MenuModel {
   final String key;
   final String asset;
   final Function onPressed;
   final bool isSelected;
 
-  const LikeModel({
+  const MenuModel({
     @required this.key,
     @required this.asset,
     @required this.onPressed,

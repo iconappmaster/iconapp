@@ -15,6 +15,7 @@ import 'package:iconapp/data/repositories/chat_repository.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/domain/core/errors.dart';
 import 'package:iconapp/stores/chat/chat_state.dart';
+import 'package:iconapp/stores/chat/paging_config.dart';
 import 'package:iconapp/stores/chat_settings/chat_settings_store.dart';
 import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/stores/media/media_store.dart';
@@ -171,22 +172,29 @@ abstract class _ChatStoreBase with Store {
 
   @action
   Future fetchMore() async {
-    _messages.insert(0, MessageModel(messageType: MessageType.loading));
+    try {
+      // add loader while paginating
+      _messages.insert(0, MessageModel(messageType: MessageType.loading));
 
-    final remote = await _repository.getRemoteConversaion(
-      conversation.id,
-      limit: PagingConfig.limit,
-      offset: firstMessageTimestamp(),
-    );
+      final remote = await _repository.getRemoteConversaion(
+        conversation.id,
+        limit: PagingConfig.limit,
+        offset: _conversation.messages.first.timestamp,
+      );
 
-    _messages.removeAt(0);
+      if (remote.id == conversation.id && remote.messages.isNotEmpty) {
+        _conversation = _conversation.copyWith(messages: remote.messages);
 
-    if (remote.id == conversation.id && remote.messages.isNotEmpty) {
-      _conversation = _conversation.copyWith(messages: remote.messages);
+        final currentMessages = remote.messages.toList();
 
-      final currentMessages = remote.messages.toList();
-
-      _messages.insertAll(0, currentMessages);
+        _messages.insertAll(0, currentMessages);
+      }
+    } on ServerError catch (e) {
+      Crash.report(e.message);
+    } finally {
+      // make sure there are no loading messages in the list
+      _messages
+          .removeWhere((message) => message.messageType == MessageType.loading);
     }
   }
 
@@ -287,6 +295,19 @@ abstract class _ChatStoreBase with Store {
 
       // replace the message response with the message at the index
       _messages[index] = messageResponse;
+    } on ServerError catch (e) {
+      Crash.report(e.message);
+    }
+  }
+
+  @action
+  Future deleteMessage(int messageId) async {
+    try {
+      final removed =
+          await _repository.deleteMessage(conversation.id, messageId);
+      if (removed) {
+        _messages.removeWhere((m) => m.id == messageId);
+      }
     } on ServerError catch (e) {
       Crash.report(e.message);
     }
@@ -587,12 +608,4 @@ abstract class _ChatStoreBase with Store {
     setConversationViewed();
     await recordTimer?.dispose();
   }
-
-  int firstMessageTimestamp() {
-    return _conversation.messages.first.timestamp;
-  }
-}
-
-class PagingConfig {
-  static int limit = 20;
 }

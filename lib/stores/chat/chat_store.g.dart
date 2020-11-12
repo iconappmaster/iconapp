@@ -273,6 +273,14 @@ mixin _$ChatStore on _ChatStoreBase, Store {
         .run(() => super.likeUnlikeMessage(msg, likeType));
   }
 
+  final _$deleteMessageAsyncAction =
+      AsyncAction('_ChatStoreBase.deleteMessage');
+
+  @override
+  Future<dynamic> deleteMessage(int messageId) {
+    return _$deleteMessageAsyncAction.run(() => super.deleteMessage(messageId));
+  }
+
   final _$sendTextMessageAsyncAction =
       AsyncAction('_ChatStoreBase.sendTextMessage');
 

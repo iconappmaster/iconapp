@@ -10,12 +10,12 @@ import '../../../data/models/message_model.dart';
 import '../../../stores/chat/chat_store.dart';
 import '../../../core/extensions/context_ext.dart';
 
-class Likeble extends StatelessWidget {
+class MessageGestureDetector extends StatelessWidget {
   final Widget child;
   final MessageModel message;
   final bool isMe;
 
-  const Likeble({
+  const MessageGestureDetector({
     Key key,
     @required this.child,
     @required this.message,
@@ -26,22 +26,28 @@ class Likeble extends StatelessWidget {
   Widget build(BuildContext context) {
     final chat = sl<ChatStore>();
 
-    return LikeMenu(
+    return MessageMenu(
       isMe: isMe,
       menuItems: [
-        LikeModel(
+        MenuModel(
+            key: 'delete',
+            asset: 'assets/images/wow.svg',
+            onPressed: () => chat.deleteMessage(message.id))
+      ],
+      likesMenu: [
+        MenuModel(
           isSelected: message.likeType == likeOneKey,
           asset: 'assets/images/wow.svg',
           key: likeOneKey,
           onPressed: () => chat.likeUnlikeMessage(message, likeOneKey),
         ),
-        LikeModel(
+        MenuModel(
           isSelected: message.likeType == likeTwoKey,
           asset: 'assets/images/king.svg',
           key: likeTwoKey,
           onPressed: () => chat.likeUnlikeMessage(message, likeTwoKey),
         ),
-        LikeModel(
+        MenuModel(
           isSelected: message.likeType == likeThreeKey,
           asset: 'assets/images/smile.svg',
           key: likeThreeKey,
@@ -53,12 +59,13 @@ class Likeble extends StatelessWidget {
   }
 }
 
-class LikeMenu extends StatefulWidget {
+class MessageMenu extends StatefulWidget {
   final bool isMe;
   final Widget child;
   final double menuItemExtent;
   final double menuWidth;
-  final List<LikeModel> menuItems;
+  final List<MenuModel> likesMenu;
+  final List<MenuModel> menuItems;
   final bool animateMenuItems;
   final BoxDecoration menuBoxDecoration;
   final Duration duration;
@@ -67,9 +74,10 @@ class LikeMenu extends StatefulWidget {
   final double bottomOffsetHeight;
   final double menuOffset;
 
-  const LikeMenu({
+  const MessageMenu({
     Key key,
     @required this.child,
+    @required this.likesMenu,
     @required this.menuItems,
     @required this.isMe,
     this.duration,
@@ -84,10 +92,10 @@ class LikeMenu extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _LikeMenuState createState() => _LikeMenuState();
+  _MessageMenuState createState() => _MessageMenuState();
 }
 
-class _LikeMenuState extends State<LikeMenu> {
+class _MessageMenuState extends State<MessageMenu> {
   GlobalKey containerKey = GlobalKey();
   Offset childOffset = Offset(0, 0);
   Size childSize;
@@ -109,48 +117,60 @@ class _LikeMenuState extends State<LikeMenu> {
     return GestureDetector(
         behavior: HitTestBehavior.opaque,
         key: containerKey,
+        onLongPress: () {
+          _showMessageMenu(context);
+        },
         onTap: () async {
           if (chat.conversation.isSubscribed) {
             context.unFocus();
             getOffset();
-            await Navigator.push(
-                context,
-                PageRouteBuilder(
-                    transitionDuration:
-                        widget.duration ?? const Duration(milliseconds: 100),
-                    pageBuilder: (context, animation, secondaryAnimation) {
-                      animation = Tween(begin: 0.0, end: 1.0).animate(animation);
-                      return FadeTransition(
-                        opacity: animation,
-                        child: LikeMenuDetails(
-                          isMe: widget.isMe,
-                          itemExtent: widget.menuItemExtent,
-                          menuBoxDecoration: widget.menuBoxDecoration,
-                          child: widget.child,
-                          childOffset: childOffset,
-                          childSize: childSize,
-                          menuItems: widget.menuItems,
-                          blurSize: widget.blurSize,
-                          menuWidth: widget.menuWidth,
-                          blurBackgroundColor: widget.blurBackgroundColor,
-                          animateMenu: widget.animateMenuItems ?? true,
-                          bottomOffsetHeight: widget.bottomOffsetHeight ?? 0,
-                          menuOffset: widget.menuOffset ?? 0,
-                        ),
-                      );
-                    },
-                    fullscreenDialog: true,
-                    opaque: false));
+            await _showLikeMenu(context);
           } else {
-            context.showFlushbar(message: 'כדי להגיב להודעות אנא הצטרף לקבוצה');
+            context.showFlushbar(message: 'כדי להגיב להודעות הצטרף/י לקבוצה');
           }
         },
         child: widget.child);
   }
+
+  void _showMessageMenu(context) {
+    
+  }
+
+  Future _showLikeMenu(BuildContext context) async {
+    await Navigator.push(
+      context,
+      PageRouteBuilder(
+          transitionDuration:
+              widget.duration ?? const Duration(milliseconds: 100),
+          pageBuilder: (context, animation, secondaryAnimation) {
+            animation = Tween(begin: 0.0, end: 1.0).animate(animation);
+            return FadeTransition(
+              opacity: animation,
+              child: MenuDetails(
+                isMe: widget.isMe,
+                itemExtent: widget.menuItemExtent,
+                menuBoxDecoration: widget.menuBoxDecoration,
+                child: widget.child,
+                childOffset: childOffset,
+                childSize: childSize,
+                menuItems: widget.likesMenu,
+                blurSize: widget.blurSize,
+                menuWidth: widget.menuWidth,
+                blurBackgroundColor: widget.blurBackgroundColor,
+                animateMenu: widget.animateMenuItems ?? true,
+                bottomOffsetHeight: widget.bottomOffsetHeight ?? 0,
+                menuOffset: widget.menuOffset ?? 0,
+              ),
+            );
+          },
+          fullscreenDialog: true,
+          opaque: false),
+    );
+  }
 }
 
-class LikeMenuDetails extends StatelessWidget {
-  final List<LikeModel> menuItems;
+class MenuDetails extends StatelessWidget {
+  final List<MenuModel> menuItems;
   final BoxDecoration menuBoxDecoration;
   final Offset childOffset;
   final double itemExtent;
@@ -164,7 +184,7 @@ class LikeMenuDetails extends StatelessWidget {
   final double menuOffset;
   final bool isMe;
 
-  const LikeMenuDetails({
+  const MenuDetails({
     Key key,
     @required this.menuItems,
     @required this.child,

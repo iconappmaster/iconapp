@@ -15,7 +15,7 @@ const String baseUrlProd = 'https://iconproduction.herokuapp.com/api/v1/';
 const String baseUrlStaging = 'https://iconstaging.herokuapp.com/api/v1/';
 
 // UNDO THIS
-@RestApi(baseUrl: baseUrlStaging)
+@RestApi(baseUrl: baseUrlProd)
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
@@ -72,6 +72,10 @@ abstract class RestClient {
   );
 
   // CONVERSATIONS
+  @DELETE('conversation/{conversationId}/delete_message')
+  Future<bool> deleteMessage(@Path('conversationId') int conversationId,
+      @Query('messageId') int messageId);
+
   @POST('conversations/{conversationId}/report')
   Future report(
     @Path('conversationId') int conversationId,

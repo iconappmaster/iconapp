@@ -153,7 +153,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         Visibility(
                           visible: story.isUserIcon || story.stories.isNotEmpty,
-                          child: StoriesList(mode: story.mode),
+                          child: StoriesList(
+                            mode: story.mode,
+                            show: story.isUserIcon || story.stories.isNotEmpty,
+                          ),
                         ),
                         Expanded(
                             child: RefreshIndicator(

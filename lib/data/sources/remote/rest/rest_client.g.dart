@@ -9,7 +9,7 @@ part of 'rest_client.dart';
 class _RestClient implements RestClient {
   _RestClient(this._dio, {this.baseUrl}) {
     ArgumentError.checkNotNull(_dio, '_dio');
-    this.baseUrl ??= 'https://iconstaging.herokuapp.com/api/v1/';
+    this.baseUrl ??= 'https://iconproduction.herokuapp.com/api/v1/';
   }
 
   final Dio _dio;
@@ -265,6 +265,26 @@ class _RestClient implements RestClient {
     var value = _result.data
         .map((dynamic i) => Conversation.fromJson(i as Map<String, dynamic>))
         .toList();
+    return value;
+  }
+
+  @override
+  deleteMessage(conversationId, messageId) async {
+    ArgumentError.checkNotNull(conversationId, 'conversationId');
+    ArgumentError.checkNotNull(messageId, 'messageId');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'messageId': messageId};
+    final _data = <String, dynamic>{};
+    final Response<bool> _result = await _dio.request(
+        'conversation/$conversationId/delete_message',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'DELETE',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = _result.data;
     return value;
   }
 
