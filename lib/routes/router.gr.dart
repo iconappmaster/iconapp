@@ -334,6 +334,7 @@ class Router extends RouterBase {
         builder: (context) => WebViewAdScreen(
           key: args.key,
           initialUrl: args.initialUrl,
+          javaScript: args.javaScript,
         ),
         settings: data,
         fullscreenDialog: true,
@@ -486,10 +487,12 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
   Future<dynamic> pushWebViewAdScreen({
     Key key,
     @required String initialUrl,
+    @required String javaScript,
   }) =>
       push<dynamic>(
         Routes.webViewAdScreen,
-        arguments: WebViewAdScreenArguments(key: key, initialUrl: initialUrl),
+        arguments: WebViewAdScreenArguments(
+            key: key, initialUrl: initialUrl, javaScript: javaScript),
       );
 }
 
@@ -579,5 +582,7 @@ class SingleImageArguments {
 class WebViewAdScreenArguments {
   final Key key;
   final String initialUrl;
-  WebViewAdScreenArguments({this.key, @required this.initialUrl});
+  final String javaScript;
+  WebViewAdScreenArguments(
+      {this.key, @required this.initialUrl, @required this.javaScript});
 }

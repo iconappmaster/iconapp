@@ -88,6 +88,7 @@ class _ChatListState extends State<ChatList> {
 
                       case MessageType.video:
                         return VideoMessage(
+                          showAd: true,
                           controller: widget.scrollController,
                           index: index,
                           message: message,

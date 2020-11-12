@@ -5,9 +5,11 @@ import 'package:iconapp/core/device/device_info.dart';
 import 'package:iconapp/core/keys.dart';
 import 'package:iconapp/core/notifications/fcm.dart';
 import 'package:iconapp/core/story_cacher.dart';
+import 'package:iconapp/data/repositories/ads_repository.dart';
 import 'package:iconapp/data/repositories/alert_repository.dart';
 import 'package:iconapp/data/repositories/comments_repository.dart';
 import 'package:iconapp/data/repositories/verify_icon_repository.dart';
+import 'package:iconapp/stores/ads_service.dart';
 import 'package:iconapp/stores/alerts/alert_store.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
 import 'package:iconapp/stores/create_conversation/create_category_store.dart';
@@ -45,9 +47,10 @@ import '../bus.dart';
 final sl = GetIt.I;
 
 void initLocator() {
-  // LOGIN
+  // Login
   sl.registerLazySingleton<LoginRepository>(
       () => LoginRepositoryImpl(restClient: sl()));
+  sl.registerLazySingleton<LoginStore>(() => LoginStore());
 
   // Socket
   sl.registerLazySingleton<Socket>(() => Socket());
@@ -60,9 +63,6 @@ void initLocator() {
   sl.registerLazySingleton<AuthStore>(() => AuthStore());
   sl.registerLazySingleton<AuthRepository>(
       () => AuthRepositoryImpl(restClient: sl(), sp: sl()));
-
-  // Login
-  sl.registerLazySingleton<LoginStore>(() => LoginStore());
 
   // Rest
   sl.registerLazySingleton<Dio>(() => getDioClient());
@@ -153,9 +153,13 @@ void initLocator() {
   sl.registerLazySingleton<VerifyIconRepository>(
       () => VerifyIconRepositoryImpl(rest: sl()));
 
+  // Story Cahce
   sl.registerLazySingleton<StoryCacheManager>(() => StoryCacheManager());
 
+  // Dynamic Link
   sl.registerLazySingleton<DynamicLink>(() => DynamicLink());
 
-  
+  // Ads Service
+  sl.registerLazySingleton<AdsService>(() => AdsService());
+  sl.registerLazySingleton<AdsRepository>(() => AdsRepositoryImpl());
 }

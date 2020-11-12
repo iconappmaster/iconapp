@@ -5,6 +5,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/routes/router.gr.dart';
+import 'package:iconapp/stores/ads_service.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:vibration/vibration.dart';
 import '../../core/bus.dart';
@@ -27,6 +28,7 @@ class VideoMessage extends StatefulWidget {
   final MessageModel message;
   final bool isMe;
   final int index;
+  final bool showAd;
   final AutoScrollController controller;
 
   const VideoMessage({
@@ -35,6 +37,7 @@ class VideoMessage extends StatefulWidget {
     @required this.isMe,
     @required this.index,
     @required this.controller,
+    this.showAd = false,
   }) : super(key: key);
 
   @override
@@ -100,8 +103,15 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
           IconBubble(
             isMe: widget.isMe,
             message: widget.message,
-            onTap: () => ExtendedNavigator.of(context)
-                .pushVideoScreen(url: widget.message?.body ?? ''),
+            onTap: () async {
+              final ads = sl<AdsService>();
+              if (widget.showAd) {
+                await ads.showWebInterstitial(context);
+              }
+
+              ExtendedNavigator.of(context)
+                  .pushVideoScreen(url: widget.message?.body ?? '');
+            },
             child: Stack(
               alignment: Alignment.center,
               children: [

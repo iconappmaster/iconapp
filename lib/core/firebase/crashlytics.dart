@@ -3,7 +3,7 @@ import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 
 class Crash {
-  static report(String msg) {
+  static report(dynamic msg) {
     final crashlytics = Crashlytics.instance;
     crashlytics.log(msg);
 

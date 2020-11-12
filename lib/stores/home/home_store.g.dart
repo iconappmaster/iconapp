@@ -77,6 +77,14 @@ mixin _$HomeStore on _HomeStoreBase, Store {
     });
   }
 
+  final _$getConversationsAsyncAction =
+      AsyncAction('_HomeStoreBase.getConversations');
+
+  @override
+  Future<Either<ServerError, List<Conversation>>> getConversations() {
+    return _$getConversationsAsyncAction.run(() => super.getConversations());
+  }
+
   final _$getCachedAndRenderAsyncAction =
       AsyncAction('_HomeStoreBase.getCachedAndRender');
 
@@ -84,14 +92,6 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   Future<List<Conversation>> getCachedAndRender() {
     return _$getCachedAndRenderAsyncAction
         .run(() => super.getCachedAndRender());
-  }
-
-  final _$getConversationsAsyncAction =
-      AsyncAction('_HomeStoreBase.getConversations');
-
-  @override
-  Future<Either<ServerError, List<Conversation>>> getConversations() {
-    return _$getConversationsAsyncAction.run(() => super.getConversations());
   }
 
   final _$saveWelcomeSeenAsyncAction =
@@ -128,7 +128,7 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   @override
   void removeConversation(int conversationId) {
     final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
-        name: '_HomeStoreBase.remove');
+        name: '_HomeStoreBase.removeConversation');
     try {
       return super.removeConversation(conversationId);
     } finally {

@@ -96,8 +96,8 @@ class _VideoScreenState extends State<VideoScreen> {
             ),
           if (widget.showToolbar)
             Positioned(
-              top: 32,
-              right: 16,
+              top: 45,
+              right: 25,
               child: RoundedClose(),
             ),
         ]),
