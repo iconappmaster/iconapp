@@ -59,7 +59,7 @@ class ComposeActionButtons extends StatelessWidget {
     showModalBottomSheet(
       backgroundColor: Colors.transparent,
       context: context,
-      builder: (BuildContext bc) {
+      builder: (BuildContext _) {
         return ClipRRect(
             child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 6.0, sigmaY: 6.0),

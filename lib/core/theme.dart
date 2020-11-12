@@ -204,7 +204,7 @@ const likeStyle = TextStyle(
 const settingsAppbarTitle = TextStyle(
   fontFamily: _fontRubikMedium,
   color: white,
-  fontSize: 22.3,
+  fontSize: 18.3,
 );
 
 const settingsButton = TextStyle(

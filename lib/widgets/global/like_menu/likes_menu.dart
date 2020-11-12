@@ -118,7 +118,29 @@ class _MessageMenuState extends State<MessageMenu> {
         behavior: HitTestBehavior.opaque,
         key: containerKey,
         onLongPress: () {
-          _showMessageMenu(context);
+          showModalBottomSheet(
+              context: context,
+              builder: (_) {
+                return Container(
+                  child: Wrap(
+                    children: <Widget>[
+                      ListTile(
+                          leading: Icon(
+                            Icons.delete,
+                            color: pinkRed,
+                          ),
+                          title: Text(
+                            'מחק הודעה',
+                            style: settingsAppbarTitle.copyWith(
+                              color: pinkRed,
+                            ),
+                          ),
+                          onTap: () {}),
+                    ],
+                  ),
+                );
+              });
+          // return _showMessageMenu(context);
         },
         onTap: () async {
           if (chat.conversation.isSubscribed) {
@@ -130,10 +152,6 @@ class _MessageMenuState extends State<MessageMenu> {
           }
         },
         child: widget.child);
-  }
-
-  void _showMessageMenu(context) {
-    
   }
 
   Future _showLikeMenu(BuildContext context) async {
