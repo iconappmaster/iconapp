@@ -10,8 +10,18 @@ class InterstitialAd {
   }
 
   Future load() async {
+    var payload = {
+      'ambirthyear': '1970',
+      'amgender': 'male',
+      'aid': '477c4275-2221-47f8-bb32-dc94927c9592',
+      'isLat': 'false',
+      'icon': 'kirl'
+    };
+
     _interstitialAd = DFPInterstitialAd(
-      isDevelop: true,
+      
+      isDevelop: false,
+      customTargeting: payload,
       adUnitId: adUnitId,
       onAdLoaded: () {
         print('interstitialAd onAdLoaded');

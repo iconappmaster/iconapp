@@ -167,6 +167,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               onConversationTap: (conversation, index) async {
                                 story.clearStories();
 
+                                _home.interstitialAd.show();
+
                                 await ExtendedNavigator.of(context)
                                     .pushChatScreen(conversation: conversation);
 

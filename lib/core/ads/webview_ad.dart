@@ -23,12 +23,13 @@ class WebViewAdScreen extends StatelessWidget {
               initialUrl: initialUrl,
               initialHeaders: {},
               initialOptions: InAppWebViewGroupOptions(
-                  crossPlatform: InAppWebViewOptions(
-                debuggingEnabled: true,
-                disableHorizontalScroll: true,
-                disableContextMenu: true,
-                disableVerticalScroll: true,
-              )),
+                crossPlatform: InAppWebViewOptions(
+                  debuggingEnabled: true,
+                  disableHorizontalScroll: true,
+                  disableContextMenu: true,
+                  disableVerticalScroll: true,
+                ),
+              ),
               onWebViewCreated: (controller) =>
                   onWebViewCreate(controller, context),
               onLoadStart: (InAppWebViewController controller, String url) {},

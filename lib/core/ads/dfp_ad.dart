@@ -19,7 +19,7 @@ class DFPBannerAdd extends StatefulWidget {
 }
 
 class _DFPBannerAddState extends State<DFPBannerAdd> {
-  DFPBannerViewController _contoller;
+  // DFPBannerViewController _contoller;
   @override
   Widget build(BuildContext context) {
     return DFPBanner(
@@ -27,7 +27,9 @@ class _DFPBannerAddState extends State<DFPBannerAdd> {
       testDevices: MyTestDevices(),
       adUnitId: "/22166703028/icon_start_splash",
       adSize: DFPAdSize.LARGE_BANNER,
-      onAdViewCreated: (controller) => _contoller = controller,
+      onAdViewCreated: (controller) {
+// _contoller = controller,
+      },
       onAdLoaded: () {
         print('Banner onAdLoaded');
       },
@@ -46,7 +48,7 @@ class _DFPBannerAddState extends State<DFPBannerAdd> {
     );
   }
 
-  void _reload() {
-    _contoller?.reload();
-  }
+  // void _reload() {
+  //   _contoller?.reload();
+  // }
 }

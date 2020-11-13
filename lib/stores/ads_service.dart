@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:iconapp/core/ads/ad_webview_model.dart';
+import 'package:iconapp/core/ads/model/ad_webview_model.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/routes/router.gr.dart';
@@ -16,7 +16,7 @@ class AdsService {
 
   // MOCK PAYLOAD
   final defaultAid = '477c4275-2221-47f8-bb32-dc94927c9592';
-  
+
   String getAdsJavaScript() {
     final user = _userStore.getUser;
 
