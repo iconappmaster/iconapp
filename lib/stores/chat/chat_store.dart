@@ -107,6 +107,11 @@ abstract class _ChatStoreBase with Store {
       .toList();
 
   @computed
+  List<MessageModel> get conversationVideos => _messages
+      .where((message) => message.messageType == MessageType.video)
+      .toList();
+
+  @computed
   ChatState get getState => _state;
 
   @computed
@@ -220,7 +225,7 @@ abstract class _ChatStoreBase with Store {
 
       await sl<ChatSettingsStore>()
         ..init();
-      // init story
+
       await sl<StoryStore>()
         ..setStoryMode(StoryMode.conversation)
         ..refreshStories();
@@ -393,9 +398,9 @@ abstract class _ChatStoreBase with Store {
       File file = File(pickedFile.path);
       if (file != null) {
         final thumbnail = await VideoCompress.getFileThumbnail(file.path);
-        
+
         _uploading = true;
-      
+
         final msg = MessageModel(
           extraData: thumbnail.path ?? '',
           id: DateTime.now().millisecondsSinceEpoch,

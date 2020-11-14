@@ -10,11 +10,13 @@ class VideoScreen extends StatefulWidget {
   final bool mute;
   final String url;
   final bool showToolbar;
+  final VideoPlayerController controller;
   const VideoScreen({
     Key key,
     @required this.url,
     this.showToolbar = true,
     this.mute = false,
+    this.controller,
   }) : super(key: key);
 
   @override
@@ -23,12 +25,17 @@ class VideoScreen extends StatefulWidget {
 
 class _VideoScreenState extends State<VideoScreen> {
   VideoPlayerController _controller;
+
   bool isLoading = true;
   bool showReplay = false;
 
   @override
   void initState() {
     super.initState();
+
+    if (widget.controller != null) {
+      _controller = widget.controller;
+    }
 
     widget.url.startsWith('http') ? _startVideoNetwork() : _startVideoLocal();
     _controller.addListener(() {

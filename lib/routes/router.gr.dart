@@ -9,8 +9,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 
 import '../data/models/conversation_model.dart';
+import '../data/models/message_model.dart';
 import '../data/models/photo_model.dart';
 import '../data/models/story_image.dart';
 import '../data/models/story_model.dart';
@@ -38,6 +40,7 @@ import '../screens/verify_icon_email_screen.dart';
 import '../screens/verify_instagram.dart';
 import '../screens/verify_send_code_screen.dart';
 import '../screens/verify_welcome.dart';
+import '../screens/video_gallery_screen.dart';
 import '../widgets/global/single_image.dart';
 
 class Routes {
@@ -51,6 +54,7 @@ class Routes {
   static const String chatSettingsScreen = '/chat-settings-screen';
   static const String videoScreen = '/video-screen';
   static const String photoGalleryScreen = '/photo-gallery-screen';
+  static const String videoGalleryScreen = '/video-gallery-screen';
   static const String selectIconScreen = '/select-icon-screen';
   static const String createCategoryScreen = '/create-category-screen';
   static const String editConversation = '/edit-conversation';
@@ -77,6 +81,7 @@ class Routes {
     chatSettingsScreen,
     videoScreen,
     photoGalleryScreen,
+    videoGalleryScreen,
     selectIconScreen,
     createCategoryScreen,
     editConversation,
@@ -109,6 +114,7 @@ class Router extends RouterBase {
     RouteDef(Routes.chatSettingsScreen, page: ChatSettingsScreen),
     RouteDef(Routes.videoScreen, page: VideoScreen),
     RouteDef(Routes.photoGalleryScreen, page: PhotoGalleryScreen),
+    RouteDef(Routes.videoGalleryScreen, page: VideoGalleryScreen),
     RouteDef(Routes.selectIconScreen, page: SelectIconScreen),
     RouteDef(Routes.createCategoryScreen, page: CreateCategoryScreen),
     RouteDef(Routes.editConversation, page: EditConversation),
@@ -193,6 +199,7 @@ class Router extends RouterBase {
           url: args.url,
           showToolbar: args.showToolbar,
           mute: args.mute,
+          controller: args.controller,
         ),
         settings: data,
       );
@@ -202,7 +209,18 @@ class Router extends RouterBase {
       return MaterialPageRoute<dynamic>(
         builder: (context) => PhotoGalleryScreen(
           key: args.key,
-          galleryItems: args.galleryItems,
+          photos: args.photos,
+          intialIndex: args.intialIndex,
+        ),
+        settings: data,
+      );
+    },
+    VideoGalleryScreen: (data) {
+      final args = data.getArgs<VideoGalleryScreenArguments>(nullOk: false);
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => VideoGalleryScreen(
+          key: args.key,
+          videos: args.videos,
           intialIndex: args.intialIndex,
         ),
         settings: data,
@@ -370,22 +388,38 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
     @required String url,
     bool showToolbar = true,
     bool mute = false,
+    VideoPlayerController controller,
   }) =>
       push<dynamic>(
         Routes.videoScreen,
         arguments: VideoScreenArguments(
-            key: key, url: url, showToolbar: showToolbar, mute: mute),
+            key: key,
+            url: url,
+            showToolbar: showToolbar,
+            mute: mute,
+            controller: controller),
       );
 
   Future<dynamic> pushPhotoGalleryScreen({
     Key key,
-    @required List<PhotoModel> galleryItems,
+    @required List<PhotoModel> photos,
     @required int intialIndex,
   }) =>
       push<dynamic>(
         Routes.photoGalleryScreen,
         arguments: PhotoGalleryScreenArguments(
-            key: key, galleryItems: galleryItems, intialIndex: intialIndex),
+            key: key, photos: photos, intialIndex: intialIndex),
+      );
+
+  Future<dynamic> pushVideoGalleryScreen({
+    Key key,
+    @required List<MessageModel> videos,
+    @required int intialIndex,
+  }) =>
+      push<dynamic>(
+        Routes.videoGalleryScreen,
+        arguments: VideoGalleryScreenArguments(
+            key: key, videos: videos, intialIndex: intialIndex),
       );
 
   Future<dynamic> pushSelectIconScreen({
@@ -493,20 +527,31 @@ class VideoScreenArguments {
   final String url;
   final bool showToolbar;
   final bool mute;
+  final VideoPlayerController controller;
   VideoScreenArguments(
       {this.key,
       @required this.url,
       this.showToolbar = true,
-      this.mute = false});
+      this.mute = false,
+      this.controller});
 }
 
 /// PhotoGalleryScreen arguments holder class
 class PhotoGalleryScreenArguments {
   final Key key;
-  final List<PhotoModel> galleryItems;
+  final List<PhotoModel> photos;
   final int intialIndex;
   PhotoGalleryScreenArguments(
-      {this.key, @required this.galleryItems, @required this.intialIndex});
+      {this.key, @required this.photos, @required this.intialIndex});
+}
+
+/// VideoGalleryScreen arguments holder class
+class VideoGalleryScreenArguments {
+  final Key key;
+  final List<MessageModel> videos;
+  final int intialIndex;
+  VideoGalleryScreenArguments(
+      {this.key, @required this.videos, @required this.intialIndex});
 }
 
 /// SelectIconScreen arguments holder class

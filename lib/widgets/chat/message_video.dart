@@ -98,8 +98,17 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
           IconBubble(
             isMe: widget.isMe,
             message: widget.message,
-            onTap: () => ExtendedNavigator.of(context)
-                .pushVideoScreen(url: widget.message?.body ?? ''),
+            onTap: () {
+              if (store.conversationVideos.length > 1) {
+                return ExtendedNavigator.of(context).pushVideoGalleryScreen(
+                    videos: store.conversationVideos,
+                    intialIndex: store.conversationVideos
+                        .indexWhere((m) => m.id == widget.message.id));
+              } else {
+                return ExtendedNavigator.of(context)
+                    .pushVideoScreen(url: widget.message?.body ?? '');
+              }
+            },
             child: Stack(
               alignment: Alignment.center,
               children: [
@@ -111,7 +120,8 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
                           width: 280,
                           child: NetworkPhoto(
                               imageUrl: widget.message?.extraData ?? ''),
-                        ))
+                        ),
+                      )
                     : ClipRRect(
                         borderRadius: BorderRadius.circular(4.2),
                         child: SizedBox(

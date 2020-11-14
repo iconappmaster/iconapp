@@ -100,9 +100,10 @@ class _PhotoMessageState extends State<PhotoMessage> {
                   message: widget.message,
                   onTap: () => store.conversationPhotos.length > 1
                       ? ExtendedNavigator.of(context).pushPhotoGalleryScreen(
-                          galleryItems: store.conversationPhotos,
+                          photos: store.conversationPhotos,
                           intialIndex: store.conversationPhotos
-                              .indexWhere((m) => m.id == widget.message.id))
+                              .indexWhere((m) => m.id == widget.message.id),
+                        )
                       : ExtendedNavigator.of(context)
                           .pushSingleImage(url: widget.message.body),
                   child: Stack(children: [

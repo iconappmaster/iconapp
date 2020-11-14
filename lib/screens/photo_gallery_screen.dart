@@ -8,11 +8,11 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:iconapp/routes/router.gr.dart';
 
 class PhotoGalleryScreen extends StatelessWidget {
-  final List<PhotoModel> galleryItems;
+  final List<PhotoModel> photos;
   final int intialIndex;
   const PhotoGalleryScreen({
     Key key,
-    @required this.galleryItems,
+    @required this.photos,
     @required this.intialIndex,
   }) : super(key: key);
 
@@ -25,14 +25,15 @@ class PhotoGalleryScreen extends StatelessWidget {
             child: SizedBox(
                 height: MediaQuery.of(context).size.height * .8,
                 child: Swiper(
+                  
                     viewportFraction: 0.8,
                     scale: 0.9,
-                    itemCount: galleryItems.length,
+                    itemCount: photos.length,
                     scrollDirection: Axis.vertical,
                     index: intialIndex,
                     physics: BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
-                      final url = galleryItems[index].url;
+                      final url = photos[index].url;
                       return GestureDetector(
                         onTap: () => ExtendedNavigator.of(context)
                             .pushSingleImage(url: url),

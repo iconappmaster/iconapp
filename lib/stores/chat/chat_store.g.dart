@@ -37,6 +37,13 @@ mixin _$ChatStore on _ChatStoreBase, Store {
           Computed<List<PhotoModel>>(() => super.conversationPhotos,
               name: '_ChatStoreBase.conversationPhotos'))
       .value;
+  Computed<List<MessageModel>> _$conversationVideosComputed;
+
+  @override
+  List<MessageModel> get conversationVideos => (_$conversationVideosComputed ??=
+          Computed<List<MessageModel>>(() => super.conversationVideos,
+              name: '_ChatStoreBase.conversationVideos'))
+      .value;
   Computed<ChatState> _$getStateComputed;
 
   @override
@@ -497,6 +504,7 @@ isReplyMessage: ${isReplyMessage},
 uploading: ${uploading},
 replayMessage: ${replayMessage},
 conversationPhotos: ${conversationPhotos},
+conversationVideos: ${conversationVideos},
 getState: ${getState},
 conversation: ${conversation},
 composerMode: ${composerMode},
