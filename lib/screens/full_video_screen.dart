@@ -11,12 +11,16 @@ class VideoScreen extends StatefulWidget {
   final String url;
   final bool showToolbar;
   final VideoPlayerController controller;
+  final bool canDismiss;
+  final bool showReplay;
   const VideoScreen({
     Key key,
     @required this.url,
     this.showToolbar = true,
     this.mute = false,
     this.controller,
+    this.canDismiss = false,
+    this.showReplay = false,
   }) : super(key: key);
 
   @override
@@ -25,13 +29,15 @@ class VideoScreen extends StatefulWidget {
 
 class _VideoScreenState extends State<VideoScreen> {
   VideoPlayerController _controller;
+  bool showReplay;
 
   bool isLoading = true;
-  bool showReplay = false;
 
   @override
   void initState() {
     super.initState();
+
+    showReplay = widget?.showReplay ?? false;
 
     if (widget.controller != null) {
       _controller = widget.controller;
@@ -77,14 +83,10 @@ class _VideoScreenState extends State<VideoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Dismissible(
-      background: Container(color: Colors.black),
-      onDismissed: (_) => ExtendedNavigator.of(context).pop(),
-      key: Key('video'),
-      direction: DismissDirection.up,
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        body: Stack(children: [
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Stack(
+        children: [
           Center(
             child: isLoading
                 ? CircularProgressIndicator()
@@ -93,6 +95,12 @@ class _VideoScreenState extends State<VideoScreen> {
                     child: VideoPlayer(_controller),
                   ),
           ),
+          if (widget.showToolbar)
+            Positioned(
+              top: 32,
+              right: 16,
+              child: RoundedClose(),
+            ),
           if (showReplay)
             ReplayButton(
               onPress: () async {
@@ -101,13 +109,7 @@ class _VideoScreenState extends State<VideoScreen> {
                 _controller.play();
               },
             ),
-          if (widget.showToolbar)
-            Positioned(
-              top: 32,
-              right: 16,
-              child: RoundedClose(),
-            ),
-        ]),
+        ],
       ),
     );
   }
@@ -129,9 +131,20 @@ class ReplayButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
+      child: Container(
+        height: 80,
+        width: 80,
+        decoration: BoxDecoration(
+            shape: BoxShape.circle, color: Colors.black38.withOpacity(.5)),
         child: IconButton(
-      onPressed: onPress,
-      icon: SvgPicture.asset('assets/images/reply_button.svg'),
-    ));
+          onPressed: onPress,
+          icon: Icon(
+            Icons.replay,
+            color: Colors.white,
+            size: 40,
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -1,4 +1,8 @@
+import 'dart:ui' as ui;
+
 import 'package:auto_route/auto_route.dart';
+import 'package:country_code_picker/country_code_picker.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -13,11 +17,9 @@ import 'package:iconapp/widgets/global/next_button.dart';
 import 'package:iconapp/widgets/onboarding/base_onboarding_widget.dart';
 import 'package:iconapp/widgets/onboarding/onboarding_appbar.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+
 import '../core/extensions/context_ext.dart';
 import '../generated/locale_keys.g.dart';
-import 'dart:ui' as ui;
-import 'package:easy_localization/easy_localization.dart';
-import 'package:country_code_picker/country_code_picker.dart';
 
 /// [OnboardingScreen] used to verify the user with [Phone] number and
 /// an [SMS] code that is being sent.
@@ -62,7 +64,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           child: NextButton(
             enabled: store.numberValid,
             onClick: () {
-              context.unFocus();
+              // context.unFocus();
               store.verifyPhone();
             },
           )),
@@ -123,9 +125,11 @@ class _SmsCounter extends StatelessWidget {
         visible: store.isPinCodeMode,
         child: Positioned(
           top: context.heightPlusStatusbarPerc(.46),
-          child: CustomText(int.tryParse(store.displayCountdown) > 0 ? 
-            LocaleKeys.onboarding_phoneCounting
-                .tr(args: [store.displayCountdown]) : 'הגיע?',
+          child: CustomText(
+            int.tryParse(store.displayCountdown) > 0
+                ? LocaleKeys.onboarding_phoneCounting
+                    .tr(args: [store.displayCountdown])
+                : 'הגיע?',
             style: loginSmallText,
           ),
         ),
@@ -288,17 +292,7 @@ class PhoneNumberInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = sl<LoginStore>();
-    final inputDecor = const InputDecoration(
-      counterText: '',
-      enabledBorder:
-          UnderlineInputBorder(borderSide: BorderSide(color: cornflower)),
-      border: const UnderlineInputBorder(
-        borderSide: const BorderSide(
-          width: .3,
-          color: cornflower,
-        ),
-      ),
-    );
+
     return AnimatedPositioned(
         curve: Curves.easeInOut,
         duration: const Duration(milliseconds: 700),
@@ -323,28 +317,46 @@ class PhoneNumberInput extends StatelessWidget {
                   store.updateCountryCode(countryCode.dialCode),
             ),
             SizedBox(width: context.widthPx * .08),
-            _buildPhone(context, inputDecor, store),
+            _buildPhone(context, store),
             // _countryCode(context, inputDecor, widget.store),
           ],
         ));
   }
 
-  Widget _buildPhone(
-      BuildContext context, InputDecoration inputDecor, LoginStore store) {
+  Widget _buildPhone(BuildContext context, LoginStore store) {
     return Container(
-      width: context.widthPx * .7,
-      child: TextField(
-        autofocus: true,
-        maxLength: 12,
-        textAlign: TextAlign.center,
-        decoration: inputDecor.copyWith(
+        width: context.widthPx * .7,
+        child: TextField(
+          autofocus: true,
+          style: phoneNumber.copyWith(
+            decoration: TextDecoration.none,
+          ),
+          maxLength: 12,
+          textAlign: TextAlign.center,
+          onChanged: (phone) => store.updatePhone(phone),
+          keyboardType: TextInputType.phone,
+          decoration: InputDecoration(
             hintText: 'לדוגמא: 054-1122244',
-            hintStyle: phoneNumber.copyWith(color: whiteOpacity50)),
-        style: phoneNumber.copyWith(
-            color: store.isPhoneMode ? white : white.withOpacity(.4)),
-        onChanged: (phone) => store.updatePhone(phone),
-        keyboardType: TextInputType.phone,
-      ),
-    );
+            hintStyle: phoneNumber.copyWith(
+              color: whiteOpacity50,
+              decoration: TextDecoration.none,
+            ),
+            counterText: '',
+            enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+              color: Colors.transparent,
+            )),
+          ),
+        ));
+
+    //      inputDecor.copyWith(
+    //         hintText: 'לדוגמא: 054-1122244',
+    //         hintStyle: phoneNumber.copyWith(color: whiteOpacity50)),
+    //     style: phoneNumber.copyWith(
+    //         color: store.isPhoneMode ? white : white.withOpacity(.4)),
+    //     onChanged: (phone) => store.updatePhone(phone),
+    //     keyboardType: TextInputType.phone,
+    //   ),
+    // );
   }
 }

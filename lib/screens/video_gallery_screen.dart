@@ -5,6 +5,7 @@ import 'package:iconapp/screens/full_video_screen.dart';
 import 'package:iconapp/widgets/global/blur_appbar.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:video_player/video_player.dart';
+import 'package:iconapp/routes/router.gr.dart';
 
 class VideoGalleryScreen extends StatefulWidget {
   final List<MessageModel> videos;
@@ -31,21 +32,26 @@ class _VideoGalleryScreenState extends State<VideoGalleryScreen> {
         Center(
           child: Swiper(
             viewportFraction: 0.8,
-            scale: 0.9,
+            scale: 0.95,
             onIndexChanged: (index) => print(index),
             itemCount: widget.videos.length,
-            scrollDirection: Axis.horizontal,
+            scrollDirection: Axis.vertical,
             index: widget.intialIndex,
             physics: BouncingScrollPhysics(),
             itemBuilder: (context, index) {
               final url = widget.videos[index].body;
               return Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: VideoScreen(
-                  controller: _controller,
-                  url: url,
-                  showToolbar: false,
-                  mute: true,
+                child: GestureDetector(
+                  onTap: () =>
+                      ExtendedNavigator.of(context).pushVideoScreen(url: url),
+                  child: VideoScreen(
+                    showReplay: false,
+                    controller: _controller,
+                    url: url,
+                    showToolbar: false,
+                    mute: true,
+                  ),
                 ),
               );
             },
