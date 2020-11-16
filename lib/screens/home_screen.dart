@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:iconapp/core/ads/photo_interstitial.dart';
 import 'package:iconapp/core/deep_link.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/lifecycle_observer.dart';
@@ -169,12 +170,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                   onConversationTap:
                                       (conversation, index) async {
                                     story.clearStories();
+
+                                    // show interstitial ad
+                                    await sl<PhotoInterstitialAd>()
+                                      ..load(conversation.name, adUnitId)
+                                      ..show();
+
                                     await ExtendedNavigator.of(context)
                                         .pushChatScreen(
                                             conversation: conversation);
-
-                                    _home.hideBadge(index);
-
+                                    
+                                    // when return from a conversation hide the 
+                                    // new badge and update story
+                                    _home.hideNewBadge(index);
                                     story
                                       ..setStoryMode(StoryMode.home)
                                       ..refreshStories();

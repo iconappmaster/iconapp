@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:iconapp/core/ads/photo_interstitial.dart';
 import 'package:iconapp/core/deep_link.dart';
 import 'package:iconapp/core/keys.dart';
 import 'package:iconapp/core/notifications/fcm.dart';
@@ -150,4 +151,6 @@ void initLocator() {
   sl.registerLazySingleton<StoryCacheManager>(() => StoryCacheManager());
   
   sl.registerLazySingleton<DynamicLink>(() => DynamicLink());
+  
+  sl.registerLazySingleton<PhotoInterstitialAd>(() => PhotoInterstitialAd());
 }

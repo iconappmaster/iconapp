@@ -184,7 +184,7 @@ abstract class _HomeStoreBase with Store {
   }
 
   @action
-  void hideBadge(int index) {
+  void hideNewBadge(int index) {
     _conversations[index] = _conversations[index].copyWith(
       shouldShowNewBadge: false,
     );

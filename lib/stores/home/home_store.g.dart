@@ -211,11 +211,11 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   }
 
   @override
-  void hideBadge(int index) {
+  void hideNewBadge(int index) {
     final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
-        name: '_HomeStoreBase.hideBadge');
+        name: '_HomeStoreBase.hideNewBadge');
     try {
-      return super.hideBadge(index);
+      return super.hideNewBadge(index);
     } finally {
       _$_HomeStoreBaseActionController.endAction(_$actionInfo);
     }

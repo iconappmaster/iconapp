@@ -62,7 +62,7 @@ dependencies:
   firebase_dynamic_links: ^0.5.1
   package_info: ^0.4.3+2
   launch_review: ^2.0.0
-
+  flutter_google_ad_manager: ^0.11.1
 
 dev_dependencies:
   flutter_test:

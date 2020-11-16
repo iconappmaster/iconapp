@@ -40,7 +40,7 @@ class ConversationsList extends StatelessWidget {
                   return ConversationTile(
                     model: conversation,
                     onTap: () {
-                      home.hideBadge(index);
+                      home.hideNewBadge(index);
                       onConversationTap(conversation, index);
                     },
                   );
