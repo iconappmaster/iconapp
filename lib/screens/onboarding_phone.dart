@@ -318,45 +318,28 @@ class PhoneNumberInput extends StatelessWidget {
             ),
             SizedBox(width: context.widthPx * .08),
             _buildPhone(context, store),
-            // _countryCode(context, inputDecor, widget.store),
           ],
         ));
   }
 
   Widget _buildPhone(BuildContext context, LoginStore store) {
-    return Container(
+    return SizedBox(
         width: context.widthPx * .7,
         child: TextField(
-          autofocus: true,
-          style: phoneNumber.copyWith(
-            decoration: TextDecoration.none,
-          ),
-          maxLength: 12,
-          textAlign: TextAlign.center,
-          onChanged: (phone) => store.updatePhone(phone),
-          keyboardType: TextInputType.phone,
-          decoration: InputDecoration(
-            hintText: 'לדוגמא: 054-1122244',
-            hintStyle: phoneNumber.copyWith(
-              color: whiteOpacity50,
-              decoration: TextDecoration.none,
-            ),
-            counterText: '',
-            enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(
-              color: Colors.transparent,
-            )),
-          ),
-        ));
-
-    //      inputDecor.copyWith(
-    //         hintText: 'לדוגמא: 054-1122244',
-    //         hintStyle: phoneNumber.copyWith(color: whiteOpacity50)),
-    //     style: phoneNumber.copyWith(
-    //         color: store.isPhoneMode ? white : white.withOpacity(.4)),
-    //     onChanged: (phone) => store.updatePhone(phone),
-    //     keyboardType: TextInputType.phone,
-    //   ),
-    // );
+            autofocus: true,
+            style: phoneNumber.copyWith(decoration: TextDecoration.none),
+            maxLength: 12,
+            textAlign: TextAlign.center,
+            onChanged: (phone) => store.updatePhone(phone),
+            keyboardType: TextInputType.phone,
+            decoration: InputDecoration(
+                hintText: 'לדוגמא: 054-1122244',
+                hintStyle: phoneNumber.copyWith(
+                    color: whiteOpacity50, decoration: TextDecoration.none),
+                counterText: '',
+                enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                  color: Colors.transparent,
+                )))));
   }
 }

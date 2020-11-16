@@ -162,7 +162,7 @@ class StoryItem {
   factory StoryItem.inlineImage({
     @required int imageId,
     @required String url,
-    @required Text caption,
+    @required CustomText caption,
     @required StoryController controller,
     BoxFit imageFit = BoxFit.cover,
     Map<String, dynamic> requestHeaders,
@@ -655,12 +655,8 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
             heightFactor: 1,
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
-              onTapDown: (details) {
-                widget.controller.pause();
-              },
-              onTapCancel: () {
-                widget.controller.play();
-              },
+              onTapDown: (details) => widget.controller.pause(),
+              onTapCancel: () => widget.controller.play(),
               onTapUp: (details) {
                 // if debounce timed out (not active) then continue anim
                 if (_nextDebouncer?.isActive == false) {
@@ -676,9 +672,7 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
                     },
               onVerticalDragCancel: widget.onVerticalSwipeComplete == null
                   ? null
-                  : () {
-                      widget.controller.play();
-                    },
+                  : () => widget.controller.play(),
               onVerticalDragUpdate: widget.onVerticalSwipeComplete == null
                   ? null
                   : (details) {
@@ -760,7 +754,7 @@ class PageBarState extends State<PageBar> {
     spacing = count > 15 ? 1 : count > 10 ? 2 : 4;
 
     widget.animation.addListener(() {
-     if  (mounted) setState(() {});
+      if (mounted) setState(() {});
     });
   }
 

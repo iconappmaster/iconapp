@@ -6,6 +6,7 @@ import 'package:iconapp/core/swap.dart';
 import 'package:iconapp/widgets/global/cube.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/story_model.dart';
+import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/rounded_close.dart';
 import '../core/dependencies/locator.dart';
 import '../data/models/story_image.dart';
@@ -99,8 +100,11 @@ class _StoryScreenState extends State<StoryScreen> {
                               duration:
                                   Duration(seconds: storyImage?.duration ?? 7),
                               url: storyImage?.photo?.url ?? '',
-                              caption: Text(storyImage?.description ?? '',
-                                  style: settingsAppbarTitle),
+                              caption: CustomText(
+                                storyImage?.description ?? '',
+                                style:
+                                    settingsAppbarTitle.copyWith(fontSize: 20),
+                              ),
                               controller: _storyPageController)
                           : StoryItem.pageVideo(storyImage.photo?.url ?? '',
                               controller: _storyPageController,

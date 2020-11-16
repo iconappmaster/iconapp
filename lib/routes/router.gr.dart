@@ -200,6 +200,8 @@ class Router extends RouterBase {
           showToolbar: args.showToolbar,
           mute: args.mute,
           controller: args.controller,
+          canDismiss: args.canDismiss,
+          showReplay: args.showReplay,
         ),
         settings: data,
       );
@@ -389,6 +391,8 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
     bool showToolbar = true,
     bool mute = false,
     VideoPlayerController controller,
+    bool canDismiss = false,
+    bool showReplay = false,
   }) =>
       push<dynamic>(
         Routes.videoScreen,
@@ -397,7 +401,9 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
             url: url,
             showToolbar: showToolbar,
             mute: mute,
-            controller: controller),
+            controller: controller,
+            canDismiss: canDismiss,
+            showReplay: showReplay),
       );
 
   Future<dynamic> pushPhotoGalleryScreen({
@@ -528,12 +534,16 @@ class VideoScreenArguments {
   final bool showToolbar;
   final bool mute;
   final VideoPlayerController controller;
+  final bool canDismiss;
+  final bool showReplay;
   VideoScreenArguments(
       {this.key,
       @required this.url,
       this.showToolbar = true,
       this.mute = false,
-      this.controller});
+      this.controller,
+      this.canDismiss = false,
+      this.showReplay = false});
 }
 
 /// PhotoGalleryScreen arguments holder class
