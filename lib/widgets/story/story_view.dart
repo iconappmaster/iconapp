@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:iconapp/core/ads/banner_ad.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/story/utils.dart';
@@ -208,6 +209,15 @@ class StoryItem {
       imageId: imageId,
       shown: shown,
       duration: duration ?? Duration(seconds: 3),
+    );
+  }
+
+  factory StoryItem.ad(String adUnitId) {
+    return StoryItem(
+      Center(child: BannerAd(adUnitId: adUnitId)),
+      shown: true,
+      imageId: 0,
+      duration: Duration(seconds: 7),
     );
   }
 
@@ -751,7 +761,11 @@ class PageBarState extends State<PageBar> {
     super.initState();
 
     int count = widget.pages.length;
-    spacing = count > 15 ? 1 : count > 10 ? 2 : 4;
+    spacing = count > 15
+        ? 1
+        : count > 10
+            ? 2
+            : 4;
 
     widget.animation.addListener(() {
       if (mounted) setState(() {});
@@ -781,7 +795,11 @@ class PageBarState extends State<PageBar> {
               padding: EdgeInsets.only(
                   right: widget.pages.last == it ? 0 : this.spacing),
               child: StoryProgressIndicator(
-                isPlaying(it) ? widget.animation.value : it.shown ? 1 : 0,
+                isPlaying(it)
+                    ? widget.animation.value
+                    : it.shown
+                        ? 1
+                        : 0,
                 indicatorHeight:
                     widget.indicatorHeight == IndicatorHeight.large ? 5 : 3,
               ),

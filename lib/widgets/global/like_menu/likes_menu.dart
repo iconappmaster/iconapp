@@ -1,6 +1,7 @@
 library focused_menu;
 
 import 'dart:ui';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'like_model.dart';
@@ -26,7 +27,7 @@ class MessageGestureDetector extends StatelessWidget {
   Widget build(BuildContext context) {
     final chat = sl<ChatStore>();
 
-    return MessageMenu(
+    return _Detector(
       message: message,
       isMe: isMe,
       menuItems: [
@@ -60,7 +61,7 @@ class MessageGestureDetector extends StatelessWidget {
   }
 }
 
-class MessageMenu extends StatefulWidget {
+class _Detector extends StatefulWidget {
   final MessageModel message;
   final bool isMe;
   final Widget child;
@@ -76,7 +77,7 @@ class MessageMenu extends StatefulWidget {
   final double bottomOffsetHeight;
   final double menuOffset;
 
-  const MessageMenu({
+  const _Detector({
     Key key,
     @required this.child,
     @required this.likesMenu,
@@ -95,10 +96,10 @@ class MessageMenu extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _MessageMenuState createState() => _MessageMenuState();
+  _DetectorState createState() => _DetectorState();
 }
 
-class _MessageMenuState extends State<MessageMenu> {
+class _DetectorState extends State<_Detector> {
   GlobalKey containerKey = GlobalKey();
   Offset childOffset = Offset(0, 0);
   Size childSize;
@@ -121,27 +122,31 @@ class _MessageMenuState extends State<MessageMenu> {
         behavior: HitTestBehavior.opaque,
         key: containerKey,
         onLongPress: () {
-          // if (widget.isMe) {
-          //   showModalBottomSheet(
-          //       context: context,
-          //       builder: (_) {
-          //         return Container(
-          //           child: Wrap(
-          //             children: <Widget>[
-          //               ListTile(
-          //                   leading: Icon(
-          //                     Icons.delete,
-          //                     color: pinkRed,
-          //                   ),
-          //                   title: Text('מחק הודעה',
-          //                       style: settingsAppbarTitle.copyWith(
-          //                           color: pinkRed)),
-          //                   onTap: () => chat.deleteMessage(widget.message.id)),
-          //             ],
-          //           ),
-          //         );
-          //       });
-          // }
+          if (widget.isMe) {
+            showModalBottomSheet(
+                context: context,
+                builder: (_) {
+                  return Container(
+                    child: Wrap(
+                      children: <Widget>[
+                        ListTile(
+                            leading: Icon(
+                              Icons.delete,
+                              color: pinkRed,
+                            ),
+                            title: Text('מחק הודעה',
+                                style: settingsAppbarTitle.copyWith(
+                                    color: pinkRed)),
+                            onTap: () async {
+                              await chat.deleteMessage(widget.message.id);
+                              ExtendedNavigator.of(context).pop();
+                              context.showToast('הודעה נמחקה');
+                            }),
+                      ],
+                    ),
+                  );
+                });
+          }
         },
         onTap: () async {
           if (chat.conversation.isSubscribed) {

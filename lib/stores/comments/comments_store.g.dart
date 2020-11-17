@@ -193,11 +193,11 @@ mixin _$CommentsStore on _CommentsStoreBase, Store {
   }
 
   @override
-  void diospoe() {
+  void dispose() {
     final _$actionInfo = _$_CommentsStoreBaseActionController.startAction(
-        name: '_CommentsStoreBase.diospoe');
+        name: '_CommentsStoreBase.dispose');
     try {
-      return super.diospoe();
+      return super.dispose();
     } finally {
       _$_CommentsStoreBaseActionController.endAction(_$actionInfo);
     }

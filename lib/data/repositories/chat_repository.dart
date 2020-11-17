@@ -23,10 +23,11 @@ abstract class ChatRepository {
   Future conversationViewed(int conversationId);
   Future block(int conversationId);
   Future report(int conversationId, String text);
-  Future<bool> deleteMessage(int conversationId, int messageId);
+  Future deleteMessage(int conversationId, int messageId);
   Stream<MessageModel> watchMessages();
   Stream<MessageModel> watchAddLike();
   Stream<MessageModel> watchRemoveLike();
+  Stream<int> watchDeletedMessage();
 }
 
 class ChatRepositoryImpl implements ChatRepository {
@@ -110,6 +111,11 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
+  Stream<int> watchDeletedMessage() {
+    return socket.deleteMessageSubject;
+  }
+
+  @override
   Stream<MessageModel> watchRemoveLike() {
     return socket.removeLikeSubject;
   }
@@ -135,7 +141,7 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<bool> deleteMessage(int conversationId, int messageId) async {
+  Future deleteMessage(int conversationId, int messageId) async {
     return await remote.deleteMessage(conversationId, messageId);
   }
 }

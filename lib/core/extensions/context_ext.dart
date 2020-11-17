@@ -22,6 +22,7 @@ extension ContextExtensions on BuildContext {
 
   showToast(String message, [Color iconColor = white]) {
     Flushbar(
+      backgroundColor: cornflower,
       duration: Duration(seconds: 2),
       message: message,
       icon: Icon(Icons.info_outline, size: 28.0, color: iconColor),

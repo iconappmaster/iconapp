@@ -22,6 +22,13 @@ mixin _$StoryStore on _StoryStoreBase, Store {
       (_$isUserIconComputed ??= Computed<bool>(() => super.isUserIcon,
               name: '_StoryStoreBase.isUserIcon'))
           .value;
+  Computed<List<StoryModel>> _$storiesWithoutAdsComputed;
+
+  @override
+  List<StoryModel> get storiesWithoutAds => (_$storiesWithoutAdsComputed ??=
+          Computed<List<StoryModel>>(() => super.storiesWithoutAds,
+              name: '_StoryStoreBase.storiesWithoutAds'))
+      .value;
   Computed<List<StoryModel>> _$storiesComputed;
 
   @override
@@ -158,6 +165,7 @@ mixin _$StoryStore on _StoryStoreBase, Store {
     return '''
 mode: ${mode},
 isUserIcon: ${isUserIcon},
+storiesWithoutAds: ${storiesWithoutAds},
 stories: ${stories},
 usersStory: ${usersStory}
     ''';

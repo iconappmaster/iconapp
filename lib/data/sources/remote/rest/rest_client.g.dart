@@ -268,14 +268,14 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<bool> deleteMessage(conversationId, messageId) async {
+  Future<dynamic> deleteMessage(conversationId, messageId) async {
     ArgumentError.checkNotNull(conversationId, 'conversationId');
     ArgumentError.checkNotNull(messageId, 'messageId');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'messageId': messageId};
     final _data = <String, dynamic>{};
-    final _result = await _dio.request<bool>(
-        'conversation/$conversationId/delete_message',
+    final _result = await _dio.request(
+        'conversations/$conversationId/delete_message',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'DELETE',

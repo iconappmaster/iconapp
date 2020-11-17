@@ -21,6 +21,7 @@ const commentChannelName = 'comments';
 
 // Events
 const messagesEvent = 'new-message';
+const messageDeletedEvent = 'deleted-message';
 const addedLikeEvent = 'added-like';
 const removedLikeEvent = 'removed-like';
 const conversationChangedEvent = 'conversation-changed';
@@ -31,6 +32,7 @@ class Socket {
   BehaviorSubject<MessageModel> messageSubject = BehaviorSubject();
   BehaviorSubject<MessageModel> addedLikeSubject = BehaviorSubject();
   BehaviorSubject<MessageModel> removeLikeSubject = BehaviorSubject();
+  BehaviorSubject<int> deleteMessageSubject = BehaviorSubject();
 
   BehaviorSubject<Conversation> homeConversationSubject = BehaviorSubject();
   BehaviorSubject<StoryModel> storySubject = BehaviorSubject();
@@ -112,6 +114,16 @@ class Socket {
   void bindAddLikeEvent() {
     _conversationChannel.bind(addedLikeEvent,
         (event) => _proccessLikeEventToMessage(addedLikeSubject, event));
+  }
+
+  void bindDeletedMessageEvent() {
+    _conversationChannel.bind(messageDeletedEvent, (event) {
+      final json = jsonDecode(event.data);
+      final id = json['id'];
+      if (id != null) {
+        deleteMessageSubject.add(id);
+      }
+    });
   }
 
   void bindRemoveLikeEvent() {

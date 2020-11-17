@@ -56,6 +56,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
 
     _chat
       ..init(widget.conversation)
+      ..watchDeleteMessage()
       ..watchMessages()
       ..watchAddLike()
       ..watchRemoveLike();
@@ -148,7 +149,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                 );
               }),
               Visibility(
-                visible: _story.isUserIcon || _story.stories.isNotEmpty,
+                visible: _story.isUserIcon || _story.storiesWithoutAds.isNotEmpty,
                 child: Positioned(
                     top: context.heightPlusStatusbarPerc(.1),
                     child: StoriesList(mode: _story.mode, show: !_upDirection)),
@@ -215,7 +216,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   @override
   void dispose() {
     _chat.dispose();
-    _comments.diospoe();
+    _comments.dispose();
     _socket.unsubscribe(widget.conversation.id.toString());
     super.dispose();
   }

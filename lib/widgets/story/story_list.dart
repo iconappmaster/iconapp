@@ -66,7 +66,7 @@ class _StoriesListState extends State<StoriesList> {
                       StoryAddButton(
                           onTap: () => ExtendedNavigator.of(context)
                               .pushStoryEditScreen()),
-                    ...store.stories
+                    ...store.storiesWithoutAds
                         .map((story) => StoryTile(
                             story: story,
                             onTap: () =>

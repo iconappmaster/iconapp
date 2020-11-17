@@ -54,7 +54,8 @@ class _StoryScreenState extends State<StoryScreen> {
       _allStories = _store.stories;
 
       // find the index of the selected story and present it first
-      final index = _store.stories.indexWhere((s) => s.id == widget.story.id);
+      final index =
+          _store.storiesWithoutAds.indexWhere((s) => s.id == widget.story.id);
       swap(_allStories, index, 0);
     }
 
@@ -92,25 +93,9 @@ class _StoryScreenState extends State<StoryScreen> {
                   },
                   onStoryShow: (s) =>
                       _store.onStoryImageViewed(s?.imageId ?? 0),
-                  storyItems: story.storyImages
-                      .map((storyImage) => storyImage.imageType ==
-                              MediaType.photo.toString().parseEnum()
-                          ? StoryItem.inlineImage(
-                              imageId: storyImage.id,
-                              duration:
-                                  Duration(seconds: storyImage?.duration ?? 7),
-                              url: storyImage?.photo?.url ?? '',
-                              caption: CustomText(
-                                storyImage?.description ?? '',
-                                style:
-                                    settingsAppbarTitle.copyWith(fontSize: 20),
-                              ),
-                              controller: _storyPageController)
-                          : StoryItem.pageVideo(storyImage.photo?.url ?? '',
-                              controller: _storyPageController,
-                              duration:
-                                  Duration(seconds: storyImage?.duration ?? 7)))
-                      .toList(),
+                  storyItems: story.type == StoryType.story
+                      ? _storyImages(story)
+                      : _storyAd(),
                 );
               },
             ).toList(),
@@ -172,6 +157,29 @@ class _StoryScreenState extends State<StoryScreen> {
         ]),
       ),
     );
+  }
+
+  List<StoryItem> _storyAd() =>
+      [StoryItem.ad('/22166703028/Icon_App/Story_interstital')];
+
+  List<StoryItem> _storyImages(StoryModel story) => story.storyImages
+      .map((storyImage) => _handleStoryItem(storyImage))
+      .toList();
+
+  StoryItem _handleStoryItem(StoryImageModel storyImage) {
+    return storyImage.imageType == MediaType.photo.toString().parseEnum()
+        ? StoryItem.inlineImage(
+            imageId: storyImage.id,
+            duration: Duration(seconds: storyImage?.duration ?? 7),
+            url: storyImage?.photo?.url ?? '',
+            caption: CustomText(
+              storyImage?.description ?? '',
+              style: settingsAppbarTitle.copyWith(fontSize: 20),
+            ),
+            controller: _storyPageController)
+        : StoryItem.pageVideo(storyImage.photo?.url ?? '',
+            controller: _storyPageController,
+            duration: Duration(seconds: storyImage?.duration ?? 7));
   }
 
   @override

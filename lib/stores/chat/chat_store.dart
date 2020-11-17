@@ -34,6 +34,8 @@ class ChatStore = _ChatStoreBase with _$ChatStore;
 
 abstract class _ChatStoreBase with Store {
   final _socketSubscription = List<StreamSubscription<MessageModel>>();
+  StreamSubscription<int> _deleteMessageSubscribption;
+
   ChatRepository _repository;
   MediaStore _mediaStore;
   UserStore _userStore;
@@ -286,7 +288,8 @@ abstract class _ChatStoreBase with Store {
   @action
   Future setConversationViewed() async {
     try {
-      await _repository.conversationViewed(conversation.id);
+      if (conversation?.id != null)
+        await _repository.conversationViewed(conversation?.id);
     } on ServerError catch (e) {
       Crash.report(e.message);
     }
@@ -314,11 +317,8 @@ abstract class _ChatStoreBase with Store {
   @action
   Future deleteMessage(int messageId) async {
     try {
-      final removed =
-          await _repository.deleteMessage(conversation.id, messageId);
-      if (removed) {
-        _messages.removeWhere((m) => m.id == messageId);
-      }
+      await _repository.deleteMessage(conversation.id, messageId);
+      _messages.removeWhere((m) => m.id == messageId);
     } on ServerError catch (e) {
       Crash.report(e.message);
     }
@@ -550,6 +550,16 @@ abstract class _ChatStoreBase with Store {
   }
 
   @action
+  void watchDeleteMessage() {
+    _deleteMessageSubscribption =
+        _repository.watchDeletedMessage().listen((id) {
+      if (id != null) {
+        _messages.removeWhere((m) => m.id == id);
+      }
+    });
+  }
+
+  @action
   void watchMessages() {
     _socketSubscription.add(
       _repository.watchMessages().listen((message) {
@@ -616,6 +626,7 @@ abstract class _ChatStoreBase with Store {
     _state = ChatState.initial();
     _messages?.clear();
     _socketSubscription?.forEach((subscription) => subscription.cancel());
+    _deleteMessageSubscribption?.cancel();
     _conversation = Conversation();
     _replyMessage = null;
     dataReady = false;

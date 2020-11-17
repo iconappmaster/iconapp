@@ -108,12 +108,14 @@ abstract class _CommentsStoreBase with Store {
   @action
   void watchMessages() {
     _subscription = _repository.watchComments().listen(
-      (message) {
+      (comment) {
         final conversation =
             _chat.conversation.copyWith(shouldShowNewCommentsBadge: true);
         _showNewCommentBadge = true;
         _chat.setConversation(conversation);
-        _comments.add(message);
+        if (!_comments.any((c) => c.id == comment.id)) {
+          _comments.add(comment);
+        }
       },
     );
   }
@@ -132,14 +134,18 @@ abstract class _CommentsStoreBase with Store {
         likeCounts: LikesCount.initial(),
         timestamp: DateTime.now().millisecondsSinceEpoch,
         messageType: MessageType.text,
+        repliedToMessage: _chat.replayMessage,
       );
 
       _comments.add(comment);
 
-      var remoteComment =
-          await _repository.sendComment(_chat.conversation.id, comment);
+      _chat.setReplyMessage(null);
 
-      remoteComment = remoteComment.copyWith(
+      _commentInput = '';
+
+      var res = await _repository.sendComment(_chat.conversation.id, comment);
+
+      res = res.copyWith(
         messageType: MessageType.text,
         likeCounts: LikesCount.initial(),
       );
@@ -147,12 +153,9 @@ abstract class _CommentsStoreBase with Store {
       // // update the id and set the message
       final index = _comments.indexWhere((c) => c.id == comment.id);
       _comments[index] = comment.copyWith(
-        id: remoteComment.id,
+        id: res.id,
         status: MessageStatus.sent,
       );
-
-      // reset the comment input
-      _commentInput = '';
 
       return right(unit);
     } on DioError catch (e) {
@@ -185,7 +188,7 @@ abstract class _CommentsStoreBase with Store {
   }
 
   @action
-  void diospoe() {
+  void dispose() {
     _subscription?.cancel();
     _countSubscription?.cancel();
   }

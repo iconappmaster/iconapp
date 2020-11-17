@@ -12,9 +12,12 @@ abstract class StoryModel with _$StoryModel {
       int id,
       bool isNew,
       UserModel user,
+      StoryType type,
       List<StoryImageModel> storyImages,
     }) = _StoryModel;
   
   factory StoryModel.fromJson(Map<String, dynamic> json) =>
       _$StoryModelFromJson(json);
 }
+
+enum StoryType { story, ad }

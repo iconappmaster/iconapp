@@ -72,8 +72,8 @@ abstract class RestClient {
   );
 
   // CONVERSATIONS
-  @DELETE('conversation/{conversationId}/delete_message')
-  Future<bool> deleteMessage(@Path('conversationId') int conversationId,
+  @DELETE('conversations/{conversationId}/delete_message')
+  Future deleteMessage(@Path('conversationId') int conversationId,
       @Query('messageId') int messageId);
 
   @POST('conversations/{conversationId}/report')

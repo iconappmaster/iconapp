@@ -53,6 +53,13 @@ abstract class _StoryStoreBase with Store {
 
   // get all stories in reveresed order
   @computed
+  List<StoryModel> get storiesWithoutAds => _stories.reversed
+      .where(
+        (s) => s.type == StoryType.story,
+      )
+      .toList();
+
+  @computed
   List<StoryModel> get stories => _stories.reversed.toList();
 
   // wil lget the users story
@@ -87,7 +94,8 @@ abstract class _StoryStoreBase with Store {
     Future getConversationsStories(int conversationId) async {
       _mode = StoryMode.conversation;
       try {
-        final stories = await _repository.getConversationsStories(conversationId);
+        final stories =
+            await _repository.getConversationsStories(conversationId);
 
         setStories(stories);
       } on ServerError catch (e) {
@@ -99,13 +107,24 @@ abstract class _StoryStoreBase with Store {
       _mode = StoryMode.home;
       try {
         final stories = await _repository.getHomeStories();
+        // remove that!
+        final s =
+            stories.map((e) => e.copyWith(type: StoryType.story)).toList();
 
-        // await _storyCacheManager.downloadStories(stories);
+        if (_stories.isNotEmpty) _stories.clear();
 
-        if (_stories.isNotEmpty) 
-          _stories.clear();
-        
-        _stories.addAll(stories);
+        _stories
+          ..addAll(s)
+          // remove that!
+          ..add(
+            StoryModel(
+              id: 0,
+              isNew: false,
+              storyImages: [],
+              type: StoryType.ad,
+              user: null,
+            ),
+          );
       } on ServerError catch (e) {
         Crash.report(e.message);
       }
