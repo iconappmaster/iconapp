@@ -43,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
   DynamicLink _dynamicLink;
   String homeChannelName = 'home';
   Socket _socket;
-
+  PhotoInterstitialAd _photoAd;
   @override
   void initState() {
     _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -74,6 +74,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future _initSocket() async {
     _socket = sl<Socket>();
+
+    _photoAd = sl<PhotoInterstitialAd>();
 
     await _socket.subscribeHomeChannel(homeChannelName);
 
@@ -171,16 +173,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                       (conversation, index) async {
                                     story.clearStories();
 
-                                    // show interstitial ad
-                                    await sl<PhotoInterstitialAd>()
-                                      ..load(conversation.name, adUnitId)
-                                      ..show();
+                                    await _photoAd.load(
+                                      conversation.name,
+                                      adUnitId,
+                                    );
 
                                     await ExtendedNavigator.of(context)
                                         .pushChatScreen(
                                             conversation: conversation);
-                                    
-                                    // when return from a conversation hide the 
+
+                                    // when return from a conversation hide the
                                     // new badge and update story
                                     _home.hideNewBadge(index);
                                     story
@@ -251,6 +253,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void dispose() {
     _socket.unsubscribe(homeChannelName);
     _home?.dispose();
+    _photoAd?.dispose();
     _story?.dispose();
     super.dispose();
   }

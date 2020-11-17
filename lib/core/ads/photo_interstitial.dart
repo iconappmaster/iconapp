@@ -1,57 +1,63 @@
 import 'package:flutter_google_ad_manager/interstitial_ad.dart';
-import 'package:get_it/get_it.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import '../../core/extensions/string_ext.dart';
 import 'interstitial_model.dart';
+import 'package:advertising_id/advertising_id.dart';
 
-const defaultAid = '477c4275-2221-47f8-bb32-dc94927c9592';
 const adUnitId = '/22166703028/icon_start_splash';
 
+const AD_SHOWED_THRESHOLD = 5;
+
 class PhotoInterstitialAd {
+  int counter = 1;
+
   DFPInterstitialAd _interstitialAd;
 
   PhotoInterstitialAd();
 
   Future load(String conversationName, String adUnitId) async {
-    final user = sl<UserStore>().getUser;
 
-    final targeting = AdTargetingModel(
-      ambirthyear: (DateTime.now().year - user?.age).toString(),
-      amgender: user.gender.toString().parseEnum(),
-      aid: defaultAid,
-      icon: conversationName,
-      isLat: 'true',
-    );
+    counter++;
+    if (counter == AD_SHOWED_THRESHOLD) {
+  
+      counter = 0;
 
-    _interstitialAd = DFPInterstitialAd(
-      isDevelop: false,
-      customTargeting: targeting.toJson(),
-      adUnitId: adUnitId,
-      onAdLoaded: () {
-        print('interstitialAd onAdLoaded');
-      },
-      onAdFailedToLoad: (errorCode) {
-        print('interstitialAd onAdFailedToLoad: errorCode:$errorCode');
-      },
-      onAdOpened: () {
-        print('interstitialAd onAdOpened');
-      },
-      onAdClosed: () {
-        print('interstitialAd onAdClosed');
-        _interstitialAd.load();
-      },
-      onAdLeftApplication: () {
-        print('interstitialAd onAdLeftApplication');
-      },
-    );
+      final user = sl<UserStore>().getUser;
+      final advertisingId = await AdvertisingId.id;
+      final isLimitedTrackEnabled =
+          await AdvertisingId.isLimitAdTrackingEnabled;
 
-    await _interstitialAd.load();
-  }
+      final targeting = AdTargetingModel(
+          ambirthyear: (DateTime.now().year - user?.age ?? 12).toString(),
+          amgender: user.gender.toString().parseEnum(),
+          aid: advertisingId,
+          icon: conversationName,
+          isLat: isLimitedTrackEnabled.toString());
 
-  Future show() async {
-    throwIf(_interstitialAd == null, '_interstitialAd must initialized');
-    _interstitialAd?.show();
+      _interstitialAd = DFPInterstitialAd(
+        isDevelop: false,
+        customTargeting: targeting.toJson(),
+        adUnitId: adUnitId,
+        onAdLoaded: () {
+          _interstitialAd?.show();
+        },
+        onAdFailedToLoad: (errorCode) {
+          print('interstitialAd errorCode');
+        },
+        onAdOpened: () {
+          print('interstitialAd onAdOpened');
+        },
+        onAdClosed: () {
+          print('interstitialAd onAdClosed');
+        },
+        onAdLeftApplication: () {
+          print('interstitialAd onAdLeftApplication');
+        },
+      );
+
+      await _interstitialAd.load();
+    }
   }
 
   Future dispose() async {
