@@ -9,7 +9,7 @@ part of 'rest_client.dart';
 class _RestClient implements RestClient {
   _RestClient(this._dio, {this.baseUrl}) {
     ArgumentError.checkNotNull(_dio, '_dio');
-    this.baseUrl ??= 'https://iconproduction.herokuapp.com/api/v1/';
+    baseUrl ??= 'https://iconproduction.herokuapp.com/api/v1/';
   }
 
   final Dio _dio;
@@ -17,12 +17,12 @@ class _RestClient implements RestClient {
   String baseUrl;
 
   @override
-  verifyPhone(phone) async {
+  Future<dynamic> verifyPhone(phone) async {
     ArgumentError.checkNotNull(phone, 'phone');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'phone': phone};
     final _data = <String, dynamic>{};
-    final Response _result = await _dio.request('request_code',
+    final _result = await _dio.request('request_code',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -35,7 +35,7 @@ class _RestClient implements RestClient {
   }
 
   @override
-  verifyCode(phone, code) async {
+  Future<UserModel> verifyCode(phone, code) async {
     ArgumentError.checkNotNull(phone, 'phone');
     ArgumentError.checkNotNull(code, 'code');
     const _extra = <String, dynamic>{};
@@ -44,8 +44,7 @@ class _RestClient implements RestClient {
       r'login_code': code
     };
     final _data = <String, dynamic>{};
-    final Response<Map<String, dynamic>> _result = await _dio.request(
-        'verify_code',
+    final _result = await _dio.request<Map<String, dynamic>>('verify_code',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -58,7 +57,7 @@ class _RestClient implements RestClient {
   }
 
   @override
-  updatePushToken(token, operationSystem) async {
+  Future<UserModel> updatePushToken(token, operationSystem) async {
     ArgumentError.checkNotNull(token, 'token');
     ArgumentError.checkNotNull(operationSystem, 'operationSystem');
     const _extra = <String, dynamic>{};
@@ -67,7 +66,7 @@ class _RestClient implements RestClient {
       r'os': operationSystem
     };
     final _data = <String, dynamic>{};
-    final Response<Map<String, dynamic>> _result = await _dio.request(
+    final _result = await _dio.request<Map<String, dynamic>>(
         'user/update_push_token',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -81,11 +80,11 @@ class _RestClient implements RestClient {
   }
 
   @override
-  getUser() async {
+  Future<UserModel> getUser() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response<Map<String, dynamic>> _result = await _dio.request('user',
+    final _result = await _dio.request<Map<String, dynamic>>('user',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',
@@ -98,11 +97,11 @@ class _RestClient implements RestClient {
   }
 
   @override
-  turnOnNotifications() async {
+  Future<dynamic> turnOnNotifications() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response _result = await _dio.request('user/turn_on_notifications',
+    final _result = await _dio.request('user/turn_on_notifications',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -115,13 +114,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  requestIconVerificationCode(email) async {
+  Future<dynamic> requestIconVerificationCode(email) async {
     ArgumentError.checkNotNull(email, 'email');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'email': email};
     final _data = <String, dynamic>{};
-    final Response _result = await _dio.request(
-        'user/request_icon_verification_code',
+    final _result = await _dio.request('user/request_icon_verification_code',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -134,11 +132,11 @@ class _RestClient implements RestClient {
   }
 
   @override
-  turnOffNotifications() async {
+  Future<dynamic> turnOffNotifications() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response _result = await _dio.request('user/turn_off_notifications',
+    final _result = await _dio.request('user/turn_off_notifications',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -151,13 +149,14 @@ class _RestClient implements RestClient {
   }
 
   @override
-  updateUser(userModel) async {
+  Future<UserModel> updateUser(userModel) async {
     ArgumentError.checkNotNull(userModel, 'userModel');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(userModel?.toJson() ?? <String, dynamic>{});
-    final Response<Map<String, dynamic>> _result = await _dio.request('user',
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<Map<String, dynamic>>('user',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -170,11 +169,11 @@ class _RestClient implements RestClient {
   }
 
   @override
-  logout() async {
+  Future<dynamic> logout() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response _result = await _dio.request('user/logout',
+    final _result = await _dio.request('user/logout',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -187,12 +186,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  searchCategory(searchString) async {
+  Future<List<Conversation>> searchCategory(searchString) async {
     ArgumentError.checkNotNull(searchString, 'searchString');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'searchString': searchString};
     final _data = <String, dynamic>{};
-    final Response<List<dynamic>> _result = await _dio.request('categories',
+    final _result = await _dio.request<List<dynamic>>('categories',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',
@@ -207,12 +206,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  searchContacts(query) async {
+  Future<List<UserModel>> searchContacts(query) async {
     ArgumentError.checkNotNull(query, 'query');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'searchString': query};
     final _data = <String, dynamic>{};
-    final Response<List<dynamic>> _result = await _dio.request('icons',
+    final _result = await _dio.request<List<dynamic>>('icons',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',
@@ -227,12 +226,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  getConversationByCategoryId(categoryId) async {
+  Future<List<Conversation>> getConversationByCategoryId(categoryId) async {
     ArgumentError.checkNotNull(categoryId, 'categoryId');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'categoryId': categoryId};
     final _data = <String, dynamic>{};
-    final Response<List<dynamic>> _result = await _dio.request(
+    final _result = await _dio.request<List<dynamic>>(
         'conversations/get_by_category',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -248,12 +247,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  getConversationByIconId(iconUserId) async {
+  Future<List<Conversation>> getConversationByIconId(iconUserId) async {
     ArgumentError.checkNotNull(iconUserId, 'iconUserId');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'iconUserId': iconUserId};
     final _data = <String, dynamic>{};
-    final Response<List<dynamic>> _result = await _dio.request(
+    final _result = await _dio.request<List<dynamic>>(
         'conversations/get_by_icon',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -269,13 +268,13 @@ class _RestClient implements RestClient {
   }
 
   @override
-  deleteMessage(conversationId, messageId) async {
+  Future<bool> deleteMessage(conversationId, messageId) async {
     ArgumentError.checkNotNull(conversationId, 'conversationId');
     ArgumentError.checkNotNull(messageId, 'messageId');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'messageId': messageId};
     final _data = <String, dynamic>{};
-    final Response<bool> _result = await _dio.request(
+    final _result = await _dio.request<bool>(
         'conversation/$conversationId/delete_message',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -289,7 +288,7 @@ class _RestClient implements RestClient {
   }
 
   @override
-  report(conversationId, explanation) async {
+  Future<dynamic> report(conversationId, explanation) async {
     ArgumentError.checkNotNull(conversationId, 'conversationId');
     ArgumentError.checkNotNull(explanation, 'explanation');
     const _extra = <String, dynamic>{};
@@ -297,8 +296,7 @@ class _RestClient implements RestClient {
       r'reportExplanation': explanation
     };
     final _data = <String, dynamic>{};
-    final Response _result = await _dio.request(
-        'conversations/$conversationId/report',
+    final _result = await _dio.request('conversations/$conversationId/report',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -311,13 +309,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  block(conversationId) async {
+  Future<dynamic> block(conversationId) async {
     ArgumentError.checkNotNull(conversationId, 'conversationId');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response _result = await _dio.request(
-        'conversations/$conversationId/block',
+    final _result = await _dio.request('conversations/$conversationId/block',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -330,14 +327,15 @@ class _RestClient implements RestClient {
   }
 
   @override
-  updateConversation(conversationId, conversation) async {
+  Future<Conversation> updateConversation(conversationId, conversation) async {
     ArgumentError.checkNotNull(conversationId, 'conversationId');
     ArgumentError.checkNotNull(conversation, 'conversation');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(conversation?.toJson() ?? <String, dynamic>{});
-    final Response<Map<String, dynamic>> _result = await _dio.request(
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<Map<String, dynamic>>(
         'conversations/$conversationId',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -351,13 +349,13 @@ class _RestClient implements RestClient {
   }
 
   @override
-  addUser(conversationId, userId) async {
+  Future<Conversation> addUser(conversationId, userId) async {
     ArgumentError.checkNotNull(conversationId, 'conversationId');
     ArgumentError.checkNotNull(userId, 'userId');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'userId': userId};
     final _data = <String, dynamic>{};
-    final Response<Map<String, dynamic>> _result = await _dio.request(
+    final _result = await _dio.request<Map<String, dynamic>>(
         'conversations/$conversationId/add_user',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -371,13 +369,13 @@ class _RestClient implements RestClient {
   }
 
   @override
-  removeUser(conversationId, userId) async {
+  Future<Conversation> removeUser(conversationId, userId) async {
     ArgumentError.checkNotNull(conversationId, 'conversationId');
     ArgumentError.checkNotNull(userId, 'userId');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'userId': userId};
     final _data = <String, dynamic>{};
-    final Response<Map<String, dynamic>> _result = await _dio.request(
+    final _result = await _dio.request<Map<String, dynamic>>(
         'conversations/$conversationId/remove_user',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -391,11 +389,11 @@ class _RestClient implements RestClient {
   }
 
   @override
-  getConversations() async {
+  Future<List<Conversation>> getConversations() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response<List<dynamic>> _result = await _dio.request('conversations',
+    final _result = await _dio.request<List<dynamic>>('conversations',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',
@@ -410,14 +408,14 @@ class _RestClient implements RestClient {
   }
 
   @override
-  createConversation(groupReq) async {
+  Future<Conversation> createConversation(groupReq) async {
     ArgumentError.checkNotNull(groupReq, 'groupReq');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(groupReq?.toJson() ?? <String, dynamic>{});
-    final Response<Map<String, dynamic>> _result = await _dio.request(
-        'conversations',
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<Map<String, dynamic>>('conversations',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -430,7 +428,7 @@ class _RestClient implements RestClient {
   }
 
   @override
-  getConversaion(conversationId, {limit, offset}) async {
+  Future<Conversation> getConversaion(conversationId, {limit, offset}) async {
     ArgumentError.checkNotNull(conversationId, 'conversationId');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
@@ -439,7 +437,7 @@ class _RestClient implements RestClient {
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
-    final Response<Map<String, dynamic>> _result = await _dio.request(
+    final _result = await _dio.request<Map<String, dynamic>>(
         'conversations/$conversationId',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -453,12 +451,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  subscribe(id) async {
+  Future<Conversation> subscribe(id) async {
     ArgumentError.checkNotNull(id, 'id');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response<Map<String, dynamic>> _result = await _dio.request(
+    final _result = await _dio.request<Map<String, dynamic>>(
         'conversations/$id/subscribe_to_conversation',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -472,12 +470,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  unsubscribe(id) async {
+  Future<Conversation> unsubscribe(id) async {
     ArgumentError.checkNotNull(id, 'id');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response<Map<String, dynamic>> _result = await _dio.request(
+    final _result = await _dio.request<Map<String, dynamic>>(
         'conversations/$id/unsubscribe_from_conversation',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -491,13 +489,13 @@ class _RestClient implements RestClient {
   }
 
   @override
-  makeUserAdmin(id, userId) async {
+  Future<Conversation> makeUserAdmin(id, userId) async {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(userId, 'userId');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'userId': userId};
     final _data = <String, dynamic>{};
-    final Response<Map<String, dynamic>> _result = await _dio.request(
+    final _result = await _dio.request<Map<String, dynamic>>(
         'conversations/$id/make_admin',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -511,13 +509,13 @@ class _RestClient implements RestClient {
   }
 
   @override
-  pinConversation(id, isPinned) async {
+  Future<Conversation> pinConversation(id, isPinned) async {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(isPinned, 'isPinned');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'isPinned': isPinned};
     final _data = <String, dynamic>{};
-    final Response<Map<String, dynamic>> _result = await _dio.request(
+    final _result = await _dio.request<Map<String, dynamic>>(
         'conversations/$id/set_pin',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -531,13 +529,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  viewedConversation(id) async {
+  Future<dynamic> viewedConversation(id) async {
     ArgumentError.checkNotNull(id, 'id');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response _result = await _dio.request(
-        'conversations/$id/viewed_conversation',
+    final _result = await _dio.request('conversations/$id/viewed_conversation',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -550,12 +547,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  turnOnConversationNotifications(id) async {
+  Future<dynamic> turnOnConversationNotifications(id) async {
     ArgumentError.checkNotNull(id, 'id');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response _result = await _dio.request(
+    final _result = await _dio.request(
         'conversations/$id/turn_on_notifications',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -569,12 +566,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  turnOffConversationNotifications(id) async {
+  Future<dynamic> turnOffConversationNotifications(id) async {
     ArgumentError.checkNotNull(id, 'id');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response _result = await _dio.request(
+    final _result = await _dio.request(
         'conversations/$id/turn_off_notifications',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -588,7 +585,8 @@ class _RestClient implements RestClient {
   }
 
   @override
-  sendMessage(id, body, type, extraData, messageId, timestamp) async {
+  Future<MessageModel> sendMessage(
+      id, body, type, extraData, messageId, timestamp) async {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(body, 'body');
     ArgumentError.checkNotNull(type, 'type');
@@ -604,7 +602,7 @@ class _RestClient implements RestClient {
       r'timestamp': timestamp
     };
     final _data = <String, dynamic>{};
-    final Response<Map<String, dynamic>> _result = await _dio.request(
+    final _result = await _dio.request<Map<String, dynamic>>(
         'conversations/$id/send_message',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -618,12 +616,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  getCommentByConversationId(id) async {
+  Future<List<MessageModel>> getCommentByConversationId(id) async {
     ArgumentError.checkNotNull(id, 'id');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response<List<dynamic>> _result = await _dio.request(
+    final _result = await _dio.request<List<dynamic>>(
         'conversations/$id/comments',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -639,7 +637,7 @@ class _RestClient implements RestClient {
   }
 
   @override
-  updateCommentSettings(id, commentsMaxUserCount) async {
+  Future<Conversation> updateCommentSettings(id, commentsMaxUserCount) async {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(commentsMaxUserCount, 'commentsMaxUserCount');
     const _extra = <String, dynamic>{};
@@ -647,7 +645,7 @@ class _RestClient implements RestClient {
       r'commentsMaxUserCount': commentsMaxUserCount
     };
     final _data = <String, dynamic>{};
-    final Response<Map<String, dynamic>> _result = await _dio.request(
+    final _result = await _dio.request<Map<String, dynamic>>(
         'conversations/$id/update_comment_settings',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -661,14 +659,15 @@ class _RestClient implements RestClient {
   }
 
   @override
-  sendComment(id, comment) async {
+  Future<MessageModel> sendComment(id, comment) async {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(comment, 'comment');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(comment?.toJson() ?? <String, dynamic>{});
-    final Response<Map<String, dynamic>> _result = await _dio.request(
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<Map<String, dynamic>>(
         'conversations/$id/send_comment',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -682,13 +681,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  viewedComments(id) async {
+  Future<dynamic> viewedComments(id) async {
     ArgumentError.checkNotNull(id, 'id');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response _result = await _dio.request(
-        'conversations/$id/viewed_comments',
+    final _result = await _dio.request('conversations/$id/viewed_comments',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -701,13 +699,13 @@ class _RestClient implements RestClient {
   }
 
   @override
-  likeMessage(id, likeType) async {
+  Future<MessageModel> likeMessage(id, likeType) async {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(likeType, 'likeType');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'likeType': likeType};
     final _data = <String, dynamic>{};
-    final Response<Map<String, dynamic>> _result = await _dio.request(
+    final _result = await _dio.request<Map<String, dynamic>>(
         'messages/$id/like_message',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -721,13 +719,13 @@ class _RestClient implements RestClient {
   }
 
   @override
-  unlikeMessage(id, likeType) async {
+  Future<MessageModel> unlikeMessage(id, likeType) async {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(likeType, 'likeType');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'likeType': likeType};
     final _data = <String, dynamic>{};
-    final Response<Map<String, dynamic>> _result = await _dio.request(
+    final _result = await _dio.request<Map<String, dynamic>>(
         'messages/$id/unlike_message',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -741,11 +739,11 @@ class _RestClient implements RestClient {
   }
 
   @override
-  homeStories() async {
+  Future<List<StoryModel>> homeStories() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response<List<dynamic>> _result = await _dio.request(
+    final _result = await _dio.request<List<dynamic>>(
         'stories/stories_for_home',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -761,12 +759,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  conversationStories(id) async {
+  Future<List<StoryModel>> conversationStories(id) async {
     ArgumentError.checkNotNull(id, 'id');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'conversationId': id};
     final _data = <String, dynamic>{};
-    final Response<List<dynamic>> _result = await _dio.request(
+    final _result = await _dio.request<List<dynamic>>(
         'stories/stories_for_conversation',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -782,12 +780,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  viewedStoryImage(imageId) async {
+  Future<dynamic> viewedStoryImage(imageId) async {
     ArgumentError.checkNotNull(imageId, 'imageId');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response _result = await _dio.request('stories/$imageId/viewed_story',
+    final _result = await _dio.request('stories/$imageId/viewed_story',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -800,13 +798,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  updateStoryDuration(duration) async {
+  Future<dynamic> updateStoryDuration(duration) async {
     ArgumentError.checkNotNull(duration, 'duration');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'duration': duration};
     final _data = <String, dynamic>{};
-    final Response _result = await _dio.request(
-        'stories/{imgId}/update_story_duration',
+    final _result = await _dio.request('stories/{imgId}/update_story_duration',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -819,7 +816,7 @@ class _RestClient implements RestClient {
   }
 
   @override
-  addToStory(story, duration) async {
+  Future<StoryModel> addToStory(story, duration) async {
     ArgumentError.checkNotNull(story, 'story');
     ArgumentError.checkNotNull(duration, 'duration');
     const _extra = <String, dynamic>{};
@@ -828,7 +825,8 @@ class _RestClient implements RestClient {
     };
     final _data = <String, dynamic>{};
     _data.addAll(story?.toJson() ?? <String, dynamic>{});
-    final Response<Map<String, dynamic>> _result = await _dio.request(
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<Map<String, dynamic>>(
         'stories/add_to_story',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -842,11 +840,11 @@ class _RestClient implements RestClient {
   }
 
   @override
-  getAlerts() async {
+  Future<AlertResponse> getAlerts() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response<Map<String, dynamic>> _result = await _dio.request('alerts',
+    final _result = await _dio.request<Map<String, dynamic>>('alerts',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',
@@ -859,11 +857,11 @@ class _RestClient implements RestClient {
   }
 
   @override
-  clearAllAlerts() async {
+  Future<dynamic> clearAllAlerts() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response _result = await _dio.request('alerts/clear_all_alerts',
+    final _result = await _dio.request('alerts/clear_all_alerts',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -876,11 +874,11 @@ class _RestClient implements RestClient {
   }
 
   @override
-  markAlertAsSeen() async {
+  Future<dynamic> markAlertAsSeen() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final Response _result = await _dio.request('alerts/mark_as_seen',
+    final _result = await _dio.request('alerts/mark_as_seen',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -893,12 +891,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  clearSpecificAlert(userAlertId) async {
+  Future<dynamic> clearSpecificAlert(userAlertId) async {
     ArgumentError.checkNotNull(userAlertId, 'userAlertId');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'userAlertId': userAlertId};
     final _data = <String, dynamic>{};
-    final Response _result = await _dio.request('alerts/clear_specific_alert',
+    final _result = await _dio.request('alerts/clear_specific_alert',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -911,12 +909,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  updateAppVersion(appVersion) async {
+  Future<bool> updateAppVersion(appVersion) async {
     ArgumentError.checkNotNull(appVersion, 'appVersion');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'appVersion': appVersion};
     final _data = <String, dynamic>{};
-    final Response<bool> _result = await _dio.request('user/update_app_version',
+    final _result = await _dio.request<bool>('user/update_app_version',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',

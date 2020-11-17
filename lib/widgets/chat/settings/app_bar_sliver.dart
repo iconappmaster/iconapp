@@ -100,4 +100,14 @@ class ChatSettingsAppBar implements SliverPersistentHeaderDelegate {
       ),
     );
   }
+
+  @override
+  PersistentHeaderShowOnScreenConfiguration get showOnScreenConfiguration =>
+      PersistentHeaderShowOnScreenConfiguration(
+        maxShowOnScreenExtent: 100,
+        minShowOnScreenExtent: 50
+      );
+
+  @override
+  TickerProvider get vsync => throw UnimplementedError();
 }
