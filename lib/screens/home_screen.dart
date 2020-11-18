@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
   DynamicLink _dynamicLink;
   String homeChannelName = 'home';
   Socket _socket;
-  PhotoInterstitialAd _photoAd;
+  InterstitialAdMob interstitial;
   @override
   void initState() {
     _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -76,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Future _initSocket() async {
     _socket = sl<Socket>();
 
-    _photoAd = sl<PhotoInterstitialAd>();
+    interstitial = sl<InterstitialAdMob>();
 
     await _socket.subscribeHomeChannel(homeChannelName);
 
@@ -174,9 +174,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                       (conversation, index) async {
                                     story.clearStories();
 
-                                    await _photoAd.load(
+                                 
+                                    await interstitial.load(
                                       conversation.name,
-                                      splashAdId,
+                                      'ca-app-pub-5806212644011393/9700958560',
                                     );
 
                                     await ExtendedNavigator.of(context)
@@ -254,7 +255,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void dispose() {
     _socket.unsubscribe(homeChannelName);
     _home?.dispose();
-    _photoAd?.dispose();
+    interstitial?.dispose();
     _story?.dispose();
     super.dispose();
   }

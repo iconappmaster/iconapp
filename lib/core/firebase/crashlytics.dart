@@ -4,7 +4,7 @@ import 'package:iconapp/stores/user/user_store.dart';
 
 class Crash {
   static report(String msg) {
-    final crashlytics = Crashlytics.instance;
+    final crashlytics = FirebaseCrashlytics.instance;
     crashlytics.log(msg);
 
     final user = sl<UserStore>()?.getUser;

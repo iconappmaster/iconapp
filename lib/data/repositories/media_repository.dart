@@ -56,12 +56,13 @@ class MediaRepositoryImpl implements MediaRepository {
   // Uploads the file to Firebase storage !Need to handle error
   Future upload(String path, String fileName, File file,
       [int messageId]) async {
-    final storage = FirebaseStorage(storageBucket: firebaseStorageBucket);
+    final storage = FirebaseStorage.instance;
     final storageRefOriginal = storage.ref().child(path).child(fileName);
 
     final uploadTask = storageRefOriginal.putFile(file);
+    
     _emitProgress(uploadTask, messageId);
-    await uploadTask.onComplete;
+    await uploadTask.snapshot;
     return await storageRefOriginal.getDownloadURL();
   }
 
@@ -77,15 +78,16 @@ class MediaRepositoryImpl implements MediaRepository {
     return compressed;
   }
 
-  void _emitProgress(StorageUploadTask uploadTask, int messageId) {
-    uploadTask.events.listen((event) {
-      final snapshot = event.snapshot;
+  void _emitProgress(UploadTask uploadTask, int messageId) {
+    uploadTask.snapshotEvents.listen((event) {
+      // TODO FIX THAT
+      final snapshot = event.totalBytes;
 
-      double progressPercent = snapshot != null
-          ? snapshot.bytesTransferred / snapshot.totalByteCount
-          : 0;
+      // double progressPercent = snapshot != null
+      //     ? snapshot.bytesTransferred / snapshot.totalByteCount
+      //     : 0;
 
-      sl<Bus>().fire(ProgressEvent(progress: progressPercent, id: messageId));
+      // sl<Bus>().fire(ProgressEvent(progress: progressPercent, id: messageId));
     });
   }
 }

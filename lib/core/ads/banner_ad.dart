@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_google_ad_manager/ad_size.dart';
-import 'package:flutter_google_ad_manager/banner.dart';
 
 class BannerAd extends StatelessWidget {
   final String adUnitId;
@@ -9,30 +7,40 @@ class BannerAd extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DFPBanner(
-      isDevelop: false,
-      adSize: DFPAdSize.MEDIUM_RECTANGLE,
-      adUnitId: adUnitId,
-      onAdClosed: () {
-        /// TODO add analytics
-        print('add onAdClosed');
-      },
-      onAdFailedToLoad: (e) {
-        /// TODO add analytics
-        print('add onAdFailedToLoad');
-      },
-      onAdLoaded: () {
-        /// TODO add analytics
-        print('add loaded');
-      },
-      onAdOpened: () {
-        /// TODO add analytics
-        print('add opened');
-      },
-      onAdViewCreated: (add) {
-        /// TODO add analytics
-        print('add create');
-      },
-    );
+    // final targetingInfo = MobileAdTargetingInfo(
+    //   keywords: <String>['flutterio', 'beautiful apps'],
+    //   contentUrl: 'https://flutter.io',
+    //   childDirected: false,
+    //   nonPersonalizedAds: true,
+    // );
+
+    // final mobile = BannerAd(
+    //   adUnitId: 'ca-app-pub-5806212644011393/2014040231',
+    //   size: AdSize.smartBanner,
+    //   targetingInfo: targetingInfo,
+    //   listener: (MobileAdEvent event) {
+    //     print("BannerAd event is $event");
+    //   },
+    // );
+    // return DFPBanner(
+    //   isDevelop: false,
+    //   adSize: DFPAdSize.MEDIUM_RECTANGLE,
+    //   adUnitId: 'ca-app-pub-5806212644011393/2014040231',
+    //   onAdClosed: () {
+    //     print('add onAdClosed');
+    //   },
+    //   onAdFailedToLoad: (e) {
+    //     print('add onAdFailedToLoad');
+    //   },
+    //   onAdLoaded: () {
+    //     print('add loaded');
+    //   },
+    //   onAdOpened: () {
+    //     print('add opened');
+    //   },
+    //   onAdViewCreated: (add) {
+    //     print('add create');
+    //   },
+    // );
   }
 }

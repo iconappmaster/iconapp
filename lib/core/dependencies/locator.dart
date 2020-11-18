@@ -152,5 +152,5 @@ void initLocator() {
   
   sl.registerLazySingleton<DynamicLink>(() => DynamicLink());
   
-  sl.registerLazySingleton<PhotoInterstitialAd>(() => PhotoInterstitialAd());
+  sl.registerLazySingleton<InterstitialAdMob>(() => InterstitialAdMob());
 }

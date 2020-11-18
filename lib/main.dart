@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:iconapp/core/ads/ad_config.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/keys.dart';
 import 'package:iconapp/routes/router.dart' as router;
@@ -65,6 +67,9 @@ class _MyAppState extends State<MyApp> {
       ..connect();
 
     initCrashlytics();
+
+    FirebaseAdMob.instance
+        .initialize(appId: Platform.isAndroid ? androidAppId : iosAppId);
   }
 
   initCrashlytics() {
@@ -72,10 +77,10 @@ class _MyAppState extends State<MyApp> {
     // This is only to be used for confirming that reports are being
     // submitted as expected. It is not intended to be used for everyday
     // development.
-    Crashlytics.instance.enableInDevMode = true;
+    FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
 
     // Pass all uncaught errors from the framework to Crashlytics.
-    FlutterError.onError = Crashlytics.instance.recordFlutterError;
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   }
 
   @override
