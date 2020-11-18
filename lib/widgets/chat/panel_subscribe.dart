@@ -17,7 +17,7 @@ class ViewerPanel extends StatelessWidget {
           text: TextSpan(children: [
             TextSpan(text: 'רק ', style: chatCompose),
             TextSpan(
-                text: 'מנהלי קבוצה ',
+                text: 'מנהלי קבוצה',
                 style: chatCompose.copyWith(color: cornflower)),
             TextSpan(text: 'יכולים לשלוח הודעה', style: chatCompose),
           ]),
