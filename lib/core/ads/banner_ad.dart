@@ -14,22 +14,25 @@ class BannerAd extends StatelessWidget {
       adSize: DFPAdSize.MEDIUM_RECTANGLE,
       adUnitId: adUnitId,
       onAdClosed: () {
+        /// TODO add analytics
         print('add onAdClosed');
       },
       onAdFailedToLoad: (e) {
+        /// TODO add analytics
         print('add onAdFailedToLoad');
       },
       onAdLoaded: () {
+        /// TODO add analytics
         print('add loaded');
       },
       onAdOpened: () {
+        /// TODO add analytics
         print('add opened');
       },
       onAdViewCreated: (add) {
+        /// TODO add analytics
         print('add create');
       },
     );
   }
 }
-
- 

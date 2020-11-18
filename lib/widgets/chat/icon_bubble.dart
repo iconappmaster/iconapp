@@ -61,7 +61,9 @@ class _IconBubbleState extends State<IconBubble> {
         ? widget.forcedColord
         : widget.message.status == MessageStatus.pending
             ? blueBerry
-            : widget.isMe ? darkIndigo2 : blueberry2;
+            : widget.isMe
+                ? darkIndigo2
+                : blueberry2;
 
     final horizontalLikePadding = EdgeInsets.symmetric(horizontal: 3);
     return Column(
@@ -94,7 +96,9 @@ class _IconBubbleState extends State<IconBubble> {
                           : Alignment.centerRight,
                       color: color,
                       nip: widget.showPin
-                          ? widget.isMe ? BubbleNip.leftTop : BubbleNip.rightTop
+                          ? widget.isMe
+                              ? BubbleNip.leftTop
+                              : BubbleNip.rightTop
                           : BubbleNip.no,
                       child: ConstrainedBox(
                         constraints: BoxConstraints(
@@ -140,14 +144,13 @@ class _IconBubbleState extends State<IconBubble> {
                                               );
                                           },
                                           child: NetworkPhoto(
-                                            imageUrl:
-                                                widget.message.sender?.photo !=
-                                                        null
-                                                    ? widget.message.sender
-                                                            ?.photo?.url ??
-                                                        ''
-                                                    : '',
-                                          ),
+                                              imageUrl: widget.message.sender
+                                                          ?.photo !=
+                                                      null
+                                                  ? widget.message.sender?.photo
+                                                          ?.url ??
+                                                      ''
+                                                  : ''),
                                         ),
                                       ),
                                     ),

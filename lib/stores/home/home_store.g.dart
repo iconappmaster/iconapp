@@ -167,6 +167,17 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   }
 
   @override
+  void removeMessageInConversation(int conversationId, int messageId) {
+    final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
+        name: '_HomeStoreBase.removeMessageInConversation');
+    try {
+      return super.removeMessageInConversation(conversationId, messageId);
+    } finally {
+      _$_HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setConversationPinned(bool pinned, Conversation conversation) {
     final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
         name: '_HomeStoreBase.setConversationPinned');

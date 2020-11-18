@@ -195,12 +195,18 @@ abstract class _ChatStoreBase with Store {
         offset: _conversation.messages.first.timestamp,
       );
 
+      // check that we are on the conversation that the fetch request was fired
+      // from.
       if (remote.id == conversation.id && remote.messages.isNotEmpty) {
-        _conversation = _conversation.copyWith(messages: remote.messages);
 
+          // get the paging messages
         final currentMessages = remote.messages.toList();
 
+        // add them in the start of the list
         _messages.insertAll(0, currentMessages);
+
+        // update the message in the conversation model
+        _conversation = _conversation.copyWith(messages: _messages);
       }
     } on ServerError catch (e) {
       Crash.report(e.message);
@@ -319,6 +325,8 @@ abstract class _ChatStoreBase with Store {
     try {
       await _repository.deleteMessage(conversation.id, messageId);
       _messages.removeWhere((m) => m.id == messageId);
+
+      _homeStore.removeMessageInConversation(conversation.id, messageId);
     } on ServerError catch (e) {
       Crash.report(e.message);
     }

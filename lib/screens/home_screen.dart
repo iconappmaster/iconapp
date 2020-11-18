@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:iconapp/core/ads/ad_config.dart';
 import 'package:iconapp/core/ads/photo_interstitial.dart';
 import 'package:iconapp/core/deep_link.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
@@ -175,7 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                     await _photoAd.load(
                                       conversation.name,
-                                      adUnitId,
+                                      splashAdId,
                                     );
 
                                     await ExtendedNavigator.of(context)

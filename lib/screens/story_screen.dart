@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:iconapp/core/ads/ad_config.dart';
 import 'package:iconapp/core/swap.dart';
 import 'package:iconapp/widgets/global/cube.dart';
 import 'package:iconapp/core/theme.dart';
@@ -78,25 +79,24 @@ class _StoryScreenState extends State<StoryScreen> {
             children: _allStories.map(
               (story) {
                 return StoryView(
-                  repeat: false,
-                  controller: _storyPageController,
-                  inline: false,
-                  onComplete: () {
-                    if (_pageController.page.toInt() ==
-                        _allStories.length - 1) {
-                      ExtendedNavigator.of(context).pop();
-                    } else {
-                      _pageController.nextPage(
-                          duration: Duration(milliseconds: 500),
-                          curve: Curves.linear);
-                    }
-                  },
-                  onStoryShow: (s) =>
-                      _store.onStoryImageViewed(s?.imageId ?? 0),
-                  storyItems: story.type == StoryType.story
-                      ? _storyImages(story)
-                      : _storyAd(),
-                );
+                    repeat: false,
+                    controller: _storyPageController,
+                    inline: false,
+                    onComplete: () {
+                      if (_pageController.page.toInt() ==
+                          _allStories.length - 1) {
+                        ExtendedNavigator.of(context).pop();
+                      } else {
+                        _pageController.nextPage(
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.linear);
+                      }
+                    },
+                    onStoryShow: (s) =>
+                        _store.onStoryImageViewed(s?.imageId ?? 0),
+                    storyItems: story.type == StoryType.story
+                        ? _storyImages(story)
+                        : _storyAd());
               },
             ).toList(),
           ),
@@ -159,8 +159,7 @@ class _StoryScreenState extends State<StoryScreen> {
     );
   }
 
-  List<StoryItem> _storyAd() =>
-      [StoryItem.ad('/22166703028/Icon_App/Story_interstital')];
+  List<StoryItem> _storyAd() => [StoryItem.ad(storyAdId)];
 
   List<StoryItem> _storyImages(StoryModel story) => story.storyImages
       .map((storyImage) => _handleStoryItem(storyImage))

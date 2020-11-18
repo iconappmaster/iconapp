@@ -4,6 +4,7 @@ import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
+import 'package:iconapp/widgets/global/shimmer.dart';
 
 class ViewerPanel extends StatelessWidget {
   @override
@@ -32,19 +33,24 @@ class PanelSubscriber extends StatelessWidget {
     final store = sl<ChatStore>();
     return Observer(
       builder: (_) => Stack(
-        alignment: Alignment.centerLeft,
+        alignment: Alignment.bottomCenter,
         children: [
           IgnorePointer(
             ignoring: store.isSubscribing,
             child: Container(
               color: darkIndigo2,
-              height: 81.7,
+              height: 65,
               child: Center(
                 child: FlatButton(
-                  child: CustomText('הצטרפות לקבוצה',
-                      style: chatCompose.copyWith(
-                          color:
-                              store.isSubscribing ? Colors.grey : cornflower)),
+                  child: Shimmer.fromColors(
+                    baseColor: white,
+                    highlightColor: cornflower,
+                    child: CustomText('הצטרפות לקבוצה',
+                        style: chatCompose.copyWith(
+                            color: store.isSubscribing
+                                ? Colors.grey
+                                : cornflower)),
+                  ),
                   onPressed: () => store.subscribe(),
                 ),
               ),
@@ -53,6 +59,7 @@ class PanelSubscriber extends StatelessWidget {
           if (store.isSubscribing)
             Positioned(
               right: 16,
+              bottom: 15,
               child: CircularProgressIndicator(
                 strokeWidth: 1,
               ),

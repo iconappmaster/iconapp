@@ -5,7 +5,7 @@ import '../../core/extensions/string_ext.dart';
 import 'interstitial_model.dart';
 import 'package:advertising_id/advertising_id.dart';
 
-const adUnitId = '/22166703028/icon_start_splash';
+
 
 const AD_SHOWED_THRESHOLD = 5;
 

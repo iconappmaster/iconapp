@@ -34,6 +34,7 @@ class CustomText extends StatelessWidget {
           overflow: overflow,
           textAlign: textAlign,
           style: style,
+          
           maxLines: maxLines,
         ),
       ),

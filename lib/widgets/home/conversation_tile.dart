@@ -45,13 +45,25 @@ class ConversationTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(width: 8),
-                  WhiteCircle(
-                      widget: NetworkPhoto(
-                          placeHolder: 'assets/images/group_placeholder.svg',
-                          placeHolderPadding: 20,
-                          imageUrl: model?.backgroundPhoto?.url ?? '',
-                          height: 56,
-                          width: 56)),
+                  Stack(children: [
+                    WhiteCircle(
+                        widget: NetworkPhoto(
+                            placeHolder: 'assets/images/group_placeholder.svg',
+                            placeHolderPadding: 20,
+                            imageUrl: model?.backgroundPhoto?.url ?? '',
+                            height: 56,
+                            width: 56)),
+                    if (model.isSubscribed)
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: Icon(
+                          Icons.notifications_active,
+                          color: cornflower,
+                          size: 15,
+                        ),
+                      )
+                  ]),
                   SizedBox(width: 5.7),
                   Expanded(
                     child: Column(
@@ -59,10 +71,13 @@ class ConversationTile extends StatelessWidget {
                       children: <Widget>[
                         Padding(
                           padding: const EdgeInsets.only(top: 6.0),
-                          child: CustomText(model.name,
-                              style: nameWhite,
-                              maxLines: 1,
-                              textAlign: TextAlign.start),
+                          child: CustomText(
+                            model.name,
+                            style: nameWhite,
+                            maxLines: 1,
+                            textAlign: TextAlign.start,
+                            
+                          ),
                         ),
                         SizedBox(height: 4),
                         model?.lastMessage != null
@@ -80,7 +95,7 @@ class ConversationTile extends StatelessWidget {
               ),
               if (model.lastMessage != null)
                 Positioned(
-                  top: 3,
+                  top: 8,
                   left: 0,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,

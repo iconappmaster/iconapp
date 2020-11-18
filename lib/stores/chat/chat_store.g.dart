@@ -453,6 +453,17 @@ mixin _$ChatStore on _ChatStoreBase, Store {
   }
 
   @override
+  void watchDeleteMessage() {
+    final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
+        name: '_ChatStoreBase.watchDeleteMessage');
+    try {
+      return super.watchDeleteMessage();
+    } finally {
+      _$_ChatStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void watchMessages() {
     final _$actionInfo = _$_ChatStoreBaseActionController.startAction(
         name: '_ChatStoreBase.watchMessages');

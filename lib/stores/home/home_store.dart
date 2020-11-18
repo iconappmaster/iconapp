@@ -65,6 +65,18 @@ abstract class _HomeStoreBase with Store {
   }
 
   @action
+  void removeMessageInConversation(int conversationId, int messageId) {
+    final index = _conversations.indexWhere((c) => c.id == conversationId);
+    if (index != -1) {
+      final messages = (_conversations[index].messages);
+      messages.removeWhere((m) => m.id == messageId);
+
+      _conversations[index] =
+          _conversations[index].copyWith(messages: messages);
+    }
+  }
+
+  @action
   Future<List<Conversation>> getCachedAndRender() async {
     final cached = await _repository.getCachedHome();
     if (cached != null) {
@@ -77,11 +89,11 @@ abstract class _HomeStoreBase with Store {
   @action
   Future checkAppVersion() async {
     try {
-    final showForceUpdate = await _repository.updateAppVersion();
-    _showForceUpdate = showForceUpdate;
+      final showForceUpdate = await _repository.updateAppVersion();
+      _showForceUpdate = showForceUpdate;
     } on ServerError catch (e) {
       Crash.report(e.message);
-    } 
+    }
   }
 
   @action

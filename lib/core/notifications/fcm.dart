@@ -136,50 +136,26 @@ void _handleNotification(
 
     if (openedConversationId != int.tryParse(dataConversationId)) {
       final body = message['data']['body'] as String;
-      final title = message['data']['title'] as String;
       final type = message['data']['notificationType'] as String;
+      final conversationName = message['data']['conversationName'] as String;
 
       switch (type) {
         case "message_text":
-          showTextNotification(
-            channelName,
-            channelName,
-            dataConversationId,
-            title,
-            body,
-            dataConversationId,
-          );
+          showTextNotification(channelName, channelName, dataConversationId,
+              conversationName, body, dataConversationId);
           break;
         case "message_photo":
-          showImageNotification(
-            channelName,
-            channelName,
-            dataConversationId,
-            title,
-            body,
-            dataConversationId,
-          );
+          showImageNotification(channelName, channelName, dataConversationId,
+              conversationName, body, dataConversationId);
           break;
         case "message_video":
-          showTextNotification(
-            channelName,
-            channelName,
-            dataConversationId,
-             "Icon",
-             "הודעת וידאו חדשה",
-            dataConversationId,
-          );
+          showTextNotification(channelName, channelName, dataConversationId,
+              conversationName, "הודעת וידאו חדשה", dataConversationId);
           break;
 
         case "message_audio":
-          showTextNotification(
-            channelName,
-            channelName,
-            dataConversationId,
-            "Icon",
-             "הודעה קולית חדשה",
-            dataConversationId,
-          );
+          showTextNotification(channelName, channelName, dataConversationId,
+              conversationName, "הודעה קולית חדשה", dataConversationId);
           break;
       }
     }
