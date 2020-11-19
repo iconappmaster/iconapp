@@ -25,7 +25,7 @@ class PhotoGalleryScreen extends StatelessWidget {
             child: SizedBox(
                 height: MediaQuery.of(context).size.height * .8,
                 child: Swiper(
-                  
+                    loop: false,
                     viewportFraction: 0.8,
                     scale: 0.9,
                     itemCount: photos.length,

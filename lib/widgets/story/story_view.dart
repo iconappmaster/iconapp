@@ -215,20 +215,19 @@ class StoryItem {
 
   factory StoryItem.bannerAd(BuildContext context) {
     return StoryItem(
-      Center(
-          child: AdmobBanner(
-        adSize: AdmobBannerSize.SMART_BANNER(context),
-        adUnitId: getBannerAdUnitId,
-        nonPersonalizedAds: true,
-        listener: (event, listner) {
-          print(event);
-          print(listner);
-        },
-      )),
-      shown: true,
-      imageId: 0,
-      duration: Duration(seconds: 7),
-    );
+        Center(
+            child: AdmobBanner(
+          adSize: AdmobBannerSize.SMART_BANNER(context),
+          adUnitId: getBannerAdUnitId,
+          nonPersonalizedAds: true,
+          listener: (event, listner) {
+            print(event);
+            print(listner);
+          },
+        )),
+        shown: true,
+        imageId: 0,
+        duration: Duration(seconds: 7));
   }
 
   /// Shorthand for creating page video. [controller] should be same instance as
@@ -245,36 +244,34 @@ class StoryItem {
   }) {
     return StoryItem(
         Container(
-          color: Colors.black,
-          child: Stack(
-            children: <Widget>[
+            color: Colors.black,
+            child: Stack(children: <Widget>[
               StoryVideo.url(
                 url,
                 controller: controller,
                 requestHeaders: requestHeaders,
               ),
               SafeArea(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    width: double.infinity,
-                    margin: EdgeInsets.only(bottom: 24),
-                    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                    color:
-                        caption != null ? Colors.black54 : Colors.transparent,
-                    child: caption != null
-                        ? Text(
-                            caption,
-                            style: TextStyle(fontSize: 15, color: Colors.white),
-                            textAlign: TextAlign.center,
-                          )
-                        : SizedBox(),
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
+                  child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        width: double.infinity,
+                        margin: EdgeInsets.only(bottom: 24),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                        color: caption != null
+                            ? Colors.black54
+                            : Colors.transparent,
+                        child: caption != null
+                            ? Text(
+                                caption,
+                                style: TextStyle(
+                                    fontSize: 15, color: Colors.white),
+                                textAlign: TextAlign.center,
+                              )
+                            : SizedBox(),
+                      )))
+            ])),
         imageId: imageId,
         shown: shown,
         duration: duration ?? Duration(seconds: 10));

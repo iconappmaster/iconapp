@@ -26,9 +26,7 @@ class ConversationsList extends StatelessWidget {
             ? Align(
                 alignment: Alignment.topCenter,
                 child: Padding(
-                  padding: EdgeInsets.only(top: 80.0),
-                  child: LottieLoader(),
-                ))
+                    padding: EdgeInsets.only(top: 80.0), child: LottieLoader()))
             : ListView.builder(
                 padding: EdgeInsets.only(bottom: 120),
                 controller: controller,

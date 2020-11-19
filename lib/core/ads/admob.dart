@@ -10,21 +10,22 @@ class AdMob {
   AdmobInterstitial interstitialAd;
 
   Future loadInterstital() async {
-    if (counter == AD_SHOWED_THRESHOLD) {
-      counter++;
-      await Admob.requestTrackingAuthorization();
-      interstitialAd = AdmobInterstitial(
-          nonPersonalizedAds: true,
-          adUnitId: getInterstitialAdUnitId,
-          listener: (AdmobAdEvent event, Map<String, dynamic> args) =>
-              handleEvent(event, args, 'interstitialAd'));
+    await Admob?.requestTrackingAuthorization();
+    interstitialAd = AdmobInterstitial(
+        nonPersonalizedAds: true,
+        adUnitId: getInterstitialAdUnitId,
+        listener: (AdmobAdEvent event, Map<String, dynamic> args) =>
+            handleEvent(event, args, 'interstitialAd'));
 
-      await interstitialAd.load();
-    }
+    await interstitialAd.load();
   }
 
   void showInterstitial() {
-    interstitialAd?.show();
+    counter++;
+    if (counter == AD_SHOWED_THRESHOLD) {
+      counter = 0;
+      interstitialAd?.show();
+    }
   }
 
   void handleEvent(
@@ -39,6 +40,7 @@ class AdMob {
         break;
       case AdmobAdEvent.closed:
         interstitialAd?.load();
+        print('Admob $adType Ad loaded!');
         break;
       case AdmobAdEvent.failedToLoad:
         print('Admob $adType failed to load. :(');

@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:device_info/device_info.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -22,10 +21,8 @@ final logger = Logger();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-  AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-  Firebase.initializeApp();
-  Admob.initialize(testDeviceIds: [androidInfo.androidId]);
+  await Firebase.initializeApp();
+  Admob.initialize();
 
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
@@ -71,7 +68,6 @@ class _MyAppState extends State<MyApp> {
       ..connect();
 
     initCrashlytics();
-
   }
 
   initCrashlytics() {

@@ -31,6 +31,7 @@ class _VideoGalleryScreenState extends State<VideoGalleryScreen> {
       body: Stack(children: [
         Center(
           child: Swiper(
+            loop: false,
             viewportFraction: 0.8,
             scale: 0.95,
             onIndexChanged: (index) => print(index),
