@@ -1,10 +1,11 @@
 import 'dart:io';
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:device_info/device_info.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_admob/firebase_admob.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:iconapp/core/ads/ad_config.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/keys.dart';
 import 'package:iconapp/routes/router.dart' as router;
@@ -21,7 +22,10 @@ final logger = Logger();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
+  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+  AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+  Firebase.initializeApp();
+  Admob.initialize(testDeviceIds: [androidInfo.androidId]);
 
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
@@ -68,8 +72,6 @@ class _MyAppState extends State<MyApp> {
 
     initCrashlytics();
 
-    FirebaseAdMob.instance
-        .initialize(appId: Platform.isAndroid ? androidAppId : iosAppId);
   }
 
   initCrashlytics() {

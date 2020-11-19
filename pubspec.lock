@@ -8,13 +8,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "12.0.0"
-  advertising_id:
+  admob_flutter:
     dependency: "direct main"
     description:
-      name: advertising_id
+      name: admob_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.1"
   analyzer:
     dependency: transitive
     description:
@@ -225,6 +225,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.9.1"
+  device_info:
+    dependency: "direct main"
+    description:
+      name: device_info
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
+  device_info_platform_interface:
+    dependency: transitive
+    description:
+      name: device_info_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   dio:
     dependency: "direct main"
     description:
@@ -274,13 +288,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.3"
-  firebase_admob:
-    dependency: "direct main"
-    description:
-      name: firebase_admob
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.10.2"
   firebase_core:
     dependency: "direct main"
     description:
@@ -622,7 +629,7 @@ packages:
       name: logger
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.2"
+    version: "0.9.4"
   logging:
     dependency: transitive
     description:

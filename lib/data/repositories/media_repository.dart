@@ -2,10 +2,12 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:iconapp/core/bus.dart';
+// import 'package:iconapp/core/bus.dart';
 import 'package:iconapp/core/compression.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
+// import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
-import 'package:iconapp/data/sources/remote/firebase_consts.dart';
+// import 'package:iconapp/data/sources/remote/firebase_consts.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../core/extensions/string_ext.dart';
 
@@ -60,9 +62,9 @@ class MediaRepositoryImpl implements MediaRepository {
     final storageRefOriginal = storage.ref().child(path).child(fileName);
 
     final uploadTask = storageRefOriginal.putFile(file);
-    
+
     _emitProgress(uploadTask, messageId);
-    await uploadTask.snapshot;
+    await uploadTask;
     return await storageRefOriginal.getDownloadURL();
   }
 
@@ -80,14 +82,9 @@ class MediaRepositoryImpl implements MediaRepository {
 
   void _emitProgress(UploadTask uploadTask, int messageId) {
     uploadTask.snapshotEvents.listen((event) {
-      // TODO FIX THAT
-      final snapshot = event.totalBytes;
-
-      // double progressPercent = snapshot != null
-      //     ? snapshot.bytesTransferred / snapshot.totalByteCount
-      //     : 0;
-
-      // sl<Bus>().fire(ProgressEvent(progress: progressPercent, id: messageId));
+      final totalByteCount = event.totalBytes;
+      final progressPercent = event.bytesTransferred / totalByteCount;
+      sl<Bus>().fire(ProgressEvent(progress: progressPercent, id: messageId));
     });
   }
 }

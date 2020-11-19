@@ -3,8 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:iconapp/core/ads/ad_config.dart';
-import 'package:iconapp/core/ads/photo_interstitial.dart';
+import 'package:iconapp/core/ads/admob.dart';
 import 'package:iconapp/core/deep_link.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/lifecycle_observer.dart';
@@ -44,7 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
   DynamicLink _dynamicLink;
   String homeChannelName = 'home';
   Socket _socket;
-  InterstitialAdMob interstitial;
+  AdMob adMobs;
+
   @override
   void initState() {
     _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -65,6 +65,8 @@ class _HomeScreenState extends State<HomeScreen> {
     _refreshData();
     _listenLifeCycle();
 
+    adMobs.loadInterstital();
+
     super.initState();
   }
 
@@ -76,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Future _initSocket() async {
     _socket = sl<Socket>();
 
-    interstitial = sl<InterstitialAdMob>();
+    adMobs = sl<AdMob>();
 
     await _socket.subscribeHomeChannel(homeChannelName);
 
@@ -156,10 +158,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         Visibility(
-                          visible: story.isUserIcon || story.storiesWithoutAds.isNotEmpty,
+                          visible: story.isUserIcon ||
+                              story.storiesWithoutAds.isNotEmpty,
                           child: StoriesList(
                             mode: story.mode,
-                            show: story.isUserIcon || story.storiesWithoutAds.isNotEmpty,
+                            show: story.isUserIcon ||
+                                story.storiesWithoutAds.isNotEmpty,
                           ),
                         ),
                         Expanded(
@@ -167,25 +171,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                 color: white,
                                 strokeWidth: 2,
                                 backgroundColor: cornflower,
-                                onRefresh: () async => await _refreshData(),
+                                onRefresh: () => _refreshData(),
                                 child: ConversationsList(
                                   controller: _controller,
                                   onConversationTap:
                                       (conversation, index) async {
                                     story.clearStories();
 
-                                 
-                                    await interstitial.load(
-                                      conversation.name,
-                                      'ca-app-pub-5806212644011393/9700958560',
-                                    );
+                                    await adMobs.showInterstitial();
 
                                     await ExtendedNavigator.of(context)
                                         .pushChatScreen(
                                             conversation: conversation);
 
-                                    // when return from a conversation hide the
-                                    // new badge and update story
                                     _home.hideNewBadge(index);
                                     story
                                       ..setStoryMode(StoryMode.home)
@@ -195,19 +193,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     Align(
-                      alignment: Alignment.bottomCenter,
-                      child: GestureDetector(
-                          onTap: () => openBottomSheet(context),
-                          onPanUpdate: (details) {
-                            if (details.delta.dy < 0) {
-                              openBottomSheet(context);
-                            }
-                          },
-                          child: BottomSheetBar(
-                              showCategoriesSelected: false,
-                              showIconsSelected: false,
-                              onTap: () => openBottomSheet(context))),
-                    ),
+                        alignment: Alignment.bottomCenter,
+                        child: GestureDetector(
+                            onTap: () => openBottomSheet(context),
+                            onPanUpdate: (details) {
+                              if (details.delta.dy < 0) {
+                                openBottomSheet(context);
+                              }
+                            },
+                            child: BottomSheetBar(
+                                showCategoriesSelected: false,
+                                showIconsSelected: false,
+                                onTap: () => openBottomSheet(context)))),
                     Observer(builder: (_) {
                       return Visibility(
                           visible:
@@ -216,13 +213,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               onTap: () => _home.saveWelcomeSeen()));
                     }),
                     Observer(
-                      builder: (_) => Visibility(
-                        visible: _home.showForceUpdate,
-                        child: AbsorbPointer(
-                          child: ForceUpdateDialog(),
-                        ),
-                      ),
-                    )
+                        builder: (_) => Visibility(
+                            visible: _home.showForceUpdate,
+                            child: AbsorbPointer(child: ForceUpdateDialog())))
                   ],
                 ),
               ),
@@ -255,7 +248,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void dispose() {
     _socket.unsubscribe(homeChannelName);
     _home?.dispose();
-    interstitial?.dispose();
     _story?.dispose();
     super.dispose();
   }

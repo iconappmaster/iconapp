@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:iconapp/core/ads/ad_config.dart';
 import 'package:iconapp/core/swap.dart';
 import 'package:iconapp/widgets/global/cube.dart';
 import 'package:iconapp/core/theme.dart';
@@ -96,7 +95,7 @@ class _StoryScreenState extends State<StoryScreen> {
                         _store.onStoryImageViewed(s?.imageId ?? 0),
                     storyItems: story.type == StoryType.story
                         ? _storyImages(story)
-                        : _storyAd());
+                        : [StoryItem.bannerAd(context)]);
               },
             ).toList(),
           ),
@@ -149,17 +148,11 @@ class _StoryScreenState extends State<StoryScreen> {
                     onTap: () => _storyPageController.previous(),
                   ),
                   width: 70)),
-          Positioned(
-            right: 16,
-            top: 52,
-            child: RoundedClose(),
-          )
+          Positioned(right: 16, top: 52, child: RoundedClose())
         ]),
       ),
     );
   }
-
-  List<StoryItem> _storyAd() => [StoryItem.ad(storyAdId)];
 
   List<StoryItem> _storyImages(StoryModel story) => story.storyImages
       .map((storyImage) => _handleStoryItem(storyImage))

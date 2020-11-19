@@ -2,8 +2,9 @@ import 'dart:math';
 import 'dart:ui';
 import 'dart:async';
 
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:iconapp/core/ads/banner_ad.dart';
+import 'package:iconapp/core/ads/ad_config.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/story/utils.dart';
@@ -212,9 +213,18 @@ class StoryItem {
     );
   }
 
-  factory StoryItem.ad(String adUnitId) {
+  factory StoryItem.bannerAd(BuildContext context) {
     return StoryItem(
-      Center(child: BannerAd(adUnitId: adUnitId)),
+      Center(
+          child: AdmobBanner(
+        adSize: AdmobBannerSize.SMART_BANNER(context),
+        adUnitId: getBannerAdUnitId,
+        nonPersonalizedAds: true,
+        listener: (event, listner) {
+          print(event);
+          print(listner);
+        },
+      )),
       shown: true,
       imageId: 0,
       duration: Duration(seconds: 7),

@@ -10,12 +10,8 @@ class RoundedClose extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: Colors.grey.withOpacity(.4),
-      ),
-      child: CloseButton(
-        color: white,
-      ),
+          shape: BoxShape.circle, color: Colors.grey.withOpacity(.4)),
+      child: CloseButton(color: white),
     );
   }
 }

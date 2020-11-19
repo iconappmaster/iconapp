@@ -55,7 +55,7 @@ abstract class _StoryStoreBase with Store {
   @computed
   List<StoryModel> get storiesWithoutAds => _stories.reversed
       .where(
-        (s) => s.type == StoryType.story,
+        (s) => s.type == StoryType.story
       )
       .toList();
 
@@ -107,24 +107,8 @@ abstract class _StoryStoreBase with Store {
       _mode = StoryMode.home;
       try {
         final stories = await _repository.getHomeStories();
-        // remove that!
-        final s =
-            stories.map((e) => e.copyWith(type: StoryType.story)).toList();
-
         if (_stories.isNotEmpty) _stories.clear();
-
-        _stories
-          ..addAll(s)
-          // remove that!
-          ..add(
-            StoryModel(
-              id: 0,
-              isNew: false,
-              storyImages: [],
-              type: StoryType.ad,
-              user: null,
-            ),
-          );
+        _stories.addAll(stories);
       } on ServerError catch (e) {
         Crash.report(e.message);
       }

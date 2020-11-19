@@ -29,18 +29,11 @@ class Fcm {
     final user = sl<UserStore>();
 
     final android = AndroidInitializationSettings('app_icon');
-
     final ios = IOSInitializationSettings();
+    final init = InitializationSettings(android, ios);
 
-    final init = InitializationSettings(
-      android,
-      ios,
-    );
-
-    firebasePlugin.initialize(
-      init,
-      onSelectNotification: onNotificationClicked,
-    );
+    firebasePlugin.initialize(init,
+        onSelectNotification: onNotificationClicked);
 
     messaging.configure(
       onLaunch: (message) async {
@@ -52,10 +45,8 @@ class Fcm {
         return Future.value();
       },
       onBackgroundMessage: Platform.isIOS ? null : backgroundHandler,
-      onMessage: (message) async => _handleNotification(
-        message: message,
-        foregroundMessage: true,
-      ),
+      onMessage: (message) async =>
+          _handleNotification(message: message, foregroundMessage: true),
     );
 
     messaging.getToken().then(
@@ -69,9 +60,8 @@ class Fcm {
       },
     );
 
-    tokenRefreshSubscription = messaging.onTokenRefresh.listen(
-      (token) => sp.setString(StorageKey.fcmToken, token),
-    );
+    tokenRefreshSubscription = messaging.onTokenRefresh
+        .listen((token) => sp.setString(StorageKey.fcmToken, token));
   }
 
   Future<String> onNotificationClicked(String conversationId) async {
@@ -136,28 +126,9 @@ void _handleNotification(
 
     if (openedConversationId != int.tryParse(dataConversationId)) {
       final body = message['data']['body'] as String;
-      final type = message['data']['notificationType'] as String;
       final conversationName = message['data']['conversationName'] as String;
-
-      switch (type) {
-        case "message_text":
-          showTextNotification(channelName, channelName, dataConversationId,
-              conversationName, body, dataConversationId);
-          break;
-        case "message_photo":
-          showImageNotification(channelName, channelName, dataConversationId,
-              conversationName, body, dataConversationId);
-          break;
-        case "message_video":
-          showTextNotification(channelName, channelName, dataConversationId,
-              conversationName, "הודעת וידאו חדשה", dataConversationId);
-          break;
-
-        case "message_audio":
-          showTextNotification(channelName, channelName, dataConversationId,
-              conversationName, "הודעה קולית חדשה", dataConversationId);
-          break;
-      }
+      showTextNotification(channelName, channelName, dataConversationId,
+          conversationName, body, dataConversationId);
     }
   }
 }

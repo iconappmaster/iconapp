@@ -69,11 +69,9 @@ class _StoriesListState extends State<StoriesList> {
                     ...store.storiesWithoutAds
                         .map((story) => StoryTile(
                             story: story,
-                            onTap: () =>
-                                ExtendedNavigator.of(context).pushStoryScreen(
-                                  story: story,
-                                  isPublishedStory: false,
-                                )))
+                            onTap: () => ExtendedNavigator.of(context)
+                                .pushStoryScreen(
+                                    story: story, isPublishedStory: false)))
                         .toList()
                   ],
                 ),

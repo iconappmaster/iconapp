@@ -26,7 +26,10 @@ dependencies:
   firebase_crashlytics: ^0.2.3
   firebase_messaging: ^7.0.3
   firebase_storage: ^5.0.1
-  firebase_admob: ^0.10.2
+  
+  # firebase_admob: ^0.10.2
+  admob_flutter: ^1.0.1
+
   flushbar: ^1.10.4
   flutter_audio_recorder: ^0.5.5
   flutter_image_compress: ^0.7.0
@@ -63,13 +66,8 @@ dependencies:
   firebase_dynamic_links: ^0.5.1
   package_info: ^0.4.3+2
   launch_review: ^2.0.0
-  
- 
-
-  
   flutter_google_ad_manager: ^0.11.1
-  advertising_id: ^1.0.0
-
+  device_info: ^1.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

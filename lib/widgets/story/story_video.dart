@@ -144,7 +144,7 @@ class StoryVideoState extends State<StoryVideo> {
 
   @override
   Future dispose() async {
-    await playerController.dispose();
+    await playerController?.dispose();
     _streamSubscription?.cancel();
     super.dispose();
   }
