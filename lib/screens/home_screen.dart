@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _alerts = sl<AlertStore>();
     _sp = sl<SharedPreferencesService>();
     _dynamicLink = sl<DynamicLink>();
-
+    adMobs = sl<AdMob>();
     _controller = ScrollController();
 
     _initSocket();
@@ -65,7 +65,9 @@ class _HomeScreenState extends State<HomeScreen> {
     _refreshData();
     _listenLifeCycle();
 
-    adMobs.loadInterstital();
+    adMobs
+      ..loadInterstital()
+      ..loadReward();
 
     super.initState();
   }
@@ -77,8 +79,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future _initSocket() async {
     _socket = sl<Socket>();
-
-    adMobs = sl<AdMob>();
 
     await _socket.subscribeHomeChannel(homeChannelName);
 
@@ -178,7 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       (conversation, index) async {
                                     story.clearStories();
 
-                                    await adMobs.showInterstitial();
+                                    await adMobs.showWithCounterInterstitial();
 
                                     await ExtendedNavigator.of(context)
                                         .pushChatScreen(

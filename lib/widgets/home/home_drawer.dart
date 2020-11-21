@@ -138,7 +138,7 @@ class DrawerItem extends StatelessWidget {
           Container(
               margin: EdgeInsets.symmetric(horizontal: 31.7),
               alignment: Alignment.centerRight,
-              height: 70,
+              height: 50,
               child: CustomText(text, style: flushbar)),
           _drawerDivider,
         ],

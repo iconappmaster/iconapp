@@ -69,77 +69,78 @@ class _StoryScreenState extends State<StoryScreen> {
     return Scaffold(
       body: Directionality(
         textDirection: TextDirection.ltr,
-        child: Stack(children: [
-          CubePageView(
-            controller: _pageController,
-            // if it's a published story present only the published one
-            // if the user show stories from the stories list then present
-            // all of the stories
-            children: _allStories.map(
-              (story) {
-                return StoryView(
-                    repeat: false,
-                    controller: _storyPageController,
-                    inline: false,
-                    onComplete: () {
-                      if (_pageController.page.toInt() ==
-                          _allStories.length - 1) {
-                        ExtendedNavigator.of(context).pop();
-                      } else {
-                        _pageController.nextPage(
-                            duration: Duration(milliseconds: 500),
-                            curve: Curves.linear);
-                      }
-                    },
-                    onStoryShow: (s) =>
-                        _store.onStoryImageViewed(s?.imageId ?? 0),
-                    storyItems: story.type == StoryType.story
-                        ? _storyImages(story)
-                        : [StoryItem.bannerAd(context)]);
-              },
-            ).toList(),
-          ),
-          Align(
-            alignment: Alignment.centerRight,
-            heightFactor: 1,
-            child: GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTapDown: (details) {
-                _storyPageController.pause();
-              },
-              onVerticalDragStart: (dragDetails) =>
-                  dragStartDetails = dragDetails,
-              onVerticalDragUpdate: (dragDetails) =>
-                  dragUpdateDetails = dragDetails,
-              onVerticalDragEnd: (endDetails) {
-                double dx = dragUpdateDetails.globalPosition.dx -
-                    dragStartDetails.globalPosition.dx;
-                double dy = dragUpdateDetails.globalPosition.dy -
-                    dragStartDetails.globalPosition.dy;
-                double velocity = endDetails.primaryVelocity;
-
-                //Convert values to be positive
-                if (dx < 0) dx = -dx;
-                if (dy < 0) dy = -dy;
-
-                if (velocity > 0) {
-                  ExtendedNavigator.of(context).pop();
-                }
-              },
-              onTapCancel: () {
-                _storyPageController.play();
-              },
-              onTapUp: (details) {
-                // if debounce timed out (not active) then continue anim
-                if (_nextDebouncer?.isActive == false) {
-                  _storyPageController.play();
-                } else {
-                  _storyPageController.next();
-                }
-              },
+        child: Stack(
+          children: [
+            CubePageView(
+              controller: _pageController,
+              // if it's a published story present only the published one
+              // if the user show stories from the stories list then present
+              // all of the stories
+              children: _allStories.map(
+                (story) {
+                  return StoryView(
+                      repeat: false,
+                      controller: _storyPageController,
+                      inline: false,
+                      onComplete: () {
+                        if (_pageController.page.toInt() ==
+                            _allStories.length - 1) {
+                          ExtendedNavigator.of(context).pop();
+                        } else {
+                          _pageController.nextPage(
+                              duration: Duration(milliseconds: 500),
+                              curve: Curves.linear);
+                        }
+                      },
+                      onStoryShow: (s) =>
+                          _store.onStoryImageViewed(s?.imageId ?? 0),
+                      storyItems: story.type == StoryType.story
+                          ? _storyImages(story)
+                          : [StoryItem.bannerAd(context)]);
+                },
+              ).toList(),
             ),
-          ),
-          Align(
+            Align(
+              alignment: Alignment.centerRight,
+              heightFactor: 1,
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTapDown: (details) {
+                  _storyPageController.pause();
+                },
+                onVerticalDragStart: (dragDetails) =>
+                    dragStartDetails = dragDetails,
+                onVerticalDragUpdate: (dragDetails) =>
+                    dragUpdateDetails = dragDetails,
+                onVerticalDragEnd: (endDetails) {
+                  double dx = dragUpdateDetails.globalPosition.dx -
+                      dragStartDetails.globalPosition.dx;
+                  double dy = dragUpdateDetails.globalPosition.dy -
+                      dragStartDetails.globalPosition.dy;
+                  double velocity = endDetails.primaryVelocity;
+
+                  //Convert values to be positive
+                  if (dx < 0) dx = -dx;
+                  if (dy < 0) dy = -dy;
+
+                  if (velocity > 0) {
+                    ExtendedNavigator.of(context).pop();
+                  }
+                },
+                onTapCancel: () {
+                  _storyPageController.play();
+                },
+                onTapUp: (details) {
+                  // if debounce timed out (not active) then continue anim
+                  if (_nextDebouncer?.isActive == false) {
+                    _storyPageController.play();
+                  } else {
+                    _storyPageController.next();
+                  }
+                },
+              ),
+            ),
+            Align(
               alignment: Alignment.centerLeft,
               heightFactor: 1,
               child: SizedBox(
@@ -147,9 +148,15 @@ class _StoryScreenState extends State<StoryScreen> {
                     behavior: HitTestBehavior.translucent,
                     onTap: () => _storyPageController.previous(),
                   ),
-                  width: 70)),
-          Positioned(right: 16, top: 52, child: RoundedClose())
-        ]),
+                  width: 70),
+            ),
+            Positioned(
+              right: 16,
+              top: 52,
+              child: RoundedClose(),
+            )
+          ],
+        ),
       ),
     );
   }

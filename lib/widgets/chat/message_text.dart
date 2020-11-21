@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter/material.dart';
@@ -80,14 +79,17 @@ class _TextMessageState extends State<TextMessage> {
   Widget build(BuildContext context) {
     final color = widget.message.status == MessageStatus.pending
         ? blueBerry
-        : widget.isMe ? darkIndigo2 : blueberry2;
+        : widget.forcedColor != null
+            ? widget.forcedColor
+            : widget.isMe
+                ? darkIndigo2
+                : blueberry2;
 
     return ScrollableTile(
       index: widget.index,
       controller: widget.controller,
       child: Replyble(
-        isEnabled: widget.isSwipeEnabled &&
-            _chat.conversation.userRole != UserRole.viewer,
+        isEnabled: widget.isSwipeEnabled,
         isOpen: _isOpen,
         keyName: widget.message.id.toString(),
         controller: _slidableController,

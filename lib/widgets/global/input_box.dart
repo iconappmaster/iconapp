@@ -36,6 +36,7 @@ class InputText extends StatelessWidget {
         if (title != null) CustomText(title, style: fieldLabel),
         TextFormField(
           key: key,
+          
           initialValue: initialValue,
           validator: validator,
           maxLength: maxLength,

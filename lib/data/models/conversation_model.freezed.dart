@@ -38,7 +38,8 @@ class _$ConversationTearOff {
       bool areNotificationsDisabled,
       bool areCommentsActivated,
       int commentsMaxUserCount,
-      UserRole userRole}) {
+      UserRole userRole,
+      ConversationType type}) {
     return _Conversation(
       id: id,
       backgroundColor: backgroundColor,
@@ -61,6 +62,7 @@ class _$ConversationTearOff {
       areCommentsActivated: areCommentsActivated,
       commentsMaxUserCount: commentsMaxUserCount,
       userRole: userRole,
+      type: type,
     );
   }
 
@@ -97,6 +99,7 @@ mixin _$Conversation {
   bool get areCommentsActivated;
   int get commentsMaxUserCount;
   UserRole get userRole;
+  ConversationType get type;
 
   Map<String, dynamic> toJson();
   $ConversationCopyWith<Conversation> get copyWith;
@@ -128,7 +131,8 @@ abstract class $ConversationCopyWith<$Res> {
       bool areNotificationsDisabled,
       bool areCommentsActivated,
       int commentsMaxUserCount,
-      UserRole userRole});
+      UserRole userRole,
+      ConversationType type});
 
   $PhotoModelCopyWith<$Res> get backgroundPhoto;
   $UserModelCopyWith<$Res> get createdBy;
@@ -167,6 +171,7 @@ class _$ConversationCopyWithImpl<$Res> implements $ConversationCopyWith<$Res> {
     Object areCommentsActivated = freezed,
     Object commentsMaxUserCount = freezed,
     Object userRole = freezed,
+    Object type = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as int,
@@ -214,6 +219,7 @@ class _$ConversationCopyWithImpl<$Res> implements $ConversationCopyWith<$Res> {
           ? _value.commentsMaxUserCount
           : commentsMaxUserCount as int,
       userRole: userRole == freezed ? _value.userRole : userRole as UserRole,
+      type: type == freezed ? _value.type : type as ConversationType,
     ));
   }
 
@@ -286,7 +292,8 @@ abstract class _$ConversationCopyWith<$Res>
       bool areNotificationsDisabled,
       bool areCommentsActivated,
       int commentsMaxUserCount,
-      UserRole userRole});
+      UserRole userRole,
+      ConversationType type});
 
   @override
   $PhotoModelCopyWith<$Res> get backgroundPhoto;
@@ -331,6 +338,7 @@ class __$ConversationCopyWithImpl<$Res> extends _$ConversationCopyWithImpl<$Res>
     Object areCommentsActivated = freezed,
     Object commentsMaxUserCount = freezed,
     Object userRole = freezed,
+    Object type = freezed,
   }) {
     return _then(_Conversation(
       id: id == freezed ? _value.id : id as int,
@@ -378,6 +386,7 @@ class __$ConversationCopyWithImpl<$Res> extends _$ConversationCopyWithImpl<$Res>
           ? _value.commentsMaxUserCount
           : commentsMaxUserCount as int,
       userRole: userRole == freezed ? _value.userRole : userRole as UserRole,
+      type: type == freezed ? _value.type : type as ConversationType,
     ));
   }
 }
@@ -407,7 +416,8 @@ class _$_Conversation implements _Conversation {
       this.areNotificationsDisabled,
       this.areCommentsActivated,
       this.commentsMaxUserCount,
-      this.userRole});
+      this.userRole,
+      this.type});
 
   factory _$_Conversation.fromJson(Map<String, dynamic> json) =>
       _$_$_ConversationFromJson(json);
@@ -454,10 +464,12 @@ class _$_Conversation implements _Conversation {
   final int commentsMaxUserCount;
   @override
   final UserRole userRole;
+  @override
+  final ConversationType type;
 
   @override
   String toString() {
-    return 'Conversation(id: $id, backgroundColor: $backgroundColor, backgroundPhoto: $backgroundPhoto, categoryId: $categoryId, createdBy: $createdBy, isPinned: $isPinned, createdAt: $createdAt, name: $name, photo: $photo, lastMessage: $lastMessage, shouldShowNewBadge: $shouldShowNewBadge, users: $users, messages: $messages, isSubscribed: $isSubscribed, numberOfAdminsRemaining: $numberOfAdminsRemaining, numberOfParticipants: $numberOfParticipants, shouldShowNewCommentsBadge: $shouldShowNewCommentsBadge, areNotificationsDisabled: $areNotificationsDisabled, areCommentsActivated: $areCommentsActivated, commentsMaxUserCount: $commentsMaxUserCount, userRole: $userRole)';
+    return 'Conversation(id: $id, backgroundColor: $backgroundColor, backgroundPhoto: $backgroundPhoto, categoryId: $categoryId, createdBy: $createdBy, isPinned: $isPinned, createdAt: $createdAt, name: $name, photo: $photo, lastMessage: $lastMessage, shouldShowNewBadge: $shouldShowNewBadge, users: $users, messages: $messages, isSubscribed: $isSubscribed, numberOfAdminsRemaining: $numberOfAdminsRemaining, numberOfParticipants: $numberOfParticipants, shouldShowNewCommentsBadge: $shouldShowNewCommentsBadge, areNotificationsDisabled: $areNotificationsDisabled, areCommentsActivated: $areCommentsActivated, commentsMaxUserCount: $commentsMaxUserCount, userRole: $userRole, type: $type)';
   }
 
   @override
@@ -521,7 +533,8 @@ class _$_Conversation implements _Conversation {
                     other.areCommentsActivated, areCommentsActivated)) &&
             (identical(other.commentsMaxUserCount, commentsMaxUserCount) ||
                 const DeepCollectionEquality().equals(other.commentsMaxUserCount, commentsMaxUserCount)) &&
-            (identical(other.userRole, userRole) || const DeepCollectionEquality().equals(other.userRole, userRole)));
+            (identical(other.userRole, userRole) || const DeepCollectionEquality().equals(other.userRole, userRole)) &&
+            (identical(other.type, type) || const DeepCollectionEquality().equals(other.type, type)));
   }
 
   @override
@@ -547,7 +560,8 @@ class _$_Conversation implements _Conversation {
       const DeepCollectionEquality().hash(areNotificationsDisabled) ^
       const DeepCollectionEquality().hash(areCommentsActivated) ^
       const DeepCollectionEquality().hash(commentsMaxUserCount) ^
-      const DeepCollectionEquality().hash(userRole);
+      const DeepCollectionEquality().hash(userRole) ^
+      const DeepCollectionEquality().hash(type);
 
   @override
   _$ConversationCopyWith<_Conversation> get copyWith =>
@@ -581,7 +595,8 @@ abstract class _Conversation implements Conversation {
       bool areNotificationsDisabled,
       bool areCommentsActivated,
       int commentsMaxUserCount,
-      UserRole userRole}) = _$_Conversation;
+      UserRole userRole,
+      ConversationType type}) = _$_Conversation;
 
   factory _Conversation.fromJson(Map<String, dynamic> json) =
       _$_Conversation.fromJson;
@@ -628,6 +643,8 @@ abstract class _Conversation implements Conversation {
   int get commentsMaxUserCount;
   @override
   UserRole get userRole;
+  @override
+  ConversationType get type;
   @override
   _$ConversationCopyWith<_Conversation> get copyWith;
 }

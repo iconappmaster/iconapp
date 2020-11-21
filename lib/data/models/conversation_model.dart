@@ -30,8 +30,11 @@ abstract class Conversation with _$Conversation {
     final bool areCommentsActivated,
     final int commentsMaxUserCount,
     final UserRole userRole,
+    final ConversationType type,
   }) = _Conversation;
 
   factory Conversation.fromJson(Map<String, dynamic> json) =>
       _$ConversationFromJson(json);
 }
+
+enum ConversationType {conversation, ad }

@@ -9,10 +9,11 @@ import 'package:iconapp/core/theme.dart';
 
 class CheckCircle extends StatelessWidget {
   final double circleSize;
-
+  final Gradient gradient;
   CheckCircle({
     Key key,
     this.circleSize = 24.0,
+    this.gradient 
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class CheckCircle extends StatelessWidget {
       decoration: BoxDecoration(
           border: Border.all(width: 2, color: white),
           shape: BoxShape.circle,
-          gradient: redPinkGradient),
+          gradient: gradient ?? redPinkGradient),
       child: Center(
         child: SvgPicture.asset(
           'assets/images/check.svg',

@@ -7,6 +7,7 @@ import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/login/login_background.dart';
 import '../core/extensions/context_ext.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:social_share/social_share.dart';
 
 class AppSettingsScreen extends StatelessWidget {
   @override
@@ -44,14 +45,16 @@ class AppSettingsScreen extends StatelessWidget {
                 children: [
                   AppSettingsTile(
                       title: LocaleKeys.settings_friends.tr(),
-                      onTap: () => 'tap'),
+                      onTap: () => SocialShare.shareWhatsapp(
+                          "Hi, Check out ICON!\nPlayStore: https://play.google.com/store/apps/details?id=com.icon.iconapp\nAppStore: https://apps.apple.com/app/id1528197266")),
                   _SettingsDivider(),
                   AppSettingsTile(
-                      title: LocaleKeys.settings_about.tr(),
-                      onTap: () async =>
-                          await showAboutDialog(context: context)),
+                    title: LocaleKeys.settings_about.tr(),
+                    onTap: () => showAboutDialog(context: context),
+                  ),
                   _SettingsDivider(),
                   AppSettingsTile(title: 'מספר גירסה 1.0', onTap: () => 'tap'),
+                  _SettingsDivider(),
                 ],
               ),
             ),
@@ -78,7 +81,7 @@ class AppSettingsTile extends StatelessWidget {
       onTap: onTap,
       child: Container(
         alignment: Alignment.centerRight,
-        height: context.heightPlusStatusbarPerc(.113),
+        height: context.heightPlusStatusbarPerc(.08),
         child: Padding(
           padding: const EdgeInsets.all(21.0),
           child: CustomText(title, style: appSettingsTile),

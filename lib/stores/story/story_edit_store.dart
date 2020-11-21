@@ -76,6 +76,7 @@ abstract class _StoryEditStoreBase with Store {
         final storyImg = StoryImageModel.photo();
         _storiesToPublish.add(
           storyImg.copyWith(
+            
             id: DateTime.now().millisecondsSinceEpoch,
             photo: PhotoModel(url: url),
           ),
@@ -124,6 +125,7 @@ abstract class _StoryEditStoreBase with Store {
       final story = StoryModel(
         id: DateTime.now().millisecondsSinceEpoch,
         isNew: true,
+        type: StoryType.story,
         user: _user.getUser,
         storyImages: _storiesToPublish.toList(),
       );

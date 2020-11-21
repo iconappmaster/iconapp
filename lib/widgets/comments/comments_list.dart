@@ -25,10 +25,9 @@ class CommentsList extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.all(24.0),
-          child:
-              CustomText(LocaleKeys.comments_title.tr(), style: loginBigText),
-        ),
+            padding: const EdgeInsets.all(24.0),
+            child: CustomText(LocaleKeys.comments_title.tr(),
+                style: loginBigText)),
         Expanded(
           child: store.comments.isEmpty
               ? Center(
@@ -47,7 +46,6 @@ class CommentsList extends StatelessWidget {
                         isSwipeEnabled: true,
                         hideAvatar: false,
                         hideEmoji: true,
-                        forcedColor: cornflower,
                         showPin: false,
                         controller: AutoScrollController(),
                         message: store.comments[index],

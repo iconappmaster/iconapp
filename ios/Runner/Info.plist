@@ -49,6 +49,7 @@
 	<string>ca-app-pub-5806212644011393~2519444879</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>whatsapp</string>
 		<string>itms</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>

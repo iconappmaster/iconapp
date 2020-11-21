@@ -14,7 +14,6 @@ part 'rest_client.g.dart';
 const String baseUrlProd = 'https://iconproduction.herokuapp.com/api/v1/';
 const String baseUrlStaging = 'https://iconstaging.herokuapp.com/api/v1/';
 
-// UNDO THIS
 @RestApi(baseUrl: baseUrlProd)
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
@@ -171,10 +170,12 @@ abstract class RestClient {
 
   // STORY
   @GET('stories/stories_for_home')
-  Future<List<StoryModel>> homeStories();
+  Future<List<StoryModel>> homeStories(
+      @Query('shouldShowAds') bool shouldShowAds);
 
   @GET('stories/stories_for_conversation')
-  Future<List<StoryModel>> conversationStories(@Query('conversationId') int id);
+  Future<List<StoryModel>> conversationStories(@Query('conversationId') int id,
+      @Query('shouldShowAds') bool shouldShowAds);
 
   @POST('stories/{imgId}/viewed_story')
   Future viewedStoryImage(@Path('imgId') int imageId);

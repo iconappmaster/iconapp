@@ -23,8 +23,8 @@ class PlusCircle extends StatelessWidget {
         child: SvgPicture.asset(
           'assets/images/plus.svg',
           color: white,
-          height: 14.7,
-          width: 14.7,
+          height: 10.7,
+          width: 10.7,
         ),
       ),
     );

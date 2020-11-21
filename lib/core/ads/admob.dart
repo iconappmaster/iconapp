@@ -1,29 +1,62 @@
 import 'package:admob_flutter/admob_flutter.dart';
+import 'package:flutter/foundation.dart';
 
 import 'ad_config.dart';
 
-const AD_SHOWED_THRESHOLD = 5;
+const AD_SHOWED_THRESHOLD = 4;
 
 class AdMob {
-  int counter = 1;
+  int counter = 4;
 
   AdmobInterstitial interstitialAd;
+  AdmobReward rewardAd;
 
   Future loadInterstital() async {
     await Admob?.requestTrackingAuthorization();
     interstitialAd = AdmobInterstitial(
         nonPersonalizedAds: true,
-        adUnitId: getInterstitialAdUnitId,
+        adUnitId: kReleaseMode
+            ? getInterstitialAdUnitId
+            : AdmobInterstitial.testAdUnitId,
         listener: (AdmobAdEvent event, Map<String, dynamic> args) =>
             handleEvent(event, args, 'interstitialAd'));
 
     await interstitialAd.load();
   }
 
-  void showInterstitial() {
-    counter++;
+  Future loadReward() async {
+    rewardAd = AdmobReward(
+      adUnitId: kReleaseMode ? getRewardAdUnitId : AdmobReward.testAdUnitId,
+      listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+        if (event == AdmobAdEvent.closed) rewardAd.load();
+        handleEvent(event, args, 'Reward');
+      },
+    );
+    await rewardAd.load();
+  }
+
+  void showRewardlNow() async {
+    if (await rewardAd.isLoaded) {
+      rewardAd?.show();
+    } else {
+      await loadReward();
+      rewardAd?.show();
+    }
+  }
+
+  void showWithCounterInterstitial() {
     if (counter == AD_SHOWED_THRESHOLD) {
       counter = 0;
+      interstitialAd?.show();
+    }
+    counter++;
+  }
+
+  void showInterstitialNow() async {
+    if (await interstitialAd.isLoaded) {
+      interstitialAd?.show();
+    } else {
+      await loadInterstital();
       interstitialAd?.show();
     }
   }
@@ -39,7 +72,11 @@ class AdMob {
 
         break;
       case AdmobAdEvent.closed:
-        interstitialAd?.load();
+        if (adType == 'Reward') {
+          rewardAd.load();
+        } else if (adType == 'interstitialAd') {
+          interstitialAd?.load();
+        }
         print('Admob $adType Ad loaded!');
         break;
       case AdmobAdEvent.failedToLoad:

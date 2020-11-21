@@ -225,20 +225,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.9.1"
-  device_info:
-    dependency: "direct main"
-    description:
-      name: device_info
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
-  device_info_platform_interface:
-    dependency: transitive
-    description:
-      name: device_info_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.1"
   dio:
     dependency: "direct main"
     description:
@@ -391,13 +377,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
-  flutter_google_ad_manager:
-    dependency: "direct main"
-    description:
-      name: flutter_google_ad_manager
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.11.1"
   flutter_image_compress:
     dependency: "direct main"
     description:
@@ -629,7 +608,7 @@ packages:
       name: logger
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.4"
+    version: "0.9.2"
   logging:
     dependency: transitive
     description:
@@ -964,6 +943,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  social_share:
+    dependency: "direct main"
+    description:
+      name: social_share
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.5"
   source_gen:
     dependency: transitive
     description:

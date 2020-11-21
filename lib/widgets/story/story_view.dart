@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'dart:async';
 
 import 'package:admob_flutter/admob_flutter.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:iconapp/core/ads/ad_config.dart';
 import 'package:iconapp/core/theme.dart';
@@ -214,17 +215,26 @@ class StoryItem {
   }
 
   factory StoryItem.bannerAd(BuildContext context) {
+    AdmobBannerSize CUSTOM_SIZE = AdmobBannerSize(
+        width: MediaQuery.of(context).size.width.toInt(),
+        height: MediaQuery.of(context).size.height.toInt(),
+        name: 'MEDIUM_RECTANGLE');
     return StoryItem(
-        Center(
+        Container(
+          color: Colors.white,
+          child: Center(
             child: AdmobBanner(
-          adSize: AdmobBannerSize.SMART_BANNER(context),
-          adUnitId: getBannerAdUnitId,
-          nonPersonalizedAds: true,
-          listener: (event, listner) {
-            print(event);
-            print(listner);
-          },
-        )),
+              adSize: CUSTOM_SIZE,
+              adUnitId:
+                  kReleaseMode ? getBannerAdUnitId : AdmobBanner.testAdUnitId,
+              nonPersonalizedAds: true,
+              listener: (event, listner) {
+                print(event);
+                print(listner);
+              },
+            ),
+          ),
+        ),
         shown: true,
         imageId: 0,
         duration: Duration(seconds: 7));
@@ -665,64 +675,6 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
                       : IndicatorHeight.large,
                 ),
               ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.centerRight,
-            heightFactor: 1,
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTapDown: (details) => widget.controller.pause(),
-              onTapCancel: () => widget.controller.play(),
-              onTapUp: (details) {
-                // if debounce timed out (not active) then continue anim
-                if (_nextDebouncer?.isActive == false) {
-                  widget.controller.play();
-                } else {
-                  widget.controller.next();
-                }
-              },
-              onVerticalDragStart: widget.onVerticalSwipeComplete == null
-                  ? null
-                  : (details) {
-                      widget.controller.pause();
-                    },
-              onVerticalDragCancel: widget.onVerticalSwipeComplete == null
-                  ? null
-                  : () => widget.controller.play(),
-              onVerticalDragUpdate: widget.onVerticalSwipeComplete == null
-                  ? null
-                  : (details) {
-                      if (verticalDragInfo == null) {
-                        verticalDragInfo = VerticalDragInfo();
-                      }
-
-                      verticalDragInfo.update(details.primaryDelta);
-                    },
-              onVerticalDragEnd: widget.onVerticalSwipeComplete == null
-                  ? null
-                  : (details) {
-                      widget.controller.play();
-                      // finish up drag cycle
-                      if (!verticalDragInfo.cancel &&
-                          widget.onVerticalSwipeComplete != null) {
-                        widget.onVerticalSwipeComplete(
-                            verticalDragInfo.direction);
-                      }
-
-                      verticalDragInfo = null;
-                    },
-            ),
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            heightFactor: 1,
-            child: SizedBox(
-              child: GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () => widget.controller.previous(),
-              ),
-              width: 70,
             ),
           ),
         ],

@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/message_model.dart';
+import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/global/lottie_loader.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
@@ -27,6 +28,7 @@ class ChatList extends StatefulWidget {
 
 class _ChatListState extends State<ChatList> {
   ChatStore store;
+
   @override
   void initState() {
     store = sl<ChatStore>();
@@ -65,6 +67,8 @@ class _ChatListState extends State<ChatList> {
                     switch (message.messageType) {
                       case MessageType.text:
                         return TextMessage(
+                            isSwipeEnabled:
+                                store.conversation.userRole != UserRole.viewer,
                             controller: widget.scrollController,
                             message: message,
                             isMe: isMe,

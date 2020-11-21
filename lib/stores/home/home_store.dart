@@ -105,16 +105,16 @@ abstract class _HomeStoreBase with Store {
       await getCachedAndRender();
 
       // backend will check if there are any changes since the last time waw fetched and return.
-      final remote = await _repository.getConversations();
-
+      final conversation = await _repository.getConversations();
+      
       // save and render only if there's an update.
-      if (remote.isNotEmpty) {
-        _repository.saveHome(remote);
-        updateUi(remote);
+      if (conversation.isNotEmpty) {
+        _repository.saveHome(conversation);
+        updateUi(conversation);
       }
 
       // return the conversations
-      return right(remote);
+      return right(conversation);
     } on ServerError catch (e) {
       Crash.report(e.message);
       return left(e);

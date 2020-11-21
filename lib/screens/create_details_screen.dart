@@ -49,14 +49,15 @@ class CreateDetailsScreen extends StatelessWidget {
                         child: Container(
                           width: context.widthPx * .596,
                           child: InputText(
-                              validator: (name) => name.isEmpty
-                                  ? 'נושא הקבוצה לא יכול להיות ריק'
-                                  : null,
-                              hintStyle: flushbar,
-                              textStyle: flushbar,
-                              hint: LocaleKeys.create_groupNameHint.tr(),
-                              keyboardType: TextInputType.text,
-                              onChange: (name) => store.updateGroupName(name)),
+                            validator: (name) => name.isEmpty
+                                ? 'נושא הקבוצה לא יכול להיות ריק'
+                                : null,
+                            hintStyle: flushbar,
+                            textStyle: flushbar,
+                            hint: LocaleKeys.create_groupNameHint.tr(),
+                            keyboardType: TextInputType.text,
+                            onChange: (name) => store.updateGroupName(name),
+                          ),
                         ),
                       ),
                     ],
@@ -84,8 +85,7 @@ class CreateDetailsScreen extends StatelessWidget {
                   onPressed: () async {
                     if (store.getSelectedPhoto.isEmpty) {
                       await context.showFlushbar(
-                          color: uiTintColorFill,
-                          message: 'חובה להוסיף תמונה');
+                          color: uiTintColorFill, message: 'חובה להוסיף תמונה');
                     }
 
                     if (_key.currentState.validate() &&

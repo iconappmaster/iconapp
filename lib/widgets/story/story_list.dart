@@ -48,13 +48,13 @@ class _StoriesListState extends State<StoriesList> {
         duration: Duration(milliseconds: 250),
         child: ClipRect(
           child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+            filter: ImageFilter.blur(sigmaX: 15.0, sigmaY: 15.0),
             child: Opacity(
-              opacity: .8,
+              opacity: .9,
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 8),
                 margin: widget.margin,
-                height: context.heightPlusStatusbarPerc(.09),
+                height: context.heightPlusStatusbarPerc(.085),
                 width: context.widthPx,
                 child: ListView(
                   reverse: true,
@@ -68,10 +68,13 @@ class _StoriesListState extends State<StoriesList> {
                               .pushStoryEditScreen()),
                     ...store.storiesWithoutAds
                         .map((story) => StoryTile(
-                            story: story,
-                            onTap: () => ExtendedNavigator.of(context)
-                                .pushStoryScreen(
-                                    story: story, isPublishedStory: false)))
+                              story: story,
+                              onTap: () =>
+                                  ExtendedNavigator.of(context).pushStoryScreen(
+                                story: story,
+                                isPublishedStory: false,
+                              ),
+                            ))
                         .toList()
                   ],
                 ),
@@ -102,8 +105,8 @@ class StoryAddButton extends StatelessWidget {
         BouncingGestureDetector(
           onPressed: onTap,
           child: Container(
-            height: 56,
-            width: 56,
+            height: 50,
+            width: 50,
             margin: EdgeInsets.symmetric(horizontal: 5),
             decoration: BoxDecoration(
                 shape: BoxShape.circle, color: Colors.transparent),
@@ -125,12 +128,12 @@ class StoryAddButton extends StatelessWidget {
                     ),
                   ),
                 ),
-                Positioned(left: 0, bottom: 0, child: PlusCircle(size: 30)),
+                Positioned(left: 0, bottom: 0, child: PlusCircle(size: 25)),
               ],
             ),
           ),
         ),
-        SizedBox(height: 12),
+        SizedBox(height: 3),
         CustomText(LocaleKeys.story_title.tr(),
             style: myStoryCreate.copyWith(color: white)),
       ],
@@ -159,8 +162,8 @@ class StoryTile extends StatelessWidget {
           child: OuterCircle(
             gradient: story.isNew ? redPinkGradient : whiteGradient,
             child: Container(
-              height: 45,
-              width: 45,
+              height: 50,
+              width: 50,
               margin: EdgeInsets.symmetric(horizontal: 5),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
@@ -177,7 +180,7 @@ class StoryTile extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 9),
+        SizedBox(height: 3),
         CustomText(story?.user?.fullName ?? '', style: myStory),
       ],
     );

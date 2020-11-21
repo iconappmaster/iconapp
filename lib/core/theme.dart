@@ -121,9 +121,9 @@ const phoneNumber = TextStyle(
     letterSpacing: 1.33);
 
 const button = TextStyle(
-    fontFamily: _fontRubikRegular,
+    fontFamily: _fontRubikMedium,
     color: white,
-    fontSize: 16.3,
+    fontSize: 18.3,
     letterSpacing: 0.18);
 
 const pinCode =
@@ -322,8 +322,6 @@ final dialogGradient = LinearGradient(colors: [
 ], begin: Alignment.bottomRight, end: Alignment.topLeft);
 
 // CHAT COLORS GRADIENTS
-
-
 
 final grapeDarkIndigo = LinearGradient(colors: [
   grape,

@@ -739,9 +739,10 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<List<StoryModel>> homeStories() async {
+  Future<List<StoryModel>> homeStories(shouldShowAds) async {
+    ArgumentError.checkNotNull(shouldShowAds, 'shouldShowAds');
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'shouldShowAds': shouldShowAds};
     final _data = <String, dynamic>{};
     final _result = await _dio.request<List<dynamic>>(
         'stories/stories_for_home',
@@ -759,10 +760,14 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<List<StoryModel>> conversationStories(id) async {
+  Future<List<StoryModel>> conversationStories(id, shouldShowAds) async {
     ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(shouldShowAds, 'shouldShowAds');
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'conversationId': id};
+    final queryParameters = <String, dynamic>{
+      r'conversationId': id,
+      r'shouldShowAds': shouldShowAds
+    };
     final _data = <String, dynamic>{};
     final _result = await _dio.request<List<dynamic>>(
         'stories/stories_for_conversation',

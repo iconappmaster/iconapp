@@ -31,12 +31,12 @@ class StoryRepositoryImpl implements StoryRepository {
 
   @override
   Future<List<StoryModel>> getConversationsStories(int conversationId) async {
-    return await rest.conversationStories(conversationId);
+    return await rest.conversationStories(conversationId, false);
   }
 
   @override
   Future<List<StoryModel>> getHomeStories() async {
-    return await rest.homeStories();
+    return await rest.homeStories(false);
   }
 
   @override

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/widgets/global/bubble.dart';
+import 'package:iconapp/widgets/global/check_circle.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/like_menu/likes_menu.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
@@ -125,35 +126,43 @@ class _IconBubbleState extends State<IconBubble> {
                                   Padding(
                                     padding: const EdgeInsets.only(
                                         left: 5.0, top: 7.0),
-                                    child: Container(
-                                      width: 40,
-                                      height: 40,
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(4.2),
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            if (widget.message.sender?.photo
-                                                    ?.url !=
-                                                null)
-                                              ExtendedNavigator.of(context)
-                                                  .pushSingleImage(
-                                                url: widget.message.sender
-                                                        ?.photo?.url ??
-                                                    '',
-                                              );
-                                          },
-                                          child: NetworkPhoto(
-                                              imageUrl: widget.message.sender
-                                                          ?.photo !=
-                                                      null
-                                                  ? widget.message.sender?.photo
-                                                          ?.url ??
-                                                      ''
-                                                  : ''),
+                                    child: Stack(children: [
+                                      Container(
+                                        width: 40,
+                                        height: 40,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(4.2),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              if (widget.message.sender?.photo
+                                                      ?.url !=
+                                                  null)
+                                                ExtendedNavigator.of(context)
+                                                    .pushSingleImage(
+                                                  url: widget.message.sender
+                                                          ?.photo?.url ??
+                                                      '',
+                                                );
+                                            },
+                                            child: NetworkPhoto(
+                                                imageUrl: widget.message.sender
+                                                            ?.photo !=
+                                                        null
+                                                    ? widget.message.sender
+                                                            ?.photo?.url ??
+                                                        ''
+                                                    : ''),
+                                          ),
                                         ),
                                       ),
-                                    ),
+                                      if (widget.message?.sender?.isIcon ??
+                                          false)
+                                        CheckCircle(
+                                          circleSize: 15,
+                                          gradient: descriptionPanelGradient,
+                                        ),
+                                    ]),
                                   ),
                                 widget.child,
                               ],

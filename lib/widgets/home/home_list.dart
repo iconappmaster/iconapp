@@ -1,5 +1,8 @@
+import 'package:admob_flutter/admob_flutter.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:iconapp/core/ads/ad_config.dart';
 import 'package:iconapp/widgets/home/conversation_tile.dart';
 import '../../core/dependencies/locator.dart';
 import '../../data/models/conversation_model.dart';
@@ -30,20 +33,46 @@ class ConversationsList extends StatelessWidget {
             : ListView.builder(
                 padding: EdgeInsets.only(bottom: 120),
                 controller: controller,
-                itemCount: home.conversations.length,
+                itemCount: home.conversations.length + 1,
                 physics: const BouncingScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  final conversation = home.conversations[index];
-                  return ConversationTile(
-                    model: conversation,
-                    onTap: () {
-                      home.hideNewBadge(index);
-                      onConversationTap(conversation, index);
-                    },
-                  );
+                  if (index == home.conversations.length) {
+                    return ConversationBannerAd();
+                  } else {
+                    final conversation = home.conversations[index];
+                    return ConversationTile(
+                      model: conversation,
+                      onTap: () {
+                        home.hideNewBadge(index);
+                        onConversationTap(conversation, index);
+                      },
+                    );
+                  }
                 },
               ),
+      ),
+    );
+  }
+}
+
+class ConversationBannerAd extends StatelessWidget {
+  const ConversationBannerAd({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 9.3),
+      child: AdmobBanner(
+        adSize: AdmobBannerSize.FULL_BANNER,
+        adUnitId: kReleaseMode ? getBannerAdUnitId : AdmobBanner.testAdUnitId,
+        nonPersonalizedAds: true,
+        listener: (event, listner) {
+          print(event);
+          print(listner);
+        },
       ),
     );
   }

@@ -75,7 +75,7 @@ class NetworkPhoto extends StatelessWidget {
                         child: CircularProgressIndicator(
                           strokeWidth: 1,
                           value: downloadProgress.progress,
-                          valueColor: AlwaysStoppedAnimation(cornflower),
+                          valueColor: AlwaysStoppedAnimation(white),
                         ))),
             height: height,
             width: width,
