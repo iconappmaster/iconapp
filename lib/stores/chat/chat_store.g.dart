@@ -363,8 +363,8 @@ mixin _$ChatStore on _ChatStoreBase, Store {
   final _$blockAsyncAction = AsyncAction('_ChatStoreBase.block');
 
   @override
-  Future<dynamic> block() {
-    return _$blockAsyncAction.run(() => super.block());
+  Future<dynamic> block(int conversationId) {
+    return _$blockAsyncAction.run(() => super.block(conversationId));
   }
 
   final _$setWelcomeDialogSeenAsyncAction =

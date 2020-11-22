@@ -1,5 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:iconapp/core/ads/admob.dart';
+import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/screens/full_video_screen.dart';
 import 'package:iconapp/widgets/global/blur_appbar.dart';
@@ -44,14 +47,23 @@ class _VideoGalleryScreenState extends State<VideoGalleryScreen> {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: GestureDetector(
-                  onTap: () =>
-                      ExtendedNavigator.of(context).pushVideoScreen(url: url),
-                  child: VideoScreen(
-                    showReplay: false,
-                    controller: _controller,
-                    url: url,
-                    showToolbar: false,
-                    mute: true,
+                  onTap: () async {
+                    await sl<AdMob>().showRewardlNow();
+                    ExtendedNavigator.of(context).pushVideoScreen(url: url);
+                  },
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      VideoScreen(
+                        showReplay: false,
+                        controller: _controller,
+                        url: url,
+                        showToolbar: false,
+                        mute: true,
+                      ),
+                      SvgPicture.asset('assets/images/play_button.svg',
+                          height: 46, width: 46),
+                    ],
                   ),
                 ),
               );

@@ -35,7 +35,7 @@ class AdMob {
     await rewardAd.load();
   }
 
-  void showRewardlNow() async {
+  Future showRewardlNow() async {
     if (await rewardAd.isLoaded) {
       rewardAd?.show();
     } else {

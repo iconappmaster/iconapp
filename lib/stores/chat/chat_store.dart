@@ -548,10 +548,10 @@ abstract class _ChatStoreBase with Store {
 
   // block conversation
   @action
-  Future block() async {
+  Future block(int conversationId) async {
     try {
-      await _repository.block(conversation.id);
-      _homeStore.remove(conversation.id);
+      await _repository.block(conversationId);
+      _homeStore.remove(conversationId);
     } on ServerError catch (e) {
       Crash.report(e.message);
     }

@@ -63,7 +63,7 @@ class ReportUserDialog extends StatelessWidget {
                 onClick: () async {
                   mode == ReportMode.abuse
                       ? store.report(_explanationText)
-                      : store.block();
+                      : store.block(store.conversation?.id);
                   Navigator.pop(context);
                 }),
             SizedBox(height: 18),

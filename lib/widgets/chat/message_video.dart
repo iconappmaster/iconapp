@@ -100,15 +100,13 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
             isMe: widget.isMe,
             message: widget.message,
             onTap: () async {
-              
-              await sl<AdMob>().showRewardlNow();
-
               if (store.conversationVideos.length > 1) {
                 return ExtendedNavigator.of(context).pushVideoGalleryScreen(
                     videos: store.conversationVideos,
                     intialIndex: store.conversationVideos
                         .indexWhere((m) => m.id == widget.message.id));
               } else {
+                await sl<AdMob>().showRewardlNow();
                 return ExtendedNavigator.of(context)
                     .pushVideoScreen(url: widget.message?.body ?? '');
               }

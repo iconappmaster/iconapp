@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
+import 'package:iconapp/stores/chat/chat_store.dart';
+import 'package:iconapp/widgets/global/slidable/slidable.dart';
+import 'package:iconapp/widgets/global/slidable/slidable_action_pane.dart';
+import 'package:iconapp/widgets/global/slidable/slide_action.dart';
 import '../../core/theme.dart';
 import '../../data/models/conversation_model.dart';
 import '../global/custom_text.dart';
@@ -14,117 +19,134 @@ import 'package:iconapp/widgets/global/timeago.dart' as time;
 const double _indicatorSize = 27;
 
 class ConversationTile extends StatelessWidget {
-  final Conversation model;
+  final Conversation conversation;
   final Function onTap;
 
   const ConversationTile({
     Key key,
-    @required this.model,
+    @required this.conversation,
     @required this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 9.3),
-      child: Material(
-        color: darkIndigo2,
-        child: InkWell(
-          onTap: onTap,
-          child: Container(
-            height: 80,
-            padding: EdgeInsets.only(top: 8.7, bottom: 8.7, left: 8.7),
-            width: context.widthPx,
-            decoration: BoxDecoration(
-              boxShadow: itemShadow,
-              borderRadius: BorderRadius.circular(4.8),
-            ),
-            child: Stack(children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(width: 8),
-                  Stack(children: [
-                    WhiteCircle(
-                        widget: NetworkPhoto(
-                            placeHolder: 'assets/images/group_placeholder.svg',
-                            placeHolderPadding: 20,
-                            imageUrl: model?.backgroundPhoto?.url ?? '',
-                            height: 56,
-                            width: 56)),
-                    if (model.isSubscribed)
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Icon(
-                          Icons.notifications_active,
-                          color: cornflower,
-                          size: 15,
-                        ),
-                      )
-                  ]),
-                  SizedBox(width: 5.7),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(top: 6.0),
-                          child: CustomText(
-                            model.name,
-                            style: nameWhite,
-                            maxLines: 1,
-                            textAlign: TextAlign.start,
-                            
+    return Slidable(
+      actionPane: SlidableDrawerActionPane(),
+      actionExtentRatio: 0.25,
+      actions: [
+        IconSlideAction(
+          color: cornflower,
+          caption: 'הסתר',
+          icon: Icons.archive,
+          onTap: () async {
+            await sl<ChatStore>().block(conversation.id);
+            Slidable.of(context).close();
+          },
+        )
+      ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 9.3),
+        child: Material(
+          color: darkIndigo2,
+          child: InkWell(
+            onTap: onTap,
+            child: Container(
+              height: 80,
+              padding: EdgeInsets.only(top: 8.7, bottom: 8.7, left: 8.7),
+              width: context.widthPx,
+              decoration: BoxDecoration(
+                boxShadow: itemShadow,
+                borderRadius: BorderRadius.circular(4.8),
+              ),
+              child: Stack(children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(width: 8),
+                    Stack(children: [
+                      WhiteCircle(
+                          widget: NetworkPhoto(
+                              placeHolder:
+                                  'assets/images/group_placeholder.svg',
+                              placeHolderPadding: 20,
+                              imageUrl:
+                                  conversation?.backgroundPhoto?.url ?? '',
+                              height: 56,
+                              width: 56)),
+                      if (conversation.isSubscribed)
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: Icon(
+                            Icons.notifications_active,
+                            color: cornflower,
+                            size: 15,
                           ),
-                        ),
-                        SizedBox(height: 4),
-                        model?.lastMessage != null
-                            ? HomeTileConversationMessage(
-                                model: model?.lastMessage)
-                            : CustomText(LocaleKeys.home_noMessages.tr(),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.start,
-                                style: lastWritten),
+                        )
+                    ]),
+                    SizedBox(width: 5.7),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(top: 6.0),
+                            child: CustomText(
+                              conversation.name,
+                              style: nameWhite,
+                              maxLines: 1,
+                              textAlign: TextAlign.start,
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          conversation?.lastMessage != null
+                              ? HomeTileConversationMessage(
+                                  model: conversation?.lastMessage)
+                              : CustomText(LocaleKeys.home_noMessages.tr(),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.start,
+                                  style: lastWritten),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                if (conversation.lastMessage != null)
+                  Positioned(
+                    top: 8,
+                    left: 0,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        CustomText(
+                            time.format(
+                                DateTime.fromMillisecondsSinceEpoch(
+                                    conversation.lastMessage.timestamp * 1000),
+                                locale: 'he'),
+                            // model.lastMessage?.timestamp?.humanReadableTime() ?? '',
+                            style: timeOfMessage),
+                        SizedBox(height: 8.7),
+                        Row(
+                          children: [
+                            if (conversation?.shouldShowNewBadge ?? false)
+                              _NewBadge(),
+                            SizedBox(width: 7),
+                            if (conversation?.isPinned) _Pin(),
+                            if (conversation.areNotificationsDisabled)
+                              SvgPicture.asset(
+                                'assets/images/mute.svg',
+                                height: _indicatorSize,
+                                width: _indicatorSize,
+                              )
+                          ],
+                        )
                       ],
                     ),
                   ),
-                ],
-              ),
-              if (model.lastMessage != null)
-                Positioned(
-                  top: 8,
-                  left: 0,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      CustomText(
-                          time.format(
-                              DateTime.fromMillisecondsSinceEpoch(
-                                  model.lastMessage.timestamp * 1000),
-                              locale: 'he'),
-                          // model.lastMessage?.timestamp?.humanReadableTime() ?? '',
-                          style: timeOfMessage),
-                      SizedBox(height: 8.7),
-                      Row(
-                        children: [
-                          if (model?.shouldShowNewBadge ?? false) _NewBadge(),
-                          SizedBox(width: 7),
-                          if (model?.isPinned) _Pin(),
-                          if (model.areNotificationsDisabled)
-                            SvgPicture.asset(
-                              'assets/images/mute.svg',
-                              height: _indicatorSize,
-                              width: _indicatorSize,
-                            )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-            ]),
+              ]),
+            ),
           ),
         ),
       ),
