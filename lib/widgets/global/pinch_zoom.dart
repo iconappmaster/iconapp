@@ -39,7 +39,7 @@ class _PinchZoomImageState extends State<PinchZoomImage> {
         onScaleUpdate: _handleScaleUpdate,
         onScaleEnd: _handleScaleEnd,
         child: Stack(
-          overflow: Overflow.clip,
+          clipBehavior: Clip.antiAlias,
           children: <Widget>[
             Opacity(
               opacity: zooming ? 0.0 : 1.0,

@@ -39,7 +39,7 @@ class CommentsSettings extends StatelessWidget {
               } else {
                 showDialog(
                   context: context,
-                  child: CommentSingleSelectDialog(
+                   builder: (_) => CommentSingleSelectDialog(
                     onTap: (selectedComment) {
                       comments.setCommentActived(
                         selectedComment.commentsMaxUserCount,

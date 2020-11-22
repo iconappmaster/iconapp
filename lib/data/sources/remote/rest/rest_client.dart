@@ -14,7 +14,7 @@ part 'rest_client.g.dart';
 const String baseUrlProd = 'https://iconproduction.herokuapp.com/api/v1/';
 const String baseUrlStaging = 'https://iconstaging.herokuapp.com/api/v1/';
 
-@RestApi(baseUrl: baseUrlProd)
+@RestApi(baseUrl: baseUrlStaging)
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
@@ -83,6 +83,15 @@ abstract class RestClient {
 
   @POST('conversations/{conversationId}/block')
   Future block(@Path('conversationId') int conversationId);
+
+  @POST('conversations/{conversationId}/archive')
+  Future archive(@Path('conversationId') int conversationId);
+
+  @POST('conversations/{conversationId}/unarchive')
+  Future unarchive(@Path('conversationId') int conversationId);
+
+  @GET('archived_conversations')
+  Future<List<Conversation>> getArchiveConversations();
 
   @POST('conversations/{conversationId}')
   Future<Conversation> updateConversation(

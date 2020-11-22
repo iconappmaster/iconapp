@@ -17,6 +17,7 @@ import '../data/models/photo_model.dart';
 import '../data/models/story_image.dart';
 import '../data/models/story_model.dart';
 import '../screens/alerts_screen.dart';
+import '../screens/archive_screen.dart';
 import '../screens/chat_screen.dart';
 import '../screens/chat_settings_screen.dart';
 import '../screens/create_categories_screen.dart';
@@ -70,6 +71,7 @@ class Routes {
   static const String verifySendCodeScreen = '/verify-send-code-screen';
   static const String verifyIconEmailScreen = '/verify-icon-email-screen';
   static const String verifyInstagramScreen = '/verify-instagram-screen';
+  static const String archiveScreen = '/archive-screen';
   static const all = <String>{
     mainNavigator,
     loginScreen,
@@ -97,6 +99,7 @@ class Routes {
     verifySendCodeScreen,
     verifyIconEmailScreen,
     verifyInstagramScreen,
+    archiveScreen,
   };
 }
 
@@ -130,6 +133,7 @@ class Router extends RouterBase {
     RouteDef(Routes.verifySendCodeScreen, page: VerifySendCodeScreen),
     RouteDef(Routes.verifyIconEmailScreen, page: VerifyIconEmailScreen),
     RouteDef(Routes.verifyInstagramScreen, page: VerifyInstagramScreen),
+    RouteDef(Routes.archiveScreen, page: ArchiveScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -344,6 +348,12 @@ class Router extends RouterBase {
         settings: data,
       );
     },
+    ArchiveScreen: (data) {
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => ArchiveScreen(),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -507,6 +517,8 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
 
   Future<dynamic> pushVerifyInstagramScreen() =>
       push<dynamic>(Routes.verifyInstagramScreen);
+
+  Future<dynamic> pushArchiveScreen() => push<dynamic>(Routes.archiveScreen);
 }
 
 /// ************************************************************************

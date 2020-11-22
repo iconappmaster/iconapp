@@ -53,7 +53,7 @@ class ColorSelectButton extends StatelessWidget {
   Future _onTap(BuildContext context, ChatSettingsStore settings) async {
     await showDialog(
         context: context,
-        child: AlertDialog(
+         builder: (_) => AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           contentPadding: const EdgeInsets.all(16),
           elevation: 10,

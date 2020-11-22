@@ -91,6 +91,11 @@ class HomeDrawer extends StatelessWidget {
                   //   DrawerItem(
                   //       text: LocaleKeys.drawer_groupActivity.tr(),
                   //       onTap: () {}),
+
+                  DrawerItem(
+                      text: "שיחות מוסתרות",
+                      onTap: () =>
+                          ExtendedNavigator.of(context).pushArchiveScreen()),
                   DrawerItem(
                       text: 'הגדרות',
                       onTap: () => ExtendedNavigator.of(context)
@@ -104,7 +109,7 @@ class HomeDrawer extends StatelessWidget {
                     Navigator.pop(context);
                     await showDialog(
                       context: context,
-                      child: DisconnectDialog(
+                      builder: (_) => DisconnectDialog(
                         height: 250,
                       ),
                     );

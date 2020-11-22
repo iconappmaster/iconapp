@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
-import 'package:iconapp/stores/chat/chat_store.dart';
+import 'package:iconapp/stores/archive/archive_store.dart';
 import 'package:iconapp/widgets/global/slidable/slidable.dart';
 import 'package:iconapp/widgets/global/slidable/slidable_action_pane.dart';
 import 'package:iconapp/widgets/global/slidable/slide_action.dart';
@@ -39,7 +39,7 @@ class ConversationTile extends StatelessWidget {
           caption: 'הסתר',
           icon: Icons.archive,
           onTap: () async {
-            await sl<ChatStore>().block(conversation.id);
+            await sl<ArchiveStore>().archiveConversation(conversation.id);
             Slidable.of(context).close();
           },
         )

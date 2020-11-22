@@ -151,7 +151,7 @@ Future _showReportBottomSheet(BuildContext context) async {
               onTap: () async {
                 await showDialog(
                     context: context,
-                    child: ReportUserDialog(
+                     builder: (_) => ReportUserDialog(
                       mode: ReportMode.abuse,
                     ));
                 await Navigator.pop(context);
@@ -160,7 +160,7 @@ Future _showReportBottomSheet(BuildContext context) async {
               onTap: () async {
                 await showDialog(
                     context: context,
-                    child: ReportUserDialog(
+                     builder: (_) => ReportUserDialog(
                       mode: ReportMode.block,
                     ));
                 await Navigator.pop(context);
