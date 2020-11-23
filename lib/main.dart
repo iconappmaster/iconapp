@@ -10,6 +10,7 @@ import 'package:iconapp/core/keys.dart';
 import 'package:iconapp/routes/router.dart' as router;
 import 'package:iconapp/routes/router.gr.dart' as rGenerated;
 import 'package:iconapp/data/sources/socket/socket_manager.dart';
+import 'package:iconapp/stores/analytics/analytics_firebase.dart';
 import 'package:logger/logger.dart';
 import 'core/notifications/fcm.dart';
 import 'data/sources/local/shared_preferences.dart';
@@ -48,6 +49,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Socket _socket;
+  Analytics _analytics;
 
   @override
   void initState() {
@@ -56,6 +58,7 @@ class _MyAppState extends State<MyApp> {
 
     // setup firebase listeners
     sl<Fcm>().setFirebase();
+    _analytics = sl<Analytics>();
     super.initState();
   }
 
@@ -96,6 +99,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       navigatorKey: NavigationService.navigationKey,
       debugShowCheckedModeBanner: false,
+       navigatorObservers: <NavigatorObserver>[_analytics.observer],
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,

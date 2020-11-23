@@ -10,6 +10,7 @@ import 'package:iconapp/data/repositories/archive_repository.dart';
 import 'package:iconapp/data/repositories/comments_repository.dart';
 import 'package:iconapp/data/repositories/verify_icon_repository.dart';
 import 'package:iconapp/stores/alerts/alert_store.dart';
+import 'package:iconapp/stores/analytics/analytics_firebase.dart';
 import 'package:iconapp/stores/archive/archive_store.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
 import 'package:iconapp/stores/search_results/search_results_store.dart';
@@ -163,4 +164,8 @@ void initLocator() {
   sl.registerLazySingleton<ArchiveRepository>(() => ArchiveRepositoryImpl(
         rest: sl(),
       ));
+
+sl.registerLazySingleton<Analytics>(() => Analytics());
+
+    
 }
