@@ -7,11 +7,13 @@ import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/domain/core/errors.dart';
 import 'package:iconapp/domain/core/value_validators.dart';
+import 'package:iconapp/stores/analytics/analytics_consts.dart';
 import 'package:iconapp/stores/auth/auth_store.dart';
 import 'package:iconapp/stores/media/media_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
+import '../analytics/analytics_firebase.dart';
 import 'onboarding_state.dart';
 part 'onboarding_store.g.dart';
 
@@ -28,6 +30,8 @@ abstract class _OnboardingStoreBase with Store {
     _mediaStore = sl<MediaStore>();
     _userStore = sl<UserStore>();
     _authStore = sl<AuthStore>();
+
+     analytics.sendAnalyticsEvent(STARTED_REGISTRATION, {});
   }
 
   @observable
@@ -75,7 +79,7 @@ abstract class _OnboardingStoreBase with Store {
   }
 
   @action
-  Future<Either<Exception, bool>> upadteUser() async {
+  Future<Either<Exception, bool>> updateUser() async {
     try {
       final phone = _userStore.getUser.phone;
       final token = _sp?.getString(StorageKey.fcmToken) ?? '';
@@ -88,7 +92,6 @@ abstract class _OnboardingStoreBase with Store {
         ),
       );
 
-      // _state.userModel.copyWith(pushToken:);
       final saved = await _userStore.updateUser(_state.userModel);
       if (saved) _authStore.setSignedIn();
       return right(saved);

@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/stores/analytics/analytics_consts.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
 import 'package:iconapp/widgets/chat/compose/panel_compose.dart';
 import 'package:iconapp/widgets/comments/comments_fab.dart';
 import 'package:iconapp/widgets/global/lottie_loader.dart';
 
+import '../../stores/analytics/analytics_firebase.dart';
+import '../../stores/chat/chat_store.dart';
 import 'comments_list.dart';
 
 class CommentsBottomSheet extends StatelessWidget {
@@ -63,7 +66,14 @@ class CommentsBottomSheet extends StatelessWidget {
             left: 30,
             top: 0,
             child: CommentsFab(
-              onTap: () => Navigator.pop(context),
+              onTap: () {
+                final conversationId = sl<ChatStore>()?.conversation?.id;
+
+                analytics.sendConversationEvent(
+                    CLOSED_COMMENTS_FOR_CONVERSATION, conversationId);
+
+                Navigator.pop(context);
+              },
             ),
           ),
         ],

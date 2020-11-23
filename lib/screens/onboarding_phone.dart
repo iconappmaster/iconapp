@@ -20,6 +20,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../core/extensions/context_ext.dart';
 import '../generated/locale_keys.g.dart';
+import '../stores/analytics/analytics_firebase.dart';
 
 /// [OnboardingScreen] used to verify the user with [Phone] number and
 /// an [SMS] code that is being sent.

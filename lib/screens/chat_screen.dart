@@ -4,11 +4,13 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
+import 'package:iconapp/stores/analytics/analytics_consts.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
 import 'package:iconapp/widgets/comments/comments_bottom_sheet.dart';
 import 'package:iconapp/widgets/comments/comments_fab.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
+import '../stores/analytics/analytics_firebase.dart';
 import '../widgets/chat/chat_list.dart';
 import '../widgets/chat/chat_welcome_dialog.dart';
 import '../widgets/global/focus_aware.dart';
@@ -149,7 +151,8 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                 );
               }),
               Visibility(
-                visible: _story.isUserIcon || _story.storiesWithoutAds.isNotEmpty,
+                visible:
+                    _story.isUserIcon || _story.storiesWithoutAds.isNotEmpty,
                 child: Positioned(
                     top: context.heightPlusStatusbarPerc(.1),
                     child: StoriesList(mode: _story.mode, show: !_upDirection)),
@@ -165,6 +168,10 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                         onTap: () {
                           if (_chat.conversation.areCommentsActivated &&
                               _chat.conversation.isSubscribed) {
+                            analytics.sendConversationEvent(
+                                OPENED_COMMENTS_FOR_CONVERSATION,
+                                _chat.conversation.id);
+
                             showCommentsDialog(context);
                           } else {
                             if (!_chat.conversation.isSubscribed) {

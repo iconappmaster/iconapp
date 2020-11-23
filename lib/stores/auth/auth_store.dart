@@ -1,10 +1,13 @@
 import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/domain/core/errors.dart';
+import 'package:iconapp/stores/analytics/analytics_consts.dart';
 import 'package:mobx/mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/repositories/auth_repository.dart';
 import 'package:iconapp/stores/auth/auth_state.dart';
+
+import '../analytics/analytics_firebase.dart';
 
 part 'auth_store.g.dart';
 
@@ -47,6 +50,7 @@ abstract class _AuthStoreBase with Store {
       if (updateBackend) await _repository.logout();
       await _sp.clear();
       _authState = AuthState.unauthenticated();
+      analytics.sendAnalyticsEvent(LOGGED_OUT, {});
     } on ServerError catch (e) {
       Crash.report(e.message);
     }

@@ -1,27 +1,46 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
+import '../../core/dependencies/locator.dart';
+import '../../data/models/user_model.dart';
+import '../../core/extensions/string_ext.dart';
+
+final analytics = sl<Analytics>();
 
 class Analytics {
-   FirebaseAnalytics analytics;
-   FirebaseAnalyticsObserver observer;
+  FirebaseAnalytics analytics;
+  FirebaseAnalyticsObserver observer;
 
-  AnalyticsFirebase() {
-    analytics =  FirebaseAnalytics();
-    observer =  FirebaseAnalyticsObserver(analytics: analytics);
+  Analytics() {
+    analytics = FirebaseAnalytics();
+    observer = FirebaseAnalyticsObserver(analytics: analytics);
   }
 
-  
-
- Future<void> sendAnalyticsEvent(String name, Map<String, dynamic> params) async {
+  Future<void> sendAnalyticsEvent(
+      String name, Map<String, dynamic> params) async {
     await analytics.logEvent(
       name: name,
       parameters: params,
     );
-  
   }
 
-  Future<void> setUserId() async {
-    await analytics.setUserId('some-user');
+  Future<void> sendConversationEvent(String name, int conversationId) async {
+    await analytics.logEvent(
+      name: name,
+      parameters: <String, dynamic>{
+        'conversationId': conversationId,
+      },
+    );
+  }
 
+  Future<void> userFinishedOnboarind(UserModel user) async {
+    analytics
+      ..setUserProperty(name: 'full_name', value: user.fullName)
+      ..setUserProperty(name: 'age', value: user.age.toString())
+      ..setUserProperty(
+          name: 'gender', value: user.gender.toString().parseEnum());
+  }
+
+  Future<void> setUserId(int userId) async {
+    await analytics.setUserId(userId.toString());
   }
 }

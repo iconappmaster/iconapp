@@ -10,9 +10,12 @@ import 'package:iconapp/data/repositories/comments_repository.dart';
 import 'package:iconapp/domain/comments/comments_failure.dart';
 import 'package:iconapp/domain/core/errors.dart';
 import 'package:iconapp/stores/alerts/alert_store.dart';
+import 'package:iconapp/stores/analytics/analytics_consts.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:mobx/mobx.dart';
+
+import '../analytics/analytics_firebase.dart';
 part 'comments_store.g.dart';
 
 class CommentsStore = _CommentsStoreBase with _$CommentsStore;
@@ -156,7 +159,7 @@ abstract class _CommentsStoreBase with Store {
         id: res.id,
         status: MessageStatus.sent,
       );
-
+       analytics.sendConversationEvent(SENT_COMMENT, _chat.conversation.id);
       return right(unit);
     } on DioError catch (e) {
       if (e.response.data['error'] ==

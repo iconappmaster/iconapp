@@ -12,6 +12,7 @@ import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/alerts/alert_store.dart';
+import 'package:iconapp/stores/analytics/analytics_consts.dart';
 import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/data/sources/socket/socket_manager.dart';
 import 'package:iconapp/stores/story/story_store.dart';
@@ -26,6 +27,7 @@ import 'package:iconapp/widgets/home/welcome_dialog.dart';
 import 'package:iconapp/widgets/onboarding/onboarding_appbar.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
+import '../stores/analytics/analytics_firebase.dart';
 import 'alerts_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -177,7 +179,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   onConversationTap:
                                       (conversation, index) async {
                                     story.clearStories();
-
+                                   
+                                    analytics.sendConversationEvent(
+                                        OPENED_CONVERSATION, conversation.id);
+                                   
                                     await adMobs.showWithCounterInterstitial();
 
                                     await ExtendedNavigator.of(context)

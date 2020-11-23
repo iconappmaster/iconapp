@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/domain/core/value_validators.dart';
 import 'package:iconapp/routes/router.gr.dart';
+import 'package:iconapp/stores/analytics/analytics_consts.dart';
 import 'package:iconapp/stores/oboarding/onboarding_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/global/input_box.dart';
@@ -17,6 +18,8 @@ import 'package:iconapp/widgets/onboarding/base_onboarding_widget.dart';
 import 'package:iconapp/widgets/onboarding/onboarding_appbar.dart';
 import '../core/extensions/context_ext.dart';
 import 'package:easy_localization/easy_localization.dart';
+
+import '../stores/analytics/analytics_firebase.dart';
 
 final _formValidatorKey = GlobalKey<FormState>();
 enum OnboardingMode { onboarding, drawer }
@@ -71,12 +74,15 @@ class OnboardingProfile extends StatelessWidget {
         enabled: !store.getState.loading,
         onClick: () {
           if (_formValidatorKey.currentState.validate()) {
-            store.upadteUser().then(
+            store.updateUser().then(
                   (result) => result.fold(
                     (error) => ctx.showFlushbar(
                         message: LocaleKeys.general_server_error.tr()),
-                    (success) => ExtendedNavigator.of(ctx).pushAndRemoveUntil(
-                        Routes.mainNavigator, (route) => false),
+                    (success) {
+                      analytics.sendAnalyticsEvent(COMPLETED_REGISTRATION, {});
+                      ExtendedNavigator.of(ctx).pushAndRemoveUntil(
+                          Routes.mainNavigator, (route) => false);
+                    },
                   ),
                 );
           }

@@ -1,16 +1,19 @@
 import 'package:dartz/dartz.dart';
+import 'package:iconapp/stores/analytics/analytics_consts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
-import 'story_store.dart';
-import '../user/user_store.dart';
-import '../../data/models/photo_model.dart';
-import '../../data/models/story_model.dart';
+
 import '../../core/dependencies/locator.dart';
 import '../../core/firebase/crashlytics.dart';
+import '../../data/models/photo_model.dart';
 import '../../data/models/story_image.dart';
+import '../../data/models/story_model.dart';
 import '../../data/repositories/story_repository.dart';
 import '../../domain/core/errors.dart';
+import '../analytics/analytics_firebase.dart';
 import '../media/media_store.dart';
+import '../user/user_store.dart';
+import 'story_store.dart';
 
 part 'story_edit_store.g.dart';
 
@@ -76,7 +79,6 @@ abstract class _StoryEditStoreBase with Store {
         final storyImg = StoryImageModel.photo();
         _storiesToPublish.add(
           storyImg.copyWith(
-            
             id: DateTime.now().millisecondsSinceEpoch,
             photo: PhotoModel(url: url),
           ),
@@ -131,9 +133,11 @@ abstract class _StoryEditStoreBase with Store {
       );
 
       final storyRes = await _repository.addToStory(story, _storyDuration);
-
+  
       await _storyStore.refreshStories();
-
+      analytics.sendAnalyticsEvent(ADDED_STORY, {
+        'numberOfImages', _storiesToPublish?.length ?? 0
+      });
       return right(storyRes);
     } on ServerError catch (e) {
       Crash.report(e.message);

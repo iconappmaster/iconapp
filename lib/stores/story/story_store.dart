@@ -6,12 +6,14 @@ import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/models/story_model.dart';
 import 'package:iconapp/data/repositories/story_repository.dart';
 import 'package:iconapp/domain/core/errors.dart';
+import 'package:iconapp/stores/analytics/analytics_consts.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/story/story_list.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../core/extensions/int_ext.dart';
+import '../analytics/analytics_firebase.dart';
 
 part 'story_store.g.dart';
 
@@ -53,11 +55,8 @@ abstract class _StoryStoreBase with Store {
 
   // get all stories in reveresed order
   @computed
-  List<StoryModel> get storiesWithoutAds => _stories.reversed
-      .where(
-        (s) => s.type == StoryType.story
-      )
-      .toList();
+  List<StoryModel> get storiesWithoutAds =>
+      _stories.reversed.where((s) => s.type == StoryType.story).toList();
 
   @computed
   List<StoryModel> get stories => _stories.reversed.toList();
@@ -131,6 +130,8 @@ abstract class _StoryStoreBase with Store {
   Future onStoryImageViewed(int imageId) async {
     try {
       _repository.viewedStoryImage(imageId);
+      analytics
+          .sendAnalyticsEvent(VIEWED_STORY_IMAGE, {'story_image': imageId});
     } on ServerError catch (e) {
       Crash.report(e.message);
     }

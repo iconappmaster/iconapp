@@ -5,12 +5,14 @@ import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/repositories/chat_settings_repository.dart';
 import 'package:iconapp/domain/core/errors.dart';
+import 'package:iconapp/stores/analytics/analytics_consts.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/stores/media/media_store.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
 import '../../core/extensions/int_ext.dart';
+import '../analytics/analytics_firebase.dart';
 part 'chat_settings_store.g.dart';
 
 class ChatSettingsStore = _ChatSettingsStoreBase with _$ChatSettingsStore;
@@ -175,6 +177,9 @@ abstract class _ChatSettingsStoreBase with Store {
           chatStore.conversation.id, Conversation(name: groupName));
       _home.updateConversation(conversation);
       chatStore.setConversation(conversation);
+
+      analytics.sendConversationEvent(
+          CHANGED_NAME_CONVERSATION, conversation.id);
     } on ServerError catch (e) {
       Crash.report(e.message);
     } finally {
@@ -193,6 +198,8 @@ abstract class _ChatSettingsStoreBase with Store {
             Conversation(backgroundPhoto: PhotoModel(url: url)));
         _home.updateConversation(conversation);
         _chat.setConversation(conversation);
+        analytics.sendConversationEvent(
+            SUBSCRIBED_TO_CONVERSATION, conversation.id);
       }
     } on ServerError catch (e) {
       Crash.report(e.message);
@@ -212,6 +219,13 @@ abstract class _ChatSettingsStoreBase with Store {
 
       _chat.setConversation(conversation);
       _home.updateConversation(conversation);
+
+      analytics.sendConversationEvent(
+        _isNotificationDisabled
+            ? TURNED_OFF_NOTIFICATIONS_FOR_CONVERSATION
+            : TURNED_ON_NOTIFICATIONS_FOR_CONVERSATION,
+        _isNotificationDisabled ? 0 : 1,
+      );
     } on ServerError catch (e) {
       Crash.report(e.message);
     }

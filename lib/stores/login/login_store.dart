@@ -7,6 +7,7 @@ import 'package:iconapp/data/repositories/login_repository.dart';
 import 'package:iconapp/domain/auth/auth_failure.dart';
 import 'package:iconapp/domain/auth/auth_success.dart';
 import 'package:mobx/mobx.dart';
+import '../analytics/analytics_firebase.dart';
 import '../user/user_store.dart';
 import 'login_state.dart';
 
@@ -113,9 +114,9 @@ abstract class _LoginStoreBase with Store {
         ..saveSessionToken(user.sessionToken)
         ..setUser(user);
 
-      messaging.getToken().then(
-            (token) => _store.updatePushToken(token),
-          );
+      messaging.getToken().then((token) => _store.updatePushToken(token));
+
+      analytics.userFinishedOnboarind(user);
 
       return right(user.didCompleteRegistration
           ? AuthSuccess.navigateHome()

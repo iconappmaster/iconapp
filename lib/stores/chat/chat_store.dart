@@ -14,6 +14,7 @@ import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/repositories/chat_repository.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/domain/core/errors.dart';
+import 'package:iconapp/stores/analytics/analytics_consts.dart';
 import 'package:iconapp/stores/chat/chat_state.dart';
 import 'package:iconapp/stores/chat/paging_config.dart';
 import 'package:iconapp/stores/chat_settings/chat_settings_store.dart';
@@ -26,6 +27,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:video_compress/video_compress.dart';
 
 import '../../widgets/story/story_list.dart';
+import '../analytics/analytics_firebase.dart';
 import '../story/story_store.dart';
 
 part 'chat_store.g.dart';
@@ -152,6 +154,7 @@ abstract class _ChatStoreBase with Store {
     try {
       _state = _state.copyWith(isSubscribing: true);
       final result = await _repository.subscribe(conversation.id);
+      analytics.sendConversationEvent(SUBSCRIBED_TO_CONVERSATION, result.id);
       _conversation = result;
       _determineComposerMode();
     } on ServerError catch (e) {
@@ -168,6 +171,8 @@ abstract class _ChatStoreBase with Store {
       final result = await _repository.unsubscribe(conversation.id);
       _conversation = result;
       _determineComposerMode();
+      analytics.sendConversationEvent(
+          UNSUBSCRIBED_FROM_CONVERSATION, result.id);
     } on ServerError catch (e) {
       Crash.report(e.message);
     } finally {
@@ -198,8 +203,7 @@ abstract class _ChatStoreBase with Store {
       // check that we are on the conversation that the fetch request was fired
       // from.
       if (remote.id == conversation.id && remote.messages.isNotEmpty) {
-
-          // get the paging messages
+        // get the paging messages
         final currentMessages = remote.messages.toList();
 
         // add them in the start of the list
@@ -262,6 +266,7 @@ abstract class _ChatStoreBase with Store {
       _conversation = conversation.copyWith(isPinned: isPinned);
       await _repository.pinConversation(conversation.id, isPinned);
       _homeStore.setConversationPinned(isPinned, conversation);
+      analytics.sendConversationEvent(PINNED_CONVERSATION, _conversation.id);
     } on ServerError catch (e) {
       Crash.report(e.message);
       _conversation = _conversation.copyWith(isPinned: false);
@@ -306,15 +311,16 @@ abstract class _ChatStoreBase with Store {
     try {
       setMessageStatus(msg, MessageStatus.sendingEmoji);
       // if the like is already selected the unlike otherwise like.
-      final messageResponse = msg.likeType == likeType
+      final conversation = msg.likeType == likeType
           ? await _repository.unlikeMessage(msg.id, likeType)
           : await _repository.likeMessage(msg.id, likeType);
 
       // find the index of the message in _messages by the id
-      final index = _messages.indexWhere((m) => m.id == messageResponse.id);
+      final index = _messages.indexWhere((m) => m.id == conversation.id);
 
       // replace the message response with the message at the index
-      _messages[index] = messageResponse;
+      _messages[index] = conversation;
+       analytics.sendConversationEvent(LIKED_MESSAGE, conversation.id);
     } on ServerError catch (e) {
       Crash.report(e.message);
     }
@@ -358,6 +364,8 @@ abstract class _ChatStoreBase with Store {
           remote.copyWith(status: MessageStatus.sent, id: msg.id),
           remote.id,
         );
+
+        analytics.sendConversationEvent(SENT_TEXT_MESSAGE, remote.id);
       }
     } on ServerError catch (e) {
       Crash.report(e.message);
@@ -393,6 +401,8 @@ abstract class _ChatStoreBase with Store {
 
         _updateId(
             remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
+
+        analytics.sendConversationEvent(SENT_PHOTO_MESSAGE, remote.id);
       }
     } on ServerError catch (e) {
       Crash.report(e.message);
@@ -446,6 +456,8 @@ abstract class _ChatStoreBase with Store {
 
         _updateId(
             remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
+
+        analytics.sendConversationEvent(SENT_VIDEO_MESSAGE, remote.id);
       }
     } on ServerError catch (e) {
       Crash.report(e.message);
@@ -517,13 +529,10 @@ abstract class _ChatStoreBase with Store {
           final remote =
               await _repository.sendMessage(conversation.id, mediaMsg);
 
-          _updateId(
-            remote.copyWith(
-              status: MessageStatus.sent,
-              id: msg.id,
-            ),
-            remote.id,
-          );
+          _updateId(remote.copyWith(status: MessageStatus.sent, id: msg.id),
+              remote.id);
+
+          analytics.sendConversationEvent(SENT_AUDIO_MESSAGE, remote.id);
         }
       }
     } on ServerError catch (e) {
