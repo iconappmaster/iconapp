@@ -62,12 +62,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       child: Positioned(
           top: context.heightPlusStatusbarPerc(.447),
           child: NextButton(
-            enabled: store.numberValid,
-            onClick: () {
-              // context.unFocus();
-              store.verifyPhone();
-            },
-          )),
+              enabled: store.numberValid, onClick: () => store.verifyPhone())),
     );
   }
 

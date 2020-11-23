@@ -5,7 +5,6 @@ import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/stores/archive/archive_store.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
-import 'package:iconapp/widgets/global/white_circle.dart';
 
 class ArchiveScreen extends StatefulWidget {
   @override
@@ -29,8 +28,14 @@ class _ArchiveScreenState extends State<ArchiveScreen> {
           backgroundColor: darkIndigo2,
           title: CustomText('קבוצות מוסתרות'),
         ),
-        body: Observer(
-          builder: (_) => archive.archived.length == 0
+        body: Observer(builder: (_) {
+          if (archive.loading) {
+            return Center(
+                child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation(cornflower),
+            ));
+          }
+          return archive.archived.length == 0
               ? Center(child: CustomText('אין שיחות מוסתרות'))
               : ListView.builder(
                   shrinkWrap: true,
@@ -39,42 +44,40 @@ class _ArchiveScreenState extends State<ArchiveScreen> {
                   itemBuilder: (context, index) {
                     final conversation = archive.archived[index];
                     return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: ListTile(
-                          contentPadding: const EdgeInsets.all(8.0),
-                          tileColor: darkIndigo,
-                          leading: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: NetworkPhoto(
-                                placeHolder:
-                                    'assets/images/group_placeholder.svg',
-                                placeHolderPadding: 20,
-                                imageUrl:
-                                    conversation?.backgroundPhoto?.url ?? '',
-                                height: 56,
-                                width: 56),
-                          ),
-                          title: CustomText(
-                            conversation?.name,
-                            style: nameWhite,
-                          ),
-                          dense: false,
-                          trailing: MaterialButton(
-                            onPressed: () =>
-                                archive.unArchiveConversation(conversation?.id),
-                            child: CustomText(
-                              'בטל',
-                              style: systemMessage,
+                        padding: const EdgeInsets.all(8.0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.all(8.0),
+                            tileColor: darkIndigo,
+                            leading: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: NetworkPhoto(
+                                  placeHolder:
+                                      'assets/images/group_placeholder.svg',
+                                  placeHolderPadding: 20,
+                                  imageUrl:
+                                      conversation?.backgroundPhoto?.url ?? '',
+                                  height: 56,
+                                  width: 56),
+                            ),
+                            title: CustomText(
+                              conversation?.name,
+                              style: nameWhite,
+                            ),
+                            dense: false,
+                            trailing: MaterialButton(
+                              onPressed: () => archive
+                                  .unArchiveConversation(conversation?.id),
+                              child: CustomText(
+                                'בטל',
+                                style: systemMessage,
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-        ));
+                        ));
+                  });
+        }));
   }
 
   @override

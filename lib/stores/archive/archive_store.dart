@@ -17,8 +17,15 @@ abstract class _ArchiveStoreBase with Store {
     _repository = sl<ArchiveRepository>();
     _home = sl<HomeStore>();
   }
+
+  @observable
+  bool _loading = false;
+
   @observable
   ObservableList<Conversation> _archivedConversations = ObservableList.of([]);
+
+  @computed
+  bool get loading => _loading;
 
   @computed
   List<Conversation> get archived => _archivedConversations;
@@ -48,10 +55,13 @@ abstract class _ArchiveStoreBase with Store {
   @action
   Future getArchivedConversations() async {
     try {
+      _loading = true;
       final archived = await _repository.getArchivedConversations();
       _archivedConversations.addAll(archived);
     } on DioError catch (error) {
       Crash.report(error.message);
+    } finally {
+      _loading = false;
     }
   }
 

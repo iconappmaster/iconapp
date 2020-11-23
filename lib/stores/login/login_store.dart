@@ -81,7 +81,7 @@ abstract class _LoginStoreBase with Store {
     );
 
     final failureOrSuccess =
-        await _repository.verifyPhone("+" + _state.countryCode + _state.phone);
+        await _repository.verifyPhone(_state.countryCode + _state.phone);
 
     failureOrSuccess.fold(
       (failure) {
