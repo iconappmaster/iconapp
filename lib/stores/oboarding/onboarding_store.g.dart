@@ -55,12 +55,12 @@ mixin _$OnboardingStore on _OnboardingStoreBase, Store {
         .run(() => super.pickAndUploadPhoto());
   }
 
-  final _$upadteUserAsyncAction =
-      AsyncAction('_OnboardingStoreBase.upadteUser');
+  final _$updateUserAsyncAction =
+      AsyncAction('_OnboardingStoreBase.updateUser');
 
   @override
-  Future<Either<Exception, bool>> upadteUser() {
-    return _$upadteUserAsyncAction.run(() => super.upadteUser());
+  Future<Either<Exception, bool>> updateUser() {
+    return _$updateUserAsyncAction.run(() => super.updateUser());
   }
 
   final _$_OnboardingStoreBaseActionController =

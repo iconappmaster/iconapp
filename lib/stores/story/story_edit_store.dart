@@ -136,7 +136,7 @@ abstract class _StoryEditStoreBase with Store {
   
       await _storyStore.refreshStories();
       analytics.sendAnalyticsEvent(ADDED_STORY, {
-        'numberOfImages', _storiesToPublish?.length ?? 0
+        'numberOfImages': _storiesToPublish?.length ?? 0
       });
       return right(storyRes);
     } on ServerError catch (e) {

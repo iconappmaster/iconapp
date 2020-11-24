@@ -40,7 +40,8 @@ class ConversationTile extends StatelessWidget {
           icon: Icons.archive,
           onTap: () async {
             await sl<ArchiveStore>().archiveConversation(conversation.id);
-            Slidable.of(context).close();
+            // TODO should i remove this?
+            Slidable.of(context)?.close();
           },
         )
       ],

@@ -25,7 +25,6 @@ class MainNavigator extends StatelessWidget {
       await user.init();
       await home.getConversations();
       analytics.setUserId(user.getUser.id);
-      
       analytics.sendAnalyticsEvent(OPENED_APP, {});
     }
 

@@ -68,7 +68,7 @@ class ConversationBannerAd extends StatelessWidget {
       child: AdmobBanner(
         adSize: AdmobBannerSize.FULL_BANNER,
         adUnitId: kReleaseMode ? getBannerAdUnitId : AdmobBanner.testAdUnitId,
-        nonPersonalizedAds: true,
+        nonPersonalizedAds: false,
         listener: (event, listner) {
           print(event);
           print(listner);

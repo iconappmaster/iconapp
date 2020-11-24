@@ -14,7 +14,7 @@ class AdMob {
   Future loadInterstital() async {
     await Admob?.requestTrackingAuthorization();
     interstitialAd = AdmobInterstitial(
-        nonPersonalizedAds: true,
+        nonPersonalizedAds: false,
         adUnitId: kReleaseMode
             ? getInterstitialAdUnitId
             : AdmobInterstitial.testAdUnitId,
@@ -31,6 +31,7 @@ class AdMob {
         if (event == AdmobAdEvent.closed) rewardAd.load();
         handleEvent(event, args, 'Reward');
       },
+      nonPersonalizedAds: false
     );
     await rewardAd.load();
   }
