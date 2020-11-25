@@ -38,11 +38,7 @@ class ConversationTile extends StatelessWidget {
           color: cornflower,
           caption: 'הסתר',
           icon: Icons.archive,
-          onTap: () async {
-            await sl<ArchiveStore>().archiveConversation(conversation.id);
-            // TODO should i remove this?
-            Slidable.of(context)?.close();
-          },
+          onTap: () => sl<ArchiveStore>().archiveConversation(conversation.id),
         )
       ],
       child: Padding(

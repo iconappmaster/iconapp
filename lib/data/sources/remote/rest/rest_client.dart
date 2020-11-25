@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
+import 'package:iconapp/core/ads/provider_ads/model/ad_model.dart';
 import 'package:iconapp/data/models/alerts_response.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/message_model.dart';
@@ -14,7 +15,7 @@ part 'rest_client.g.dart';
 const String baseUrlProd = 'https://iconproduction.herokuapp.com/api/v1/';
 const String baseUrlStaging = 'https://iconstaging.herokuapp.com/api/v1/';
 
-@RestApi(baseUrl: baseUrlProd)
+@RestApi(baseUrl: baseUrlStaging)
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
@@ -211,7 +212,10 @@ abstract class RestClient {
 
   @POST('user/update_app_version')
   Future<bool> updateAppVersion(@Query('appVersion') String appVersion);
-}
+
+  @GET('ad')
+  Future<AdModel> getImageAd();
+} 
 
 Dio getDioClient() {
   final dio = Dio();

@@ -11,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
+import '../core/ads/provider_ads/custom_ad.dart';
 import '../data/models/conversation_model.dart';
 import '../data/models/message_model.dart';
 import '../data/models/photo_model.dart';
@@ -72,6 +73,7 @@ class Routes {
   static const String verifyIconEmailScreen = '/verify-icon-email-screen';
   static const String verifyInstagramScreen = '/verify-instagram-screen';
   static const String archiveScreen = '/archive-screen';
+  static const String customAd = '/custom-ad';
   static const all = <String>{
     mainNavigator,
     loginScreen,
@@ -100,6 +102,7 @@ class Routes {
     verifyIconEmailScreen,
     verifyInstagramScreen,
     archiveScreen,
+    customAd,
   };
 }
 
@@ -134,6 +137,7 @@ class Router extends RouterBase {
     RouteDef(Routes.verifyIconEmailScreen, page: VerifyIconEmailScreen),
     RouteDef(Routes.verifyInstagramScreen, page: VerifyInstagramScreen),
     RouteDef(Routes.archiveScreen, page: ArchiveScreen),
+    RouteDef(Routes.customAd, page: CustomAd),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -354,6 +358,12 @@ class Router extends RouterBase {
         settings: data,
       );
     },
+    CustomAd: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => CustomAd(),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -519,6 +529,8 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
       push<dynamic>(Routes.verifyInstagramScreen);
 
   Future<dynamic> pushArchiveScreen() => push<dynamic>(Routes.archiveScreen);
+
+  Future<dynamic> pushCustomAd() => push<dynamic>(Routes.customAd);
 }
 
 /// ************************************************************************

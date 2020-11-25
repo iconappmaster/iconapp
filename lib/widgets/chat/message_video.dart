@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:iconapp/core/ads/admob.dart';
+import 'package:iconapp/core/ads/admob/admob.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:vibration/vibration.dart';

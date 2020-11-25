@@ -21,6 +21,8 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import '../core/extensions/context_ext.dart';
 import '../generated/locale_keys.g.dart';
 
+FocusNode _pinCodeFocusNode = FocusNode();
+
 /// [OnboardingScreen] used to verify the user with [Phone] number and
 /// an [SMS] code that is being sent.
 /// The store for this page is [LoginStore] that manages the [Timer], [VerifyPhone]
@@ -47,8 +49,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             PhoneNumberInput(),
             _CheckSign(store: store),
             _SmsCounter(store: store),
-            _PinCode(store: store),
-            _nextButton(store, context),
+            _PinCode(store: store, pinCodeFocusNode: _pinCodeFocusNode),
+            _nextButton(store, context, _pinCodeFocusNode),
             SendAgain(store: store),
           ],
         ),
@@ -56,19 +58,25 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  Widget _nextButton(LoginStore store, BuildContext context) {
+  Widget _nextButton(LoginStore store, BuildContext context, FocusNode focus) {
     return Visibility(
       visible: store.isPhoneMode,
       child: Positioned(
           top: context.heightPlusStatusbarPerc(.447),
           child: NextButton(
-              enabled: store.numberValid, onClick: () => store.verifyPhone())),
+              enabled: store.numberValid,
+              onClick: () {
+                context.unFocus();
+                focus.requestFocus();
+                store.verifyPhone();
+              })),
     );
   }
 
   @override
   void dispose() {
     sl<LoginStore>().dispose();
+    _pinCodeFocusNode.dispose();
     super.dispose();
   }
 }
@@ -96,7 +104,10 @@ class SendAgain extends StatelessWidget {
                 fontWeight: FontWeight.normal,
               ),
               recognizer: TapGestureRecognizer()
-                ..onTap = () async => store.sendAgain(),
+                ..onTap = () {
+                  _pinCodeFocusNode = FocusNode();
+                  return store.sendAgain();
+                },
             ),
           ]),
         ),
@@ -135,10 +146,12 @@ class _SmsCounter extends StatelessWidget {
 
 class _PinCode extends StatelessWidget {
   final LoginStore store;
+  final FocusNode pinCodeFocusNode;
 
   const _PinCode({
     Key key,
     @required this.store,
+    @required this.pinCodeFocusNode,
   }) : super(key: key);
 
   @override
@@ -165,6 +178,7 @@ class _PinCode extends StatelessWidget {
           child: Directionality(
             textDirection: ui.TextDirection.ltr,
             child: PinCodeTextField(
+              focusNode: pinCodeFocusNode,
               appContext: context,
               autoFocus: true,
               length: 6,
@@ -298,9 +312,8 @@ class PhoneNumberInput extends StatelessWidget {
           // direction: Axis.vertical,
           children: <Widget>[
             CountryCodePicker(
-              onChanged: (countryCode) {
-                store.updateCountryCode(countryCode.dialCode);
-              },
+              onChanged: (countryCode) =>
+                  store.updateCountryCode(countryCode.dialCode),
               initialSelection: 'IL',
               favorite: ['+972', 'IL'],
               showCountryOnly: true,

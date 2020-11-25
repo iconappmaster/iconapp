@@ -2,7 +2,7 @@ import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:iconapp/core/ads/ad_config.dart';
+import 'package:iconapp/core/ads/admob/ad_config.dart';
 import 'package:iconapp/widgets/home/conversation_tile.dart';
 import '../../core/dependencies/locator.dart';
 import '../../data/models/conversation_model.dart';

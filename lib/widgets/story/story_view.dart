@@ -5,7 +5,7 @@ import 'dart:async';
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:iconapp/core/ads/ad_config.dart';
+import 'package:iconapp/core/ads/admob/ad_config.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/story/utils.dart';

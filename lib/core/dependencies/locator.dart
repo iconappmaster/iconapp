@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:iconapp/core/ads/admob.dart';
+import 'package:iconapp/core/ads/admob/admob.dart';
+import 'package:iconapp/core/ads/provider_ads/model/ad_repository.dart';
+import 'package:iconapp/core/ads/provider_ads/store/custom_ads_store.dart';
 import 'package:iconapp/core/deep_link.dart';
 import 'package:iconapp/core/keys.dart';
 import 'package:iconapp/core/notifications/fcm.dart';
@@ -159,13 +161,16 @@ void initLocator() {
   // Admob
   sl.registerLazySingleton<AdMob>(() => AdMob());
 
+  // Custom Ads
+  sl.registerLazySingleton<CustomAdsStore>(() => CustomAdsStore());
+  sl.registerLazySingleton<CustomAdRepository>(
+      () => CustomAdRepositoryImpl(rest: sl()));
+
   // Archive
   sl.registerLazySingleton<ArchiveStore>(() => ArchiveStore());
   sl.registerLazySingleton<ArchiveRepository>(() => ArchiveRepositoryImpl(
         rest: sl(),
       ));
 
-sl.registerLazySingleton<Analytics>(() => Analytics());
-
-    
+  sl.registerLazySingleton<Analytics>(() => Analytics());
 }

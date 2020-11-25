@@ -1,0 +1,63 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:iconapp/core/ads/provider_ads/store/custom_ads_store.dart';
+import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/widgets/global/rounded_close.dart';
+
+class CustomAd extends StatefulWidget {
+  @override
+  _CustomAdState createState() => _CustomAdState();
+}
+
+class _CustomAdState extends State<CustomAd> {
+  CustomAdsStore _ads;
+  @override
+  void initState() {
+    _ads = sl<CustomAdsStore>();
+
+    initAd();
+
+    Future.delayed(
+        Duration(seconds: 7), () => ExtendedNavigator.of(context).pop());
+
+    super.initState();
+  }
+
+  Future initAd() async => await _ads.getImageAd();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Observer(builder: (_) {
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: Container(
+            child: _ads.loading
+                ? Center(child: CupertinoActivityIndicator(animating: true))
+                : Stack(children: [
+                    GestureDetector(
+                        onTap: () => _ads?.launchLink() ?? '',
+                        child: _ads?.currnetAd != null
+                            ? CachedNetworkImage(
+                                imageUrl: _ads?.currnetAd?.adUrl ?? '',
+                                height: double.infinity,
+                                width: double.infinity,
+                                alignment: Alignment.center,
+                                fit: BoxFit.cover)
+                            : Container()),
+                    Positioned(
+                      top: 32,
+                      right: 16,
+                      child: RoundedClose(),
+                    )
+                  ]),
+          ),
+        );
+      }),
+    );
+  }
+}

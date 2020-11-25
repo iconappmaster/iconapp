@@ -3,7 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:iconapp/core/ads/admob.dart';
+import 'package:iconapp/core/ads/admob/admob.dart';
 import 'package:iconapp/core/deep_link.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/lifecycle_observer.dart';

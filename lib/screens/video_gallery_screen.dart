@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:iconapp/core/ads/admob.dart';
+import 'package:iconapp/core/ads/admob/admob.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/screens/full_video_screen.dart';
