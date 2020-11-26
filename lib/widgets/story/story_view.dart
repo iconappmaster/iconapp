@@ -7,7 +7,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:iconapp/core/ads/admob/ad_config.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/data/models/story_model.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
+import 'package:iconapp/widgets/global/user_avatar.dart';
 import 'package:iconapp/widgets/story/utils.dart';
 import 'controller/story_controller.dart';
 import 'story_video.dart';
@@ -167,6 +169,7 @@ class StoryItem {
     @required String url,
     @required CustomText caption,
     @required StoryController controller,
+    @required StoryModel story,
     BoxFit imageFit = BoxFit.cover,
     Map<String, dynamic> requestHeaders,
     bool shown = false,
@@ -181,6 +184,7 @@ class StoryItem {
           child: Container(
             color: Colors.black,
             child: Stack(
+              alignment: Alignment.center,
               children: <Widget>[
                 StoryImage.url(
                   url,
@@ -199,6 +203,7 @@ class StoryItem {
                     ),
                   ),
                 ),
+                StoryAvatar(story: story),
               ],
             ),
           ),
@@ -245,6 +250,7 @@ class StoryItem {
   factory StoryItem.pageVideo(
     String url, {
     @required StoryController controller,
+    @required StoryModel story,
     int imageId,
     Duration duration,
     BoxFit imageFit = BoxFit.fitWidth,
@@ -277,7 +283,7 @@ class StoryItem {
                 ),
               ),
             ),
-            
+            StoryAvatar(story: story),
           ],
         ),
       ),
@@ -389,6 +395,33 @@ class StoryItem {
       shown: shown,
       duration: duration ?? Duration(seconds: 3),
     );
+  }
+}
+
+class StoryAvatar extends StatelessWidget {
+  final StoryModel story;
+  const StoryAvatar({
+    Key key,
+    @required this.story,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+        bottom: 0,
+        right: 8,
+        child: Column(
+          children: [
+            UserAvatar(
+                showPlus: false,
+                url: story.user?.photo?.url ?? '',
+                onTap: null),
+            CustomText(
+              story.user.fullName,
+              style: nameWhite,
+            )
+          ],
+        ));
   }
 }
 

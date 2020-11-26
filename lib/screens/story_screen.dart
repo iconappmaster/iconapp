@@ -161,22 +161,28 @@ class _StoryScreenState extends State<StoryScreen> {
     );
   }
 
-  List<StoryItem> _storyImages(StoryModel story) => story.storyImages
-      .map((storyImage) => _handleStoryItem(storyImage))
-      .toList();
+  List<StoryItem> _storyImages(StoryModel story) {
+    return story.storyImages
+        .map((storyImage) => _handleStoryItem(story, storyImage))
+        .toList();
+  }
 
-  StoryItem _handleStoryItem(StoryImageModel storyImage) {
+  StoryItem _handleStoryItem(StoryModel story, StoryImageModel storyImage) {
     return storyImage.imageType == MediaType.photo.toString().parseEnum()
         ? StoryItem.inlineImage(
             imageId: storyImage.id,
+            story: story,
             duration: Duration(seconds: storyImage?.duration ?? 7),
             url: storyImage?.photo?.url ?? '',
             caption: CustomText(storyImage?.description ?? '',
                 style: settingsAppbarTitle.copyWith(fontSize: 20)),
             controller: _storyPageController)
-        : StoryItem.pageVideo(storyImage.photo?.url ?? '',
+        : StoryItem.pageVideo(
+            storyImage.photo?.url ?? '',
+            story: story,
             controller: _storyPageController,
-            duration: Duration(seconds: storyImage?.duration ?? 7));
+            duration: Duration(seconds: storyImage?.duration ?? 7),
+          );
   }
 
   @override

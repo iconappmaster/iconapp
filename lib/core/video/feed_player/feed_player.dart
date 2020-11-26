@@ -61,9 +61,8 @@ class _FeedPlayerState extends State<FeedPlayer> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(5),
                             child: FlickMultiPlayer(
-                              url: widget.urls[index],
+                              url: widget?.urls[index] ?? '',
                               flickMultiManager: flickMultiManager,
-                              image: widget.urls[index],
                             ),
                           ),
                         ),

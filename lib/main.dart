@@ -95,6 +95,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     if (Platform.isIOS) {
       FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
+      
     }
 
     return MaterialApp(

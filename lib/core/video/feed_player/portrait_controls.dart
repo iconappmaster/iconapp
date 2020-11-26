@@ -23,18 +23,15 @@ class FeedPlayerPortraitControls extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
           FlickAutoHideChild(
-            
             showIfVideoNotInitialized: false,
             child: Align(
               alignment: Alignment.topRight,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                decoration: BoxDecoration(
-                  color: Colors.black38,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: FlickLeftDuration(),
-              ),
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                  decoration: BoxDecoration(
+                      color: Colors.black38,
+                      borderRadius: BorderRadius.circular(20)),
+                  child: FlickLeftDuration()),
             ),
           ),
           Expanded(
@@ -44,14 +41,13 @@ class FeedPlayerPortraitControls extends StatelessWidget {
                 displayManager.handleShowPlayerControls();
               },
               child: FlickSeekVideoAction(
-
-
+                forwardSeekIcon: Icon(Icons.forward_10),
+                backwardSeekIcon: Icon(Icons.replay_10),
                 child: Center(child: FlickVideoBuffer()),
               ),
             ),
           ),
           FlickAutoHideChild(
-
             autoHide: true,
             showIfVideoNotInitialized: false,
             child: Row(

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:iconapp/core/ads/admob/admob.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:vibration/vibration.dart';
@@ -82,6 +83,7 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
   @override
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
+    final ads = sl<AdMob>();
     return ScrollableTile(
       index: widget.index,
       controller: widget.controller,
@@ -98,7 +100,9 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
           IconBubble(
             isMe: widget.isMe,
             message: widget.message,
-            onTap: () {
+            onTap: () async {
+              await ads.showWithCounterInterstitial();
+              
               if (store.conversationVideos.length > 1) {
                 final urls =
                     store.conversationVideos.map((m) => m.body).toList();

@@ -1,4 +1,6 @@
+import 'package:flutter/services.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../portrait_controls.dart';
@@ -9,12 +11,11 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class FlickMultiPlayer extends StatefulWidget {
-  const FlickMultiPlayer(
-      {Key key, this.url, this.image, this.flickMultiManager})
+  const FlickMultiPlayer({Key key, this.url, this.flickMultiManager})
       : super(key: key);
 
   final String url;
-  final String image;
+  // final String image;
   final FlickMultiManager flickMultiManager;
 
   @override
@@ -59,9 +60,6 @@ class _FlickMultiPlayerState extends State<FlickMultiPlayer> {
                     playerLoadingFallback: Positioned.fill(
                       child: Stack(
                         children: <Widget>[
-                          Positioned.fill(
-                              child:
-                                  Image.asset(widget.image, fit: BoxFit.cover)),
                           Positioned(
                             right: 10,
                             top: 10,
@@ -80,10 +78,13 @@ class _FlickMultiPlayerState extends State<FlickMultiPlayer> {
                     controls: FeedPlayerPortraitControls(
                         flickMultiManager: widget.flickMultiManager,
                         flickManager: flickManager)),
+                preferredDeviceOrientationFullscreen: [
+                  DeviceOrientation.portraitUp
+                ],
                 flickVideoWithControlsFullscreen: FlickVideoWithControls(
                     playerLoadingFallback: Center(
-                        child:
-                            Image.network(widget.image, fit: BoxFit.fitWidth)),
+                      child: CustomText('תקלה בטיענת הוידאו'),
+                    ),
                     controls: FlickLandscapeControls(),
                     iconThemeData: IconThemeData(size: 50, color: white),
                     textStyle: TextStyle(fontSize: 34, color: white)))));

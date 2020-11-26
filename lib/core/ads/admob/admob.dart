@@ -1,5 +1,6 @@
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 
 import 'ad_config.dart';
 
@@ -77,9 +78,10 @@ class AdMob {
         break;
       case AdmobAdEvent.opened:
         print('Admob $adType Ad opened!');
-
+        SystemChrome.setEnabledSystemUIOverlays([]);
         break;
       case AdmobAdEvent.closed:
+        SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
         if (adType == 'Reward') {
           rewardAd.load();
           _rewardClosed.call();

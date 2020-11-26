@@ -26,8 +26,8 @@ class UserAvatar extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 90,
-        height: 90,
+        width: showPlus ? 90 : 75,
+        height: showPlus ? 90 : 75,
         child: Stack(children: [
           if (showLoading)
             SizedBox(
