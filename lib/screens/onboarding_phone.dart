@@ -34,6 +34,12 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
+  void initState() {
+    _pinCodeFocusNode = FocusNode();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final store = sl<LoginStore>();
 
@@ -49,8 +55,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             PhoneNumberInput(),
             _CheckSign(store: store),
             _SmsCounter(store: store),
-            _PinCode(store: store, pinCodeFocusNode: _pinCodeFocusNode),
-            _nextButton(store, context, _pinCodeFocusNode),
+            _PinCode(store: store),
+            _nextButton(store, context),
             SendAgain(store: store),
           ],
         ),
@@ -58,7 +64,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  Widget _nextButton(LoginStore store, BuildContext context, FocusNode focus) {
+  Widget _nextButton(LoginStore store, BuildContext context) {
     return Visibility(
       visible: store.isPhoneMode,
       child: Positioned(
@@ -67,7 +73,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               enabled: store.numberValid,
               onClick: () {
                 context.unFocus();
-                focus.requestFocus();
+                _pinCodeFocusNode.requestFocus();
                 store.verifyPhone();
               })),
     );
@@ -106,7 +112,7 @@ class SendAgain extends StatelessWidget {
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
                   _pinCodeFocusNode = FocusNode();
-                  return store.sendAgain();
+                  store.sendAgain();
                 },
             ),
           ]),
@@ -146,12 +152,10 @@ class _SmsCounter extends StatelessWidget {
 
 class _PinCode extends StatelessWidget {
   final LoginStore store;
-  final FocusNode pinCodeFocusNode;
 
   const _PinCode({
     Key key,
     @required this.store,
-    @required this.pinCodeFocusNode,
   }) : super(key: key);
 
   @override
@@ -178,7 +182,7 @@ class _PinCode extends StatelessWidget {
           child: Directionality(
             textDirection: ui.TextDirection.ltr,
             child: PinCodeTextField(
-              focusNode: pinCodeFocusNode,
+              focusNode: _pinCodeFocusNode,
               appContext: context,
               autoFocus: true,
               length: 6,

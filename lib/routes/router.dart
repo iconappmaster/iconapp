@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route_annotations.dart';
 import 'package:iconapp/core/ads/provider_ads/custom_ad.dart';
+import 'package:iconapp/core/video/default_player/default_player.dart';
+import 'package:iconapp/core/video/feed_player/feed_player.dart';
 import 'package:iconapp/screens/alerts_screen.dart';
 import 'package:iconapp/screens/archive_screen.dart';
 import 'package:iconapp/screens/chat_screen.dart';
@@ -39,9 +41,11 @@ import 'package:iconapp/widgets/global/single_image.dart';
     MaterialRoute(page: AppSettingsScreen),
     MaterialRoute(page: ChatScreen),
     CupertinoRoute(page: ChatSettingsScreen, fullscreenDialog: true),
-    MaterialRoute(page: VideoScreen),
     MaterialRoute(page: PhotoGalleryScreen),
-    MaterialRoute(page: VideoGalleryScreen),
+    MaterialRoute(page: VideoScreen), // should get rid of that
+    MaterialRoute(page: VideoGalleryScreen), // should get rid of that
+    MaterialRoute(page: DefaultVideoPlayer),
+    MaterialRoute(page: FeedPlayer),
     CupertinoRoute(page: SelectIconScreen, fullscreenDialog: true),
     CupertinoRoute(page: CreateCategoryScreen),
     MaterialRoute(page: EditConversation),

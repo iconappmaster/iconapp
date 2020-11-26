@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 import '../core/ads/provider_ads/custom_ad.dart';
+import '../core/video/default_player/default_player.dart';
+import '../core/video/feed_player/feed_player.dart';
 import '../data/models/conversation_model.dart';
 import '../data/models/message_model.dart';
 import '../data/models/photo_model.dart';
@@ -54,9 +56,11 @@ class Routes {
   static const String appSettingsScreen = '/app-settings-screen';
   static const String chatScreen = '/chat-screen';
   static const String chatSettingsScreen = '/chat-settings-screen';
-  static const String videoScreen = '/video-screen';
   static const String photoGalleryScreen = '/photo-gallery-screen';
+  static const String videoScreen = '/video-screen';
   static const String videoGalleryScreen = '/video-gallery-screen';
+  static const String defaultVideoPlayer = '/default-video-player';
+  static const String feedPlayer = '/feed-player';
   static const String selectIconScreen = '/select-icon-screen';
   static const String createCategoryScreen = '/create-category-screen';
   static const String editConversation = '/edit-conversation';
@@ -83,9 +87,11 @@ class Routes {
     appSettingsScreen,
     chatScreen,
     chatSettingsScreen,
-    videoScreen,
     photoGalleryScreen,
+    videoScreen,
     videoGalleryScreen,
+    defaultVideoPlayer,
+    feedPlayer,
     selectIconScreen,
     createCategoryScreen,
     editConversation,
@@ -118,9 +124,11 @@ class Router extends RouterBase {
     RouteDef(Routes.appSettingsScreen, page: AppSettingsScreen),
     RouteDef(Routes.chatScreen, page: ChatScreen),
     RouteDef(Routes.chatSettingsScreen, page: ChatSettingsScreen),
-    RouteDef(Routes.videoScreen, page: VideoScreen),
     RouteDef(Routes.photoGalleryScreen, page: PhotoGalleryScreen),
+    RouteDef(Routes.videoScreen, page: VideoScreen),
     RouteDef(Routes.videoGalleryScreen, page: VideoGalleryScreen),
+    RouteDef(Routes.defaultVideoPlayer, page: DefaultVideoPlayer),
+    RouteDef(Routes.feedPlayer, page: FeedPlayer),
     RouteDef(Routes.selectIconScreen, page: SelectIconScreen),
     RouteDef(Routes.createCategoryScreen, page: CreateCategoryScreen),
     RouteDef(Routes.editConversation, page: EditConversation),
@@ -199,6 +207,17 @@ class Router extends RouterBase {
         fullscreenDialog: true,
       );
     },
+    PhotoGalleryScreen: (data) {
+      final args = data.getArgs<PhotoGalleryScreenArguments>(nullOk: false);
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => PhotoGalleryScreen(
+          key: args.key,
+          photos: args.photos,
+          intialIndex: args.intialIndex,
+        ),
+        settings: data,
+      );
+    },
     VideoScreen: (data) {
       final args = data.getArgs<VideoScreenArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
@@ -214,17 +233,6 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    PhotoGalleryScreen: (data) {
-      final args = data.getArgs<PhotoGalleryScreenArguments>(nullOk: false);
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => PhotoGalleryScreen(
-          key: args.key,
-          photos: args.photos,
-          intialIndex: args.intialIndex,
-        ),
-        settings: data,
-      );
-    },
     VideoGalleryScreen: (data) {
       final args = data.getArgs<VideoGalleryScreenArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
@@ -232,6 +240,29 @@ class Router extends RouterBase {
           key: args.key,
           videos: args.videos,
           intialIndex: args.intialIndex,
+        ),
+        settings: data,
+      );
+    },
+    DefaultVideoPlayer: (data) {
+      final args = data.getArgs<DefaultVideoPlayerArguments>(nullOk: false);
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => DefaultVideoPlayer(
+          key: args.key,
+          url: args.url,
+        ),
+        settings: data,
+      );
+    },
+    FeedPlayer: (data) {
+      final args = data.getArgs<FeedPlayerArguments>(
+        orElse: () => FeedPlayerArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => FeedPlayer(
+          key: args.key,
+          urls: args.urls,
+          index: args.index,
         ),
         settings: data,
       );
@@ -405,6 +436,17 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
   Future<dynamic> pushChatSettingsScreen() =>
       push<dynamic>(Routes.chatSettingsScreen);
 
+  Future<dynamic> pushPhotoGalleryScreen({
+    Key key,
+    @required List<PhotoModel> photos,
+    @required int intialIndex,
+  }) =>
+      push<dynamic>(
+        Routes.photoGalleryScreen,
+        arguments: PhotoGalleryScreenArguments(
+            key: key, photos: photos, intialIndex: intialIndex),
+      );
+
   Future<dynamic> pushVideoScreen({
     Key key,
     @required String url,
@@ -426,17 +468,6 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
             showReplay: showReplay),
       );
 
-  Future<dynamic> pushPhotoGalleryScreen({
-    Key key,
-    @required List<PhotoModel> photos,
-    @required int intialIndex,
-  }) =>
-      push<dynamic>(
-        Routes.photoGalleryScreen,
-        arguments: PhotoGalleryScreenArguments(
-            key: key, photos: photos, intialIndex: intialIndex),
-      );
-
   Future<dynamic> pushVideoGalleryScreen({
     Key key,
     @required List<MessageModel> videos,
@@ -446,6 +477,25 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
         Routes.videoGalleryScreen,
         arguments: VideoGalleryScreenArguments(
             key: key, videos: videos, intialIndex: intialIndex),
+      );
+
+  Future<dynamic> pushDefaultVideoPlayer({
+    Key key,
+    @required String url,
+  }) =>
+      push<dynamic>(
+        Routes.defaultVideoPlayer,
+        arguments: DefaultVideoPlayerArguments(key: key, url: url),
+      );
+
+  Future<dynamic> pushFeedPlayer({
+    Key key,
+    List<String> urls,
+    int index,
+  }) =>
+      push<dynamic>(
+        Routes.feedPlayer,
+        arguments: FeedPlayerArguments(key: key, urls: urls, index: index),
       );
 
   Future<dynamic> pushSelectIconScreen({
@@ -551,6 +601,15 @@ class ChatScreenArguments {
   ChatScreenArguments({this.key, @required this.conversation});
 }
 
+/// PhotoGalleryScreen arguments holder class
+class PhotoGalleryScreenArguments {
+  final Key key;
+  final List<PhotoModel> photos;
+  final int intialIndex;
+  PhotoGalleryScreenArguments(
+      {this.key, @required this.photos, @required this.intialIndex});
+}
+
 /// VideoScreen arguments holder class
 class VideoScreenArguments {
   final Key key;
@@ -570,15 +629,6 @@ class VideoScreenArguments {
       this.showReplay = false});
 }
 
-/// PhotoGalleryScreen arguments holder class
-class PhotoGalleryScreenArguments {
-  final Key key;
-  final List<PhotoModel> photos;
-  final int intialIndex;
-  PhotoGalleryScreenArguments(
-      {this.key, @required this.photos, @required this.intialIndex});
-}
-
 /// VideoGalleryScreen arguments holder class
 class VideoGalleryScreenArguments {
   final Key key;
@@ -586,6 +636,21 @@ class VideoGalleryScreenArguments {
   final int intialIndex;
   VideoGalleryScreenArguments(
       {this.key, @required this.videos, @required this.intialIndex});
+}
+
+/// DefaultVideoPlayer arguments holder class
+class DefaultVideoPlayerArguments {
+  final Key key;
+  final String url;
+  DefaultVideoPlayerArguments({this.key, @required this.url});
+}
+
+/// FeedPlayer arguments holder class
+class FeedPlayerArguments {
+  final Key key;
+  final List<String> urls;
+  final int index;
+  FeedPlayerArguments({this.key, this.urls, this.index});
 }
 
 /// SelectIconScreen arguments holder class

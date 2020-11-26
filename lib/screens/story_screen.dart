@@ -171,10 +171,8 @@ class _StoryScreenState extends State<StoryScreen> {
             imageId: storyImage.id,
             duration: Duration(seconds: storyImage?.duration ?? 7),
             url: storyImage?.photo?.url ?? '',
-            caption: CustomText(
-              storyImage?.description ?? '',
-              style: settingsAppbarTitle.copyWith(fontSize: 20),
-            ),
+            caption: CustomText(storyImage?.description ?? '',
+                style: settingsAppbarTitle.copyWith(fontSize: 20)),
             controller: _storyPageController)
         : StoryItem.pageVideo(storyImage.photo?.url ?? '',
             controller: _storyPageController,

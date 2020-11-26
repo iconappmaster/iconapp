@@ -30,7 +30,9 @@ class ConversationsList extends StatelessWidget {
                 alignment: Alignment.topCenter,
                 child: Padding(
                     padding: EdgeInsets.only(top: 80.0), child: LottieLoader()))
-            : ListView.builder(
+            : 
+            
+            ListView.builder(
                 padding: EdgeInsets.only(bottom: 120),
                 controller: controller,
                 itemCount: home.conversations.length + 1,

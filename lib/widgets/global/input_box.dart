@@ -14,7 +14,7 @@ class InputText extends StatelessWidget {
   final TextStyle hintStyle;
   final TextStyle textStyle;
   final EdgeInsets contentPadding;
-  
+
   const InputText({
     Key key,
     this.title,
@@ -25,7 +25,8 @@ class InputText extends StatelessWidget {
     this.hint,
     this.hintStyle,
     this.textStyle = fieldInput,
-    this.initialValue, this.contentPadding,
+    this.initialValue,
+    this.contentPadding,
   }) : super(key: key);
 
   @override
@@ -36,21 +37,21 @@ class InputText extends StatelessWidget {
         if (title != null) CustomText(title, style: fieldLabel),
         TextFormField(
           key: key,
-          
           initialValue: initialValue,
           validator: validator,
           maxLength: maxLength,
           keyboardType: keyboardType,
           decoration: InputDecoration(
-              contentPadding: contentPadding,
-              hintStyle: hintStyle,
-              hintText: hint,
-              counterText: '',
-              enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: cornflower)),
-              border: UnderlineInputBorder(
-                borderSide: BorderSide(color: cornflower, width: .7),
-              )),
+            contentPadding: contentPadding,
+            hintStyle: hintStyle,
+            hintText: hint,
+            counterText: '',
+            enabledBorder:
+                UnderlineInputBorder(borderSide: BorderSide(color: cornflower)),
+            border: UnderlineInputBorder(
+              borderSide: BorderSide(color: cornflower, width: .7),
+            ),
+          ),
           onChanged: onChange,
           style: textStyle,
         ),

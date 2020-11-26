@@ -3,13 +3,16 @@ import 'package:flutter/foundation.dart';
 
 import 'ad_config.dart';
 
-const AD_SHOWED_THRESHOLD = 4;
+const INTERSTITIAL_AD_SHOWED_THRESHOLD = 4;
+const REWARD_AD_SHOWED_THRESHOLD = 2;
 
 class AdMob {
-  int counter = 4;
+  int interstitialCounter = 4;
+  int rewardCounter = 1;
 
   AdmobInterstitial interstitialAd;
   AdmobReward rewardAd;
+  Function _rewardClosed;
 
   Future loadInterstital() async {
     await Admob?.requestTrackingAuthorization();
@@ -26,31 +29,35 @@ class AdMob {
 
   Future loadReward() async {
     rewardAd = AdmobReward(
-      adUnitId: kReleaseMode ? getRewardAdUnitId : AdmobReward.testAdUnitId,
-      listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-        if (event == AdmobAdEvent.closed) rewardAd.load();
-        handleEvent(event, args, 'Reward');
-      },
-      nonPersonalizedAds: false
-    );
+        adUnitId: kReleaseMode ? getRewardAdUnitId : AdmobReward.testAdUnitId,
+        listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+          if (event == AdmobAdEvent.closed) rewardAd.load();
+          handleEvent(event, args, 'Reward');
+        },
+        nonPersonalizedAds: false);
     await rewardAd.load();
   }
 
   Future showRewardlNow() async {
-    if (await rewardAd.isLoaded) {
-      rewardAd?.show();
-    } else {
-      await loadReward();
-      rewardAd?.show();
+    if (rewardCounter == REWARD_AD_SHOWED_THRESHOLD) {
+      rewardCounter = 0;
+      if (await rewardAd?.isLoaded) {
+        await rewardAd?.show();
+      } else {
+        rewardAd
+          ..load()
+          ..show();
+      }
     }
+    rewardCounter++;
   }
 
   void showWithCounterInterstitial() {
-    if (counter == AD_SHOWED_THRESHOLD) {
-      counter = 0;
+    if (interstitialCounter == INTERSTITIAL_AD_SHOWED_THRESHOLD) {
+      interstitialCounter = 0;
       interstitialAd?.show();
     }
-    counter++;
+    interstitialCounter++;
   }
 
   void showInterstitialNow() async {
@@ -75,6 +82,7 @@ class AdMob {
       case AdmobAdEvent.closed:
         if (adType == 'Reward') {
           rewardAd.load();
+          _rewardClosed.call();
         } else if (adType == 'interstitialAd') {
           interstitialAd?.load();
         }

@@ -24,3 +24,5 @@ const ADDED_STORY = 'added_story';
 const LOGGED_OUT = 'logged_out';
 const STARTED_REGISTRATION = 'started_registration';
 const COMPLETED_REGISTRATION = 'completed_registration';
+const CUSTOM_AD_SEEN = 'custom_ad_seen';
+const CUSTOM_AD_LINK_CLICKED = 'custom_ad_link_clicked';

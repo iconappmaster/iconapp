@@ -27,6 +27,8 @@ dependencies:
   firebase_crashlytics: ^0.2.3
   firebase_messaging: ^7.0.3
   firebase_storage: ^5.0.1
+  firebase_dynamic_links: ^0.5.1
+  firebase_analytics: ^6.2.0
   admob_flutter: ^1.0.1
   flushbar: ^1.10.4
   flutter_audio_recorder: ^0.5.5
@@ -62,10 +64,10 @@ dependencies:
   video_thumbnail: ^0.2.2
   tutorial_coach_mark: ^0.5.1
   flutter_cache_manager: ^2.0.0
-  firebase_dynamic_links: ^0.5.1
   package_info: ^0.4.3+2 
-  firebase_analytics: ^6.2.0
   launch_review: ^2.0.0
+  visibility_detector: ^0.1.5
+
 
 dev_dependencies:
   flutter_test:

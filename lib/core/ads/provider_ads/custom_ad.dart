@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/ads/provider_ads/store/custom_ads_store.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
-import 'package:iconapp/widgets/global/rounded_close.dart';
 
 class CustomAd extends StatefulWidget {
   @override
@@ -21,9 +20,9 @@ class _CustomAdState extends State<CustomAd> {
     initAd();
 
     Future.delayed(
-        Duration(seconds: 7), () => ExtendedNavigator.of(context).pop());
-
-    super.initState();
+        Duration(seconds: 4), () => ExtendedNavigator.of(context).pop());
+   
+   super.initState();
   }
 
   Future initAd() async => await _ads.getImageAd();
@@ -40,20 +39,17 @@ class _CustomAdState extends State<CustomAd> {
                 ? Center(child: CupertinoActivityIndicator(animating: true))
                 : Stack(children: [
                     GestureDetector(
-                        onTap: () => _ads?.launchLink() ?? '',
-                        child: _ads?.currnetAd != null
-                            ? CachedNetworkImage(
-                                imageUrl: _ads?.currnetAd?.adUrl ?? '',
-                                height: double.infinity,
-                                width: double.infinity,
-                                alignment: Alignment.center,
-                                fit: BoxFit.cover)
-                            : Container()),
-                    Positioned(
-                      top: 32,
-                      right: 16,
-                      child: RoundedClose(),
-                    )
+                      onTap: () => _ads?.launchLink() ?? '',
+                      child: _ads?.currnetAd != null
+                          ? CachedNetworkImage(
+                              fadeInCurve: Curves.easeInOutQuart,
+                              imageUrl: _ads?.currnetAd?.adUrl ?? '',
+                              height: double.infinity,
+                              width: double.infinity,
+                              alignment: Alignment.center,
+                              fit: BoxFit.cover)
+                          : Container(),
+                    ),
                   ]),
           ),
         );

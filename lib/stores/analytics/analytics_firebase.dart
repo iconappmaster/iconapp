@@ -8,25 +8,26 @@ import '../../main.dart';
 final analytics = sl<Analytics>();
 
 class Analytics {
-  FirebaseAnalytics analytics;
+  FirebaseAnalytics client;
   FirebaseAnalyticsObserver observer;
 
   Analytics() {
-    analytics = FirebaseAnalytics();
-    observer = FirebaseAnalyticsObserver(analytics: analytics);
+    client = FirebaseAnalytics();
+    observer = FirebaseAnalyticsObserver(analytics: client);
   }
 
   Future<void> sendAnalyticsEvent(
       String name, Map<String, dynamic> params) async {
-    await analytics.logEvent(
+    await client.logEvent(
       name: name,
       parameters: params,
     );
+   
     logger.i('logEvent: $name');
   }
 
   Future<void> sendConversationEvent(String name, int conversationId) async {
-    await analytics.logEvent(
+    await client.logEvent(
       name: name,
       parameters: <String, dynamic>{
         'conversationId': conversationId,
@@ -36,7 +37,7 @@ class Analytics {
   }
 
   Future<void> userFinishedOnboarind(UserModel user) async {
-    analytics
+    client
       ..setUserProperty(name: 'full_name', value: user.fullName)
       ..setUserProperty(name: 'age', value: user.age.toString())
       ..setUserProperty(
@@ -45,7 +46,7 @@ class Analytics {
   }
 
   Future<void> setUserId(int userId) async {
-    await analytics.setUserId(userId.toString());
+    await client.setUserId(userId.toString());
     logger.i('setUserId $userId');
   }
 }

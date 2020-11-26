@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:iconapp/core/ads/admob/admob.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:vibration/vibration.dart';
@@ -99,16 +98,18 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
           IconBubble(
             isMe: widget.isMe,
             message: widget.message,
-            onTap: () async {
+            onTap: () {
               if (store.conversationVideos.length > 1) {
-                return ExtendedNavigator.of(context).pushVideoGalleryScreen(
-                    videos: store.conversationVideos,
-                    intialIndex: store.conversationVideos
+                final urls =
+                    store.conversationVideos.map((m) => m.body).toList();
+
+                ExtendedNavigator.of(context).pushFeedPlayer(
+                    urls: urls,
+                    index: store.conversationVideos
                         .indexWhere((m) => m.id == widget.message.id));
               } else {
-                await sl<AdMob>().showRewardlNow();
-                return ExtendedNavigator.of(context)
-                    .pushVideoScreen(url: widget.message?.body ?? '');
+                ExtendedNavigator.of(context)
+                    .pushDefaultVideoPlayer(url: widget.message?.body ?? '');
               }
             },
             child: Stack(
@@ -118,12 +119,10 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(4.2),
                         child: SizedBox(
-                          height: 240,
-                          width: 280,
-                          child: NetworkPhoto(
-                              imageUrl: widget.message?.extraData ?? ''),
-                        ),
-                      )
+                            height: 240,
+                            width: 280,
+                            child: NetworkPhoto(
+                                imageUrl: widget.message?.extraData ?? '')))
                     : ClipRRect(
                         borderRadius: BorderRadius.circular(4.2),
                         child: SizedBox(

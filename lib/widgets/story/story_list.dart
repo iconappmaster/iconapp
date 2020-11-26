@@ -54,7 +54,7 @@ class _StoriesListState extends State<StoriesList> {
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 8),
                 margin: widget.margin,
-                height: context.heightPlusStatusbarPerc(.085),
+                height: context.heightPlusStatusbarPerc(.095),
                 width: context.widthPx,
                 child: ListView(
                   reverse: true,

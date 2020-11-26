@@ -16,7 +16,6 @@ import '../core/extensions/context_ext.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class CreateDetailsScreen extends StatelessWidget {
-  final _key = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     final store = sl<CreateDetailsStore>();
@@ -44,20 +43,14 @@ class CreateDetailsScreen extends StatelessWidget {
                         placeHolderPadding: 20,
                       ),
                       SizedBox(width: 12.7),
-                      Form(
-                        key: _key,
-                        child: Container(
-                          width: context.widthPx * .596,
-                          child: InputText(
-                            validator: (name) => name.isEmpty
-                                ? 'נושא הקבוצה לא יכול להיות ריק'
-                                : null,
-                            hintStyle: flushbar,
-                            textStyle: flushbar,
-                            hint: LocaleKeys.create_groupNameHint.tr(),
-                            keyboardType: TextInputType.text,
-                            onChange: (name) => store.updateGroupName(name),
-                          ),
+                      Container(
+                        width: context.widthPx * .596,
+                        child: InputText(
+                          hintStyle: flushbar,
+                          textStyle: flushbar,
+                          hint: LocaleKeys.create_groupNameHint.tr(),
+                          keyboardType: TextInputType.text,
+                          onChange: (name) => store.updateGroupName(name),
                         ),
                       ),
                     ],
@@ -88,7 +81,7 @@ class CreateDetailsScreen extends StatelessWidget {
                           color: uiTintColorFill, message: 'חובה להוסיף תמונה');
                     }
 
-                    if (_key.currentState.validate() &&
+                    if (store.groupName.isNotEmpty &&
                         store.getSelectedPhoto.isNotEmpty &&
                         !store.isLoading) {
                       await _handleSuccess(store, context);

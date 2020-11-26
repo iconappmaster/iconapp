@@ -18,26 +18,24 @@ class SplashScreen extends StatelessWidget {
       children: <Widget>[
         LoginBackgroundImage(),
         Positioned(
-          top: context.heightPx * .366,
-          child: Container(
-            height: context.heightPx * .268,
-            width: context.widthPx * .395,
-            child: SvgPicture.asset('assets/images/icon_logo.svg'),
-          ),
-        ),
+            top: context.heightPx * .366,
+            child: Container(
+                height: context.heightPx * .268,
+                width: context.widthPx * .395,
+                child: SvgPicture.asset('assets/images/icon_logo.svg'))),
         Positioned(
           bottom: 25,
-          child: Column(
+          child: Row(
             children: [
               SizedBox(
-                height: 25,
-                width: 25,
+                height: 12,
+                width: 12,
                 child: CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation(white),
                   strokeWidth: 1,
                 ),
               ),
-              SizedBox(height: 16),
+              SizedBox(width: 8),
               Material(
                 color: Colors.transparent,
                 child: CustomText(
