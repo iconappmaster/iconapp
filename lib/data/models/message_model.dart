@@ -18,6 +18,7 @@ abstract class MessageModel with _$MessageModel {
     final String likeType,
     final MessageStatus status,
     final String extraData,
+    final int viewCount,
     final MessageModel repliedToMessage,
   }) = _MessageModel;
 

@@ -67,9 +67,7 @@ class _FlickMultiPlayerState extends State<FlickMultiPlayer> {
                               width: 20,
                               height: 20,
                               child: CircularProgressIndicator(
-                                backgroundColor: cornflower,
-                                strokeWidth: 2,
-                              ),
+                                  backgroundColor: cornflower, strokeWidth: 2),
                             ),
                           ),
                         ],

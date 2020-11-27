@@ -376,6 +376,13 @@ mixin _$ChatStore on _ChatStoreBase, Store {
         .run(() => super.setWelcomeDialogSeen());
   }
 
+  final _$viewedVideoAsyncAction = AsyncAction('_ChatStoreBase.viewedVideo');
+
+  @override
+  Future<dynamic> viewedVideo(int messageId) {
+    return _$viewedVideoAsyncAction.run(() => super.viewedVideo(messageId));
+  }
+
   final _$disposeAsyncAction = AsyncAction('_ChatStoreBase.dispose');
 
   @override

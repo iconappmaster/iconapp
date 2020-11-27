@@ -13,6 +13,7 @@ class CustomAd extends StatefulWidget {
 
 class _CustomAdState extends State<CustomAd> {
   CustomAdsStore _ads;
+ 
   @override
   void initState() {
     _ads = sl<CustomAdsStore>();

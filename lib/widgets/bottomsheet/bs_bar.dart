@@ -1,11 +1,8 @@
 import 'package:flutter/rendering.dart';
-import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:iconapp/stores/user/user_store.dart';
 
 import 'bs_action_button.dart';
-import 'bs_fab.dart';
 
 class BottomSheetBar extends StatelessWidget {
   final Function onTap;
@@ -19,7 +16,6 @@ class BottomSheetBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userStore = sl<UserStore>();
     return Container(
       height: 98.2,
       child: Stack(
@@ -40,7 +36,6 @@ class BottomSheetBar extends StatelessWidget {
               ),
             ),
           ),
-          if (userStore.getUser?.isIcon ?? false) BottomSheetFab(),
         ],
       ),
     );

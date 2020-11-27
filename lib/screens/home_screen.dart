@@ -16,12 +16,14 @@ import 'package:iconapp/stores/analytics/analytics_consts.dart';
 import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/data/sources/socket/socket_manager.dart';
 import 'package:iconapp/stores/story/story_store.dart';
+import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/bottomsheet/bs_bar.dart';
 import 'package:iconapp/widgets/bottomsheet/bs_nested_modal.dart';
 import 'package:iconapp/widgets/global/focus_aware.dart';
 import 'package:iconapp/widgets/home/force_update_dialog.dart';
 import 'package:iconapp/widgets/home/home_drawer.dart';
 import 'package:iconapp/widgets/home/home_list.dart';
+import 'package:iconapp/widgets/home/icon_fab.dart';
 import 'package:iconapp/widgets/story/story_list.dart';
 import 'package:iconapp/widgets/home/welcome_dialog.dart';
 import 'package:iconapp/widgets/onboarding/onboarding_appbar.dart';
@@ -39,6 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
   GlobalKey<ScaffoldState> _scaffoldKey;
   ScrollController _controller;
   HomeStore _home;
+  UserStore _user;
   AlertStore _alerts;
   StoryStore _story;
   SharedPreferencesService _sp;
@@ -53,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _home = sl<HomeStore>();
     _story = sl<StoryStore>();
     _alerts = sl<AlertStore>();
+    _user = sl<UserStore>();
     _sp = sl<SharedPreferencesService>();
     _dynamicLink = sl<DynamicLink>();
     adMobs = sl<AdMob>();
@@ -85,6 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
     await _socket.subscribeHomeChannel(homeChannelName);
 
     _home
+      ..getUserMedia()
       ..watchConversation()
       ..checkAppVersion();
 
@@ -179,10 +184,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   onConversationTap:
                                       (conversation, index) async {
                                     story.clearStories();
-                                   
+
                                     analytics.sendConversationEvent(
                                         OPENED_CONVERSATION, conversation.id);
-                                   
+
                                     await adMobs.showWithCounterInterstitial();
 
                                     await ExtendedNavigator.of(context)
@@ -220,7 +225,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     Observer(
                         builder: (_) => Visibility(
                             visible: _home.showForceUpdate,
-                            child: AbsorbPointer(child: ForceUpdateDialog())))
+                            child: AbsorbPointer(child: ForceUpdateDialog()))),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 27),
+                      child: IconFab(user: _user, home: _home),
+                    ),
                   ],
                 ),
               ),

@@ -3,8 +3,6 @@ import 'package:iconapp/core/ads/provider_ads/model/ad_model.dart';
 import 'package:iconapp/core/ads/provider_ads/model/ad_repository.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
-import 'package:iconapp/stores/analytics/analytics_consts.dart';
-import 'package:iconapp/stores/analytics/analytics_firebase.dart';
 import 'package:mobx/mobx.dart';
 import 'package:url_launcher/url_launcher.dart';
 part 'custom_ads_store.g.dart';
@@ -34,10 +32,7 @@ abstract class _CustomAdsStoreBase with Store {
   Future launchLink() async {
     final url = _currentAd.linkUrl;
     if (await canLaunch(url)) {
-      
-      analytics
-          .sendAnalyticsEvent(CUSTOM_AD_LINK_CLICKED, {'ad_id': _currentAd.id});
-
+      _repository.adTapped(_currentAd.id);
       launch(url);
     }
   }
@@ -47,7 +42,7 @@ abstract class _CustomAdsStoreBase with Store {
     try {
       final ad = await _repository.getImageAd();
       _currentAd = ad;
-      analytics.sendAnalyticsEvent(CUSTOM_AD_SEEN, {'ad_id': ad.id});
+      _repository.adViewed(_currentAd.id);
     } on DioError catch (e) {
       Crash.report(e.message);
     }

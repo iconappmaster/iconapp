@@ -30,6 +30,13 @@ mixin _$HomeStore on _HomeStoreBase, Store {
       (_$isLoadingComputed ??= Computed<bool>(() => super.isLoading,
               name: '_HomeStoreBase.isLoading'))
           .value;
+  Computed<List<String>> _$userMediaComputed;
+
+  @override
+  List<String> get userMedia =>
+      (_$userMediaComputed ??= Computed<List<String>>(() => super.userMedia,
+              name: '_HomeStoreBase.userMedia'))
+          .value;
   Computed<List<Conversation>> _$conversationsComputed;
 
   @override
@@ -37,6 +44,21 @@ mixin _$HomeStore on _HomeStoreBase, Store {
           Computed<List<Conversation>>(() => super.conversations,
               name: '_HomeStoreBase.conversations'))
       .value;
+
+  final _$_userMediaAtom = Atom(name: '_HomeStoreBase._userMedia');
+
+  @override
+  ObservableList<String> get _userMedia {
+    _$_userMediaAtom.reportRead();
+    return super._userMedia;
+  }
+
+  @override
+  set _userMedia(ObservableList<String> value) {
+    _$_userMediaAtom.reportWrite(value, super._userMedia, () {
+      super._userMedia = value;
+    });
+  }
 
   final _$_loadingAtom = Atom(name: '_HomeStoreBase._loading');
 
@@ -97,6 +119,13 @@ mixin _$HomeStore on _HomeStoreBase, Store {
     _$_showWelcomeDialogAtom.reportWrite(value, super._showWelcomeDialog, () {
       super._showWelcomeDialog = value;
     });
+  }
+
+  final _$getUserMediaAsyncAction = AsyncAction('_HomeStoreBase.getUserMedia');
+
+  @override
+  Future<dynamic> getUserMedia() {
+    return _$getUserMediaAsyncAction.run(() => super.getUserMedia());
   }
 
   final _$getCachedAndRenderAsyncAction =
@@ -238,6 +267,7 @@ mixin _$HomeStore on _HomeStoreBase, Store {
 showWelcomeDialog: ${showWelcomeDialog},
 showForceUpdate: ${showForceUpdate},
 isLoading: ${isLoading},
+userMedia: ${userMedia},
 conversations: ${conversations}
     ''';
   }

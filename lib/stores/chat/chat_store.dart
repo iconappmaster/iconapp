@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:iconapp/core/compression.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
@@ -320,7 +321,7 @@ abstract class _ChatStoreBase with Store {
 
       // replace the message response with the message at the index
       _messages[index] = conversation;
-       analytics.sendConversationEvent(LIKED_MESSAGE, conversation.id);
+      analytics.sendConversationEvent(LIKED_MESSAGE, conversation.id);
     } on ServerError catch (e) {
       Crash.report(e.message);
     }
@@ -608,6 +609,15 @@ abstract class _ChatStoreBase with Store {
   Future setWelcomeDialogSeen() async {
     await _prefs.setBool(StorageKey.chatWelcome, false);
     _showWelcomeDialog = false;
+  }
+
+  @action
+  Future viewedVideo(int messageId) async {
+    try {
+      _repository.viewedVideo(messageId);
+    } on DioError catch (e) {
+      Crash.report(e.message);
+    }
   }
 
   MessageModel _updateId(MessageModel message, int newId) {

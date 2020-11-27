@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:ui';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -101,14 +102,12 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
             isMe: widget.isMe,
             message: widget.message,
             onTap: () async {
+              store.viewedVideo(widget.message.id);
               await ads.showWithCounterInterstitial();
-              
-              if (store.conversationVideos.length > 1) {
-                final urls =
-                    store.conversationVideos.map((m) => m.body).toList();
 
+              if (store.conversationVideos.length > 1) {
                 ExtendedNavigator.of(context).pushFeedPlayer(
-                    urls: urls,
+                    urls: store.conversationVideos.map((m) => m.body).toList(),
                     index: store.conversationVideos
                         .indexWhere((m) => m.id == widget.message.id));
               } else {
@@ -163,6 +162,12 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
                       ),
                       textAlign: TextAlign.start),
                 ),
+                if (widget.message?.viewCount != null)
+                  Positioned(
+                    right: 5,
+                    top: 5,
+                    child: VideoSeenCounter(counter: widget.message?.viewCount),
+                  ),
               ],
             ),
           ),
@@ -211,6 +216,36 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
             ),
           )
         ]),
+      ),
+    );
+  }
+}
+
+class VideoSeenCounter extends StatelessWidget {
+  final int counter;
+
+  const VideoSeenCounter({Key key, @required this.counter}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return ClipRect(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(4),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+            child: Row(
+              children: [
+                Icon(Icons.remove_red_eye, color: white),
+                SizedBox(width: 3),
+                CustomText(
+                  counter.toString(),
+                  style: loginSmallText,
+                )
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

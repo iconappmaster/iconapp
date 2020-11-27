@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
@@ -29,6 +30,9 @@ abstract class _HomeStoreBase with Store {
   }
 
   @observable
+  ObservableList<String> _userMedia = ObservableList.of([]);
+
+  @observable
   bool _loading = false;
 
   @observable
@@ -50,7 +54,24 @@ abstract class _HomeStoreBase with Store {
   bool get isLoading => _loading;
 
   @computed
+  List<String> get userMedia => _userMedia;
+
+  @computed
   List<Conversation> get conversations => _conversations;
+
+  @action
+  Future getUserMedia() async {
+    try {
+      _loading = true;
+      final media = await _repository.getUserMedia();
+      if (_userMedia.isNotEmpty) _userMedia.clear();
+      _userMedia.addAll(media);
+    } on DioError catch (e) {
+      Crash.report(e.message);
+    } finally {
+      _loading = false;
+    }
+  }
 
   @action
   void addConversation(Conversation conversation) {
@@ -106,7 +127,7 @@ abstract class _HomeStoreBase with Store {
 
       // backend will check if there are any changes since the last time waw fetched and return.
       final conversation = await _repository.getConversations();
-      
+
       // save and render only if there's an update.
       if (conversation.isNotEmpty) {
         _repository.saveHome(conversation);

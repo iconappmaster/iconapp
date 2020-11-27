@@ -7,14 +7,13 @@ import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 import 'package:iconapp/data/sources/socket/socket_manager.dart';
 import 'package:package_info/package_info.dart';
 
-
 abstract class HomeRepository {
   Future<List<Conversation>> getConversations();
   Future<List<Conversation>> getCachedHome();
+  Future<List<String>> getUserMedia();
   Future<bool> saveHome(List<Conversation> conversation);
   Future<bool> updateAppVersion();
   Stream<Conversation> watchConversation();
-
 }
 
 class HomeRepositoryImpl implements HomeRepository {
@@ -65,5 +64,10 @@ class HomeRepositoryImpl implements HomeRepository {
     final version = packageInfo.version;
     final showForceUpdate = await restClient.updateAppVersion(version);
     return showForceUpdate;
+  }
+
+  @override
+  Future<List<String>> getUserMedia() async {
+    return await restClient.getUserVideos();
   }
 }

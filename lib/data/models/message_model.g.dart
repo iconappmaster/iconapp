@@ -23,6 +23,7 @@ _$_MessageModel _$_$_MessageModelFromJson(Map<String, dynamic> json) {
     likeType: json['likeType'] as String,
     status: _$enumDecodeNullable(_$MessageStatusEnumMap, json['status']),
     extraData: json['extraData'] as String,
+    viewCount: json['viewCount'] as int,
     repliedToMessage: json['repliedToMessage'] == null
         ? null
         : MessageModel.fromJson(
@@ -42,6 +43,7 @@ Map<String, dynamic> _$_$_MessageModelToJson(_$_MessageModel instance) =>
       'likeType': instance.likeType,
       'status': _$MessageStatusEnumMap[instance.status],
       'extraData': instance.extraData,
+      'viewCount': instance.viewCount,
       'repliedToMessage': instance.repliedToMessage,
     };
 
