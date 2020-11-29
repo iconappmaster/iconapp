@@ -28,12 +28,10 @@ class _FlickMultiPlayerState extends State<FlickMultiPlayer> {
   @override
   void initState() {
     flickManager = FlickManager(
-      videoPlayerController: VideoPlayerController.network(widget.url)
-        ..setLooping(true),
-      autoPlay: false,
-    );
+        videoPlayerController: VideoPlayerController.network(widget.url)
+          ..setLooping(true),
+        autoPlay: false);
     widget.flickMultiManager.init(flickManager);
-
     super.initState();
   }
 
@@ -46,46 +44,51 @@ class _FlickMultiPlayerState extends State<FlickMultiPlayer> {
   @override
   Widget build(BuildContext context) {
     return VisibilityDetector(
-        key: ObjectKey(flickManager),
-        onVisibilityChanged: (visiblityInfo) {
-          if (visiblityInfo.visibleFraction > 0.9) {
-            widget.flickMultiManager.play(flickManager);
-          }
-        },
-        child: Container(
-            child: FlickVideoPlayer(
-                flickManager: flickManager,
-                wakelockEnabledFullscreen: true,
-                flickVideoWithControls: FlickVideoWithControls(
-                  backgroundColor: plusBorder,
-                    playerLoadingFallback: Positioned.fill(
-                      child: Stack(
-                        children: <Widget>[
-                          Positioned(
-                            right: 10,
-                            top: 10,
-                            child: Container(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                  backgroundColor: cornflower, strokeWidth: 2),
-                            ),
-                          ),
-                        ],
+      key: ObjectKey(flickManager),
+      onVisibilityChanged: (visiblityInfo) {
+        if (visiblityInfo.visibleFraction > 0.9) {
+          widget.flickMultiManager.play(flickManager);
+        }
+      },
+      child: Container(
+        child: FlickVideoPlayer(
+          flickManager: flickManager,
+          wakelockEnabledFullscreen: true,
+          flickVideoWithControls: FlickVideoWithControls(
+            backgroundColor: plusBorder,
+            playerLoadingFallback: Positioned.fill(
+              child: Stack(
+                children: <Widget>[
+                  Positioned(
+                    right: 10,
+                    top: 10,
+                    child: Container(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        backgroundColor: cornflower,
+                        strokeWidth: 1,
                       ),
                     ),
-                    controls: FeedPlayerPortraitControls(
-                        flickMultiManager: widget.flickMultiManager,
-                        flickManager: flickManager)),
-                preferredDeviceOrientationFullscreen: [
-                  DeviceOrientation.portraitUp
+                  ),
                 ],
-                flickVideoWithControlsFullscreen: FlickVideoWithControls(
-                    playerLoadingFallback: Center(
-                      child: CustomText('תקלה בטיענת הוידאו'),
-                    ),
-                    controls: FlickLandscapeControls(),
-                    iconThemeData: IconThemeData(size: 50, color: white),
-                    textStyle: TextStyle(fontSize: 34, color: white)))));
+              ),
+            ),
+            controls: FeedPlayerPortraitControls(
+              flickMultiManager: widget.flickMultiManager,
+              flickManager: flickManager,
+            ),
+          ),
+          preferredDeviceOrientationFullscreen: [DeviceOrientation.portraitUp],
+          flickVideoWithControlsFullscreen: FlickVideoWithControls(
+            playerLoadingFallback:
+                Center(child: CustomText('תקלה בטיענת הוידאו')),
+            controls: FlickLandscapeControls(),
+            iconThemeData: IconThemeData(size: 50, color: white),
+            textStyle: TextStyle(fontSize: 34, color: white),
+          ),
+        ),
+      ),
+    );
   }
 }

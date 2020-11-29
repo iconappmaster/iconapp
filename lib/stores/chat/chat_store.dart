@@ -441,10 +441,8 @@ abstract class _ChatStoreBase with Store {
 
         setMessageStatus(msg, MessageStatus.pending);
 
-        final firebaseVideo = await _mediaStore.uploadVideo(
-          video: info.file,
-          messageId: msg.id,
-        );
+        final firebaseVideo =
+            await _mediaStore.uploadVideo(video: info.file, messageId: msg.id);
 
         // send message with firebase links
         final remote = await _repository.sendMessage(

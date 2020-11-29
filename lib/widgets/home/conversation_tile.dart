@@ -75,10 +75,17 @@ class ConversationTile extends StatelessWidget {
                         Positioned(
                           bottom: 0,
                           right: 0,
-                          child: Icon(
-                            Icons.notifications_active,
-                            color: cornflower,
-                            size: 15,
+                          child: Container(
+                            padding: EdgeInsets.all(2),
+                            height: 18,
+                            width: 18,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle, color: white),
+                            child: Icon(
+                              Icons.notifications_active,
+                              color: cornflower,
+                              size: 15,
+                            ),
                           ),
                         )
                     ]),

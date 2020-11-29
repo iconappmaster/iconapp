@@ -171,6 +171,7 @@ class _StoryScreenState extends State<StoryScreen> {
     return storyImage.imageType == MediaType.photo.toString().parseEnum()
         ? StoryItem.inlineImage(
             imageId: storyImage.id,
+            imageFit: BoxFit.contain,
             story: story,
             duration: Duration(seconds: storyImage?.duration ?? 7),
             url: storyImage?.photo?.url ?? '',
@@ -180,6 +181,7 @@ class _StoryScreenState extends State<StoryScreen> {
         : StoryItem.pageVideo(
             storyImage.photo?.url ?? '',
             story: story,
+            imageFit: BoxFit.contain,
             controller: _storyPageController,
             duration: Duration(seconds: storyImage?.duration ?? 7),
           );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/core/video/feed_player/multi_manager/seek_action.dart';
 import 'package:provider/provider.dart';
 import './multi_manager/flick_multi_manager.dart';
 
@@ -40,7 +41,7 @@ class FeedPlayerPortraitControls extends StatelessWidget {
                 flickMultiManager.toggleMute();
                 displayManager.handleShowPlayerControls();
               },
-              child: FlickSeekVideoAction(
+              child: SeekAction(
                 forwardSeekIcon: Icon(Icons.forward_10),
                 backwardSeekIcon: Icon(Icons.replay_10),
                 child: Center(child: FlickVideoBuffer()),

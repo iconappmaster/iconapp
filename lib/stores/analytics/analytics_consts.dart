@@ -1,4 +1,3 @@
-
 const OPENED_CONVERSATION = 'opened_conversation';
 const OPENED_APP = 'opened_app';
 const SUBSCRIBED_TO_CONVERSATION = 'subscribed_to_conversation';
@@ -26,3 +25,4 @@ const STARTED_REGISTRATION = 'started_registration';
 const COMPLETED_REGISTRATION = 'completed_registration';
 const CUSTOM_AD_SEEN = 'custom_ad_seen';
 const CUSTOM_AD_LINK_CLICKED = 'custom_ad_link_clicked';
+const FORCE_UPDATE_SHOW = 'force_update_show';
