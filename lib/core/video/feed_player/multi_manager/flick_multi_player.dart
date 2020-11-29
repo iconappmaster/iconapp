@@ -57,6 +57,7 @@ class _FlickMultiPlayerState extends State<FlickMultiPlayer> {
                 flickManager: flickManager,
                 wakelockEnabledFullscreen: true,
                 flickVideoWithControls: FlickVideoWithControls(
+                  backgroundColor: plusBorder,
                     playerLoadingFallback: Positioned.fill(
                       child: Stack(
                         children: <Widget>[

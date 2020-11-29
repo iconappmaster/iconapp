@@ -615,6 +615,11 @@ abstract class _ChatStoreBase with Store {
   Future viewedVideo(int messageId) async {
     try {
       _repository.viewedVideo(messageId);
+      final msg = _messages.firstWhere((element) => element.id == messageId);
+      final index = _messages.indexWhere((element) => element.id == messageId);
+      if (msg != null && index != -1) {
+        _messages[index] = msg.copyWith(viewCount: msg?.viewCount ?? 0 + 1);
+      }
     } on DioError catch (e) {
       Crash.report(e.message);
     }

@@ -50,24 +50,18 @@ class _FeedPlayerState extends State<FeedPlayer> {
                     controller: _controller,
                     separatorBuilder: (context, int) => Container(height: 30),
                     itemCount: widget.urls.length,
-                    itemBuilder: (context, index) {
-                      return AutoScrollTag(
+                    itemBuilder: (context, index) => AutoScrollTag(
                         index: index,
                         controller: _controller,
                         key: ValueKey(index),
                         child: Container(
-                          height: 450,
-                          margin: EdgeInsets.all(2),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(5),
-                            child: FlickMultiPlayer(
-                              url: widget?.urls[index] ?? '',
-                              flickMultiManager: flickMultiManager,
-                            ),
-                          ),
-                        ),
-                      );
-                    },
+                            height: 450,
+                            margin: EdgeInsets.all(2),
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: FlickMultiPlayer(
+                                    url: widget?.urls[index] ?? '',
+                                    flickMultiManager: flickMultiManager)))),
                   ),
                 ),
               ),

@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:iconapp/stores/analytics/analytics_consts.dart';
+import 'package:iconapp/stores/analytics/analytics_firebase.dart';
 import '../global/custom_text.dart';
 import '../global/base_dialog.dart';
 import '../global/next_button.dart';
@@ -43,9 +45,11 @@ class ForceUpdateDialog extends StatelessWidget {
                     height: 44,
                     title: 'לחנות',
                     onClick: () {
+                      analytics.sendAnalyticsEvent(FORCE_UPDATE_SHOW, {});
                       LaunchReview.launch(
-                          androidAppId: "com.icon.iconapp",
-                          iOSAppId: "1528197266");
+                          writeReview: false,
+                          androidAppId: 'com.icon.iconapp',
+                          iOSAppId: '1528197266');
                     })),
           )
         ],

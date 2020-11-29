@@ -223,13 +223,16 @@ class _HomeScreenState extends State<HomeScreen> {
                               onTap: () => _home.saveWelcomeSeen()));
                     }),
                     Observer(
-                        builder: (_) => Visibility(
-                            visible: _home.showForceUpdate,
-                            child: AbsorbPointer(child: ForceUpdateDialog()))),
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 27),
-                      child: IconFab(user: _user, home: _home),
+                      builder: (_) => Visibility(
+                        visible: _home.showForceUpdate,
+                        child: ForceUpdateDialog(),
+                      ),
                     ),
+                    if (!_home.showForceUpdate)
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 27),
+                        child: IconFab(user: _user, home: _home),
+                      ),
                   ],
                 ),
               ),

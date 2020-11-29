@@ -81,7 +81,7 @@ class AppSettingsTile extends StatelessWidget {
       onTap: onTap,
       child: Container(
         alignment: Alignment.centerRight,
-        height: context.heightPlusStatusbarPerc(.08),
+        height: context.heightPlusStatusbarPerc(.11),
         child: Padding(
           padding: const EdgeInsets.all(21.0),
           child: CustomText(title, style: appSettingsTile),

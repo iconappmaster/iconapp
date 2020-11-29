@@ -1,5 +1,4 @@
 import 'dart:ui' as ui;
-
 import 'package:auto_route/auto_route.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -52,12 +51,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             IconAppbar(showBack: true),
             _OnboardingPhoneTitle(),
             _OnboardingPhoneSubtitle(store: store),
-            PhoneNumberInput(),
+            _PhoneNumberInput(),
             _CheckSign(store: store),
             _SmsCounter(store: store),
             _PinCode(store: store),
             _nextButton(store, context),
-            SendAgain(store: store),
+            _SendAgain(store: store),
           ],
         ),
       ),
@@ -87,10 +86,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 }
 
-class SendAgain extends StatelessWidget {
+class _SendAgain extends StatelessWidget {
   final LoginStore store;
 
-  const SendAgain({
+  const _SendAgain({
     Key key,
     @required this.store,
   }) : super(key: key);
@@ -301,7 +300,7 @@ class _CheckSign extends StatelessWidget {
   }
 }
 
-class PhoneNumberInput extends StatelessWidget {
+class _PhoneNumberInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = sl<LoginStore>();
@@ -313,7 +312,6 @@ class PhoneNumberInput extends StatelessWidget {
             ? context.heightPlusStatusbarPerc(.272)
             : context.heightPlusStatusbarPerc(.2),
         child: Column(
-          // direction: Axis.vertical,
           children: <Widget>[
             CountryCodePicker(
               onChanged: (countryCode) =>
@@ -321,6 +319,7 @@ class PhoneNumberInput extends StatelessWidget {
               initialSelection: 'IL',
               favorite: ['+972', 'IL'],
               showCountryOnly: true,
+              showFlag: true,
               textStyle: phoneNumber,
               showOnlyCountryWhenClosed: false,
               alignLeft: false,

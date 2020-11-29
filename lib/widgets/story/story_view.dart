@@ -179,40 +179,36 @@ class StoryItem {
   }) {
     return StoryItem(
       ClipRRect(
-        child: Container(
-          color: Colors.grey[100],
           child: Container(
-            color: Colors.black,
-            child: Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-                StoryImage.url(
-                  url,
-                  controller: controller,
-                  fit: imageFit,
-                  requestHeaders: requestHeaders,
-                ),
-                Container(
-                  margin: EdgeInsets.only(bottom: 16),
-                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                  child: Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Container(
-                      child: caption == null ? SizedBox() : caption,
-                      width: double.infinity,
+            color: Colors.grey[100],
+            child: Container(
+              color: Colors.black,
+              child: Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  StoryImage.url(url,
+                      controller: controller,
+                      fit: imageFit,
+                      requestHeaders: requestHeaders),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 16),
+                    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                    child: Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Container(
+                        child: caption == null ? SizedBox() : caption,
+                        width: double.infinity,
+                      ),
                     ),
                   ),
-                ),
-                StoryAvatar(story: story),
-              ],
+                  StoryAvatar(story: story),
+                ],
+              ),
             ),
           ),
-        ),
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(roundedTop ? 8 : 0),
-          bottom: Radius.circular(roundedBottom ? 8 : 0),
-        ),
-      ),
+          borderRadius: BorderRadius.vertical(
+              top: Radius.circular(roundedTop ? 8 : 0),
+              bottom: Radius.circular(roundedBottom ? 8 : 0))),
       imageId: imageId,
       shown: shown,
       duration: duration ?? Duration(seconds: 3),

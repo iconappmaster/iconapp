@@ -13,7 +13,6 @@ import 'login_state.dart';
 
 part 'login_store.g.dart';
 
-// CHANGE NAME TO - OnboardinPhoneStore
 class LoginStore = _LoginStoreBase with _$LoginStore;
 
 const defaultCountTimeSec = 17;
@@ -105,9 +104,8 @@ abstract class _LoginStoreBase with Store {
   Future<Either<AuthFailure, AuthSuccess>> verifySms() async {
     _state = _state.copyWith(loading: true);
     try {
-      // after verifing the code the backend will return the user
-      // save the user and update the store
-      final user = await _repository.verifyCode(_state.phone, _state.code);
+      final user = await _repository.verifyCode(
+          _state.countryCode + _state.phone, _state.code);
 
       _store
         ..save(user)

@@ -9,7 +9,7 @@ part of 'rest_client.dart';
 class _RestClient implements RestClient {
   _RestClient(this._dio, {this.baseUrl}) {
     ArgumentError.checkNotNull(_dio, '_dio');
-    baseUrl ??= 'https://iconstaging.herokuapp.com/api/v1/';
+    baseUrl ??= 'https://iconproduction.herokuapp.com/api/v1/';
   }
 
   final Dio _dio;
@@ -1023,12 +1023,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<AdModel> adTapped(adId) async {
+  Future<dynamic> adTapped(adId) async {
     ArgumentError.checkNotNull(adId, 'adId');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'adId': adId};
     final _data = <String, dynamic>{};
-    final _result = await _dio.request<Map<String, dynamic>>('ad/tapped',
+    final _result = await _dio.request('ad/tapped',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -1036,7 +1036,7 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = AdModel.fromJson(_result.data);
+    final value = _result.data;
     return value;
   }
 
