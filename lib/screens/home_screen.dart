@@ -79,8 +79,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _listenLifeCycle() {
-    WidgetsBinding.instance.addObserver(
-        LifecycleEventHandler(resumeCallBack: () async => _refreshData()));
+    WidgetsBinding.instance
+        .addObserver(LifecycleEventHandler(resumeCallBack: () async {
+      _home?.watchConversation();
+      _refreshData();
+    }));
   }
 
   Future _initSocket() async {
@@ -89,9 +92,9 @@ class _HomeScreenState extends State<HomeScreen> {
     await _socket.subscribeHomeChannel(homeChannelName);
 
     _home
-      ..getUserMedia()
       ..watchConversation()
-      ..checkAppVersion();
+      ..checkAppVersion()
+      ..getUserMedia();
 
     _story.watchStories();
 

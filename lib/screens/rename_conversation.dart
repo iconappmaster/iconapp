@@ -10,13 +10,11 @@ import 'package:iconapp/widgets/create/create_app_bar.dart';
 import 'package:iconapp/widgets/global/input_box.dart';
 import 'package:iconapp/widgets/onboarding/base_onboarding_widget.dart';
 import 'package:easy_localization/easy_localization.dart';
-
+import '../core/extensions/context_ext.dart';
 import '../stores/chat_settings/chat_settings_store.dart';
 import '../widgets/global/lottie_loader.dart';
 
 class EditConversation extends StatelessWidget {
-  final _key = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     var groupName = '';
@@ -32,18 +30,13 @@ class EditConversation extends StatelessWidget {
               SizedBox(height: 33),
               Padding(
                   padding: EdgeInsets.only(left: 28.7, right: 28.7),
-                  child: Form(
-                      key: _key,
-                      child: InputText(
-                          validator: _groupNameValidation,
-                          contentPadding: const EdgeInsets.only(bottom: 20),
-                          initialValue: store.conversation?.name ?? '',
-                          onChange: (value) => groupName = value,
-                          // onChange: (groupName) => sl<ChatSettingsStore>()
-                          // .changeConversationName(groupName),
-                          hint: 'הקלד/י נושא חדש',
-                          hintStyle: flushbar,
-                          textStyle: flushbar))),
+                  child: InputText(
+                      contentPadding: const EdgeInsets.only(bottom: 20),
+                      initialValue: store.conversation?.name ?? '',
+                      onChange: (value) => groupName = value,
+                      hint: 'הקלד/י נושא חדש',
+                      hintStyle: flushbar,
+                      textStyle: flushbar)),
             ],
           ),
           Positioned(
@@ -61,24 +54,19 @@ class EditConversation extends StatelessWidget {
                   ),
                   backgroundColor: cornflower,
                   onPressed: () async {
-                    if (_key.currentState.validate()) {
+                    if (groupName.isNotEmpty) {
                       sl<ChatSettingsStore>().changeConversationName(groupName);
                       ExtendedNavigator.of(context).pop();
+                    } else {
+                      context.showFlushbar(
+                          message: 'שם הקבוצה לא יכול להיות ריק');
                     }
                   }),
             ),
           ),
-          if (sl<ChatSettingsStore>().isLoadig)
-            Center(child: LottieLoader())
+          if (sl<ChatSettingsStore>().isLoadig) Center(child: LottieLoader())
         ],
       ),
     );
-  }
-
-  String _groupNameValidation(value) {
-    if (value.isEmpty) {
-      return 'שם הקבוצה לא יכול להיות ריק';
-    }
-    return null;
   }
 }

@@ -39,7 +39,8 @@ class _$ConversationTearOff {
       bool areCommentsActivated,
       int commentsMaxUserCount,
       UserRole userRole,
-      ConversationType type}) {
+      ConversationType type,
+      ConversationMedia media}) {
     return _Conversation(
       id: id,
       backgroundColor: backgroundColor,
@@ -63,6 +64,7 @@ class _$ConversationTearOff {
       commentsMaxUserCount: commentsMaxUserCount,
       userRole: userRole,
       type: type,
+      media: media,
     );
   }
 
@@ -100,6 +102,7 @@ mixin _$Conversation {
   int get commentsMaxUserCount;
   UserRole get userRole;
   ConversationType get type;
+  ConversationMedia get media;
 
   Map<String, dynamic> toJson();
   $ConversationCopyWith<Conversation> get copyWith;
@@ -132,12 +135,14 @@ abstract class $ConversationCopyWith<$Res> {
       bool areCommentsActivated,
       int commentsMaxUserCount,
       UserRole userRole,
-      ConversationType type});
+      ConversationType type,
+      ConversationMedia media});
 
   $PhotoModelCopyWith<$Res> get backgroundPhoto;
   $UserModelCopyWith<$Res> get createdBy;
   $PhotoModelCopyWith<$Res> get photo;
   $MessageModelCopyWith<$Res> get lastMessage;
+  $ConversationMediaCopyWith<$Res> get media;
 }
 
 /// @nodoc
@@ -172,6 +177,7 @@ class _$ConversationCopyWithImpl<$Res> implements $ConversationCopyWith<$Res> {
     Object commentsMaxUserCount = freezed,
     Object userRole = freezed,
     Object type = freezed,
+    Object media = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as int,
@@ -220,6 +226,7 @@ class _$ConversationCopyWithImpl<$Res> implements $ConversationCopyWith<$Res> {
           : commentsMaxUserCount as int,
       userRole: userRole == freezed ? _value.userRole : userRole as UserRole,
       type: type == freezed ? _value.type : type as ConversationType,
+      media: media == freezed ? _value.media : media as ConversationMedia,
     ));
   }
 
@@ -262,6 +269,16 @@ class _$ConversationCopyWithImpl<$Res> implements $ConversationCopyWith<$Res> {
       return _then(_value.copyWith(lastMessage: value));
     });
   }
+
+  @override
+  $ConversationMediaCopyWith<$Res> get media {
+    if (_value.media == null) {
+      return null;
+    }
+    return $ConversationMediaCopyWith<$Res>(_value.media, (value) {
+      return _then(_value.copyWith(media: value));
+    });
+  }
 }
 
 /// @nodoc
@@ -293,7 +310,8 @@ abstract class _$ConversationCopyWith<$Res>
       bool areCommentsActivated,
       int commentsMaxUserCount,
       UserRole userRole,
-      ConversationType type});
+      ConversationType type,
+      ConversationMedia media});
 
   @override
   $PhotoModelCopyWith<$Res> get backgroundPhoto;
@@ -303,6 +321,8 @@ abstract class _$ConversationCopyWith<$Res>
   $PhotoModelCopyWith<$Res> get photo;
   @override
   $MessageModelCopyWith<$Res> get lastMessage;
+  @override
+  $ConversationMediaCopyWith<$Res> get media;
 }
 
 /// @nodoc
@@ -339,6 +359,7 @@ class __$ConversationCopyWithImpl<$Res> extends _$ConversationCopyWithImpl<$Res>
     Object commentsMaxUserCount = freezed,
     Object userRole = freezed,
     Object type = freezed,
+    Object media = freezed,
   }) {
     return _then(_Conversation(
       id: id == freezed ? _value.id : id as int,
@@ -387,6 +408,7 @@ class __$ConversationCopyWithImpl<$Res> extends _$ConversationCopyWithImpl<$Res>
           : commentsMaxUserCount as int,
       userRole: userRole == freezed ? _value.userRole : userRole as UserRole,
       type: type == freezed ? _value.type : type as ConversationType,
+      media: media == freezed ? _value.media : media as ConversationMedia,
     ));
   }
 }
@@ -417,7 +439,8 @@ class _$_Conversation implements _Conversation {
       this.areCommentsActivated,
       this.commentsMaxUserCount,
       this.userRole,
-      this.type});
+      this.type,
+      this.media});
 
   factory _$_Conversation.fromJson(Map<String, dynamic> json) =>
       _$_$_ConversationFromJson(json);
@@ -466,10 +489,12 @@ class _$_Conversation implements _Conversation {
   final UserRole userRole;
   @override
   final ConversationType type;
+  @override
+  final ConversationMedia media;
 
   @override
   String toString() {
-    return 'Conversation(id: $id, backgroundColor: $backgroundColor, backgroundPhoto: $backgroundPhoto, categoryId: $categoryId, createdBy: $createdBy, isPinned: $isPinned, createdAt: $createdAt, name: $name, photo: $photo, lastMessage: $lastMessage, shouldShowNewBadge: $shouldShowNewBadge, users: $users, messages: $messages, isSubscribed: $isSubscribed, numberOfAdminsRemaining: $numberOfAdminsRemaining, numberOfParticipants: $numberOfParticipants, shouldShowNewCommentsBadge: $shouldShowNewCommentsBadge, areNotificationsDisabled: $areNotificationsDisabled, areCommentsActivated: $areCommentsActivated, commentsMaxUserCount: $commentsMaxUserCount, userRole: $userRole, type: $type)';
+    return 'Conversation(id: $id, backgroundColor: $backgroundColor, backgroundPhoto: $backgroundPhoto, categoryId: $categoryId, createdBy: $createdBy, isPinned: $isPinned, createdAt: $createdAt, name: $name, photo: $photo, lastMessage: $lastMessage, shouldShowNewBadge: $shouldShowNewBadge, users: $users, messages: $messages, isSubscribed: $isSubscribed, numberOfAdminsRemaining: $numberOfAdminsRemaining, numberOfParticipants: $numberOfParticipants, shouldShowNewCommentsBadge: $shouldShowNewCommentsBadge, areNotificationsDisabled: $areNotificationsDisabled, areCommentsActivated: $areCommentsActivated, commentsMaxUserCount: $commentsMaxUserCount, userRole: $userRole, type: $type, media: $media)';
   }
 
   @override
@@ -534,7 +559,8 @@ class _$_Conversation implements _Conversation {
             (identical(other.commentsMaxUserCount, commentsMaxUserCount) ||
                 const DeepCollectionEquality().equals(other.commentsMaxUserCount, commentsMaxUserCount)) &&
             (identical(other.userRole, userRole) || const DeepCollectionEquality().equals(other.userRole, userRole)) &&
-            (identical(other.type, type) || const DeepCollectionEquality().equals(other.type, type)));
+            (identical(other.type, type) || const DeepCollectionEquality().equals(other.type, type)) &&
+            (identical(other.media, media) || const DeepCollectionEquality().equals(other.media, media)));
   }
 
   @override
@@ -561,7 +587,8 @@ class _$_Conversation implements _Conversation {
       const DeepCollectionEquality().hash(areCommentsActivated) ^
       const DeepCollectionEquality().hash(commentsMaxUserCount) ^
       const DeepCollectionEquality().hash(userRole) ^
-      const DeepCollectionEquality().hash(type);
+      const DeepCollectionEquality().hash(type) ^
+      const DeepCollectionEquality().hash(media);
 
   @override
   _$ConversationCopyWith<_Conversation> get copyWith =>
@@ -596,7 +623,8 @@ abstract class _Conversation implements Conversation {
       bool areCommentsActivated,
       int commentsMaxUserCount,
       UserRole userRole,
-      ConversationType type}) = _$_Conversation;
+      ConversationType type,
+      ConversationMedia media}) = _$_Conversation;
 
   factory _Conversation.fromJson(Map<String, dynamic> json) =
       _$_Conversation.fromJson;
@@ -645,6 +673,8 @@ abstract class _Conversation implements Conversation {
   UserRole get userRole;
   @override
   ConversationType get type;
+  @override
+  ConversationMedia get media;
   @override
   _$ConversationCopyWith<_Conversation> get copyWith;
 }
