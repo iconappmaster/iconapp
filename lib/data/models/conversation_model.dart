@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:iconapp/data/models/conversation_media.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
