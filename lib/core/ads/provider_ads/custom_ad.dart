@@ -31,7 +31,7 @@ class _CustomAdState extends State<CustomAd> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       body: Observer(builder: (_) {
         return WillPopScope(
           onWillPop: () async => false,
@@ -48,7 +48,7 @@ class _CustomAdState extends State<CustomAd> {
                               height: double.infinity,
                               width: double.infinity,
                               alignment: Alignment.center,
-                              fit: BoxFit.cover)
+                              fit: BoxFit.contain)
                           : Container(),
                     ),
                   ]),

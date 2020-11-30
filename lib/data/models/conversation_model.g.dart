@@ -44,6 +44,9 @@ _$_Conversation _$_$_ConversationFromJson(Map<String, dynamic> json) {
     commentsMaxUserCount: json['commentsMaxUserCount'] as int,
     userRole: _$enumDecodeNullable(_$UserRoleEnumMap, json['userRole']),
     type: _$enumDecodeNullable(_$ConversationTypeEnumMap, json['type']),
+    media: json['media'] == null
+        ? null
+        : ConversationMedia.fromJson(json['media'] as Map<String, dynamic>),
   );
 }
 
@@ -71,6 +74,7 @@ Map<String, dynamic> _$_$_ConversationToJson(_$_Conversation instance) =>
       'commentsMaxUserCount': instance.commentsMaxUserCount,
       'userRole': _$UserRoleEnumMap[instance.userRole],
       'type': _$ConversationTypeEnumMap[instance.type],
+      'media': instance.media,
     };
 
 T _$enumDecode<T>(

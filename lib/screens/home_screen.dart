@@ -23,12 +23,12 @@ import 'package:iconapp/widgets/global/focus_aware.dart';
 import 'package:iconapp/widgets/home/force_update_dialog.dart';
 import 'package:iconapp/widgets/home/home_drawer.dart';
 import 'package:iconapp/widgets/home/home_list.dart';
+import 'package:iconapp/widgets/home/home_staggered.dart';
 import 'package:iconapp/widgets/home/icon_fab.dart';
 import 'package:iconapp/widgets/story/story_list.dart';
 import 'package:iconapp/widgets/home/welcome_dialog.dart';
 import 'package:iconapp/widgets/onboarding/onboarding_appbar.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-
 import '../stores/analytics/analytics_firebase.dart';
 import 'alerts_screen.dart';
 
@@ -173,33 +173,41 @@ class _HomeScreenState extends State<HomeScreen> {
                                 story.storiesWithoutAds.isNotEmpty,
                           ),
                         ),
-                        Expanded(
+                        Observer(
+                          builder: (_) => Expanded(
                             child: RefreshIndicator(
-                                color: white,
-                                strokeWidth: 2,
-                                backgroundColor: cornflower,
-                                onRefresh: () => _refreshData(),
-                                child: ConversationsList(
-                                  controller: _controller,
-                                  onConversationTap:
-                                      (conversation, index) async {
-                                    story.clearStories();
+                              color: white,
+                              strokeWidth: 2,
+                              backgroundColor: cornflower,
+                              onRefresh: () => _refreshData(),
+                              child: _home.viewMode == ViewMode.list
+                                  ? ConversationsList(
+                                      controller: _controller,
+                                      onConversationTap:
+                                          (conversation, index) async {
+                                        story.clearStories();
 
-                                    analytics.sendConversationEvent(
-                                        OPENED_CONVERSATION, conversation.id);
+                                        analytics.sendConversationEvent(
+                                            OPENED_CONVERSATION,
+                                            conversation.id);
 
-                                    await adMobs.showWithCounterInterstitial();
+                                        await adMobs
+                                            .showWithCounterInterstitial();
 
-                                    await ExtendedNavigator.of(context)
-                                        .pushChatScreen(
-                                            conversation: conversation);
+                                        await ExtendedNavigator.of(context)
+                                            .pushChatScreen(
+                                                conversation: conversation);
 
-                                    _home.hideNewBadge(index);
-                                    story
-                                      ..setStoryMode(StoryMode.home)
-                                      ..refreshStories();
-                                  },
-                                )))
+                                        _home.hideNewBadge(index);
+                                        story
+                                          ..setStoryMode(StoryMode.home)
+                                          ..refreshStories();
+                                      },
+                                    )
+                                  : HomeStaggered(),
+                            ),
+                          ),
+                        )
                       ],
                     ),
                     Align(

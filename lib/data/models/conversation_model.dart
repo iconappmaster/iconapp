@@ -3,6 +3,8 @@ import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 
+import 'conversation_media.dart';
+
 part 'conversation_model.freezed.dart';
 part 'conversation_model.g.dart';
 
@@ -31,10 +33,11 @@ abstract class Conversation with _$Conversation {
     final int commentsMaxUserCount,
     final UserRole userRole,
     final ConversationType type,
+    final ConversationMedia media,
   }) = _Conversation;
 
   factory Conversation.fromJson(Map<String, dynamic> json) =>
       _$ConversationFromJson(json);
 }
 
-enum ConversationType {conversation, ad }
+enum ConversationType { conversation, ad }

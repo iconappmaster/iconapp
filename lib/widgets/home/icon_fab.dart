@@ -46,8 +46,17 @@ class IconFab extends StatelessWidget {
   }
 
   List<Widget> _showViewer(BuildContext context) {
+    final home = sl<HomeStore>();
     return [
-      SizedBox(),
+      Observer(builder: (_) {
+        return FabTile(
+            text:
+                home.viewMode == ViewMode.staggered ? 'רשימה' : 'תצוגה מתקדמת',
+            onTap: () => home.switchViewMode(),
+            iconData: home.viewMode == ViewMode.staggered
+                ? Icons.line_style
+                : Icons.list);
+      }),
       FabTile(
         iconData: Icons.play_arrow,
         text: 'IconTube',
@@ -62,8 +71,18 @@ class IconFab extends StatelessWidget {
   }
 
   List<Widget> _showIconMenu(BuildContext context) {
+    final home = sl<HomeStore>();
     return [
       SizedBox(),
+      Observer(builder: (_) {
+        return FabTile(
+          text: home.viewMode == ViewMode.staggered ? 'רשימה' : 'רשימה מתקדמת',
+          onTap: () => home.switchViewMode(),
+          iconData: home.viewMode == ViewMode.staggered
+              ? Icons.list
+              : Icons.line_style,
+        );
+      }),
       FabTile(
         iconData: Icons.play_arrow,
         text: 'IconTube',
@@ -86,7 +105,6 @@ class IconFab extends StatelessWidget {
               .pushSelectIconScreen(mode: SelectIconMode.fromGroup);
         },
       ),
-      SizedBox(),
     ];
   }
 }
@@ -119,10 +137,7 @@ class FabTile extends StatelessWidget {
             sl<Bus>().fire(FabEvent());
             onTap();
           }),
-          CustomText(
-            text,
-            style: replayTitle.copyWith(color: white),
-          ),
+          CustomText(text, style: replayTitle.copyWith(color: white)),
         ],
       ),
     );

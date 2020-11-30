@@ -13,6 +13,7 @@ import 'package:mobx/mobx.dart';
 part 'home_store.g.dart';
 
 class HomeStore = _HomeStoreBase with _$HomeStore;
+enum ViewMode { staggered, list }
 
 abstract class _HomeStoreBase with Store {
   HomeRepository _repository;
@@ -28,6 +29,9 @@ abstract class _HomeStoreBase with Store {
   void _shouldShowWelcomeDialog() {
     _showWelcomeDialog = _sp.getBool(StorageKey.welcomeDialog, true);
   }
+
+  @observable
+  ViewMode _viewMode = ViewMode.staggered;
 
   @observable
   ObservableList<String> _userMedia = ObservableList.of([]);
@@ -52,6 +56,9 @@ abstract class _HomeStoreBase with Store {
 
   @computed
   bool get isLoading => _loading;
+
+  @computed
+  ViewMode get viewMode => _viewMode;
 
   @computed
   List<String> get userMedia => _userMedia;
@@ -221,6 +228,12 @@ abstract class _HomeStoreBase with Store {
     _conversations[index] = _conversations[index].copyWith(
       shouldShowNewBadge: false,
     );
+  }
+
+  @action
+  void switchViewMode() {
+    _viewMode =
+        _viewMode == ViewMode.staggered ? ViewMode.list : ViewMode.staggered;
   }
 
   @action

@@ -43,10 +43,7 @@ class ConversationsList extends StatelessWidget {
                     final conversation = home.conversations[index];
                     return ConversationTile(
                       conversation: conversation,
-                      onTap: () {
-                        home.hideNewBadge(index);
-                        onConversationTap(conversation, index);
-                      },
+                      onTap: () => onConversationTap(conversation, index),
                     );
                   }
                 },

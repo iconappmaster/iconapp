@@ -16,7 +16,6 @@ class IconAppbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
- 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
@@ -27,10 +26,10 @@ class IconAppbar extends StatelessWidget {
           width: double.infinity,
           child: Stack(
             children: <Widget>[
-              if (showBack) Align(alignment: Alignment.centerRight,child: IconBackButton()),
-            
+              if (showBack)
+                Align(
+                    alignment: Alignment.centerRight, child: IconBackButton()),
               if (widget != null) widget,
-              
               Align(
                 alignment: Alignment.centerLeft,
                 child: SvgPicture.asset('assets/images/white_logo.svg',
