@@ -41,7 +41,7 @@ class _FlickMultiPlayerState extends State<FlickMultiPlayer> {
     widget.flickMultiManager.init(flickManager);
 
     if (widget.mute) {
-      widget.flickMultiManager.toggleMute();
+      widget.flickMultiManager.mute();
     }
     super.initState();
   }

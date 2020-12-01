@@ -25,11 +25,13 @@ abstract class _HomeStoreBase with Store {
     _repository = sl<HomeRepository>();
     _shouldShowWelcomeDialog();
 
-    _viewMode = (_sp.getString(StorageKey.homeViewMode) == 'list'
-            ? ViewHomeMode.list
-            : ViewHomeMode.staggered) ??
-        ViewHomeMode.staggered;
-   
+    if (_sp.contains(StorageKey.homeViewMode)) {
+      _viewMode = (_sp.getString(StorageKey.homeViewMode) == 'list'
+          ? ViewHomeMode.list
+          : ViewHomeMode.staggered);
+    } else {
+      _viewMode = ViewHomeMode.staggered;
+    }
   }
 
   void _shouldShowWelcomeDialog() {

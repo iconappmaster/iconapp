@@ -99,9 +99,7 @@ class IconFab extends StatelessWidget {
     return [
       Observer(builder: (_) {
         return FabTile(
-          text: home.viewMode == ViewHomeMode.staggered
-              ? 'רשימה'
-              : 'תצוגת קוביות',
+          text: home.viewMode == ViewHomeMode.staggered ? 'List' : 'Blocks',
           onTap: () {
             _close();
             _saveViewMode(home, sp);
@@ -168,17 +166,11 @@ class FabTile extends StatelessWidget {
           builder: (_) {
             return Column(
               children: [
-                Icon(
-                  iconData,
-                  color: lightMustard,
-                  size: 40,
-                ),
+                Icon(iconData, color: lightMustard, size: 40),
                 SizedBox(height: 8),
                 CustomText(text,
-                    style: replayTitle.copyWith(
-                      color: lightMustard,
-                      fontSize: 10,
-                    )),
+                    style:
+                        replayTitle.copyWith(color: lightMustard, fontSize: 10))
               ],
             );
           },
