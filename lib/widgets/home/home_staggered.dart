@@ -14,8 +14,8 @@ import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
 import 'package:iconapp/widgets/global/super_fab.dart';
 import 'package:iconapp/widgets/global/white_circle.dart';
+import 'package:iconapp/widgets/home/conversation_tile.dart';
 import '../../core/theme.dart';
-import 'conversation_tile.dart';
 
 const typeVideo = 'video';
 const typePhoto = 'photo';
