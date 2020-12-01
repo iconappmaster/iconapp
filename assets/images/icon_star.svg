@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="679px" height="651px" viewBox="0 0 679 651" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>star</title>
+    <defs>
+        <linearGradient x1="88.5842348%" y1="32.6120544%" x2="21.124584%" y2="46.9635473%" id="linearGradient-1">
+            <stop stop-color="#A16D32" offset="0%"></stop>
+            <stop stop-color="#F8E889" offset="56.4009754%"></stop>
+            <stop stop-color="#D6BA66" offset="76.0205349%"></stop>
+            <stop stop-color="#E7B866" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="91.9671193%" y1="0%" x2="1.56408453%" y2="81.6503352%" id="linearGradient-2">
+            <stop stop-color="#A16D32" offset="0%"></stop>
+            <stop stop-color="#F8E889" offset="56.4009754%"></stop>
+            <stop stop-color="#D6BA66" offset="76.0205349%"></stop>
+            <stop stop-color="#E7B866" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="85.1513657%" y1="0%" x2="14.8486343%" y2="100%" id="linearGradient-3">
+            <stop stop-color="#A16D32" offset="0%"></stop>
+            <stop stop-color="#F8E889" offset="49.574361%"></stop>
+            <stop stop-color="#D6BA66" offset="76.0205349%"></stop>
+            <stop stop-color="#E7B866" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Icon-App" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="AppIcon-IOS" transform="translate(-173.000000, -187.000000)">
+            <g id="star" transform="translate(173.000000, 187.000000)">
+                <polygon id="Path-4" fill="url(#linearGradient-1)" points="0 250.624977 678.810256 250.624977 130.27676 650.926764 211.150204 403.257281"></polygon>
+                <polygon id="Path-5" fill="url(#linearGradient-2)" points="274.042583 210.997859 341.159272 7.91754245e-14 408.275961 210.997859 369.9416 210.997859 341.159272 133.079908 311.062424 210.997859"></polygon>
+                <polygon id="Path-6" fill="url(#linearGradient-3)" points="487.129746 439.532807 551.166889 650.926764 373.919982 520.249554 408.275961 495.317203 479.364502 551.989552 451.903223 463.655554"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

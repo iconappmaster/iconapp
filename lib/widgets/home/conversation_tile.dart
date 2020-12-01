@@ -16,7 +16,7 @@ import 'conversation_last_message.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:iconapp/widgets/global/timeago.dart' as time;
 
-const double _indicatorSize = 27;
+const double _indicatorSize = 22;
 
 class ConversationTile extends StatelessWidget {
   final Conversation conversation;
@@ -135,9 +135,9 @@ class ConversationTile extends StatelessWidget {
                         Row(
                           children: [
                             if (conversation?.shouldShowNewBadge ?? false)
-                              _NewBadge(),
+                              NewBadge(),
                             SizedBox(width: 7),
-                            if (conversation?.isPinned) _Pin(),
+                            if (conversation?.isPinned) Pin(),
                             if (conversation.areNotificationsDisabled)
                               SvgPicture.asset(
                                 'assets/images/mute.svg',
@@ -158,7 +158,7 @@ class ConversationTile extends StatelessWidget {
   }
 }
 
-class _Pin extends StatelessWidget {
+class Pin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -166,13 +166,13 @@ class _Pin extends StatelessWidget {
       width: _indicatorSize,
       decoration: BoxDecoration(shape: BoxShape.circle, color: blueberry2),
       child: Center(
-        child: SvgPicture.asset('assets/images/pin.svg', height: 16, width: 16),
+        child: SvgPicture.asset('assets/images/pin.svg', height: 13, width: 13),
       ),
     );
   }
 }
 
-class _NewBadge extends StatelessWidget {
+class NewBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(

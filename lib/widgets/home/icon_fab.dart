@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:iconapp/core/bus.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/screens/create_icons_screen.dart';
 import 'package:flutter/rendering.dart';
@@ -37,10 +39,14 @@ class IconFab extends StatelessWidget {
       fabOpenColor: cornflower,
       fabColor: cornflower,
       animationCurve: Curves.ease,
-      fabCloseIcon: Icon(Icons.close, color: white),
+      fabCloseIcon: Icon(Icons.close, color: lightMustard),
       fabSize: 50,
       ringDiameter: 350,
-      fabOpenIcon: Icon(Icons.star, color: white),
+      fabOpenIcon: SvgPicture.asset(
+        'assets/images/icon_star.svg',
+        height: 24,
+        width: 24,
+      ),
       ringColor: cornflower,
       children:
           _user.getUser.isIcon ? _showIconMenu(context) : _showViewer(context),
@@ -57,7 +63,7 @@ class IconFab extends StatelessWidget {
                 ? 'תצוגה רשימה'
                 : 'תצוגת ריבועים',
             onTap: () {
-              // get view mode
+              _close();
               _saveViewMode(home, sp);
               home.switchViewMode();
             },
@@ -69,6 +75,7 @@ class IconFab extends StatelessWidget {
         iconData: Icons.play_arrow,
         text: 'IconTube',
         onTap: () {
+          _close();
           if (!_home.isLoading)
             ExtendedNavigator.of(context)
                 .pushFeedPlayer(index: 0, urls: _home.userMedia);
@@ -79,8 +86,8 @@ class IconFab extends StatelessWidget {
 
   void _saveViewMode(HomeStore home, SharedPreferencesService sp) {
     final mode = home.viewMode == ViewHomeMode.staggered
-        ? ViewHomeMode.staggered
-        : ViewHomeMode.list;
+        ? ViewHomeMode.list
+        : ViewHomeMode.staggered;
 
     // save mode
     sp.setString(StorageKey.homeViewMode, mode.toString().parseEnum());
@@ -96,6 +103,7 @@ class IconFab extends StatelessWidget {
               ? 'רשימה'
               : 'תצוגת קוביות',
           onTap: () {
+            _close();
             _saveViewMode(home, sp);
             home.switchViewMode();
           },
@@ -108,6 +116,7 @@ class IconFab extends StatelessWidget {
         iconData: Icons.play_arrow,
         text: 'IconTube',
         onTap: () {
+          _close();
           if (!_home.isLoading)
             ExtendedNavigator.of(context)
                 .pushFeedPlayer(index: 0, urls: _home.userMedia);
@@ -117,6 +126,7 @@ class IconFab extends StatelessWidget {
         iconData: Icons.add,
         text: 'קבוצה חדשה',
         onTap: () {
+          _close();
           final iconStore = sl<CreateIconStore>();
           final categoryStore = sl<CreateCategoryStore>();
           iconStore.clear();
@@ -126,6 +136,10 @@ class IconFab extends StatelessWidget {
         },
       ),
     ];
+  }
+
+  void _close() {
+    sl<Bus>().fire(FabCloseEvent());
   }
 }
 
@@ -154,11 +168,15 @@ class FabTile extends StatelessWidget {
           builder: (_) {
             return Column(
               children: [
-                Icon(iconData, color: white, size: 40),
+                Icon(
+                  iconData,
+                  color: lightMustard,
+                  size: 40,
+                ),
                 SizedBox(height: 8),
                 CustomText(text,
                     style: replayTitle.copyWith(
-                      color: white,
+                      color: lightMustard,
                       fontSize: 10,
                     )),
               ],

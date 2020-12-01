@@ -374,7 +374,7 @@ final descriptionPanelGradient = LinearGradient(colors: [
 ], begin: Alignment.bottomRight, end: Alignment.topLeft);
 
 final staggeredGradient = LinearGradient(colors: [
-  darkIndigo2.withOpacity(.7),
+  darkIndigo2.withOpacity(.8),
   darkIndigoZero,
 ], begin: Alignment.bottomCenter, end: Alignment.topCenter);
 

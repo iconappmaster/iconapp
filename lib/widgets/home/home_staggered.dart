@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/bus.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
@@ -10,7 +12,9 @@ import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
 import 'package:iconapp/widgets/global/super_fab.dart';
+import 'package:iconapp/widgets/global/white_circle.dart';
 import '../../core/theme.dart';
+import 'conversation_tile.dart';
 
 const typeVideo = 'video';
 const typePhoto = 'photo';
@@ -67,7 +71,7 @@ class HomeStaggered extends StatelessWidget {
   }
 }
 
-const borderRadios = 20.0;
+const borderRadios = 8.7;
 const tilePadding = 8.0;
 
 class StaggeredPhotoTile extends StatelessWidget {
@@ -84,24 +88,83 @@ class StaggeredPhotoTile extends StatelessWidget {
       padding: const EdgeInsets.all(tilePadding),
       child: Container(
         decoration: BoxDecoration(
-            gradient: redPinkGradient,
-            borderRadius: BorderRadiusDirectional.circular(borderRadios)),
+          gradient: redPinkGradient,
+          borderRadius: BorderRadiusDirectional.circular(borderRadios),
+        ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(borderRadios),
-          child: Stack(fit: StackFit.expand, children: [
-            if (conversation?.media?.mediaUrl != null)
-              NetworkPhoto(imageUrl: conversation?.media?.mediaUrl ?? ''),
-            Positioned(
-              bottom: 8,
-              right: 8,
-              child: CustomText(
-                conversation?.name,
-                style: categoryName.copyWith(color: white),
-              ),
-            )
-          ]),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              if (conversation?.media?.mediaUrl != null)
+                CachedNetworkImage(
+                  imageUrl: conversation?.media?.mediaUrl ?? '',
+                  fit: BoxFit.cover,
+                ),
+              StaggeredOverlay(conversation: conversation),
+            ],
+          ),
         ),
       ),
+    );
+  }
+}
+
+class StaggeredOverlay extends StatelessWidget {
+  final Conversation conversation;
+
+  const StaggeredOverlay({Key key, @required this.conversation})
+      : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            gradient: staggeredGradient,
+          ),
+        ),
+        Positioned(
+          bottom: 8,
+          right: 8,
+          child: Row(
+            children: [
+              WhiteCircle(
+                  size: 30,
+                  widget: NetworkPhoto(
+                      placeHolder: 'assets/images/group_placeholder.svg',
+                      placeHolderPadding: 2,
+                      imageUrl: conversation?.backgroundPhoto?.url ?? '',
+                      height: 30,
+                      width: 30)),
+              SizedBox(width: 4),
+              CustomText(
+                conversation?.name,
+                style: loginSmallText,
+              ),
+            ],
+          ),
+        ),
+        if (conversation?.shouldShowNewBadge ?? false)
+          Positioned(
+            top: 12,
+            left: 12,
+            child: NewBadge(),
+          ),
+        if (conversation?.isPinned)
+          Positioned(top: 11, right: 35, child: Pin()),
+        if (conversation?.areNotificationsDisabled)
+          Positioned(
+            top: 8,
+            right: 8,
+            child: SvgPicture.asset(
+              'assets/images/mute.svg',
+              height: 25,
+              width: 25,
+            ),
+          ),
+      ],
     );
   }
 }
@@ -133,14 +196,8 @@ class StaggeredVideoTile extends StatelessWidget {
                   withFullScreen: false,
                   url: conversation.media?.mediaUrl,
                   flickMultiManager: FlickMultiManager()),
-              Container(decoration: BoxDecoration(gradient: staggeredGradient)),
-              Positioned(
-                bottom: 8,
-                right: 8,
-                child: CustomText(
-                  conversation?.name,
-                  style: categoryName.copyWith(color: white),
-                ),
+              StaggeredOverlay(
+                conversation: conversation,
               ),
             ],
           ),
