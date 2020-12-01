@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 // Colors Palette
 const grape = Color(0xFF52296e);
-
+const darkIndigoZero = Color(0x0025186b);
 const darkIndigo = Color(0xFF0a0d37);
 const darkIndigo2 = Color(0xFF100a39);
 const darkIndigoThree = Color(0xFF0d0832);
@@ -372,6 +372,11 @@ final descriptionPanelGradient = LinearGradient(colors: [
   darkBlueGrey,
   darkIndigo,
 ], begin: Alignment.bottomRight, end: Alignment.topLeft);
+
+final staggeredGradient = LinearGradient(colors: [
+  darkIndigo2.withOpacity(.7),
+  darkIndigoZero,
+], begin: Alignment.bottomCenter, end: Alignment.topCenter);
 
 final itemShadow = [
   BoxShadow(

@@ -30,11 +30,11 @@ mixin _$HomeStore on _HomeStoreBase, Store {
       (_$isLoadingComputed ??= Computed<bool>(() => super.isLoading,
               name: '_HomeStoreBase.isLoading'))
           .value;
-  Computed<ViewMode> _$viewModeComputed;
+  Computed<ViewHomeMode> _$viewModeComputed;
 
   @override
-  ViewMode get viewMode =>
-      (_$viewModeComputed ??= Computed<ViewMode>(() => super.viewMode,
+  ViewHomeMode get viewMode =>
+      (_$viewModeComputed ??= Computed<ViewHomeMode>(() => super.viewMode,
               name: '_HomeStoreBase.viewMode'))
           .value;
   Computed<List<String>> _$userMediaComputed;
@@ -55,13 +55,13 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   final _$_viewModeAtom = Atom(name: '_HomeStoreBase._viewMode');
 
   @override
-  ViewMode get _viewMode {
+  ViewHomeMode get _viewMode {
     _$_viewModeAtom.reportRead();
     return super._viewMode;
   }
 
   @override
-  set _viewMode(ViewMode value) {
+  set _viewMode(ViewHomeMode value) {
     _$_viewModeAtom.reportWrite(value, super._viewMode, () {
       super._viewMode = value;
     });

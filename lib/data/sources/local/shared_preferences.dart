@@ -13,7 +13,7 @@ enum StorageKey {
   fcmToken,
   sessionToken,
   home,
-  homeTimestamp
+  homeViewMode,
 }
 
 class SharedPreferencesService {

@@ -11,11 +11,17 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class FlickMultiPlayer extends StatefulWidget {
-  const FlickMultiPlayer({Key key, this.url, this.flickMultiManager})
-      : super(key: key);
+  const FlickMultiPlayer({
+    Key key,
+    @required this.url,
+    @required this.flickMultiManager,
+    this.withControls = true,
+    this.withFullScreen = true,
+    this.mute = false,
+  }) : super(key: key);
 
   final String url;
-  // final String image;
+  final bool withControls, withFullScreen, mute;
   final FlickMultiManager flickMultiManager;
 
   @override
@@ -31,7 +37,12 @@ class _FlickMultiPlayerState extends State<FlickMultiPlayer> {
         videoPlayerController: VideoPlayerController.network(widget.url)
           ..setLooping(true),
         autoPlay: false);
+
     widget.flickMultiManager.init(flickManager);
+
+    if (widget.mute) {
+      widget.flickMultiManager.toggleMute();
+    }
     super.initState();
   }
 
@@ -74,19 +85,24 @@ class _FlickMultiPlayerState extends State<FlickMultiPlayer> {
                 ],
               ),
             ),
-            controls: FeedPlayerPortraitControls(
-              flickMultiManager: widget.flickMultiManager,
-              flickManager: flickManager,
-            ),
+            controls: widget.withControls
+                ? FeedPlayerPortraitControls(
+                    flickMultiManager: widget.flickMultiManager,
+                    flickManager: flickManager,
+                  )
+                : null,
           ),
           preferredDeviceOrientationFullscreen: [DeviceOrientation.portraitUp],
-          flickVideoWithControlsFullscreen: FlickVideoWithControls(
-            playerLoadingFallback:
-                Center(child: CustomText('תקלה בטיענת הוידאו')),
-            controls: FlickLandscapeControls(),
-            iconThemeData: IconThemeData(size: 50, color: white),
-            textStyle: TextStyle(fontSize: 34, color: white),
-          ),
+          flickVideoWithControlsFullscreen: widget.withFullScreen
+              ? FlickVideoWithControls(
+                  videoFit: BoxFit.cover,
+                  playerLoadingFallback:
+                      Center(child: CustomText('תקלה בטיענת הוידאו')),
+                  controls: FlickLandscapeControls(),
+                  iconThemeData: IconThemeData(size: 50, color: white),
+                  textStyle: TextStyle(fontSize: 34, color: white),
+                )
+              : null,
         ),
       ),
     );

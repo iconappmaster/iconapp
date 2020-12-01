@@ -11,11 +11,11 @@ import '../global/lottie_loader.dart';
 import '../../core/extensions/context_ext.dart';
 
 class ConversationsList extends StatelessWidget {
-  final Function(Conversation, int) onConversationTap;
+  final Function(Conversation, int) onTap;
   final ScrollController controller;
 
   const ConversationsList(
-      {Key key, @required this.onConversationTap, this.controller})
+      {Key key, @required this.onTap, this.controller})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class ConversationsList extends StatelessWidget {
                     final conversation = home.conversations[index];
                     return ConversationTile(
                       conversation: conversation,
-                      onTap: () => onConversationTap(conversation, index),
+                      onTap: () => onTap(conversation, index),
                     );
                   }
                 },

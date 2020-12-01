@@ -13,7 +13,7 @@ import 'package:mobx/mobx.dart';
 part 'home_store.g.dart';
 
 class HomeStore = _HomeStoreBase with _$HomeStore;
-enum ViewMode { staggered, list }
+enum ViewHomeMode { staggered, list }
 
 abstract class _HomeStoreBase with Store {
   HomeRepository _repository;
@@ -24,6 +24,12 @@ abstract class _HomeStoreBase with Store {
     _sp = sl<SharedPreferencesService>();
     _repository = sl<HomeRepository>();
     _shouldShowWelcomeDialog();
+
+    _viewMode = (_sp.getString(StorageKey.homeViewMode) == 'list'
+            ? ViewHomeMode.list
+            : ViewHomeMode.staggered) ??
+        ViewHomeMode.staggered;
+   
   }
 
   void _shouldShowWelcomeDialog() {
@@ -31,7 +37,7 @@ abstract class _HomeStoreBase with Store {
   }
 
   @observable
-  ViewMode _viewMode = ViewMode.staggered;
+  ViewHomeMode _viewMode = ViewHomeMode.staggered;
 
   @observable
   ObservableList<String> _userMedia = ObservableList.of([]);
@@ -58,7 +64,7 @@ abstract class _HomeStoreBase with Store {
   bool get isLoading => _loading;
 
   @computed
-  ViewMode get viewMode => _viewMode;
+  ViewHomeMode get viewMode => _viewMode;
 
   @computed
   List<String> get userMedia => _userMedia;
@@ -232,8 +238,9 @@ abstract class _HomeStoreBase with Store {
 
   @action
   void switchViewMode() {
-    _viewMode =
-        _viewMode == ViewMode.staggered ? ViewMode.list : ViewMode.staggered;
+    _viewMode = _viewMode == ViewHomeMode.staggered
+        ? ViewHomeMode.list
+        : ViewHomeMode.staggered;
   }
 
   @action

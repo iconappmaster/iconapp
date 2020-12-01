@@ -183,31 +183,16 @@ class _HomeScreenState extends State<HomeScreen> {
                               strokeWidth: 2,
                               backgroundColor: cornflower,
                               onRefresh: () => _refreshData(),
-                              child: _home.viewMode == ViewMode.list
+                              child: _home.viewMode == ViewHomeMode.list
                                   ? ConversationsList(
                                       controller: _controller,
-                                      onConversationTap:
-                                          (conversation, index) async {
-                                        story.clearStories();
-
-                                        analytics.sendConversationEvent(
-                                            OPENED_CONVERSATION,
-                                            conversation.id);
-
-                                        await adMobs
-                                            .showWithCounterInterstitial();
-
-                                        await ExtendedNavigator.of(context)
-                                            .pushChatScreen(
-                                                conversation: conversation);
-
-                                        _home.hideNewBadge(index);
-                                        story
-                                          ..setStoryMode(StoryMode.home)
-                                          ..refreshStories();
-                                      },
-                                    )
-                                  : HomeStaggered(),
+                                      onTap: (conversation, index) async =>
+                                          await _onConversationTileTap(story,
+                                              conversation, context, index))
+                                  : HomeStaggered(
+                                      onTap: (conversation, index) async =>
+                                          await _onConversationTileTap(story,
+                                              conversation, context, index)),
                             ),
                           ),
                         )
@@ -252,6 +237,23 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  Future _onConversationTileTap(StoryStore story, Conversation conversation,
+      BuildContext context, int index) async {
+    story.clearStories();
+
+    analytics.sendConversationEvent(OPENED_CONVERSATION, conversation.id);
+
+    await adMobs.showWithCounterInterstitial();
+
+    await ExtendedNavigator.of(context)
+        .pushChatScreen(conversation: conversation);
+
+    _home.hideNewBadge(index);
+    story
+      ..setStoryMode(StoryMode.home)
+      ..refreshStories();
   }
 
   void _navigateToChatFromFCM() {

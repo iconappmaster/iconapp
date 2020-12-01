@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,7 @@ import 'package:vector_math/vector_math.dart' as vector;
 
 typedef DisplayChange = void Function(bool isOpen);
 
-class FabEvent {}
+class FabCloseEvent {}
 
 class SuperFab extends StatefulWidget {
   final List<Widget> children;
@@ -87,11 +88,13 @@ class SuperFabState extends State<SuperFab>
   bool _isOpen = false;
   bool _isAnimating = false;
 
+  StreamSubscription<FabCloseEvent> _subscription;
+
   @override
   void initState() {
     super.initState();
 
-    sl<Bus>().on<FabEvent>().listen((event) {
+    _subscription = sl<Bus>().on<FabCloseEvent>().listen((event) {
       close();
     });
 
@@ -117,6 +120,7 @@ class SuperFabState extends State<SuperFab>
 
   @override
   void dispose() {
+    _subscription?.cancel();
     _animationController.dispose();
     super.dispose();
   }
