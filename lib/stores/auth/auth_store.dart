@@ -1,3 +1,4 @@
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/domain/core/errors.dart';
@@ -51,6 +52,7 @@ abstract class _AuthStoreBase with Store {
       await _sp.clear();
       _authState = AuthState.unauthenticated();
       analytics.sendAnalyticsEvent(LOGGED_OUT, {});
+      DefaultCacheManager().emptyCache();
     } on ServerError catch (e) {
       Crash.report(e.message);
     }

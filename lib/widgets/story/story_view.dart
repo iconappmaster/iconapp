@@ -259,8 +259,11 @@ class StoryItem {
         color: Colors.black,
         child: Stack(
           children: <Widget>[
-            StoryVideo.url(url,
-                controller: controller, requestHeaders: requestHeaders),
+            StoryVideo.url(
+              url,
+              controller: controller,
+              requestHeaders: requestHeaders,
+            ),
             SafeArea(
               child: Align(
                 alignment: Alignment.bottomCenter,
@@ -270,11 +273,9 @@ class StoryItem {
                   padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
                   color: caption != null ? Colors.black54 : Colors.transparent,
                   child: caption != null
-                      ? Text(
-                          caption,
+                      ? Text(caption,
                           style: TextStyle(fontSize: 15, color: Colors.white),
-                          textAlign: TextAlign.center,
-                        )
+                          textAlign: TextAlign.center)
                       : SizedBox(),
                 ),
               ),

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/services.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
@@ -13,13 +15,14 @@ import 'package:video_player/video_player.dart';
 class FlickMultiPlayer extends StatefulWidget {
   const FlickMultiPlayer({
     Key key,
-    @required this.url,
+    this.url,
+    this.file,
     @required this.flickMultiManager,
     this.withControls = true,
     this.withFullScreen = true,
     this.mute = false,
   }) : super(key: key);
-
+  final File file;
   final String url;
   final bool withControls, withFullScreen, mute;
   final FlickMultiManager flickMultiManager;
@@ -33,16 +36,31 @@ class _FlickMultiPlayerState extends State<FlickMultiPlayer> {
 
   @override
   void initState() {
-    flickManager = FlickManager(
-        videoPlayerController: VideoPlayerController.network(widget.url)
-          ..setLooping(true),
-        autoPlay: false);
+    if (widget.file == null) {
+      flickManager = FlickManager(
+          videoPlayerController: VideoPlayerController.network(widget.url)
+            ..setLooping(true),
+          autoPlay: false);
 
-    widget.flickMultiManager.init(flickManager);
+      widget.flickMultiManager.init(flickManager);
 
-    if (widget.mute) {
-      widget.flickMultiManager.mute();
+      if (widget.mute) {
+        widget.flickMultiManager.mute();
+      }
+    } else {
+      flickManager = 
+      FlickManager(
+          videoPlayerController: VideoPlayerController.file(widget.file)
+            ..setLooping(true),
+          autoPlay: false);
+
+      widget.flickMultiManager.init(flickManager);
+
+      if (widget.mute) {
+        widget.flickMultiManager.mute();
+      }
     }
+
     super.initState();
   }
 

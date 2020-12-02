@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
@@ -15,6 +17,7 @@ import 'package:iconapp/widgets/global/network_photo.dart';
 import 'package:iconapp/widgets/global/super_fab.dart';
 import 'package:iconapp/widgets/global/white_circle.dart';
 import 'package:iconapp/widgets/home/conversation_tile.dart';
+import 'package:video_player/video_player.dart';
 import '../../core/theme.dart';
 
 const typeVideo = 'video';
@@ -22,6 +25,7 @@ const typePhoto = 'photo';
 
 class HomeStaggered extends StatelessWidget {
   final Function(Conversation, int) onTap;
+
   final home = sl<HomeStore>();
 
   HomeStaggered({
@@ -54,7 +58,9 @@ class HomeStaggered extends StatelessWidget {
             case typeVideo:
               return GestureDetector(
                 onTap: () => _onTap(conversation, index),
-                child: StaggeredVideoTile(conversation: conversation),
+                child: StaggeredVideoTile(
+                  conversation: conversation,
+                ),
               );
 
             default:
@@ -141,20 +147,19 @@ class StaggeredOverlay extends StatelessWidget {
                       imageUrl: conversation?.backgroundPhoto?.url ?? '',
                       height: 30,
                       width: 30)),
-              SizedBox(width: 4),
+              SizedBox(width: 8),
               CustomText(
                 conversation?.name,
-                style: loginSmallText,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: newMessageNumber.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                ),
               ),
             ],
           ),
         ),
-        if (conversation?.shouldShowNewBadge ?? false)
-          Positioned(
-            top: 12,
-            left: 12,
-            child: NewBadge(),
-          ),
         Positioned(
             top: 8,
             right: 8,
@@ -177,13 +182,25 @@ class StaggeredOverlay extends StatelessWidget {
   }
 }
 
-class StaggeredVideoTile extends StatelessWidget {
+class StaggeredVideoTile extends StatefulWidget {
   final Conversation conversation;
 
   const StaggeredVideoTile({
     Key key,
     @required this.conversation,
   }) : super(key: key);
+
+  @override
+  _StaggeredVideoTileState createState() => _StaggeredVideoTileState();
+}
+
+class _StaggeredVideoTileState extends State<StaggeredVideoTile> {
+  FlickMultiManager _manager;
+  @override
+  void initState() {
+    _manager = FlickMultiManager();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -198,15 +215,26 @@ class StaggeredVideoTile extends StatelessWidget {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              FlickMultiPlayer(
-                  mute: true,
-                  withControls: false,
-                  withFullScreen: false,
-                  url: conversation.media?.mediaUrl,
-                  flickMultiManager: FlickMultiManager()),
-              StaggeredOverlay(
-                conversation: conversation,
-              ),
+              StreamBuilder<FileResponse>(
+                  stream: DefaultCacheManager()
+                      .getFileStream(widget.conversation.media.mediaUrl),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final event = snapshot.data;
+                      final file = (event as FileInfo).file;
+                      _manager.mute();
+                      return FlickMultiPlayer(
+                        withControls: false,
+                        withFullScreen: false,
+                        file: file,
+                        mute: true,
+                        flickMultiManager: _manager,
+                      );
+                    } else {
+                      return Container();
+                    }
+                  }),
+              StaggeredOverlay(conversation: widget.conversation),
             ],
           ),
         ),

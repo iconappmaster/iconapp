@@ -30,9 +30,9 @@ abstract class _CustomAdsStoreBase with Store {
 
   @action
   Future launchLink() async {
-    final url = _currentAd.linkUrl;
+    final url = _currentAd?.linkUrl ?? '';
     if (await canLaunch(url)) {
-      _repository.adTapped(_currentAd.id);
+      _repository.adTapped(_currentAd?.id);
       launch(url);
     }
   }

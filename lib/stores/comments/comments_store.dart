@@ -157,7 +157,7 @@ abstract class _CommentsStoreBase with Store {
       final index = _comments.indexWhere((c) => c.id == comment.id);
       _comments[index] = comment.copyWith(
         id: res.id,
-        status: MessageStatus.sent,
+        status: MessageStatus.sent
       );
        analytics.sendConversationEvent(SENT_COMMENT, _chat.conversation.id);
       return right(unit);

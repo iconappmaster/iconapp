@@ -30,11 +30,11 @@ class CustomText extends StatelessWidget {
         padding: padding,
         child: Text(
           text,
+          
           textScaleFactor: 1,
           overflow: overflow,
           textAlign: textAlign,
-          style: style,
-          
+          style: style,    
           maxLines: maxLines,
         ),
       ),

@@ -154,20 +154,17 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
                         style: chatMessageBody.copyWith(fontSize: 12),
                         textAlign: TextAlign.start)),
                 Positioned(
-                  right: 5,
-                  bottom: 5,
-                  child: CustomText(widget.message.sender?.fullName ?? '',
-                      style: chatMessageBody.copyWith(
-                        fontSize: 12,
-                      ),
-                      textAlign: TextAlign.start),
-                ),
+                    right: 5,
+                    bottom: 5,
+                    child: CustomText(widget.message.sender?.fullName ?? '',
+                        style: chatMessageBody.copyWith(fontSize: 12),
+                        textAlign: TextAlign.start)),
                 if (widget.message?.viewCount != null)
                   Positioned(
-                    right: 5,
-                    top: 5,
-                    child: VideoSeenCounter(counter: widget.message?.viewCount),
-                  ),
+                      right: 5,
+                      top: 5,
+                      child:
+                          VideoSeenCounter(counter: widget.message?.viewCount)),
               ],
             ),
           ),
@@ -238,10 +235,7 @@ class VideoSeenCounter extends StatelessWidget {
               children: [
                 Icon(Icons.remove_red_eye, color: white),
                 SizedBox(width: 3),
-                CustomText(
-                  counter.toString(),
-                  style: loginSmallText,
-                )
+                CustomText(counter.toString(), style: loginSmallText)
               ],
             ),
           ),

@@ -40,7 +40,7 @@ class _CustomAdState extends State<CustomAd> {
                 ? Center(child: CupertinoActivityIndicator(animating: true))
                 : Stack(children: [
                     GestureDetector(
-                      onTap: () => _ads?.launchLink() ?? '',
+                      onTap: () => _ads?.launchLink(),
                       child: _ads?.currnetAd != null
                           ? CachedNetworkImage(
                               fadeInCurve: Curves.easeInOutQuart,

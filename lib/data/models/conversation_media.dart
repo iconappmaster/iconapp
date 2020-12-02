@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:iconapp/data/models/story_image.dart';
 
 part 'conversation_media.g.dart';
 part 'conversation_media.freezed.dart';

@@ -53,11 +53,11 @@ class FlickMultiManager {
     _activeManager?.flickControlManager?.play();
   }
 
-  mute() {
+  void mute() {
     _flickManagers.forEach((manager) => manager?.flickControlManager?.mute());
   }
 
-  toggleMute() {
+  void toggleMute() {
     _activeManager?.flickControlManager?.toggleMute();
     _isMute = _activeManager?.flickControlManager?.isMute;
     if (_isMute) {
