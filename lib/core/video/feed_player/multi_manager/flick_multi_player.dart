@@ -113,7 +113,7 @@ class _FlickMultiPlayerState extends State<FlickMultiPlayer> {
           preferredDeviceOrientationFullscreen: [DeviceOrientation.portraitUp],
           flickVideoWithControlsFullscreen: widget.withFullScreen
               ? FlickVideoWithControls(
-                  videoFit: BoxFit.cover,
+                  videoFit: BoxFit.contain,
                   playerLoadingFallback:
                       Center(child: CustomText('תקלה בטיענת הוידאו')),
                   controls: FlickLandscapeControls(),

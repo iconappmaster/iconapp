@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:iconapp/widgets/chat/chat_list.dart';
 import 'package:iconapp/widgets/global/rounded_close.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -51,17 +52,32 @@ class _FeedPlayerState extends State<FeedPlayer> {
                     separatorBuilder: (context, int) => Container(height: 30),
                     itemCount: widget.urls.length,
                     itemBuilder: (context, index) => AutoScrollTag(
-                        index: index,
-                        controller: _controller,
-                        key: ValueKey(index),
-                        child: Container(
-                            height: 450,
-                            margin: EdgeInsets.all(2),
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: FlickMultiPlayer(
-                                    url: widget?.urls[index] ?? '',
-                                    flickMultiManager: flickMultiManager)))),
+                      index: index,
+                      controller: _controller,
+                      key: ValueKey(index),
+                      child: Container(
+                        height: 450,
+                        margin: EdgeInsets.all(2),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(5),
+                          child: StreamBuilder<FileResponse>(
+                            stream: DefaultCacheManager()
+                                .getFileStream(widget.urls[index] ?? ''),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                final file = (snapshot.data as FileInfo).file;
+
+                                return FlickMultiPlayer(
+                                    file: file,
+                                    flickMultiManager: flickMultiManager);
+                              } else {
+                                return Container();
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
