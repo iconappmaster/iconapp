@@ -56,7 +56,7 @@ mixin _$CustomAdsStore on _CustomAdsStoreBase, Store {
   final _$launchLinkAsyncAction = AsyncAction('_CustomAdsStoreBase.launchLink');
 
   @override
-  Future<dynamic> /*  */launchLink() {
+  Future<dynamic> launchLink() {
     return _$launchLinkAsyncAction.run(() => super.launchLink());
   }
 

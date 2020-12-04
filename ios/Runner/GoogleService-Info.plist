@@ -7,7 +7,7 @@
 	<key>REVERSED_CLIENT_ID</key>
 	<string>com.googleusercontent.apps.460515134031-1cbso0mkc28o9bkelfav3922nkcseme0</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>460515134031-tg8k4vm2tsh9v4jvc0ie8tthml138r1h.apps.googleusercontent.com</string>
+	<string>460515134031-9i4ho5729l4aur8qam36j11l74e320kg.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBBWeF_22TYbBUbVyHKGLeMJpkgTVklgwg</string>
 	<key>GCM_SENDER_ID</key>
@@ -21,20 +21,18 @@
 	<key>STORAGE_BUCKET</key>
 	<string>icon-a61b8.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<true/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:460515134031:ios:94939626831addc1b5b83a</string>
+	<string>1:460515134031:ios:a2d5be69f5e1556db5b83a</string>
 	<key>DATABASE_URL</key>
 	<string>https://icon-a61b8.firebaseio.com</string>
-	<key>ADMOB_APP_ID</key>
-	<string>ca-app-pub-5806212644011393~2519444879</string>
 </dict>
 </plist>

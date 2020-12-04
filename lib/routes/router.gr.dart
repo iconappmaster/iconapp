@@ -255,14 +255,13 @@ class Router extends RouterBase {
       );
     },
     FeedPlayer: (data) {
-      final args = data.getArgs<FeedPlayerArguments>(
-        orElse: () => FeedPlayerArguments(),
-      );
+      final args = data.getArgs<FeedPlayerArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
         builder: (context) => FeedPlayer(
           key: args.key,
           urls: args.urls,
           index: args.index,
+          showClose: args.showClose,
         ),
         settings: data,
       );
@@ -490,12 +489,14 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
 
   Future<dynamic> pushFeedPlayer({
     Key key,
-    List<String> urls,
-    int index,
+    @required List<String> urls,
+    @required int index,
+    bool showClose = true,
   }) =>
       push<dynamic>(
         Routes.feedPlayer,
-        arguments: FeedPlayerArguments(key: key, urls: urls, index: index),
+        arguments: FeedPlayerArguments(
+            key: key, urls: urls, index: index, showClose: showClose),
       );
 
   Future<dynamic> pushSelectIconScreen({
@@ -650,7 +651,12 @@ class FeedPlayerArguments {
   final Key key;
   final List<String> urls;
   final int index;
-  FeedPlayerArguments({this.key, this.urls, this.index});
+  final bool showClose;
+  FeedPlayerArguments(
+      {this.key,
+      @required this.urls,
+      @required this.index,
+      this.showClose = true});
 }
 
 /// SelectIconScreen arguments holder class

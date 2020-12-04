@@ -14,6 +14,7 @@ part 'home_store.g.dart';
 
 class HomeStore = _HomeStoreBase with _$HomeStore;
 enum ViewHomeMode { staggered, list }
+enum TabMode { conversation, media }
 
 abstract class _HomeStoreBase with Store {
   HomeRepository _repository;
@@ -39,6 +40,9 @@ abstract class _HomeStoreBase with Store {
   }
 
   @observable
+  TabMode _tabMode = TabMode.conversation;
+
+  @observable
   ViewHomeMode _viewMode = ViewHomeMode.staggered;
 
   @observable
@@ -55,6 +59,9 @@ abstract class _HomeStoreBase with Store {
 
   @observable
   bool _showWelcomeDialog = true;
+
+  @computed
+  TabMode get tabMode => _tabMode;
 
   @computed
   bool get showWelcomeDialog => _showWelcomeDialog;
@@ -86,6 +93,11 @@ abstract class _HomeStoreBase with Store {
     } finally {
       _loading = false;
     }
+  }
+
+  @action
+  void setTabMode(TabMode tabMode) {
+    _tabMode = tabMode;
   }
 
   @action

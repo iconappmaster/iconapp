@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:iconapp/widgets/chat/chat_list.dart';
 import 'package:iconapp/widgets/global/rounded_close.dart';
+import 'package:iconapp/widgets/home/home_staggered.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import './multi_manager/flick_multi_manager.dart';
 import './multi_manager/flick_multi_player.dart';
@@ -10,7 +11,13 @@ import 'package:scroll_to_index/scroll_to_index.dart';
 class FeedPlayer extends StatefulWidget {
   final List<String> urls;
   final int index;
-  const FeedPlayer({Key key, this.urls, this.index}) : super(key: key);
+  final bool showClose;
+  const FeedPlayer({
+    Key key,
+    @required this.urls,
+    @required this.index,
+    this.showClose = true,
+  }) : super(key: key);
 
   @override
   _FeedPlayerState createState() => _FeedPlayerState();
@@ -70,9 +77,8 @@ class _FeedPlayerState extends State<FeedPlayer> {
                                 return FlickMultiPlayer(
                                     file: file,
                                     flickMultiManager: flickMultiManager);
-                              } else {
-                                return Container();
-                              }
+                              } else
+                                return ShimmerPlaceholder();
                             },
                           ),
                         ),
@@ -81,7 +87,7 @@ class _FeedPlayerState extends State<FeedPlayer> {
                   ),
                 ),
               ),
-              Positioned(
+              if (widget.showClose) Positioned(
                 top: 40,
                 left: 8,
                 child: SizedBox(child: RoundedClose()),

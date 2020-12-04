@@ -9,6 +9,13 @@ part of 'home_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$HomeStore on _HomeStoreBase, Store {
+  Computed<TabMode> _$tabModeComputed;
+
+  @override
+  TabMode get tabMode =>
+      (_$tabModeComputed ??= Computed<TabMode>(() => super.tabMode,
+              name: '_HomeStoreBase.tabMode'))
+          .value;
   Computed<bool> _$showWelcomeDialogComputed;
 
   @override
@@ -51,6 +58,21 @@ mixin _$HomeStore on _HomeStoreBase, Store {
           Computed<List<Conversation>>(() => super.conversations,
               name: '_HomeStoreBase.conversations'))
       .value;
+
+  final _$_tabModeAtom = Atom(name: '_HomeStoreBase._tabMode');
+
+  @override
+  TabMode get _tabMode {
+    _$_tabModeAtom.reportRead();
+    return super._tabMode;
+  }
+
+  @override
+  set _tabMode(TabMode value) {
+    _$_tabModeAtom.reportWrite(value, super._tabMode, () {
+      super._tabMode = value;
+    });
+  }
 
   final _$_viewModeAtom = Atom(name: '_HomeStoreBase._viewMode');
 
@@ -196,6 +218,17 @@ mixin _$HomeStore on _HomeStoreBase, Store {
       ActionController(name: '_HomeStoreBase');
 
   @override
+  void setTabMode(TabMode tabMode) {
+    final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
+        name: '_HomeStoreBase.setTabMode');
+    try {
+      return super.setTabMode(tabMode);
+    } finally {
+      _$_HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void addConversation(Conversation conversation) {
     final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
         name: '_HomeStoreBase.addConversation');
@@ -297,6 +330,7 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   @override
   String toString() {
     return '''
+tabMode: ${tabMode},
 showWelcomeDialog: ${showWelcomeDialog},
 showForceUpdate: ${showForceUpdate},
 isLoading: ${isLoading},

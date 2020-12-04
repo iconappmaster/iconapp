@@ -73,7 +73,7 @@ class IconFab extends StatelessWidget {
       }),
       FabTile(
         iconData: Icons.play_arrow,
-        text: 'IconTube',
+        text: 'מדיה',
         onTap: () {
           _close();
           if (!_home.isLoading)
@@ -112,7 +112,7 @@ class IconFab extends StatelessWidget {
       }),
       FabTile(
         iconData: Icons.play_arrow,
-        text: 'IconTube',
+        text: 'מדיה',
         onTap: () {
           _close();
           if (!_home.isLoading)

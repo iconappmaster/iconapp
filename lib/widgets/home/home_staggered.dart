@@ -4,6 +4,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:iconapp/widgets/global/shimmer.dart';
 import '../../core/bus.dart';
 import '../../core/dependencies/locator.dart';
 import '../../core/theme.dart';
@@ -104,9 +105,8 @@ class StaggeredPhotoTile extends StatelessWidget {
             children: [
               if (conversation?.media?.mediaUrl != null)
                 CachedNetworkImage(
-                  imageUrl: conversation?.media?.mediaUrl ?? '',
-                  fit: BoxFit.cover,
-                ),
+                    imageUrl: conversation?.media?.mediaUrl ?? '',
+                    fit: BoxFit.cover),
               StaggeredOverlay(conversation: conversation),
             ],
           ),
@@ -193,9 +193,11 @@ class StaggeredVideoTile extends StatefulWidget {
 
 class _StaggeredVideoTileState extends State<StaggeredVideoTile> {
   FlickMultiManager _manager;
+  
   @override
   void initState() {
     _manager = FlickMultiManager();
+    _manager.mute();
     super.initState();
   }
 
@@ -219,7 +221,7 @@ class _StaggeredVideoTileState extends State<StaggeredVideoTile> {
                     if (snapshot.hasData) {
                       final event = snapshot.data;
                       final file = (event as FileInfo).file;
-                      _manager.mute();
+
                       return FlickMultiPlayer(
                         withControls: false,
                         withFullScreen: false,
@@ -228,7 +230,7 @@ class _StaggeredVideoTileState extends State<StaggeredVideoTile> {
                         flickMultiManager: _manager,
                       );
                     } else {
-                      return Container();
+                      return ShimmerPlaceholder();
                     }
                   }),
               StaggeredOverlay(conversation: widget.conversation),
@@ -236,6 +238,26 @@ class _StaggeredVideoTileState extends State<StaggeredVideoTile> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class ShimmerPlaceholder extends StatelessWidget {
+  const ShimmerPlaceholder({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return VideoShimmer(
+      width: 220,
+      margin: EdgeInsets.all(0),
+      isDarkMode: false,
+      isPurplishMode: false,
+      isRectBox: true,
+      padding: EdgeInsets.all(0),
+      colors: [cornflower, white],
+      hasBottomBox: true,
     );
   }
 }

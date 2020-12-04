@@ -35,6 +35,8 @@ class Fcm {
     firebasePlugin.initialize(init,
         onSelectNotification: onNotificationClicked);
 
+    await messaging.requestNotificationPermissions();
+
     messaging.configure(
       onLaunch: (message) async {
         print('onLaunch');
@@ -51,6 +53,7 @@ class Fcm {
 
     messaging.getToken().then(
       (token) {
+        print(token); // remove that
         // only send the push token if authenticated.
         if (auth.isSignedIn) {
           user.updatePushToken((token));

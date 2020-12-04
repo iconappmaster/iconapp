@@ -3,11 +3,11 @@ import 'package:flick_video_player/flick_video_player.dart';
 class FlickMultiManager {
   List<FlickManager> _flickManagers = [];
   FlickManager _activeManager;
-  bool _isMute = false;
+  bool isMute = true;
 
   init(FlickManager flickManager) {
     _flickManagers.add(flickManager);
-    if (_isMute) {
+    if (isMute) {
       flickManager?.flickControlManager?.mute();
     } else {
       flickManager?.flickControlManager?.unmute();
@@ -16,6 +16,7 @@ class FlickMultiManager {
       play(flickManager);
     }
   }
+
 
   remove(FlickManager flickManager) {
     if (_activeManager == flickManager) {
@@ -44,7 +45,7 @@ class FlickMultiManager {
       _activeManager = flickManager;
     }
 
-    if (_isMute) {
+    if (isMute) {
       _activeManager?.flickControlManager?.mute();
     } else {
       _activeManager?.flickControlManager?.unmute();
@@ -59,8 +60,8 @@ class FlickMultiManager {
 
   void toggleMute() {
     _activeManager?.flickControlManager?.toggleMute();
-    _isMute = _activeManager?.flickControlManager?.isMute;
-    if (_isMute) {
+    isMute = _activeManager?.flickControlManager?.isMute;
+    if (isMute) {
       _flickManagers.forEach((manager) => manager.flickControlManager.mute());
     } else {
       _flickManagers.forEach((manager) => manager.flickControlManager.unmute());
