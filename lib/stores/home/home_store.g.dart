@@ -16,6 +16,13 @@ mixin _$HomeStore on _HomeStoreBase, Store {
       (_$tabModeComputed ??= Computed<TabMode>(() => super.tabMode,
               name: '_HomeStoreBase.tabMode'))
           .value;
+  Computed<int> _$getCurrentTabIndexComputed;
+
+  @override
+  int get getCurrentTabIndex => (_$getCurrentTabIndexComputed ??= Computed<int>(
+          () => super.getCurrentTabIndex,
+          name: '_HomeStoreBase.getCurrentTabIndex'))
+      .value;
   Computed<bool> _$showWelcomeDialogComputed;
 
   @override
@@ -331,6 +338,7 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   String toString() {
     return '''
 tabMode: ${tabMode},
+getCurrentTabIndex: ${getCurrentTabIndex},
 showWelcomeDialog: ${showWelcomeDialog},
 showForceUpdate: ${showForceUpdate},
 isLoading: ${isLoading},

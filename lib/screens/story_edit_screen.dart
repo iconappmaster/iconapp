@@ -89,7 +89,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                             onTap: () async {
                               final description =
                                   await ExtendedNavigator.of(context)
-                                      .pushDescriptionScreen(
+                                      .pushMediaDescriptionScreen(
                                           type: story.imageType == "photo"
                                               ? MediaType.photo
                                               : MediaType.video,
@@ -135,7 +135,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                                           final description =
                                               await ExtendedNavigator.of(
                                                       context)
-                                                  .pushDescriptionScreen(
+                                                  .pushMediaDescriptionScreen(
                                             type: story.imageType == "photo"
                                                 ? MediaType.photo
                                                 : MediaType.video,

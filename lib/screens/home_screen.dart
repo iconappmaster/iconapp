@@ -182,22 +182,23 @@ class _HomeScreenState extends State<HomeScreen> {
                             left: 8, right: 8, bottom: 12, top: 8),
                         child: Container(
                           width: MediaQuery.of(context).size.width,
-                          child: CupertinoSlidingSegmentedControl(
-                            thumbColor: cornflower,
-                            groupValue:
-                                _home.tabMode == TabMode.conversation ? 0 : 1,
-                            padding: EdgeInsets.only(left: 8, right: 8),
-                            children: {
-                              0: CustomText("שיחות", style: chatMessageName),
-                              1: CustomText("מדיה", style: chatMessageName)
-                            },
-                            onValueChanged: (v) {
-                              Vibration.vibrate(duration: 150);
-                              _home.setTabMode(v == 0
-                                  ? TabMode.conversation
-                                  : TabMode.media);
-                            },
-                          ),
+                          child: Observer(builder: (_) {
+                            return CupertinoSlidingSegmentedControl(
+                              thumbColor: cornflower,
+                              groupValue: _home.getCurrentTabIndex,
+                              padding: EdgeInsets.only(left: 8, right: 8),
+                              children: {
+                                0: CustomText("שיחות", style: chatMessageName),
+                                1: CustomText("מדיה", style: chatMessageName)
+                              },
+                              onValueChanged: (v) {
+                                Vibration.vibrate(duration: 150);
+                                _home.setTabMode(v == 0
+                                    ? TabMode.conversation
+                                    : TabMode.media);
+                              },
+                            );
+                          }),
                         ),
                       ),
                       Observer(
@@ -273,9 +274,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   if (!_home.showForceUpdate)
                     Padding(
-                      padding: EdgeInsets.only(bottom: 27),
-                      child: IconFab(user: _user, home: _home),
-                    ),
+                        padding: EdgeInsets.only(bottom: 27),
+                        child: IconFab(user: _user, home: _home)),
                 ],
               ),
             ),

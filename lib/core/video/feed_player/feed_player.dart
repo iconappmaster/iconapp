@@ -63,8 +63,8 @@ class _FeedPlayerState extends State<FeedPlayer> {
                       controller: _controller,
                       key: ValueKey(index),
                       child: Container(
-                        height: 450,
-                        margin: EdgeInsets.all(2),
+                        height: 300,
+                        margin: EdgeInsets.all(4),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(5),
                           child: StreamBuilder<FileResponse>(
@@ -87,11 +87,12 @@ class _FeedPlayerState extends State<FeedPlayer> {
                   ),
                 ),
               ),
-              if (widget.showClose) Positioned(
-                top: 40,
-                left: 8,
-                child: SizedBox(child: RoundedClose()),
-              ),
+              if (widget.showClose)
+                Positioned(
+                  top: 40,
+                  left: 8,
+                  child: SizedBox(child: RoundedClose()),
+                ),
             ]),
           ),
         ));

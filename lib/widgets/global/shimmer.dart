@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/widgets/global/custom_text.dart';
 
 ///
 /// An enum defines all supported directions of shimmer effect
@@ -280,6 +282,7 @@ class _ShimmerFilter extends RenderProxyBox {
 
 class VideoShimmer extends StatefulWidget {
   final bool isRectBox;
+  final bool showLoadingText;
   final bool isDarkMode;
   final bool isPurplishMode;
   final double width;
@@ -303,6 +306,7 @@ class VideoShimmer extends StatefulWidget {
     this.hasCustomColors = false,
     this.colors = defaultColors,
     this.width,
+    this.showLoadingText = true,
   }) : super(key: key);
   @override
   _VideoShimmerState createState() => _VideoShimmerState();
@@ -350,100 +354,42 @@ class _VideoShimmerState extends State<VideoShimmer>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              Column(
                 children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      buildButtomBox(_animation,
-                          height: width,
-                          width: width,
-                          isPurplishMode: widget.isPurplishMode,
-                          isDarkMode: widget.isDarkMode,
-                          isRectBox: true,
-                          beginAlign: widget.beginAlign,
-                          endAlign: widget.endAlign,
-                          isVideoShimmer: true,
-                          hasCustomColors: widget.hasCustomColors,
-                          colors: widget.colors.length == 3
-                              ? widget.colors
-                              : defaultColors),
-                      Container(
-                        height: height * 0.006,
-                        width: width * 0.2,
-                        decoration: radiusBoxDecoration(
-                            animation: _animation,
-                            isPurplishMode: widget.isPurplishMode,
-                            isDarkMode: widget.isDarkMode,
-                            hasCustomColors: widget.hasCustomColors,
-                            colors: widget.colors.length == 3
-                                ? widget.colors
-                                : defaultColors),
-                      ),
-                    ],
+                  buildButtomBox(_animation,
+                      height: width,
+                      width: width,
+                      isPurplishMode: widget.isPurplishMode,
+                      isDarkMode: widget.isDarkMode,
+                      isRectBox: true,
+                      beginAlign: widget.beginAlign,
+                      endAlign: widget.endAlign,
+                      isVideoShimmer: true,
+                      hasCustomColors: widget.hasCustomColors,
+                      colors: widget.colors.length == 3
+                          ? widget.colors
+                          : defaultColors),
+                  Container(
+                    height: height * 0.04,
+                    width: width * .7,
+                    decoration: radiusBoxDecoration(
+                        animation: _animation,
+                        isPurplishMode: widget.isPurplishMode,
+                        isDarkMode: widget.isDarkMode,
+                        hasCustomColors: widget.hasCustomColors,
+                        colors: widget.colors.length == 3
+                            ? widget.colors
+                            : defaultColors),
                   ),
-                  Column(
-                    children: <Widget>[
-                      buildButtomBox(_animation,
-                          height: width,
-                          width: width,
-                          isPurplishMode: widget.isPurplishMode,
-                          isDarkMode: widget.isDarkMode,
-                          isRectBox: true,
-                          beginAlign: widget.beginAlign,
-                          endAlign: widget.endAlign,
-                          isVideoShimmer: true,
-                          hasCustomColors: widget.hasCustomColors,
-                          colors: widget.colors.length == 3
-                              ? widget.colors
-                              : defaultColors),
-                      Container(
-                        height: height * 0.006,
-                        width: width * 0.2,
-                        decoration: radiusBoxDecoration(
-                            animation: _animation,
-                            isPurplishMode: widget.isPurplishMode,
-                            isDarkMode: widget.isDarkMode,
-                            hasCustomColors: widget.hasCustomColors,
-                            colors: widget.colors.length == 3
-                                ? widget.colors
-                                : defaultColors),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      buildButtomBox(_animation,
-                          height: width,
-                          width: width,
-                          isPurplishMode: widget.isPurplishMode,
-                          isDarkMode: widget.isDarkMode,
-                          isRectBox: true,
-                          beginAlign: widget.beginAlign,
-                          endAlign: widget.endAlign,
-                          isVideoShimmer: true,
-                          hasCustomColors: widget.hasCustomColors,
-                          colors: widget.colors.length == 3
-                              ? widget.colors
-                              : defaultColors),
-                      Container(
-                        height: height * 0.006,
-                        width: width * 0.2,
-                        decoration: radiusBoxDecoration(
-                            animation: _animation,
-                            isPurplishMode: widget.isPurplishMode,
-                            isDarkMode: widget.isDarkMode,
-                            hasCustomColors: widget.hasCustomColors,
-                            colors: widget.colors.length == 3
-                                ? widget.colors
-                                : defaultColors),
-                      ),
-                    ],
-                  ),
+                  SizedBox(height: 8),
+                  if (widget.showLoadingText)
+                    CustomText('טוען...', style: newMessageNumber),
                 ],
               ),
             ],
           ),
+          // ],
+          // ),
         );
       },
     );
@@ -463,8 +409,8 @@ Widget buildButtomBox(Animation _animation,
     bool isVideoShimmer = false}) {
   return Container(
     margin: EdgeInsets.only(top: 20.0, bottom: 20.0),
-    height: isVideoShimmer ? width * 0.2 : width * 0.2,
-    width: isVideoShimmer ? width * 0.25 : width * 0.2,
+    height: isVideoShimmer ? width * 0.5 : width * 0.2,
+    width: isVideoShimmer ? width * 0.6 : width * 0.2,
     decoration: customBoxDecoration(
         animation: _animation,
         isDarkMode: isDarkMode,

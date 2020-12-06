@@ -41,3 +41,25 @@ app.*.map.json
 
 # Exceptions to above rules.
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+ios/Pods 2/Fabric/Fabric 5.framework/README
+ios/Pods 2/Fabric/Fabric 5.framework/run
+ios/Pods 2/Fabric/Fabric 6.framework/README
+ios/Pods 2/Fabric/Fabric 6.framework/run
+ios/Pods 2/Fabric/Fabric 7.framework/README
+ios/Pods 2/Fabric/Fabric 7.framework/run
+ios/Pods 2/Fabric/Fabric 8.framework/README
+ios/Pods 2/Fabric/Fabric 8.framework/run
+ios/Pods 4/Crashlytics/Crashlytics 2.framework/README
+ios/Pods 4/Crashlytics/Crashlytics 2.framework/submit
+ios/Pods 4/Crashlytics/Crashlytics 3.framework/README
+ios/Pods 4/Crashlytics/Crashlytics 3.framework/submit
+ios/Pods 4/Crashlytics/Crashlytics 4.framework/README
+ios/Pods 4/Crashlytics/Crashlytics 4.framework/submit
+ios/Pods 4/Crashlytics/Crashlytics 5.framework/README
+ios/Pods 4/Crashlytics/Crashlytics 5.framework/submit
+ios/Pods 4/Fabric/Fabric 2.framework/README
+ios/Pods 4/Fabric/Fabric 2.framework/run
+ios/Pods 4/Fabric/Fabric 3.framework/README
+ios/Pods 4/Fabric/Fabric 3.framework/run
+ios/Pods 4/Fabric/Fabric 4.framework/README
+ios/Pods 4/Fabric/Fabric 4.framework/run

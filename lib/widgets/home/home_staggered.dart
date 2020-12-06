@@ -193,7 +193,7 @@ class StaggeredVideoTile extends StatefulWidget {
 
 class _StaggeredVideoTileState extends State<StaggeredVideoTile> {
   FlickMultiManager _manager;
-  
+
   @override
   void initState() {
     _manager = FlickMultiManager();
@@ -221,7 +221,6 @@ class _StaggeredVideoTileState extends State<StaggeredVideoTile> {
                     if (snapshot.hasData) {
                       final event = snapshot.data;
                       final file = (event as FileInfo).file;
-
                       return FlickMultiPlayer(
                         withControls: false,
                         withFullScreen: false,
@@ -230,7 +229,7 @@ class _StaggeredVideoTileState extends State<StaggeredVideoTile> {
                         flickMultiManager: _manager,
                       );
                     } else {
-                      return ShimmerPlaceholder();
+                      return ShimmerPlaceholder(showLoadingText: false);
                     }
                   }),
               StaggeredOverlay(conversation: widget.conversation),
@@ -243,13 +242,17 @@ class _StaggeredVideoTileState extends State<StaggeredVideoTile> {
 }
 
 class ShimmerPlaceholder extends StatelessWidget {
+  final bool showLoadingText;
+
   const ShimmerPlaceholder({
     Key key,
+    this.showLoadingText = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return VideoShimmer(
+      showLoadingText: showLoadingText,
       width: 220,
       margin: EdgeInsets.all(0),
       isDarkMode: false,

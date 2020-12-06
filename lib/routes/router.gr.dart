@@ -26,11 +26,11 @@ import '../screens/chat_settings_screen.dart';
 import '../screens/create_categories_screen.dart';
 import '../screens/create_details_screen.dart';
 import '../screens/create_icons_screen.dart';
-import '../screens/descrioption_screen.dart';
 import '../screens/full_video_screen.dart';
 import '../screens/home_screen.dart';
 import '../screens/login_screen.dart';
 import '../screens/main_navigator.dart';
+import '../screens/media_descrioption_screen.dart';
 import '../screens/onboarding_phone.dart';
 import '../screens/onboarding_profile.dart';
 import '../screens/photo_gallery_screen.dart';
@@ -43,7 +43,7 @@ import '../screens/story_screen.dart';
 import '../screens/verify_icon_email_screen.dart';
 import '../screens/verify_instagram.dart';
 import '../screens/verify_send_code_screen.dart';
-import '../screens/verify_welcome.dart';
+import '../screens/verify_welcome_screen.dart';
 import '../screens/video_gallery_screen.dart';
 import '../widgets/global/single_image.dart';
 
@@ -68,7 +68,7 @@ class Routes {
   static const String searchResultsScreen = '/search-results-screen';
   static const String storyScreen = '/story-screen';
   static const String storyEditScreen = '/story-edit-screen';
-  static const String descriptionScreen = '/description-screen';
+  static const String mediaDescriptionScreen = '/media-description-screen';
   static const String singleImage = '/single-image';
   static const String alertScreen = '/alert-screen';
   static const String storyDurationPicker = '/story-duration-picker';
@@ -99,7 +99,7 @@ class Routes {
     searchResultsScreen,
     storyScreen,
     storyEditScreen,
-    descriptionScreen,
+    mediaDescriptionScreen,
     singleImage,
     alertScreen,
     storyDurationPicker,
@@ -136,7 +136,7 @@ class Router extends RouterBase {
     RouteDef(Routes.searchResultsScreen, page: SearchResultsScreen),
     RouteDef(Routes.storyScreen, page: StoryScreen),
     RouteDef(Routes.storyEditScreen, page: StoryEditScreen),
-    RouteDef(Routes.descriptionScreen, page: DescriptionScreen),
+    RouteDef(Routes.mediaDescriptionScreen, page: MediaDescriptionScreen),
     RouteDef(Routes.singleImage, page: SingleImage),
     RouteDef(Routes.alertScreen, page: AlertScreen),
     RouteDef(Routes.storyDurationPicker, page: StoryDurationPicker),
@@ -324,10 +324,10 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    DescriptionScreen: (data) {
-      final args = data.getArgs<DescriptionScreenArguments>(nullOk: false);
+    MediaDescriptionScreen: (data) {
+      final args = data.getArgs<MediaDescriptionScreenArguments>(nullOk: false);
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => DescriptionScreen(
+        builder: (context) => MediaDescriptionScreen(
           key: args.key,
           url: args.url,
           type: args.type,
@@ -543,14 +543,15 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
   Future<dynamic> pushStoryEditScreen() =>
       push<dynamic>(Routes.storyEditScreen);
 
-  Future<dynamic> pushDescriptionScreen({
+  Future<dynamic> pushMediaDescriptionScreen({
     Key key,
     @required String url,
     @required MediaType type,
   }) =>
       push<dynamic>(
-        Routes.descriptionScreen,
-        arguments: DescriptionScreenArguments(key: key, url: url, type: type),
+        Routes.mediaDescriptionScreen,
+        arguments:
+            MediaDescriptionScreenArguments(key: key, url: url, type: type),
       );
 
   Future<dynamic> pushSingleImage({
@@ -685,12 +686,12 @@ class StoryScreenArguments {
       {this.key, @required this.story, @required this.isPublishedStory});
 }
 
-/// DescriptionScreen arguments holder class
-class DescriptionScreenArguments {
+/// MediaDescriptionScreen arguments holder class
+class MediaDescriptionScreenArguments {
   final Key key;
   final String url;
   final MediaType type;
-  DescriptionScreenArguments(
+  MediaDescriptionScreenArguments(
       {this.key, @required this.url, @required this.type});
 }
 

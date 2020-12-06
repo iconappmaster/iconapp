@@ -9,7 +9,7 @@ import 'package:iconapp/screens/chat_settings_screen.dart';
 import 'package:iconapp/screens/create_categories_screen.dart';
 import 'package:iconapp/screens/create_details_screen.dart';
 import 'package:iconapp/screens/create_icons_screen.dart';
-import 'package:iconapp/screens/descrioption_screen.dart';
+import 'package:iconapp/screens/media_descrioption_screen.dart';
 import 'package:iconapp/screens/photo_gallery_screen.dart';
 import 'package:iconapp/screens/full_video_screen.dart';
 import 'package:iconapp/screens/rename_conversation.dart';
@@ -26,7 +26,7 @@ import 'package:iconapp/screens/story_screen.dart';
 import 'package:iconapp/screens/verify_icon_email_screen.dart';
 import 'package:iconapp/screens/verify_instagram.dart';
 import 'package:iconapp/screens/verify_send_code_screen.dart';
-import 'package:iconapp/screens/verify_welcome.dart';
+import 'package:iconapp/screens/verify_welcome_screen.dart';
 import 'package:iconapp/screens/video_gallery_screen.dart';
 import 'package:iconapp/widgets/global/single_image.dart';
 
@@ -53,7 +53,7 @@ import 'package:iconapp/widgets/global/single_image.dart';
     CupertinoRoute(page: SearchResultsScreen),
     CupertinoRoute(page: StoryScreen),
     CupertinoRoute(page: StoryEditScreen),
-    CupertinoRoute(page: DescriptionScreen),
+    CupertinoRoute(page: MediaDescriptionScreen),
     MaterialRoute(page: SingleImage),
     CupertinoRoute(page: AlertScreen),
     CupertinoRoute(page: StoryDurationPicker, fullscreenDialog: true),

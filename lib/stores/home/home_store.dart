@@ -62,6 +62,9 @@ abstract class _HomeStoreBase with Store {
 
   @computed
   TabMode get tabMode => _tabMode;
+  
+  @computed
+  int get getCurrentTabIndex => tabMode == TabMode.conversation ? 0 : 1;
 
   @computed
   bool get showWelcomeDialog => _showWelcomeDialog;

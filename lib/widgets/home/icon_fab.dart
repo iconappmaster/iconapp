@@ -42,11 +42,8 @@ class IconFab extends StatelessWidget {
       fabCloseIcon: Icon(Icons.close, color: lightMustard),
       fabSize: 50,
       ringDiameter: 350,
-      fabOpenIcon: SvgPicture.asset(
-        'assets/images/icon_star.svg',
-        height: 24,
-        width: 24,
-      ),
+      fabOpenIcon: SvgPicture.asset('assets/images/icon_star.svg',
+          height: 24, width: 24),
       ringColor: cornflower,
       children:
           _user.getUser.isIcon ? _showIconMenu(context) : _showViewer(context),
@@ -66,6 +63,7 @@ class IconFab extends StatelessWidget {
               _close();
               _saveViewMode(home, sp);
               home.switchViewMode();
+              home.setTabMode(TabMode.conversation);
             },
             iconData: home.viewMode == ViewHomeMode.staggered
                 ? Icons.line_style
@@ -99,16 +97,16 @@ class IconFab extends StatelessWidget {
     return [
       Observer(builder: (_) {
         return FabTile(
-          text: home.viewMode == ViewHomeMode.staggered ? 'List' : 'Blocks',
-          onTap: () {
-            _close();
-            _saveViewMode(home, sp);
-            home.switchViewMode();
-          },
-          iconData: home.viewMode == ViewHomeMode.staggered
-              ? Icons.list
-              : Icons.line_style,
-        );
+            text: home.viewMode == ViewHomeMode.staggered ? 'List' : 'Blocks',
+            onTap: () {
+              _close();
+              _saveViewMode(home, sp);
+              home.setTabMode(TabMode.conversation);
+              home.switchViewMode();
+            },
+            iconData: home.viewMode == ViewHomeMode.staggered
+                ? Icons.list
+                : Icons.line_style);
       }),
       FabTile(
         iconData: Icons.play_arrow,
