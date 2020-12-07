@@ -78,7 +78,8 @@ class CreateDetailsScreen extends StatelessWidget {
                   onPressed: () async {
                     if (store.getSelectedPhoto.isEmpty) {
                       await context.showFlushbar(
-                          color: uiTintColorFill, message: 'חובה להוסיף תמונה');
+                          color: uiTintColorFill,
+                          message: LocaleKeys.create_addPhotoMandatory.tr());
                     }
 
                     if (store.groupName.isNotEmpty &&

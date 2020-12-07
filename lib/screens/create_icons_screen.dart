@@ -52,12 +52,10 @@ class _SelectIconScreenState extends State<SelectIconScreen> {
                 left: 16,
                 top: 45,
                 child: MaterialButton(
-                  onPressed: () {
-                    store.search('');
-                  },
+                  onPressed: () => store.search(''),
                   height: 30,
                   child: CustomText(
-                    'הצג הכל',
+                    LocaleKeys.search_showAll.tr(),
                     style: dialogContent,
                   ),
                 ),
@@ -150,14 +148,17 @@ class SearchBar extends StatelessWidget {
                       border: transparentBorder,
                       focusedBorder: transparentBorder,
                       hintText: store.getSearchMode == SearchMode.categories
-                          ? 'חפש/י קטגוריה'
-                          : 'חפש/י אייקון',
+                          ? LocaleKeys.search_searchCategory.tr()
+                          : LocaleKeys.search_searchIcon.tr(),
                       hintStyle: flushbar,
                     ),
                   ),
                 ),
-                SvgPicture.asset('assets/images/search_icon_white.svg',
-                    height: 37.7, width: 37.7),
+                SvgPicture.asset(
+                  'assets/images/search_icon_white.svg',
+                  height: 37.7,
+                  width: 37.7,
+                ),
               ],
             ),
           ),

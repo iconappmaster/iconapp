@@ -9,14 +9,23 @@
         "title": "תנאי שימוש"
     },
     "search": {
-        "empty_state": "לא מצאנו את מה שחיפשת\nנסה/י להקליד משהו אחר"
+        "empty_state": "לא מצאנו את מה שחיפשת\nנסה/י להקליד משהו אחר",
+        "showAll": "הצג הכל",
+        "searchCategory": "חפש/י קטגוריה",
+        "searchIcon": "חפש/י אייקון"
     },
     "general": {
         "server_error": "תקלה בשרת, אנא נסה שנית",
-        "iGotIt": "הבנתי, תודה!"
+        "iGotIt": "הבנתי, תודה!",
+        "cancel": "בטל",
+        "uploading" : "מעלה קובץ אנא המתן...",
+        "loading" : "טוען...",
+        "close" : "סגור"
     },
     "home": {
-        "noMessages": "אין הודעות"
+        "noMessages": "אין הודעות",
+        "conversation" : "שיחות",
+        "media" : "מדיה"
     },
     "onboarding": {
         "phoneTitle": "כדי להתחבר לקבוצות הצ׳אט אנחנו\nצריכים את מספר הטלפון שלך",
@@ -31,7 +40,11 @@
         "profileOther": "אחר",
         "wrongName": "אנא ציין שם ושם משפחה",
         "wrongAge": "מעל גיל 10",
-        "wrongCode": "קוד שגוי, אנא נסה שנית"
+        "wrongCode": "קוד שגוי, אנא נסה שנית",
+        "sendAgainTitle" : "לא קיבלתי את הקוד.",
+        "sendAgain" : "שלח שוב",
+        "fullName" : "שם ושם משפחה",
+        "fullNameValidation" : "ציין שם ושם משפחה"
     },
     "create": {
         "groupNameHint": "הקלד/י כאן את נושא הקבוצה",
@@ -43,7 +56,8 @@
         "iconValidation": "יש לבחור יותר מאייקון אחד",
         "categoryValidation": "יש לבחור יותר מקטגוריה אחת",
         "addUser": "הוספת משתתף",
-        "chooseUserToGroup": "בחר/י משתתף לקבוצה"
+        "chooseUserToGroup": "בחר/י משתתף לקבוצה",
+        "addPhotoMandatory": "חובה להוסיף תמונה"
     },
     "welcome": {
         "title": "ברוכים הבאים לאייקון",
@@ -62,7 +76,10 @@
         "becomeManager": "הפוך למנהל/ת",
         "manager": "מנהל/ת",
         "addManagers": "ניתן להוסיף עוד {} מנהלים",
-        "groupEditors": "עורכי הקבוצה"
+        "groupEditors": "עורכי הקבוצה",
+        "joinGroupShowComments" : "כדי להציג תגובות, הצטרפ/י לקבוצה",
+        "renameHint" : "הקלד/י נושא חדש",
+        "groupNameCantBeEmpty" : "שם הקבוצה לא יכול להיות ריק"
     },
     "disconnect": {
         "content": "אנחנו נתגעגע אלייך, {} {} {} רוצה לצאת מכל הצ׳אטים שלך?"
@@ -75,21 +92,31 @@
     "settings": {
         "title": "הגדרות",
         "friends": "הזמנת חברים",
-        "about": "אודות אייקון"
+        "about": "אודות אייקון",
+        "language" : "שפה"
     },
     "story": {
         "title": "הסיפור שלך",
-        "newStory" : "סיפור חדש",
-        "addExtraMedia" : "העלו תמונה או סרטון נוסף",
-        "addMedia" : "העלו תמונה או סרטון",
-        "uploading" : "מעלה...",
-        "video" : "וידאו"
-
+        "newStory": "סיפור חדש",
+        "addExtraMedia": "העלו תמונה או סרטון נוסף",
+        "addMedia": "העלו תמונה או סרטון",
+        "uploading": "מעלה...",
+        "video": "וידאו",
+        "share" : "שיתוף",
+        "compressing" : "דוחס וידאו...",
+        "duration" : "משך זמן תמונה",
+        "videoGallery" : "גלריית וידאו",
+        "gallery" : "גלריה",
+        "camera" : "מצלמה'"
     },
     "drawer": {
         "groupActivity": "נתוני פעילות הקבוצה",
         "disconnect": "להתנתק",
-        "profile": "הפרופיל שלי"
+        "profile": "הפרופיל שלי",
+        "identifyAsIcon" : "הזדהה כאייקון",
+        "hidden" : "שיחות מוסתרות",
+        "settings" : "הגדרות"
+
     },
     "dialogs": {
         "exit": "יציאה מהמערכת",
@@ -102,6 +129,21 @@
         "groupOpened": "קבוצה פתוחה לתגובות",
         "open": "פתיחה",
         "close": "סגירה",
-        "closed" : "תגובות לא פעילות כרגע"
+        "closed": "תגובות לא פעילות כרגע"
+    },
+    "archive": {
+        "empty": "אין שיחות מוסתרות",
+        "hidden" : "קבוצות מוסתרות"
+    },
+    "description" : {
+        "hint" : "הוספ/י כיתוב…"
+    },
+    "verify" : {
+        "title" : "הוספ/י את כתובת המייל שלך",
+        "validation" : "בדוק את האימייל שלך",
+        "welcomeTitle" : "ברוכים הבאים לתהליך ההזדהות כאייקון",
+        "nextButton" : "שלחו לי את הקוד",
+        "noCode" : "לא קיבלתי את הקוד.",
+        "sendAgain" : "שלחו שוב"
     }
 }

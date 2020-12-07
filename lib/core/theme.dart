@@ -86,8 +86,8 @@ const chatSettings = TextStyle(
 
 const appSettingsTile = TextStyle(
   fontFamily: _fontRubikRegular,
-  color: darkIndigo2,
-  fontSize: 16.7,
+  color: white,
+  fontSize: 22.7,
 );
 
 const addParticipent = TextStyle(

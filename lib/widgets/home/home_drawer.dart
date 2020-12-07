@@ -81,23 +81,18 @@ class HomeDrawer extends StatelessWidget {
                           .pushOnboardingProfile(mode: OnboardingMode.drawer)),
                   if (!store.getUser.isIcon)
                     DrawerItem(
-                      text: 'הזדהה כאייקון',
+                      text: LocaleKeys.drawer_identifyAsIcon.tr(),
                       onTap: () {
                         sl<VerifyIconStore>().reset();
                         ExtendedNavigator.of(context).pushVerifyWelcomeScreen();
                       },
                     ),
-                  // if (store.getUser.isIcon)
-                  //   DrawerItem(
-                  //       text: LocaleKeys.drawer_groupActivity.tr(),
-                  //       onTap: () {}),
-
                   DrawerItem(
-                      text: "שיחות מוסתרות",
+                      text: LocaleKeys.drawer_hidden.tr(),
                       onTap: () =>
                           ExtendedNavigator.of(context).pushArchiveScreen()),
                   DrawerItem(
-                      text: 'הגדרות',
+                      text: LocaleKeys.drawer_settings.tr(),
                       onTap: () => ExtendedNavigator.of(context)
                           .pushAppSettingsScreen()),
                 ],
@@ -142,7 +137,7 @@ class DrawerItem extends StatelessWidget {
         children: <Widget>[
           Container(
               margin: EdgeInsets.symmetric(horizontal: 31.7),
-              alignment: Alignment.centerRight,
+              alignment: Alignment.center,
               height: 50,
               child: CustomText(text, style: flushbar)),
           _drawerDivider,

@@ -110,11 +110,11 @@ class PersonDetails extends StatelessWidget {
                   width: context.widthPx * .547,
                   child: InputText(
                       initialValue: user?.fullName ?? '',
-                      hint: 'שם ושם משפחה',
+                      hint: LocaleKeys.onboarding_fullName.tr(),
                       hintStyle: personalDetailsHint,
                       validator: (value) {
                         if (store.validateUserName()) return null;
-                        return 'ציין שם ושם משפחה';
+                        return LocaleKeys.onboarding_fullNameValidation.tr();
                       },
                       title: LocaleKeys.onboarding_profileName.tr(),
                       onChange: (name) => store.updateUserName(name))),

@@ -31,31 +31,34 @@ class InputText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        if (title != null) CustomText(title, style: fieldLabel),
-        TextFormField(
-          key: key,
-          initialValue: initialValue,
-          validator: validator,
-          maxLength: maxLength,
-          keyboardType: keyboardType,
-          decoration: InputDecoration(
-            contentPadding: contentPadding,
-            hintStyle: hintStyle,
-            hintText: hint,
-            counterText: '',
-            enabledBorder:
-                UnderlineInputBorder(borderSide: BorderSide(color: cornflower)),
-            border: UnderlineInputBorder(
-              borderSide: BorderSide(color: cornflower, width: .7),
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          if (title != null) CustomText(title, style: fieldLabel),
+          TextFormField(
+            key: key,
+            initialValue: initialValue,
+            validator: validator,
+            maxLength: maxLength,
+            keyboardType: keyboardType,
+            decoration: InputDecoration(
+              contentPadding: contentPadding,
+              hintStyle: hintStyle,
+              hintText: hint,
+              counterText: '',
+              enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: cornflower)),
+              border: UnderlineInputBorder(
+                borderSide: BorderSide(color: cornflower, width: .7),
+              ),
             ),
+            onChanged: onChange,
+            style: textStyle,
           ),
-          onChanged: onChange,
-          style: textStyle,
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

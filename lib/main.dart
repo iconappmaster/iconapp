@@ -87,7 +87,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void didChangeDependencies() {
-    context.locale = Locale('he', 'HE');
+    // context.locale = Locale('he', 'HE');
+    context.locale = Locale('en', 'US');
     super.didChangeDependencies();
   }
 

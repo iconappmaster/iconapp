@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/story_image.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/screens/full_video_screen.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 // This screen adds the ability to add an description for existing media [photo/video]
 class MediaDescriptionScreen extends StatefulWidget {
@@ -53,7 +55,7 @@ class _MediaDescriptionScreenState extends State<MediaDescriptionScreen> {
                           enabledBorder: transparentBorder,
                           border: transparentBorder,
                           focusedBorder: transparentBorder,
-                          hintText: 'הוספ/י כיתוב…',
+                          hintText: LocaleKeys.description_hint.tr(),
                           hintStyle: flushbar,
                         ),
                       ),

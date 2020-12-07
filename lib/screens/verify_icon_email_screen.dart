@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/verify_icon/verify_icon_store.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/input_box.dart';
@@ -12,6 +13,7 @@ import 'package:iconapp/widgets/onboarding/base_onboarding_widget.dart';
 import 'package:iconapp/widgets/onboarding/onboarding_appbar.dart';
 import '../core/extensions/string_ext.dart';
 import 'package:iconapp/routes/router.gr.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 // This screen is a welcome screen that force the user to agree to our icon terms
 class VerifyIconEmailScreen extends StatelessWidget {
@@ -24,22 +26,20 @@ class VerifyIconEmailScreen extends StatelessWidget {
         children: [
           IconAppbar(showBack: true),
           SizedBox(height: 20),
-          CustomText('הוספ/י את כתובת המייל שלך',
+          CustomText(LocaleKeys.verify_title.tr(),
               style: personalDetailsHint.copyWith(color: white)),
           SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30.0),
-            child: Directionality(
-              textDirection: TextDirection.ltr,
-              child: InputText(
-                validator: (input) =>
-                    input.isValidAddress() ? null : "בדוק את האימייל שלך",
-                keyboardType: TextInputType.emailAddress,
-                onChange: (email) => verify.email = email,
-                hint: 'you@email.com',
-                hintStyle: emailHint,
-                textStyle: emailHint.copyWith(color: white),
-              ),
+            child: InputText(
+              validator: (input) => input.isValidAddress()
+                  ? null
+                  : LocaleKeys.verify_validation.tr(),
+              keyboardType: TextInputType.emailAddress,
+              onChange: (email) => verify.email = email,
+              hint: 'you@email.com',
+              hintStyle: emailHint,
+              textStyle: emailHint.copyWith(color: white),
             ),
           ),
           SizedBox(height: 30),

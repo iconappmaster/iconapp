@@ -16,7 +16,8 @@
 	<string>6.0</string>
 	<key>CFBundleLocalizations</key>
 	<array>
-		<string>heb</string>
+		<string>he</string>
+		<string>en</string>
 	</array>
 	<key>CFBundleName</key>
 	<string>ICON</string>

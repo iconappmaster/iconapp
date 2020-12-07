@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/verify_icon/verify_icon_store.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/lottie_loader.dart';
@@ -12,11 +13,8 @@ import 'package:iconapp/widgets/onboarding/base_onboarding_widget.dart';
 import 'package:iconapp/widgets/onboarding/onboarding_appbar.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import '../core/extensions/context_ext.dart';
+import 'package:easy_localization/easy_localization.dart';
 
-const rules =
-    'אני פונה לזיהוי כאייקון מעצם היותי ידוענ.ית, מוביל.ת דעה או מוביל.ת תוכן. אם יתברר ע"י המערכת שפניתי ללא כל עילה סבירה השימוש באפליקציה יחסם לחודש ימים.';
-const terms = 'אני מאשר.ת את תנאי השימוש של אייקון.';
-const flush = 'אנא אשר את התנאים';
 const welcomeTitle = 'ברוכים הבאים לתהליך ההזדהות כאייקון';
 const nextButton = 'שלחו לי את הקוד';
 
@@ -32,7 +30,7 @@ class VerifySendCodeScreen extends StatelessWidget {
           children: [
             IconAppbar(showBack: true),
             SizedBox(height: 20),
-            CustomText(welcomeTitle,
+            CustomText(LocaleKeys.verify_welcomeTitle.tr(),
                 style: personalDetailsHint.copyWith(color: white)),
             SizedBox(height: 20),
             NextButton(
@@ -43,9 +41,9 @@ class VerifySendCodeScreen extends StatelessWidget {
             if (store.codeSent)
               RichText(
                 text: TextSpan(children: [
-                  TextSpan(text: 'לא קיבלתי את הקוד.', style: loginSmallText),
+                  TextSpan(text: LocaleKeys.verify_noCode.tr(), style: loginSmallText),
                   TextSpan(
-                    text: 'שלחו שוב',
+                    text: LocaleKeys.verify_sendAgain.tr(),
                     style: smallLine.copyWith(
                         decoration: TextDecoration.underline,
                         fontWeight: FontWeight.normal),

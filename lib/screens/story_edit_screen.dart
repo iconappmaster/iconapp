@@ -236,7 +236,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                     Visibility(
                       visible: _edit.comporessing,
                       child: CustomText(
-                        'דוחס וידאו...',
+                        LocaleKeys.story_compressing.tr(),
                         style: systemMessage,
                       ),
                     ),
@@ -256,7 +256,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                           semanticsLabel: LocaleKeys.story_uploading.tr(),
                         )
                       : NextButton(
-                          title: 'שיתוף',
+                          title: LocaleKeys.story_share.tr(),
                           onClick: () async {
                             final result = await _edit.addToStory();
                             result.fold((error) => null, (story) {
@@ -274,7 +274,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                 bottom: context.heightPlusStatusbarPerc(.2),
                 child: Column(
                   children: [
-                    CustomText('משך זמן תמונה', style: dialogTitle),
+                    CustomText(LocaleKeys.story_duration.tr(), style: dialogTitle),
                     SizedBox(height: 3),
                     MaterialButton(
                         onPressed: () async => Navigator.of(context).push(
@@ -307,7 +307,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                   ListTile(
                       leading: SvgPicture.asset('assets/images/camera.svg',
                           height: 40, width: 40, color: white),
-                      title: Text('מצלמה', style: settingsAppbarTitle),
+                      title: Text(LocaleKeys.story_camera.tr(), style: settingsAppbarTitle),
                       onTap: () async {
                         _edit.addPhotoMedia(ImageSource.camera);
                         await Navigator.pop(context);
@@ -316,7 +316,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                   ListTile(
                       leading: SvgPicture.asset('assets/images/photo.svg',
                           height: 40, width: 40, color: white),
-                      title: Text('גלריה', style: settingsAppbarTitle),
+                      title: Text(LocaleKeys.story_gallery.tr(), style: settingsAppbarTitle),
                       onTap: () async {
                         _edit.addPhotoMedia(ImageSource.gallery);
                         await Navigator.pop(context);
@@ -338,7 +338,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                       color: white,
                       size: 40,
                     ),
-                    title: Text("גלריית וידאו", style: settingsAppbarTitle),
+                    title: Text(LocaleKeys.story_videoGallery.tr(), style: settingsAppbarTitle),
                     onTap: () async {
                       _edit.uploadVideo(ImageSource.gallery);
                       await Navigator.pop(context);

@@ -16,7 +16,7 @@ import 'package:iconapp/widgets/global/next_button.dart';
 import 'package:iconapp/widgets/onboarding/base_onboarding_widget.dart';
 import 'package:iconapp/widgets/onboarding/onboarding_appbar.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-
+import 'package:iconapp/generated/locale_keys.g.dart';
 import '../core/extensions/context_ext.dart';
 import '../generated/locale_keys.g.dart';
 
@@ -101,9 +101,11 @@ class _SendAgain extends StatelessWidget {
         top: context.heightPlusStatusbarPerc(.49),
         child: RichText(
           text: TextSpan(children: [
-            TextSpan(text: 'לא קיבלתי את הקוד. ', style: loginSmallText),
             TextSpan(
-              text: 'שלח שוב',
+                text: LocaleKeys.onboarding_sendAgainTitle.tr(),
+                style: loginSmallText),
+            TextSpan(
+              text: LocaleKeys.onboarding_sendAgain.tr(),
               style: smallLine.copyWith(
                 decoration: TextDecoration.underline,
                 fontWeight: FontWeight.normal,

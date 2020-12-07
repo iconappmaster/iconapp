@@ -2,36 +2,38 @@ import 'dart:convert';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:iconapp/core/ads/admob/admob.dart';
-import 'package:iconapp/core/deep_link.dart';
-import 'package:iconapp/core/dependencies/locator.dart';
-import 'package:iconapp/core/lifecycle_observer.dart';
-import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/core/video/feed_player/feed_player.dart';
-import 'package:iconapp/data/models/conversation_model.dart';
-import 'package:iconapp/data/sources/local/shared_preferences.dart';
-import 'package:iconapp/routes/router.gr.dart';
-import 'package:iconapp/stores/alerts/alert_store.dart';
-import 'package:iconapp/stores/analytics/analytics_consts.dart';
-import 'package:iconapp/stores/home/home_store.dart';
-import 'package:iconapp/data/sources/socket/socket_manager.dart';
-import 'package:iconapp/stores/story/story_store.dart';
-import 'package:iconapp/stores/user/user_store.dart';
-import 'package:iconapp/widgets/bottomsheet/bs_bar.dart';
-import 'package:iconapp/widgets/bottomsheet/bs_nested_modal.dart';
-import 'package:iconapp/widgets/global/custom_text.dart';
-import 'package:iconapp/widgets/home/force_update_dialog.dart';
-import 'package:iconapp/widgets/home/home_drawer.dart';
-import 'package:iconapp/widgets/home/home_list.dart';
-import 'package:iconapp/widgets/home/home_staggered.dart';
-import 'package:iconapp/widgets/home/icon_fab.dart';
-import 'package:iconapp/widgets/story/story_list.dart';
-import 'package:iconapp/widgets/home/welcome_dialog.dart';
-import 'package:iconapp/widgets/onboarding/onboarding_appbar.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:vibration/vibration.dart';
+import 'package:flutter/rendering.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import '../core/ads/admob/admob.dart';
+import '../core/deep_link.dart';
+import '../core/dependencies/locator.dart';
+import '../core/lifecycle_observer.dart';
+import '../core/theme.dart';
+import '../core/video/feed_player/feed_player.dart';
+import '../data/models/conversation_model.dart';
+import '../data/sources/local/shared_preferences.dart';
+import '../generated/locale_keys.g.dart';
+import '../routes/router.gr.dart';
+import '../stores/alerts/alert_store.dart';
+import '../stores/analytics/analytics_consts.dart';
+import '../stores/home/home_store.dart';
+import '../data/sources/socket/socket_manager.dart';
+import '../stores/story/story_store.dart';
+import '../stores/user/user_store.dart';
+import '../widgets/bottomsheet/bs_bar.dart';
+import '../widgets/bottomsheet/bs_nested_modal.dart';
+import '../widgets/global/custom_text.dart';
+import '../widgets/home/force_update_dialog.dart';
+import '../widgets/home/home_drawer.dart';
+import '../widgets/home/home_list.dart';
+import '../widgets/home/home_staggered.dart';
+import '../widgets/home/icon_fab.dart';
+import '../widgets/story/story_list.dart';
+import '../widgets/home/welcome_dialog.dart';
+import '../widgets/onboarding/onboarding_appbar.dart';
 import '../stores/analytics/analytics_firebase.dart';
 import 'alerts_screen.dart';
 
@@ -186,10 +188,15 @@ class _HomeScreenState extends State<HomeScreen> {
                             return CupertinoSlidingSegmentedControl(
                               thumbColor: cornflower,
                               groupValue: _home.getCurrentTabIndex,
-                              padding: EdgeInsets.only(left: 8, right: 8),
                               children: {
-                                0: CustomText("שיחות", style: chatMessageName),
-                                1: CustomText("מדיה", style: chatMessageName)
+                                0: CustomText(
+                                  LocaleKeys.home_conversation.tr(),
+                                  style: chatMessageName,
+                                ),
+                                1: CustomText(
+                                  LocaleKeys.home_media.tr(),
+                                  style: chatMessageName,
+                                )
                               },
                               onValueChanged: (v) {
                                 Vibration.vibrate(duration: 150);

@@ -117,7 +117,8 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
       child: Scaffold(
         body: WillPopScope(
           onWillPop: () async {
-            if (_chat.uploading) context.showToast('מעלה קובץ אנא המתן...');
+            if (_chat.uploading)
+              context.showToast(LocaleKeys.general_uploading.tr());
 
             return !_chat.uploading;
           },
@@ -176,7 +177,8 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                           } else {
                             if (!_chat.conversation.isSubscribed) {
                               context.showFlushbar(
-                                  message: 'כדי להציג תגובות, הצטרפ/י לקבוצה');
+                                  message: LocaleKeys.chat_joinGroupShowComments
+                                      .tr());
                             } else {
                               context.showFlushbar(
                                   message: LocaleKeys.comments_closed.tr());

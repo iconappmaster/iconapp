@@ -10,11 +10,20 @@ abstract class  LocaleKeys {
   static const policy_title = 'policy.title';
   static const policy = 'policy';
   static const search_empty_state = 'search.empty_state';
+  static const search_showAll = 'search.showAll';
+  static const search_searchCategory = 'search.searchCategory';
+  static const search_searchIcon = 'search.searchIcon';
   static const search = 'search';
   static const general_server_error = 'general.server_error';
   static const general_iGotIt = 'general.iGotIt';
+  static const general_cancel = 'general.cancel';
+  static const general_uploading = 'general.uploading';
+  static const general_loading = 'general.loading';
+  static const general_close = 'general.close';
   static const general = 'general';
   static const home_noMessages = 'home.noMessages';
+  static const home_conversation = 'home.conversation';
+  static const home_media = 'home.media';
   static const home = 'home';
   static const onboarding_phoneTitle = 'onboarding.phoneTitle';
   static const onboarding_phoneSubtitle = 'onboarding.phoneSubtitle';
@@ -29,6 +38,10 @@ abstract class  LocaleKeys {
   static const onboarding_wrongName = 'onboarding.wrongName';
   static const onboarding_wrongAge = 'onboarding.wrongAge';
   static const onboarding_wrongCode = 'onboarding.wrongCode';
+  static const onboarding_sendAgainTitle = 'onboarding.sendAgainTitle';
+  static const onboarding_sendAgain = 'onboarding.sendAgain';
+  static const onboarding_fullName = 'onboarding.fullName';
+  static const onboarding_fullNameValidation = 'onboarding.fullNameValidation';
   static const onboarding = 'onboarding';
   static const create_groupNameHint = 'create.groupNameHint';
   static const create_groupNameDescription = 'create.groupNameDescription';
@@ -40,6 +53,7 @@ abstract class  LocaleKeys {
   static const create_categoryValidation = 'create.categoryValidation';
   static const create_addUser = 'create.addUser';
   static const create_chooseUserToGroup = 'create.chooseUserToGroup';
+  static const create_addPhotoMandatory = 'create.addPhotoMandatory';
   static const create = 'create';
   static const welcome_title = 'welcome.title';
   static const welcome_content = 'welcome.content';
@@ -57,6 +71,9 @@ abstract class  LocaleKeys {
   static const chat_manager = 'chat.manager';
   static const chat_addManagers = 'chat.addManagers';
   static const chat_groupEditors = 'chat.groupEditors';
+  static const chat_joinGroupShowComments = 'chat.joinGroupShowComments';
+  static const chat_renameHint = 'chat.renameHint';
+  static const chat_groupNameCantBeEmpty = 'chat.groupNameCantBeEmpty';
   static const chat = 'chat';
   static const disconnect_content = 'disconnect.content';
   static const disconnect = 'disconnect';
@@ -67,6 +84,7 @@ abstract class  LocaleKeys {
   static const settings_title = 'settings.title';
   static const settings_friends = 'settings.friends';
   static const settings_about = 'settings.about';
+  static const settings_language = 'settings.language';
   static const settings = 'settings';
   static const story_title = 'story.title';
   static const story_newStory = 'story.newStory';
@@ -74,10 +92,19 @@ abstract class  LocaleKeys {
   static const story_addMedia = 'story.addMedia';
   static const story_uploading = 'story.uploading';
   static const story_video = 'story.video';
+  static const story_share = 'story.share';
+  static const story_compressing = 'story.compressing';
+  static const story_duration = 'story.duration';
+  static const story_videoGallery = 'story.videoGallery';
+  static const story_gallery = 'story.gallery';
+  static const story_camera = 'story.camera';
   static const story = 'story';
   static const drawer_groupActivity = 'drawer.groupActivity';
   static const drawer_disconnect = 'drawer.disconnect';
   static const drawer_profile = 'drawer.profile';
+  static const drawer_identifyAsIcon = 'drawer.identifyAsIcon';
+  static const drawer_hidden = 'drawer.hidden';
+  static const drawer_settings = 'drawer.settings';
   static const drawer = 'drawer';
   static const dialogs_exit = 'dialogs.exit';
   static const dialogs_disconnect = 'dialogs.disconnect';
@@ -90,5 +117,17 @@ abstract class  LocaleKeys {
   static const comments_close = 'comments.close';
   static const comments_closed = 'comments.closed';
   static const comments = 'comments';
+  static const archive_empty = 'archive.empty';
+  static const archive_hidden = 'archive.hidden';
+  static const archive = 'archive';
+  static const description_hint = 'description.hint';
+  static const description = 'description';
+  static const verify_title = 'verify.title';
+  static const verify_validation = 'verify.validation';
+  static const verify_welcomeTitle = 'verify.welcomeTitle';
+  static const verify_nextButton = 'verify.nextButton';
+  static const verify_noCode = 'verify.noCode';
+  static const verify_sendAgain = 'verify.sendAgain';
+  static const verify = 'verify';
 
 }

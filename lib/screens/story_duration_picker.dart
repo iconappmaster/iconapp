@@ -1,5 +1,6 @@
 import 'dart:ui';
-
+import 'package:iconapp/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
@@ -57,7 +58,7 @@ class StoryDurationPicker extends StatelessWidget {
               Positioned(
                   bottom: 50,
                   child: NextButton(
-                      title: 'סגור',
+                      title: LocaleKeys.general_close.tr(),
                       onClick: () => ExtendedNavigator.of(context).pop()))
             ],
           ),

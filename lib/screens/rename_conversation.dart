@@ -13,7 +13,6 @@ import 'package:easy_localization/easy_localization.dart';
 import '../core/extensions/context_ext.dart';
 import '../stores/chat_settings/chat_settings_store.dart';
 import '../widgets/global/lottie_loader.dart';
-
 class EditConversation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -34,7 +33,7 @@ class EditConversation extends StatelessWidget {
                       contentPadding: const EdgeInsets.only(bottom: 20),
                       initialValue: store.conversation?.name ?? '',
                       onChange: (value) => groupName = value,
-                      hint: 'הקלד/י נושא חדש',
+                      hint: LocaleKeys.chat_renameHint.tr(),
                       hintStyle: flushbar,
                       textStyle: flushbar)),
             ],
@@ -59,7 +58,7 @@ class EditConversation extends StatelessWidget {
                       ExtendedNavigator.of(context).pop();
                     } else {
                       context.showFlushbar(
-                          message: 'שם הקבוצה לא יכול להיות ריק');
+                          message: LocaleKeys.chat_groupNameCantBeEmpty.tr());
                     }
                   }),
             ),

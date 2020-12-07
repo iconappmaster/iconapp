@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/archive/archive_store.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ArchiveScreen extends StatefulWidget {
   @override
@@ -26,7 +28,7 @@ class _ArchiveScreenState extends State<ArchiveScreen> {
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: darkIndigo2,
-          title: CustomText('קבוצות מוסתרות'),
+          title: CustomText(LocaleKeys.archive_hidden.tr()),
         ),
         body: Observer(builder: (_) {
           if (archive.loading) {
@@ -36,7 +38,7 @@ class _ArchiveScreenState extends State<ArchiveScreen> {
             ));
           }
           return archive.archived.length == 0
-              ? Center(child: CustomText('אין שיחות מוסתרות'))
+              ? Center(child: CustomText(LocaleKeys.archive_empty.tr()))
               : ListView.builder(
                   shrinkWrap: true,
                   itemCount: archive.archived.length,

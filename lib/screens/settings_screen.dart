@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/theme.dart';
@@ -5,11 +6,35 @@ import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/widgets/global/back_button.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/login/login_background.dart';
+import 'package:package_info/package_info.dart';
 import '../core/extensions/context_ext.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:social_share/social_share.dart';
 
-class AppSettingsScreen extends StatelessWidget {
+final whatsappMessage =
+    "Hi, Check out ICON!\nPlayStore: https://play.google.com/store/apps/details?id=com.icon.iconapp\nAppStore: https://apps.apple.com/app/id1528197266";
+final developedBy = 'Developed by IconTech';
+
+class AppSettingsScreen extends StatefulWidget {
+  @override
+  _AppSettingsScreenState createState() => _AppSettingsScreenState();
+}
+
+class _AppSettingsScreenState extends State<AppSettingsScreen> {
+  String appVer = '';
+  @override
+  void initState() {
+    super.initState();
+    getVersion();
+  }
+
+  Future getVersion() async {
+    final info = await PackageInfo.fromPlatform();
+    setState(() {
+      appVer = info.version;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +44,7 @@ class AppSettingsScreen extends StatelessWidget {
         children: <Widget>[
           LoginBackgroundImage(),
           Positioned(
-              top: context.heightPlusStatusbarPerc(.188),
+              top: context.heightPlusStatusbarPerc(.118),
               child: SvgPicture.asset('assets/images/icon_logo.svg',
                   height: 169, width: 142)),
           Positioned(
@@ -34,9 +59,9 @@ class AppSettingsScreen extends StatelessWidget {
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              height: context.heightPlusStatusbarPerc(.45),
+              height: context.heightPlusStatusbarPerc(.55),
               decoration: BoxDecoration(
-                color: white,
+                color: darkIndigo,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(13.3),
                     topRight: Radius.circular(13.3)),
@@ -44,25 +69,57 @@ class AppSettingsScreen extends StatelessWidget {
               child: ListView(
                 children: [
                   AppSettingsTile(
-                      title: LocaleKeys.settings_friends.tr(),
-                      onTap: () => SocialShare.shareWhatsapp(
-                          "Hi, Check out ICON!\nPlayStore: https://play.google.com/store/apps/details?id=com.icon.iconapp\nAppStore: https://apps.apple.com/app/id1528197266")),
+                    title: LocaleKeys.settings_friends.tr(),
+                    onTap: () => SocialShare.shareWhatsapp(
+                      whatsappMessage,
+                    ),
+                  ),
                   _SettingsDivider(),
                   AppSettingsTile(
                     title: LocaleKeys.settings_about.tr(),
                     onTap: () => showAboutDialog(context: context),
                   ),
                   _SettingsDivider(),
-                  AppSettingsTile(title: 'מספר גירסה 1.0', onTap: () => 'tap'),
+                  AppSettingsTile(title: 'Version $appVer', onTap: () => 'tap'),
+                  _SettingsDivider(),
+                  LanguageSwitch(),
                   _SettingsDivider(),
                 ],
               ),
             ),
           ),
           Positioned(
-              bottom: 25,
-              child: CustomText('Developed by IconTech',
-                  style: chatMessageBody.copyWith(color: Colors.black))),
+              bottom: 8,
+              child: CustomText(developedBy,
+                  style: chatMessageBody.copyWith(color: white))),
+        ],
+      ),
+    );
+  }
+}
+
+class LanguageSwitch extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(21),
+      height: context.heightPlusStatusbarPerc(.11),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          CustomText(
+            LocaleKeys.settings_language.tr(),
+            style: appSettingsTile.copyWith(color: white, fontSize: 18),
+          ),
+          CupertinoSlidingSegmentedControl(
+            thumbColor: cornflower,
+            groupValue: 0,
+            children: {
+              0: CustomText('English', style: chatMessageName),
+              1: CustomText('עברית', style: chatMessageName)
+            },
+            onValueChanged: (v) {},
+          ),
         ],
       ),
     );
@@ -78,16 +135,18 @@ class AppSettingsTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        alignment: Alignment.centerRight,
-        height: context.heightPlusStatusbarPerc(.11),
-        child: Padding(
-          padding: const EdgeInsets.all(21.0),
-          child: CustomText(title, style: appSettingsTile),
-        ),
-      ),
-    );
+        onTap: onTap,
+        child: Container(
+            padding: EdgeInsets.all(21),
+            height: context.heightPlusStatusbarPerc(.11),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomText(title,
+                    style:
+                        appSettingsTile.copyWith(color: white, fontSize: 18)),
+              ],
+            )));
   }
 }
 
@@ -99,7 +158,7 @@ class _SettingsDivider extends StatelessWidget {
       height: 0,
       indent: 0,
       thickness: .3,
-      color: darkIndigo2,
+      color: whiteOpacity50,
     );
   }
 }
