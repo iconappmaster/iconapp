@@ -129,7 +129,7 @@ class _Appbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(top: 20),
-      height: context.heightPlusStatusbarPerc(.11),
+      height: context.heightPlusStatusbarPerc(.94),
       color: blueberry2,
       child: Stack(
         children: <Widget>[

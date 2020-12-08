@@ -38,6 +38,21 @@ mixin _$CustomAdsStore on _CustomAdsStoreBase, Store {
     });
   }
 
+  final _$addShownAtom = Atom(name: '_CustomAdsStoreBase.addShown');
+
+  @override
+  bool get addShown {
+    _$addShownAtom.reportRead();
+    return super.addShown;
+  }
+
+  @override
+  set addShown(bool value) {
+    _$addShownAtom.reportWrite(value, super.addShown, () {
+      super.addShown = value;
+    });
+  }
+
   final _$_loadingAtom = Atom(name: '_CustomAdsStoreBase._loading');
 
   @override
@@ -70,6 +85,7 @@ mixin _$CustomAdsStore on _CustomAdsStoreBase, Store {
   @override
   String toString() {
     return '''
+addShown: ${addShown},
 currnetAd: ${currnetAd},
 loading: ${loading}
     ''';

@@ -234,9 +234,9 @@ const chatMessageTime = TextStyle(
     fontFamily: _fontRubikRegular, color: white, fontSize: 14.7, height: 1.3);
 
 const hint = TextStyle(
-    fontFamily: _fontRubikRegular,
+    fontFamily: _fontRubikMedium,
     color: darkBlueGrey,
-    fontSize: 20,
+    fontSize: 17,
     height: 1.1);
 
 const emptyState = TextStyle(

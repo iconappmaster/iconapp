@@ -195,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 0: CustomText(LocaleKeys.home_conversation.tr(),
                                     style: chatMessageName),
                                 1: CustomText(LocaleKeys.home_media.tr(),
-                                    style: chatMessageName)
+                                    style: chatMessageName),
                               },
                               onValueChanged: (v) {
                                 Vibration.vibrate(duration: 150);

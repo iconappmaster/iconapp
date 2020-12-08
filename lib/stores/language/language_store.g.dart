@@ -23,6 +23,13 @@ mixin _$LanguageStore on _LanguageStoreBase, Store {
       (_$alignmentComputed ??= Computed<Alignment>(() => super.alignment,
               name: '_LanguageStoreBase.alignment'))
           .value;
+  Computed<TextDirection> _$textDirectionComputed;
+
+  @override
+  TextDirection get textDirection => (_$textDirectionComputed ??=
+          Computed<TextDirection>(() => super.textDirection,
+              name: '_LanguageStoreBase.textDirection'))
+      .value;
   Computed<bool> _$isLTRComputed;
 
   @override
@@ -79,6 +86,7 @@ mixin _$LanguageStore on _LanguageStoreBase, Store {
     return '''
 direction: ${direction},
 alignment: ${alignment},
+textDirection: ${textDirection},
 isLTR: ${isLTR},
 textAlign: ${textAlign},
 switchIndex: ${switchIndex}

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/bus.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/screens/create_icons_screen.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -15,6 +16,7 @@ import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/super_fab.dart';
 import '../../routes/router.gr.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../../core/extensions/string_ext.dart';
 
 class IconFab extends StatelessWidget {
@@ -57,8 +59,8 @@ class IconFab extends StatelessWidget {
       Observer(builder: (_) {
         return FabTile(
             text: home.viewMode == ViewHomeMode.staggered
-                ? 'תצוגה רשימה'
-                : 'תצוגת ריבועים',
+                ? LocaleKeys.fab_list.tr()
+                : LocaleKeys.fab_staggered.tr(),
             onTap: () {
               _close();
               _saveViewMode(home, sp);
@@ -71,7 +73,7 @@ class IconFab extends StatelessWidget {
       }),
       FabTile(
         iconData: Icons.play_arrow,
-        text: 'מדיה',
+        text: LocaleKeys.fab_media.tr(),
         onTap: () {
           _close();
           if (!_home.isLoading)
@@ -97,7 +99,9 @@ class IconFab extends StatelessWidget {
     return [
       Observer(builder: (_) {
         return FabTile(
-            text: home.viewMode == ViewHomeMode.staggered ? 'List' : 'Blocks',
+            text: home.viewMode == ViewHomeMode.staggered
+                ? LocaleKeys.fab_list.tr()
+                : LocaleKeys.fab_staggered.tr(),
             onTap: () {
               _close();
               _saveViewMode(home, sp);
@@ -110,7 +114,7 @@ class IconFab extends StatelessWidget {
       }),
       FabTile(
         iconData: Icons.play_arrow,
-        text: 'מדיה',
+        text: LocaleKeys.fab_media.tr(),
         onTap: () {
           _close();
           if (!_home.isLoading)
@@ -120,7 +124,7 @@ class IconFab extends StatelessWidget {
       ),
       FabTile(
         iconData: Icons.add,
-        text: 'קבוצה חדשה',
+        text: LocaleKeys.fab_create.tr(),
         onTap: () {
           _close();
           final iconStore = sl<CreateIconStore>();
@@ -155,23 +159,19 @@ class FabTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: () {
-        onTap();
-      },
+      onTap: () => onTap(),
       child: SizedBox(
         height: 80,
         child: Observer(
-          builder: (_) {
-            return Column(
-              children: [
-                Icon(iconData, color: lightMustard, size: 40),
-                SizedBox(height: 8),
-                CustomText(text,
-                    style:
-                        replayTitle.copyWith(color: lightMustard, fontSize: 10))
-              ],
-            );
-          },
+          builder: (_) => Column(
+            children: [
+              Icon(iconData, color: lightMustard, size: 40),
+              SizedBox(height: 8),
+              CustomText(text,
+                  style:
+                      replayTitle.copyWith(color: lightMustard, fontSize: 10))
+            ],
+          ),
         ),
       ),
     );

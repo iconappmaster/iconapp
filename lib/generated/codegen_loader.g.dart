@@ -28,7 +28,9 @@ class CodegenLoader extends AssetLoader{
     "empty_state": "לא מצאנו את מה שחיפשת\nנסה/י להקליד משהו אחר",
     "showAll": "הצג הכל",
     "searchCategory": "חפש/י קטגוריה",
-    "searchIcon": "חפש/י אייקון"
+    "searchIcon": "חפש/י אייקון",
+    "serachIconHint": "חיפוש אייקונים",
+    "searchCategoryHint": "חיפוש קטגוריות"
   },
   "general": {
     "server_error": "תקלה בשרת, אנא נסה שנית",
@@ -44,6 +46,7 @@ class CodegenLoader extends AssetLoader{
     "media": "מדיה"
   },
   "onboarding": {
+    "phoneNumberHint": "מה מספר הטלפון שלך?",
     "phoneTitle": "כדי להתחבר לקבוצות הצ׳אט אנחנו\nצריכים את מספר הטלפון שלך",
     "phoneSubtitle": "מה מספר הטלפון שלך?",
     "enterCode": "הזן/י את הקוד שנשלח אליך ב- SMS",
@@ -124,7 +127,8 @@ class CodegenLoader extends AssetLoader{
     "duration": "משך זמן תמונה",
     "videoGallery": "גלריית וידאו",
     "gallery": "גלריה",
-    "camera": "מצלמה'"
+    "camera": "מצלמה",
+    "videoCamera": "מצלמת וידאו"
   },
   "drawer": {
     "groupActivity": "נתוני פעילות הקבוצה",
@@ -161,6 +165,12 @@ class CodegenLoader extends AssetLoader{
     "nextButton": "שלחו לי את הקוד",
     "noCode": "לא קיבלתי את הקוד.",
     "sendAgain": "שלחו שוב"
+  },
+  "fab": {
+    "create": "קבוצה חדשה",
+    "media": "מדיה",
+    "list": "רשימה",
+    "staggered": "בלוקים"
   }
 };
 static const Map<String,dynamic> en_US = {
@@ -176,8 +186,8 @@ static const Map<String,dynamic> en_US = {
   "search": {
     "empty_state": "We can't find, try typing something else.",
     "showAll": "Show all",
-    "searchCategory": "Search category",
-    "searchIcon": "Search Icon"
+    "searchCategoryHint": "search category",
+    "serachIconHint": "search icon"
   },
   "general": {
     "server_error": "Server error, please try again",
@@ -193,6 +203,7 @@ static const Map<String,dynamic> en_US = {
     "media": "media"
   },
   "onboarding": {
+    "phoneNumberHint": "what is your number?",
     "phoneTitle": "Before we start we need your phone\nso we can send you a PIN code.",
     "phoneSubtitle": "What is your phone number?",
     "enterCode": "Enter the PIN code from the SMS",
@@ -229,7 +240,7 @@ static const Map<String,dynamic> en_US = {
     "content": "ברוך הבא ל-Icon! אצלנו תהיה חלק מקהילות\nועולמות תוכן המדברים אליך. קבוצות הצ'אט שלנו מנוהלות\nעל ידי אייקונים, מובילי דעה ויוצרי תוכן המובילים בתחומם\nהקהל הרחב יוכל לצפות בשיחות המתקיימות 24/7 ולהגיב באמצעות חייכנים. מנהל הקבוצה יוכל לפתוח את הקבוצה לשילוב הקהל בשיחה כשיבחר. מהיום אתה חלק מקבוצות האייקונים האהובים עליך."
   },
   "chat": {
-    "appbarSubtitle": "Icons {}, Followers {}",
+    "appbarSubtitle": "{} Icons,{} Followers",
     "messageInputHint": "type a message",
     "welcomeTitle": "Welcome to {}",
     "welcomeContent": "איזה כיף! הצטרפת לקבוצה הראשונה שלך.\nבקבוצות תיחשף לשיחות צ׳אט והודעות בין אייקונים.\nתוכל להגיב להודעות ולסטורי באמצעות חייכנים ואימוג׳ים.\nאתה יכול להצטרף לכל קבוצה שמעניינת אותך ואפילו לבחור לעקוב אחר אייקון ספציפי בקבוצות בהן הוא פעיל.\nאתה נכנס למימד חדש, ודא שהאייקונים ידעו שאתה שם.",
@@ -263,23 +274,24 @@ static const Map<String,dynamic> en_US = {
   },
   "story": {
     "title": "Your Story",
-    "newStory": "New Story",
-    "addExtraMedia": "Add extra Photo/Video",
-    "addMedia": "Upload Photo/Video",
+    "newStory": "new ntory",
+    "addExtraMedia": "add extra photo or video",
+    "addMedia": "upload a photo or aideo",
     "uploading": "Uploading",
     "video": "Video",
     "share": "Share",
     "compressing": "Compressing video",
     "duration": "Story image duration",
-    "videoGallery": "Video Gallery",
+    "videoGallery": "Video gallery",
     "gallery": "Gallery",
-    "camera": "Camera'"
+    "camera": "Camera",
+    "videoCamera": "Video camera"
   },
   "drawer": {
     "groupActivity": "Statistics",
     "disconnect": "Logout",
-    "profile": "My Profile",
-    "identifyAsIcon": "Identify as Icon",
+    "profile": "My profile",
+    "identifyAsIcon": "Identify as ICON",
     "hidden": "Hidden conversations",
     "settings": "Settings"
   },
@@ -310,6 +322,12 @@ static const Map<String,dynamic> en_US = {
     "nextButton": "Send me the code",
     "noCode": "Didn't recieved the code",
     "sendAgain": "Send again"
+  },
+  "fab": {
+    "create": "new group",
+    "media": "media",
+    "list": "list",
+    "staggered": "block"
   }
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"he_HE": he_HE, "en_US": en_US};

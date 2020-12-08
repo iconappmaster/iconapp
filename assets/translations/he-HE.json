@@ -12,7 +12,9 @@
         "empty_state": "לא מצאנו את מה שחיפשת\nנסה/י להקליד משהו אחר",
         "showAll": "הצג הכל",
         "searchCategory": "חפש/י קטגוריה",
-        "searchIcon": "חפש/י אייקון"
+        "searchIcon": "חפש/י אייקון",
+        "serachIconHint" : "חיפוש אייקונים",
+        "searchCategoryHint" : "חיפוש קטגוריות"
     },
     "general": {
         "server_error": "תקלה בשרת, אנא נסה שנית",
@@ -28,6 +30,7 @@
         "media" : "מדיה"
     },
     "onboarding": {
+        "phoneNumberHint" : "מה מספר הטלפון שלך?",
         "phoneTitle": "כדי להתחבר לקבוצות הצ׳אט אנחנו\nצריכים את מספר הטלפון שלך",
         "phoneSubtitle": "מה מספר הטלפון שלך?",
         "enterCode": "הזן/י את הקוד שנשלח אליך ב- SMS",
@@ -108,7 +111,8 @@
         "duration" : "משך זמן תמונה",
         "videoGallery" : "גלריית וידאו",
         "gallery" : "גלריה",
-        "camera" : "מצלמה'"
+        "camera" : "מצלמה",
+        "videoCamera" : "מצלמת וידאו"
     },
     "drawer": {
         "groupActivity": "נתוני פעילות הקבוצה",
@@ -146,5 +150,11 @@
         "nextButton" : "שלחו לי את הקוד",
         "noCode" : "לא קיבלתי את הקוד.",
         "sendAgain" : "שלחו שוב"
+    },
+    "fab" : {
+        "create" : "קבוצה חדשה",
+        "media" : "מדיה",
+        "list" : "רשימה",
+        "staggered" : "בלוקים"
     }
 }

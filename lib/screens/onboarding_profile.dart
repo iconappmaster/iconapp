@@ -53,6 +53,7 @@ class OnboardingProfile extends StatelessWidget {
                     url: store?.getUserPhoto ?? '')),
             PersonDetails(),
             if (mode == OnboardingMode.onboarding) SexPicker(),
+            
             _nextButton(context, store),
           ],
         ),

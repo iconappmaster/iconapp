@@ -39,6 +39,9 @@ abstract class _LanguageStoreBase with Store {
   Alignment get alignment => _languageDirection == LanguageDirection.ltr
       ? Alignment.centerLeft
       : Alignment.centerRight;
+  @computed
+  TextDirection get textDirection =>
+      isLTR ? TextDirection.ltr : TextDirection.rtl;
 
   @computed
   bool get isLTR => language.direction == LanguageDirection.ltr;

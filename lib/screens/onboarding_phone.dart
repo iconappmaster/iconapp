@@ -10,8 +10,10 @@ import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/screens/onboarding_profile.dart';
 import 'package:iconapp/stores/auth/auth_store.dart';
+import 'package:iconapp/stores/language/language_store.dart';
 import 'package:iconapp/stores/login/login_store.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
+import 'package:iconapp/widgets/global/language_switch.dart';
 import 'package:iconapp/widgets/global/next_button.dart';
 import 'package:iconapp/widgets/onboarding/base_onboarding_widget.dart';
 import 'package:iconapp/widgets/onboarding/onboarding_appbar.dart';
@@ -57,6 +59,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             _PinCode(store: store),
             _nextButton(store, context),
             _SendAgain(store: store),
+            Positioned(
+              top: context.heightPlusStatusbarPerc(.02),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 80.0),
+                child: LanguageSwitch(),
+              ),
+            ),
           ],
         ),
       ),
@@ -246,6 +255,7 @@ class _OnboardingPhoneSubtitle extends StatelessWidget {
         store.isPhoneMode
             ? LocaleKeys.onboarding_phoneSubtitle.tr()
             : LocaleKeys.onboarding_enterCode.tr(),
+        textDirection: language.textDirection,
         style: loginSmallText,
       ),
     );
@@ -263,6 +273,7 @@ class _OnboardingPhoneTitle extends StatelessWidget {
       top: context.heightPlusStatusbarPerc(.134),
       child: CustomText(
         LocaleKeys.onboarding_phoneTitle.tr(),
+        textDirection: language.textDirection,
         style: loginBigText,
       ),
     );
@@ -342,11 +353,11 @@ class _PhoneNumberInput extends StatelessWidget {
             autofocus: true,
             style: phoneNumber.copyWith(decoration: TextDecoration.none),
             maxLength: 12,
-            textAlign: TextAlign.center,
+            textAlign: language.textAlign,
             onChanged: (phone) => store.updatePhone(phone),
             keyboardType: TextInputType.phone,
             decoration: InputDecoration(
-                hintText: 'לדוגמא: 054-1122244',
+                hintText: LocaleKeys.onboarding_phoneNumberHint.tr(),
                 hintStyle: phoneNumber.copyWith(
                     color: whiteOpacity50, decoration: TextDecoration.none),
                 counterText: '',

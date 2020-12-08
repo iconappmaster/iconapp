@@ -65,11 +65,10 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
           alignment: Alignment.topCenter,
           children: [
             AppBarWithDivider(
-              title: LocaleKeys.story_newStory.tr(),
-              subtitle: _edit.canPublish
-                  ? LocaleKeys.story_addExtraMedia.tr()
-                  : LocaleKeys.story_addMedia.tr(),
-            ),
+                title: LocaleKeys.story_newStory.tr(),
+                subtitle: _edit.canPublish
+                    ? LocaleKeys.story_addExtraMedia.tr()
+                    : LocaleKeys.story_addMedia.tr()),
             Positioned(
                 top: context.heightPlusStatusbarPerc(.142),
                 child: SizedBox(
@@ -246,35 +245,34 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
             ),
             if (_edit.canPublish)
               Padding(
-                padding: const EdgeInsets.only(bottom: 23.0),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: _edit.isPublishing
-                      ? CircularProgressIndicator(
-                          strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation(white),
-                          semanticsLabel: LocaleKeys.story_uploading.tr(),
-                        )
-                      : NextButton(
-                          title: LocaleKeys.story_share.tr(),
-                          onClick: () async {
-                            final result = await _edit.addToStory();
-                            result.fold((error) => null, (story) {
-                              ExtendedNavigator.of(context).pushStoryScreen(
-                                story: story,
-                                isPublishedStory: true,
-                              );
-                              ExtendedNavigator.of(context).pop();
-                            });
-                          },
-                        ),
-                ),
-              ),
+                  padding: const EdgeInsets.only(bottom: 23.0),
+                  child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: _edit.isPublishing
+                          ? CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation(white),
+                              semanticsLabel: LocaleKeys.story_uploading.tr(),
+                            )
+                          : NextButton(
+                              title: LocaleKeys.story_share.tr(),
+                              onClick: () async {
+                                final result = await _edit.addToStory();
+                                result.fold((error) => null, (story) {
+                                  ExtendedNavigator.of(context).pushStoryScreen(
+                                    story: story,
+                                    isPublishedStory: true,
+                                  );
+                                  ExtendedNavigator.of(context).pop();
+                                });
+                              },
+                            ))),
             Positioned(
                 bottom: context.heightPlusStatusbarPerc(.2),
                 child: Column(
                   children: [
-                    CustomText(LocaleKeys.story_duration.tr(), style: dialogTitle),
+                    CustomText(LocaleKeys.story_duration.tr(),
+                        style: dialogTitle),
                     SizedBox(height: 3),
                     MaterialButton(
                         onPressed: () async => Navigator.of(context).push(
@@ -307,7 +305,8 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                   ListTile(
                       leading: SvgPicture.asset('assets/images/camera.svg',
                           height: 40, width: 40, color: white),
-                      title: Text(LocaleKeys.story_camera.tr(), style: settingsAppbarTitle),
+                      title: Text(LocaleKeys.story_camera.tr(),
+                          style: settingsAppbarTitle),
                       onTap: () async {
                         _edit.addPhotoMedia(ImageSource.camera);
                         await Navigator.pop(context);
@@ -316,7 +315,8 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                   ListTile(
                       leading: SvgPicture.asset('assets/images/photo.svg',
                           height: 40, width: 40, color: white),
-                      title: Text(LocaleKeys.story_gallery.tr(), style: settingsAppbarTitle),
+                      title: Text(LocaleKeys.story_gallery.tr(),
+                          style: settingsAppbarTitle),
                       onTap: () async {
                         _edit.addPhotoMedia(ImageSource.gallery);
                         await Navigator.pop(context);
@@ -324,21 +324,18 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                       }),
                   ListTile(
                       leading: Icon(Icons.videocam, color: white, size: 40),
-                      title: Text(
-                        'מצלמת וידאו',
-                        style: settingsAppbarTitle,
-                      ),
+                      title: Text(LocaleKeys.story_videoGallery.tr(),
+                          style: settingsAppbarTitle),
                       onTap: () {
                         _edit.uploadVideo(ImageSource.camera);
                         Navigator.pop(context);
                       }),
                   ListTile(
-                    leading: Icon(
-                      Icons.video_library,
-                      color: white,
-                      size: 40,
+                    leading: Icon(Icons.video_library, color: white, size: 40),
+                    title: Text(
+                      LocaleKeys.story_videoGallery.tr(),
+                      style: settingsAppbarTitle,
                     ),
-                    title: Text(LocaleKeys.story_videoGallery.tr(), style: settingsAppbarTitle),
                     onTap: () async {
                       _edit.uploadVideo(ImageSource.gallery);
                       await Navigator.pop(context);
@@ -355,9 +352,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
   }
 
   void _animateEnd() {
-    _controller.jumpTo(
-      0.0,
-    );
+    _controller.jumpTo(0.0);
   }
 
   @override

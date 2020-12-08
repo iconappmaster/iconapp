@@ -20,6 +20,9 @@ abstract class _CustomAdsStoreBase with Store {
   AdModel _currentAd;
 
   @observable
+  bool addShown = false;
+
+  @observable
   bool _loading = false;
 
   @computed
@@ -43,6 +46,7 @@ abstract class _CustomAdsStoreBase with Store {
       final ad = await _repository.getImageAd();
       _currentAd = ad;
       _repository.adViewed(_currentAd.id);
+      addShown = true;
     } on DioError catch (e) {
       Crash.report(e.message);
     }

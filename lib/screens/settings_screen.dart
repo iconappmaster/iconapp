@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/language/language_store.dart';
 import 'package:iconapp/widgets/global/back_button.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
+import 'package:iconapp/widgets/global/language_switch.dart';
 import 'package:iconapp/widgets/login/login_background.dart';
 import 'package:package_info/package_info.dart';
 import '../core/extensions/context_ext.dart';
@@ -15,6 +15,7 @@ import 'package:social_share/social_share.dart';
 
 final whatsappMessage =
     "Hi, Check out ICON!\nPlayStore: https://play.google.com/store/apps/details?id=com.icon.iconapp\nAppStore: https://apps.apple.com/app/id1528197266";
+
 final developedBy = 'Developed by IconTech';
 
 class AppSettingsScreen extends StatefulWidget {
@@ -80,7 +81,7 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
                   _SettingsDivider(),
                   AppSettingsTile(title: 'Version $appVer', onTap: () => 'tap'),
                   _SettingsDivider(),
-                  LanguageSwitch(),
+                  LanguageSwitchTile(),
                   _SettingsDivider(),
                 ],
               ),
@@ -94,35 +95,6 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
       ),
     );
   }
-}
-
-class LanguageSwitch extends StatelessWidget {
-  final langauge = sl<LanguageStore>();
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(21),
-      height: context.heightPlusStatusbarPerc(.11),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          CustomText(LocaleKeys.settings_language.tr(),
-              style: appSettingsTile.copyWith(color: white, fontSize: 18)),
-          CupertinoSlidingSegmentedControl(
-              thumbColor: cornflower,
-              groupValue: langauge.switchIndex,
-              children: _langSwitch(),
-              onValueChanged: (index) =>
-                  langauge.setLangaugeFromSwitchIndex(index)),
-        ],
-      ),
-    );
-  }
-
-  Map<int, Widget> _langSwitch() => {
-        0: CustomText('English', style: chatMessageName),
-        1: CustomText('עברית', style: chatMessageName)
-      };
 }
 
 class AppSettingsTile extends StatelessWidget {

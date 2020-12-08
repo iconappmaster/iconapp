@@ -1,8 +1,9 @@
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/search/search_store.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 import '../../core/extensions/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:iconapp/core/theme.dart';
@@ -24,8 +25,11 @@ class SearchBar extends StatelessWidget {
             color: white,
             child: Row(
               children: <Widget>[
-                SvgPicture.asset('assets/images/search_icon.svg',
-                    height: 37.7, width: 37.7),
+                SvgPicture.asset(
+                  'assets/images/search_icon.svg',
+                  height: 30,
+                  width: 30,
+                ),
                 SizedBox(width: 15),
                 Expanded(
                   child: Material(
@@ -38,13 +42,13 @@ class SearchBar extends StatelessWidget {
                         border: transparentBorder,
                         focusedBorder: transparentBorder,
                         hintText: store.getSearchMode == SearchMode.categories
-                            ? 'חיפוש קטגוריות...'
-                            : 'חיפוש אייקונים...',
+                            ? LocaleKeys.search_searchCategoryHint.tr()
+                            : LocaleKeys.search_serachIconHint.tr(),
                         hintStyle: hint,
                       ),
                     ),
                   ),
-                ),
+                )
               ],
             ),
           ),

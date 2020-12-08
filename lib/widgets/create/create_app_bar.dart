@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/stores/language/language_store.dart';
 import 'package:iconapp/widgets/global/back_button.dart';
 import 'package:iconapp/widgets/global/blue_divider.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
@@ -17,7 +18,8 @@ class AppBarWithDivider extends StatelessWidget {
     this.showBack = true,
     @required this.title,
     this.subtitle,
-    this.onBackTap, this.isArrowDirectionDown = false,
+    this.onBackTap,
+    this.isArrowDirectionDown = false,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -31,18 +33,19 @@ class AppBarWithDivider extends StatelessWidget {
             alignment: Alignment.topCenter,
             children: <Widget>[
               Positioned(
-                  top: 20.7, child: CustomText(title, style: createGroupTitle),),
+                  top: 20.7, child: CustomText(title, style: createGroupTitle)),
               if (subtitle != null)
                 Positioned(
-                    top: 44.7, child: CustomText(subtitle, style: fieldLabel),),
+                    top: 44.7, child: CustomText(subtitle, style: fieldLabel)),
               Positioned(
-                  top: 8,
-                  right:8,
-                  child:  
-                  IconBackButton(
-                    onBackTap: onBackTap,
-                    isArrowDirectionDown: isArrowDirectionDown,
-                  )),
+                top: 8,
+                right: language.isLTR ? null : 8,
+                left: language.isLTR ? 8 : null,
+                child: IconBackButton(
+                  onBackTap: onBackTap,
+                  isArrowDirectionDown: isArrowDirectionDown,
+                ),
+              ),
             ],
           ),
         ),

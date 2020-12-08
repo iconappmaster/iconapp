@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:iconapp/core/ads/provider_ads/store/custom_ads_store.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/screens/onboarding_phone.dart';
 import 'package:iconapp/screens/splash_screen.dart';
@@ -22,7 +23,8 @@ class _MainNavigatorState extends State<MainNavigator> {
   final user = sl<UserStore>();
   final auth = sl<AuthStore>();
   final home = sl<HomeStore>();
-
+  final ad = sl<CustomAdsStore>();
+  
   @override
   void didChangeDependencies() {
     init();
@@ -34,7 +36,9 @@ class _MainNavigatorState extends State<MainNavigator> {
       await user.init();
       await home.getConversations();
 
-      await ExtendedNavigator.of(context).pushCustomAd();
+      if (!ad.addShown) {
+        await ExtendedNavigator.of(context).pushCustomAd();
+      }
 
       _sendAnalytics();
     }

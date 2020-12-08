@@ -13,6 +13,8 @@ abstract class  LocaleKeys {
   static const search_showAll = 'search.showAll';
   static const search_searchCategory = 'search.searchCategory';
   static const search_searchIcon = 'search.searchIcon';
+  static const search_serachIconHint = 'search.serachIconHint';
+  static const search_searchCategoryHint = 'search.searchCategoryHint';
   static const search = 'search';
   static const general_server_error = 'general.server_error';
   static const general_iGotIt = 'general.iGotIt';
@@ -25,6 +27,7 @@ abstract class  LocaleKeys {
   static const home_conversation = 'home.conversation';
   static const home_media = 'home.media';
   static const home = 'home';
+  static const onboarding_phoneNumberHint = 'onboarding.phoneNumberHint';
   static const onboarding_phoneTitle = 'onboarding.phoneTitle';
   static const onboarding_phoneSubtitle = 'onboarding.phoneSubtitle';
   static const onboarding_enterCode = 'onboarding.enterCode';
@@ -99,6 +102,7 @@ abstract class  LocaleKeys {
   static const story_videoGallery = 'story.videoGallery';
   static const story_gallery = 'story.gallery';
   static const story_camera = 'story.camera';
+  static const story_videoCamera = 'story.videoCamera';
   static const story = 'story';
   static const drawer_groupActivity = 'drawer.groupActivity';
   static const drawer_disconnect = 'drawer.disconnect';
@@ -130,5 +134,10 @@ abstract class  LocaleKeys {
   static const verify_noCode = 'verify.noCode';
   static const verify_sendAgain = 'verify.sendAgain';
   static const verify = 'verify';
+  static const fab_create = 'fab.create';
+  static const fab_media = 'fab.media';
+  static const fab_list = 'fab.list';
+  static const fab_staggered = 'fab.staggered';
+  static const fab = 'fab';
 
 }
