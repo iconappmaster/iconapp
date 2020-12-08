@@ -14,6 +14,7 @@ enum StorageKey {
   sessionToken,
   home,
   homeViewMode,
+  language,
 }
 
 class SharedPreferencesService {

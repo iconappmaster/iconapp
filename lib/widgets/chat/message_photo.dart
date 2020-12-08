@@ -77,7 +77,6 @@ class _PhotoMessageState extends State<PhotoMessage> {
   @override
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
-
     return ScrollableTile(
       index: widget.index,
       controller: widget.controller,

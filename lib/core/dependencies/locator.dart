@@ -15,6 +15,7 @@ import 'package:iconapp/stores/alerts/alert_store.dart';
 import 'package:iconapp/stores/analytics/analytics_firebase.dart';
 import 'package:iconapp/stores/archive/archive_store.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
+import 'package:iconapp/stores/language/language_store.dart';
 import 'package:iconapp/stores/search_results/search_results_store.dart';
 import 'package:iconapp/stores/story/story_edit_store.dart';
 import 'package:iconapp/stores/verify_icon/verify_icon_store.dart';
@@ -173,4 +174,6 @@ void initLocator() {
       ));
 
   sl.registerLazySingleton<Analytics>(() => Analytics());
+  
+  sl.registerLazySingleton<LanguageStore>(() => LanguageStore());
 }

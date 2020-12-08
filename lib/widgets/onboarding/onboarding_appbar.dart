@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:iconapp/stores/language/language_store.dart';
 import 'package:iconapp/widgets/global/back_button.dart';
 import 'package:iconapp/widgets/global/blue_divider.dart';
 import '../../core/extensions/context_ext.dart';
@@ -24,19 +26,27 @@ class IconAppbar extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16),
           height: context.heightPx * .08,
           width: double.infinity,
-          child: Stack(
-            children: <Widget>[
-              if (showBack)
+          child: Observer(builder: (_) {
+            return Stack(
+              children: <Widget>[
+                if (showBack)
+                  Align(
+                      alignment: language.direction == LanguageDirection.ltr
+                          ? Alignment.centerLeft
+                          : Alignment.centerRight,
+                      child: IconBackButton()),
+                if (widget != null)
+                  widget,
                 Align(
-                    alignment: Alignment.centerRight, child: IconBackButton()),
-              if (widget != null) widget,
-              Align(
-                alignment: Alignment.centerLeft,
-                child: SvgPicture.asset('assets/images/white_logo.svg',
-                    height: 23.7),
-              ),
-            ],
-          ),
+                  alignment: language.direction == LanguageDirection.ltr
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
+                  child: SvgPicture.asset('assets/images/white_logo.svg',
+                      height: 23.7),
+                ),
+              ],
+            );
+          }),
         ),
         BlueDivider(),
       ],

@@ -87,7 +87,7 @@ const chatSettings = TextStyle(
 const appSettingsTile = TextStyle(
   fontFamily: _fontRubikRegular,
   color: white,
-  fontSize: 22.7,
+  fontSize: .7,
 );
 
 const addParticipent = TextStyle(
@@ -169,7 +169,7 @@ const newMessageNumber =
     TextStyle(fontFamily: _fontRubikMedium, color: white, fontSize: 11.2);
 
 const timeOfMessage =
-    TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 14);
+    TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 12);
 
 const replayTitle = TextStyle(
   fontFamily: _fontRubikMedium,

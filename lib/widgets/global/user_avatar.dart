@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/stores/language/language_store.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
 import 'package:iconapp/widgets/global/plus_circle.dart';
 
@@ -30,13 +31,17 @@ class UserAvatar extends StatelessWidget {
         height: showPlus ? 90 : 75,
         child: Stack(children: [
           if (showLoading)
-            SizedBox(
-                height: 75,
-                width: 75,
-                child: CircularProgressIndicator(
-                  strokeWidth: 3,
-                  valueColor: AlwaysStoppedAnimation(cornflower),
-                )),
+            Positioned(
+              right: language.isLTR ? 0 : null,
+              left: language.isLTR ? null : 0,
+              child: SizedBox(
+                  height: 75,
+                  width: 75,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 3,
+                    valueColor: AlwaysStoppedAnimation(cornflower),
+                  )),
+            ),
           Positioned(
             top: 1,
             right: 1,

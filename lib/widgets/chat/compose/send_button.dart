@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
-import 'panel_compose.dart';
+import 'package:iconapp/stores/language/language_store.dart';
+import 'compose_panel.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:vibration/vibration.dart';
 import '../../../core/dependencies/locator.dart';
@@ -94,7 +95,9 @@ class _SendButtonState extends State<SendButton> {
                     child: child,
                   ),
                   child: widget.composerMode == ComposerPanelMode.conversation
-                      ? chat.isInputEmpty ? _sendIcon() : _recordIcon()
+                      ? chat.isInputEmpty
+                          ? _sendIcon()
+                          : _recordIcon()
                       : _sendIcon(),
                 ),
               ),
@@ -105,14 +108,17 @@ class _SendButtonState extends State<SendButton> {
     );
   }
 
-  SvgPicture _recordIcon() {
+  Widget _recordIcon() {
     return SvgPicture.asset('assets/images/microphone.svg',
         color: white, key: const Key('mic'), height: 15.3, width: 15.3);
   }
 
-  SvgPicture _sendIcon() {
-    return SvgPicture.asset('assets/images/send_icon.svg',
-        key: const Key('send'), height: 15.3, width: 15.3);
+  Widget _sendIcon() {
+    return RotatedBox(
+      quarterTurns: language.isLTR ? 2 : 0,
+      child: SvgPicture.asset('assets/images/send_icon.svg',
+          key: const Key('send'), height: 15.3, width: 15.3),
+    );
   }
 
   bool isMessageMode() => widget.textEditcontroller.text.isNotEmpty;

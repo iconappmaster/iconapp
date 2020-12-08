@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/routes/router.gr.dart';
+import 'package:iconapp/stores/language/language_store.dart';
 import 'package:iconapp/stores/verify_icon/verify_icon_store.dart';
 import '../../core/dependencies/locator.dart';
 import '../../core/theme.dart';
@@ -137,7 +138,7 @@ class DrawerItem extends StatelessWidget {
         children: <Widget>[
           Container(
               margin: EdgeInsets.symmetric(horizontal: 31.7),
-              alignment: Alignment.center,
+              alignment: language.alignment,
               height: 50,
               child: CustomText(text, style: flushbar)),
           _drawerDivider,

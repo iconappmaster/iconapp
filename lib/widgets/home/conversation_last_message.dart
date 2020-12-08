@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/data/models/message_model.dart';
+import 'package:iconapp/stores/language/language_store.dart';
 import '../../core/theme.dart';
 import '../global/custom_text.dart';
 
@@ -15,41 +16,63 @@ class HomeTileConversationMessage extends StatelessWidget {
       constraints:
           BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .55),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         children: [
           if (model?.sender?.fullName != null)
-            CustomText(
-              '${model?.sender?.fullName ?? ''}:',
-              overflow: TextOverflow.fade,
-              textAlign: TextAlign.start,
-              style: lastWritten,
+            Flexible(
+              child: CustomText(
+                language.direction == LanguageDirection.ltr
+                    ? ltrTextFormat()
+                    : rtlTextFormat(),
+                textAlign: getTextAlign(),
+                maxLines: 2,
+                style: lastWritten,
+              ),
             ),
 
           SizedBox(width: 3),
 
+          SvgPicture.asset(
+            getImageType() ?? '',
+            height: 18,
+            width: 18,
+          )
           // if we have text
-          if (model?.messageType == MessageType.text)
-            Flexible(
-              child: CustomText(model?.body ?? '',
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  textAlign: TextAlign.start,
-                  style: lastWritten),
-            ),
+          // if (model?.messageType == MessageType.text)
+          //   Expanded(
+          //     child: CustomText(model?.body ?? '',
+          //         overflow: TextOverflow.ellipsis,
+          //         maxLines: 2,
+          //         textAlign: getTextAlign(),
+          //         style: lastWritten),
+          //   ),
 
-          if (model?.messageType != MessageType.text &&
-              model?.messageType != MessageType.system)
-            SvgPicture.asset(getImageType() ?? '', height: 20, width: 20),
+          // if (model?.messageType != MessageType.text &&
+          //     model?.messageType != MessageType.system)
+          //   SvgPicture.asset(getImageType() ?? '', height: 20, width: 20),
 
-          SizedBox(width: 5),
+          // SizedBox(width: 5),
 
-          CustomText(getTextType() ?? '',
-              overflow: TextOverflow.fade,
-              textAlign: TextAlign.start,
-              style: lastWritten),
+          // CustomText(getTextType() ?? '',
+          //     overflow: TextOverflow.fade,
+          //     textAlign: getTextAlign(),
+          //     style: lastWritten),
         ],
       ),
     );
+  }
+
+  String rtlTextFormat() =>
+      '${model?.sender?.fullName ?? ''}: ${model?.messageType == MessageType.text ? model.body : getTextType()}';
+
+  String ltrTextFormat() =>
+      '${model?.messageType == MessageType.text ? model.body : getTextType()} :${model?.sender?.fullName ?? ''}';
+
+  TextAlign getTextAlign() {
+    return language.direction == LanguageDirection.ltr
+        ? TextAlign.left
+        : TextAlign.right;
   }
 
   String getImageType() {

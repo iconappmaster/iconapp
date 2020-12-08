@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter/material.dart';
+import 'package:iconapp/stores/language/language_store.dart';
 import 'package:iconapp/widgets/global/auto_direction.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -114,43 +115,51 @@ class _TextMessageState extends State<TextMessage> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    CustomText(widget.message.sender?.fullName ?? '',
-                        style: chatMessageName, textAlign: TextAlign.start),
-                    ConstrainedBox(
-                      constraints: BoxConstraints(
-                          maxWidth: MediaQuery.of(context).size.width * .5),
-                      child: AutoDirection(
-                        text: widget.message?.body ?? '',
-                        child: Linkify(
-                          linkStyle: TextStyle(color: Colors.blue),
-                          text: widget.message?.body ?? '',
-                          onOpen: _onOpen,
-                          style: chatMessageBody,
-                          textAlign: TextAlign.start,
-                          maxLines: null,
-                        ),
+                    AutoDirection(
+                      text: widget.message.sender?.fullName ?? '',
+                      child: CustomText(
+                        widget.message.sender?.fullName ?? '',
+                        style: chatMessageName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        maxLength: 30,
                       ),
                     ),
+                    ConstrainedBox(
+                        constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width * .5),
+                        child: AutoDirection(
+                            text: widget.message?.body ?? '',
+                            child: Linkify(
+                                linkStyle: TextStyle(color: Colors.blue),
+                                text: widget.message?.body ?? '',
+                                onOpen: _onOpen,
+                                style: chatMessageBody,
+                                maxLines: null))),
                     SizedBox(height: 8),
                   ],
                 ),
               ),
               Positioned(
-                left: 0,
+                left: (language.isLTR && widget.isMe) ? 0 : null,
+                right: (language.isLTR && widget.isMe) ? null : 0,
                 bottom: 0,
-                child: CustomText(
-                  widget.message.status == MessageStatus.pending
-                      ? ''
-                      : widget.message?.timestamp?.humanReadableTime() ?? '',
-                  style: chatMessageBody.copyWith(fontSize: 9),
-                  textAlign: TextAlign.start,
-                ),
-              )
+                child: _bubbleTime(),
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  CustomText _bubbleTime() {
+    return CustomText(
+        widget.message.status == MessageStatus.pending
+            ? ''
+            : widget.message?.timestamp?.humanReadableTime() ?? '',
+        style: chatMessageBody.copyWith(fontSize: 9),
+        textAlign: TextAlign.start);
   }
 
   _scrollToIndex() {

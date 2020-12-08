@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:auto_route/auto_route.dart';
@@ -11,7 +12,9 @@ import 'package:iconapp/routes/router.dart' as router;
 import 'package:iconapp/routes/router.gr.dart' as rGenerated;
 import 'package:iconapp/data/sources/socket/socket_manager.dart';
 import 'package:iconapp/stores/analytics/analytics_firebase.dart';
+import 'package:iconapp/stores/language/language_store.dart';
 import 'package:logger/logger.dart';
+import 'core/bus.dart';
 import 'core/notifications/fcm.dart';
 import 'data/sources/local/shared_preferences.dart';
 import 'generated/codegen_loader.g.dart';
@@ -51,6 +54,8 @@ class _MyAppState extends State<MyApp> {
   Socket _socket;
   Analytics _analytics;
 
+  StreamSubscription<LanguageChangedEvnet> _languageSubscription;
+
   @override
   void initState() {
     init();
@@ -59,7 +64,7 @@ class _MyAppState extends State<MyApp> {
     // setup firebase listeners
     sl<Fcm>().setFirebase();
     _analytics = sl<Analytics>();
-   
+
     super.initState();
   }
 
@@ -87,16 +92,28 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void didChangeDependencies() {
-    // context.locale = Locale('he', 'HE');
-    context.locale = Locale('en', 'US');
+    _listenLanguageChanges();
     super.didChangeDependencies();
+  }
+
+  void _listenLanguageChanges() {
+    _languageSubscription =
+        sl<Bus>().on<LanguageChangedEvnet>().listen((event) {
+      switch (event.direction) {
+        case LanguageDirection.ltr:
+          context.locale = Locale('en', 'US');
+          break;
+        case LanguageDirection.rtl:
+          context.locale = Locale('he', 'HE');
+          break;
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     if (Platform.isIOS) {
       FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
-      
     }
 
     return MaterialApp(
@@ -119,6 +136,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
     _socket.disconnect();
+    _languageSubscription?.cancel();
     sl<Fcm>().dispose();
     super.dispose();
   }

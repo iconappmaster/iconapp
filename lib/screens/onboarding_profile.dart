@@ -43,18 +43,14 @@ class OnboardingProfile extends StatelessWidget {
         builder: (_) => Stack(
           alignment: Alignment.topCenter,
           children: <Widget>[
-            IconAppbar(
-              showBack: !store.getState.loading,
-            ),
+            IconAppbar(showBack: !store.getState.loading),
             Positioned(
-              top: context.heightPlusStatusbarPerc(.138),
-              child: UserAvatar(
-                placeholder: 'assets/images/user_icon.svg',
-                showLoading: store.getState.loading,
-                onTap: () async => store.pickAndUploadPhoto(),
-                url: store?.getUserPhoto ?? '',
-              ),
-            ),
+                top: context.heightPlusStatusbarPerc(.138),
+                child: UserAvatar(
+                    placeholder: 'assets/images/user_icon.svg',
+                    showLoading: store.getState.loading,
+                    onTap: () async => store.pickAndUploadPhoto(),
+                    url: store?.getUserPhoto ?? '')),
             PersonDetails(),
             if (mode == OnboardingMode.onboarding) SexPicker(),
             _nextButton(context, store),

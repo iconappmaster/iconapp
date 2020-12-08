@@ -6,6 +6,7 @@ import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/analytics/analytics_consts.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
+import 'package:iconapp/stores/language/language_store.dart';
 import 'package:iconapp/widgets/comments/comments_bottom_sheet.dart';
 import 'package:iconapp/widgets/comments/comments_fab.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -22,7 +23,7 @@ import '../stores/chat/chat_store.dart';
 import '../data/sources/socket/socket_manager.dart';
 import '../stores/story/story_store.dart';
 import '../widgets/chat/panel_subscribe.dart';
-import '../widgets/chat/compose/panel_compose.dart';
+import '../widgets/chat/compose/compose_panel.dart';
 import '../widgets/chat/settings/change_background.dart';
 import '../widgets/global/blue_divider.dart';
 import '../widgets/story/story_list.dart';
@@ -119,7 +120,6 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
           onWillPop: () async {
             if (_chat.uploading)
               context.showToast(LocaleKeys.general_uploading.tr());
-
             return !_chat.uploading;
           },
           child: Stack(
@@ -164,7 +164,8 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                       _chat.conversation.userRole == UserRole.viewer,
                   child: Positioned(
                       bottom: 35,
-                      left: 16,
+                      left: language.isLTR ? null : 16,
+                      right: language.isLTR ? 16 : null,
                       child: CommentsFab(
                         onTap: () {
                           if (_chat.conversation.areCommentsActivated &&

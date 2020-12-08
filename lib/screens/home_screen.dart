@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:iconapp/stores/language/language_store.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:vibration/vibration.dart';
 import 'package:flutter/rendering.dart';
@@ -156,7 +157,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       IconAppbar(
                         widget: Align(
-                          alignment: Alignment.centerRight,
+                          alignment: language.direction == LanguageDirection.ltr
+                              ? Alignment.centerLeft
+                              : Alignment.centerRight,
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -189,14 +192,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               thumbColor: cornflower,
                               groupValue: _home.getCurrentTabIndex,
                               children: {
-                                0: CustomText(
-                                  LocaleKeys.home_conversation.tr(),
-                                  style: chatMessageName,
-                                ),
-                                1: CustomText(
-                                  LocaleKeys.home_media.tr(),
-                                  style: chatMessageName,
-                                )
+                                0: CustomText(LocaleKeys.home_conversation.tr(),
+                                    style: chatMessageName),
+                                1: CustomText(LocaleKeys.home_media.tr(),
+                                    style: chatMessageName)
                               },
                               onValueChanged: (v) {
                                 Vibration.vibrate(duration: 150);

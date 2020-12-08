@@ -98,10 +98,15 @@ String format(DateTime date,
   // final hebrewOrder = ;
   // final engOrder = [prefix, result, suffix];
 
-  return [prefix, suffix, result]
-      .where((str) => str != null && str.isNotEmpty)
-      .join(messages.wordSeparator())
-      .toString();
+  return _locale == 'en'
+      ? [result, suffix, prefix]
+          .where((str) => str != null && str.isNotEmpty)
+          .join(messages.wordSeparator())
+          .toString()
+      : [prefix, suffix, result]
+          .where((str) => str != null && str.isNotEmpty)
+          .join(messages.wordSeparator())
+          .toString();
 }
 
 abstract class LookupMessages {

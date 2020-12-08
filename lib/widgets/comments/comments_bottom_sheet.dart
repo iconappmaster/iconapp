@@ -6,7 +6,8 @@ import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/stores/analytics/analytics_consts.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
-import 'package:iconapp/widgets/chat/compose/panel_compose.dart';
+import 'package:iconapp/stores/language/language_store.dart';
+import 'package:iconapp/widgets/chat/compose/compose_panel.dart';
 import 'package:iconapp/widgets/comments/comments_fab.dart';
 import 'package:iconapp/widgets/global/lottie_loader.dart';
 
@@ -63,7 +64,8 @@ class CommentsBottomSheet extends StatelessWidget {
             ),
           ),
           Positioned(
-            left: 30,
+            left: language.direction == LanguageDirection.ltr ? null : 30,
+            right: language.direction == LanguageDirection.ltr ? 30 : null,
             top: 0,
             child: CommentsFab(
               onTap: () {

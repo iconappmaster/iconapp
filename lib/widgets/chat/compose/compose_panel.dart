@@ -44,28 +44,25 @@ class _PanelMessageComposeState extends State<PanelMessageCompose> {
                   borderRadius: BorderRadius.circular(26.4),
                   color: composerBackground),
               child: Observer(
-                builder: (_) => Stack(
-                  alignment: Alignment.center,
-                  children: [
+                builder: (_) => Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: store.isRecording
+                          ? Recorder(store: store)
+                          : ComposerInput(
+                              controller: _textController,
+                              composerPanelMode: widget.composerMode),
+                    ),
                     if (!store.isRecording &&
                         widget.composerMode == ComposerPanelMode.conversation)
-                      ComposeActionButtons(),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                            child: store.isRecording
-                                ? Recorder(store: store)
-                                : ComposerInput(
-                                    controller: _textController,
-                                    composerPanelMode: widget.composerMode,
-                                  )),
-                        SendButton(
-                          composerMode: widget.composerMode,
-                          textEditcontroller: _textController,
-                          scrollController: widget.scrollController,
-                        )
-                      ],
-                    ),
+                      Visibility(
+                          visible: !store.isInputEmpty,
+                          child: ComposeActionButtons()),
+                    SendButton(
+                      composerMode: widget.composerMode,
+                      textEditcontroller: _textController,
+                      scrollController: widget.scrollController,
+                    )
                   ],
                 ),
               ),

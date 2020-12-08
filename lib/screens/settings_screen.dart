@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
+import 'package:iconapp/stores/language/language_store.dart';
 import 'package:iconapp/widgets/global/back_button.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/login/login_background.dart';
@@ -44,14 +46,15 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
         children: <Widget>[
           LoginBackgroundImage(),
           Positioned(
-              top: context.heightPlusStatusbarPerc(.118),
-              child: SvgPicture.asset('assets/images/icon_logo.svg',
-                  height: 169, width: 142)),
-          Positioned(
-            top: context.heightPlusStatusbarPerc(0.02),
-            right: 16,
-            child: IconBackButton(),
+            top: context.heightPlusStatusbarPerc(.118),
+            child: SvgPicture.asset('assets/images/icon_logo.svg',
+                height: 169, width: 142),
           ),
+          Positioned(
+              top: context.heightPlusStatusbarPerc(0.02),
+              right: language.isLTR ? null : 16,
+              left: language.isLTR ? 16 : null,
+              child: IconBackButton()),
           Positioned(
               top: context.heightPlusStatusbarPerc(0.04),
               child: CustomText(LocaleKeys.settings_title.tr(),
@@ -61,24 +64,19 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
             child: Container(
               height: context.heightPlusStatusbarPerc(.55),
               decoration: BoxDecoration(
-                color: darkIndigo,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(13.3),
-                    topRight: Radius.circular(13.3)),
-              ),
+                  color: darkIndigo,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(13.3),
+                      topRight: Radius.circular(13.3))),
               child: ListView(
                 children: [
                   AppSettingsTile(
-                    title: LocaleKeys.settings_friends.tr(),
-                    onTap: () => SocialShare.shareWhatsapp(
-                      whatsappMessage,
-                    ),
-                  ),
+                      title: LocaleKeys.settings_friends.tr(),
+                      onTap: () => SocialShare.shareWhatsapp(whatsappMessage)),
                   _SettingsDivider(),
                   AppSettingsTile(
-                    title: LocaleKeys.settings_about.tr(),
-                    onTap: () => showAboutDialog(context: context),
-                  ),
+                      title: LocaleKeys.settings_about.tr(),
+                      onTap: () => showAboutDialog(context: context)),
                   _SettingsDivider(),
                   AppSettingsTile(title: 'Version $appVer', onTap: () => 'tap'),
                   _SettingsDivider(),
@@ -99,6 +97,7 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
 }
 
 class LanguageSwitch extends StatelessWidget {
+  final langauge = sl<LanguageStore>();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -107,23 +106,23 @@ class LanguageSwitch extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          CustomText(
-            LocaleKeys.settings_language.tr(),
-            style: appSettingsTile.copyWith(color: white, fontSize: 18),
-          ),
+          CustomText(LocaleKeys.settings_language.tr(),
+              style: appSettingsTile.copyWith(color: white, fontSize: 18)),
           CupertinoSlidingSegmentedControl(
-            thumbColor: cornflower,
-            groupValue: 0,
-            children: {
-              0: CustomText('English', style: chatMessageName),
-              1: CustomText('עברית', style: chatMessageName)
-            },
-            onValueChanged: (v) {},
-          ),
+              thumbColor: cornflower,
+              groupValue: langauge.switchIndex,
+              children: _langSwitch(),
+              onValueChanged: (index) =>
+                  langauge.setLangaugeFromSwitchIndex(index)),
         ],
       ),
     );
   }
+
+  Map<int, Widget> _langSwitch() => {
+        0: CustomText('English', style: chatMessageName),
+        1: CustomText('עברית', style: chatMessageName)
+      };
 }
 
 class AppSettingsTile extends StatelessWidget {

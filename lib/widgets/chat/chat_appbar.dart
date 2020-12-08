@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/data/models/user_model.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/helpers/tutorial.dart';
 import 'package:iconapp/screens/chat_screen.dart';
 import 'package:iconapp/widgets/comments/comments_appbar_icon.dart';
 import 'package:iconapp/widgets/global/report_dialog.dart';
 import 'chat_back_button.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../../core/dependencies/locator.dart';
 import '../../routes/router.gr.dart';
 import '../../stores/chat/chat_store.dart';
@@ -19,7 +21,8 @@ class ChatAppbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
-
+    final iconsLength = (store.conversation?.users?.length).toString();
+    final followers = (store.conversation?.numberOfParticipants).toString();
     return Observer(
       builder: (_) => Container(
         height: context.heightPlusStatusbarPerc(.1),
@@ -44,8 +47,14 @@ class ChatAppbar extends StatelessWidget {
                           maxLines: 1,
                           style: loginBigText),
                       CustomText(
-                          '${store.conversation?.users?.length ?? 0} אייקונים, ${store.conversation?.numberOfParticipants ?? 0} עוקבים',
-                          style: fieldLabel), // should come from socket
+                        LocaleKeys.chat_appbarSubtitle.tr(
+                          args: [
+                            iconsLength ?? '',
+                            followers ?? '',
+                          ],
+                        ),
+                        style: fieldLabel,
+                      ), // should come from socket
                     ],
                   ),
                 ),
@@ -84,16 +93,13 @@ class ChatAppbar extends StatelessWidget {
               }),
               SizedBox(width: 6),
               IconButton(
-                key: menuKey,
-                visualDensity: VisualDensity.comfortable,
-                icon: SvgPicture.asset(
-                  'assets/images/dots.svg',
-                  height: 26,
-                  width: 26,
-                  color: store.dataReady ? white : Colors.grey[400],
-                ),
-                onPressed: _openChatSettings(store, context),
-              ),
+                  key: menuKey,
+                  visualDensity: VisualDensity.comfortable,
+                  icon: SvgPicture.asset('assets/images/dots.svg',
+                      height: 26,
+                      width: 26,
+                      color: store.dataReady ? white : Colors.grey[400]),
+                  onPressed: _openChatSettings(store, context)),
             ],
           ),
         ),
@@ -131,50 +137,39 @@ Future _showReportBottomSheet(BuildContext context) async {
           SizedBox(
             height: 10,
           ),
-          Directionality(
-            textDirection: TextDirection.ltr,
-            child: Text(
-              'Report/Block Abusive Content',
-              style: settingsAppbarTitle.copyWith(
-                  fontSize: 20, color: Colors.black),
-            ),
+          CustomText(
+            'Report/Block Abusive Content',
+            style:
+                settingsAppbarTitle.copyWith(fontSize: 20, color: Colors.black),
           ),
           ListTile(
-              title: Directionality(
-                textDirection: TextDirection.ltr,
-                child: Text(
-                  'Report Abuse',
+              title: CustomText('Report Abuse',
                   style: settingsButton.copyWith(
-                      fontSize: 18, color: Colors.black),
-                ),
-              ),
+                      fontSize: 18, color: Colors.black)),
               onTap: () async {
                 await showDialog(
                     context: context,
-                     builder: (_) => ReportUserDialog(
-                      mode: ReportMode.abuse,
-                    ));
+                    builder: (_) => ReportUserDialog(
+                          mode: ReportMode.abuse,
+                        ));
                 await Navigator.pop(context);
               }),
           ListTile(
-              onTap: () async {
-                await showDialog(
-                    context: context,
-                     builder: (_) => ReportUserDialog(
-                      mode: ReportMode.block,
-                    ));
-                await Navigator.pop(context);
-                await Navigator.pop(context);
-                context.showToast('Conversation blocked');
-              },
-              title: Directionality(
-                textDirection: TextDirection.ltr,
-                child: Text(
-                  'Block content',
-                  style: settingsButton.copyWith(
-                      fontSize: 18, color: Colors.black),
-                ),
-              )),
+            onTap: () async {
+              await showDialog(
+                  context: context,
+                  builder: (_) => ReportUserDialog(
+                        mode: ReportMode.block,
+                      ));
+              await Navigator.pop(context);
+              await Navigator.pop(context);
+              context.showToast('Conversation blocked');
+            },
+            title: CustomText(
+              'Block content',
+              style: settingsButton.copyWith(fontSize: 18, color: Colors.black),
+            ),
+          ),
         ],
       );
     },

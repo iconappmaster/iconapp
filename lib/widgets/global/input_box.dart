@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/stores/language/language_store.dart';
 
 import 'custom_text.dart';
 
@@ -32,7 +33,7 @@ class InputText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: language.isLTR ? TextDirection.rtl : TextDirection.ltr,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -42,6 +43,7 @@ class InputText extends StatelessWidget {
             initialValue: initialValue,
             validator: validator,
             maxLength: maxLength,
+            textAlign: language.textAlign,
             keyboardType: keyboardType,
             decoration: InputDecoration(
               contentPadding: contentPadding,

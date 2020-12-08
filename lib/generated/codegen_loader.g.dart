@@ -34,8 +34,8 @@ class CodegenLoader extends AssetLoader{
     "server_error": "תקלה בשרת, אנא נסה שנית",
     "iGotIt": "הבנתי, תודה!",
     "cancel": "בטל",
-    "uploading": "מעלה קובץ אנא המתן...",
-    "loading": "טוען...",
+    "uploading": "מעלה קובץ אנא המתן",
+    "loading": "טוען",
     "close": "סגור"
   },
   "home": {
@@ -80,6 +80,7 @@ class CodegenLoader extends AssetLoader{
     "content": "ברוך הבא ל-Icon! אצלנו תהיה חלק מקהילות\nועולמות תוכן המדברים אליך. קבוצות הצ'אט שלנו מנוהלות\nעל ידי אייקונים, מובילי דעה ויוצרי תוכן המובילים בתחומם\nהקהל הרחב יוכל לצפות בשיחות המתקיימות 24/7 ולהגיב באמצעות חייכנים. מנהל הקבוצה יוכל לפתוח את הקבוצה לשילוב הקהל בשיחה כשיבחר. מהיום אתה חלק מקבוצות האייקונים האהובים עליך."
   },
   "chat": {
+    "appbarSubtitle": "אייקונים {}, עוקבים {}",
     "messageInputHint": "הקלד/י הודעה",
     "welcomeTitle": "ברוך הבא ל {}",
     "welcomeContent": "איזה כיף! הצטרפת לקבוצה הראשונה שלך.\nבקבוצות תיחשף לשיחות צ׳אט והודעות בין אייקונים.\nתוכל להגיב להודעות ולסטורי באמצעות חייכנים ואימוג׳ים.\nאתה יכול להצטרף לכל קבוצה שמעניינת אותך ואפילו לבחור לעקוב אחר אייקון ספציפי בקבוצות בהן הוא פעיל.\nאתה נכנס למימד חדש, ודא שהאייקונים ידעו שאתה שם.",
@@ -173,7 +174,7 @@ static const Map<String,dynamic> en_US = {
     "title": "תנאי שימוש"
   },
   "search": {
-    "empty_state": "לא מצאנו את מה שחיפשת\nנסה/י להקליד משהו אחר",
+    "empty_state": "We can't find, try typing something else.",
     "showAll": "Show all",
     "searchCategory": "Search category",
     "searchIcon": "Search Icon"
@@ -182,40 +183,40 @@ static const Map<String,dynamic> en_US = {
     "server_error": "Server error, please try again",
     "iGotIt": "Got it",
     "cancel": "Cancel",
-    "uploading": "Uploading, please wait.",
-    "loading": "Loading...",
+    "uploading": "Uploading, please wait",
+    "loading": "Loading",
     "close": "Close"
   },
   "home": {
     "noMessages": "No Messages",
-    "conversation": "Conversations",
-    "media": "Media"
+    "conversation": "conversations",
+    "media": "media"
   },
   "onboarding": {
-    "phoneTitle": "כדי להתחבר לקבוצות הצ׳אט אנחנו\nצריכים את מספר הטלפון שלך",
-    "phoneSubtitle": "מה מספר הטלפון שלך?",
-    "enterCode": "הזן/י את הקוד שנשלח אליך ב- SMS",
-    "phoneCounting": "הקוד יגיע בעוד {} שניות",
-    "phone_tooShort": "אנא הקלד/י מספר טלפון בן 7 ספרות.",
+    "phoneTitle": "Before we start we need your phone\nso we can send you a PIN code.",
+    "phoneSubtitle": "What is your phone number?",
+    "enterCode": "Enter the PIN code from the SMS",
+    "phoneCounting": "The PIN code will arraive in {} seconds",
+    "phone_tooShort": "You phone number is too short",
     "profileName": "Full name",
     "profileAge": "Age",
     "profileFemale": "Female",
     "profileMale": "Male",
     "profileOther": "Other",
     "wrongName": "Please enter full name",
-    "wrongAge": "מעל גיל 10",
+    "wrongAge": "Age 10+",
     "wrongCode": "Wrong code, please try again",
-    "sendAgainTitle": "לא קיבלתי את הקוד.",
+    "sendAgainTitle": "I dind't recieved the code",
     "sendAgain": "Send again",
     "fullName": "Full name",
     "fullNameValidation": "Specify first and last name"
   },
   "create": {
-    "groupNameHint": "הקלד/י כאן את נושא הקבוצה",
-    "groupNameDescription": "בחר/י נושא לקבוצה החדשה. כדאי להוסיף גם אייקון.",
-    "groupNameAppbarTitle": "נושא הקבוצה",
-    "categoriesSubtitle": "בחר/י קטגוריה",
-    "iconSubtitle": "בחר/י משתתפים לקבוצה",
+    "groupNameHint": "Write the conversation name",
+    "groupNameDescription": "Choose category for the conversation",
+    "groupNameAppbarTitle": "Conversation subject",
+    "categoriesSubtitle": "Choose a category",
+    "iconSubtitle": "Choose participents",
     "newGroupTitle": "Create new group",
     "iconValidation": "Please choose more then one Icon",
     "categoryValidation": "You must choose more then one category",
@@ -228,22 +229,23 @@ static const Map<String,dynamic> en_US = {
     "content": "ברוך הבא ל-Icon! אצלנו תהיה חלק מקהילות\nועולמות תוכן המדברים אליך. קבוצות הצ'אט שלנו מנוהלות\nעל ידי אייקונים, מובילי דעה ויוצרי תוכן המובילים בתחומם\nהקהל הרחב יוכל לצפות בשיחות המתקיימות 24/7 ולהגיב באמצעות חייכנים. מנהל הקבוצה יוכל לפתוח את הקבוצה לשילוב הקהל בשיחה כשיבחר. מהיום אתה חלק מקבוצות האייקונים האהובים עליך."
   },
   "chat": {
-    "messageInputHint": "הקלד/י הודעה",
+    "appbarSubtitle": "Icons {}, Followers {}",
+    "messageInputHint": "type a message",
     "welcomeTitle": "Welcome to {}",
     "welcomeContent": "איזה כיף! הצטרפת לקבוצה הראשונה שלך.\nבקבוצות תיחשף לשיחות צ׳אט והודעות בין אייקונים.\nתוכל להגיב להודעות ולסטורי באמצעות חייכנים ואימוג׳ים.\nאתה יכול להצטרף לכל קבוצה שמעניינת אותך ואפילו לבחור לעקוב אחר אייקון ספציפי בקבוצות בהן הוא פעיל.\nאתה נכנס למימד חדש, ודא שהאייקונים ידעו שאתה שם.",
-    "background": "שינוי תמונת רקע",
-    "chooseColor": "בחר/י צבע רקע",
+    "background": "Change background photo",
+    "chooseColor": "Select background color",
     "notification": "Mute notificatons",
-    "editGroup": "הוספת עורכ/ת לקבוצה",
-    "exited": "יצאת מהקבוצה",
+    "editGroup": "Add editor to the conversation",
+    "exited": "Exit the group",
     "exit": "Exit conversation",
     "becomeManager": "Make admin",
     "manager": "Admin",
-    "addManagers": "ניתן להוסיף עוד {} מנהלים",
+    "addManagers": "You can add more {} admins",
     "groupEditors": "Conversation Editors",
-    "joinGroupShowComments": "כדי להציג תגובות, הצטרפ/י לקבוצה",
-    "renameHint": "הקלד/י נושא חדש",
-    "groupNameCantBeEmpty": "שם הקבוצה לא יכול להיות ריק"
+    "joinGroupShowComments": "To see comments, join the conversation",
+    "renameHint": "type new category",
+    "groupNameCantBeEmpty": "Category name cant be empty"
   },
   "disconnect": {
     "content": "אנחנו נתגעגע אלייך, {} {} {} רוצה לצאת מכל הצ׳אטים שלך?"
@@ -264,7 +266,7 @@ static const Map<String,dynamic> en_US = {
     "newStory": "New Story",
     "addExtraMedia": "Add extra Photo/Video",
     "addMedia": "Upload Photo/Video",
-    "uploading": "Uploading...",
+    "uploading": "Uploading",
     "video": "Video",
     "share": "Share",
     "compressing": "Compressing video",
@@ -292,19 +294,19 @@ static const Map<String,dynamic> en_US = {
     "groupOpened": "Conversation is open for comments",
     "open": "Open",
     "close": "Close",
-    "closed": "תגובות לא פעילות כרגע"
+    "closed": "Comments are not active right now"
   },
   "archive": {
     "empty": "No hidden conversations",
     "hidden": "Hidden conversations"
   },
   "description": {
-    "hint": "הוספ/י כיתוב…"
+    "hint": "add a description"
   },
   "verify": {
     "title": "What is your email address?",
     "validation": "Check your email",
-    "welcomeTitle": "ברוכים הבאים לתהליך ההזדהות כאייקון",
+    "welcomeTitle": "ICON Identification Proccess",
     "nextButton": "Send me the code",
     "noCode": "Didn't recieved the code",
     "sendAgain": "Send again"

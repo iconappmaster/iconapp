@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/message_model.dart';
+import 'package:iconapp/stores/language/language_store.dart';
 import 'package:iconapp/widgets/global/bubble.dart';
 import 'package:iconapp/widgets/global/check_circle.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
@@ -58,6 +59,7 @@ class _IconBubbleState extends State<IconBubble> {
 
   @override
   Widget build(BuildContext context) {
+    final isLtr = language.direction == LanguageDirection.ltr;
     final color = widget.forcedColord != null
         ? widget.forcedColord
         : widget.message.status == MessageStatus.pending
@@ -67,6 +69,7 @@ class _IconBubbleState extends State<IconBubble> {
                 : blueberry2;
 
     final horizontalLikePadding = EdgeInsets.symmetric(horizontal: 3);
+
     return Column(
       children: [
         MessageGestureDetector(
@@ -87,7 +90,7 @@ class _IconBubbleState extends State<IconBubble> {
                   children: [
                     Bubble(
                       elevation: 1,
-                      stick: true,
+                      stick: false,
                       padding: widget.padding ??
                           BubbleEdges.symmetric(horizontal: 4),
                       margin: BubbleEdges.only(
@@ -98,79 +101,70 @@ class _IconBubbleState extends State<IconBubble> {
                       color: color,
                       nip: widget.showPin
                           ? widget.isMe
-                              ? BubbleNip.leftTop
-                              : BubbleNip.rightTop
+                              ? isLtr
+                                  ? BubbleNip.rightTop
+                                  : BubbleNip.leftTop
+                              : isLtr
+                                  ? BubbleNip.leftTop
+                                  : BubbleNip.rightTop
                           : BubbleNip.no,
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          minWidth: 80,
-                          minHeight: 55,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            if (widget.message?.repliedToMessage != null)
-                              MessageReply(
-                                  widget: widget,
-                                  width:
-                                      MediaQuery.of(context).size.width * .7),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                if (!widget.hideAvatar &&
-                                    widget.message.messageType ==
-                                        MessageType.text &&
-                                    !widget.isMe)
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 5.0, top: 7.0),
-                                    child: Stack(children: [
-                                      Container(
+                      child:
+                          // ConstrainedBox(
+                          //   constraints:
+                          //       BoxConstraints(minWidth: 80, minHeight: 55),
+                          //   child:
+
+                          Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (widget.message?.repliedToMessage != null)
+                            MessageReply(
+                                widget: widget,
+                                width: MediaQuery.of(context).size.width * .7),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              if (!widget.hideAvatar &&
+                                  widget.message.messageType ==
+                                      MessageType.text &&
+                                  !widget.isMe)
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      left: isLtr ? 0.0 : 5.0,
+                                      right: isLtr ? 5.0 : 0.0,
+                                      top: 7.0),
+                                  child: Stack(children: [
+                                    // Bubble Avatar
+                                    Container(
                                         width: 40,
                                         height: 40,
                                         child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(4.2),
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              if (widget.message.sender?.photo
-                                                      ?.url !=
-                                                  null)
-                                                ExtendedNavigator.of(context)
-                                                    .pushSingleImage(
-                                                  url: widget.message.sender
-                                                          ?.photo?.url ??
-                                                      '',
-                                                );
-                                            },
-                                            child: NetworkPhoto(
-                                                imageUrl: widget.message.sender
-                                                            ?.photo !=
-                                                        null
-                                                    ? widget.message.sender
-                                                            ?.photo?.url ??
-                                                        ''
-                                                    : ''),
-                                          ),
-                                        ),
+                                            borderRadius:
+                                                BorderRadius.circular(4.2),
+                                            child: GestureDetector(
+                                                onTap: () =>
+                                                    _onAvatarTap(context),
+                                                child: NetworkPhoto(
+                                                    imageUrl:
+                                                        _getAvatarUrl())))),
+
+                                    // Icon blue check
+                                    if (widget.message?.sender?.isIcon ?? false)
+                                      CheckCircle(
+                                        circleSize: 15,
+                                        gradient: descriptionPanelGradient,
                                       ),
-                                      if (widget.message?.sender?.isIcon ??
-                                          false)
-                                        CheckCircle(
-                                          circleSize: 15,
-                                          gradient: descriptionPanelGradient,
-                                        ),
-                                    ]),
-                                  ),
-                                widget.child,
-                              ],
-                            ),
-                          ],
-                        ),
+                                  ]),
+                                ),
+                              widget.child,
+                            ],
+                          ),
+                        ],
                       ),
                     ),
+                    // ),
                   ],
                 ),
               ),
@@ -223,6 +217,19 @@ class _IconBubbleState extends State<IconBubble> {
           )
       ],
     );
+  }
+
+  void _onAvatarTap(BuildContext context) {
+    if (widget.message.sender?.photo?.url != null)
+      ExtendedNavigator.of(context).pushSingleImage(
+        url: widget.message.sender?.photo?.url ?? '',
+      );
+  }
+
+  String _getAvatarUrl() {
+    return widget.message?.sender?.photo != null
+        ? widget.message.sender?.photo?.url ?? ''
+        : '';
   }
 
   bool get showLikeIndicator =>
