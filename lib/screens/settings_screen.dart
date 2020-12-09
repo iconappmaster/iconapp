@@ -62,9 +62,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Navigator.pop(context);
                 await showDialog(
                   context: context,
-                  builder: (_) => DisconnectDialog(
-                    height: 250,
-                  ),
+                  builder: (_) => DisconnectDialog(height: 250),
                 );
               },
             ),

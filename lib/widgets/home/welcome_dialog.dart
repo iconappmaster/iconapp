@@ -34,7 +34,8 @@ class WelcomeDialog extends StatelessWidget {
                   child: CustomText(
                     LocaleKeys.welcome_content.tr(),
                     style: dialogContent,
-                    textAlign: TextAlign.start,
+                    textAlign:
+                        language.isLTR ? TextAlign.right : TextAlign.left,
                     textDirection: language.textDirection,
                   ),
                 ),
