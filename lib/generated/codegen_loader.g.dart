@@ -46,6 +46,7 @@ class CodegenLoader extends AssetLoader{
     "media": "מדיה"
   },
   "onboarding": {
+    "didCodeSent": "האם הגיע?",
     "phoneNumberHint": "מה מספר הטלפון שלך?",
     "phoneTitle": "כדי להתחבר לקבוצות הצ׳אט אנחנו\nצריכים את מספר הטלפון שלך",
     "phoneSubtitle": "מה מספר הטלפון שלך?",
@@ -113,7 +114,8 @@ class CodegenLoader extends AssetLoader{
     "title": "הגדרות",
     "friends": "הזמנת חברים",
     "about": "אודות אייקון",
-    "language": "שפה"
+    "language": "שפה",
+    "disconnect": "התנתק"
   },
   "story": {
     "title": "הסיפור שלך",
@@ -203,6 +205,7 @@ static const Map<String,dynamic> en_US = {
     "media": "media"
   },
   "onboarding": {
+    "didCodeSent": "did you got the code?",
     "phoneNumberHint": "what is your number?",
     "phoneTitle": "Before we start we need your phone\nso we can send you a PIN code.",
     "phoneSubtitle": "What is your phone number?",
@@ -217,7 +220,7 @@ static const Map<String,dynamic> en_US = {
     "wrongName": "Please enter full name",
     "wrongAge": "Age 10+",
     "wrongCode": "Wrong code, please try again",
-    "sendAgainTitle": "I dind't recieved the code",
+    "sendAgainTitle": "I dind't recieved the code ",
     "sendAgain": "Send again",
     "fullName": "Full name",
     "fullNameValidation": "Specify first and last name"
@@ -237,13 +240,13 @@ static const Map<String,dynamic> en_US = {
   },
   "welcome": {
     "title": "Welcome to ICON",
-    "content": "ברוך הבא ל-Icon! אצלנו תהיה חלק מקהילות\nועולמות תוכן המדברים אליך. קבוצות הצ'אט שלנו מנוהלות\nעל ידי אייקונים, מובילי דעה ויוצרי תוכן המובילים בתחומם\nהקהל הרחב יוכל לצפות בשיחות המתקיימות 24/7 ולהגיב באמצעות חייכנים. מנהל הקבוצה יוכל לפתוח את הקבוצה לשילוב הקהל בשיחה כשיבחר. מהיום אתה חלק מקבוצות האייקונים האהובים עליך."
+    "content": "Welcome to Icon! From now on, Icons you love are accessible to you anytime, anywhere. You can subscribe to their conversations and react with emoji’s and write comments."
   },
   "chat": {
     "appbarSubtitle": "{} Icons,{} Followers",
     "messageInputHint": "type a message",
     "welcomeTitle": "Welcome to {}",
-    "welcomeContent": "איזה כיף! הצטרפת לקבוצה הראשונה שלך.\nבקבוצות תיחשף לשיחות צ׳אט והודעות בין אייקונים.\nתוכל להגיב להודעות ולסטורי באמצעות חייכנים ואימוג׳ים.\nאתה יכול להצטרף לכל קבוצה שמעניינת אותך ואפילו לבחור לעקוב אחר אייקון ספציפי בקבוצות בהן הוא פעיל.\nאתה נכנס למימד חדש, ודא שהאייקונים ידעו שאתה שם.",
+    "welcomeContent": "Congrats!  You have joined your first group.\nJoining a group allows you to observe chat conversations between “Icons” (aka the rich and famous).\nYou can react to messages and stories using emojis.\nYou can join groups according to topics that interest you, or follow specific Icons.\nand be aware that the icons will know you're there.",
     "background": "Change background photo",
     "chooseColor": "Select background color",
     "notification": "Mute notificatons",
@@ -259,7 +262,8 @@ static const Map<String,dynamic> en_US = {
     "groupNameCantBeEmpty": "Category name cant be empty"
   },
   "disconnect": {
-    "content": "אנחנו נתגעגע אלייך, {} {} {} רוצה לצאת מכל הצ׳אטים שלך?"
+    "content": "Going already? sure you want to disconnect?",
+    "disconnect": "Disconnect"
   },
   "alerts": {
     "empty": "No new messages",

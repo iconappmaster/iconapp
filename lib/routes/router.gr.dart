@@ -121,7 +121,7 @@ class Router extends RouterBase {
     RouteDef(Routes.onboardingScreen, page: OnboardingScreen),
     RouteDef(Routes.onboardingProfile, page: OnboardingProfile),
     RouteDef(Routes.homeScreen, page: HomeScreen),
-    RouteDef(Routes.appSettingsScreen, page: AppSettingsScreen),
+    RouteDef(Routes.appSettingsScreen, page: SettingsScreen),
     RouteDef(Routes.chatScreen, page: ChatScreen),
     RouteDef(Routes.chatSettingsScreen, page: ChatSettingsScreen),
     RouteDef(Routes.photoGalleryScreen, page: PhotoGalleryScreen),
@@ -184,9 +184,9 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    AppSettingsScreen: (data) {
+    SettingsScreen: (data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => AppSettingsScreen(),
+        builder: (context) => SettingsScreen(),
         settings: data,
       );
     },

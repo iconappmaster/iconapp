@@ -58,39 +58,39 @@ class PrivacyAndTerms extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final login = sl<LoginStore>();
-    return Row(
-      children: [
-        RichText(
-          textAlign: TextAlign.left,
-          text: TextSpan(children: [
-            TextSpan(
-                text: 'To log in, you must first read and accept our\n',
-                style: smallLine),
-            TextSpan(
-                text: 'terms of use',
-                style: smallLine.copyWith(decoration: TextDecoration.underline),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () async {
-                    if (await canLaunch(policyUrl)) launch(policyUrl);
-                  }),
-            // TextSpan(text: LocaleKeys.policy_prefix.tr(), style: smallLine),
-          ]),
-        ),
-        Observer(
-          builder: (_) => Theme(
-            data: Theme.of(context).copyWith(
-              unselectedWidgetColor: white,
-            ),
-            child: Checkbox(
-              checkColor: cornflower,
-              activeColor: white,
-              // checkColor: cornflower,
-              value: login.agreeTerms,
-              onChanged: (bool value) => login.updateTerms(value),
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Row(
+        children: [
+          RichText(
+            textAlign: TextAlign.left,
+            text: TextSpan(children: [
+              TextSpan(
+                  text: 'To log in, you must first read and accept our\n',
+                  style: smallLine),
+              TextSpan(
+                  text: 'terms of use',
+                  style:
+                      smallLine.copyWith(decoration: TextDecoration.underline),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () async {
+                      if (await canLaunch(policyUrl)) launch(policyUrl);
+                    }),
+            ]),
+          ),
+          Observer(
+            builder: (_) => Theme(
+              data: Theme.of(context).copyWith(unselectedWidgetColor: white),
+              child: Checkbox(
+                checkColor: cornflower,
+                activeColor: white,
+                value: login.agreeTerms,
+                onChanged: (bool value) => login.updateTerms(value),
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -30,6 +30,7 @@
         "media" : "מדיה"
     },
     "onboarding": {
+        "didCodeSent" : "האם הגיע?",
         "phoneNumberHint" : "מה מספר הטלפון שלך?",
         "phoneTitle": "כדי להתחבר לקבוצות הצ׳אט אנחנו\nצריכים את מספר הטלפון שלך",
         "phoneSubtitle": "מה מספר הטלפון שלך?",
@@ -97,7 +98,8 @@
         "title": "הגדרות",
         "friends": "הזמנת חברים",
         "about": "אודות אייקון",
-        "language" : "שפה"
+        "language" : "שפה",
+        "disconnect" : "התנתק"
     },
     "story": {
         "title": "הסיפור שלך",

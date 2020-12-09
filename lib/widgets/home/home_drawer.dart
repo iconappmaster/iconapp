@@ -9,10 +9,8 @@ import '../../core/dependencies/locator.dart';
 import '../../core/theme.dart';
 import '../../screens/onboarding_profile.dart';
 import '../../stores/user/user_store.dart';
-import '../global/buttons.dart';
 import '../global/custom_text.dart';
 import '../global/user_avatar.dart';
-import 'disconnect_dialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class DrawerIcon extends StatelessWidget {
@@ -98,21 +96,21 @@ class HomeDrawer extends StatelessWidget {
                           .pushAppSettingsScreen()),
                 ],
               ),
-              Positioned(
-                bottom: 22.7,
-                child: TransparentButton(
-                  onPressed: () async {
-                    Navigator.pop(context);
-                    await showDialog(
-                      context: context,
-                      builder: (_) => DisconnectDialog(
-                        height: 250,
-                      ),
-                    );
-                  },
-                  text: LocaleKeys.drawer_disconnect.tr(),
-                ),
-              ),
+              // Positioned(
+              //   bottom: 22.7,
+              //   child: TransparentButton(
+              //     onPressed: () async {
+              //       Navigator.pop(context);
+              //       await showDialog(
+              //         context: context,
+              //         builder: (_) => DisconnectDialog(
+              //           height: 250,
+              //         ),
+              //       );
+              //     },
+              //     text: LocaleKeys.drawer_disconnect.tr(),
+              //   ),
+              // ),
             ]),
       ),
     );

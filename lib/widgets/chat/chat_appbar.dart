@@ -6,6 +6,7 @@ import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/helpers/tutorial.dart';
 import 'package:iconapp/screens/chat_screen.dart';
+import 'package:iconapp/stores/language/language_store.dart';
 import 'package:iconapp/widgets/comments/comments_appbar_icon.dart';
 import 'package:iconapp/widgets/global/report_dialog.dart';
 import 'chat_back_button.dart';
@@ -43,7 +44,8 @@ class ChatAppbar extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       CustomText(store?.conversation?.name ?? '',
-                          textAlign: TextAlign.start,
+                          textAlign: language.textAlign,
+                          textDirection: language.textDirection,
                           maxLines: 1,
                           style: loginBigText),
                       CustomText(
@@ -53,6 +55,9 @@ class ChatAppbar extends StatelessWidget {
                             followers ?? '',
                           ],
                         ),
+                        textAlign: language.textAlign,
+                        textDirection: language.textDirection,
+                        maxLines: 1,
                         style: fieldLabel,
                       ), // should come from socket
                     ],

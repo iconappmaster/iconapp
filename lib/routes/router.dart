@@ -38,7 +38,7 @@ import 'package:iconapp/widgets/global/single_image.dart';
     MaterialRoute(page: OnboardingScreen),
     MaterialRoute(page: OnboardingProfile),
     MaterialRoute(page: HomeScreen),
-    MaterialRoute(page: AppSettingsScreen),
+    MaterialRoute(page: SettingsScreen),
     MaterialRoute(page: ChatScreen),
     CupertinoRoute(page: ChatSettingsScreen, fullscreenDialog: true),
     MaterialRoute(page: PhotoGalleryScreen),

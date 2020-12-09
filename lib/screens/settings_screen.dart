@@ -6,7 +6,8 @@ import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/language/language_store.dart';
 import 'package:iconapp/widgets/global/back_button.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
-import 'package:iconapp/widgets/global/language_switch.dart';
+import 'package:iconapp/widgets/global/language_switch_tile.dart';
+import 'package:iconapp/widgets/home/disconnect_dialog.dart';
 import 'package:iconapp/widgets/login/login_background.dart';
 import 'package:package_info/package_info.dart';
 import '../core/extensions/context_ext.dart';
@@ -18,12 +19,12 @@ final whatsappMessage =
 
 final developedBy = 'Developed by IconTech';
 
-class AppSettingsScreen extends StatefulWidget {
+class SettingsScreen extends StatefulWidget {
   @override
-  _AppSettingsScreenState createState() => _AppSettingsScreenState();
+  _SettingsScreenState createState() => _SettingsScreenState();
 }
 
-class _AppSettingsScreenState extends State<AppSettingsScreen> {
+class _SettingsScreenState extends State<SettingsScreen> {
   String appVer = '';
   @override
   void initState() {
@@ -52,7 +53,24 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
                 height: 169, width: 142),
           ),
           Positioned(
-              top: context.heightPlusStatusbarPerc(0.02),
+            right: language.isLTR ? 0 : null,
+            left: language.isLTR ? null : 0,
+            top: context.heightPlusStatusbarPerc(.025),
+            child: MaterialButton(
+              child: CustomText('LOGOUT', style: chatMessageBody),
+              onPressed: () async {
+                Navigator.pop(context);
+                await showDialog(
+                  context: context,
+                  builder: (_) => DisconnectDialog(
+                    height: 250,
+                  ),
+                );
+              },
+            ),
+          ),
+          Positioned(
+              top: context.heightPlusStatusbarPerc(.025),
               right: language.isLTR ? null : 16,
               left: language.isLTR ? 16 : null,
               child: IconBackButton()),

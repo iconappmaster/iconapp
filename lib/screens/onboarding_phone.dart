@@ -13,7 +13,7 @@ import 'package:iconapp/stores/auth/auth_store.dart';
 import 'package:iconapp/stores/language/language_store.dart';
 import 'package:iconapp/stores/login/login_store.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
-import 'package:iconapp/widgets/global/language_switch.dart';
+import 'package:iconapp/widgets/global/langauge_switch.dart';
 import 'package:iconapp/widgets/global/next_button.dart';
 import 'package:iconapp/widgets/onboarding/base_onboarding_widget.dart';
 import 'package:iconapp/widgets/onboarding/onboarding_appbar.dart';
@@ -151,7 +151,7 @@ class _SmsCounter extends StatelessWidget {
             int.tryParse(store.displayCountdown) > 0
                 ? LocaleKeys.onboarding_phoneCounting
                     .tr(args: [store.displayCountdown])
-                : 'הגיע?',
+                : LocaleKeys.onboarding_didCodeSent.tr(),
             style: loginSmallText,
           ),
         ),
@@ -327,19 +327,18 @@ class _PhoneNumberInput extends StatelessWidget {
         child: Column(
           children: <Widget>[
             CountryCodePicker(
-              onChanged: (countryCode) =>
-                  store.updateCountryCode(countryCode.dialCode),
-              initialSelection: 'IL',
-              favorite: ['+972', 'IL'],
-              showCountryOnly: true,
-              showFlag: true,
-              textStyle: phoneNumber,
-              showOnlyCountryWhenClosed: false,
-              alignLeft: false,
-              hideMainText: true,
-              onInit: (countryCode) =>
-                  store.updateCountryCode(countryCode.dialCode),
-            ),
+                onChanged: (countryCode) =>
+                    store.updateCountryCode(countryCode.dialCode),
+                initialSelection: 'IL',
+                favorite: ['+972', 'IL'],
+                showCountryOnly: true,
+                showFlag: true,
+                textStyle: phoneNumber,
+                showOnlyCountryWhenClosed: false,
+                alignLeft: false,
+                hideMainText: true,
+                onInit: (countryCode) =>
+                    store.updateCountryCode(countryCode.dialCode)),
             SizedBox(width: context.widthPx * .08),
             _buildPhone(context, store),
           ],
@@ -348,22 +347,26 @@ class _PhoneNumberInput extends StatelessWidget {
 
   Widget _buildPhone(BuildContext context, LoginStore store) {
     return SizedBox(
-        width: context.widthPx * .7,
-        child: TextField(
-            autofocus: true,
-            style: phoneNumber.copyWith(decoration: TextDecoration.none),
-            maxLength: 12,
-            textAlign: language.textAlign,
-            onChanged: (phone) => store.updatePhone(phone),
-            keyboardType: TextInputType.phone,
-            decoration: InputDecoration(
-                hintText: LocaleKeys.onboarding_phoneNumberHint.tr(),
-                hintStyle: phoneNumber.copyWith(
-                    color: whiteOpacity50, decoration: TextDecoration.none),
-                counterText: '',
-                enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                  color: Colors.transparent,
-                )))));
+      width: context.widthPx * .7,
+      child: TextField(
+        autofocus: true,
+        style: phoneNumber.copyWith(decoration: TextDecoration.none),
+        maxLength: 12,
+        textAlign: TextAlign.center,
+        onChanged: (phone) => store.updatePhone(phone),
+        keyboardType: TextInputType.phone,
+        decoration: InputDecoration(
+          hintText: LocaleKeys.onboarding_phoneNumberHint.tr(),
+          hintStyle: phoneNumber.copyWith(
+              color: whiteOpacity50, decoration: TextDecoration.none),
+          counterText: '',
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.transparent,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

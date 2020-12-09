@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:iconapp/stores/language/language_store.dart';
 import '../../core/extensions/context_ext.dart';
 import 'back_button.dart';
 
@@ -26,10 +27,11 @@ class BluredAppbar extends StatelessWidget {
                     child:
                         Align(alignment: Alignment.centerLeft, child: widget),
                   ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 25.0),
-                  child: IconBackButton(
-                    
+                Align(
+                  alignment: language.alignment,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 25.0),
+                    child: IconBackButton(),
                   ),
                 ),
               ],

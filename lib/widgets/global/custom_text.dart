@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iconapp/stores/language/language_store.dart';
 
 class CustomText extends StatelessWidget {
   const CustomText(
@@ -25,7 +26,7 @@ class CustomText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: textDirection,
+      textDirection: textDirection ?? language.textDirection,
       child: Padding(
         padding: padding,
         child: Text(

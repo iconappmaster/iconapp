@@ -27,6 +27,7 @@ abstract class  LocaleKeys {
   static const home_conversation = 'home.conversation';
   static const home_media = 'home.media';
   static const home = 'home';
+  static const onboarding_didCodeSent = 'onboarding.didCodeSent';
   static const onboarding_phoneNumberHint = 'onboarding.phoneNumberHint';
   static const onboarding_phoneTitle = 'onboarding.phoneTitle';
   static const onboarding_phoneSubtitle = 'onboarding.phoneSubtitle';
@@ -89,6 +90,7 @@ abstract class  LocaleKeys {
   static const settings_friends = 'settings.friends';
   static const settings_about = 'settings.about';
   static const settings_language = 'settings.language';
+  static const settings_disconnect = 'settings.disconnect';
   static const settings = 'settings';
   static const story_title = 'story.title';
   static const story_newStory = 'story.newStory';

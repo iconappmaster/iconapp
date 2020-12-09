@@ -31,7 +31,7 @@ abstract class _OnboardingStoreBase with Store {
     _userStore = sl<UserStore>();
     _authStore = sl<AuthStore>();
 
-     analytics.sendAnalyticsEvent(STARTED_REGISTRATION, {});
+    analytics.sendAnalyticsEvent(STARTED_REGISTRATION, {});
   }
 
   @observable
@@ -86,10 +86,7 @@ abstract class _OnboardingStoreBase with Store {
 
       _state = _state.copyWith(
         loading: true,
-        userModel: _state.userModel.copyWith(
-          phone: phone,
-          pushToken: token,
-        ),
+        userModel: _state.userModel.copyWith(phone: phone, pushToken: token),
       );
 
       final saved = await _userStore.updateUser(_state.userModel);

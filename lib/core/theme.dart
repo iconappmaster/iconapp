@@ -214,8 +214,10 @@ const settingsButton = TextStyle(
   letterSpacing: .08,
 );
 
-const chatCompose =
-    TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 15.9);
+final chatCompose = TextStyle(
+    fontFamily: _fontRubikRegular,
+    color: white.withOpacity(.7),
+    fontSize: 14.9);
 
 const chatMessageBody = TextStyle(
   fontFamily: _fontRubikRegular,
