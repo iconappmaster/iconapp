@@ -2,21 +2,19 @@ import 'dart:convert';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:iconapp/stores/language/language_store.dart';
+import 'package:iconapp/widgets/home/home_appbar.dart';
+import 'package:iconapp/widgets/home/home_content.dart';
+import 'package:iconapp/widgets/home/home_tabs.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:vibration/vibration.dart';
 import 'package:flutter/rendering.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import '../core/ads/admob/admob.dart';
 import '../core/deep_link.dart';
 import '../core/dependencies/locator.dart';
 import '../core/lifecycle_observer.dart';
 import '../core/theme.dart';
-import '../core/video/feed_player/feed_player.dart';
 import '../data/models/conversation_model.dart';
 import '../data/sources/local/shared_preferences.dart';
-import '../generated/locale_keys.g.dart';
 import '../routes/router.gr.dart';
 import '../stores/alerts/alert_store.dart';
 import '../stores/analytics/analytics_consts.dart';
@@ -26,17 +24,13 @@ import '../stores/story/story_store.dart';
 import '../stores/user/user_store.dart';
 import '../widgets/bottomsheet/bs_bar.dart';
 import '../widgets/bottomsheet/bs_nested_modal.dart';
-import '../widgets/global/custom_text.dart';
 import '../widgets/home/force_update_dialog.dart';
 import '../widgets/home/home_drawer.dart';
-import '../widgets/home/home_list.dart';
-import '../widgets/home/home_staggered.dart';
 import '../widgets/home/icon_fab.dart';
 import '../widgets/story/story_list.dart';
 import '../widgets/home/welcome_dialog.dart';
-import '../widgets/onboarding/onboarding_appbar.dart';
 import '../stores/analytics/analytics_firebase.dart';
-import 'alerts_screen.dart';
+import 'home_story.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -48,8 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
   ScrollController _controller;
   HomeStore _home;
   UserStore _user;
-  AlertStore _alerts;
   StoryStore _story;
+  AlertStore _alerts;
   SharedPreferencesService _sp;
   DynamicLink _dynamicLink;
   String homeChannelName = 'home';
@@ -74,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _navigateToChatFromFCM();
     }
 
-    _refreshData();
+    refreshData();
     _listenLifeCycle();
 
     adMobs
@@ -88,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
     WidgetsBinding.instance
         .addObserver(LifecycleEventHandler(resumeCallBack: () async {
       _home?.watchConversation();
-      _refreshData();
+      refreshData();
     }));
   }
 
@@ -100,7 +94,8 @@ class _HomeScreenState extends State<HomeScreen> {
     _home
       ..watchConversation()
       ..checkAppVersion()
-      ..getUserMedia();
+      ..getUserMedia()
+      ..getSubscribedConversation();
 
     _story.watchStories();
 
@@ -114,12 +109,6 @@ class _HomeScreenState extends State<HomeScreen> {
     // todo should this be here?
     _handleDynamicLinks();
     super.didChangeDependencies();
-  }
-
-  Future _refreshData() async {
-    _alerts.getAlerts();
-    _story.refreshStories();
-    await _home.getConversations();
   }
 
   Future _handleDynamicLinks() async {
@@ -136,9 +125,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final story = sl<StoryStore>();
-    final alerts = sl<AlertStore>();
-
     return Scaffold(
       key: _scaffoldKey,
       drawer: HomeDrawer(),
@@ -155,116 +141,28 @@ class _HomeScreenState extends State<HomeScreen> {
                   Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      IconAppbar(
-                        widget: Align(
-                          alignment: language.direction == LanguageDirection.ltr
-                              ? Alignment.centerLeft
-                              : Alignment.centerRight,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              DrawerIcon(scaffoldKey: _scaffoldKey),
-                              SizedBox(width: 8),
-                              BellAlert(onPressed: () {
-                                alerts.markAlertsAsSeen();
-                                ExtendedNavigator.of(context).pushAlertScreen();
-                              })
-                            ],
-                          ),
-                        ),
-                      ),
-                      Visibility(
-                        visible: story.isUserIcon ||
-                            story.storiesWithoutAds.isNotEmpty,
-                        child: StoriesList(
-                          mode: story.mode,
-                          show: story.isUserIcon ||
-                              story.storiesWithoutAds.isNotEmpty,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 8, right: 8, bottom: 12, top: 8),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          child: Observer(builder: (_) {
-                            return CupertinoSlidingSegmentedControl(
-                              thumbColor: cornflower,
-                              groupValue: _home.getCurrentTabIndex,
-                              children: {
-                                0: CustomText(LocaleKeys.home_conversation.tr(),
-                                    style: chatMessageName),
-                                1: CustomText(LocaleKeys.home_media.tr(),
-                                    style: chatMessageName),
-                              },
-                              onValueChanged: (v) {
-                                Vibration.vibrate(duration: 150);
-                                _home.setTabMode(v == 0
-                                    ? TabMode.conversation
-                                    : TabMode.media);
-                              },
-                            );
-                          }),
-                        ),
-                      ),
-                      Observer(
-                        builder: (_) {
-                          switch (_home.tabMode) {
-                            case TabMode.conversation:
-                              return Expanded(
-                                child: RefreshIndicator(
-                                  color: white,
-                                  strokeWidth: 2,
-                                  backgroundColor: cornflower,
-                                  onRefresh: () => _refreshData(),
-                                  child: _home.viewMode == ViewHomeMode.list
-                                      ? ConversationsList(
-                                          controller: _controller,
-                                          onTap: (conversation, index) async =>
-                                              await _onConversationTileTap(
-                                                  story,
-                                                  conversation,
-                                                  context,
-                                                  index))
-                                      : HomeStaggered(
-                                          onTap: (conversation, index) async =>
-                                              await _onConversationTileTap(
-                                                  story,
-                                                  conversation,
-                                                  context,
-                                                  index)),
-                                ),
-                              );
-
-                              break;
-                            case TabMode.media:
-                              return Flexible(
-                                child: FeedPlayer(
-                                  showClose: false,
-                                  urls: _home.userMedia,
-                                  index: 0,
-                                ),
-                              );
-                              break;
-                          }
-                          return Container();
-                        },
-                      ),
+                      HomeAppbar(scaffoldKey: _scaffoldKey, alerts: _alerts),
+                      HomeStories(story: _story),
+                      HomeTabs(home: _home),
+                      HomeContent(home: _home, controller: _controller),
                     ],
                   ),
                   Align(
-                      alignment: Alignment.bottomCenter,
-                      child: GestureDetector(
-                          onTap: () => openBottomSheet(context),
-                          onPanUpdate: (details) {
-                            if (details.delta.dy < 0) {
-                              openBottomSheet(context);
-                            }
-                          },
-                          child: BottomSheetBar(
-                              showCategoriesSelected: false,
-                              showIconsSelected: false,
-                              onTap: () => openBottomSheet(context)))),
+                    alignment: Alignment.bottomCenter,
+                    child: GestureDetector(
+                      onTap: () => openBottomSheet(context),
+                      onPanUpdate: (details) {
+                        if (details.delta.dy < 0) {
+                          openBottomSheet(context);
+                        }
+                      },
+                      child: BottomSheetBar(
+                        showCategoriesSelected: false,
+                        showIconsSelected: false,
+                        onTap: () => openBottomSheet(context),
+                      ),
+                    ),
+                  ),
                   Observer(builder: (_) {
                     return Visibility(
                         visible:
@@ -289,23 +187,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
-  }
-
-  Future _onConversationTileTap(StoryStore story, Conversation conversation,
-      BuildContext context, int index) async {
-    story.clearStories();
-
-    analytics.sendConversationEvent(OPENED_CONVERSATION, conversation.id);
-
-    await adMobs.showWithCounterInterstitial();
-
-    await ExtendedNavigator.of(context)
-        .pushChatScreen(conversation: conversation);
-
-    _home.hideNewBadge(index);
-    story
-      ..setStoryMode(StoryMode.home)
-      ..refreshStories();
   }
 
   void _navigateToChatFromFCM() {
@@ -333,4 +214,34 @@ class _HomeScreenState extends State<HomeScreen> {
     _story?.dispose();
     super.dispose();
   }
+}
+
+Future refreshData() async {
+  final alerts = sl<AlertStore>();
+  final home = sl<HomeStore>();
+  final story = sl<StoryStore>();
+  alerts.getAlerts();
+  story.refreshStories();
+  await home.getConversations();
+}
+
+Future onTileTap(
+    Conversation conversation, BuildContext context, int index) async {
+  final adMobs = sl<AdMob>();
+  final home = sl<HomeStore>();
+  final story = sl<StoryStore>();
+
+  story.clearStories();
+
+  analytics.sendConversationEvent(OPENED_CONVERSATION, conversation.id);
+
+  await adMobs.showWithCounterInterstitial();
+
+  await ExtendedNavigator.of(context)
+      .pushChatScreen(conversation: conversation);
+
+  home.hideNewBadge(index);
+  story
+    ..setStoryMode(StoryMode.home)
+    ..refreshStories();
 }

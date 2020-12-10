@@ -13,6 +13,7 @@ abstract class HomeRepository {
   Future<List<String>> getUserMedia();
   Future<bool> saveHome(List<Conversation> conversation);
   Future<bool> updateAppVersion();
+  Future<List<Conversation>> getConversationSubscribed();
   Stream<Conversation> watchConversation();
 }
 
@@ -69,5 +70,10 @@ class HomeRepositoryImpl implements HomeRepository {
   @override
   Future<List<String>> getUserMedia() async {
     return await restClient.getUserVideos();
+  }
+
+  @override
+  Future<List<Conversation>> getConversationSubscribed() async {
+    return await restClient.getConversationSubscribed();
   }
 }

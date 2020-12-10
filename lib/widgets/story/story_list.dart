@@ -57,27 +57,27 @@ class _StoriesListState extends State<StoriesList> {
                 height: context.heightPlusStatusbarPerc(.095),
                 width: context.widthPx,
                 child: ListView(
-                  reverse: true,
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  physics: BouncingScrollPhysics(),
-                  children: [
-                    if (store.isUserIcon)
-                      StoryAddButton(
-                          onTap: () => ExtendedNavigator.of(context)
-                              .pushStoryEditScreen()),
-                    ...store.storiesWithoutAds
-                        .map((story) => StoryTile(
-                              story: story,
-                              onTap: () =>
-                                  ExtendedNavigator.of(context).pushStoryScreen(
+                    reverse: true,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    physics: BouncingScrollPhysics(),
+                    children: [
+                      if (store.isUserIcon)
+                        StoryAddButton(
+                            onTap: () => ExtendedNavigator.of(context)
+                                .pushStoryEditScreen()),
+                      ...store.storiesWithoutAds
+                          .map((story) => StoryTile(
                                 story: story,
-                                isPublishedStory: false,
-                              ),
-                            ))
-                        .toList()
-                  ],
-                ),
+                                onTap: () =>
+                  ExtendedNavigator.of(context).pushStoryScreen(
+                story: story,
+                isPublishedStory: false,
+                                ),
+                              ))
+                          .toList()
+                    ],
+                  ),
               ),
             ),
           ),

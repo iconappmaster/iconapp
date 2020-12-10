@@ -24,8 +24,9 @@
     },
     "home": {
         "noMessages": "No Messages",
-        "conversation": "conversations",
-        "media": "media"
+        "discover": "discover",
+        "media": "media",
+        "myFeed" : "my feed"
     },
     "onboarding": {
         "didCodeSent" : "did you got the code?",
@@ -137,7 +138,8 @@
     },
     "archive": {
         "empty": "No hidden conversations",
-        "hidden": "Hidden conversations"
+        "hidden": "Hidden conversations",
+        "slide" : "archive"
     },
     "description": {
         "hint": "add a description"

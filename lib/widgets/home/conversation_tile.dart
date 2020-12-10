@@ -31,13 +31,16 @@ class ConversationTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final messageDate = DateTime.fromMillisecondsSinceEpoch(
+        conversation.lastMessage.timestamp * 1000);
+
     return Slidable(
       actionPane: SlidableDrawerActionPane(),
       actionExtentRatio: 0.25,
       actions: [
         IconSlideAction(
           color: cornflower,
-          caption: 'הסתר',
+          caption: LocaleKeys.archive_slide.tr(),
           icon: Icons.archive,
           onTap: () => sl<ArchiveStore>().archiveConversation(conversation.id),
         )
@@ -92,18 +95,18 @@ class ConversationTile extends StatelessWidget {
                   Expanded(
                     child: Column(
                       children: [
-                        CustomText(
-                            time.format(
-                              DateTime.fromMillisecondsSinceEpoch(
-                                  conversation.lastMessage.timestamp * 1000),
-                              locale:
-                                  language.direction == LanguageDirection.ltr
-                                      ? 'en'
-                                      : 'he',
-                            ),
-                            textAlign: language.textAlign,
-                            // model.lastMessage?.timestamp?.humanReadableTime() ?? '',
-                            style: timeOfMessage),
+                        if ((messageDate.difference(DateTime.now()).inDays).abs() < 1)
+                          CustomText(
+                              time.format(
+                                DateTime.fromMillisecondsSinceEpoch(
+                                    conversation.lastMessage.timestamp * 1000),
+                                locale:
+                                    language.direction == LanguageDirection.ltr
+                                        ? 'en'
+                                        : 'he',
+                              ),
+                              textAlign: language.textAlign,
+                              style: timeOfMessage),
                         SizedBox(height: 8),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,

@@ -53,7 +53,7 @@ class Routes {
   static const String onboardingScreen = '/onboarding-screen';
   static const String onboardingProfile = '/onboarding-profile';
   static const String homeScreen = '/home-screen';
-  static const String appSettingsScreen = '/app-settings-screen';
+  static const String settingsScreen = '/settings-screen';
   static const String chatScreen = '/chat-screen';
   static const String chatSettingsScreen = '/chat-settings-screen';
   static const String photoGalleryScreen = '/photo-gallery-screen';
@@ -84,7 +84,7 @@ class Routes {
     onboardingScreen,
     onboardingProfile,
     homeScreen,
-    appSettingsScreen,
+    settingsScreen,
     chatScreen,
     chatSettingsScreen,
     photoGalleryScreen,
@@ -121,7 +121,7 @@ class Router extends RouterBase {
     RouteDef(Routes.onboardingScreen, page: OnboardingScreen),
     RouteDef(Routes.onboardingProfile, page: OnboardingProfile),
     RouteDef(Routes.homeScreen, page: HomeScreen),
-    RouteDef(Routes.appSettingsScreen, page: SettingsScreen),
+    RouteDef(Routes.settingsScreen, page: SettingsScreen),
     RouteDef(Routes.chatScreen, page: ChatScreen),
     RouteDef(Routes.chatSettingsScreen, page: ChatSettingsScreen),
     RouteDef(Routes.photoGalleryScreen, page: PhotoGalleryScreen),
@@ -420,8 +420,7 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
 
   Future<dynamic> pushHomeScreen() => push<dynamic>(Routes.homeScreen);
 
-  Future<dynamic> pushAppSettingsScreen() =>
-      push<dynamic>(Routes.appSettingsScreen);
+  Future<dynamic> pushSettingsScreen() => push<dynamic>(Routes.settingsScreen);
 
   Future<dynamic> pushChatScreen({
     Key key,

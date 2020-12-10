@@ -26,8 +26,10 @@
     },
     "home": {
         "noMessages": "אין הודעות",
-        "conversation" : "שיחות",
-        "media" : "מדיה"
+        "discover" : "לגלות",
+        "media" : "מדיה",
+        "myFeed" : "הפיד שלי"
+
     },
     "onboarding": {
         "didCodeSent" : "האם הגיע?",
@@ -140,7 +142,8 @@
     },
     "archive": {
         "empty": "אין שיחות מוסתרות",
-        "hidden" : "קבוצות מוסתרות"
+        "hidden" : "קבוצות מוסתרות",
+        "slide" : "הסתר"
     },
     "description" : {
         "hint" : "הוספ/י כיתוב…"

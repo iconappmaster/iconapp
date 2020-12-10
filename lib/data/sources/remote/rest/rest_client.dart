@@ -15,7 +15,7 @@ part 'rest_client.g.dart';
 const String baseUrlProd = 'https://iconproduction.herokuapp.com/api/v1/';
 const String baseUrlStaging = 'https://iconstaging.herokuapp.com/api/v1/';
 
-@RestApi(baseUrl: baseUrlProd)
+@RestApi(baseUrl: baseUrlStaging)
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
@@ -60,6 +60,9 @@ abstract class RestClient {
   Future<List<UserModel>> searchContacts(
     @Query('searchString') String query,
   );
+  // CONVERSATIONS
+  @GET('conversations_subscribed')
+  Future<List<Conversation>> getConversationSubscribed();
 
   @GET('conversations/get_by_category')
   Future<List<Conversation>> getConversationByCategoryId(
@@ -71,7 +74,6 @@ abstract class RestClient {
     @Query('iconUserId') int iconUserId,
   );
 
-  // CONVERSATIONS
   @DELETE('conversations/{conversationId}/delete_message')
   Future deleteMessage(@Path('conversationId') int conversationId,
       @Query('messageId') int messageId);
@@ -226,7 +228,7 @@ abstract class RestClient {
   Future viewedVideo(@Query('messageId') int messageId);
 
   @GET('videos')
-  Future<List<String>> getUserVideos(); 
+  Future<List<String>> getUserVideos();
 }
 
 Dio getDioClient() {

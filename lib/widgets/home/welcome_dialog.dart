@@ -13,7 +13,11 @@ import '../../core/extensions/context_ext.dart';
 class WelcomeDialog extends StatelessWidget {
   final Function onTap;
 
-  const WelcomeDialog({Key key, @required this.onTap}) : super(key: key);
+  const WelcomeDialog({
+    Key key,
+    @required this.onTap,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BaseDialog(
@@ -43,11 +47,13 @@ class WelcomeDialog extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(bottom: 16),
             child: Align(
-                alignment: Alignment.bottomCenter,
-                child: NextButton(
-                    height: 44,
-                    title: LocaleKeys.general_iGotIt.tr(),
-                    onClick: onTap)),
+              alignment: Alignment.bottomCenter,
+              child: NextButton(
+                height: 44,
+                title: LocaleKeys.general_iGotIt.tr(),
+                onClick: onTap,
+              ),
+            ),
           )
         ],
       ),

@@ -49,6 +49,9 @@ abstract class _HomeStoreBase with Store {
   ObservableList<String> _userMedia = ObservableList.of([]);
 
   @observable
+  ObservableList<Conversation> _conversationSubscribed = ObservableList.of([]);
+
+  @observable
   bool _loading = false;
 
   @observable
@@ -61,8 +64,11 @@ abstract class _HomeStoreBase with Store {
   bool _showWelcomeDialog = true;
 
   @computed
+  List<Conversation> get conversationSubscribed => _conversationSubscribed;
+
+  @computed
   TabMode get tabMode => _tabMode;
-  
+
   @computed
   int get getCurrentTabIndex => tabMode == TabMode.conversation ? 0 : 1;
 
@@ -207,29 +213,31 @@ abstract class _HomeStoreBase with Store {
 
   @action
   void watchConversation() {
-    _conversationChangedSubscription ??=
-        _repository.watchConversation().listen((socketData) {
-      // Find index of the conversation based on id
-      final index = _conversations.indexWhere((c) => c.id == socketData.id);
+    _conversationChangedSubscription ??= _repository.watchConversation().listen(
+      (socketData) {
+        // Find index of the conversation based on id
+        final index = _conversations.indexWhere((c) => c.id == socketData.id);
 
-      // if the conversation exists the replace the payload with the incoming
-      // socket conversation, if the index not found then add a new conversation
-      // in the list
-      if (index != -1) {
-        final updatedConversation = _conversations[index].copyWith(
-          messages: socketData.messages,
-          lastMessage: socketData.lastMessage,
-          shouldShowNewBadge: true,
-        );
+        // if the conversation exists the replace the payload with the incoming
+        // socket conversation, if the index not found then add a new conversation
+        // in the list
+        if (index != -1) {
+          final updatedConversation = _conversations[index].copyWith(
+            messages: socketData.messages,
+            lastMessage: socketData.lastMessage,
+            shouldShowNewBadge: true,
+          );
 
-        _conversations[index] = updatedConversation;
-        _reorderListWherePinnedAtTop(index, _conversations[index]);
-      }
-    });
+          _conversations[index] = updatedConversation;
+
+          _reorderListWhereSubscribeAtTop(index, _conversations[index]);
+        }
+      },
+    );
   }
 
-  void _reorderListWherePinnedAtTop(int index, Conversation conversation) {
-    if (conversation.isPinned) {
+  void _reorderListWhereSubscribeAtTop(int index, Conversation conversation) {
+    if (conversation.isSubscribed) {
       // if the conversation is piined just move it to the top
       _conversations
         ..removeAt(index)
@@ -237,12 +245,26 @@ abstract class _HomeStoreBase with Store {
     } else {
       // if conversation is not pinned then relocate it under all the pinned
       // ones.
-      final pinnedAmount =
-          _conversations.where((element) => element.isPinned).length;
+      final subscribedConversationAmount =
+          _conversations.where((c) => c.isSubscribed).length;
 
       _conversations
         ..removeAt(index)
-        ..insert(pinnedAmount > 0 ? pinnedAmount : 0, conversation);
+        ..insert(
+            subscribedConversationAmount > 0 ? subscribedConversationAmount : 0,
+            conversation);
+    }
+  }
+
+  @action
+  Future getSubscribedConversation() async {
+    try {
+      final subscribedList = await _repository.getConversationSubscribed();
+      _conversationSubscribed
+        ..clear()
+        ..addAll(subscribedList);
+    } on DioError catch (e) {
+      Crash.report(e.message);
     }
   }
 

@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/helpers/tutorial.dart';
-import 'package:iconapp/screens/chat_screen.dart';
 import 'package:iconapp/stores/language/language_store.dart';
 import 'package:iconapp/widgets/comments/comments_appbar_icon.dart';
 import 'package:iconapp/widgets/global/report_dialog.dart';
@@ -17,8 +16,16 @@ import '../../stores/chat/chat_store.dart';
 import '../../core/extensions/context_ext.dart';
 import '../../core/theme.dart';
 import '../global/custom_text.dart';
+import 'chat_dialogs.dart';
 
 class ChatAppbar extends StatelessWidget {
+  final bool showPin;
+
+  const ChatAppbar({
+    Key key,
+    @required this.showPin,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
@@ -70,32 +77,7 @@ class ChatAppbar extends StatelessWidget {
               if (store.conversation.userRole != UserRole.viewer)
                 CommentsAppBarIcon(onTap: () => showCommentsDialog(context)),
               SizedBox(width: 8),
-              Observer(builder: (_) {
-                final pinSize = 30.0;
-                return InkResponse(
-                  onTap: store.dataReady
-                      ? () =>
-                          store.pinConversation(!store.conversation.isPinned)
-                      : () {},
-                  child: AnimatedSwitcher(
-                    duration: Duration(milliseconds: 300),
-                    transitionBuilder: (child, animation) =>
-                        ScaleTransition(scale: animation, child: child),
-                    child: store.conversation?.isPinned ?? false
-                        ? SvgPicture.asset('assets/images/pin_purple.svg',
-                            color:
-                                store.dataReady ? cornflower : Colors.grey[500],
-                            key: const Key('pinned'),
-                            height: pinSize,
-                            width: pinSize)
-                        : SvgPicture.asset('assets/images/pin.svg',
-                            color: store.dataReady ? white : Colors.grey[500],
-                            key: const Key('unpinned'),
-                            height: pinSize,
-                            width: pinSize),
-                  ),
-                );
-              }),
+              if (showPin) PinConversation(store: store),
               SizedBox(width: 6),
               IconButton(
                   key: menuKey,
@@ -116,6 +98,43 @@ class ChatAppbar extends StatelessWidget {
     return store.dataReady
         ? () => ExtendedNavigator.of(context).pushChatSettingsScreen()
         : null;
+  }
+}
+
+class PinConversation extends StatelessWidget {
+  const PinConversation({
+    Key key,
+    @required this.store,
+  }) : super(key: key);
+
+  final ChatStore store;
+
+  @override
+  Widget build(BuildContext context) {
+    return Observer(builder: (_) {
+      final pinSize = 30.0;
+      return InkResponse(
+        onTap: store.dataReady
+            ? () => store.pinConversation(!store.conversation.isPinned)
+            : () {},
+        child: AnimatedSwitcher(
+          duration: Duration(milliseconds: 300),
+          transitionBuilder: (child, animation) =>
+              ScaleTransition(scale: animation, child: child),
+          child: store.conversation?.isPinned ?? false
+              ? SvgPicture.asset('assets/images/pin_purple.svg',
+                  color: store.dataReady ? cornflower : Colors.grey[500],
+                  key: const Key('pinned'),
+                  height: pinSize,
+                  width: pinSize)
+              : SvgPicture.asset('assets/images/pin.svg',
+                  color: store.dataReady ? white : Colors.grey[500],
+                  key: const Key('unpinned'),
+                  height: pinSize,
+                  width: pinSize),
+        ),
+      );
+    });
   }
 }
 

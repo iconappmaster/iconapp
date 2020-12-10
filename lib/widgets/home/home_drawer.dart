@@ -93,7 +93,7 @@ class HomeDrawer extends StatelessWidget {
                   DrawerItem(
                       text: LocaleKeys.drawer_settings.tr(),
                       onTap: () => ExtendedNavigator.of(context)
-                          .pushAppSettingsScreen()),
+                          .pushSettingsScreen()),
                 ],
               ),
               // Positioned(

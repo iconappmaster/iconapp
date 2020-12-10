@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
-import 'package:iconapp/stores/analytics/analytics_consts.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
-import 'package:iconapp/stores/language/language_store.dart';
-import 'package:iconapp/widgets/comments/comments_bottom_sheet.dart';
-import 'package:iconapp/widgets/comments/comments_fab.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:iconapp/widgets/chat/chat_dialogs.dart';
+import 'package:iconapp/widgets/chat/chat_fab.dart';
+import 'package:iconapp/widgets/chat/chat_story.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
-import '../stores/analytics/analytics_firebase.dart';
 import '../widgets/chat/chat_list.dart';
-import '../widgets/chat/chat_welcome_dialog.dart';
 import '../widgets/global/focus_aware.dart';
 import '../core/dependencies/locator.dart';
 import '../core/theme.dart';
@@ -26,7 +21,6 @@ import '../widgets/chat/panel_subscribe.dart';
 import '../widgets/chat/compose/compose_panel.dart';
 import '../widgets/chat/settings/change_background.dart';
 import '../widgets/global/blue_divider.dart';
-import '../widgets/story/story_list.dart';
 import '../widgets/chat/chat_appbar.dart';
 import '../core/extensions/context_ext.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -131,7 +125,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                           _chat?.conversation?.backgroundColor ?? 0]),
                   child: Column(
                     children: <Widget>[
-                      ChatAppbar(),
+                      ChatAppbar(showPin: false),
                       BlueDivider(color: cornflower),
                       ChatList(scrollController: _chatController),
                       AnimatedSize(
@@ -151,59 +145,14 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                   ),
                 );
               }),
-              Visibility(
-                visible:
-                    _story.isUserIcon || _story.storiesWithoutAds.isNotEmpty,
-                child: Positioned(
-                    top: context.heightPlusStatusbarPerc(.1),
-                    child: StoriesList(mode: _story.mode, show: !_upDirection)),
-              ),
-              Observer(
-                builder: (_) => Visibility(
-                  visible: _chat.dataReady &&
-                      _chat.conversation.userRole == UserRole.viewer,
-                  child: Positioned(
-                      bottom: 35,
-                      left: language.isLTR ? null : 16,
-                      right: language.isLTR ? 16 : null,
-                      child: CommentsFab(
-                        onTap: () {
-                          if (_chat.conversation.areCommentsActivated &&
-                              _chat.conversation.isSubscribed) {
-                            analytics.sendConversationEvent(
-                                OPENED_COMMENTS_FOR_CONVERSATION,
-                                _chat.conversation.id);
-
-                            showCommentsDialog(context);
-                          } else {
-                            if (!_chat.conversation.isSubscribed) {
-                              context.showFlushbar(
-                                  message: LocaleKeys.chat_joinGroupShowComments
-                                      .tr());
-                            } else {
-                              context.showFlushbar(
-                                  message: LocaleKeys.comments_closed.tr());
-                            }
-                          }
-                        },
-                      )),
-                ),
-              ),
-              _showWelcomeDialog(_chat.conversation?.name ?? ''),
+              ChatStory(story: _story, upDirection: _upDirection),
+              ChatFab(chat: _chat),
+              showWelcomeDialog(_chat.conversation?.name ?? ''),
             ],
           ),
         ),
       ),
     );
-  }
-
-  Widget _showWelcomeDialog(String conversationName) {
-    return Observer(builder: (_) {
-      return Visibility(
-        visible: _chat.showWelcomeDialog,
-        child: ChatWelcomeDialog(groupName: conversationName),
-      );
-    });
   }
 
   Widget initComposer(ScrollController controller) {
@@ -230,22 +179,4 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     _socket.unsubscribe(widget.conversation.id.toString());
     super.dispose();
   }
-}
-
-Future showCommentsDialog(BuildContext context) {
-  final comments = sl<CommentsStore>();
-
-  comments
-    ..setCommentsViewed()
-    ..setCommentsBadge(false);
-
-  return showMaterialModalBottomSheet(
-    backgroundColor: Colors.transparent,
-    duration: const Duration(milliseconds: 300),
-    context: context,
-    isDismissible: true,
-    builder: (context, scrollController) => Padding(
-        padding: MediaQuery.of(context).viewInsets,
-        child: CommentsBottomSheet(scrollController: scrollController)),
-  );
 }

@@ -9,6 +9,14 @@ part of 'home_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$HomeStore on _HomeStoreBase, Store {
+  Computed<List<Conversation>> _$conversationSubscribedComputed;
+
+  @override
+  List<Conversation> get conversationSubscribed =>
+      (_$conversationSubscribedComputed ??= Computed<List<Conversation>>(
+              () => super.conversationSubscribed,
+              name: '_HomeStoreBase.conversationSubscribed'))
+          .value;
   Computed<TabMode> _$tabModeComputed;
 
   @override
@@ -111,6 +119,23 @@ mixin _$HomeStore on _HomeStoreBase, Store {
     });
   }
 
+  final _$_conversationSubscribedAtom =
+      Atom(name: '_HomeStoreBase._conversationSubscribed');
+
+  @override
+  ObservableList<Conversation> get _conversationSubscribed {
+    _$_conversationSubscribedAtom.reportRead();
+    return super._conversationSubscribed;
+  }
+
+  @override
+  set _conversationSubscribed(ObservableList<Conversation> value) {
+    _$_conversationSubscribedAtom
+        .reportWrite(value, super._conversationSubscribed, () {
+      super._conversationSubscribed = value;
+    });
+  }
+
   final _$_loadingAtom = Atom(name: '_HomeStoreBase._loading');
 
   @override
@@ -210,6 +235,15 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   @override
   Future<dynamic> saveWelcomeSeen() {
     return _$saveWelcomeSeenAsyncAction.run(() => super.saveWelcomeSeen());
+  }
+
+  final _$getSubscribedConversationAsyncAction =
+      AsyncAction('_HomeStoreBase.getSubscribedConversation');
+
+  @override
+  Future<dynamic> getSubscribedConversation() {
+    return _$getSubscribedConversationAsyncAction
+        .run(() => super.getSubscribedConversation());
   }
 
   final _$getCachedConversationByIdAsyncAction =
@@ -337,6 +371,7 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   @override
   String toString() {
     return '''
+conversationSubscribed: ${conversationSubscribed},
 tabMode: ${tabMode},
 getCurrentTabIndex: ${getCurrentTabIndex},
 showWelcomeDialog: ${showWelcomeDialog},

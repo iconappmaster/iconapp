@@ -42,8 +42,9 @@ class CodegenLoader extends AssetLoader{
   },
   "home": {
     "noMessages": "אין הודעות",
-    "conversation": "שיחות",
-    "media": "מדיה"
+    "discover": "לגלות",
+    "media": "מדיה",
+    "myFeed": "הפיד שלי"
   },
   "onboarding": {
     "didCodeSent": "האם הגיע?",
@@ -155,7 +156,8 @@ class CodegenLoader extends AssetLoader{
   },
   "archive": {
     "empty": "אין שיחות מוסתרות",
-    "hidden": "קבוצות מוסתרות"
+    "hidden": "קבוצות מוסתרות",
+    "slide": "הסתר"
   },
   "description": {
     "hint": "הוספ/י כיתוב…"
@@ -201,8 +203,9 @@ static const Map<String,dynamic> en_US = {
   },
   "home": {
     "noMessages": "No Messages",
-    "conversation": "conversations",
-    "media": "media"
+    "discover": "discover",
+    "media": "media",
+    "myFeed": "my feed"
   },
   "onboarding": {
     "didCodeSent": "did you got the code?",
@@ -314,7 +317,8 @@ static const Map<String,dynamic> en_US = {
   },
   "archive": {
     "empty": "No hidden conversations",
-    "hidden": "Hidden conversations"
+    "hidden": "Hidden conversations",
+    "slide": "archive"
   },
   "description": {
     "hint": "add a description"
