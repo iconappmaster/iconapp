@@ -106,7 +106,7 @@ abstract class _StoryStoreBase with Store {
       _mode = StoryMode.home;
       try {
         final stories = await _repository.getHomeStories();
-        if (_stories.isNotEmpty) _stories.clear();
+        _stories.clear();
         _stories.addAll(stories);
       } on ServerError catch (e) {
         Crash.report(e.message);

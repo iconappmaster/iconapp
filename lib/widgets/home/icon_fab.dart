@@ -4,11 +4,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/bus.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
+import 'package:iconapp/screens/alerts_screen.dart';
 import 'package:iconapp/screens/create_icons_screen.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/stores/alerts/alert_store.dart';
 import 'package:iconapp/stores/create/create_category_store.dart';
 import 'package:iconapp/stores/create/create_icon_store.dart';
 import 'package:iconapp/stores/home/home_store.dart';
@@ -23,29 +25,27 @@ class IconFab extends StatelessWidget {
   const IconFab({
     Key key,
     @required UserStore user,
-    @required HomeStore home,
   })  : _user = user,
-        _home = home,
         super(key: key);
 
   final UserStore _user;
-  final HomeStore _home;
 
   @override
   Widget build(BuildContext context) {
     return SuperFab(
-      ringWidth: 90,
+      ringWidth: 60,
+      animationDuration: Duration(seconds: 1),
       alignment: Alignment.bottomLeft,
-      fabElevation: 5,
+      fabElevation: 1,
       fabCloseColor: cornflower,
       fabOpenColor: cornflower,
       fabColor: cornflower,
-      animationCurve: Curves.ease,
-      fabCloseIcon: Icon(Icons.close, color: lightMustard),
+      animationCurve: Curves.linearToEaseOut,
+      fabCloseIcon: Icon(Icons.close, color: lightMustard, size: 20),
       fabSize: 50,
       ringDiameter: 350,
       fabOpenIcon: SvgPicture.asset('assets/images/icon_star.svg',
-          height: 24, width: 24),
+          height: 20, width: 20),
       ringColor: cornflower,
       children:
           _user.getUser.isIcon ? _showIconMenu(context) : _showViewer(context),
@@ -71,16 +71,11 @@ class IconFab extends StatelessWidget {
                 ? Icons.line_style
                 : Icons.list);
       }),
-      FabTile(
-        iconData: Icons.play_arrow,
-        text: LocaleKeys.fab_media.tr(),
-        onTap: () {
-          _close();
-          if (!_home.isLoading)
-            ExtendedNavigator.of(context)
-                .pushFeedPlayer(index: 0, urls: _home.userMedia);
-        },
-      ),
+      BellAlert(onPressed: () {
+        final alerts = sl<AlertStore>();
+        alerts.markAlertsAsSeen();
+        ExtendedNavigator.of(context).pushAlertScreen();
+      }),
     ];
   }
 
@@ -113,16 +108,6 @@ class IconFab extends StatelessWidget {
                 : Icons.line_style);
       }),
       FabTile(
-        iconData: Icons.play_arrow,
-        text: LocaleKeys.fab_media.tr(),
-        onTap: () {
-          _close();
-          if (!_home.isLoading)
-            ExtendedNavigator.of(context)
-                .pushFeedPlayer(index: 0, urls: _home.userMedia);
-        },
-      ),
-      FabTile(
         iconData: Icons.add,
         text: LocaleKeys.fab_create.tr(),
         onTap: () {
@@ -135,6 +120,11 @@ class IconFab extends StatelessWidget {
               .pushSelectIconScreen(mode: SelectIconMode.fromGroup);
         },
       ),
+      BellAlert(onPressed: () {
+        final alerts = sl<AlertStore>();
+        alerts.markAlertsAsSeen();
+        ExtendedNavigator.of(context).pushAlertScreen();
+      }),
     ];
   }
 
@@ -161,12 +151,12 @@ class FabTile extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: () => onTap(),
       child: SizedBox(
-        height: 80,
+        height: 50,
         child: Observer(
           builder: (_) => Column(
             children: [
-              Icon(iconData, color: lightMustard, size: 40),
-              SizedBox(height: 8),
+              Icon(iconData, color: lightMustard, size: 30),
+              SizedBox(height: 2),
               CustomText(text,
                   style:
                       replayTitle.copyWith(color: lightMustard, fontSize: 10))

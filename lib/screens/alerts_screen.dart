@@ -7,6 +7,7 @@ import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/alerts_model.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/alerts/alert_store.dart';
+import 'package:iconapp/widgets/global/back_button.dart';
 import 'package:iconapp/widgets/global/bouncing.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
@@ -17,7 +18,6 @@ import 'package:iconapp/widgets/global/timeago.dart' as timeago;
 import 'package:easy_localization/easy_localization.dart';
 
 class AlertScreen extends StatelessWidget {
-  
   AlertScreen() {
     sl<AlertStore>().getAlerts();
   }
@@ -43,16 +43,16 @@ class AlertList extends StatelessWidget {
     return Expanded(
       child: Observer(builder: (_) {
         return store.alerts.isEmpty
-                ? AlertsEmptyState()
-                : ListView.separated(
-                    shrinkWrap: true,
-                    separatorBuilder: (context, index) => AlertDivider(),
-                    padding: EdgeInsets.all(16),
-                    physics: BouncingScrollPhysics(),
-                    itemBuilder: (context, index) =>
-                        AlertTile(alert: store.alerts[index]),
-                    itemCount: store.alerts.length,
-                  );
+            ? AlertsEmptyState()
+            : ListView.separated(
+                shrinkWrap: true,
+                separatorBuilder: (context, index) => AlertDivider(),
+                padding: EdgeInsets.all(16),
+                physics: BouncingScrollPhysics(),
+                itemBuilder: (context, index) =>
+                    AlertTile(alert: store.alerts[index]),
+                itemCount: store.alerts.length,
+              );
       }),
     );
   }
@@ -137,11 +137,7 @@ class AlertAppbar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            IconButton(
-              onPressed: () => ExtendedNavigator.of(context).pop(),
-              icon: SvgPicture.asset('assets/images/back_arrow.svg',
-                  height: 16.3, width: 16.3),
-            ),
+            IconBackButton(),
             CustomText(LocaleKeys.alerts_messages.tr(), style: alertTitle),
             Spacer(),
             SizedBox(
@@ -177,15 +173,27 @@ class BellAlert extends StatelessWidget {
     final store = sl<AlertStore>();
     return BouncingGestureDetector(
       onPressed: onPressed,
-      child: SizedBox(
-        height: 25,
-        width: 25,
-        child: Stack(
-          children: [
-            SvgPicture.asset('assets/images/bell.svg'),
-            BellCountBubble(alerts: store)
-          ],
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            height: 30,
+            width: 25,
+            child: Stack(
+              children: [
+                SvgPicture.asset('assets/images/bell.svg',
+                    height: 22, width: 22, color: lightMustard),
+                BellCountBubble(alerts: store),
+              ],
+            ),
+          ),
+          CustomText(
+            LocaleKeys.alerts_alert.tr(),
+            style: replayTitle.copyWith(color: lightMustard, fontSize: 10),
+          )
+        ],
       ),
     );
   }

@@ -9,6 +9,13 @@ part of 'home_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$HomeStore on _HomeStoreBase, Store {
+  Computed<HomeFilterType> _$typeComputed;
+
+  @override
+  HomeFilterType get type =>
+      (_$typeComputed ??= Computed<HomeFilterType>(() => super.type,
+              name: '_HomeStoreBase.type'))
+          .value;
   Computed<List<Conversation>> _$conversationSubscribedComputed;
 
   @override
@@ -16,6 +23,14 @@ mixin _$HomeStore on _HomeStoreBase, Store {
       (_$conversationSubscribedComputed ??= Computed<List<Conversation>>(
               () => super.conversationSubscribed,
               name: '_HomeStoreBase.conversationSubscribed'))
+          .value;
+  Computed<List<Conversation>> _$conversationPopularComputed;
+
+  @override
+  List<Conversation> get conversationPopular =>
+      (_$conversationPopularComputed ??= Computed<List<Conversation>>(
+              () => super.conversationPopular,
+              name: '_HomeStoreBase.conversationPopular'))
           .value;
   Computed<TabMode> _$tabModeComputed;
 
@@ -52,6 +67,13 @@ mixin _$HomeStore on _HomeStoreBase, Store {
       (_$isLoadingComputed ??= Computed<bool>(() => super.isLoading,
               name: '_HomeStoreBase.isLoading'))
           .value;
+  Computed<HomeFilterType> _$filterTypeComputed;
+
+  @override
+  HomeFilterType get filterType =>
+      (_$filterTypeComputed ??= Computed<HomeFilterType>(() => super.filterType,
+              name: '_HomeStoreBase.filterType'))
+          .value;
   Computed<ViewHomeMode> _$viewModeComputed;
 
   @override
@@ -86,6 +108,21 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   set _tabMode(TabMode value) {
     _$_tabModeAtom.reportWrite(value, super._tabMode, () {
       super._tabMode = value;
+    });
+  }
+
+  final _$_typeAtom = Atom(name: '_HomeStoreBase._type');
+
+  @override
+  HomeFilterType get _type {
+    _$_typeAtom.reportRead();
+    return super._type;
+  }
+
+  @override
+  set _type(HomeFilterType value) {
+    _$_typeAtom.reportWrite(value, super._type, () {
+      super._type = value;
     });
   }
 
@@ -259,6 +296,17 @@ mixin _$HomeStore on _HomeStoreBase, Store {
       ActionController(name: '_HomeStoreBase');
 
   @override
+  void setFilterType(HomeFilterType type) {
+    final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
+        name: '_HomeStoreBase.setFilterType');
+    try {
+      return super.setFilterType(type);
+    } finally {
+      _$_HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setTabMode(TabMode tabMode) {
     final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
         name: '_HomeStoreBase.setTabMode');
@@ -325,6 +373,17 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   }
 
   @override
+  void moveConversationToBottom(Conversation conversation) {
+    final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
+        name: '_HomeStoreBase.moveConversationToBottom');
+    try {
+      return super.moveConversationToBottom(conversation);
+    } finally {
+      _$_HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void updateUi(List<Conversation> conversations) {
     final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
         name: '_HomeStoreBase.updateUi');
@@ -371,12 +430,15 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   @override
   String toString() {
     return '''
+type: ${type},
 conversationSubscribed: ${conversationSubscribed},
+conversationPopular: ${conversationPopular},
 tabMode: ${tabMode},
 getCurrentTabIndex: ${getCurrentTabIndex},
 showWelcomeDialog: ${showWelcomeDialog},
 showForceUpdate: ${showForceUpdate},
 isLoading: ${isLoading},
+filterType: ${filterType},
 viewMode: ${viewMode},
 userMedia: ${userMedia},
 conversations: ${conversations}

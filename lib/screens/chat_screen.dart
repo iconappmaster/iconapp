@@ -120,30 +120,27 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
             children: [
               Observer(builder: (_) {
                 return Container(
-                  decoration: BoxDecoration(
-                      gradient: gradientList[
-                          _chat?.conversation?.backgroundColor ?? 0]),
-                  child: Column(
-                    children: <Widget>[
-                      ChatAppbar(showPin: false),
-                      BlueDivider(color: cornflower),
-                      ChatList(scrollController: _chatController),
-                      AnimatedSize(
-                        vsync: this,
-                        child: ConstrainedBox(
-                            constraints: BoxConstraints(
-                              minHeight:
-                                  (_chat.composerMode != ComposerMode.viewer)
-                                      ? 82
-                                      : 0,
-                            ),
-                            child: initComposer(_chatController)),
-                        duration: const Duration(milliseconds: 350),
-                        curve: Curves.easeInToLinear,
-                      ),
-                    ],
-                  ),
-                );
+                    decoration: BoxDecoration(
+                        gradient: gradientList[
+                            _chat?.conversation?.backgroundColor ?? 0]),
+                    child: Column(
+                      children: <Widget>[
+                        ChatAppbar(showPin: false),
+                        BlueDivider(color: cornflower),
+                        ChatList(scrollController: _chatController),
+                        AnimatedSize(
+                            vsync: this,
+                            child: ConstrainedBox(
+                                constraints: BoxConstraints(
+                                    minHeight: (_chat.composerMode !=
+                                            ComposerMode.viewer)
+                                        ? 82
+                                        : 0),
+                                child: initComposer(_chatController)),
+                            duration: const Duration(milliseconds: 350),
+                            curve: Curves.easeInToLinear),
+                      ],
+                    ));
               }),
               ChatStory(story: _story, upDirection: _upDirection),
               ChatFab(chat: _chat),
@@ -162,9 +159,8 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
           return Container();
         case ComposerMode.icon:
           return PanelMessageCompose(
-            scrollController: controller,
-            composerMode: ComposerPanelMode.conversation,
-          );
+              scrollController: controller,
+              composerMode: ComposerPanelMode.conversation);
         case ComposerMode.subscriber:
           return PanelSubscriber();
       }

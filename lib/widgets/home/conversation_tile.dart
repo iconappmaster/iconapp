@@ -95,7 +95,9 @@ class ConversationTile extends StatelessWidget {
                   Expanded(
                     child: Column(
                       children: [
-                        if ((messageDate.difference(DateTime.now()).inDays).abs() < 1)
+                        if ((messageDate.difference(DateTime.now()).inDays)
+                                .abs() <
+                            1)
                           CustomText(
                               time.format(
                                 DateTime.fromMillisecondsSinceEpoch(
@@ -117,7 +119,7 @@ class ConversationTile extends StatelessWidget {
                                 height: _indicatorSize,
                                 width: _indicatorSize,
                               ),
-                            if (conversation?.isPinned) Pin(),
+                            if (conversation?.isPinned) RoundIcon(),
                           ],
                         ),
                       ],
@@ -133,7 +135,11 @@ class ConversationTile extends StatelessWidget {
   }
 }
 
-class Pin extends StatelessWidget {
+class RoundIcon extends StatelessWidget {
+  final String asset;
+
+  const RoundIcon({Key key, this.asset = 'assets/images/pin.svg'})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -141,7 +147,7 @@ class Pin extends StatelessWidget {
       width: _indicatorSize,
       decoration: BoxDecoration(shape: BoxShape.circle, color: blueberry2),
       child: Center(
-        child: SvgPicture.asset('assets/images/pin.svg', height: 13, width: 13),
+        child: SvgPicture.asset(asset, height: 13, width: 13),
       ),
     );
   }

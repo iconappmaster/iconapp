@@ -42,9 +42,8 @@ class CodegenLoader extends AssetLoader{
   },
   "home": {
     "noMessages": "אין הודעות",
-    "discover": "לגלות",
     "media": "מדיה",
-    "myFeed": "הפיד שלי"
+    "conversation": "שיחות"
   },
   "onboarding": {
     "didCodeSent": "האם הגיע?",
@@ -85,6 +84,9 @@ class CodegenLoader extends AssetLoader{
     "content": "ברוך הבא ל-Icon! אצלנו תהיה חלק מקהילות\nועולמות תוכן המדברים אליך. קבוצות הצ'אט שלנו מנוהלות\nעל ידי אייקונים, מובילי דעה ויוצרי תוכן המובילים בתחומם\nהקהל הרחב יוכל לצפות בשיחות המתקיימות 24/7 ולהגיב באמצעות חייכנים. מנהל הקבוצה יוכל לפתוח את הקבוצה לשילוב הקהל בשיחה כשיבחר. מהיום אתה חלק מקבוצות האייקונים האהובים עליך."
   },
   "chat": {
+    "subsribe": "הצטרפות לקבוצה",
+    "viewerPanel": "רק מנהלי קבוצה יכולים לשלוח הודעה",
+    "join": "כדי להגיב להודעות הצטרף/י לקבוצה",
     "appbarSubtitle": "אייקונים {}, עוקבים {}",
     "messageInputHint": "הקלד/י הודעה",
     "welcomeTitle": "ברוך הבא ל {}",
@@ -109,7 +111,8 @@ class CodegenLoader extends AssetLoader{
   "alerts": {
     "empty": "אין הודעות חדשות",
     "messages": "הודעות",
-    "cleanAll": "נקה הכל"
+    "cleanAll": "נקה הכל",
+    "alert": "התראות"
   },
   "settings": {
     "title": "הגדרות",
@@ -203,9 +206,8 @@ static const Map<String,dynamic> en_US = {
   },
   "home": {
     "noMessages": "No Messages",
-    "discover": "discover",
     "media": "media",
-    "myFeed": "my feed"
+    "conversation": "conversation"
   },
   "onboarding": {
     "didCodeSent": "did you got the code?",
@@ -246,6 +248,9 @@ static const Map<String,dynamic> en_US = {
     "content": "Welcome to Icon! From now on, Icons you love are accessible to you anytime, anywhere. You can subscribe to their conversations and react with emoji’s and write comments."
   },
   "chat": {
+    "subsribe": "Subscribe conversation",
+    "viewerPanel": "Only group managers can send a message",
+    "join": "please subscribe before",
     "appbarSubtitle": "{} Icons,{} Followers",
     "messageInputHint": "type a message",
     "welcomeTitle": "Welcome to {}",
@@ -254,7 +259,7 @@ static const Map<String,dynamic> en_US = {
     "chooseColor": "Select background color",
     "notification": "Mute notificatons",
     "editGroup": "Add editor to the conversation",
-    "exited": "Exit the group",
+    "exited": "Unsubscribed",
     "exit": "Exit conversation",
     "becomeManager": "Make admin",
     "manager": "Admin",
@@ -271,7 +276,8 @@ static const Map<String,dynamic> en_US = {
   "alerts": {
     "empty": "No new messages",
     "messages": "Messages",
-    "cleanAll": "Clear All"
+    "cleanAll": "Clear All",
+    "alert": "alerts"
   },
   "settings": {
     "title": "Settings",

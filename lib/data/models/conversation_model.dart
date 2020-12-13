@@ -31,6 +31,7 @@ abstract class Conversation with _$Conversation {
     final bool shouldShowNewCommentsBadge,
     final bool areNotificationsDisabled,
     final bool areCommentsActivated,
+    final bool isPopular,
     final int commentsMaxUserCount,
     final UserRole userRole,
     final ConversationType type,

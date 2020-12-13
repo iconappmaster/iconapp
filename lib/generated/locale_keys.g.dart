@@ -24,9 +24,8 @@ abstract class  LocaleKeys {
   static const general_close = 'general.close';
   static const general = 'general';
   static const home_noMessages = 'home.noMessages';
-  static const home_discover = 'home.discover';
   static const home_media = 'home.media';
-  static const home_myFeed = 'home.myFeed';
+  static const home_conversation = 'home.conversation';
   static const home = 'home';
   static const onboarding_didCodeSent = 'onboarding.didCodeSent';
   static const onboarding_phoneNumberHint = 'onboarding.phoneNumberHint';
@@ -63,6 +62,9 @@ abstract class  LocaleKeys {
   static const welcome_title = 'welcome.title';
   static const welcome_content = 'welcome.content';
   static const welcome = 'welcome';
+  static const chat_subsribe = 'chat.subsribe';
+  static const chat_viewerPanel = 'chat.viewerPanel';
+  static const chat_join = 'chat.join';
   static const chat_appbarSubtitle = 'chat.appbarSubtitle';
   static const chat_messageInputHint = 'chat.messageInputHint';
   static const chat_welcomeTitle = 'chat.welcomeTitle';
@@ -86,6 +88,7 @@ abstract class  LocaleKeys {
   static const alerts_empty = 'alerts.empty';
   static const alerts_messages = 'alerts.messages';
   static const alerts_cleanAll = 'alerts.cleanAll';
+  static const alerts_alert = 'alerts.alert';
   static const alerts = 'alerts';
   static const settings_title = 'settings.title';
   static const settings_friends = 'settings.friends';

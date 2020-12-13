@@ -43,7 +43,6 @@ class _HomeScreenState extends State<HomeScreen> {
   HomeStore _home;
   UserStore _user;
   StoryStore _story;
-  AlertStore _alerts;
   SharedPreferencesService _sp;
   DynamicLink _dynamicLink;
   String homeChannelName = 'home';
@@ -55,7 +54,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _scaffoldKey = GlobalKey<ScaffoldState>();
     _home = sl<HomeStore>();
     _story = sl<StoryStore>();
-    _alerts = sl<AlertStore>();
     _user = sl<UserStore>();
     _sp = sl<SharedPreferencesService>();
     _dynamicLink = sl<DynamicLink>();
@@ -141,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      HomeAppbar(scaffoldKey: _scaffoldKey, alerts: _alerts),
+                      HomeAppbar(scaffoldKey: _scaffoldKey),
                       HomeStories(story: _story),
                       HomeTabs(home: _home),
                       HomeContent(home: _home, controller: _controller),
@@ -178,8 +176,48 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   if (!_home.showForceUpdate)
                     Padding(
-                        padding: EdgeInsets.only(bottom: 27),
-                        child: IconFab(user: _user, home: _home)),
+                      padding: EdgeInsets.only(bottom: 27),
+                      child: IconFab(user: _user),
+                    ),
+                  // Positioned(
+                  //     top: 43,
+                  //     child: SizedBox(
+                  //       width: MediaQuery.of(context).size.width * .5,
+                  //       child: Wrap(direction: Axis.horizontal, children: [
+                  //         Padding(
+                  //           padding: const EdgeInsets.symmetric(
+                  //             horizontal: 5.0,
+                  //           ),
+                  //           child: ChoiceChip(
+                  //             padding: EdgeInsets.all(0),
+                  //             visualDensity: VisualDensity.compact,
+                  //             label: CustomText('For you'),
+                  //             selected: true,
+                  //             selectedColor: Colors.black,
+                  //             labelStyle: systemMessage.copyWith(color: white),
+                  //             disabledColor: ,
+                  //           ),
+                  //         ),
+                  //         ChoiceChip(
+                  //           visualDensity: VisualDensity.compact,
+                  //           label: CustomText('For you'),
+                  //           selected: false,
+                  //           selectedColor: cornflower,
+                  //           labelStyle:
+                  //               systemMessage.copyWith(color: Colors.black),
+                  //           disabledColor: cornflower.withOpacity(.5),
+                  //         ),
+                  //         ChoiceChip(
+                  //           visualDensity: VisualDensity.compact,
+                  //           label: CustomText('For you'),
+                  //           selected: false,
+                  //           selectedColor: cornflower,
+                  //           labelStyle:
+                  //               systemMessage.copyWith(color: Colors.black),
+                  //           disabledColor: cornflower.withOpacity(.5),
+                  //         ),
+                  //       ]),
+                  //     )),
                 ],
               ),
             ),

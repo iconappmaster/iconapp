@@ -30,7 +30,7 @@ class HomeTabs extends StatelessWidget {
             thumbColor: cornflower,
             groupValue: _home.getCurrentTabIndex,
             children: {
-              0: CustomText(LocaleKeys.home_discover.tr(),
+              0: CustomText(LocaleKeys.home_conversation.tr(),
                   style: chatMessageName),
               1: CustomText(LocaleKeys.home_media.tr(), style: chatMessageName),
             },

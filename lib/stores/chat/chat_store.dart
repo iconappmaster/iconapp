@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:iconapp/core/compression.dart';
@@ -26,7 +25,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:video_compress/video_compress.dart';
-
 import '../../widgets/story/story_list.dart';
 import '../analytics/analytics_firebase.dart';
 import '../story/story_store.dart';
@@ -172,6 +170,11 @@ abstract class _ChatStoreBase with Store {
       final result = await _repository.unsubscribe(conversation.id);
       _conversation = result;
       _determineComposerMode();
+      
+      _homeStore
+        ..updateConversation(conversation)
+        ..moveConversationToBottom(conversation);
+
       analytics.sendConversationEvent(
           UNSUBSCRIBED_FROM_CONVERSATION, result.id);
     } on ServerError catch (e) {

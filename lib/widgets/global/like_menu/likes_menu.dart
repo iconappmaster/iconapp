@@ -290,10 +290,7 @@ class MenuDetails extends StatelessWidget {
                               color: item.isSelected
                                   ? cornflower
                                   : Colors.transparent,
-                              borderRadius: getBorderRadius(item.key)
-
-                              // BorderRadius.circular(23),
-                              ),
+                              borderRadius: getBorderRadius(item.key)),
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Container(

@@ -37,6 +37,7 @@ class _$ConversationTearOff {
       bool shouldShowNewCommentsBadge,
       bool areNotificationsDisabled,
       bool areCommentsActivated,
+      bool isPopular,
       int commentsMaxUserCount,
       UserRole userRole,
       ConversationType type,
@@ -61,6 +62,7 @@ class _$ConversationTearOff {
       shouldShowNewCommentsBadge: shouldShowNewCommentsBadge,
       areNotificationsDisabled: areNotificationsDisabled,
       areCommentsActivated: areCommentsActivated,
+      isPopular: isPopular,
       commentsMaxUserCount: commentsMaxUserCount,
       userRole: userRole,
       type: type,
@@ -99,6 +101,7 @@ mixin _$Conversation {
   bool get shouldShowNewCommentsBadge;
   bool get areNotificationsDisabled;
   bool get areCommentsActivated;
+  bool get isPopular;
   int get commentsMaxUserCount;
   UserRole get userRole;
   ConversationType get type;
@@ -133,6 +136,7 @@ abstract class $ConversationCopyWith<$Res> {
       bool shouldShowNewCommentsBadge,
       bool areNotificationsDisabled,
       bool areCommentsActivated,
+      bool isPopular,
       int commentsMaxUserCount,
       UserRole userRole,
       ConversationType type,
@@ -174,6 +178,7 @@ class _$ConversationCopyWithImpl<$Res> implements $ConversationCopyWith<$Res> {
     Object shouldShowNewCommentsBadge = freezed,
     Object areNotificationsDisabled = freezed,
     Object areCommentsActivated = freezed,
+    Object isPopular = freezed,
     Object commentsMaxUserCount = freezed,
     Object userRole = freezed,
     Object type = freezed,
@@ -221,6 +226,7 @@ class _$ConversationCopyWithImpl<$Res> implements $ConversationCopyWith<$Res> {
       areCommentsActivated: areCommentsActivated == freezed
           ? _value.areCommentsActivated
           : areCommentsActivated as bool,
+      isPopular: isPopular == freezed ? _value.isPopular : isPopular as bool,
       commentsMaxUserCount: commentsMaxUserCount == freezed
           ? _value.commentsMaxUserCount
           : commentsMaxUserCount as int,
@@ -308,6 +314,7 @@ abstract class _$ConversationCopyWith<$Res>
       bool shouldShowNewCommentsBadge,
       bool areNotificationsDisabled,
       bool areCommentsActivated,
+      bool isPopular,
       int commentsMaxUserCount,
       UserRole userRole,
       ConversationType type,
@@ -356,6 +363,7 @@ class __$ConversationCopyWithImpl<$Res> extends _$ConversationCopyWithImpl<$Res>
     Object shouldShowNewCommentsBadge = freezed,
     Object areNotificationsDisabled = freezed,
     Object areCommentsActivated = freezed,
+    Object isPopular = freezed,
     Object commentsMaxUserCount = freezed,
     Object userRole = freezed,
     Object type = freezed,
@@ -403,6 +411,7 @@ class __$ConversationCopyWithImpl<$Res> extends _$ConversationCopyWithImpl<$Res>
       areCommentsActivated: areCommentsActivated == freezed
           ? _value.areCommentsActivated
           : areCommentsActivated as bool,
+      isPopular: isPopular == freezed ? _value.isPopular : isPopular as bool,
       commentsMaxUserCount: commentsMaxUserCount == freezed
           ? _value.commentsMaxUserCount
           : commentsMaxUserCount as int,
@@ -437,6 +446,7 @@ class _$_Conversation implements _Conversation {
       this.shouldShowNewCommentsBadge,
       this.areNotificationsDisabled,
       this.areCommentsActivated,
+      this.isPopular,
       this.commentsMaxUserCount,
       this.userRole,
       this.type,
@@ -484,6 +494,8 @@ class _$_Conversation implements _Conversation {
   @override
   final bool areCommentsActivated;
   @override
+  final bool isPopular;
+  @override
   final int commentsMaxUserCount;
   @override
   final UserRole userRole;
@@ -494,7 +506,7 @@ class _$_Conversation implements _Conversation {
 
   @override
   String toString() {
-    return 'Conversation(id: $id, backgroundColor: $backgroundColor, backgroundPhoto: $backgroundPhoto, categoryId: $categoryId, createdBy: $createdBy, isPinned: $isPinned, createdAt: $createdAt, name: $name, photo: $photo, lastMessage: $lastMessage, shouldShowNewBadge: $shouldShowNewBadge, users: $users, messages: $messages, isSubscribed: $isSubscribed, numberOfAdminsRemaining: $numberOfAdminsRemaining, numberOfParticipants: $numberOfParticipants, shouldShowNewCommentsBadge: $shouldShowNewCommentsBadge, areNotificationsDisabled: $areNotificationsDisabled, areCommentsActivated: $areCommentsActivated, commentsMaxUserCount: $commentsMaxUserCount, userRole: $userRole, type: $type, media: $media)';
+    return 'Conversation(id: $id, backgroundColor: $backgroundColor, backgroundPhoto: $backgroundPhoto, categoryId: $categoryId, createdBy: $createdBy, isPinned: $isPinned, createdAt: $createdAt, name: $name, photo: $photo, lastMessage: $lastMessage, shouldShowNewBadge: $shouldShowNewBadge, users: $users, messages: $messages, isSubscribed: $isSubscribed, numberOfAdminsRemaining: $numberOfAdminsRemaining, numberOfParticipants: $numberOfParticipants, shouldShowNewCommentsBadge: $shouldShowNewCommentsBadge, areNotificationsDisabled: $areNotificationsDisabled, areCommentsActivated: $areCommentsActivated, isPopular: $isPopular, commentsMaxUserCount: $commentsMaxUserCount, userRole: $userRole, type: $type, media: $media)';
   }
 
   @override
@@ -556,8 +568,9 @@ class _$_Conversation implements _Conversation {
             (identical(other.areCommentsActivated, areCommentsActivated) ||
                 const DeepCollectionEquality().equals(
                     other.areCommentsActivated, areCommentsActivated)) &&
-            (identical(other.commentsMaxUserCount, commentsMaxUserCount) ||
-                const DeepCollectionEquality().equals(other.commentsMaxUserCount, commentsMaxUserCount)) &&
+            (identical(other.isPopular, isPopular) ||
+                const DeepCollectionEquality().equals(other.isPopular, isPopular)) &&
+            (identical(other.commentsMaxUserCount, commentsMaxUserCount) || const DeepCollectionEquality().equals(other.commentsMaxUserCount, commentsMaxUserCount)) &&
             (identical(other.userRole, userRole) || const DeepCollectionEquality().equals(other.userRole, userRole)) &&
             (identical(other.type, type) || const DeepCollectionEquality().equals(other.type, type)) &&
             (identical(other.media, media) || const DeepCollectionEquality().equals(other.media, media)));
@@ -585,6 +598,7 @@ class _$_Conversation implements _Conversation {
       const DeepCollectionEquality().hash(shouldShowNewCommentsBadge) ^
       const DeepCollectionEquality().hash(areNotificationsDisabled) ^
       const DeepCollectionEquality().hash(areCommentsActivated) ^
+      const DeepCollectionEquality().hash(isPopular) ^
       const DeepCollectionEquality().hash(commentsMaxUserCount) ^
       const DeepCollectionEquality().hash(userRole) ^
       const DeepCollectionEquality().hash(type) ^
@@ -621,6 +635,7 @@ abstract class _Conversation implements Conversation {
       bool shouldShowNewCommentsBadge,
       bool areNotificationsDisabled,
       bool areCommentsActivated,
+      bool isPopular,
       int commentsMaxUserCount,
       UserRole userRole,
       ConversationType type,
@@ -667,6 +682,8 @@ abstract class _Conversation implements Conversation {
   bool get areNotificationsDisabled;
   @override
   bool get areCommentsActivated;
+  @override
+  bool get isPopular;
   @override
   int get commentsMaxUserCount;
   @override

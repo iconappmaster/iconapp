@@ -17,6 +17,7 @@ import '../global/network_photo.dart';
 import '../global/super_fab.dart';
 import '../global/white_circle.dart';
 import 'conversation_tile.dart';
+import 'home_filter.dart';
 
 const typeVideo = 'video';
 const typePhoto = 'photo';
@@ -38,34 +39,33 @@ class HomeStaggered extends StatelessWidget {
         staggeredTileBuilder: (int index) => StaggeredTile.count(2,
             home.conversations[index]?.media?.mediaType == typeVideo ? 3 : 2),
         crossAxisCount: 4,
-        itemCount: home.conversations.length,
+        itemCount: home.filterType == HomeFilterType.forYou
+            ? home.conversations.length
+            : home.conversationPopular.length,
         mainAxisSpacing: 4.0,
         crossAxisSpacing: 4.0,
         physics: BouncingScrollPhysics(),
         padding: EdgeInsets.only(bottom: 100),
         itemBuilder: (BuildContext context, int index) {
-          final conversation = home.conversations[index];
+          final conversation = home.filterType == HomeFilterType.forYou
+              ? home.conversations[index]
+              : home.conversationPopular[index];
 
           switch (conversation?.media?.mediaType) {
             case typePhoto:
               return GestureDetector(
-                onTap: () => _onTap(conversation, index),
-                child: StaggeredPhotoTile(conversation: conversation),
-              );
+                  onTap: () => _onTap(conversation, index),
+                  child: StaggeredPhotoTile(conversation: conversation));
 
             case typeVideo:
               return GestureDetector(
-                onTap: () => _onTap(conversation, index),
-                child: StaggeredVideoTile(
-                  conversation: conversation,
-                ),
-              );
+                  onTap: () => _onTap(conversation, index),
+                  child: StaggeredVideoTile(conversation: conversation));
 
             default:
               return GestureDetector(
-                onTap: () => _onTap(conversation, index),
-                child: StaggeredPhotoTile(conversation: conversation),
-              );
+                  onTap: () => _onTap(conversation, index),
+                  child: StaggeredPhotoTile(conversation: conversation));
           }
         },
       ),
@@ -157,14 +157,19 @@ class StaggeredOverlay extends StatelessWidget {
             ],
           ),
         ),
+        if (conversation.isSubscribed)
+          Positioned(
+              top: 8,
+              left: 8,
+              child: RoundIcon(asset: 'assets/images/bell.svg')),
         Positioned(
             top: 8,
             right: 8,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
-              children: [
-                if (conversation?.isPinned) Pin(),
+              children: <Widget>[
+                if (conversation?.isPinned) RoundIcon(),
                 SizedBox(width: 4),
                 if (conversation?.areNotificationsDisabled)
                   SvgPicture.asset(

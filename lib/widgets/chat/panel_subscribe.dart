@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/shimmer.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ViewerPanel extends StatelessWidget {
   @override
@@ -13,16 +15,8 @@ class ViewerPanel extends StatelessWidget {
       color: white,
       height: 58.7,
       child: Center(
-        child: RichText(
-          text: TextSpan(children: [
-            TextSpan(text: 'רק ', style: chatCompose),
-            TextSpan(
-                text: 'מנהלי קבוצה',
-                style: chatCompose.copyWith(color: cornflower)),
-            TextSpan(text: 'יכולים לשלוח הודעה', style: chatCompose),
-          ]),
-        ),
-      ),
+          child:
+              CustomText(LocaleKeys.chat_viewerPanel.tr(), style: chatCompose)),
     );
   }
 }
@@ -45,7 +39,7 @@ class PanelSubscriber extends StatelessWidget {
                   child: Shimmer.fromColors(
                     baseColor: white,
                     highlightColor: cornflower,
-                    child: CustomText('הצטרפות לקבוצה',
+                    child: CustomText(LocaleKeys.chat_subsribe.tr(),
                         style: chatCompose.copyWith(
                             color: store.isSubscribing
                                 ? Colors.grey

@@ -24,12 +24,11 @@
     },
     "home": {
         "noMessages": "No Messages",
-        "discover": "discover",
         "media": "media",
-        "myFeed" : "my feed"
+        "conversation": "conversation"
     },
     "onboarding": {
-        "didCodeSent" : "did you got the code?",
+        "didCodeSent": "did you got the code?",
         "phoneNumberHint": "what is your number?",
         "phoneTitle": "Before we start we need your phone\nso we can send you a PIN code.",
         "phoneSubtitle": "What is your phone number?",
@@ -67,6 +66,9 @@
         "content": "Welcome to Icon! From now on, Icons you love are accessible to you anytime, anywhere. You can subscribe to their conversations and react with emoji’s and write comments."
     },
     "chat": {
+        "subsribe": "Subscribe conversation",
+        "viewerPanel": "Only group managers can send a message",
+        "join": "please subscribe before",
         "appbarSubtitle": "{} Icons,{} Followers",
         "messageInputHint": "type a message",
         "welcomeTitle": "Welcome to {}",
@@ -75,7 +77,7 @@
         "chooseColor": "Select background color",
         "notification": "Mute notificatons",
         "editGroup": "Add editor to the conversation",
-        "exited": "Exit the group",
+        "exited": "Unsubscribed",
         "exit": "Exit conversation",
         "becomeManager": "Make admin",
         "manager": "Admin",
@@ -92,7 +94,8 @@
     "alerts": {
         "empty": "No new messages",
         "messages": "Messages",
-        "cleanAll": "Clear All"
+        "cleanAll": "Clear All",
+        "alert": "alerts"
     },
     "settings": {
         "title": "Settings",
@@ -139,7 +142,7 @@
     "archive": {
         "empty": "No hidden conversations",
         "hidden": "Hidden conversations",
-        "slide" : "archive"
+        "slide": "archive"
     },
     "description": {
         "hint": "add a description"

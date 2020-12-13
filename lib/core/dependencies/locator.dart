@@ -174,6 +174,6 @@ void initLocator() {
       ));
 
   sl.registerLazySingleton<Analytics>(() => Analytics());
-  
+
   sl.registerLazySingleton<LanguageStore>(() => LanguageStore());
 }

@@ -8,6 +8,7 @@ import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/repositories/home_repository.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/domain/core/errors.dart';
+import 'package:iconapp/widgets/home/home_filter.dart';
 import 'package:mobx/mobx.dart';
 
 part 'home_store.g.dart';
@@ -43,6 +44,9 @@ abstract class _HomeStoreBase with Store {
   TabMode _tabMode = TabMode.conversation;
 
   @observable
+  HomeFilterType _type = HomeFilterType.forYou;
+
+  @observable
   ViewHomeMode _viewMode = ViewHomeMode.staggered;
 
   @observable
@@ -64,7 +68,14 @@ abstract class _HomeStoreBase with Store {
   bool _showWelcomeDialog = true;
 
   @computed
+  HomeFilterType get type => _type;
+
+  @computed
   List<Conversation> get conversationSubscribed => _conversationSubscribed;
+
+  @computed
+  List<Conversation> get conversationPopular =>
+      _conversations.where((c) => c.isPopular).toList();
 
   @computed
   TabMode get tabMode => _tabMode;
@@ -82,6 +93,9 @@ abstract class _HomeStoreBase with Store {
   bool get isLoading => _loading;
 
   @computed
+  HomeFilterType get filterType => _type;
+
+  @computed
   ViewHomeMode get viewMode => _viewMode;
 
   @computed
@@ -89,6 +103,11 @@ abstract class _HomeStoreBase with Store {
 
   @computed
   List<Conversation> get conversations => _conversations;
+
+  @action
+  void setFilterType(HomeFilterType type) {
+    _type = type;
+  }
 
   @action
   Future getUserMedia() async {
@@ -195,8 +214,16 @@ abstract class _HomeStoreBase with Store {
   @action
   void updateConversation(Conversation conversation) {
     final index = _conversations.indexWhere((c) => c.id == conversation.id);
-
     if (index != -1) _conversations[index] = conversation;
+  }
+
+  @action
+  void moveConversationToBottom(Conversation conversation) {
+    final index = _conversations.indexWhere((c) => c.id == conversation.id);
+
+    _conversations
+      ..removeAt(index)
+      ..insert(_conversations.length, conversation);
   }
 
   @action

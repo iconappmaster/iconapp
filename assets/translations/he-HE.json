@@ -13,27 +13,25 @@
         "showAll": "הצג הכל",
         "searchCategory": "חפש/י קטגוריה",
         "searchIcon": "חפש/י אייקון",
-        "serachIconHint" : "חיפוש אייקונים",
-        "searchCategoryHint" : "חיפוש קטגוריות"
+        "serachIconHint": "חיפוש אייקונים",
+        "searchCategoryHint": "חיפוש קטגוריות"
     },
     "general": {
         "server_error": "תקלה בשרת, אנא נסה שנית",
         "iGotIt": "הבנתי, תודה!",
         "cancel": "בטל",
-        "uploading" : "מעלה קובץ אנא המתן",
-        "loading" : "טוען",
-        "close" : "סגור"
+        "uploading": "מעלה קובץ אנא המתן",
+        "loading": "טוען",
+        "close": "סגור"
     },
     "home": {
         "noMessages": "אין הודעות",
-        "discover" : "לגלות",
-        "media" : "מדיה",
-        "myFeed" : "הפיד שלי"
-
+        "media": "מדיה",
+        "conversation": "שיחות"
     },
     "onboarding": {
-        "didCodeSent" : "האם הגיע?",
-        "phoneNumberHint" : "מה מספר הטלפון שלך?",
+        "didCodeSent": "האם הגיע?",
+        "phoneNumberHint": "מה מספר הטלפון שלך?",
         "phoneTitle": "כדי להתחבר לקבוצות הצ׳אט אנחנו\nצריכים את מספר הטלפון שלך",
         "phoneSubtitle": "מה מספר הטלפון שלך?",
         "enterCode": "הזן/י את הקוד שנשלח אליך ב- SMS",
@@ -47,10 +45,10 @@
         "wrongName": "אנא ציין שם ושם משפחה",
         "wrongAge": "מעל גיל 10",
         "wrongCode": "קוד שגוי, אנא נסה שנית",
-        "sendAgainTitle" : "לא קיבלתי את הקוד.",
-        "sendAgain" : "שלח שוב",
-        "fullName" : "שם ושם משפחה",
-        "fullNameValidation" : "ציין שם ושם משפחה"
+        "sendAgainTitle": "לא קיבלתי את הקוד.",
+        "sendAgain": "שלח שוב",
+        "fullName": "שם ושם משפחה",
+        "fullNameValidation": "ציין שם ושם משפחה"
     },
     "create": {
         "groupNameHint": "הקלד/י כאן את נושא הקבוצה",
@@ -70,7 +68,10 @@
         "content": "ברוך הבא ל-Icon! אצלנו תהיה חלק מקהילות\nועולמות תוכן המדברים אליך. קבוצות הצ'אט שלנו מנוהלות\nעל ידי אייקונים, מובילי דעה ויוצרי תוכן המובילים בתחומם\nהקהל הרחב יוכל לצפות בשיחות המתקיימות 24/7 ולהגיב באמצעות חייכנים. מנהל הקבוצה יוכל לפתוח את הקבוצה לשילוב הקהל בשיחה כשיבחר. מהיום אתה חלק מקבוצות האייקונים האהובים עליך."
     },
     "chat": {
-        "appbarSubtitle" : "אייקונים {}, עוקבים {}",
+        "subsribe": "הצטרפות לקבוצה",
+        "viewerPanel": "רק מנהלי קבוצה יכולים לשלוח הודעה",
+        "join": "כדי להגיב להודעות הצטרף/י לקבוצה",
+        "appbarSubtitle": "אייקונים {}, עוקבים {}",
         "messageInputHint": "הקלד/י הודעה",
         "welcomeTitle": "ברוך הבא ל {}",
         "welcomeContent": "איזה כיף! הצטרפת לקבוצה הראשונה שלך.\nבקבוצות תיחשף לשיחות צ׳אט והודעות בין אייקונים.\nתוכל להגיב להודעות ולסטורי באמצעות חייכנים ואימוג׳ים.\nאתה יכול להצטרף לכל קבוצה שמעניינת אותך ואפילו לבחור לעקוב אחר אייקון ספציפי בקבוצות בהן הוא פעיל.\nאתה נכנס למימד חדש, ודא שהאייקונים ידעו שאתה שם.",
@@ -84,9 +85,9 @@
         "manager": "מנהל/ת",
         "addManagers": "ניתן להוסיף עוד {} מנהלים",
         "groupEditors": "עורכי הקבוצה",
-        "joinGroupShowComments" : "כדי להציג תגובות, הצטרפ/י לקבוצה",
-        "renameHint" : "הקלד/י נושא חדש",
-        "groupNameCantBeEmpty" : "שם הקבוצה לא יכול להיות ריק"
+        "joinGroupShowComments": "כדי להציג תגובות, הצטרפ/י לקבוצה",
+        "renameHint": "הקלד/י נושא חדש",
+        "groupNameCantBeEmpty": "שם הקבוצה לא יכול להיות ריק"
     },
     "disconnect": {
         "content": "אנחנו נתגעגע אלייך, {} {} {} רוצה לצאת מכל הצ׳אטים שלך?"
@@ -94,14 +95,15 @@
     "alerts": {
         "empty": "אין הודעות חדשות",
         "messages": "הודעות",
-        "cleanAll": "נקה הכל"
+        "cleanAll": "נקה הכל",
+        "alert": "התראות"
     },
     "settings": {
         "title": "הגדרות",
         "friends": "הזמנת חברים",
         "about": "אודות אייקון",
-        "language" : "שפה",
-        "disconnect" : "התנתק"
+        "language": "שפה",
+        "disconnect": "התנתק"
     },
     "story": {
         "title": "הסיפור שלך",
@@ -110,22 +112,21 @@
         "addMedia": "העלו תמונה או סרטון",
         "uploading": "מעלה...",
         "video": "וידאו",
-        "share" : "שיתוף",
-        "compressing" : "דוחס וידאו...",
-        "duration" : "משך זמן תמונה",
-        "videoGallery" : "גלריית וידאו",
-        "gallery" : "גלריה",
-        "camera" : "מצלמה",
-        "videoCamera" : "מצלמת וידאו"
+        "share": "שיתוף",
+        "compressing": "דוחס וידאו...",
+        "duration": "משך זמן תמונה",
+        "videoGallery": "גלריית וידאו",
+        "gallery": "גלריה",
+        "camera": "מצלמה",
+        "videoCamera": "מצלמת וידאו"
     },
     "drawer": {
         "groupActivity": "נתוני פעילות הקבוצה",
         "disconnect": "להתנתק",
         "profile": "הפרופיל שלי",
-        "identifyAsIcon" : "הזדהה כאייקון",
-        "hidden" : "שיחות מוסתרות",
-        "settings" : "הגדרות"
-
+        "identifyAsIcon": "הזדהה כאייקון",
+        "hidden": "שיחות מוסתרות",
+        "settings": "הגדרות"
     },
     "dialogs": {
         "exit": "יציאה מהמערכת",
@@ -142,24 +143,24 @@
     },
     "archive": {
         "empty": "אין שיחות מוסתרות",
-        "hidden" : "קבוצות מוסתרות",
-        "slide" : "הסתר"
+        "hidden": "קבוצות מוסתרות",
+        "slide": "הסתר"
     },
-    "description" : {
-        "hint" : "הוספ/י כיתוב…"
+    "description": {
+        "hint": "הוספ/י כיתוב…"
     },
-    "verify" : {
-        "title" : "הוספ/י את כתובת המייל שלך",
-        "validation" : "בדוק את האימייל שלך",
-        "welcomeTitle" : "ברוכים הבאים לתהליך ההזדהות כאייקון",
-        "nextButton" : "שלחו לי את הקוד",
-        "noCode" : "לא קיבלתי את הקוד.",
-        "sendAgain" : "שלחו שוב"
+    "verify": {
+        "title": "הוספ/י את כתובת המייל שלך",
+        "validation": "בדוק את האימייל שלך",
+        "welcomeTitle": "ברוכים הבאים לתהליך ההזדהות כאייקון",
+        "nextButton": "שלחו לי את הקוד",
+        "noCode": "לא קיבלתי את הקוד.",
+        "sendAgain": "שלחו שוב"
     },
-    "fab" : {
-        "create" : "קבוצה חדשה",
-        "media" : "מדיה",
-        "list" : "רשימה",
-        "staggered" : "בלוקים"
+    "fab": {
+        "create": "קבוצה חדשה",
+        "media": "מדיה",
+        "list": "רשימה",
+        "staggered": "בלוקים"
     }
 }

@@ -30,34 +30,8 @@ class HomeTileConversationMessage extends StatelessWidget {
                 style: lastWritten,
               ),
             ),
-
           SizedBox(width: 3),
-
-          SvgPicture.asset(
-            getImageType() ?? '',
-            height: 18,
-            width: 18,
-          )
-          // if we have text
-          // if (model?.messageType == MessageType.text)
-          //   Expanded(
-          //     child: CustomText(model?.body ?? '',
-          //         overflow: TextOverflow.ellipsis,
-          //         maxLines: 2,
-          //         textAlign: getTextAlign(),
-          //         style: lastWritten),
-          //   ),
-
-          // if (model?.messageType != MessageType.text &&
-          //     model?.messageType != MessageType.system)
-          //   SvgPicture.asset(getImageType() ?? '', height: 20, width: 20),
-
-          // SizedBox(width: 5),
-
-          // CustomText(getTextType() ?? '',
-          //     overflow: TextOverflow.fade,
-          //     textAlign: getTextAlign(),
-          //     style: lastWritten),
+          SvgPicture.asset(getImageType() ?? '', height: 18, width: 18)
         ],
       ),
     );
