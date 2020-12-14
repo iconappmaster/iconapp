@@ -40,7 +40,7 @@ class WelcomeDialog extends StatelessWidget {
                     style: dialogContent,
                     textAlign:
                         language.isLTR ? TextAlign.right : TextAlign.left,
-                    textDirection: language.textDirection,
+                    
                   ),
                 ),
               )),

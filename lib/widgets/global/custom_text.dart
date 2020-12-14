@@ -6,7 +6,7 @@ class CustomText extends StatelessWidget {
     this.text, {
     Key key,
     this.style,
-    this.textAlign = TextAlign.center,
+    this.textAlign,
     this.maxLines,
     this.overflow,
     this.maxLength,
@@ -25,8 +25,11 @@ class CustomText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textDirection =
+        language.isLTR ? TextDirection.ltr : TextDirection.rtl;
+    final textAlign = language.textAlign;
     return Directionality(
-      textDirection: textDirection ?? language.textDirection,
+      textDirection: textDirection,
       child: Padding(
         padding: padding,
         child: Text(

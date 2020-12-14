@@ -71,14 +71,13 @@ class ChatAppbar extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(width: 8),
+              SizedBox(width: 4),
               ReportButton(),
-              SizedBox(width: 10),
+              SizedBox(width: 4),
               if (store.conversation.userRole != UserRole.viewer)
                 CommentsAppBarIcon(onTap: () => showCommentsDialog(context)),
-              SizedBox(width: 8),
+              SizedBox(width: 4),
               if (showPin) PinConversation(store: store),
-              SizedBox(width: 6),
               IconButton(
                   key: menuKey,
                   visualDensity: VisualDensity.comfortable,

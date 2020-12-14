@@ -1,10 +1,17 @@
+import 'dart:io';
+import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:iconapp/core/focused_menu.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
+import 'package:iconapp/stores/archive/archive_store.dart';
 import 'package:iconapp/widgets/global/shimmer.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../../core/bus.dart';
 import '../../core/dependencies/locator.dart';
 import '../../core/theme.dart';
@@ -126,11 +133,7 @@ class StaggeredOverlay extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        Container(
-          decoration: BoxDecoration(
-            gradient: staggeredGradient,
-          ),
-        ),
+        Container(decoration: BoxDecoration(gradient: staggeredGradient)),
         Positioned(
           bottom: 8,
           right: 8,
@@ -157,29 +160,87 @@ class StaggeredOverlay extends StatelessWidget {
             ],
           ),
         ),
+        Align(
+            alignment: Alignment.topCenter,
+            child: RotatedBox(
+              quarterTurns: 2,
+              child: Container(
+                height: 40,
+                  decoration: BoxDecoration(gradient: staggeredGradient)),
+            )),
         if (conversation.isSubscribed)
           Positioned(
               top: 8,
               left: 8,
               child: RoundIcon(asset: 'assets/images/bell.svg')),
-        Positioned(
-            top: 8,
-            right: 8,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                if (conversation?.isPinned) RoundIcon(),
-                SizedBox(width: 4),
-                if (conversation?.areNotificationsDisabled)
-                  SvgPicture.asset(
-                    'assets/images/mute.svg',
-                    height: 25,
-                    width: 25,
-                  ),
-              ],
-            )),
+        if (conversation?.areNotificationsDisabled)
+          Positioned(
+            top: 6,
+            left: 30,
+            child: SvgPicture.asset(
+              'assets/images/mute.svg',
+              height: 25,
+              width: 25,
+            ),
+          ),
+        StaggeredMenu(conversation: conversation),
       ],
+    );
+  }
+}
+
+class StaggeredMenu extends StatelessWidget {
+  const StaggeredMenu({
+    Key key,
+    @required this.conversation,
+  }) : super(key: key);
+
+  final Conversation conversation;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      right: 8,
+      top: 12,
+      child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () {
+          final archive = sl<ArchiveStore>();
+          showModalBottomSheet(
+            backgroundColor: Colors.transparent,
+            context: context,
+            builder: (BuildContext _) {
+              return ClipRRect(
+                  child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 6.0, sigmaY: 6.0),
+                      child: Container(
+                        color: cornflower,
+                        child: Wrap(
+                          children: <Widget>[
+                            ListTile(
+                                leading: Icon(
+                                  Icons.archive,
+                                  size: 30,
+                                  color: white,
+                                ),
+                                title: Text(LocaleKeys.archive_slide.tr(),
+                                    style: settingsAppbarTitle),
+                                onTap: () async {
+                                  archive.archiveConversation(conversation.id);
+                                  Navigator.pop(context);
+                                }),
+                          ],
+                        ),
+                      )));
+            },
+          );
+        },
+        child: SvgPicture.asset(
+          'assets/images/dots.svg',
+          height: 17,
+          width: 17,
+        ),
+      ),
     );
   }
 }
@@ -220,8 +281,8 @@ class _StaggeredVideoTileState extends State<StaggeredVideoTile> {
             fit: StackFit.expand,
             children: [
               StreamBuilder<FileResponse>(
-                  stream: DefaultCacheManager()
-                      .getFileStream(widget.conversation.media.mediaUrl),
+                  stream: DefaultCacheManager().getFileStream(
+                      widget.conversation?.media?.mediaUrl ?? ''),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       final event = snapshot.data;

@@ -85,11 +85,13 @@ class ConversationTile extends StatelessWidget {
                       conversation?.lastMessage != null
                           ? HomeTileConversationMessage(
                               model: conversation?.lastMessage)
-                          : CustomText(LocaleKeys.home_noMessages.tr(),
+                          : CustomText(
+                              LocaleKeys.home_noMessages.tr(),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               textAlign: language.textAlign,
-                              style: lastWritten),
+                              style: lastWritten,
+                            ),
                     ],
                   ),
                   Expanded(
