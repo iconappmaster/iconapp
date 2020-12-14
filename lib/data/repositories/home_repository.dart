@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
+import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 import 'package:iconapp/data/sources/socket/socket_manager.dart';
@@ -10,7 +11,8 @@ import 'package:package_info/package_info.dart';
 abstract class HomeRepository {
   Future<List<Conversation>> getConversations();
   Future<List<Conversation>> getCachedHome();
-  Future<List<String>> getUserMedia();
+  Future<List<String>> getVideoList();
+  Future<List<MessageModel>> getMedia();
   Future<bool> saveHome(List<Conversation> conversation);
   Future<bool> updateAppVersion();
   Future<List<Conversation>> getConversationSubscribed();
@@ -68,12 +70,17 @@ class HomeRepositoryImpl implements HomeRepository {
   }
 
   @override
-  Future<List<String>> getUserMedia() async {
+  Future<List<String>> getVideoList() async {
     return await restClient.getUserVideos();
   }
 
   @override
   Future<List<Conversation>> getConversationSubscribed() async {
     return await restClient.getConversationSubscribed();
+  }
+
+  @override
+  Future<List<MessageModel>> getMedia() async {
+    return await restClient.getMedia();
   }
 }

@@ -9,46 +9,56 @@ import '../../data/models/conversation_model.dart';
 import '../../stores/home/home_store.dart';
 import '../global/lottie_loader.dart';
 import '../../core/extensions/context_ext.dart';
+import 'home_filter.dart';
 
 class ConversationsList extends StatelessWidget {
   final Function(Conversation, int) onTap;
   final ScrollController controller;
 
-  const ConversationsList(
-      {Key key, @required this.onTap, this.controller})
+  const ConversationsList({Key key, @required this.onTap, this.controller})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
     final home = sl<HomeStore>();
 
     return Observer(
-      builder: (_) => Container(
-        height: context.heightPx,
-        width: context.widthPx,
-        child: home.isLoading && home.conversations.length == 0
-            ? Align(
-                alignment: Alignment.topCenter,
-                child: Padding(
-                    padding: EdgeInsets.only(top: 80.0), child: LottieLoader()))
-            : ListView.builder(
-                padding: EdgeInsets.only(bottom: 120),
-                controller: controller,
-                itemCount: home.conversations.length + 1,
-                physics: const BouncingScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  if (index == home.conversations.length) {
-                    return ConversationBannerAd();
-                  } else {
-                    final conversation = home.conversations[index];
+      builder: (_) {
+        final length = home.filterType == HomeFilterType.forYou
+            ? home.conversations.length
+            : home.conversationPopular.length;
+
+        return Container(
+          height: context.heightPx,
+          width: context.widthPx,
+          child: home.isLoading && home.conversations.length == 0
+              ? Align(
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                      padding: EdgeInsets.only(top: 80.0),
+                      child: LottieLoader()))
+              : ListView.builder(
+                  padding: EdgeInsets.only(bottom: 120),
+                  controller: controller,
+                  itemCount: length,
+                  physics: const BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    // if (index == length) {
+                    //   return ConversationBannerAd();
+                    // } else {
+                    final conversation =
+                        home.filterType == HomeFilterType.forYou
+                            ? home.conversations[index]
+                            : home.conversationPopular[index];
+
                     return ConversationTile(
-                      conversation: conversation,
-                      onTap: () => onTap(conversation, index),
-                    );
+                        conversation: conversation,
+                        onTap: () => onTap(conversation, index));
                   }
-                },
-              ),
-      ),
+                  // },
+                  ),
+        );
+      },
     );
   }
 }

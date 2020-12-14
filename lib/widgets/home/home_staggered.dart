@@ -1,13 +1,10 @@
-import 'dart:io';
 import 'dart:ui';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:iconapp/core/focused_menu.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/archive/archive_store.dart';
 import 'package:iconapp/widgets/global/shimmer.dart';
@@ -102,6 +99,7 @@ class StaggeredPhotoTile extends StatelessWidget {
       padding: const EdgeInsets.all(tilePadding),
       child: Container(
         decoration: BoxDecoration(
+          boxShadow: itemShadow,
           gradient: redPinkGradient,
           borderRadius: BorderRadiusDirectional.circular(borderRadios),
         ),
@@ -135,10 +133,9 @@ class StaggeredOverlay extends StatelessWidget {
       children: [
         Container(decoration: BoxDecoration(gradient: staggeredGradient)),
         Positioned(
-          bottom: 8,
-          right: 8,
-          child: Row(
-            children: [
+            bottom: 8,
+            right: 8,
+            child: Row(children: [
               WhiteCircle(
                   size: 30,
                   widget: NetworkPhoto(
@@ -148,26 +145,19 @@ class StaggeredOverlay extends StatelessWidget {
                       height: 30,
                       width: 30)),
               SizedBox(width: 8),
-              CustomText(
-                conversation?.name,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: newMessageNumber.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                ),
-              ),
-            ],
-          ),
-        ),
+              CustomText(conversation?.name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: newMessageNumber.copyWith(
+                      fontWeight: FontWeight.bold, fontSize: 12))
+            ])),
         Align(
             alignment: Alignment.topCenter,
             child: RotatedBox(
-              quarterTurns: 2,
-              child: Container(
-                height: 40,
-                  decoration: BoxDecoration(gradient: staggeredGradient)),
-            )),
+                quarterTurns: 2,
+                child: Container(
+                    height: 40,
+                    decoration: BoxDecoration(gradient: staggeredGradient)))),
         if (conversation.isSubscribed)
           Positioned(
               top: 8,
@@ -175,14 +165,10 @@ class StaggeredOverlay extends StatelessWidget {
               child: RoundIcon(asset: 'assets/images/bell.svg')),
         if (conversation?.areNotificationsDisabled)
           Positioned(
-            top: 6,
-            left: 30,
-            child: SvgPicture.asset(
-              'assets/images/mute.svg',
-              height: 25,
-              width: 25,
-            ),
-          ),
+              top: 6,
+              left: 30,
+              child: SvgPicture.asset('assets/images/mute.svg',
+                  height: 25, width: 25)),
         StaggeredMenu(conversation: conversation),
       ],
     );
@@ -273,6 +259,7 @@ class _StaggeredVideoTileState extends State<StaggeredVideoTile> {
       padding: const EdgeInsets.all(tilePadding),
       child: Container(
         decoration: BoxDecoration(
+            boxShadow: itemShadow,
             gradient: redPinkGradient,
             borderRadius: BorderRadiusDirectional.circular(borderRadios)),
         child: ClipRRect(

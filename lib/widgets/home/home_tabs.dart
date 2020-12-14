@@ -37,6 +37,10 @@ class HomeTabs extends StatelessWidget {
             onValueChanged: (v) {
               Vibration.vibrate(duration: 150);
               _home.setTabMode(v == 0 ? TabMode.conversation : TabMode.media);
+
+              if (_home.tabMode == TabMode.media) {
+                _home.getUserMedia();
+              }
             },
           );
         }),

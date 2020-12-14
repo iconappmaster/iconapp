@@ -62,6 +62,8 @@ abstract class  LocaleKeys {
   static const welcome_title = 'welcome.title';
   static const welcome_content = 'welcome.content';
   static const welcome = 'welcome';
+  static const chat_messageDeleted = 'chat.messageDeleted';
+  static const chat_deleteMessage = 'chat.deleteMessage';
   static const chat_subsribe = 'chat.subsribe';
   static const chat_viewerPanel = 'chat.viewerPanel';
   static const chat_join = 'chat.join';
@@ -146,5 +148,8 @@ abstract class  LocaleKeys {
   static const fab_list = 'fab.list';
   static const fab_staggered = 'fab.staggered';
   static const fab = 'fab';
+  static const filter_foryou = 'filter.foryou';
+  static const filter_popular = 'filter.popular';
+  static const filter = 'filter';
 
 }

@@ -3,8 +3,11 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/focused_menu.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/home/home_store.dart';
+import 'package:iconapp/stores/language/language_store.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class HomeFilter extends StatelessWidget {
   const HomeFilter({
@@ -29,10 +32,10 @@ class HomeFilter extends StatelessWidget {
       bottomOffsetHeight: 100,
       menuItems: <FocusedMenuItem>[
         FocusedMenuItem(
-            title: CustomText("For You", style: textStyle),
+            title: CustomText(LocaleKeys.filter_foryou.tr(), style: textStyle),
             onPressed: () => home.setFilterType(HomeFilterType.forYou)),
         FocusedMenuItem(
-            title: CustomText("Popular", style: textStyle),
+            title: CustomText(LocaleKeys.filter_popular.tr(), style: textStyle),
             onPressed: () => home.setFilterType(HomeFilterType.popular)),
       ],
       onPressed: () {},
@@ -66,10 +69,16 @@ class HomeFilter extends StatelessWidget {
 enum HomeFilterType { forYou, popular }
 
 extension HomeFilterExt on HomeFilterType {
-  static const filterMap = {
+  static const filterMapEng = {
     HomeFilterType.forYou: 'For You',
     HomeFilterType.popular: 'Popular'
   };
 
-  String get description => filterMap[this];
+  static const filterMapHe = {
+    HomeFilterType.forYou: 'בשבילך',
+    HomeFilterType.popular: 'פופולארי'
+  };
+
+  String get description =>
+      language.isLTR ? filterMapEng[this] : filterMapHe[this];
 }

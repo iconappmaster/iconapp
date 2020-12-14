@@ -39,7 +39,6 @@ class HomeContent extends StatelessWidget {
                         onTap: (model, index) =>
                             onTileTap(model, context, index))
                     : HomeStaggered(
-                      
                         onTap: (model, index) => onTileTap(
                           model,
                           context,
@@ -52,11 +51,13 @@ class HomeContent extends StatelessWidget {
 
           case TabMode.media:
             return Flexible(
-              child: FeedPlayer(
-                showClose: false,
-                urls: _home.userMedia,
-                index: 0,
-              ),
+              child: Observer(builder: (_) {
+                return FeedPlayer(
+                  showClose: false,
+                  media: _home.userMedia,
+                  index: 0,
+                );
+              }),
             );
             break;
         }

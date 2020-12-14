@@ -259,7 +259,7 @@ class Router extends RouterBase {
       return MaterialPageRoute<dynamic>(
         builder: (context) => FeedPlayer(
           key: args.key,
-          urls: args.urls,
+          media: args.media,
           index: args.index,
           showClose: args.showClose,
         ),
@@ -488,14 +488,14 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
 
   Future<dynamic> pushFeedPlayer({
     Key key,
-    @required List<String> urls,
+    @required List<MessageModel> media,
     @required int index,
     bool showClose = true,
   }) =>
       push<dynamic>(
         Routes.feedPlayer,
         arguments: FeedPlayerArguments(
-            key: key, urls: urls, index: index, showClose: showClose),
+            key: key, media: media, index: index, showClose: showClose),
       );
 
   Future<dynamic> pushSelectIconScreen({
@@ -649,12 +649,12 @@ class DefaultVideoPlayerArguments {
 /// FeedPlayer arguments holder class
 class FeedPlayerArguments {
   final Key key;
-  final List<String> urls;
+  final List<MessageModel> media;
   final int index;
   final bool showClose;
   FeedPlayerArguments(
       {this.key,
-      @required this.urls,
+      @required this.media,
       @required this.index,
       this.showClose = true});
 }

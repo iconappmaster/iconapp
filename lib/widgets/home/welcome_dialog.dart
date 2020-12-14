@@ -1,9 +1,6 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:iconapp/stores/language/language_store.dart';
 import '../global/custom_text.dart';
 import '../global/base_dialog.dart';
 import '../global/next_button.dart';
@@ -38,9 +35,6 @@ class WelcomeDialog extends StatelessWidget {
                   child: CustomText(
                     LocaleKeys.welcome_content.tr(),
                     style: dialogContent,
-                    textAlign:
-                        language.isLTR ? TextAlign.right : TextAlign.left,
-                    
                   ),
                 ),
               )),

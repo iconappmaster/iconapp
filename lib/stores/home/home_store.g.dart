@@ -81,13 +81,13 @@ mixin _$HomeStore on _HomeStoreBase, Store {
       (_$viewModeComputed ??= Computed<ViewHomeMode>(() => super.viewMode,
               name: '_HomeStoreBase.viewMode'))
           .value;
-  Computed<List<String>> _$userMediaComputed;
+  Computed<List<MessageModel>> _$userMediaComputed;
 
   @override
-  List<String> get userMedia =>
-      (_$userMediaComputed ??= Computed<List<String>>(() => super.userMedia,
+  List<MessageModel> get userMedia => (_$userMediaComputed ??=
+          Computed<List<MessageModel>>(() => super.userMedia,
               name: '_HomeStoreBase.userMedia'))
-          .value;
+      .value;
   Computed<List<Conversation>> _$conversationsComputed;
 
   @override
@@ -141,18 +141,18 @@ mixin _$HomeStore on _HomeStoreBase, Store {
     });
   }
 
-  final _$_userMediaAtom = Atom(name: '_HomeStoreBase._userMedia');
+  final _$_mediaAtom = Atom(name: '_HomeStoreBase._media');
 
   @override
-  ObservableList<String> get _userMedia {
-    _$_userMediaAtom.reportRead();
-    return super._userMedia;
+  ObservableList<MessageModel> get _media {
+    _$_mediaAtom.reportRead();
+    return super._media;
   }
 
   @override
-  set _userMedia(ObservableList<String> value) {
-    _$_userMediaAtom.reportWrite(value, super._userMedia, () {
-      super._userMedia = value;
+  set _media(ObservableList<MessageModel> value) {
+    _$_mediaAtom.reportWrite(value, super._media, () {
+      super._media = value;
     });
   }
 

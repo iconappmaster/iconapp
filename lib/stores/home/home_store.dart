@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
+import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/repositories/home_repository.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/domain/core/errors.dart';
@@ -50,7 +51,7 @@ abstract class _HomeStoreBase with Store {
   ViewHomeMode _viewMode = ViewHomeMode.staggered;
 
   @observable
-  ObservableList<String> _userMedia = ObservableList.of([]);
+  ObservableList<MessageModel> _media = ObservableList.of([]);
 
   @observable
   ObservableList<Conversation> _conversationSubscribed = ObservableList.of([]);
@@ -99,7 +100,7 @@ abstract class _HomeStoreBase with Store {
   ViewHomeMode get viewMode => _viewMode;
 
   @computed
-  List<String> get userMedia => _userMedia;
+  List<MessageModel> get userMedia => _media;
 
   @computed
   List<Conversation> get conversations => _conversations;
@@ -113,9 +114,10 @@ abstract class _HomeStoreBase with Store {
   Future getUserMedia() async {
     try {
       _loading = true;
-      final media = await _repository.getUserMedia();
-      if (_userMedia.isNotEmpty) _userMedia.clear();
-      _userMedia.addAll(media);
+      final media = await _repository.getMedia();
+      _media
+        ..clear()
+        ..addAll(media);
     } on DioError catch (e) {
       Crash.report(e.message);
     } finally {

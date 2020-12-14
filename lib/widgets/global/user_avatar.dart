@@ -27,16 +27,16 @@ class UserAvatar extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: showPlus ? 90 : 75,
-        height: showPlus ? 90 : 75,
+        width: showPlus ? 80 : 65,
+        height: showPlus ? 80 : 65,
         child: Stack(children: [
           if (showLoading)
             Positioned(
               right: language.isLTR ? 0 : null,
               left: language.isLTR ? null : 0,
               child: SizedBox(
-                  height: 75,
-                  width: 75,
+                  height: 65,
+                  width: 65,
                   child: CircularProgressIndicator(
                     strokeWidth: 3,
                     valueColor: AlwaysStoppedAnimation(cornflower),
@@ -46,8 +46,8 @@ class UserAvatar extends StatelessWidget {
             top: 1,
             right: 1,
             child: Container(
-                height: 72,
-                width: 72,
+                height: 62,
+                width: 62,
                 decoration: BoxDecoration(shape: BoxShape.circle, color: white),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
@@ -56,8 +56,8 @@ class UserAvatar extends StatelessWidget {
                     placeHolderPadding: placeHolderPadding,
                     placeHolder: placeholder,
                     imageUrl: url,
-                    height: 37,
-                    width: 37,
+                    height: 27,
+                    width: 27,
                   ),
                 )),
           ),

@@ -25,7 +25,7 @@ abstract class _LanguageStoreBase with Store {
           ? LanguageDirection.ltr
           : LanguageDirection.rtl;
     } else {
-      _languageDirection = LanguageDirection.rtl;
+      _languageDirection = LanguageDirection.ltr;
     }
   }
 

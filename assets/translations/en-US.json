@@ -66,6 +66,8 @@
         "content": "Welcome to Icon! From now on, Icons you love are accessible to you anytime, anywhere. You can subscribe to their conversations and react with emoji’s and write comments."
     },
     "chat": {
+        "messageDeleted" : "Message deleted",
+        "deleteMessage" : "Delete message",
         "subsribe": "Subscribe conversation",
         "viewerPanel": "Only group managers can send a message",
         "join": "please subscribe before",
@@ -160,5 +162,9 @@
         "media": "media",
         "list": "list",
         "staggered": "block"
+    },
+    "filter": {
+        "foryou": "For You",
+        "popular": "Popular"
     }
 }

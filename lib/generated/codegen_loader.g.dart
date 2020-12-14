@@ -84,6 +84,8 @@ class CodegenLoader extends AssetLoader{
     "content": "ברוך הבא ל-Icon! אצלנו תהיה חלק מקהילות\nועולמות תוכן המדברים אליך. קבוצות הצ'אט שלנו מנוהלות\nעל ידי אייקונים, מובילי דעה ויוצרי תוכן המובילים בתחומם\nהקהל הרחב יוכל לצפות בשיחות המתקיימות 24/7 ולהגיב באמצעות חייכנים. מנהל הקבוצה יוכל לפתוח את הקבוצה לשילוב הקהל בשיחה כשיבחר. מהיום אתה חלק מקבוצות האייקונים האהובים עליך."
   },
   "chat": {
+    "messageDeleted": "הודעה נמחקה",
+    "deleteMessage": "מחק הודעה",
     "subsribe": "הצטרפות לקבוצה",
     "viewerPanel": "רק מנהלי קבוצה יכולים לשלוח הודעה",
     "join": "כדי להגיב להודעות הצטרף/י לקבוצה",
@@ -178,6 +180,10 @@ class CodegenLoader extends AssetLoader{
     "media": "מדיה",
     "list": "רשימה",
     "staggered": "בלוקים"
+  },
+  "filter": {
+    "foryou": "בשבילך",
+    "popular": "פופואלרי"
   }
 };
 static const Map<String,dynamic> en_US = {
@@ -248,6 +254,8 @@ static const Map<String,dynamic> en_US = {
     "content": "Welcome to Icon! From now on, Icons you love are accessible to you anytime, anywhere. You can subscribe to their conversations and react with emoji’s and write comments."
   },
   "chat": {
+    "messageDeleted": "Message deleted",
+    "deleteMessage": "Delete message",
     "subsribe": "Subscribe conversation",
     "viewerPanel": "Only group managers can send a message",
     "join": "please subscribe before",
@@ -342,6 +350,10 @@ static const Map<String,dynamic> en_US = {
     "media": "media",
     "list": "list",
     "staggered": "block"
+  },
+  "filter": {
+    "foryou": "For You",
+    "popular": "Popular"
   }
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"he_HE": he_HE, "en_US": en_US};

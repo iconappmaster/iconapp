@@ -4,12 +4,14 @@ import 'dart:ui';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
 import 'like_model.dart';
 import '../../../core/dependencies/locator.dart';
 import '../../../core/theme.dart';
 import '../../../data/models/message_model.dart';
 import '../../../stores/chat/chat_store.dart';
 import '../../../core/extensions/context_ext.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class MessageGestureDetector extends StatelessWidget {
   final Widget child;
@@ -134,13 +136,13 @@ class _DetectorState extends State<_Detector> {
                               Icons.delete,
                               color: pinkRed,
                             ),
-                            title: Text('מחק הודעה',
+                            title: Text(LocaleKeys.chat_deleteMessage.tr(),
                                 style: settingsAppbarTitle.copyWith(
                                     color: pinkRed)),
                             onTap: () async {
                               await chat.deleteMessage(widget.message.id);
                               ExtendedNavigator.of(context).pop();
-                              context.showToast('הודעה נמחקה');
+                              context.showToast(LocaleKeys.chat_messageDeleted.tr());
                             }),
                       ],
                     ),
@@ -154,7 +156,7 @@ class _DetectorState extends State<_Detector> {
             getOffset();
             await _showLikeMenu(context);
           } else {
-            context.showFlushbar(message: 'כדי להגיב להודעות הצטרף/י לקבוצה');
+            context.showFlushbar(message: LocaleKeys.chat_join.tr());
           }
         },
         child: widget.child);

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/data/models/message_model.dart';
+import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/chat/chat_list.dart';
+import 'package:iconapp/widgets/chat/message_video.dart';
 import 'package:iconapp/widgets/global/rounded_close.dart';
+import 'package:iconapp/widgets/global/user_avatar.dart';
 import 'package:iconapp/widgets/home/home_staggered.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import './multi_manager/flick_multi_manager.dart';
@@ -9,12 +14,13 @@ import './multi_manager/flick_multi_player.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 class FeedPlayer extends StatefulWidget {
-  final List<String> urls;
+  // final List<String> urls;
+  final List<MessageModel> media;
   final int index;
   final bool showClose;
   const FeedPlayer({
     Key key,
-    @required this.urls,
+    @required this.media,
     @required this.index,
     this.showClose = true,
   }) : super(key: key);
@@ -26,12 +32,14 @@ class FeedPlayer extends StatefulWidget {
 class _FeedPlayerState extends State<FeedPlayer> {
   FlickMultiManager flickMultiManager;
   AutoScrollController _controller;
+  ChatStore _chatStore;
 
   @override
   void initState() {
     super.initState();
     flickMultiManager = FlickMultiManager();
     _controller = AutoScrollController();
+    _chatStore = sl<ChatStore>();
     _controller.scrollToIndex(widget.index);
   }
 
@@ -57,33 +65,65 @@ class _FeedPlayerState extends State<FeedPlayer> {
                     padding: EdgeInsets.symmetric(vertical: 30),
                     controller: _controller,
                     separatorBuilder: (context, int) => Container(height: 30),
-                    itemCount: widget.urls.length,
-                    itemBuilder: (context, index) => AutoScrollTag(
-                      index: index,
-                      controller: _controller,
-                      key: ValueKey(index),
-                      child: Container(
-                        height: 300,
-                        margin: EdgeInsets.all(4),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(5),
-                          child: StreamBuilder<FileResponse>(
-                            stream: DefaultCacheManager()
-                                .getFileStream(widget.urls[index] ?? ''),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                final file = (snapshot.data as FileInfo).file;
+                    itemCount: widget.media.length,
+                    itemBuilder: (context, index) {
+                      final message = widget.media[index];
 
-                                return FlickMultiPlayer(
-                                    file: file,
-                                    flickMultiManager: flickMultiManager);
-                              } else
-                                return ShimmerPlaceholder();
-                            },
+                      _chatStore.viewedVideo(message.id);
+                      return AutoScrollTag(
+                        index: index,
+                        controller: _controller,
+                        key: ValueKey(index),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * .36,
+                          margin: EdgeInsets.all(4),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(5),
+                            child: Stack(
+                              alignment: Alignment.center,
+                              fit: StackFit.expand,
+                              children: [
+                                StreamBuilder<FileResponse>(
+                                  stream: DefaultCacheManager()
+                                      .getFileStream(message.body ?? ''),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      final file =
+                                          (snapshot.data as FileInfo).file;
+
+                                      return FlickMultiPlayer(
+                                        file: file,
+                                        flickMultiManager: flickMultiManager,
+                                      );
+                                    } else
+                                      return ShimmerPlaceholder();
+                                  },
+                                ),
+                                Positioned(
+                                  right: 8,
+                                  bottom: 8,
+                                  child: UserAvatar(
+                                      showPlus: false,
+                                      url: message.sender?.photo?.url ?? '',
+                                      onTap: () {
+                                        // open the profile here
+                                        print('a');
+                                      }),
+                                ),
+                                Positioned(
+                                  left: 16,
+                                  top: 16,
+                                  child: VideoSeenCounter(
+                                    counter:
+                                        widget.media[index]?.viewCount ?? 0,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
                 ),
               ),

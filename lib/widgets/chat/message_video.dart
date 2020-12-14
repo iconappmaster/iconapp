@@ -107,7 +107,7 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
 
               if (store.conversationVideos.length > 1) {
                 ExtendedNavigator.of(context).pushFeedPlayer(
-                    urls: store.conversationVideos.map((m) => m.body).toList(),
+                    media: store.conversationVideos,
                     index: store.conversationVideos
                         .indexWhere((m) => m.id == widget.message.id));
               } else {
