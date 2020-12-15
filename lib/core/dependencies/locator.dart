@@ -82,7 +82,7 @@ void initLocator() {
   // Home
   sl.registerLazySingleton<HomeStore>(() => HomeStore());
   sl.registerLazySingleton<HomeRepository>(
-      () => HomeRepositoryImpl(restClient: sl(), socket: sl(), cache: sl()));
+      () => HomeRepositoryImpl(rest: sl(), socket: sl(), cache: sl()));
 
   // Onboarding
   sl.registerLazySingleton<OnboardingStore>(() => OnboardingStore());

@@ -61,8 +61,11 @@ abstract class RestClient {
     @Query('searchString') String query,
   );
   // CONVERSATIONS
-  @GET('conversations_subscribed')
-  Future<List<Conversation>> getConversationSubscribed();
+  // @GET('conversations_subscribed')
+  // Future<List<Conversation>> getConversationSubscribed();
+  
+  @GET('conversations_popular')
+  Future<List<Conversation>> getConversationPopular();
 
   @GET('conversations/get_by_category')
   Future<List<Conversation>> getConversationByCategoryId(

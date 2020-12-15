@@ -1,14 +1,11 @@
 import 'dart:io';
-
 import 'package:flutter/services.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-
 import '../portrait_controls.dart';
 import './flick_multi_manager.dart';
 import 'package:flick_video_player/flick_video_player.dart';
-
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
@@ -48,8 +45,7 @@ class _FlickMultiPlayerState extends State<FlickMultiPlayer> {
         widget.flickMultiManager.mute();
       }
     } else {
-      flickManager = 
-      FlickManager(
+      flickManager = FlickManager(
           videoPlayerController: VideoPlayerController.file(widget.file)
             ..setLooping(true),
           autoPlay: false);
@@ -80,49 +76,43 @@ class _FlickMultiPlayerState extends State<FlickMultiPlayer> {
         }
       },
       child: Container(
-        child: FlickVideoPlayer(
-          flickManager: flickManager,
-          wakelockEnabledFullscreen: true,
-          flickVideoWithControls: FlickVideoWithControls(
-            backgroundColor: plusBorder,
-            playerLoadingFallback: Positioned.fill(
-              child: Stack(
-                children: <Widget>[
-                  Positioned(
-                    right: 10,
-                    top: 10,
-                    child: Container(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                        backgroundColor: cornflower,
-                        strokeWidth: 1,
-                      ),
-                    ),
+          child: FlickVideoPlayer(
+              flickManager: flickManager,
+              wakelockEnabledFullscreen: true,
+              flickVideoWithControls: FlickVideoWithControls(
+                backgroundColor: plusBorder,
+                playerLoadingFallback: Positioned.fill(
+                  child: Stack(
+                    children: <Widget>[
+                      Positioned(
+                          right: 10,
+                          top: 10,
+                          child: Container(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                  backgroundColor: cornflower, strokeWidth: 1)))
+                    ],
                   ),
-                ],
+                ),
+                controls: widget.withControls
+                    ? FeedPlayerPortraitControls(
+                        flickMultiManager: widget.flickMultiManager,
+                        flickManager: flickManager)
+                    : null,
               ),
-            ),
-            controls: widget.withControls
-                ? FeedPlayerPortraitControls(
-                    flickMultiManager: widget.flickMultiManager,
-                    flickManager: flickManager,
-                  )
-                : null,
-          ),
-          preferredDeviceOrientationFullscreen: [DeviceOrientation.portraitUp],
-          flickVideoWithControlsFullscreen: widget.withFullScreen
-              ? FlickVideoWithControls(
-                  videoFit: BoxFit.contain,
-                  playerLoadingFallback:
-                      Center(child: CustomText('תקלה בטיענת הוידאו')),
-                  controls: FlickLandscapeControls(),
-                  iconThemeData: IconThemeData(size: 50, color: white),
-                  textStyle: TextStyle(fontSize: 34, color: white),
-                )
-              : null,
-        ),
-      ),
+              preferredDeviceOrientationFullscreen: [
+                DeviceOrientation.portraitUp
+              ],
+              flickVideoWithControlsFullscreen: widget.withFullScreen
+                  ? FlickVideoWithControls(
+                      videoFit: BoxFit.contain,
+                      playerLoadingFallback:
+                          Center(child: CustomText('Cant load the video')),
+                      controls: FlickLandscapeControls(),
+                      iconThemeData: IconThemeData(size: 50, color: white),
+                      textStyle: TextStyle(fontSize: 34, color: white))
+                  : null)),
     );
   }
 }

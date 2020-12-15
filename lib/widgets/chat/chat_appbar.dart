@@ -29,8 +29,9 @@ class ChatAppbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = sl<ChatStore>();
-    final iconsLength = (store.conversation?.users?.length).toString();
-    final followers = (store.conversation?.numberOfParticipants).toString();
+    final iconsLength = (store.conversation?.users?.length)?.toString() ?? '';
+    final followers = (store.conversation?.numberOfParticipants)?.toString() ?? '';
+    
     return Observer(
       builder: (_) => Container(
         height: context.heightPlusStatusbarPerc(.1),
@@ -50,11 +51,13 @@ class ChatAppbar extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      CustomText(store?.conversation?.name ?? '',
-                          textAlign: language.textAlign,
-                          textDirection: language.textDirection,
-                          maxLines: 1,
-                          style: loginBigText),
+                      CustomText(
+                        store?.conversation?.name ?? '',
+                        textAlign: language.textAlign,
+                        textDirection: language.textDirection,
+                        maxLines: 1,
+                        style: loginBigText,
+                      ),
                       CustomText(
                         LocaleKeys.chat_appbarSubtitle.tr(
                           args: [

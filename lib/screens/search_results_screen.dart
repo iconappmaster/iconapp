@@ -7,6 +7,7 @@ import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/routes/router.gr.dart';
+import 'package:iconapp/stores/language/language_store.dart';
 import 'package:iconapp/stores/search_results/search_results_store.dart';
 import 'package:iconapp/widgets/global/back_button.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
@@ -55,7 +56,6 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                   ? SearchEmpty(text: LocaleKeys.search_empty_state.tr())
                   : Expanded(
                       child: ListView.builder(
-                        shrinkWrap: true,
                         physics: BouncingScrollPhysics(),
                         itemCount: store.count,
                         itemBuilder: (_, index) {
@@ -96,15 +96,19 @@ class SearchResultTile extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 27, vertical: 10),
-        height: 45,
+        padding: EdgeInsets.symmetric(horizontal: 27, vertical: 10),
+        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+        height: 60,
+        decoration: BoxDecoration(
+          color: blueBerry,
+          borderRadius: BorderRadius.circular(8),
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             ClipRRect(
                 borderRadius: BorderRadius.circular(5.3),
                 child: Material(
-                    color: white,
                     elevation: 8,
                     child: NetworkPhoto(
                       placeHolder: 'assets/images/group_placeholder.svg',
@@ -129,12 +133,12 @@ class _Appbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(top: 20),
-      height: context.heightPlusStatusbarPerc(.94),
+      height: context.heightPlusStatusbarPerc(.074),
       color: blueberry2,
       child: Stack(
         children: <Widget>[
           Align(
-              alignment: Alignment.centerRight,
+              alignment: language.alignment,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: IconBackButton(),

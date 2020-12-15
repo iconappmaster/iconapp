@@ -14,10 +14,10 @@ import './multi_manager/flick_multi_player.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 class FeedPlayer extends StatefulWidget {
-  // final List<String> urls;
   final List<MessageModel> media;
   final int index;
   final bool showClose;
+  
   const FeedPlayer({
     Key key,
     @required this.media,
@@ -106,6 +106,7 @@ class _FeedPlayerState extends State<FeedPlayer> {
                                       showPlus: false,
                                       url: message.sender?.photo?.url ?? '',
                                       onTap: () {
+                                        
                                         // open the profile here
                                         print('a');
                                       }),

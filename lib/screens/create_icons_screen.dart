@@ -103,12 +103,11 @@ class _SelectIconScreenState extends State<SelectIconScreen> {
               ),
               if (widget.mode == SelectIconMode.fromGroup)
                 CreateNextBotton(
-                  asset: 'assets/images/go_arrow.svg',
-                  isValid: store.isValid,
-                  validationText: LocaleKeys.create_iconValidation.tr(),
-                  onTap: () =>
-                      ExtendedNavigator.of(context).pushCreateCategoryScreen(),
-                ),
+                    asset: 'assets/images/go_arrow.svg',
+                    isValid: store.isValid,
+                    validationText: LocaleKeys.create_iconValidation.tr(),
+                    onTap: () => ExtendedNavigator.of(context)
+                        .pushCreateCategoryScreen()),
               Observer(
                 builder: (_) => Visibility(
                   visible: store.isLoading,

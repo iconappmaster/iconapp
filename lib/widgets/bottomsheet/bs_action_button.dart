@@ -30,6 +30,7 @@ class BottomSheetActionButtons extends StatelessWidget {
                   : store.getSearchMode == SearchMode.icons,
               rightPoistion: 13.3,
               asset: 'assets/images/icon_search.svg',
+              
               onTap: () {
                 store.setSearchMode(SearchMode.icons);
                 if (onTap != null) onTap();
@@ -83,7 +84,7 @@ class BottomSheetIcon extends StatelessWidget {
                         asset,
                         height: 35,
                         width: 19.3,
-                        color: isSelected ? pinkRed : avatarRing,
+                        color: isSelected ? pinkRed : white,
                       ),
                       onPressed: onTap)),
               if (isSelected)

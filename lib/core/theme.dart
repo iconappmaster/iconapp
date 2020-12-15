@@ -136,7 +136,7 @@ const nameLight =
     TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 18);
 
 const searchResultTile =
-    TextStyle(fontFamily: _fontRubikMedium, color: darkBlueGrey, fontSize: 18);
+    TextStyle(fontFamily: _fontRubikMedium, color: white, fontSize: 18);
 
 const loginBigText = TextStyle(
     fontFamily: _fontRubikMedium, color: white, fontSize: 16.3, height: 1.3);

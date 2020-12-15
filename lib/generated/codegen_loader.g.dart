@@ -182,8 +182,8 @@ class CodegenLoader extends AssetLoader{
     "staggered": "בלוקים"
   },
   "filter": {
-    "foryou": "בשבילך",
-    "popular": "פופואלרי"
+    "foryou": "For You",
+    "popular": "Must Popular"
   }
 };
 static const Map<String,dynamic> en_US = {
@@ -346,10 +346,10 @@ static const Map<String,dynamic> en_US = {
     "sendAgain": "Send again"
   },
   "fab": {
-    "create": "new group",
-    "media": "media",
-    "list": "list",
-    "staggered": "block"
+    "create": "New",
+    "media": "Media",
+    "list": "List",
+    "staggered": "Blocks"
   },
   "filter": {
     "foryou": "For You",

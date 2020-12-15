@@ -10,29 +10,29 @@ import 'package:package_info/package_info.dart';
 
 abstract class HomeRepository {
   Future<List<Conversation>> getConversations();
+  Future<List<Conversation>> getConversationPopular();
   Future<List<Conversation>> getCachedHome();
   Future<List<String>> getVideoList();
   Future<List<MessageModel>> getMedia();
   Future<bool> saveHome(List<Conversation> conversation);
   Future<bool> updateAppVersion();
-  Future<List<Conversation>> getConversationSubscribed();
   Stream<Conversation> watchConversation();
 }
 
 class HomeRepositoryImpl implements HomeRepository {
-  RestClient restClient;
+  RestClient rest;
   Socket socket;
   final SharedPreferencesService cache;
 
   HomeRepositoryImpl({
-    @required this.restClient,
+    @required this.rest,
     @required this.socket,
     @required this.cache,
   });
 
   @override
   Future<List<Conversation>> getConversations() async {
-    return await restClient.getConversations();
+    return await rest.getConversations();
   }
 
   @override
@@ -65,22 +65,22 @@ class HomeRepositoryImpl implements HomeRepository {
   Future<bool> updateAppVersion() async {
     final packageInfo = await PackageInfo.fromPlatform();
     final version = packageInfo.version;
-    final showForceUpdate = await restClient.updateAppVersion(version);
+    final showForceUpdate = await rest.updateAppVersion(version);
     return showForceUpdate;
   }
 
   @override
   Future<List<String>> getVideoList() async {
-    return await restClient.getUserVideos();
+    return await rest.getUserVideos();
   }
 
   @override
-  Future<List<Conversation>> getConversationSubscribed() async {
-    return await restClient.getConversationSubscribed();
+  Future<List<Conversation>> getConversationPopular() async {
+    return await rest.getConversationPopular();
   }
 
   @override
   Future<List<MessageModel>> getMedia() async {
-    return await restClient.getMedia();
+    return await rest.getMedia();
   }
 }

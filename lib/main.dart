@@ -123,11 +123,11 @@ class _MyAppState extends State<MyApp> {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      onGenerateRoute: rGenerated.Router(),
       title: 'Icon',
       theme: ThemeData(
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity),
+      onGenerateRoute: rGenerated.Router(),
       builder: (context, child) => ExtendedNavigator(
           name: router.$Router.routerName, router: rGenerated.Router()),
     );

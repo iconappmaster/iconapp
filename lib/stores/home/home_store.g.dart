@@ -173,6 +173,23 @@ mixin _$HomeStore on _HomeStoreBase, Store {
     });
   }
 
+  final _$_conversationPopularAtom =
+      Atom(name: '_HomeStoreBase._conversationPopular');
+
+  @override
+  ObservableList<Conversation> get _conversationPopular {
+    _$_conversationPopularAtom.reportRead();
+    return super._conversationPopular;
+  }
+
+  @override
+  set _conversationPopular(ObservableList<Conversation> value) {
+    _$_conversationPopularAtom.reportWrite(value, super._conversationPopular,
+        () {
+      super._conversationPopular = value;
+    });
+  }
+
   final _$_loadingAtom = Atom(name: '_HomeStoreBase._loading');
 
   @override
@@ -266,21 +283,21 @@ mixin _$HomeStore on _HomeStoreBase, Store {
     return _$getConversationsAsyncAction.run(() => super.getConversations());
   }
 
+  final _$getPopularConversationAsyncAction =
+      AsyncAction('_HomeStoreBase.getPopularConversation');
+
+  @override
+  Future<dynamic> getPopularConversation() {
+    return _$getPopularConversationAsyncAction
+        .run(() => super.getPopularConversation());
+  }
+
   final _$saveWelcomeSeenAsyncAction =
       AsyncAction('_HomeStoreBase.saveWelcomeSeen');
 
   @override
   Future<dynamic> saveWelcomeSeen() {
     return _$saveWelcomeSeenAsyncAction.run(() => super.saveWelcomeSeen());
-  }
-
-  final _$getSubscribedConversationAsyncAction =
-      AsyncAction('_HomeStoreBase.getSubscribedConversation');
-
-  @override
-  Future<dynamic> getSubscribedConversation() {
-    return _$getSubscribedConversationAsyncAction
-        .run(() => super.getSubscribedConversation());
   }
 
   final _$getCachedConversationByIdAsyncAction =
@@ -373,11 +390,11 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   }
 
   @override
-  void moveConversationToBottom(Conversation conversation) {
+  void moveConversationToIndex(Conversation conversation, int index) {
     final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
-        name: '_HomeStoreBase.moveConversationToBottom');
+        name: '_HomeStoreBase.moveConversationToIndex');
     try {
-      return super.moveConversationToBottom(conversation);
+      return super.moveConversationToIndex(conversation, index);
     } finally {
       _$_HomeStoreBaseActionController.endAction(_$actionInfo);
     }

@@ -156,6 +156,10 @@ abstract class _ChatStoreBase with Store {
       analytics.sendConversationEvent(SUBSCRIBED_TO_CONVERSATION, result.id);
       _conversation = result;
       _determineComposerMode();
+
+      _homeStore
+        ..updateConversation(conversation)
+        ..moveConversationToIndex(conversation, 0);
     } on ServerError catch (e) {
       Crash.report(e.message);
     } finally {
@@ -170,10 +174,13 @@ abstract class _ChatStoreBase with Store {
       final result = await _repository.unsubscribe(conversation.id);
       _conversation = result;
       _determineComposerMode();
-      
+
       _homeStore
         ..updateConversation(conversation)
-        ..moveConversationToBottom(conversation);
+        ..moveConversationToIndex(
+          conversation,
+          conversation.messages.length,
+        );
 
       analytics.sendConversationEvent(
           UNSUBSCRIBED_FROM_CONVERSATION, result.id);

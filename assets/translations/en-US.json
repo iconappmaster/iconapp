@@ -97,7 +97,7 @@
         "empty": "No new messages",
         "messages": "Messages",
         "cleanAll": "Clear All",
-        "alert": "alerts"
+        "alert": "Alerts"
     },
     "settings": {
         "title": "Settings",
@@ -144,10 +144,10 @@
     "archive": {
         "empty": "No hidden conversations",
         "hidden": "Hidden conversations",
-        "slide": "archive"
+        "slide": "Archive"
     },
     "description": {
-        "hint": "add a description"
+        "hint": "Add a description"
     },
     "verify": {
         "title": "What is your email address?",
@@ -158,10 +158,10 @@
         "sendAgain": "Send again"
     },
     "fab": {
-        "create": "new group",
-        "media": "media",
-        "list": "list",
-        "staggered": "block"
+        "create": "New",
+        "media": "Media",
+        "list": "List",
+        "staggered": "Blocks"
     },
     "filter": {
         "foryou": "For You",

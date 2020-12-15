@@ -50,8 +50,13 @@ abstract class _LoginStoreBase with Store {
   bool get isPinCodeMode => _state.phonePageState == PhoneOnboardingState.sent;
 
   @computed
-  bool get numberValid =>
-      _state.countryCode.length > 1 && _state.phone.length > 3;
+  bool get numberValid {
+    if (_state.countryCode == '+972') {
+      return _state.phone.length >= 10;
+    } else {
+      return _state.phone.length >= 7 && _state.phone.length <= 15;
+    }
+  }
 
   @computed
   LoginState get getState => _state;

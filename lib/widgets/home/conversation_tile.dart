@@ -121,7 +121,8 @@ class ConversationTile extends StatelessWidget {
                                 height: _indicatorSize,
                                 width: _indicatorSize,
                               ),
-                            if (conversation?.isPinned) RoundIcon(),
+                            if (conversation.isSubscribed)
+                              RoundIcon(asset: 'assets/images/bell.svg'),
                           ],
                         ),
                       ],

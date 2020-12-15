@@ -57,6 +57,9 @@ abstract class _HomeStoreBase with Store {
   ObservableList<Conversation> _conversationSubscribed = ObservableList.of([]);
 
   @observable
+  ObservableList<Conversation> _conversationPopular = ObservableList.of([]);
+
+  @observable
   bool _loading = false;
 
   @observable
@@ -75,8 +78,7 @@ abstract class _HomeStoreBase with Store {
   List<Conversation> get conversationSubscribed => _conversationSubscribed;
 
   @computed
-  List<Conversation> get conversationPopular =>
-      _conversations.where((c) => c.isPopular).toList();
+  List<Conversation> get conversationPopular => _conversationPopular;
 
   @computed
   TabMode get tabMode => _tabMode;
@@ -201,8 +203,23 @@ abstract class _HomeStoreBase with Store {
     }
   }
 
-  // will update the conversation with the pinned state and move it to the top
-  // of the list.
+  @action
+  Future getPopularConversation() async {
+    try {
+      _loading = true;
+      final popular = await _repository.getConversationPopular();
+
+      _conversationPopular
+        ..clear()
+        ..addAll(popular);
+    } on ServerError catch (e) {
+      Crash.report(e.message);
+      return left(e);
+    } finally {
+      _loading = false;
+    }
+  }
+
   @action
   void setConversationPinned(bool pinned, Conversation conversation) {
     final index = _conversations.indexWhere((c) => c.id == conversation.id);
@@ -220,12 +237,12 @@ abstract class _HomeStoreBase with Store {
   }
 
   @action
-  void moveConversationToBottom(Conversation conversation) {
-    final index = _conversations.indexWhere((c) => c.id == conversation.id);
+  void moveConversationToIndex(Conversation conversation, int index) {
+    final i = _conversations.indexWhere((c) => c.id == conversation.id);
 
     _conversations
-      ..removeAt(index)
-      ..insert(_conversations.length, conversation);
+      ..removeAt(i)
+      ..insert(index, conversation);
   }
 
   @action
@@ -282,18 +299,6 @@ abstract class _HomeStoreBase with Store {
         ..insert(
             subscribedConversationAmount > 0 ? subscribedConversationAmount : 0,
             conversation);
-    }
-  }
-
-  @action
-  Future getSubscribedConversation() async {
-    try {
-      final subscribedList = await _repository.getConversationSubscribed();
-      _conversationSubscribed
-        ..clear()
-        ..addAll(subscribedList);
-    } on DioError catch (e) {
-      Crash.report(e.message);
     }
   }
 

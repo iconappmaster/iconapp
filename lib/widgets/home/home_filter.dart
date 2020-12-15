@@ -71,12 +71,12 @@ enum HomeFilterType { forYou, popular }
 extension HomeFilterExt on HomeFilterType {
   static const filterMapEng = {
     HomeFilterType.forYou: 'For You',
-    HomeFilterType.popular: 'Popular'
+    HomeFilterType.popular: 'Must Popular'
   };
 
   static const filterMapHe = {
-    HomeFilterType.forYou: 'בשבילך',
-    HomeFilterType.popular: 'פופולארי'
+    HomeFilterType.forYou: 'For You',
+    HomeFilterType.popular: 'Must Popular'
   };
 
   String get description =>

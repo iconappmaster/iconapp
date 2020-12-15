@@ -166,7 +166,7 @@
         "staggered": "בלוקים"
     },
     "filter" : {
-        "foryou" : "בשבילך",
-        "popular" : "פופואלרי"
+        "foryou" : "For You",
+        "popular" : "Must Popular"
     }
 }

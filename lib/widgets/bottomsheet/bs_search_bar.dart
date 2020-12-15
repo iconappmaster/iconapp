@@ -25,11 +25,8 @@ class SearchBar extends StatelessWidget {
             color: white,
             child: Row(
               children: <Widget>[
-                SvgPicture.asset(
-                  'assets/images/search_icon.svg',
-                  height: 30,
-                  width: 30,
-                ),
+                SvgPicture.asset('assets/images/search_icon.svg',
+                    height: 30, width: 30),
                 SizedBox(width: 15),
                 Expanded(
                   child: Material(

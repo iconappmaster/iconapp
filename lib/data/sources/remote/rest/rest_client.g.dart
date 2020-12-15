@@ -226,12 +226,11 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<List<Conversation>> getConversationSubscribed() async {
+  Future<List<Conversation>> getConversationPopular() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio.request<List<dynamic>>(
-        'conversations_subscribed',
+    final _result = await _dio.request<List<dynamic>>('conversations_popular',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',

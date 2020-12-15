@@ -91,9 +91,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
     _home
       ..watchConversation()
+      ..getPopularConversation()
       ..checkAppVersion()
-      ..getUserMedia()
-      ..getSubscribedConversation();
+      ..getUserMedia();
 
     _story.watchStories();
 
