@@ -2,16 +2,17 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
-import 'package:iconapp/routes/router.dart';
-import 'package:iconapp/routes/router.gr.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
+import 'package:iconapp/routes/router.dart';
 import 'package:iconapp/stores/auth/auth_store.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
+import 'package:iconapp/routes/router.gr.dart';
 
 import 'notifications.dart';
 
@@ -30,34 +31,33 @@ class Fcm {
 
     final android = AndroidInitializationSettings('app_icon');
     final ios = IOSInitializationSettings();
-    final init = InitializationSettings(android, ios);
+    final init = InitializationSettings(android: android, iOS: ios);
 
-    firebasePlugin.initialize(init,
-        onSelectNotification: onNotificationClicked);
+    firebasePlugin.initialize(init, onSelectNotification: onSelectNotification);
 
     await messaging.requestNotificationPermissions();
 
     messaging.configure(
-      onLaunch: (message) async {
-        print('onLaunch');
-        return Future.value();
-      },
-      onResume: (message) async {
-        print('onResume');
-        return Future.value();
-      },
-      onBackgroundMessage: Platform.isIOS ? null : backgroundHandler,
-      onMessage: (message) async =>
-          _handleNotification(message: message, foregroundMessage: true),
-    );
+        onLaunch: _onLaunch,
+        onResume: onResume,
+        onBackgroundMessage: Platform.isIOS ? null : backgroundHandler,
+        onMessage: (message) async =>
+            _showNotification(message: message, isConversationOpen: true));
 
+    _handleFCMToken(auth, user, sp);
+  }
+
+  Future onResume(message) async {
+    print('onResume');
+    return Future.value();
+  }
+
+  void _handleFCMToken(
+      AuthStore auth, UserStore user, SharedPreferencesService sp) {
     messaging.getToken().then(
       (token) {
-        print(token); // remove that
         // only send the push token if authenticated.
-        if (auth.isSignedIn) {
-          user.updatePushToken((token));
-        }
+        if (auth.isSignedIn) user.updatePushToken((token));
 
         return sp.setString(StorageKey.fcmToken, token);
       },
@@ -67,30 +67,42 @@ class Fcm {
         .listen((token) => sp.setString(StorageKey.fcmToken, token));
   }
 
-  Future<String> onNotificationClicked(String conversationId) async {
-    if (conversationId != null) {
-      // parse the convesraton id from string to int
-      final id = int.tryParse(conversationId);
+  Future _onLaunch(Map<String, dynamic> message) async {
+    if (message != null) {
+      final id = int.tryParse(message["data"]["conversationId"]);
+      await _handleOnNotificationTap(id);
+    }
+    return Future.value();
+  }
 
-      // check if the parsed is ok
-      if (id != null) {
+  Future _handleOnNotificationTap(int id) async {
+    final sp = sl<SharedPreferencesService>();
+    if (id != null) {
+      if (sp.getBool(StorageKey.appForeground) ?? false) {
+        final home = sl<HomeStore>();
+        final conversation = await home.getCachedConversationById(id);
+        if (conversation != null) {
+          ExtendedNavigator.named($Router.routerName)
+              .pushChatScreen(conversation: conversation);
+        }
+      } else {
         final home = sl<HomeStore>();
         final sp = sl<SharedPreferencesService>();
-        // get conversation from all cached conversations
         final conversation = await home.getCachedConversationById(id);
-
         if (conversation != null) {
-          /// cache the conversation the should be opend. use it on [MainNavigator]
           final json = jsonEncode(conversation.toJson());
           await sp.setString(StorageKey.fcmConversation, json);
-
-          ExtendedNavigator.named($Router.routerName)
-              .push(Routes.mainNavigator);
         }
       }
     }
+  }
 
-    return '';
+  Future<String> onSelectNotification(String conversationId) async {
+    if (conversationId != null) {
+      final id = int.tryParse(conversationId);
+      _handleOnNotificationTap(id);
+    }
+    return 'NO SELECTION';
   }
 
   Future<void> cancelNotification(int id) async {
@@ -98,40 +110,40 @@ class Fcm {
   }
 
   static Future<dynamic> backgroundHandler(Map<String, dynamic> message) async {
-    _handleNotification(message: message, foregroundMessage: false);
+    _showNotification(message: message, isConversationOpen: false);
     return Future<void>.value();
   }
 
-  // todo implement
   void dispose() {
     tokenRefreshSubscription?.cancel();
   }
 }
 
-void _handleNotification(
-    {Map<String, dynamic> message, bool foregroundMessage}) {
-  final dataConversationId = message['data']['conversationId'] as String;
+void _showNotification({
+  @required Map<String, dynamic> message,
+  @required bool isConversationOpen,
+}) {
+  final fcmConversationId = message['data']['conversationId'] as String;
 
-  // Handle notification from FCM (with notification { } payload)
-  if (dataConversationId == null) {
+  if (fcmConversationId == null) {
     final title = message['notification']['title'];
     final body = message['notification']['body'];
     showTextNotification(channelName, channelName, "0", title, body, body);
   } else {
     // handle data payload
-    var openedConversationId = 0;
+    var currentOpenConversationId = 0;
 
-    if (foregroundMessage) {
-      // if notification comes from foreground then get the conversationId
-      // that's for not showing notfication to a specific chat when it's open
-      openedConversationId = sl<ChatStore>().conversation?.id ?? 0;
+    if (isConversationOpen) {
+      // if notification comes from foreground then get the conversationId.
+      // That's for not showing notfication to a specific chat when it's open.
+      currentOpenConversationId = sl<ChatStore>().conversation?.id ?? 0;
     }
 
-    if (openedConversationId != int.tryParse(dataConversationId)) {
+    if (currentOpenConversationId != int.tryParse(fcmConversationId)) {
       final body = message['data']['body'] as String;
       final conversationName = message['data']['conversationName'] as String;
-      showTextNotification(channelName, channelName, dataConversationId,
-          conversationName, body, dataConversationId);
+      showTextNotification(channelName, channelName, fcmConversationId,
+          conversationName, body, fcmConversationId);
     }
   }
 }

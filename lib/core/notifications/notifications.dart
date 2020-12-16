@@ -6,7 +6,6 @@ import 'package:iconapp/core/theme.dart';
 import 'package:path_provider/path_provider.dart';
 import 'fcm.dart';
 
-// class NotificationsHelper {
 
 Future<void> showTextNotification(String channelId, String channelName,
     String id, String title, String body, String payload) async {
@@ -14,10 +13,10 @@ Future<void> showTextNotification(String channelId, String channelName,
     channelId,
     channelName,
     'main notificaiton channel',
-    importance: Importance.Max,
-    priority: Priority.High,
+    importance: Importance.max,
+    priority: Priority.high,
     ticker: 'ticker',
-    visibility: NotificationVisibility.Public,
+    visibility: NotificationVisibility.public,
     playSound: true,
     sound: RawResourceAndroidNotificationSound('notification'),
     autoCancel: true,
@@ -29,11 +28,13 @@ Future<void> showTextNotification(String channelId, String channelName,
     presentAlert: true,
     presentBadge: true,
     presentSound: true,
+    badgeNumber: 0,
+    sound: 'notification.aiff'
   );
 
   final platformChannelSpecifics = NotificationDetails(
-    androidPlatformChannelSpecifics,
-    iOSPlatformChannelSpecifics,
+    android: androidPlatformChannelSpecifics,
+    iOS: iOSPlatformChannelSpecifics,
   );
 
   await firebasePlugin.show(
@@ -63,6 +64,7 @@ Future<void> showImageNotification(String channelId, String channelName,
     'big photo channel description',
     styleInformation: style,
   );
+  
   final ios = IOSNotificationDetails(
     attachments: [
       IOSNotificationAttachment(bigPicturePath),
@@ -73,12 +75,11 @@ Future<void> showImageNotification(String channelId, String channelName,
   );
 
   var platformChannel = NotificationDetails(
-    android,
-    ios,
+    android: android,
+    iOS: ios,
   );
 
-  await firebasePlugin.show(
-      0, 'Icon', 'תמונה', platformChannel);
+  await firebasePlugin.show(0, 'Icon', 'תמונה', platformChannel);
 }
 
 Future<String> _downloadAndSaveFile(String url, String fileName) async {

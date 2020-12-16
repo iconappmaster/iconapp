@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/models/conversation_media.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
+import 'package:iconapp/data/sources/local/shared_preferences.dart';
 
 import 'conversation_media.dart';
 
@@ -37,6 +41,14 @@ abstract class Conversation with _$Conversation {
     final ConversationType type,
     final ConversationMedia media,
   }) = _Conversation;
+
+  factory Conversation.loadFCMFromCache() {
+    final sp = sl<SharedPreferencesService>();
+    final savedConversation = sp.getString(StorageKey.fcmConversation);
+    final json = jsonDecode(savedConversation);
+    final conversation = Conversation.fromJson(json);
+    return conversation;
+  }
 
   factory Conversation.fromJson(Map<String, dynamic> json) =>
       _$ConversationFromJson(json);

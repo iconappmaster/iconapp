@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
   DynamicLink _dynamicLink;
   String homeChannelName = 'home';
   Socket _socket;
-  AdMob adMobs;
+  AdMob _adMobs;
 
   @override
   void initState() {
@@ -56,20 +55,19 @@ class _HomeScreenState extends State<HomeScreen> {
     _story = sl<StoryStore>();
     _user = sl<UserStore>();
     _sp = sl<SharedPreferencesService>();
+    _sp.setBool(StorageKey.appForeground, true);
     _dynamicLink = sl<DynamicLink>();
-    adMobs = sl<AdMob>();
+    _adMobs = sl<AdMob>();
     _controller = ScrollController();
 
     _initSocket();
 
-    if (_sp.contains(StorageKey.fcmConversation)) {
-      _navigateToChatFromFCM();
-    }
-
     refreshData();
     _listenLifeCycle();
 
-    adMobs
+    _navigateToChatFromFCM();
+
+    _adMobs
       ..loadInterstital()
       ..loadReward();
 
@@ -77,11 +75,17 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _listenLifeCycle() {
-    WidgetsBinding.instance
-        .addObserver(LifecycleEventHandler(resumeCallBack: () async {
-      _home?.watchConversation();
-      refreshData();
-    }));
+    WidgetsBinding.instance.addObserver(
+      LifecycleEventHandler(resumeCallBack: () async {
+        _home?.watchConversation();
+        _navigateToChatFromFCM();
+        refreshData();
+        _sp.setBool(StorageKey.appForeground, true);
+      }, suspendingCallBack: () {
+        _sp.setBool(StorageKey.appForeground, false);
+        return Future.value();
+      }),
+    );
   }
 
   Future _initSocket() async {
@@ -179,45 +183,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: EdgeInsets.only(bottom: 27),
                       child: IconFab(user: _user),
                     ),
-                  // Positioned(
-                  //     top: 43,
-                  //     child: SizedBox(
-                  //       width: MediaQuery.of(context).size.width * .5,
-                  //       child: Wrap(direction: Axis.horizontal, children: [
-                  //         Padding(
-                  //           padding: const EdgeInsets.symmetric(
-                  //             horizontal: 5.0,
-                  //           ),
-                  //           child: ChoiceChip(
-                  //             padding: EdgeInsets.all(0),
-                  //             visualDensity: VisualDensity.compact,
-                  //             label: CustomText('For you'),
-                  //             selected: true,
-                  //             selectedColor: Colors.black,
-                  //             labelStyle: systemMessage.copyWith(color: white),
-                  //             disabledColor: ,
-                  //           ),
-                  //         ),
-                  //         ChoiceChip(
-                  //           visualDensity: VisualDensity.compact,
-                  //           label: CustomText('For you'),
-                  //           selected: false,
-                  //           selectedColor: cornflower,
-                  //           labelStyle:
-                  //               systemMessage.copyWith(color: Colors.black),
-                  //           disabledColor: cornflower.withOpacity(.5),
-                  //         ),
-                  //         ChoiceChip(
-                  //           visualDensity: VisualDensity.compact,
-                  //           label: CustomText('For you'),
-                  //           selected: false,
-                  //           selectedColor: cornflower,
-                  //           labelStyle:
-                  //               systemMessage.copyWith(color: Colors.black),
-                  //           disabledColor: cornflower.withOpacity(.5),
-                  //         ),
-                  //       ]),
-                  //     )),
                 ],
               ),
             ),
@@ -228,10 +193,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _navigateToChatFromFCM() {
-    final savedConversation = _sp.getString(StorageKey.fcmConversation);
-    final json = jsonDecode(savedConversation);
-    final conversation = Conversation.fromJson(json);
-    ExtendedNavigator.of(context).pushChatScreen(conversation: conversation);
+    if (_sp.contains(StorageKey.fcmConversation)) {
+      final conversation = Conversation.loadFCMFromCache();
+      ExtendedNavigator.of(context).pushChatScreen(conversation: conversation);
+      _sp.setString(StorageKey.fcmConversation, null);
+    }
   }
 
   void openBottomSheet(BuildContext context) {

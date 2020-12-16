@@ -27,6 +27,10 @@ abstract class _LanguageStoreBase with Store {
     } else {
       _languageDirection = LanguageDirection.ltr;
     }
+
+    setLangaugeFromSwitchIndex(
+      _languageDirection == LanguageDirection.ltr ? 0 : 1,
+    );
   }
 
   @observable

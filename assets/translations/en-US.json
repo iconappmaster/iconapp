@@ -66,6 +66,7 @@
         "content": "Welcome to Icon! From now on, Icons you love are accessible to you anytime, anywhere. You can subscribe to their conversations and react with emoji’s and write comments."
     },
     "chat": {
+        "compressing" : "compressing",
         "messageDeleted" : "Message deleted",
         "deleteMessage" : "Delete message",
         "subsribe": "Subscribe conversation",

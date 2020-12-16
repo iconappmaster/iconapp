@@ -54,7 +54,12 @@ abstract class _ChatStoreBase with Store {
   }
 
   void init([Conversation conversation]) {
-    if (conversation != null) setConversation(conversation);
+    if (_prefs.contains(StorageKey.fcmConversation)) {
+      final conversation = Conversation.loadFCMFromCache();
+      if (conversation != null)setConversation(conversation);
+    } else {
+      if (conversation != null) setConversation(conversation);
+    }
 
     _determineComposerMode();
     setConversationViewed();

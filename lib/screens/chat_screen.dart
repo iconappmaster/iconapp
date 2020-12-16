@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
 import 'package:iconapp/widgets/chat/chat_dialogs.dart';
@@ -42,14 +41,11 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   StoryStore _story;
   CommentsStore _comments;
   Socket _socket;
-  SharedPreferencesService _sp;
 
   @override
   void initState() {
     _initDependencies();
     _initSocket();
-
-    _resetFcmConversation();
 
     _chat
       ..init(widget.conversation)
@@ -73,12 +69,6 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     super.initState();
   }
 
-  void _resetFcmConversation() {
-    if (_sp.contains(StorageKey.fcmConversation)) {
-      _sp.setString(StorageKey.fcmConversation, null);
-    }
-  }
-
   void _detectScrollUp() {
     _upDirection =
         _chatController.position.userScrollDirection == ScrollDirection.forward;
@@ -92,7 +82,6 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     _story = sl<StoryStore>();
     _comments = sl<CommentsStore>();
     _socket = sl<Socket>();
-    _sp = sl<SharedPreferencesService>();
   }
 
   Future _initSocket() async {
