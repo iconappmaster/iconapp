@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:ui';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/ads/admob/admob.dart';
+import 'package:iconapp/core/video/caching_player.dart';
+import 'package:iconapp/core/video/feed_player/multi_manager/flick_multi_manager.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:vibration/vibration.dart';
@@ -16,10 +16,8 @@ import '../../data/models/user_model.dart';
 import '../../data/repositories/media_repository.dart';
 import '../../stores/chat/chat_store.dart';
 import '../global/custom_text.dart';
-import '../global/network_photo.dart';
 import '../global/slidable/slidable.dart';
 import '../global/slidable_widget.dart';
-import '../../core/extensions/int_ext.dart';
 import 'reply_slider.dart';
 import 'chat_list.dart';
 import 'icon_bubble.dart';
@@ -29,6 +27,7 @@ class VideoMessage extends StatefulWidget {
   final bool isMe;
   final int index;
   final AutoScrollController controller;
+  final FlickMultiManager videoManager;
 
   const VideoMessage({
     Key key,
@@ -36,6 +35,7 @@ class VideoMessage extends StatefulWidget {
     @required this.isMe,
     @required this.index,
     @required this.controller,
+    @required this.videoManager,
   }) : super(key: key);
 
   @override
@@ -118,41 +118,14 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                widget.message.body.startsWith('http')
-                    ? ClipRRect(
+                Container(
+                    height: 300,
+                    width: MediaQuery.of(context).size.width * .5,
+                    child: ClipRRect(
                         borderRadius: BorderRadius.circular(4.2),
-                        child: SizedBox(
-                            height: 240,
-                            width: 280,
-                            child: NetworkPhoto(
-                                imageUrl: widget.message?.extraData ?? '')))
-                    : ClipRRect(
-                        borderRadius: BorderRadius.circular(4.2),
-                        child: SizedBox(
-                          height: 240,
-                          width: 280,
-                          child: Image.file(
-                            File(widget.message?.extraData ?? ''),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                Positioned(
-                  left: 98,
-                  top: 70,
-                  child: SvgPicture.asset('assets/images/play_button.svg',
-                      height: 76, width: 76),
-                ),
-                Positioned(
-                    left: 5,
-                    bottom: 5,
-                    child: CustomText(
-                        widget.message.status == MessageStatus.pending
-                            ? ''
-                            : widget.message?.timestamp?.humanReadableTime() ??
-                                '',
-                        style: chatMessageBody.copyWith(fontSize: 12),
-                        textAlign: TextAlign.start)),
+                        child: CachedVideoPlayer(
+                            message: widget.message,
+                            manager: widget.videoManager))),
                 Positioned(
                     right: 5,
                     bottom: 5,

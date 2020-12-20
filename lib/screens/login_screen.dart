@@ -31,8 +31,9 @@ class LoginScreen extends StatelessWidget {
               onClick: () {
                 if (login.agreeTerms)
                   ExtendedNavigator.of(context).pushOnboardingScreen();
-                else
+                else {
                   context.showFlushbar(message: 'Please agree to the tearms');
+                }
               },
             ),
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
 import 'package:iconapp/widgets/chat/chat_dialogs.dart';
@@ -82,6 +83,13 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     _story = sl<StoryStore>();
     _comments = sl<CommentsStore>();
     _socket = sl<Socket>();
+  }
+
+  @override
+  void didChangeDependencies() {
+    final sp = sl<SharedPreferencesService>();
+    sp.setString(StorageKey.fcmConversation, null);
+    super.didChangeDependencies();
   }
 
   Future _initSocket() async {

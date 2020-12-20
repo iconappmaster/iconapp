@@ -32,7 +32,7 @@ class ConversationTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final messageDate = DateTime.fromMillisecondsSinceEpoch(
-        conversation.lastMessage.timestamp * 1000);
+        (conversation?.lastMessage?.timestamp ?? 0) * 1000);
 
     return Slidable(
       actionPane: SlidableDrawerActionPane(),
@@ -85,13 +85,11 @@ class ConversationTile extends StatelessWidget {
                       conversation?.lastMessage != null
                           ? HomeTileConversationMessage(
                               model: conversation?.lastMessage)
-                          : CustomText(
-                              LocaleKeys.home_noMessages.tr(),
+                          : CustomText(LocaleKeys.home_noMessages.tr(),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               textAlign: language.textAlign,
-                              style: lastWritten,
-                            ),
+                              style: lastWritten),
                     ],
                   ),
                   Expanded(
@@ -103,7 +101,9 @@ class ConversationTile extends StatelessWidget {
                           CustomText(
                               time.format(
                                 DateTime.fromMillisecondsSinceEpoch(
-                                    conversation.lastMessage.timestamp * 1000),
+                                    (conversation?.lastMessage?.timestamp ??
+                                            0) *
+                                        1000),
                                 locale:
                                     language.direction == LanguageDirection.ltr
                                         ? 'en'

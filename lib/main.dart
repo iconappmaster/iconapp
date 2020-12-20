@@ -22,7 +22,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 final logger = Logger();
-
+const appName = 'Icon';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -123,14 +123,19 @@ class _MyAppState extends State<MyApp> {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      title: 'Icon',
+      title: appName,
       theme: ThemeData(
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity),
       onGenerateRoute: rGenerated.Router(),
-      builder: (context, child) => ExtendedNavigator(
-          name: router.$Router.routerName, router: rGenerated.Router()),
+      builder: (context, child) {
+        return ExtendedNavigator(
+          name: router.$Router.routerName,
+          router: rGenerated.Router(),
+        );
+      },
     );
+    
   }
 
   @override

@@ -1,4 +1,3 @@
-// MESSAGE TYPES
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:iconapp/core/theme.dart';
@@ -108,13 +107,7 @@ class _IconBubbleState extends State<IconBubble> {
                                   ? BubbleNip.leftTop
                                   : BubbleNip.rightTop
                           : BubbleNip.no,
-                      child:
-                          // ConstrainedBox(
-                          //   constraints:
-                          //       BoxConstraints(minWidth: 80, minHeight: 55),
-                          //   child:
-
-                          Column(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -221,9 +214,8 @@ class _IconBubbleState extends State<IconBubble> {
 
   void _onAvatarTap(BuildContext context) {
     if (widget.message.sender?.photo?.url != null)
-      ExtendedNavigator.of(context).pushSingleImage(
-        url: widget.message.sender?.photo?.url ?? '',
-      );
+      ExtendedNavigator.of(context)
+          .pushSingleImage(url: widget.message.sender?.photo?.url ?? '');
   }
 
   String _getAvatarUrl() {

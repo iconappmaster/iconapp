@@ -25,10 +25,11 @@ class BottomSheetBar extends StatelessWidget {
             child: Container(
               height: 54,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(13.3),
-                      topRight: Radius.circular(13.3)),
-                  color: darkIndigo2),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(13.3),
+                    topRight: Radius.circular(13.3)),
+                color: plusBorder,
+              ),
               child: BottomSheetActionButtons(
                 onTap: onTap,
                 isCategoriesSearchOn: showCategoriesSelected,

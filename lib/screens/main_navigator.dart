@@ -24,7 +24,7 @@ class _MainNavigatorState extends State<MainNavigator> {
   final auth = sl<AuthStore>();
   final home = sl<HomeStore>();
   final ad = sl<CustomAdsStore>();
-  
+
   @override
   void didChangeDependencies() {
     init();

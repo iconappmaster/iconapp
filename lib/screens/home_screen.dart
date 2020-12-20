@@ -65,13 +65,18 @@ class _HomeScreenState extends State<HomeScreen> {
     refreshData();
     _listenLifeCycle();
 
-    _navigateToChatFromFCM();
-
     _adMobs
       ..loadInterstital()
       ..loadReward();
 
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    _navigateToChatFromFCM();
+    _handleDynamicLinks();
+    super.didChangeDependencies();
   }
 
   void _listenLifeCycle() {
@@ -104,13 +109,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _socket
       ..bindHomeChangeEvent()
       ..bindStoryChangeEvent();
-  }
-
-  @override
-  void didChangeDependencies() {
-    // todo should this be here?
-    _handleDynamicLinks();
-    super.didChangeDependencies();
   }
 
   Future _handleDynamicLinks() async {
@@ -192,11 +190,11 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _navigateToChatFromFCM() {
+  Future _navigateToChatFromFCM() async {
     if (_sp.contains(StorageKey.fcmConversation)) {
       final conversation = Conversation.loadFCMFromCache();
-      ExtendedNavigator.of(context).pushChatScreen(conversation: conversation);
-      _sp.setString(StorageKey.fcmConversation, null);
+      await ExtendedNavigator.of(context)
+          .pushChatScreen(conversation: conversation);
     }
   }
 

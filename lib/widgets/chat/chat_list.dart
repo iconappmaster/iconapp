@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/core/video/feed_player/multi_manager/flick_multi_manager.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/global/lottie_loader.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import 'message_audio.dart';
 import 'message_photo.dart';
@@ -28,11 +30,12 @@ class ChatList extends StatefulWidget {
 
 class _ChatListState extends State<ChatList> {
   ChatStore store;
+  FlickMultiManager flickMultiManager;
 
   @override
   void initState() {
     store = sl<ChatStore>();
-
+    flickMultiManager = FlickMultiManager();
     widget.scrollController.addListener(
       () {
         final controller = widget.scrollController;
@@ -50,79 +53,88 @@ class _ChatListState extends State<ChatList> {
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) => Expanded(
-        child: store.getState.loading && store.getMessages.isEmpty
-            ? LottieLoader()
-            : Scroller(
-                scrollController: widget.scrollController,
-                child: ListView.builder(
-                  controller: widget.scrollController,
-                  physics: BouncingScrollPhysics(),
-                  reverse: true,
-                  shrinkWrap: true,
-                  padding: EdgeInsets.only(bottom: 12, top: 120),
-                  itemCount: store.getMessages.length,
-                  itemBuilder: (_, index) {
-                    final message = store?.getMessages[index];
-                    final isMe = store.isMe(message.sender?.id);
-                    switch (message.messageType) {
-                      case MessageType.text:
-                        return TextMessage(
-                            isSwipeEnabled:
-                                store.conversation.userRole != UserRole.viewer,
+        child: VisibilityDetector(
+          key: ObjectKey(flickMultiManager),
+          onVisibilityChanged: (visibility) {
+            if (visibility.visibleFraction == 0 && this.mounted) {
+              flickMultiManager.pause();
+            }
+          },
+          child: store.getState.loading && store.getMessages.isEmpty
+              ? LottieLoader()
+              : Scroller(
+                  scrollController: widget.scrollController,
+                  child: ListView.builder(
+                    controller: widget.scrollController,
+                    physics: BouncingScrollPhysics(),
+                    reverse: true,
+                    shrinkWrap: true,
+                    padding: EdgeInsets.only(bottom: 12, top: 120),
+                    itemCount: store.getMessages.length,
+                    itemBuilder: (_, index) {
+                      final message = store?.getMessages[index];
+                      final isMe = store.isMe(message.sender?.id);
+                      switch (message.messageType) {
+                        case MessageType.text:
+                          return TextMessage(
+                              isSwipeEnabled: store.conversation.userRole !=
+                                  UserRole.viewer,
+                              controller: widget.scrollController,
+                              message: message,
+                              isMe: isMe,
+                              index: index);
+
+                        case MessageType.photo:
+                          return PhotoMessage(
                             controller: widget.scrollController,
                             message: message,
                             isMe: isMe,
-                            index: index);
+                            index: index,
+                          );
 
-                      case MessageType.photo:
-                        return PhotoMessage(
-                          controller: widget.scrollController,
-                          message: message,
-                          isMe: isMe,
-                          index: index,
-                        );
+                        case MessageType.photo:
+                          return PhotoMessage(
+                            controller: widget.scrollController,
+                            message: message,
+                            isMe: isMe,
+                            index: index,
+                          );
 
-                      case MessageType.photo:
-                        return PhotoMessage(
-                          controller: widget.scrollController,
-                          message: message,
-                          isMe: isMe,
-                          index: index,
-                        );
-
-                      case MessageType.video:
-                        return VideoMessage(
-                          controller: widget.scrollController,
-                          index: index,
-                          message: message,
-                          isMe: isMe,
-                        );
-                      case MessageType.voice:
-                        return VoiceMessage(
+                        case MessageType.video:
+                          return VideoMessage(
+                            videoManager: flickMultiManager,
                             controller: widget.scrollController,
                             index: index,
                             message: message,
-                            isMe: isMe);
-                      case MessageType.system:
-                        return SystemMessage(
-                          title: message.body,
-                        );
-                      case MessageType.loading:
-                        return Center(
-                            child: SizedBox(
-                          height: 25,
-                          width: 25,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            valueColor: AlwaysStoppedAnimation(white),
-                          ),
-                        ));
-                        break;
-                    }
-                    return Container();
-                  },
+                            isMe: isMe,
+                          );
+                        case MessageType.voice:
+                          return VoiceMessage(
+                              controller: widget.scrollController,
+                              index: index,
+                              message: message,
+                              isMe: isMe);
+                        case MessageType.system:
+                          return SystemMessage(
+                            title: message.body,
+                          );
+                        case MessageType.loading:
+                          return Center(
+                              child: SizedBox(
+                            height: 25,
+                            width: 25,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation(white),
+                            ),
+                          ));
+                          break;
+                      }
+                      return Container();
+                    },
+                  ),
                 ),
-              ),
+        ),
       ),
     );
   }

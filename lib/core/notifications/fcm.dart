@@ -6,6 +6,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/routes/router.dart';
 import 'package:iconapp/stores/auth/auth_store.dart';
@@ -31,40 +32,47 @@ class Fcm {
 
     final android = AndroidInitializationSettings('app_icon');
     final ios = IOSInitializationSettings();
-    final init = InitializationSettings(android: android, iOS: ios);
+    final init = InitializationSettings(
+      android: android,
+      iOS: ios,
+    );
 
     firebasePlugin.initialize(init, onSelectNotification: onSelectNotification);
 
     await messaging.requestNotificationPermissions();
 
     messaging.configure(
-        onLaunch: _onLaunch,
-        onResume: onResume,
-        onBackgroundMessage: Platform.isIOS ? null : backgroundHandler,
-        onMessage: (message) async =>
-            _showNotification(message: message, isConversationOpen: true));
+      onLaunch: _onLaunch,
+      onResume: onResume,
+      onBackgroundMessage: Platform.isIOS ? null : backgroundHandler,
+      onMessage: (message) async => _showNotification(
+        message: message,
+        isConversationOpen: true,
+      ),
+    );
 
     _handleFCMToken(auth, user, sp);
   }
 
   Future onResume(message) async {
-    print('onResume');
+    if (message != null) {
+      final id = int.tryParse(message["data"]["conversationId"]);
+      await _handleOnNotificationTap(id);
+    }
     return Future.value();
   }
 
   void _handleFCMToken(
       AuthStore auth, UserStore user, SharedPreferencesService sp) {
-    messaging.getToken().then(
-      (token) {
-        // only send the push token if authenticated.
-        if (auth.isSignedIn) user.updatePushToken((token));
-
-        return sp.setString(StorageKey.fcmToken, token);
-      },
-    );
-
+    messaging.getToken().then((token) => _updateToken(auth, user, token, sp));
     tokenRefreshSubscription = messaging.onTokenRefresh
-        .listen((token) => sp.setString(StorageKey.fcmToken, token));
+        .listen((token) => _updateToken(auth, user, token, sp));
+  }
+
+  void _updateToken(AuthStore auth, UserStore user, String token,
+      SharedPreferencesService sp) {
+    if (auth.isSignedIn) user.updatePushToken((token));
+    sp.setString(StorageKey.fcmToken, token);
   }
 
   Future _onLaunch(Map<String, dynamic> message) async {
@@ -76,12 +84,15 @@ class Fcm {
   }
 
   Future _handleOnNotificationTap(int id) async {
+    cancelAll();
     final sp = sl<SharedPreferencesService>();
     if (id != null) {
       if (sp.getBool(StorageKey.appForeground) ?? false) {
         final home = sl<HomeStore>();
         final conversation = await home.getCachedConversationById(id);
         if (conversation != null) {
+          await _saveConversation(conversation, sp);
+
           ExtendedNavigator.named($Router.routerName)
               .pushChatScreen(conversation: conversation);
         }
@@ -90,11 +101,16 @@ class Fcm {
         final sp = sl<SharedPreferencesService>();
         final conversation = await home.getCachedConversationById(id);
         if (conversation != null) {
-          final json = jsonEncode(conversation.toJson());
-          await sp.setString(StorageKey.fcmConversation, json);
+          await _saveConversation(conversation, sp);
         }
       }
     }
+  }
+
+  Future _saveConversation(
+      Conversation conversation, SharedPreferencesService sp) async {
+    final json = jsonEncode(conversation.toJson());
+    await sp.setString(StorageKey.fcmConversation, json);
   }
 
   Future<String> onSelectNotification(String conversationId) async {

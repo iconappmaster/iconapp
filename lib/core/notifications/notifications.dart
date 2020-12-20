@@ -6,17 +6,26 @@ import 'package:iconapp/core/theme.dart';
 import 'package:path_provider/path_provider.dart';
 import 'fcm.dart';
 
-
-Future<void> showTextNotification(String channelId, String channelName,
-    String id, String title, String body, String payload) async {
+Future<void> showTextNotification(
+  String channelId,
+  String channelName,
+  String id,
+  String title,
+  String body,
+  String payload,
+) async {
   final androidPlatformChannelSpecifics = AndroidNotificationDetails(
     channelId,
     channelName,
     'main notificaiton channel',
-    importance: Importance.max,
-    priority: Priority.high,
-    ticker: 'ticker',
+    groupKey: id,
+    groupAlertBehavior: GroupAlertBehavior.all,
     visibility: NotificationVisibility.public,
+    setAsGroupSummary: false,
+    importance: Importance.high,
+    priority: Priority.high,
+    ticker: 'Icon',
+    enableVibration: true,
     playSound: true,
     sound: RawResourceAndroidNotificationSound('notification'),
     autoCancel: true,
@@ -29,7 +38,7 @@ Future<void> showTextNotification(String channelId, String channelName,
     presentBadge: true,
     presentSound: true,
     badgeNumber: 0,
-    sound: 'notification.aiff'
+    sound: 'notification.aiff',
   );
 
   final platformChannelSpecifics = NotificationDetails(
@@ -44,6 +53,10 @@ Future<void> showTextNotification(String channelId, String channelName,
     platformChannelSpecifics,
     payload: payload,
   );
+}
+
+Future<void> cancelAll() async {
+  await firebasePlugin.cancelAll();
 }
 
 Future<void> showImageNotification(String channelId, String channelName,
@@ -64,7 +77,7 @@ Future<void> showImageNotification(String channelId, String channelName,
     'big photo channel description',
     styleInformation: style,
   );
-  
+
   final ios = IOSNotificationDetails(
     attachments: [
       IOSNotificationAttachment(bigPicturePath),

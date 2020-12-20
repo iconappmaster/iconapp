@@ -68,6 +68,7 @@ class _FlickMultiPlayerState extends State<FlickMultiPlayer> {
 
   @override
   Widget build(BuildContext context) {
+
     return VisibilityDetector(
       key: ObjectKey(flickManager),
       onVisibilityChanged: (visiblityInfo) {
@@ -85,13 +86,17 @@ class _FlickMultiPlayerState extends State<FlickMultiPlayer> {
                   child: Stack(
                     children: <Widget>[
                       Positioned(
-                          right: 10,
-                          top: 10,
-                          child: Container(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                  backgroundColor: cornflower, strokeWidth: 1)))
+                        right: 10,
+                        top: 10,
+                        child: Container(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            backgroundColor: darkBlueGrey,
+                            strokeWidth: 1,
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),
