@@ -38,8 +38,10 @@ abstract class Conversation with _$Conversation {
     final bool isPopular,
     final int commentsMaxUserCount,
     final UserRole userRole,
-    final ConversationType type,
+    final ConversationType conversationType,
     final ConversationMedia media,
+    final bool isAllowedIn,
+    final int entranceCode,
   }) = _Conversation;
 
   factory Conversation.loadFCMFromCache() {
@@ -54,4 +56,5 @@ abstract class Conversation with _$Conversation {
       _$ConversationFromJson(json);
 }
 
-enum ConversationType { conversation, ad }
+
+enum ConversationType { public, private_code, private_premium }

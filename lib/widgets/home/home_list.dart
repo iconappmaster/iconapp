@@ -43,20 +43,16 @@ class ConversationsList extends StatelessWidget {
                   physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    // if (index == length) {
-                    //   return ConversationBannerAd();
-                    // } else {
                     final conversation =
                         home.filterType == HomeFilterType.forYou
                             ? home.conversations[index]
                             : home.conversationPopular[index];
 
                     return ConversationTile(
-                        conversation: conversation,
-                        onTap: () => onTap(conversation, index));
-                  }
-                  // },
-                  ),
+                      conversation: conversation,
+                      onTap: () => onTap(conversation, index),
+                    );
+                  }),
         );
       },
     );

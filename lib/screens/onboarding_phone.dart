@@ -22,6 +22,19 @@ import 'package:iconapp/generated/locale_keys.g.dart';
 import '../core/extensions/context_ext.dart';
 import '../generated/locale_keys.g.dart';
 
+final pinTheme = PinTheme(
+    borderWidth: .7,
+    inactiveColor: cornflower,
+    selectedColor: Colors.transparent,
+    selectedFillColor: cornflower,
+    inactiveFillColor: Colors.transparent,
+    shape: PinCodeFieldShape.box,
+    disabledColor: cornflower,
+    activeColor: cornflower,
+    fieldWidth: 40,
+    fieldHeight: 40,
+    activeFillColor: Colors.transparent);
+
 FocusNode _pinCodeFocusNode = FocusNode();
 
 /// [OnboardingScreen] used to verify the user with [Phone] number and
@@ -170,19 +183,6 @@ class _PinCode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pinTheme = PinTheme(
-        borderWidth: .7,
-        inactiveColor: cornflower,
-        selectedColor: Colors.transparent,
-        selectedFillColor: cornflower,
-        inactiveFillColor: Colors.transparent,
-        shape: PinCodeFieldShape.box,
-        disabledColor: cornflower,
-        activeColor: cornflower,
-        fieldWidth: 40,
-        fieldHeight: 40,
-        activeFillColor: Colors.transparent);
-
     return Visibility(
       visible: store.isPinCodeMode,
       child: Positioned(
@@ -356,16 +356,12 @@ class _PhoneNumberInput extends StatelessWidget {
         onChanged: (phone) => store.updatePhone(phone),
         keyboardType: TextInputType.phone,
         decoration: InputDecoration(
-          hintText: LocaleKeys.onboarding_phoneNumberHint.tr(),
-          hintStyle: phoneNumber.copyWith(
-              color: whiteOpacity50, decoration: TextDecoration.none),
-          counterText: '',
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.transparent,
-            ),
-          ),
-        ),
+            hintText: LocaleKeys.onboarding_phoneNumberHint.tr(),
+            hintStyle: phoneNumber.copyWith(
+                color: whiteOpacity50, decoration: TextDecoration.none),
+            counterText: '',
+            enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.transparent))),
       ),
     );
   }

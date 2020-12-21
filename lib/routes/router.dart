@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route_annotations.dart';
+import 'package:iconapp/screens/conversation_code_screen.dart';
 import '../core/ads/provider_ads/custom_ad.dart';
 import '../core/video/default_player/default_player.dart';
 import '../core/video/feed_player/feed_player.dart';
@@ -63,6 +64,7 @@ import '../widgets/global/single_image.dart';
     CupertinoRoute(page: VerifyInstagramScreen),
     CupertinoRoute(page: ArchiveScreen),
     MaterialRoute(page: CustomAd),
+    MaterialRoute(page: ConversationCodeScreen),
   ],
 )
 class $Router {

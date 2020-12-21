@@ -1,25 +1,20 @@
-import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 part 'create_group_req.g.dart';
+part 'create_group_req.freezed.dart';
 
-@JsonSerializable()
-class CreateGroupReq {
-  final PhotoModel backgroundPhoto;
-  final String name;
-  final List<UserModel> users;
-  final int categoryId;
-
-  CreateGroupReq({
-    @required this.categoryId,
-    @required this.backgroundPhoto,
-    @required this.name,
-    @required this.users,
-  });
+@freezed
+abstract class CreateGroupReq with _$CreateGroupReq {
+  const factory CreateGroupReq({
+    PhotoModel backgroundPhoto,
+    String name,
+    List<UserModel> users,
+    int categoryId,
+    String conversationType,
+  }) = _CreateGroupReq;
 
   factory CreateGroupReq.fromJson(Map<String, dynamic> json) =>
       _$CreateGroupReqFromJson(json);
-  Map<String, dynamic> toJson() => _$CreateGroupReqToJson(this);
 }

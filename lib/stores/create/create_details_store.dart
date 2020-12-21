@@ -40,6 +40,12 @@ abstract class _CreateDetailsStoreBase with Store {
   @observable
   bool isLoading = false;
 
+  @observable
+  int _currentGroupTypeIndex = 0;
+
+  @computed
+  int get currentGroupTypeIndex => _currentGroupTypeIndex;
+
   @computed
   String get getSelectedPhoto => _selectedPhoto;
 
@@ -49,6 +55,11 @@ abstract class _CreateDetailsStoreBase with Store {
   @action
   void updateGroupName(String name) {
     _groupName = name;
+  }
+
+  @action
+  void setGroupType(int index) {
+    _currentGroupTypeIndex = index;
   }
 
   @action
@@ -77,6 +88,7 @@ abstract class _CreateDetailsStoreBase with Store {
         users: icons,
         backgroundPhoto: PhotoModel(url: _selectedPhoto),
         name: _groupName,
+        conversationType: _getConversationType(),
       );
 
       final conversation = await _repository.createConversation(req);
@@ -100,5 +112,18 @@ abstract class _CreateDetailsStoreBase with Store {
   void clear() {
     _groupName = '';
     _selectedPhoto = '';
+  }
+
+  String _getConversationType() {
+    switch (_currentGroupTypeIndex) {
+      case 0:
+        return "public";
+      case 1:
+        return "private_code";
+      case 2:
+        return "private_subscription";
+    }
+
+    return '';
   }
 }

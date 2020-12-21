@@ -7,6 +7,7 @@ import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/create/create_icon_store.dart';
+import 'package:iconapp/stores/language/language_store.dart';
 import 'package:iconapp/stores/search/search_store.dart';
 import 'package:iconapp/widgets/bottomsheet/bs_search_bar.dart';
 import 'package:iconapp/widgets/create/create_app_bar.dart';
@@ -49,7 +50,8 @@ class _SelectIconScreenState extends State<SelectIconScreen> {
           child: Stack(
             children: <Widget>[
               Positioned(
-                left: 16,
+                left: language.isLTR ? null : 16,
+                right: language.isLTR ? 16 : null,
                 top: 45,
                 child: MaterialButton(
                   onPressed: () => store.search(''),
@@ -146,8 +148,10 @@ class SearchBar extends StatelessWidget {
                       enabledBorder: transparentBorder,
                       border: transparentBorder,
                       focusedBorder: transparentBorder,
-                      hintText: store.getSearchMode == SearchMode.categories
-                          ? LocaleKeys.search_searchCategory.tr()
+                      hintText:
+                      
+                       store.getSearchMode == SearchMode.categories
+                          ? LocaleKeys.search_searchCategoryHint.tr()
                           : LocaleKeys.search_searchIcon.tr(),
                       hintStyle: flushbar,
                     ),

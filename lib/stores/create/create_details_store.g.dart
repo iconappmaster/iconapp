@@ -9,6 +9,13 @@ part of 'create_details_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$CreateDetailsStore on _CreateDetailsStoreBase, Store {
+  Computed<int> _$currentGroupTypeIndexComputed;
+
+  @override
+  int get currentGroupTypeIndex => (_$currentGroupTypeIndexComputed ??=
+          Computed<int>(() => super.currentGroupTypeIndex,
+              name: '_CreateDetailsStoreBase.currentGroupTypeIndex'))
+      .value;
   Computed<String> _$getSelectedPhotoComputed;
 
   @override
@@ -70,6 +77,23 @@ mixin _$CreateDetailsStore on _CreateDetailsStoreBase, Store {
     });
   }
 
+  final _$_currentGroupTypeIndexAtom =
+      Atom(name: '_CreateDetailsStoreBase._currentGroupTypeIndex');
+
+  @override
+  int get _currentGroupTypeIndex {
+    _$_currentGroupTypeIndexAtom.reportRead();
+    return super._currentGroupTypeIndex;
+  }
+
+  @override
+  set _currentGroupTypeIndex(int value) {
+    _$_currentGroupTypeIndexAtom
+        .reportWrite(value, super._currentGroupTypeIndex, () {
+      super._currentGroupTypeIndex = value;
+    });
+  }
+
   final _$selectGroupPhotoAsyncAction =
       AsyncAction('_CreateDetailsStoreBase.selectGroupPhoto');
 
@@ -101,6 +125,17 @@ mixin _$CreateDetailsStore on _CreateDetailsStoreBase, Store {
   }
 
   @override
+  void setGroupType(int index) {
+    final _$actionInfo = _$_CreateDetailsStoreBaseActionController.startAction(
+        name: '_CreateDetailsStoreBase.setGroupType');
+    try {
+      return super.setGroupType(index);
+    } finally {
+      _$_CreateDetailsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void clear() {
     final _$actionInfo = _$_CreateDetailsStoreBaseActionController.startAction(
         name: '_CreateDetailsStoreBase.clear');
@@ -115,6 +150,7 @@ mixin _$CreateDetailsStore on _CreateDetailsStoreBase, Store {
   String toString() {
     return '''
 isLoading: ${isLoading},
+currentGroupTypeIndex: ${currentGroupTypeIndex},
 getSelectedPhoto: ${getSelectedPhoto},
 groupName: ${groupName}
     ''';

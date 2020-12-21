@@ -44,10 +44,13 @@ _$_Conversation _$_$_ConversationFromJson(Map<String, dynamic> json) {
     isPopular: json['isPopular'] as bool,
     commentsMaxUserCount: json['commentsMaxUserCount'] as int,
     userRole: _$enumDecodeNullable(_$UserRoleEnumMap, json['userRole']),
-    type: _$enumDecodeNullable(_$ConversationTypeEnumMap, json['type']),
+    conversationType: _$enumDecodeNullable(
+        _$ConversationTypeEnumMap, json['conversationType']),
     media: json['media'] == null
         ? null
         : ConversationMedia.fromJson(json['media'] as Map<String, dynamic>),
+    isAllowedIn: json['isAllowedIn'] as bool,
+    entranceCode: json['entranceCode'] as int,
   );
 }
 
@@ -75,8 +78,10 @@ Map<String, dynamic> _$_$_ConversationToJson(_$_Conversation instance) =>
       'isPopular': instance.isPopular,
       'commentsMaxUserCount': instance.commentsMaxUserCount,
       'userRole': _$UserRoleEnumMap[instance.userRole],
-      'type': _$ConversationTypeEnumMap[instance.type],
+      'conversationType': _$ConversationTypeEnumMap[instance.conversationType],
       'media': instance.media,
+      'isAllowedIn': instance.isAllowedIn,
+      'entranceCode': instance.entranceCode,
     };
 
 T _$enumDecode<T>(
@@ -118,6 +123,7 @@ const _$UserRoleEnumMap = {
 };
 
 const _$ConversationTypeEnumMap = {
-  ConversationType.conversation: 'conversation',
-  ConversationType.ad: 'ad',
+  ConversationType.public: 'public',
+  ConversationType.private_code: 'private_code',
+  ConversationType.private_premium: 'private_premium',
 };

@@ -239,10 +239,27 @@ Future onTileTap(
 
   await adMobs.showWithCounterInterstitial();
 
-  await ExtendedNavigator.of(context)
-      .pushChatScreen(conversation: conversation);
+  if (conversation.isAllowedIn) {
+    await ExtendedNavigator.of(context)
+        .pushChatScreen(conversation: conversation);
+  } else {
+    switch (conversation.conversationType) {
+      case ConversationType.public:
+        // Nothing to do here
+        break;
+      case ConversationType.private_code:
+        // show code screen
+        await ExtendedNavigator.of(context)
+            .pushConversationCodeScreen();
+        break;
+      case ConversationType.private_premium:
+        // show premium screen
+        break;
+    }
+  }
 
   home.hideNewBadge(index);
+
   story
     ..setStoryMode(StoryMode.home)
     ..refreshStories();

@@ -36,8 +36,12 @@ class HomeContent extends StatelessWidget {
                 child: _home.viewMode == ViewHomeMode.list
                     ? ConversationsList(
                         controller: _controller,
-                        onTap: (model, index) =>
-                            onTileTap(model, context, index))
+                        onTap: (model, index) => onTileTap(
+                          model,
+                          context,
+                          index,
+                        ),
+                      )
                     : HomeStaggered(
                         onTap: (model, index) => onTileTap(
                           model,

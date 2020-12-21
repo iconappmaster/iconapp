@@ -23,6 +23,7 @@ import '../screens/alerts_screen.dart';
 import '../screens/archive_screen.dart';
 import '../screens/chat_screen.dart';
 import '../screens/chat_settings_screen.dart';
+import '../screens/conversation_code_screen.dart';
 import '../screens/create_categories_screen.dart';
 import '../screens/create_details_screen.dart';
 import '../screens/create_icons_screen.dart';
@@ -78,6 +79,7 @@ class Routes {
   static const String verifyInstagramScreen = '/verify-instagram-screen';
   static const String archiveScreen = '/archive-screen';
   static const String customAd = '/custom-ad';
+  static const String conversationCodeScreen = '/conversation-code-screen';
   static const all = <String>{
     mainNavigator,
     loginScreen,
@@ -109,6 +111,7 @@ class Routes {
     verifyInstagramScreen,
     archiveScreen,
     customAd,
+    conversationCodeScreen,
   };
 }
 
@@ -146,6 +149,7 @@ class Router extends RouterBase {
     RouteDef(Routes.verifyInstagramScreen, page: VerifyInstagramScreen),
     RouteDef(Routes.archiveScreen, page: ArchiveScreen),
     RouteDef(Routes.customAd, page: CustomAd),
+    RouteDef(Routes.conversationCodeScreen, page: ConversationCodeScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -394,6 +398,12 @@ class Router extends RouterBase {
         settings: data,
       );
     },
+    ConversationCodeScreen: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ConversationCodeScreen(),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -582,6 +592,9 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
   Future<dynamic> pushArchiveScreen() => push<dynamic>(Routes.archiveScreen);
 
   Future<dynamic> pushCustomAd() => push<dynamic>(Routes.customAd);
+
+  Future<dynamic> pushConversationCodeScreen() =>
+      push<dynamic>(Routes.conversationCodeScreen);
 }
 
 /// ************************************************************************
