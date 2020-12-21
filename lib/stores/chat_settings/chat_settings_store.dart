@@ -55,6 +55,10 @@ abstract class _ChatSettingsStoreBase with Store {
   bool get isLoadig => _isLoading || _mediaStore.loading;
 
   @computed
+  String get code =>
+      'Conversation code: ${434234}';
+
+  @computed
   int get selectedColor => _selectedColor;
 
   @computed
@@ -73,6 +77,17 @@ abstract class _ChatSettingsStoreBase with Store {
 
   @computed
   bool get isUserAdmin => _chat.conversation.userRole == UserRole.admin;
+
+  @computed
+  String get shareMessage {
+    final name = _chat.conversation.name;
+    final code = '223423';
+
+    final text =
+        "Hey - here is the code to join my conversation $name on Icon: $code. Download the app here: \nPlayStore: https://play.google.com/store/apps/details?id=com.icon.iconapp\nAppStore: https://apps.apple.com/app/id1528197266";
+
+    return text;
+  }
 
   @computed
   List<UserModel> get users => _users;

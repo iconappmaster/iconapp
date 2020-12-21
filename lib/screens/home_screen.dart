@@ -235,11 +235,9 @@ Future onTileTap(
 
   story.clearStories();
 
-  analytics.sendConversationEvent(OPENED_CONVERSATION, conversation.id);
-
-  await adMobs.showWithCounterInterstitial();
-
   if (conversation.isAllowedIn) {
+    analytics.sendConversationEvent(OPENED_CONVERSATION, conversation.id);
+    await adMobs.showWithCounterInterstitial();
     await ExtendedNavigator.of(context)
         .pushChatScreen(conversation: conversation);
   } else {
@@ -249,11 +247,10 @@ Future onTileTap(
         break;
       case ConversationType.private_code:
         // show code screen
-        await ExtendedNavigator.of(context)
-            .pushConversationCodeScreen();
+        await ExtendedNavigator.of(context).pushConversationCodeScreen();
         break;
       case ConversationType.private_premium:
-        // show premium screen
+        await ExtendedNavigator.of(context).pushPremiumScreen();
         break;
     }
   }

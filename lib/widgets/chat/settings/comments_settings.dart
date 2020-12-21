@@ -32,41 +32,48 @@ class CommentsSettings extends StatelessWidget {
             LocaleKeys.comments_groupOpened.tr(),
             style: chatSettings,
           ),
-          _CommentButtonToggle(
-            onPressed: () async {
-              if (isActivated) {
-                comments.setCommentActived(0);
-              } else {
-                showDialog(
-                  context: context,
-                   builder: (_) => CommentSingleSelectDialog(
-                    onTap: (selectedComment) {
-                      comments.setCommentActived(
-                        selectedComment.commentsMaxUserCount,
-                      );
-                    },
-                  ),
-                );
-              }
-              // comments.updateCommentSettings(isOpen, maxUserCount)
-            },
-            isLoading: comments.activatingComments,
-            isActivated: isActivated,
-          ),
+          Observer(builder: (_) {
+            return SettingsButton(
+              title: isActivated
+                  ? LocaleKeys.comments_close.tr()
+                  : LocaleKeys.comments_open.tr(),
+              onPressed: () async {
+                if (isActivated) {
+                  comments.setCommentActived(0);
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (_) => CommentSingleSelectDialog(
+                      onTap: (selectedComment) {
+                        comments.setCommentActived(
+                          selectedComment.commentsMaxUserCount,
+                        );
+                      },
+                    ),
+                  );
+                }
+                // comments.updateCommentSettings(isOpen, maxUserCount)
+              },
+              isLoading: comments.activatingComments,
+              isActivated: isActivated,
+            );
+          }),
         ],
       ),
     );
   }
 }
 
-class _CommentButtonToggle extends StatelessWidget {
+class SettingsButton extends StatelessWidget {
   final bool isActivated, isLoading;
   final Function onPressed;
-  const _CommentButtonToggle({
+  final String title;
+  const SettingsButton({
     Key key,
     @required this.isActivated,
     @required this.isLoading,
     @required this.onPressed,
+    @required this.title,
   }) : super(key: key);
 
   @override
@@ -76,33 +83,26 @@ class _CommentButtonToggle extends StatelessWidget {
       height: 25,
       width: 80,
       child: Observer(
-        builder: (_) => RawMaterialButton(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(2.7),
-              side: BorderSide(color: cornflower)),
-          onPressed: onPressed,
-          highlightColor: isActivated ? Colors.transparent : cornflower,
-          fillColor: isActivated ? Colors.transparent : cornflower,
-          textStyle: settingsButton,
-          child: comments.activatingComments
-              ? SizedBox(
-                  height: 15,
-                  width: 15,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 1,
-                    valueColor: AlwaysStoppedAnimation(
-                      white,
-                    ),
-                  ),
-                )
-              : CustomText(
-                  isActivated
-                      ? LocaleKeys.comments_close.tr()
-                      : LocaleKeys.comments_open.tr(),
-                  maxLines: 1,
-                  style: settingsButton),
-        ),
-      ),
+          builder: (_) => RawMaterialButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(2.7),
+                  side: BorderSide(color: cornflower)),
+              onPressed: onPressed,
+              highlightColor: isActivated ? Colors.transparent : cornflower,
+              fillColor: isActivated ? Colors.transparent : cornflower,
+              textStyle: settingsButton,
+              child: comments.activatingComments
+                  ? SizedBox(
+                      height: 15,
+                      width: 15,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 1,
+                        valueColor: AlwaysStoppedAnimation(
+                          white,
+                        ),
+                      ),
+                    )
+                  : CustomText(title, maxLines: 1, style: settingsButton))),
     );
   }
 }

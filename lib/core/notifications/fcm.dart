@@ -32,10 +32,7 @@ class Fcm {
 
     final android = AndroidInitializationSettings('app_icon');
     final ios = IOSInitializationSettings();
-    final init = InitializationSettings(
-      android: android,
-      iOS: ios,
-    );
+    final init = InitializationSettings(android: android, iOS: ios);
 
     firebasePlugin.initialize(init, onSelectNotification: onSelectNotification);
 

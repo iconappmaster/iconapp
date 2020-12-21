@@ -4,6 +4,8 @@ import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/stores/comments/comments_store.dart';
 import 'package:iconapp/widgets/chat/settings/comments_settings.dart';
+import 'package:iconapp/widgets/global/custom_text.dart';
+import 'package:social_share/social_share.dart';
 import '../stores/chat_settings/chat_settings_store.dart';
 import '../widgets/chat/settings/app_bar_sliver.dart';
 import '../widgets/chat/settings/change_background.dart';
@@ -55,6 +57,7 @@ class _ChatSettingsScreenState extends State<ChatSettingsScreen> {
               NotificationToggle(),
               _SettingsDivider(),
               if (settings.isUserAdmin) ...[
+                ConversationCode(),
                 ChangeBackground(),
                 Observer(
                     builder: (_) =>
@@ -64,6 +67,37 @@ class _ChatSettingsScreenState extends State<ChatSettingsScreen> {
             ]),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class ConversationCode extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final settings = sl<ChatSettingsStore>();
+
+    return Observer(
+      builder: (_) => Container(
+        height: settingsColumnHeight,
+        padding: EdgeInsets.only(left: 21, right: 21),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            CustomText(settings?.code ?? '', style: chatSettings),
+            Directionality(
+                textDirection: TextDirection.ltr,
+                child: SettingsButton(
+                  title: 'Share Code',
+                  isLoading: false,
+                  isActivated: settings?.code != null,
+                  onPressed: () {
+                    SocialShare.shareWhatsapp(settings.shareMessage);
+                  },
+                )),
+          ],
+        ),
       ),
     );
   }

@@ -35,6 +35,7 @@ import '../screens/media_descrioption_screen.dart';
 import '../screens/onboarding_phone.dart';
 import '../screens/onboarding_profile.dart';
 import '../screens/photo_gallery_screen.dart';
+import '../screens/premium_screen.dart';
 import '../screens/rename_conversation.dart';
 import '../screens/search_results_screen.dart';
 import '../screens/settings_screen.dart';
@@ -80,6 +81,7 @@ class Routes {
   static const String archiveScreen = '/archive-screen';
   static const String customAd = '/custom-ad';
   static const String conversationCodeScreen = '/conversation-code-screen';
+  static const String premiumScreen = '/premium-screen';
   static const all = <String>{
     mainNavigator,
     loginScreen,
@@ -112,6 +114,7 @@ class Routes {
     archiveScreen,
     customAd,
     conversationCodeScreen,
+    premiumScreen,
   };
 }
 
@@ -150,6 +153,7 @@ class Router extends RouterBase {
     RouteDef(Routes.archiveScreen, page: ArchiveScreen),
     RouteDef(Routes.customAd, page: CustomAd),
     RouteDef(Routes.conversationCodeScreen, page: ConversationCodeScreen),
+    RouteDef(Routes.premiumScreen, page: PremiumScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -393,14 +397,20 @@ class Router extends RouterBase {
       );
     },
     CustomAd: (data) {
-      return MaterialPageRoute<dynamic>(
+      return CupertinoPageRoute<dynamic>(
         builder: (context) => CustomAd(),
         settings: data,
       );
     },
     ConversationCodeScreen: (data) {
-      return MaterialPageRoute<dynamic>(
+      return CupertinoPageRoute<dynamic>(
         builder: (context) => ConversationCodeScreen(),
+        settings: data,
+      );
+    },
+    PremiumScreen: (data) {
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => PremiumScreen(),
         settings: data,
       );
     },
@@ -595,6 +605,8 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
 
   Future<dynamic> pushConversationCodeScreen() =>
       push<dynamic>(Routes.conversationCodeScreen);
+
+  Future<dynamic> pushPremiumScreen() => push<dynamic>(Routes.premiumScreen);
 }
 
 /// ************************************************************************

@@ -272,6 +272,7 @@ abstract class _HomeStoreBase with Store {
             messages: socketData.messages,
             lastMessage: socketData.lastMessage,
             shouldShowNewBadge: true,
+            media: socketData.media,
           );
 
           _conversations[index] = updatedConversation;

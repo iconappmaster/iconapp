@@ -22,27 +22,24 @@ class CreateDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = sl<CreateDetailsStore>();
-    return Observer(
-      builder: (_) => BaseGradientBackground(
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            AppBarWithDivider(
-                title: LocaleKeys.create_groupNameAppbarTitle.tr()),
-            Positioned(
-                top: context.heightPlusStatusbarPerc(.164),
-                right: context.widthPx * .08,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      CreateIconTitle(),
-                      ConversationNameInput(store: store),
-                      ConversationType(store: store)
-                    ])),
-            CreateGroupNavigate(store: store),
-          ],
-        ),
+    return BaseGradientBackground(
+      child: Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          AppBarWithDivider(title: LocaleKeys.create_groupNameAppbarTitle.tr()),
+          Positioned(
+              top: context.heightPlusStatusbarPerc(.164),
+              right: context.widthPx * .08,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    CreateIconTitle(),
+                    ConversationNameInput(store: store),
+                    ConversationType(store: store)
+                  ])),
+          CreateGroupNavigate(store: store),
+        ],
       ),
     );
   }
@@ -118,29 +115,31 @@ class ConversationNameInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        UserAvatar(
-          showLoading: store.isLoading,
-          onTap: () => store.selectGroupPhoto(),
-          url: store.getSelectedPhoto,
-          placeholder: 'assets/images/camera_icon.svg',
-          placeHolderPadding: 20,
-        ),
-        SizedBox(width: 12.7),
-        Container(
-          width: context.widthPx * .596,
-          child: InputText(
-            hintStyle: fieldLabel,
-            textStyle: fieldLabel,
-            hint: LocaleKeys.create_groupNameHint.tr(),
-            keyboardType: TextInputType.text,
-            onChange: (name) => store.updateGroupName(name),
+    return Observer(builder: (_) {
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          UserAvatar(
+            showLoading: store.isLoading,
+            onTap: () => store.selectGroupPhoto(),
+            url: store.getSelectedPhoto,
+            placeholder: 'assets/images/camera_icon.svg',
+            placeHolderPadding: 20,
           ),
-        ),
-      ],
-    );
+          SizedBox(width: 12.7),
+          Container(
+            width: context.widthPx * .596,
+            child: InputText(
+              hintStyle: fieldLabel,
+              textStyle: fieldLabel,
+              hint: LocaleKeys.create_groupNameHint.tr(),
+              keyboardType: TextInputType.text,
+              onChange: (name) => store.updateGroupName(name),
+            ),
+          ),
+        ],
+      );
+    });
   }
 }
 

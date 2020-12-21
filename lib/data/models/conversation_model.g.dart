@@ -50,7 +50,6 @@ _$_Conversation _$_$_ConversationFromJson(Map<String, dynamic> json) {
         ? null
         : ConversationMedia.fromJson(json['media'] as Map<String, dynamic>),
     isAllowedIn: json['isAllowedIn'] as bool,
-    entranceCode: json['entranceCode'] as int,
   );
 }
 
@@ -81,7 +80,6 @@ Map<String, dynamic> _$_$_ConversationToJson(_$_Conversation instance) =>
       'conversationType': _$ConversationTypeEnumMap[instance.conversationType],
       'media': instance.media,
       'isAllowedIn': instance.isAllowedIn,
-      'entranceCode': instance.entranceCode,
     };
 
 T _$enumDecode<T>(

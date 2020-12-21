@@ -41,7 +41,6 @@ abstract class Conversation with _$Conversation {
     final ConversationType conversationType,
     final ConversationMedia media,
     final bool isAllowedIn,
-    final int entranceCode,
   }) = _Conversation;
 
   factory Conversation.loadFCMFromCache() {

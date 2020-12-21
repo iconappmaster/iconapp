@@ -62,6 +62,7 @@ abstract class  LocaleKeys {
   static const welcome_title = 'welcome.title';
   static const welcome_content = 'welcome.content';
   static const welcome = 'welcome';
+  static const chat_compressing = 'chat.compressing';
   static const chat_messageDeleted = 'chat.messageDeleted';
   static const chat_deleteMessage = 'chat.deleteMessage';
   static const chat_subsribe = 'chat.subsribe';

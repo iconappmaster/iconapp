@@ -121,7 +121,7 @@ abstract class _CreateDetailsStoreBase with Store {
       case 1:
         return "private_code";
       case 2:
-        return "private_subscription";
+        return "private_premium";
     }
 
     return '';

@@ -30,6 +30,12 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
       (_$isLoadigComputed ??= Computed<bool>(() => super.isLoadig,
               name: '_ChatSettingsStoreBase.isLoadig'))
           .value;
+  Computed<String> _$codeComputed;
+
+  @override
+  String get code => (_$codeComputed ??= Computed<String>(() => super.code,
+          name: '_ChatSettingsStoreBase.code'))
+      .value;
   Computed<int> _$selectedColorComputed;
 
   @override
@@ -71,6 +77,13 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
   bool get isUserAdmin =>
       (_$isUserAdminComputed ??= Computed<bool>(() => super.isUserAdmin,
               name: '_ChatSettingsStoreBase.isUserAdmin'))
+          .value;
+  Computed<String> _$shareMessageComputed;
+
+  @override
+  String get shareMessage =>
+      (_$shareMessageComputed ??= Computed<String>(() => super.shareMessage,
+              name: '_ChatSettingsStoreBase.shareMessage'))
           .value;
   Computed<List<UserModel>> _$usersComputed;
 
@@ -249,12 +262,14 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
 isNotificationDisabled: ${isNotificationDisabled},
 showUnsubscribeButton: ${showUnsubscribeButton},
 isLoadig: ${isLoadig},
+code: ${code},
 selectedColor: ${selectedColor},
 getConversationPhoto: ${getConversationPhoto},
 getConversationName: ${getConversationName},
 getSubtitle: ${getSubtitle},
 isAdminRemaining: ${isAdminRemaining},
 isUserAdmin: ${isUserAdmin},
+shareMessage: ${shareMessage},
 users: ${users}
     ''';
   }

@@ -152,16 +152,15 @@ class FabTile extends StatelessWidget {
       onTap: () => onTap(),
       child: SizedBox(
         height: 50,
-        child: Observer(
-          builder: (_) => Column(
-            children: [
-              Icon(iconData, color: lightMustard, size: 30),
-              SizedBox(height: 2),
-              CustomText(text,
-                  style:
-                      replayTitle.copyWith(color: lightMustard, fontSize: 10))
-            ],
-          ),
+        child: Column(
+          children: [
+            Icon(iconData, color: lightMustard, size: 30),
+            SizedBox(height: 2),
+            CustomText(
+              text,
+              style: replayTitle.copyWith(color: lightMustard, fontSize: 10),
+            )
+          ],
         ),
       ),
     );

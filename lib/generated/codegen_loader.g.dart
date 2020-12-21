@@ -84,6 +84,7 @@ class CodegenLoader extends AssetLoader{
     "content": "ברוך הבא ל-Icon! אצלנו תהיה חלק מקהילות\nועולמות תוכן המדברים אליך. קבוצות הצ'אט שלנו מנוהלות\nעל ידי אייקונים, מובילי דעה ויוצרי תוכן המובילים בתחומם\nהקהל הרחב יוכל לצפות בשיחות המתקיימות 24/7 ולהגיב באמצעות חייכנים. מנהל הקבוצה יוכל לפתוח את הקבוצה לשילוב הקהל בשיחה כשיבחר. מהיום אתה חלק מקבוצות האייקונים האהובים עליך."
   },
   "chat": {
+    "compressing": "מקבץ סרטון",
     "messageDeleted": "הודעה נמחקה",
     "deleteMessage": "מחק הודעה",
     "subsribe": "הצטרפות לקבוצה",
@@ -221,7 +222,7 @@ static const Map<String,dynamic> en_US = {
     "phoneTitle": "Before we start we need your phone\nso we can send you a PIN code.",
     "phoneSubtitle": "What is your phone number?",
     "enterCode": "Enter the PIN code from the SMS",
-    "phoneCounting": "The PIN code will arraive in {} seconds",
+    "phoneCounting": "The PIN code will arrive in {} seconds",
     "phone_tooShort": "You phone number is too short",
     "profileName": "Full name",
     "profileAge": "Age",
@@ -231,17 +232,17 @@ static const Map<String,dynamic> en_US = {
     "wrongName": "Please enter full name",
     "wrongAge": "Age 10+",
     "wrongCode": "Wrong code, please try again",
-    "sendAgainTitle": "I dind't recieved the code ",
+    "sendAgainTitle": "I didn't received the code ",
     "sendAgain": "Send again",
     "fullName": "Full name",
     "fullNameValidation": "Specify first and last name"
   },
   "create": {
     "groupNameHint": "Write the conversation name",
-    "groupNameDescription": "Choose category for the conversation",
-    "groupNameAppbarTitle": "Conversation subject",
+    "groupNameDescription": "Choose name for the conversation",
+    "groupNameAppbarTitle": "Conversation details",
     "categoriesSubtitle": "Choose a category",
-    "iconSubtitle": "Choose participents",
+    "iconSubtitle": "Choose participants",
     "newGroupTitle": "Create new group",
     "iconValidation": "Please choose more then one Icon",
     "categoryValidation": "You must choose more then one category",
@@ -254,6 +255,7 @@ static const Map<String,dynamic> en_US = {
     "content": "Welcome to Icon! From now on, Icons you love are accessible to you anytime, anywhere. You can subscribe to their conversations and react with emoji’s and write comments."
   },
   "chat": {
+    "compressing": "compressing",
     "messageDeleted": "Message deleted",
     "deleteMessage": "Delete message",
     "subsribe": "Subscribe conversation",
@@ -265,7 +267,7 @@ static const Map<String,dynamic> en_US = {
     "welcomeContent": "Congrats!  You have joined your first group.\nJoining a group allows you to observe chat conversations between “Icons” (aka the rich and famous).\nYou can react to messages and stories using emojis.\nYou can join groups according to topics that interest you, or follow specific Icons.\nand be aware that the icons will know you're there.",
     "background": "Change background photo",
     "chooseColor": "Select background color",
-    "notification": "Mute notificatons",
+    "notification": "Mute notifications",
     "editGroup": "Add editor to the conversation",
     "exited": "Unsubscribed",
     "exit": "Exit conversation",
@@ -285,7 +287,7 @@ static const Map<String,dynamic> en_US = {
     "empty": "No new messages",
     "messages": "Messages",
     "cleanAll": "Clear All",
-    "alert": "alerts"
+    "alert": "Alerts"
   },
   "settings": {
     "title": "Settings",
@@ -295,9 +297,9 @@ static const Map<String,dynamic> en_US = {
   },
   "story": {
     "title": "Your Story",
-    "newStory": "new ntory",
+    "newStory": "New Story",
     "addExtraMedia": "add extra photo or video",
-    "addMedia": "upload a photo or aideo",
+    "addMedia": "Upload a photo or a video",
     "uploading": "Uploading",
     "video": "Video",
     "share": "Share",
@@ -332,17 +334,17 @@ static const Map<String,dynamic> en_US = {
   "archive": {
     "empty": "No hidden conversations",
     "hidden": "Hidden conversations",
-    "slide": "archive"
+    "slide": "Archive"
   },
   "description": {
-    "hint": "add a description"
+    "hint": "Add a description"
   },
   "verify": {
     "title": "What is your email address?",
     "validation": "Check your email",
-    "welcomeTitle": "ICON Identification Proccess",
+    "welcomeTitle": "ICON Identification Process",
     "nextButton": "Send me the code",
-    "noCode": "Didn't recieved the code",
+    "noCode": "Didn't received the code",
     "sendAgain": "Send again"
   },
   "fab": {

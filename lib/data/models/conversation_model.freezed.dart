@@ -42,8 +42,7 @@ class _$ConversationTearOff {
       UserRole userRole,
       ConversationType conversationType,
       ConversationMedia media,
-      bool isAllowedIn,
-      int entranceCode}) {
+      bool isAllowedIn}) {
     return _Conversation(
       id: id,
       backgroundColor: backgroundColor,
@@ -70,7 +69,6 @@ class _$ConversationTearOff {
       conversationType: conversationType,
       media: media,
       isAllowedIn: isAllowedIn,
-      entranceCode: entranceCode,
     );
   }
 
@@ -111,7 +109,6 @@ mixin _$Conversation {
   ConversationType get conversationType;
   ConversationMedia get media;
   bool get isAllowedIn;
-  int get entranceCode;
 
   Map<String, dynamic> toJson();
   $ConversationCopyWith<Conversation> get copyWith;
@@ -147,8 +144,7 @@ abstract class $ConversationCopyWith<$Res> {
       UserRole userRole,
       ConversationType conversationType,
       ConversationMedia media,
-      bool isAllowedIn,
-      int entranceCode});
+      bool isAllowedIn});
 
   $PhotoModelCopyWith<$Res> get backgroundPhoto;
   $UserModelCopyWith<$Res> get createdBy;
@@ -192,7 +188,6 @@ class _$ConversationCopyWithImpl<$Res> implements $ConversationCopyWith<$Res> {
     Object conversationType = freezed,
     Object media = freezed,
     Object isAllowedIn = freezed,
-    Object entranceCode = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as int,
@@ -247,8 +242,6 @@ class _$ConversationCopyWithImpl<$Res> implements $ConversationCopyWith<$Res> {
       media: media == freezed ? _value.media : media as ConversationMedia,
       isAllowedIn:
           isAllowedIn == freezed ? _value.isAllowedIn : isAllowedIn as bool,
-      entranceCode:
-          entranceCode == freezed ? _value.entranceCode : entranceCode as int,
     ));
   }
 
@@ -335,8 +328,7 @@ abstract class _$ConversationCopyWith<$Res>
       UserRole userRole,
       ConversationType conversationType,
       ConversationMedia media,
-      bool isAllowedIn,
-      int entranceCode});
+      bool isAllowedIn});
 
   @override
   $PhotoModelCopyWith<$Res> get backgroundPhoto;
@@ -387,7 +379,6 @@ class __$ConversationCopyWithImpl<$Res> extends _$ConversationCopyWithImpl<$Res>
     Object conversationType = freezed,
     Object media = freezed,
     Object isAllowedIn = freezed,
-    Object entranceCode = freezed,
   }) {
     return _then(_Conversation(
       id: id == freezed ? _value.id : id as int,
@@ -442,8 +433,6 @@ class __$ConversationCopyWithImpl<$Res> extends _$ConversationCopyWithImpl<$Res>
       media: media == freezed ? _value.media : media as ConversationMedia,
       isAllowedIn:
           isAllowedIn == freezed ? _value.isAllowedIn : isAllowedIn as bool,
-      entranceCode:
-          entranceCode == freezed ? _value.entranceCode : entranceCode as int,
     ));
   }
 }
@@ -477,8 +466,7 @@ class _$_Conversation implements _Conversation {
       this.userRole,
       this.conversationType,
       this.media,
-      this.isAllowedIn,
-      this.entranceCode});
+      this.isAllowedIn});
 
   factory _$_Conversation.fromJson(Map<String, dynamic> json) =>
       _$_$_ConversationFromJson(json);
@@ -533,12 +521,10 @@ class _$_Conversation implements _Conversation {
   final ConversationMedia media;
   @override
   final bool isAllowedIn;
-  @override
-  final int entranceCode;
 
   @override
   String toString() {
-    return 'Conversation(id: $id, backgroundColor: $backgroundColor, backgroundPhoto: $backgroundPhoto, categoryId: $categoryId, createdBy: $createdBy, isPinned: $isPinned, createdAt: $createdAt, name: $name, photo: $photo, lastMessage: $lastMessage, shouldShowNewBadge: $shouldShowNewBadge, users: $users, messages: $messages, isSubscribed: $isSubscribed, numberOfAdminsRemaining: $numberOfAdminsRemaining, numberOfParticipants: $numberOfParticipants, shouldShowNewCommentsBadge: $shouldShowNewCommentsBadge, areNotificationsDisabled: $areNotificationsDisabled, areCommentsActivated: $areCommentsActivated, isPopular: $isPopular, commentsMaxUserCount: $commentsMaxUserCount, userRole: $userRole, conversationType: $conversationType, media: $media, isAllowedIn: $isAllowedIn, entranceCode: $entranceCode)';
+    return 'Conversation(id: $id, backgroundColor: $backgroundColor, backgroundPhoto: $backgroundPhoto, categoryId: $categoryId, createdBy: $createdBy, isPinned: $isPinned, createdAt: $createdAt, name: $name, photo: $photo, lastMessage: $lastMessage, shouldShowNewBadge: $shouldShowNewBadge, users: $users, messages: $messages, isSubscribed: $isSubscribed, numberOfAdminsRemaining: $numberOfAdminsRemaining, numberOfParticipants: $numberOfParticipants, shouldShowNewCommentsBadge: $shouldShowNewCommentsBadge, areNotificationsDisabled: $areNotificationsDisabled, areCommentsActivated: $areCommentsActivated, isPopular: $isPopular, commentsMaxUserCount: $commentsMaxUserCount, userRole: $userRole, conversationType: $conversationType, media: $media, isAllowedIn: $isAllowedIn)';
   }
 
   @override
@@ -606,8 +592,7 @@ class _$_Conversation implements _Conversation {
             (identical(other.userRole, userRole) || const DeepCollectionEquality().equals(other.userRole, userRole)) &&
             (identical(other.conversationType, conversationType) || const DeepCollectionEquality().equals(other.conversationType, conversationType)) &&
             (identical(other.media, media) || const DeepCollectionEquality().equals(other.media, media)) &&
-            (identical(other.isAllowedIn, isAllowedIn) || const DeepCollectionEquality().equals(other.isAllowedIn, isAllowedIn)) &&
-            (identical(other.entranceCode, entranceCode) || const DeepCollectionEquality().equals(other.entranceCode, entranceCode)));
+            (identical(other.isAllowedIn, isAllowedIn) || const DeepCollectionEquality().equals(other.isAllowedIn, isAllowedIn)));
   }
 
   @override
@@ -637,8 +622,7 @@ class _$_Conversation implements _Conversation {
       const DeepCollectionEquality().hash(userRole) ^
       const DeepCollectionEquality().hash(conversationType) ^
       const DeepCollectionEquality().hash(media) ^
-      const DeepCollectionEquality().hash(isAllowedIn) ^
-      const DeepCollectionEquality().hash(entranceCode);
+      const DeepCollectionEquality().hash(isAllowedIn);
 
   @override
   _$ConversationCopyWith<_Conversation> get copyWith =>
@@ -676,8 +660,7 @@ abstract class _Conversation implements Conversation {
       UserRole userRole,
       ConversationType conversationType,
       ConversationMedia media,
-      bool isAllowedIn,
-      int entranceCode}) = _$_Conversation;
+      bool isAllowedIn}) = _$_Conversation;
 
   factory _Conversation.fromJson(Map<String, dynamic> json) =
       _$_Conversation.fromJson;
@@ -732,8 +715,6 @@ abstract class _Conversation implements Conversation {
   ConversationMedia get media;
   @override
   bool get isAllowedIn;
-  @override
-  int get entranceCode;
   @override
   _$ConversationCopyWith<_Conversation> get copyWith;
 }
