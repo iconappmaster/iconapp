@@ -61,9 +61,11 @@ abstract class RestClient {
     @Query('searchString') String query,
   );
   // CONVERSATIONS
-  // @GET('conversations_subscribed')
-  // Future<List<Conversation>> getConversationSubscribed();
-  
+  @POST('conversations/{conversationId}/entrance_code')
+  Future<Conversation> verifyConversationCode(
+      @Path('conversationId') int conversationId,
+      @Query('entranceCode') String code);
+
   @GET('conversations_popular')
   Future<List<Conversation>> getConversationPopular();
 

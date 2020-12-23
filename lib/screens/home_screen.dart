@@ -247,7 +247,8 @@ Future onTileTap(
         break;
       case ConversationType.private_code:
         // show code screen
-        await ExtendedNavigator.of(context).pushConversationCodeScreen();
+        await ExtendedNavigator.of(context)
+            .pushConversationCodeScreen(conversation: conversation);
         break;
       case ConversationType.private_premium:
         await ExtendedNavigator.of(context).pushPremiumScreen();

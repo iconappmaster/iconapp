@@ -403,8 +403,12 @@ class Router extends RouterBase {
       );
     },
     ConversationCodeScreen: (data) {
+      final args = data.getArgs<ConversationCodeScreenArguments>(nullOk: false);
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => ConversationCodeScreen(),
+        builder: (context) => ConversationCodeScreen(
+          key: args.key,
+          conversation: args.conversation,
+        ),
         settings: data,
       );
     },
@@ -603,8 +607,15 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
 
   Future<dynamic> pushCustomAd() => push<dynamic>(Routes.customAd);
 
-  Future<dynamic> pushConversationCodeScreen() =>
-      push<dynamic>(Routes.conversationCodeScreen);
+  Future<dynamic> pushConversationCodeScreen({
+    Key key,
+    @required Conversation conversation,
+  }) =>
+      push<dynamic>(
+        Routes.conversationCodeScreen,
+        arguments: ConversationCodeScreenArguments(
+            key: key, conversation: conversation),
+      );
 
   Future<dynamic> pushPremiumScreen() => push<dynamic>(Routes.premiumScreen);
 }
@@ -724,4 +735,11 @@ class SingleImageArguments {
   final Key key;
   final String url;
   SingleImageArguments({this.key, @required this.url});
+}
+
+/// ConversationCodeScreen arguments holder class
+class ConversationCodeScreenArguments {
+  final Key key;
+  final Conversation conversation;
+  ConversationCodeScreenArguments({this.key, @required this.conversation});
 }

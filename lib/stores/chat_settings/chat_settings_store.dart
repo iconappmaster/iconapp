@@ -99,7 +99,7 @@ abstract class _ChatSettingsStoreBase with Store {
       final conversation = await _settingsRepository.changeBackgroundColor(
           _chat.conversation.id, colorIndex);
       _chat.setConversation(conversation);
-      _home.updateConversation(conversation);
+      _home.setConversation(conversation);
       _selectedColor = conversation.backgroundColor;
     } on ServerError catch (e) {
       Crash.report(e.message);
@@ -190,7 +190,7 @@ abstract class _ChatSettingsStoreBase with Store {
 
       final conversation = await _settingsRepository.updateConversation(
           chatStore.conversation.id, Conversation(name: groupName));
-      _home.updateConversation(conversation);
+      _home.setConversation(conversation);
       chatStore.setConversation(conversation);
 
       analytics.sendConversationEvent(
@@ -211,7 +211,7 @@ abstract class _ChatSettingsStoreBase with Store {
         final conversation = await _settingsRepository.updateConversation(
             _chat.conversation.id,
             Conversation(backgroundPhoto: PhotoModel(url: url)));
-        _home.updateConversation(conversation);
+        _home.setConversation(conversation);
         _chat.setConversation(conversation);
         analytics.sendConversationEvent(
             SUBSCRIBED_TO_CONVERSATION, conversation.id);
@@ -233,7 +233,7 @@ abstract class _ChatSettingsStoreBase with Store {
           .copyWith(areNotificationsDisabled: _isNotificationDisabled);
 
       _chat.setConversation(conversation);
-      _home.updateConversation(conversation);
+      _home.setConversation(conversation);
 
       analytics.sendConversationEvent(
         _isNotificationDisabled

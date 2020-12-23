@@ -226,6 +226,26 @@ class _RestClient implements RestClient {
   }
 
   @override
+  Future<Conversation> verifyConversationCode(conversationId, code) async {
+    ArgumentError.checkNotNull(conversationId, 'conversationId');
+    ArgumentError.checkNotNull(code, 'code');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'entranceCode': code};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'conversations/$conversationId/entrance_code',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = Conversation.fromJson(_result.data);
+    return value;
+  }
+
+  @override
   Future<List<Conversation>> getConversationPopular() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

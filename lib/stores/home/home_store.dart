@@ -71,6 +71,9 @@ abstract class _HomeStoreBase with Store {
   @observable
   bool _showWelcomeDialog = true;
 
+  @observable
+  String conversationCode = '';
+
   @computed
   HomeFilterType get type => _type;
 
@@ -110,6 +113,11 @@ abstract class _HomeStoreBase with Store {
   @action
   void setFilterType(HomeFilterType type) {
     _type = type;
+  }
+
+  @action
+  void setConversationCode(String code) {
+    this.conversationCode = code;
   }
 
   @action
@@ -231,7 +239,7 @@ abstract class _HomeStoreBase with Store {
   }
 
   @action
-  void updateConversation(Conversation conversation) {
+  void setConversation(Conversation conversation) {
     final index = _conversations.indexWhere((c) => c.id == conversation.id);
     if (index != -1) _conversations[index] = conversation;
   }
@@ -283,6 +291,17 @@ abstract class _HomeStoreBase with Store {
     );
   }
 
+  @action
+  Future verifyConversationCode(int conversationId) async {
+    try {
+      final conversation = await _repository.verifyConversationCode(
+          conversationId, conversationCode);
+      setConversation(conversation);
+    } on DioError catch (e) {
+      Crash.report(e.message);
+    }
+  }
+
   void _reorderListWhereSubscribeAtTop(int index, Conversation conversation) {
     if (conversation.isSubscribed) {
       // if the conversation is piined just move it to the top
@@ -330,5 +349,6 @@ abstract class _HomeStoreBase with Store {
 
   void dispose() async {
     _conversationChangedSubscription?.cancel();
+    conversationCode = '';
   }
 }

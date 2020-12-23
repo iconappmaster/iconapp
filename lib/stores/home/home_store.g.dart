@@ -251,6 +251,21 @@ mixin _$HomeStore on _HomeStoreBase, Store {
     });
   }
 
+  final _$conversationCodeAtom = Atom(name: '_HomeStoreBase.conversationCode');
+
+  @override
+  String get conversationCode {
+    _$conversationCodeAtom.reportRead();
+    return super.conversationCode;
+  }
+
+  @override
+  set conversationCode(String value) {
+    _$conversationCodeAtom.reportWrite(value, super.conversationCode, () {
+      super.conversationCode = value;
+    });
+  }
+
   final _$getUserMediaAsyncAction = AsyncAction('_HomeStoreBase.getUserMedia');
 
   @override
@@ -300,6 +315,15 @@ mixin _$HomeStore on _HomeStoreBase, Store {
     return _$saveWelcomeSeenAsyncAction.run(() => super.saveWelcomeSeen());
   }
 
+  final _$verifyConversationCodeAsyncAction =
+      AsyncAction('_HomeStoreBase.verifyConversationCode');
+
+  @override
+  Future<dynamic> verifyConversationCode(int conversationId) {
+    return _$verifyConversationCodeAsyncAction
+        .run(() => super.verifyConversationCode(conversationId));
+  }
+
   final _$getCachedConversationByIdAsyncAction =
       AsyncAction('_HomeStoreBase.getCachedConversationById');
 
@@ -318,6 +342,17 @@ mixin _$HomeStore on _HomeStoreBase, Store {
         name: '_HomeStoreBase.setFilterType');
     try {
       return super.setFilterType(type);
+    } finally {
+      _$_HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setConversationCode(String code) {
+    final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
+        name: '_HomeStoreBase.setConversationCode');
+    try {
+      return super.setConversationCode(code);
     } finally {
       _$_HomeStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -379,11 +414,11 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   }
 
   @override
-  void updateConversation(Conversation conversation) {
+  void setConversation(Conversation conversation) {
     final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
-        name: '_HomeStoreBase.updateConversation');
+        name: '_HomeStoreBase.setConversation');
     try {
-      return super.updateConversation(conversation);
+      return super.setConversation(conversation);
     } finally {
       _$_HomeStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -447,6 +482,7 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   @override
   String toString() {
     return '''
+conversationCode: ${conversationCode},
 type: ${type},
 conversationSubscribed: ${conversationSubscribed},
 conversationPopular: ${conversationPopular},

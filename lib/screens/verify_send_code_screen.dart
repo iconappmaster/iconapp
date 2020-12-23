@@ -17,6 +17,7 @@ import 'package:easy_localization/easy_localization.dart';
 
 const welcomeTitle = 'ברוכים הבאים לתהליך ההזדהות כאייקון';
 const nextButton = 'שלחו לי את הקוד';
+// TODO change to english
 
 // This screen is a welcome screen that force the user to agree to our icon terms
 class VerifySendCodeScreen extends StatelessWidget {

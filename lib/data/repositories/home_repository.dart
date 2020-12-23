@@ -12,6 +12,7 @@ abstract class HomeRepository {
   Future<List<Conversation>> getConversations();
   Future<List<Conversation>> getConversationPopular();
   Future<List<Conversation>> getCachedHome();
+  Future<Conversation> verifyConversationCode(int converstaionId, String code);
   Future<List<String>> getVideoList();
   Future<List<MessageModel>> getMedia();
   Future<bool> saveHome(List<Conversation> conversation);
@@ -82,5 +83,11 @@ class HomeRepositoryImpl implements HomeRepository {
   @override
   Future<List<MessageModel>> getMedia() async {
     return await rest.getMedia();
+  }
+
+  @override
+  Future<Conversation> verifyConversationCode(
+      int conversationId, String code) async {
+    return await rest.verifyConversationCode(conversationId, code);
   }
 }
