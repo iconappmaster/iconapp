@@ -21,7 +21,7 @@ class StoryDurationPicker extends StatelessWidget {
         child: BackdropFilter(
           filter: ImageFilter.blur(
             sigmaX: 6.0,
-            sigmaY: 6.0,
+            sigmaY: 6.0
           ),
           child: Stack(
             alignment: Alignment.center,
@@ -51,7 +51,7 @@ class StoryDurationPicker extends StatelessWidget {
               Positioned(
                 top: 50,
                 child: CustomText(
-                  'משך הסיפור בשעות',
+                  LocaleKeys.story_storyDuration,
                   style: dialogTitle,
                 ),
               ),

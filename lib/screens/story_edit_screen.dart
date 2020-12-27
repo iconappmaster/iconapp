@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
@@ -23,7 +22,6 @@ import '../widgets/global/next_button.dart';
 import '../widgets/onboarding/base_onboarding_widget.dart';
 import '../core/extensions/context_ext.dart';
 import '../core/extensions/string_ext.dart';
-
 import 'full_video_screen.dart';
 
 final storyBorderRadius = BorderRadius.circular(22);
@@ -66,9 +64,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
           children: [
             AppBarWithDivider(
                 title: LocaleKeys.story_newStory.tr(),
-                subtitle: _edit.canPublish
-                    ? LocaleKeys.story_addExtraMedia.tr()
-                    : LocaleKeys.story_addMedia.tr()),
+                subtitle: _edit.canPublish ? LocaleKeys.story_addExtraMedia.tr() : LocaleKeys.story_addMedia.tr()),
             Positioned(
                 top: context.heightPlusStatusbarPerc(.142),
                 child: SizedBox(
@@ -86,29 +82,19 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                           final story = _edit.stories[index];
                           return GestureDetector(
                             onTap: () async {
-                              final description =
-                                  await ExtendedNavigator.of(context)
-                                      .pushMediaDescriptionScreen(
-                                          type: story.imageType == "photo"
-                                              ? MediaType.photo
-                                              : MediaType.video,
-                                          url: story.photo?.url ?? '');
+                              final description = await ExtendedNavigator.of(context).pushMediaDescriptionScreen(
+                                  type: story.imageType == "photo" ? MediaType.photo : MediaType.video,
+                                  url: story.photo?.url ?? '');
 
-                              _edit.updateStory(
-                                  story.copyWith(description: description));
+                              _edit.updateStory(story.copyWith(description: description));
                             },
                             child: Container(
-                              decoration: BoxDecoration(
-                                  color: white,
-                                  borderRadius: storyBorderRadius),
+                              decoration: BoxDecoration(color: white, borderRadius: storyBorderRadius),
                               child: Stack(
                                 fit: StackFit.expand,
                                 children: [
                                   Container(
-                                    child: story.imageType ==
-                                            MediaType.photo
-                                                .toString()
-                                                .parseEnum()
+                                    child: story.imageType == MediaType.photo.toString().parseEnum()
                                         ? ClipRRect(
                                             borderRadius: storyBorderRadius,
                                             child: NetworkPhoto(
@@ -116,10 +102,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                                             ))
                                         : ClipRRect(
                                             borderRadius: storyBorderRadius,
-                                            child: VideoScreen(
-                                                mute: true,
-                                                url: story.photo.url,
-                                                showToolbar: false),
+                                            child: VideoScreen(mute: true, url: story.photo.url, showToolbar: false),
                                           ),
                                   ),
                                   Positioned(
@@ -132,26 +115,19 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                                         ),
                                         onPressed: () async {
                                           final description =
-                                              await ExtendedNavigator.of(
-                                                      context)
-                                                  .pushMediaDescriptionScreen(
-                                            type: story.imageType == "photo"
-                                                ? MediaType.photo
-                                                : MediaType.video,
+                                              await ExtendedNavigator.of(context).pushMediaDescriptionScreen(
+                                            type: story.imageType == "photo" ? MediaType.photo : MediaType.video,
                                             url: story.photo?.url ?? '',
                                           );
 
-                                          _edit.updateStory(story.copyWith(
-                                              description: description));
+                                          _edit.updateStory(story.copyWith(description: description));
                                         },
                                       )),
                                   Positioned(
                                       right: 5,
                                       child: IconButton(
-                                        icon: Icon(Icons.close,
-                                            color: white, size: 22),
-                                        onPressed: () =>
-                                            _edit.deleteStory(story),
+                                        icon: Icon(Icons.close, color: white, size: 22),
+                                        onPressed: () => _edit.deleteStory(story),
                                       )),
                                   Align(
                                     alignment: Alignment.bottomCenter,
@@ -178,13 +154,9 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                     ))),
             AnimatedPositioned(
               duration: Duration(milliseconds: 250),
-              top: _edit.canPublish
-                  ? context.heightPlusStatusbarPerc(.42)
-                  : context.heightPlusStatusbarPerc(.323),
+              top: _edit.canPublish ? context.heightPlusStatusbarPerc(.42) : context.heightPlusStatusbarPerc(.323),
               child: GestureDetector(
-                onTap: () async => _edit.comporessing
-                    ? () {}
-                    : await _showBottomSheet(context),
+                onTap: () async => _edit.comporessing ? () {} : await _showBottomSheet(context),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -202,9 +174,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                         ),
                       Container(
                         decoration: BoxDecoration(
-                          color: _edit.comporessing
-                              ? Colors.grey[400]
-                              : cornflower,
+                          color: _edit.comporessing ? Colors.grey[400] : cornflower,
                           shape: BoxShape.circle,
                         ),
                         height: 67,
@@ -271,18 +241,14 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                 bottom: context.heightPlusStatusbarPerc(.2),
                 child: Column(
                   children: [
-                    CustomText(LocaleKeys.story_duration.tr(),
-                        style: dialogTitle),
+                    CustomText(LocaleKeys.story_duration.tr(), style: dialogTitle),
                     SizedBox(height: 3),
                     MaterialButton(
-                        onPressed: () async => Navigator.of(context).push(
-                            TransparentRoute(
-                                builder: (_) => StoryDurationPicker())),
+                        onPressed: () async =>
+                            Navigator.of(context).push(TransparentRoute(builder: (_) => StoryDurationPicker())),
                         child: Observer(
-                            builder: (_) => CustomText(
-                                _edit.storyDuration.toString(),
-                                style: settingsAppbarTitle.copyWith(
-                                    fontSize: 40))))
+                            builder: (_) => CustomText(_edit.storyDuration.toString(),
+                                style: settingsAppbarTitle.copyWith(fontSize: 40))))
                   ],
                 )),
           ],
@@ -303,20 +269,16 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
               child: Wrap(
                 children: <Widget>[
                   ListTile(
-                      leading: SvgPicture.asset('assets/images/camera.svg',
-                          height: 40, width: 40, color: white),
-                      title: Text(LocaleKeys.story_camera.tr(),
-                          style: settingsAppbarTitle),
+                      leading: SvgPicture.asset('assets/images/camera.svg', height: 40, width: 40, color: white),
+                      title: Text(LocaleKeys.story_camera.tr(), style: settingsAppbarTitle),
                       onTap: () async {
                         _edit.addPhotoMedia(ImageSource.camera);
                         await Navigator.pop(context);
                         await _animateEnd();
                       }),
                   ListTile(
-                      leading: SvgPicture.asset('assets/images/photo.svg',
-                          height: 40, width: 40, color: white),
-                      title: Text(LocaleKeys.story_gallery.tr(),
-                          style: settingsAppbarTitle),
+                      leading: SvgPicture.asset('assets/images/photo.svg', height: 40, width: 40, color: white),
+                      title: Text(LocaleKeys.story_gallery.tr(), style: settingsAppbarTitle),
                       onTap: () async {
                         _edit.addPhotoMedia(ImageSource.gallery);
                         await Navigator.pop(context);
@@ -324,8 +286,7 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                       }),
                   ListTile(
                       leading: Icon(Icons.videocam, color: white, size: 40),
-                      title: Text(LocaleKeys.story_videoGallery.tr(),
-                          style: settingsAppbarTitle),
+                      title: Text(LocaleKeys.story_videoCamera.tr(), style: settingsAppbarTitle),
                       onTap: () {
                         _edit.uploadVideo(ImageSource.camera);
                         Navigator.pop(context);

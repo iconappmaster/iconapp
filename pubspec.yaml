@@ -79,6 +79,8 @@ dev_dependencies:
   lint: ^1.2.0
   mobx_codegen: ^1.1.0+1
   retrofit_generator: ^1.4.0+2
+    
+
 
 
 flutter:

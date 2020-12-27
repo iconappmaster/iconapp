@@ -9,12 +9,15 @@
         "title": "תנאי שימוש"
     },
     "search": {
-        "empty_state": "We can't find, try typing something else.",
+        "empty_state": "Couldnt find what you searched",
         "showAll": "Show all",
-        "searchCategoryHint": "search category",
-        "serachIconHint": "search icon"
+        "category": "Search Category",
+        "icon": "Search Icon",
+        "iconHint": "Type Icon name",
+        "categoryHint": "Type category"
     },
     "general": {
+        "send": "Send",
         "server_error": "Server error, please try again",
         "iGotIt": "Got it",
         "cancel": "Cancel",
@@ -25,7 +28,7 @@
     "home": {
         "noMessages": "No Messages",
         "media": "media",
-        "conversation": "conversation"
+        "conversation": "conversations"
     },
     "onboarding": {
         "didCodeSent": "did you got the code?",
@@ -66,9 +69,9 @@
         "content": "Welcome to Icon! From now on, Icons you love are accessible to you anytime, anywhere. You can subscribe to their conversations and react with emoji’s and write comments."
     },
     "chat": {
-        "compressing" : "compressing",
-        "messageDeleted" : "Message deleted",
-        "deleteMessage" : "Delete message",
+        "compressing": "compressing",
+        "messageDeleted": "Message deleted",
+        "deleteMessage": "Delete message",
         "subsribe": "Subscribe conversation",
         "viewerPanel": "Only group managers can send a message",
         "join": "please subscribe before",
@@ -117,9 +120,10 @@
         "compressing": "Compressing video",
         "duration": "Story image duration",
         "videoGallery": "Video gallery",
-        "gallery": "Gallery",
-        "camera": "Camera",
-        "videoCamera": "Video camera"
+        "gallery": "Photo gallery",
+        "camera": "Take a photo",
+        "videoCamera": "Take a video",
+        "storyDuration": "Story Duration (hours)"
     },
     "drawer": {
         "groupActivity": "Statistics",
@@ -167,5 +171,11 @@
     "filter": {
         "foryou": "For You",
         "popular": "Popular"
+    },
+    "lock": {
+        "wrongCode": "קוד שגוי, נס/י שוב",
+        "title" : "כנס לשיחה",
+        "subtitle" : "זו קבוצה פרטית",
+        "content" : "הכנס את הקוד האישי שלך"
     }
 }

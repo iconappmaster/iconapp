@@ -26,6 +26,7 @@ const appName = 'Icon';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   Admob.initialize();
 
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -59,6 +60,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     init();
+
     _socket = sl<Socket>();
 
     // setup firebase listeners
@@ -135,7 +137,6 @@ class _MyAppState extends State<MyApp> {
         );
       },
     );
-    
   }
 
   @override

@@ -11,11 +11,12 @@ abstract class  LocaleKeys {
   static const policy = 'policy';
   static const search_empty_state = 'search.empty_state';
   static const search_showAll = 'search.showAll';
-  static const search_searchCategory = 'search.searchCategory';
-  static const search_searchIcon = 'search.searchIcon';
-  static const search_serachIconHint = 'search.serachIconHint';
-  static const search_searchCategoryHint = 'search.searchCategoryHint';
+  static const search_category = 'search.category';
+  static const search_icon = 'search.icon';
+  static const search_iconHint = 'search.iconHint';
+  static const search_categoryHint = 'search.categoryHint';
   static const search = 'search';
+  static const general_send = 'general.send';
   static const general_server_error = 'general.server_error';
   static const general_iGotIt = 'general.iGotIt';
   static const general_cancel = 'general.cancel';
@@ -112,6 +113,7 @@ abstract class  LocaleKeys {
   static const story_gallery = 'story.gallery';
   static const story_camera = 'story.camera';
   static const story_videoCamera = 'story.videoCamera';
+  static const story_storyDuration = 'story.storyDuration';
   static const story = 'story';
   static const drawer_groupActivity = 'drawer.groupActivity';
   static const drawer_disconnect = 'drawer.disconnect';
@@ -143,6 +145,8 @@ abstract class  LocaleKeys {
   static const verify_nextButton = 'verify.nextButton';
   static const verify_noCode = 'verify.noCode';
   static const verify_sendAgain = 'verify.sendAgain';
+  static const verify_welcome = 'verify.welcome';
+  static const verify_button = 'verify.button';
   static const verify = 'verify';
   static const fab_create = 'fab.create';
   static const fab_media = 'fab.media';
@@ -152,5 +156,10 @@ abstract class  LocaleKeys {
   static const filter_foryou = 'filter.foryou';
   static const filter_popular = 'filter.popular';
   static const filter = 'filter';
+  static const lock_wrongCode = 'lock.wrongCode';
+  static const lock_title = 'lock.title';
+  static const lock_subtitle = 'lock.subtitle';
+  static const lock_content = 'lock.content';
+  static const lock = 'lock';
 
 }

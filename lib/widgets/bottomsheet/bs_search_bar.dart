@@ -12,8 +12,7 @@ class SearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = sl<SearchStore>();
-    final transparentBorder =
-        UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent));
+    final transparentBorder = UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent));
     return Observer(
       builder: (_) => Container(
         color: white,
@@ -25,8 +24,7 @@ class SearchBar extends StatelessWidget {
             color: white,
             child: Row(
               children: <Widget>[
-                SvgPicture.asset('assets/images/search_icon.svg',
-                    height: 30, width: 30),
+                SvgPicture.asset('assets/images/search_icon.svg', height: 30, width: 30),
                 SizedBox(width: 15),
                 Expanded(
                   child: Material(
@@ -39,8 +37,8 @@ class SearchBar extends StatelessWidget {
                         border: transparentBorder,
                         focusedBorder: transparentBorder,
                         hintText: store.getSearchMode == SearchMode.categories
-                            ? LocaleKeys.search_searchCategoryHint.tr()
-                            : LocaleKeys.search_serachIconHint.tr(),
+                            ? LocaleKeys.search_categoryHint.tr()
+                            : LocaleKeys.search_iconHint.tr(),
                         hintStyle: hint,
                       ),
                     ),

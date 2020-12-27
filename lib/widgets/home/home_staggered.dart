@@ -40,36 +40,31 @@ class HomeStaggered extends StatelessWidget {
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) => StaggeredGridView.countBuilder(
-        staggeredTileBuilder: (int index) => StaggeredTile.count(2,
-            home.conversations[index]?.media?.mediaType == typeVideo ? 3 : 2),
+        staggeredTileBuilder: (int index) =>
+            StaggeredTile.count(2, home.conversations[index]?.media?.mediaType == typeVideo ? 3 : 2),
         crossAxisCount: 4,
-        itemCount: home.filterType == HomeFilterType.forYou
-            ? home.conversations.length
-            : home.conversationPopular.length,
+        itemCount:
+            home.filterType == HomeFilterType.forYou ? home.conversations.length : home.conversationPopular.length,
         mainAxisSpacing: 4.0,
         crossAxisSpacing: 4.0,
         physics: BouncingScrollPhysics(),
         padding: EdgeInsets.only(bottom: 100),
         itemBuilder: (BuildContext context, int index) {
-          final conversation = home.filterType == HomeFilterType.forYou
-              ? home.conversations[index]
-              : home.conversationPopular[index];
+          final conversation =
+              home.filterType == HomeFilterType.forYou ? home.conversations[index] : home.conversationPopular[index];
 
           switch (conversation?.media?.mediaType) {
             case typePhoto:
               return GestureDetector(
-                  onTap: () => _onTap(conversation, index),
-                  child: StaggeredPhotoTile(conversation: conversation));
+                  onTap: () => _onTap(conversation, index), child: StaggeredPhotoTile(conversation: conversation));
 
             case typeVideo:
               return GestureDetector(
-                  onTap: () => _onTap(conversation, index),
-                  child: StaggeredVideoTile(conversation: conversation));
+                  onTap: () => _onTap(conversation, index), child: StaggeredVideoTile(conversation: conversation));
 
             default:
               return GestureDetector(
-                  onTap: () => _onTap(conversation, index),
-                  child: StaggeredPhotoTile(conversation: conversation));
+                  onTap: () => _onTap(conversation, index), child: StaggeredPhotoTile(conversation: conversation));
           }
         },
       ),
@@ -109,9 +104,7 @@ class StaggeredPhotoTile extends StatelessWidget {
             fit: StackFit.expand,
             children: [
               if (conversation?.media?.mediaUrl != null)
-                CachedNetworkImage(
-                    imageUrl: conversation?.media?.mediaUrl ?? '',
-                    fit: BoxFit.cover),
+                CachedNetworkImage(imageUrl: conversation?.media?.mediaUrl ?? '', fit: BoxFit.cover),
               StaggeredOverlay(conversation: conversation),
             ],
           ),
@@ -124,8 +117,7 @@ class StaggeredPhotoTile extends StatelessWidget {
 class StaggeredOverlay extends StatelessWidget {
   final Conversation conversation;
 
-  const StaggeredOverlay({Key key, @required this.conversation})
-      : super(key: key);
+  const StaggeredOverlay({Key key, @required this.conversation}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -148,30 +140,46 @@ class StaggeredOverlay extends StatelessWidget {
               CustomText(conversation?.name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: newMessageNumber.copyWith(
-                      fontWeight: FontWeight.bold, fontSize: 12))
+                  style: newMessageNumber.copyWith(fontWeight: FontWeight.bold, fontSize: 12))
             ])),
         Align(
             alignment: Alignment.topCenter,
             child: RotatedBox(
-                quarterTurns: 2,
-                child: Container(
-                    height: 40,
-                    decoration: BoxDecoration(gradient: staggeredGradient)))),
-        if (conversation.isSubscribed)
-          Positioned(
-              top: 8,
-              left: 8,
-              child: RoundIcon(asset: 'assets/images/bell.svg')),
+                quarterTurns: 2, child: Container(height: 40, decoration: BoxDecoration(gradient: staggeredGradient)))),
+        if (conversation.conversationType == ConversationType.private_code && !conversation.isAllowedIn) HomeTileLock(),
+        if (conversation.isSubscribed) Positioned(top: 8, left: 8, child: RoundIcon(asset: 'assets/images/bell.svg')),
         if (conversation?.areNotificationsDisabled)
-          Positioned(
-              top: 6,
-              left: 30,
-              child: SvgPicture.asset('assets/images/mute.svg',
-                  height: 25, width: 25)),
+          Positioned(top: 6, left: 30, child: SvgPicture.asset('assets/images/mute.svg', height: 25, width: 25)),
         StaggeredMenu(conversation: conversation),
       ],
     );
+  }
+}
+
+class HomeTileLock extends StatelessWidget {
+  const HomeTileLock({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: Container(
+            height: 60,
+            width: 60,
+            decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.black54.withOpacity(.3)),
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: BackdropFilter(
+                    filter: ImageFilter.blur(
+                      sigmaX: 10.0,
+                      sigmaY: 10.0,
+                    ),
+                    child: Icon(
+                      Icons.lock,
+                      color: Colors.white,
+                      size: 20,
+                    )))));
   }
 }
 
@@ -209,8 +217,7 @@ class StaggeredMenu extends StatelessWidget {
                                   size: 30,
                                   color: white,
                                 ),
-                                title: Text(LocaleKeys.archive_slide.tr(),
-                                    style: settingsAppbarTitle),
+                                title: Text(LocaleKeys.archive_slide.tr(), style: settingsAppbarTitle),
                                 onTap: () async {
                                   archive.archiveConversation(conversation.id);
                                   Navigator.pop(context);
@@ -268,8 +275,7 @@ class _StaggeredVideoTileState extends State<StaggeredVideoTile> {
             fit: StackFit.expand,
             children: [
               StreamBuilder<FileResponse>(
-                  stream: DefaultCacheManager().getFileStream(
-                      widget.conversation?.media?.mediaUrl ?? ''),
+                  stream: DefaultCacheManager().getFileStream(widget.conversation?.media?.mediaUrl ?? ''),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       final event = snapshot.data;

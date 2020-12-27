@@ -9,6 +9,13 @@ part of 'home_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$HomeStore on _HomeStoreBase, Store {
+  Computed<String> _$conversationCodeComputed;
+
+  @override
+  String get conversationCode => (_$conversationCodeComputed ??=
+          Computed<String>(() => super.conversationCode,
+              name: '_HomeStoreBase.conversationCode'))
+      .value;
   Computed<HomeFilterType> _$typeComputed;
 
   @override
@@ -251,18 +258,19 @@ mixin _$HomeStore on _HomeStoreBase, Store {
     });
   }
 
-  final _$conversationCodeAtom = Atom(name: '_HomeStoreBase.conversationCode');
+  final _$_conversationCodeAtom =
+      Atom(name: '_HomeStoreBase._conversationCode');
 
   @override
-  String get conversationCode {
-    _$conversationCodeAtom.reportRead();
-    return super.conversationCode;
+  String get _conversationCode {
+    _$_conversationCodeAtom.reportRead();
+    return super._conversationCode;
   }
 
   @override
-  set conversationCode(String value) {
-    _$conversationCodeAtom.reportWrite(value, super.conversationCode, () {
-      super.conversationCode = value;
+  set _conversationCode(String value) {
+    _$_conversationCodeAtom.reportWrite(value, super._conversationCode, () {
+      super._conversationCode = value;
     });
   }
 
@@ -319,7 +327,7 @@ mixin _$HomeStore on _HomeStoreBase, Store {
       AsyncAction('_HomeStoreBase.verifyConversationCode');
 
   @override
-  Future<dynamic> verifyConversationCode(int conversationId) {
+  Future<bool> verifyConversationCode(int conversationId) {
     return _$verifyConversationCodeAsyncAction
         .run(() => super.verifyConversationCode(conversationId));
   }

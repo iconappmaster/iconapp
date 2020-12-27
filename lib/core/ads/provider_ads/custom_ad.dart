@@ -21,7 +21,7 @@ class _CustomAdState extends State<CustomAd> {
     initAd();
 
     Future.delayed(
-        Duration(seconds: 4), () => ExtendedNavigator.of(context).pop());
+        Duration(seconds: 3), () => ExtendedNavigator.of(context).pop());
    
    super.initState();
   }

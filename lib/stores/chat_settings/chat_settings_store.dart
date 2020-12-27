@@ -55,15 +55,16 @@ abstract class _ChatSettingsStoreBase with Store {
   bool get isLoadig => _isLoading || _mediaStore.loading;
 
   @computed
-  String get code =>
-      'Conversation code: ${434234}';
+  String get codeFormatted => 'Conversation code: ${_chat?.conversation?.entranceCode ?? 0}';
+
+  @computed
+  int get code => _chat?.conversation?.entranceCode ?? 0;
 
   @computed
   int get selectedColor => _selectedColor;
 
   @computed
-  String get getConversationPhoto =>
-      _chat.conversation?.backgroundPhoto?.url ?? '';
+  String get getConversationPhoto => _chat.conversation?.backgroundPhoto?.url ?? '';
 
   @computed
   String get getConversationName => _chat.conversation.name;
@@ -96,8 +97,7 @@ abstract class _ChatSettingsStoreBase with Store {
   Future changeBackground(int colorIndex) async {
     try {
       _isLoading = true;
-      final conversation = await _settingsRepository.changeBackgroundColor(
-          _chat.conversation.id, colorIndex);
+      final conversation = await _settingsRepository.changeBackgroundColor(_chat.conversation.id, colorIndex);
       _chat.setConversation(conversation);
       _home.setConversation(conversation);
       _selectedColor = conversation.backgroundColor;
@@ -188,13 +188,12 @@ abstract class _ChatSettingsStoreBase with Store {
       final chatStore = sl<ChatStore>();
       _isLoading = true;
 
-      final conversation = await _settingsRepository.updateConversation(
-          chatStore.conversation.id, Conversation(name: groupName));
+      final conversation =
+          await _settingsRepository.updateConversation(chatStore.conversation.id, Conversation(name: groupName));
       _home.setConversation(conversation);
       chatStore.setConversation(conversation);
 
-      analytics.sendConversationEvent(
-          CHANGED_NAME_CONVERSATION, conversation.id);
+      analytics.sendConversationEvent(CHANGED_NAME_CONVERSATION, conversation.id);
     } on ServerError catch (e) {
       Crash.report(e.message);
     } finally {
@@ -209,12 +208,10 @@ abstract class _ChatSettingsStoreBase with Store {
       if (url.isNotEmpty) {
         _isLoading = true;
         final conversation = await _settingsRepository.updateConversation(
-            _chat.conversation.id,
-            Conversation(backgroundPhoto: PhotoModel(url: url)));
+            _chat.conversation.id, Conversation(backgroundPhoto: PhotoModel(url: url)));
         _home.setConversation(conversation);
         _chat.setConversation(conversation);
-        analytics.sendConversationEvent(
-            SUBSCRIBED_TO_CONVERSATION, conversation.id);
+        analytics.sendConversationEvent(SUBSCRIBED_TO_CONVERSATION, conversation.id);
       }
     } on ServerError catch (e) {
       Crash.report(e.message);
@@ -227,18 +224,14 @@ abstract class _ChatSettingsStoreBase with Store {
   Future setNotification(bool value) async {
     try {
       _isNotificationDisabled = value;
-      _isNotificationDisabled = await _settingsRepository.setNotification(
-          _chat.conversation.id, value);
-      final conversation = _chat.conversation
-          .copyWith(areNotificationsDisabled: _isNotificationDisabled);
+      _isNotificationDisabled = await _settingsRepository.setNotification(_chat.conversation.id, value);
+      final conversation = _chat.conversation.copyWith(areNotificationsDisabled: _isNotificationDisabled);
 
       _chat.setConversation(conversation);
       _home.setConversation(conversation);
 
       analytics.sendConversationEvent(
-        _isNotificationDisabled
-            ? TURNED_OFF_NOTIFICATIONS_FOR_CONVERSATION
-            : TURNED_ON_NOTIFICATIONS_FOR_CONVERSATION,
+        _isNotificationDisabled ? TURNED_OFF_NOTIFICATIONS_FOR_CONVERSATION : TURNED_ON_NOTIFICATIONS_FOR_CONVERSATION,
         _isNotificationDisabled ? 0 : 1,
       );
     } on ServerError catch (e) {

@@ -40,6 +40,7 @@ abstract class Conversation with _$Conversation {
     final UserRole userRole,
     final ConversationType conversationType,
     final ConversationMedia media,
+    final int entranceCode,
     final bool isAllowedIn,
   }) = _Conversation;
 

@@ -180,7 +180,7 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
               left: 100,
               top: 175,
               child: CustomText(
-                'מקבץ סרטון',
+                'Compressing',
                 style: flushbar,
               ),
             ),

@@ -23,12 +23,12 @@ import '../screens/alerts_screen.dart';
 import '../screens/archive_screen.dart';
 import '../screens/chat_screen.dart';
 import '../screens/chat_settings_screen.dart';
-import '../screens/conversation_code_screen.dart';
 import '../screens/create_categories_screen.dart';
 import '../screens/create_details_screen.dart';
 import '../screens/create_icons_screen.dart';
 import '../screens/full_video_screen.dart';
 import '../screens/home_screen.dart';
+import '../screens/lock_screen.dart';
 import '../screens/login_screen.dart';
 import '../screens/main_navigator.dart';
 import '../screens/media_descrioption_screen.dart';
@@ -80,7 +80,7 @@ class Routes {
   static const String verifyInstagramScreen = '/verify-instagram-screen';
   static const String archiveScreen = '/archive-screen';
   static const String customAd = '/custom-ad';
-  static const String conversationCodeScreen = '/conversation-code-screen';
+  static const String lockScreen = '/lock-screen';
   static const String premiumScreen = '/premium-screen';
   static const all = <String>{
     mainNavigator,
@@ -113,7 +113,7 @@ class Routes {
     verifyInstagramScreen,
     archiveScreen,
     customAd,
-    conversationCodeScreen,
+    lockScreen,
     premiumScreen,
   };
 }
@@ -152,7 +152,7 @@ class Router extends RouterBase {
     RouteDef(Routes.verifyInstagramScreen, page: VerifyInstagramScreen),
     RouteDef(Routes.archiveScreen, page: ArchiveScreen),
     RouteDef(Routes.customAd, page: CustomAd),
-    RouteDef(Routes.conversationCodeScreen, page: ConversationCodeScreen),
+    RouteDef(Routes.lockScreen, page: LockScreen),
     RouteDef(Routes.premiumScreen, page: PremiumScreen),
   ];
   @override
@@ -402,10 +402,10 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    ConversationCodeScreen: (data) {
-      final args = data.getArgs<ConversationCodeScreenArguments>(nullOk: false);
+    LockScreen: (data) {
+      final args = data.getArgs<LockScreenArguments>(nullOk: false);
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => ConversationCodeScreen(
+        builder: (context) => LockScreen(
           key: args.key,
           conversation: args.conversation,
         ),
@@ -607,14 +607,13 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
 
   Future<dynamic> pushCustomAd() => push<dynamic>(Routes.customAd);
 
-  Future<dynamic> pushConversationCodeScreen({
+  Future<dynamic> pushLockScreen({
     Key key,
     @required Conversation conversation,
   }) =>
       push<dynamic>(
-        Routes.conversationCodeScreen,
-        arguments: ConversationCodeScreenArguments(
-            key: key, conversation: conversation),
+        Routes.lockScreen,
+        arguments: LockScreenArguments(key: key, conversation: conversation),
       );
 
   Future<dynamic> pushPremiumScreen() => push<dynamic>(Routes.premiumScreen);
@@ -737,9 +736,9 @@ class SingleImageArguments {
   SingleImageArguments({this.key, @required this.url});
 }
 
-/// ConversationCodeScreen arguments holder class
-class ConversationCodeScreenArguments {
+/// LockScreen arguments holder class
+class LockScreenArguments {
   final Key key;
   final Conversation conversation;
-  ConversationCodeScreenArguments({this.key, @required this.conversation});
+  LockScreenArguments({this.key, @required this.conversation});
 }

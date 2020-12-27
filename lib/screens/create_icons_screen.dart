@@ -66,12 +66,9 @@ class _SelectIconScreenState extends State<SelectIconScreen> {
                 children: <Widget>[
                   AppBarWithDivider(
                       isArrowDirectionDown: true,
-                      title: isFromChat
-                          ? LocaleKeys.create_addUser.tr()
-                          : LocaleKeys.create_newGroupTitle.tr(),
-                      subtitle: isFromChat
-                          ? LocaleKeys.create_chooseUserToGroup.tr()
-                          : LocaleKeys.create_iconSubtitle.tr()),
+                      title: isFromChat ? LocaleKeys.create_addUser.tr() : LocaleKeys.create_newGroupTitle.tr(),
+                      subtitle:
+                          isFromChat ? LocaleKeys.create_chooseUserToGroup.tr() : LocaleKeys.create_iconSubtitle.tr()),
                   SizedBox(height: 23),
                   SearchBar(),
                   Expanded(
@@ -108,8 +105,7 @@ class _SelectIconScreenState extends State<SelectIconScreen> {
                     asset: 'assets/images/go_arrow.svg',
                     isValid: store.isValid,
                     validationText: LocaleKeys.create_iconValidation.tr(),
-                    onTap: () => ExtendedNavigator.of(context)
-                        .pushCreateCategoryScreen()),
+                    onTap: () => ExtendedNavigator.of(context).pushCreateCategoryScreen()),
               Observer(
                 builder: (_) => Visibility(
                   visible: store.isLoading,
@@ -148,12 +144,12 @@ class SearchBar extends StatelessWidget {
                       enabledBorder: transparentBorder,
                       border: transparentBorder,
                       focusedBorder: transparentBorder,
-                      hintText:
-                      
-                       store.getSearchMode == SearchMode.categories
-                          ? LocaleKeys.search_searchCategoryHint.tr()
-                          : LocaleKeys.search_searchIcon.tr(),
-                      hintStyle: flushbar,
+                      hintText: store.getSearchMode == SearchMode.categories
+                          ? LocaleKeys.search_categoryHint.tr()
+                          : LocaleKeys.search_iconHint.tr(),
+                      hintStyle: flushbar.copyWith(
+                        color: white.withOpacity(.4),
+                      ),
                     ),
                   ),
                 ),

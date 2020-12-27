@@ -34,11 +34,10 @@ class _MainNavigatorState extends State<MainNavigator> {
   Future init() async {
     if (auth.isSignedIn) {
       await user.init();
-      await home.getConversations();
-
       if (!ad.addShown) {
-        await ExtendedNavigator.of(context).pushCustomAd();
+        ExtendedNavigator.of(context).pushCustomAd();
       }
+      await home.getConversations();
 
       _sendAnalytics();
     }

@@ -54,8 +54,7 @@ class CreateIconTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.only(bottom: 18.0),
-        child: CustomText(LocaleKeys.create_groupNameDescription.tr(),
-            style: fieldLabel));
+        child: CustomText(LocaleKeys.create_groupNameDescription.tr(), style: fieldLabel));
   }
 }
 
@@ -69,37 +68,32 @@ class CreateGroupNavigate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      bottom: 25,
-      child: FloatingActionButton(
-          heroTag: 'fab1',
-          child: RotatedBox(
-              quarterTurns: language.isLTR ? 2 : 0,
-              child: SvgPicture.asset('assets/images/go_arrow.svg',
-                  height: 16.3, width: 16.3)),
-          backgroundColor: store.isLoading ? whiteOpacity30 : cornflower,
-          onPressed: () async {
-            if (store.getSelectedPhoto.isEmpty) {
-              await context.showFlushbar(
-                  color: uiTintColorFill,
-                  message: LocaleKeys.create_addPhotoMandatory.tr());
-            }
+    return Observer(
+      builder: (_) => Positioned(
+        bottom: 25,
+        child: FloatingActionButton(
+            heroTag: 'fab1',
+            child: RotatedBox(
+                quarterTurns: language.isLTR ? 2 : 0,
+                child: SvgPicture.asset('assets/images/go_arrow.svg', height: 16.3, width: 16.3)),
+            backgroundColor: store.isLoading ? whiteOpacity30 : cornflower,
+            onPressed: () async {
+              if (store.getSelectedPhoto.isEmpty) {
+                await context.showFlushbar(color: uiTintColorFill, message: LocaleKeys.create_addPhotoMandatory.tr());
+              }
 
-            if (store.groupName.isNotEmpty &&
-                store.getSelectedPhoto.isNotEmpty &&
-                !store.isLoading) {
-              await _handleSuccess(store, context);
-            }
-          }),
+              if (store.groupName.isNotEmpty && store.getSelectedPhoto.isNotEmpty && !store.isLoading) {
+                await _handleSuccess(store, context);
+              }
+            }),
+      ),
     );
   }
 
   Future _handleSuccess(CreateDetailsStore store, BuildContext context) async {
     final res = await store.createGroup();
-    res.fold((e) => context.showFlushbar(message: '${store.groupName} קיימת'),
-        (s) async {
-      await context.showFlushbar(
-          color: uiTintColorFill, message: '${store.groupName} נוצרה');
+    res.fold((e) => context.showFlushbar(message: '${store.groupName} קיימת'), (s) async {
+      await context.showFlushbar(color: uiTintColorFill, message: '${store.groupName} נוצרה');
       ExtendedNavigator.of(context).popUntilPath(Routes.mainNavigator);
     });
   }
@@ -163,9 +157,9 @@ class ConversationType extends StatelessWidget {
           SizedBox(height: 28),
           CupertinoSlidingSegmentedControl(
               thumbColor: cornflower,
-              groupValue: store.currentGroupTypeIndex,
+              groupValue: store?.currentGroupTypeIndex,
               children: _conversationTypes(),
-              onValueChanged: (v) => store.setGroupType(v)),
+              onValueChanged: (index) => store.setGroupType(index)),
         ],
       ),
     );
@@ -174,6 +168,6 @@ class ConversationType extends StatelessWidget {
   Map<int, Widget> _conversationTypes() => {
         0: CustomText('Public', style: chatMessageName),
         1: CustomText('Password', style: chatMessageName),
-        2: CustomText('Premium', style: chatMessageName),
+        // 2: CustomText('Premium', style: chatMessageName),
       };
 }

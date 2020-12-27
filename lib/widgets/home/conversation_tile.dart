@@ -17,6 +17,8 @@ import 'conversation_last_message.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:iconapp/widgets/global/timeago.dart' as time;
 
+import 'home_staggered.dart';
+
 const double _indicatorSize = 22;
 
 class ConversationTile extends StatelessWidget {
@@ -31,8 +33,7 @@ class ConversationTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final messageDate = DateTime.fromMillisecondsSinceEpoch(
-        (conversation?.lastMessage?.timestamp ?? 0) * 1000);
+    final messageDate = DateTime.fromMillisecondsSinceEpoch((conversation?.lastMessage?.timestamp ?? 0) * 1000);
 
     return Slidable(
       actionPane: SlidableDrawerActionPane(),
@@ -61,6 +62,8 @@ class ConversationTile extends StatelessWidget {
               ),
               child: Row(
                 children: [
+                  if (conversation.conversationType == ConversationType.private_code && !conversation.isAllowedIn)
+                    HomeTileLock(),
                   WhiteCircle(
                     widget: NetworkPhoto(
                         placeHolder: 'assets/images/group_placeholder.svg',
@@ -77,14 +80,11 @@ class ConversationTile extends StatelessWidget {
                         conversation.name,
                         style: nameWhite,
                         maxLines: 1,
-                        textAlign: language.direction == LanguageDirection.ltr
-                            ? TextAlign.left
-                            : TextAlign.right,
+                        textAlign: language.direction == LanguageDirection.ltr ? TextAlign.left : TextAlign.right,
                       ),
                       SizedBox(width: 5),
                       conversation?.lastMessage != null
-                          ? HomeTileConversationMessage(
-                              model: conversation?.lastMessage)
+                          ? HomeTileConversationMessage(model: conversation?.lastMessage)
                           : CustomText(LocaleKeys.home_noMessages.tr(),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -95,20 +95,12 @@ class ConversationTile extends StatelessWidget {
                   Expanded(
                     child: Column(
                       children: [
-                        if ((messageDate.difference(DateTime.now()).inDays)
-                                .abs() <
-                            1)
+                        if ((messageDate.difference(DateTime.now()).inDays).abs() < 1)
                           CustomText(
                               time.format(
-                                DateTime.fromMillisecondsSinceEpoch(
-                                    (conversation?.lastMessage?.timestamp ??
-                                            0) *
-                                        1000),
-                                locale:
-                                    language.direction == LanguageDirection.ltr
-                                        ? 'en'
-                                        : 'he',
-                              ),
+                                  DateTime.fromMillisecondsSinceEpoch(
+                                      (conversation?.lastMessage?.timestamp ?? 0) * 1000),
+                                  locale: language.direction == LanguageDirection.ltr ? 'en' : 'he'),
                               textAlign: language.textAlign,
                               style: timeOfMessage),
                         SizedBox(height: 8),
@@ -121,8 +113,7 @@ class ConversationTile extends StatelessWidget {
                                 height: _indicatorSize,
                                 width: _indicatorSize,
                               ),
-                            if (conversation.isSubscribed)
-                              RoundIcon(asset: 'assets/images/bell.svg'),
+                            if (conversation.isSubscribed) RoundIcon(asset: 'assets/images/bell.svg'),
                           ],
                         ),
                       ],
@@ -141,8 +132,7 @@ class ConversationTile extends StatelessWidget {
 class RoundIcon extends StatelessWidget {
   final String asset;
 
-  const RoundIcon({Key key, this.asset = 'assets/images/pin.svg'})
-      : super(key: key);
+  const RoundIcon({Key key, this.asset = 'assets/images/pin.svg'}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(

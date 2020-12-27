@@ -49,6 +49,7 @@ _$_Conversation _$_$_ConversationFromJson(Map<String, dynamic> json) {
     media: json['media'] == null
         ? null
         : ConversationMedia.fromJson(json['media'] as Map<String, dynamic>),
+    entranceCode: json['entranceCode'] as int,
     isAllowedIn: json['isAllowedIn'] as bool,
   );
 }
@@ -79,6 +80,7 @@ Map<String, dynamic> _$_$_ConversationToJson(_$_Conversation instance) =>
       'userRole': _$UserRoleEnumMap[instance.userRole],
       'conversationType': _$ConversationTypeEnumMap[instance.conversationType],
       'media': instance.media,
+      'entranceCode': instance.entranceCode,
       'isAllowedIn': instance.isAllowedIn,
     };
 

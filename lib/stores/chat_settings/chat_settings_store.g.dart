@@ -30,11 +30,18 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
       (_$isLoadigComputed ??= Computed<bool>(() => super.isLoadig,
               name: '_ChatSettingsStoreBase.isLoadig'))
           .value;
-  Computed<String> _$codeComputed;
+  Computed<String> _$codeFormattedComputed;
 
   @override
-  String get code => (_$codeComputed ??= Computed<String>(() => super.code,
-          name: '_ChatSettingsStoreBase.code'))
+  String get codeFormatted =>
+      (_$codeFormattedComputed ??= Computed<String>(() => super.codeFormatted,
+              name: '_ChatSettingsStoreBase.codeFormatted'))
+          .value;
+  Computed<int> _$codeComputed;
+
+  @override
+  int get code => (_$codeComputed ??=
+          Computed<int>(() => super.code, name: '_ChatSettingsStoreBase.code'))
       .value;
   Computed<int> _$selectedColorComputed;
 
@@ -262,6 +269,7 @@ mixin _$ChatSettingsStore on _ChatSettingsStoreBase, Store {
 isNotificationDisabled: ${isNotificationDisabled},
 showUnsubscribeButton: ${showUnsubscribeButton},
 isLoadig: ${isLoadig},
+codeFormatted: ${codeFormatted},
 code: ${code},
 selectedColor: ${selectedColor},
 getConversationPhoto: ${getConversationPhoto},

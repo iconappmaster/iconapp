@@ -29,9 +29,7 @@ abstract class _HomeStoreBase with Store {
     _shouldShowWelcomeDialog();
 
     if (_sp.contains(StorageKey.homeViewMode)) {
-      _viewMode = (_sp.getString(StorageKey.homeViewMode) == 'list'
-          ? ViewHomeMode.list
-          : ViewHomeMode.staggered);
+      _viewMode = (_sp.getString(StorageKey.homeViewMode) == 'list' ? ViewHomeMode.list : ViewHomeMode.staggered);
     } else {
       _viewMode = ViewHomeMode.staggered;
     }
@@ -72,7 +70,10 @@ abstract class _HomeStoreBase with Store {
   bool _showWelcomeDialog = true;
 
   @observable
-  String conversationCode = '';
+  String _conversationCode = '';
+
+  @computed
+  String get conversationCode => _conversationCode;
 
   @computed
   HomeFilterType get type => _type;
@@ -117,7 +118,7 @@ abstract class _HomeStoreBase with Store {
 
   @action
   void setConversationCode(String code) {
-    this.conversationCode = code;
+    _conversationCode = code;
   }
 
   @action
@@ -159,8 +160,7 @@ abstract class _HomeStoreBase with Store {
       final messages = (_conversations[index].messages);
       messages.removeWhere((m) => m.id == messageId);
 
-      _conversations[index] =
-          _conversations[index].copyWith(messages: messages);
+      _conversations[index] = _conversations[index].copyWith(messages: messages);
     }
   }
 
@@ -292,13 +292,17 @@ abstract class _HomeStoreBase with Store {
   }
 
   @action
-  Future verifyConversationCode(int conversationId) async {
+  Future<bool> verifyConversationCode(int conversationId) async {
     try {
-      final conversation = await _repository.verifyConversationCode(
-          conversationId, conversationCode);
+      _loading = true;
+      final conversation = await _repository.verifyConversationCode(conversationId, conversationCode);
       setConversation(conversation);
+      return true;
     } on DioError catch (e) {
       Crash.report(e.message);
+      return false;
+    } finally {
+      _loading = false;
     }
   }
 
@@ -311,14 +315,14 @@ abstract class _HomeStoreBase with Store {
     } else {
       // if conversation is not pinned then relocate it under all the pinned
       // ones.
-      final subscribedConversationAmount =
-          _conversations.where((c) => c.isSubscribed).length;
+      final subscribedConversationAmount = _conversations.where((c) => c.isSubscribed).length;
 
       _conversations
         ..removeAt(index)
         ..insert(
-            subscribedConversationAmount > 0 ? subscribedConversationAmount : 0,
-            conversation);
+          subscribedConversationAmount > 0 ? subscribedConversationAmount : 0,
+          conversation,
+        );
     }
   }
 
@@ -331,9 +335,7 @@ abstract class _HomeStoreBase with Store {
 
   @action
   void switchViewMode() {
-    _viewMode = _viewMode == ViewHomeMode.staggered
-        ? ViewHomeMode.list
-        : ViewHomeMode.staggered;
+    _viewMode = _viewMode == ViewHomeMode.staggered ? ViewHomeMode.list : ViewHomeMode.staggered;
   }
 
   @action
@@ -349,6 +351,6 @@ abstract class _HomeStoreBase with Store {
 
   void dispose() async {
     _conversationChangedSubscription?.cancel();
-    conversationCode = '';
+    
   }
 }

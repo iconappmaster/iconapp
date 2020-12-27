@@ -47,9 +47,7 @@ class _ChatSettingsScreenState extends State<ChatSettingsScreen> {
         slivers: <Widget>[
           Observer(
             builder: (_) => SliverPersistentHeader(
-              delegate: ChatSettingsAppBar(
-                  url: settings.getConversationPhoto,
-                  subTitle: settings.getSubtitle),
+              delegate: ChatSettingsAppBar(url: settings.getConversationPhoto, subTitle: settings.getSubtitle),
             ),
           ),
           SliverList(
@@ -57,11 +55,9 @@ class _ChatSettingsScreenState extends State<ChatSettingsScreen> {
               NotificationToggle(),
               _SettingsDivider(),
               if (settings.isUserAdmin) ...[
-                ConversationCode(),
+                if (settings.code != null) ConversationCode(),
                 ChangeBackground(),
-                Observer(
-                    builder: (_) =>
-                        CommentsSettings(isActivated: comments.isActivated)),
+                Observer(builder: (_) => CommentsSettings(isActivated: comments.isActivated)),
               ],
               ...iconSettings
             ]),
@@ -85,17 +81,17 @@ class ConversationCode extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            CustomText(settings?.code ?? '', style: chatSettings),
+            CustomText(
+              settings?.codeFormatted.toString() ?? '',
+              style: chatSettings
+            ),
             Directionality(
                 textDirection: TextDirection.ltr,
                 child: SettingsButton(
-                  title: 'Share Code',
-                  isLoading: false,
-                  isActivated: settings?.code != null,
-                  onPressed: () {
-                    SocialShare.shareWhatsapp(settings.shareMessage);
-                  },
-                )),
+                    title: 'Share Code',
+                    isLoading: false,
+                    isActivated: settings?.code != null,
+                    onPressed: () => SocialShare.shareWhatsapp(settings.shareMessage))),
           ],
         ),
       ),

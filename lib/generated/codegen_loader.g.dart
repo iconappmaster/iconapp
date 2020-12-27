@@ -27,12 +27,13 @@ class CodegenLoader extends AssetLoader{
   "search": {
     "empty_state": "לא מצאנו את מה שחיפשת\nנסה/י להקליד משהו אחר",
     "showAll": "הצג הכל",
-    "searchCategory": "חפש/י קטגוריה",
-    "searchIcon": "חפש/י אייקון",
-    "serachIconHint": "חיפוש אייקונים",
-    "searchCategoryHint": "חיפוש קטגוריות"
+    "category": "חפש/י קטגוריה",
+    "icon": "חפש/י אייקון",
+    "iconHint": "חיפוש אייקונים",
+    "categoryHint": "חיפוש קטגוריות"
   },
   "general": {
+    "send": "שלח",
     "server_error": "תקלה בשרת, אנא נסה שנית",
     "iGotIt": "הבנתי, תודה!",
     "cancel": "בטל",
@@ -137,7 +138,8 @@ class CodegenLoader extends AssetLoader{
     "videoGallery": "גלריית וידאו",
     "gallery": "גלריה",
     "camera": "מצלמה",
-    "videoCamera": "מצלמת וידאו"
+    "videoCamera": "מצלמת וידאו",
+    "storyDuration": "משך הסיפור בשעות"
   },
   "drawer": {
     "groupActivity": "נתוני פעילות הקבוצה",
@@ -174,7 +176,9 @@ class CodegenLoader extends AssetLoader{
     "welcomeTitle": "ברוכים הבאים לתהליך ההזדהות כאייקון",
     "nextButton": "שלחו לי את הקוד",
     "noCode": "לא קיבלתי את הקוד.",
-    "sendAgain": "שלחו שוב"
+    "sendAgain": "שלחו שוב",
+    "welcome": "ברוכים הבאים לתהליך ההזדהות כאייקון",
+    "button": "שלחו לי את הקוד"
   },
   "fab": {
     "create": "קבוצה חדשה",
@@ -185,6 +189,12 @@ class CodegenLoader extends AssetLoader{
   "filter": {
     "foryou": "For You",
     "popular": "Must Popular"
+  },
+  "lock": {
+    "wrongCode": "Wrong code, try again",
+    "title": "Enter Conversation",
+    "subtitle": "This group is private",
+    "content": "Please enter your personal code"
   }
 };
 static const Map<String,dynamic> en_US = {
@@ -198,12 +208,15 @@ static const Map<String,dynamic> en_US = {
     "title": "תנאי שימוש"
   },
   "search": {
-    "empty_state": "We can't find, try typing something else.",
+    "empty_state": "Couldnt find what you searched",
     "showAll": "Show all",
-    "searchCategoryHint": "search category",
-    "serachIconHint": "search icon"
+    "category": "Search Category",
+    "icon": "Search Icon",
+    "iconHint": "Type Icon name",
+    "categoryHint": "Type category"
   },
   "general": {
+    "send": "Send",
     "server_error": "Server error, please try again",
     "iGotIt": "Got it",
     "cancel": "Cancel",
@@ -214,7 +227,7 @@ static const Map<String,dynamic> en_US = {
   "home": {
     "noMessages": "No Messages",
     "media": "media",
-    "conversation": "conversation"
+    "conversation": "conversations"
   },
   "onboarding": {
     "didCodeSent": "did you got the code?",
@@ -306,9 +319,10 @@ static const Map<String,dynamic> en_US = {
     "compressing": "Compressing video",
     "duration": "Story image duration",
     "videoGallery": "Video gallery",
-    "gallery": "Gallery",
-    "camera": "Camera",
-    "videoCamera": "Video camera"
+    "gallery": "Photo gallery",
+    "camera": "Take a photo",
+    "videoCamera": "Take a video",
+    "storyDuration": "Story Duration (hours)"
   },
   "drawer": {
     "groupActivity": "Statistics",
@@ -356,6 +370,12 @@ static const Map<String,dynamic> en_US = {
   "filter": {
     "foryou": "For You",
     "popular": "Popular"
+  },
+  "lock": {
+    "wrongCode": "קוד שגוי, נס/י שוב",
+    "title": "כנס לשיחה",
+    "subtitle": "זו קבוצה פרטית",
+    "content": "הכנס את הקוד האישי שלך"
   }
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"he_HE": he_HE, "en_US": en_US};
