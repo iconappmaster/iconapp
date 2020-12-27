@@ -52,8 +52,13 @@
         "fullNameValidation": "Specify first and last name"
     },
     "create": {
+        "type" : "conversation type",
+        "public" : "Public",
+        "private" : "Password Protected",
+        "passwordDetail" :"The group is protected with 6-digit password that can be shared from the chat settings", 
+        "pubicDetail" :"An open group that anyone can enter", 
         "groupNameHint": "Write the conversation name",
-        "groupNameDescription": "Choose name for the conversation",
+        "groupNameDescription": "Conversation Name",
         "groupNameAppbarTitle": "Conversation details",
         "categoriesSubtitle": "Choose a category",
         "iconSubtitle": "Choose participants",
@@ -173,9 +178,9 @@
         "popular": "Popular"
     },
     "lock": {
-        "wrongCode": "קוד שגוי, נס/י שוב",
-        "title" : "כנס לשיחה",
-        "subtitle" : "זו קבוצה פרטית",
-        "content" : "הכנס את הקוד האישי שלך"
+        "wrongCode": "Wrong code, try again",
+        "title": "Enter Conversation",
+        "subtitle": "This group is private",
+        "content": "Please enter your personal code"
     }
 }

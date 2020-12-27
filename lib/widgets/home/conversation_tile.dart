@@ -62,15 +62,21 @@ class ConversationTile extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  if (conversation.conversationType == ConversationType.private_code && !conversation.isAllowedIn)
-                    HomeTileLock(),
-                  WhiteCircle(
-                    widget: NetworkPhoto(
-                        placeHolder: 'assets/images/group_placeholder.svg',
-                        placeHolderPadding: 20,
-                        imageUrl: conversation?.backgroundPhoto?.url ?? '',
-                        height: 56,
-                        width: 56),
+                  Stack(
+                    alignment: Alignment.center,
+                    fit: StackFit.loose,
+                    children: [
+                      WhiteCircle(
+                        widget: NetworkPhoto(
+                            placeHolder: 'assets/images/group_placeholder.svg',
+                            placeHolderPadding: 20,
+                            imageUrl: conversation?.backgroundPhoto?.url ?? '',
+                            height: 60,
+                            width: 60),
+                      ),
+                      if (conversation.conversationType == ConversationType.private_code && !conversation.isAllowedIn)
+                        HomeTileLock(),
+                    ],
                   ),
                   SizedBox(width: 10.7),
                   Column(
@@ -95,7 +101,7 @@ class ConversationTile extends StatelessWidget {
                   Expanded(
                     child: Column(
                       children: [
-                        if ((messageDate.difference(DateTime.now()).inDays).abs() < 1)
+                        if (conversation.isAllowedIn && (messageDate.difference(DateTime.now()).inDays).abs() < 1)
                           CustomText(
                               time.format(
                                   DateTime.fromMillisecondsSinceEpoch(

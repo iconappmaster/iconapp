@@ -160,7 +160,7 @@ const smallLine =
     TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 14.7);
 
 const fieldLabel =
-    TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 13.3);
+    TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 16.3);
 
 const loginSmallText =
     TextStyle(fontFamily: _fontRubikRegular, color: white, fontSize: 12.7);

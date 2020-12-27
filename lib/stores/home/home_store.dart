@@ -143,7 +143,7 @@ abstract class _HomeStoreBase with Store {
 
   @action
   void addConversation(Conversation conversation) {
-    _conversations.add(conversation);
+    _conversations.insert(0, conversation);
     _repository.saveHome(_conversations);
   }
 
@@ -351,6 +351,5 @@ abstract class _HomeStoreBase with Store {
 
   void dispose() async {
     _conversationChangedSubscription?.cancel();
-    
   }
 }

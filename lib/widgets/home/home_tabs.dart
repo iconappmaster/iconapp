@@ -28,15 +28,14 @@ class HomeTabs extends StatelessWidget {
         child: Observer(builder: (_) {
           return CupertinoSlidingSegmentedControl(
             thumbColor: cornflower,
-            groupValue: _home.getCurrentTabIndex,
+            groupValue: _home?.getCurrentTabIndex,
             children: {
-              0: CustomText(LocaleKeys.home_conversation.tr(),
-                  style: chatMessageName),
+              0: CustomText(LocaleKeys.home_conversation.tr(), style: chatMessageName),
               1: CustomText(LocaleKeys.home_media.tr(), style: chatMessageName),
             },
-            onValueChanged: (v) {
+            onValueChanged: (index) {
               Vibration.vibrate(duration: 150);
-              _home.setTabMode(v == 0 ? TabMode.conversation : TabMode.media);
+              _home.setTabMode(index == 0 ? TabMode.conversation : TabMode.media);
 
               if (_home.tabMode == TabMode.media) {
                 _home.getUserMedia();

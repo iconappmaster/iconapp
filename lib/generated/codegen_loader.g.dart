@@ -68,6 +68,11 @@ class CodegenLoader extends AssetLoader{
     "fullNameValidation": "ציין שם ושם משפחה"
   },
   "create": {
+    "type": "בחר את סוג הקבוצה",
+    "public": "פתוחה",
+    "private": "מוגנת קוד",
+    "passwordDetail": "זוהי קבוצה סגורה אשר מוגנת בקוד, כאייקון תוכל לראות ולשתף את קוד הקבוצה מהגדרות של הצ׳ט",
+    "pubicDetail": "זוהי קבוצה פתוחה לכולם",
     "groupNameHint": "הקלד/י כאן את נושא הקבוצה",
     "groupNameDescription": "בחר/י נושא לקבוצה החדשה. כדאי להוסיף גם אייקון.",
     "groupNameAppbarTitle": "נושא הקבוצה",
@@ -191,10 +196,10 @@ class CodegenLoader extends AssetLoader{
     "popular": "Must Popular"
   },
   "lock": {
-    "wrongCode": "Wrong code, try again",
-    "title": "Enter Conversation",
-    "subtitle": "This group is private",
-    "content": "Please enter your personal code"
+    "wrongCode": "קוד שגוי, נס/י שוב",
+    "title": "כנס לשיחה",
+    "subtitle": "זו קבוצה פרטית",
+    "content": "הכנס את הקוד האישי שלך"
   }
 };
 static const Map<String,dynamic> en_US = {
@@ -251,8 +256,13 @@ static const Map<String,dynamic> en_US = {
     "fullNameValidation": "Specify first and last name"
   },
   "create": {
+    "type": "conversation type",
+    "public": "Public",
+    "private": "Password Protected",
+    "passwordDetail": "The group is protected with 6-digit password that can be shared from the chat settings",
+    "pubicDetail": "An open group that anyone can enter",
     "groupNameHint": "Write the conversation name",
-    "groupNameDescription": "Choose name for the conversation",
+    "groupNameDescription": "Conversation Name",
     "groupNameAppbarTitle": "Conversation details",
     "categoriesSubtitle": "Choose a category",
     "iconSubtitle": "Choose participants",
@@ -372,10 +382,10 @@ static const Map<String,dynamic> en_US = {
     "popular": "Popular"
   },
   "lock": {
-    "wrongCode": "קוד שגוי, נס/י שוב",
-    "title": "כנס לשיחה",
-    "subtitle": "זו קבוצה פרטית",
-    "content": "הכנס את הקוד האישי שלך"
+    "wrongCode": "Wrong code, try again",
+    "title": "Enter Conversation",
+    "subtitle": "This group is private",
+    "content": "Please enter your personal code"
   }
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"he_HE": he_HE, "en_US": en_US};

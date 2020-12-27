@@ -17,7 +17,7 @@
         "categoryHint": "חיפוש קטגוריות"
     },
     "general": {
-        "send" : "שלח",
+        "send": "שלח",
         "server_error": "תקלה בשרת, אנא נסה שנית",
         "iGotIt": "הבנתי, תודה!",
         "cancel": "בטל",
@@ -52,6 +52,11 @@
         "fullNameValidation": "ציין שם ושם משפחה"
     },
     "create": {
+        "type": "בחר את סוג הקבוצה",
+        "public": "פתוחה",
+        "private": "מוגנת קוד",
+        "passwordDetail": "זוהי קבוצה סגורה אשר מוגנת בקוד, כאייקון תוכל לראות ולשתף את קוד הקבוצה מהגדרות של הצ׳ט",
+        "pubicDetail": "זוהי קבוצה פתוחה לכולם",
         "groupNameHint": "הקלד/י כאן את נושא הקבוצה",
         "groupNameDescription": "בחר/י נושא לקבוצה החדשה. כדאי להוסיף גם אייקון.",
         "groupNameAppbarTitle": "נושא הקבוצה",
@@ -123,7 +128,7 @@
         "gallery": "גלריה",
         "camera": "מצלמה",
         "videoCamera": "מצלמת וידאו",
-        "storyDuration" : "משך הסיפור בשעות"
+        "storyDuration": "משך הסיפור בשעות"
     },
     "drawer": {
         "groupActivity": "נתוני פעילות הקבוצה",
@@ -174,10 +179,10 @@
         "foryou": "For You",
         "popular": "Must Popular"
     },
-    "lock" : {
-        "wrongCode" : "Wrong code, try again",
-        "title" : "Enter Conversation",
-        "subtitle" : "This group is private",
-        "content" : "Please enter your personal code"
+    "lock": {
+        "wrongCode": "קוד שגוי, נס/י שוב",
+        "title": "כנס לשיחה",
+        "subtitle": "זו קבוצה פרטית",
+        "content": "הכנס את הקוד האישי שלך"
     }
 }

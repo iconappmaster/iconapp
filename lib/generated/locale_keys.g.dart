@@ -48,6 +48,11 @@ abstract class  LocaleKeys {
   static const onboarding_fullName = 'onboarding.fullName';
   static const onboarding_fullNameValidation = 'onboarding.fullNameValidation';
   static const onboarding = 'onboarding';
+  static const create_type = 'create.type';
+  static const create_public = 'create.public';
+  static const create_private = 'create.private';
+  static const create_passwordDetail = 'create.passwordDetail';
+  static const create_pubicDetail = 'create.pubicDetail';
   static const create_groupNameHint = 'create.groupNameHint';
   static const create_groupNameDescription = 'create.groupNameDescription';
   static const create_groupNameAppbarTitle = 'create.groupNameAppbarTitle';

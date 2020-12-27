@@ -15,6 +15,7 @@ import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/input_box.dart';
 import 'package:iconapp/widgets/global/user_avatar.dart';
 import 'package:iconapp/widgets/onboarding/base_onboarding_widget.dart';
+import 'package:vibration/vibration.dart';
 
 import '../core/extensions/context_ext.dart';
 
@@ -33,28 +34,27 @@ class CreateDetailsScreen extends StatelessWidget {
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    CreateIconTitle(),
-                    ConversationNameInput(store: store),
-                    ConversationType(store: store)
-                  ])),
+                  children: <Widget>[ConversationNameInput(store: store), ConversationType(store: store)])),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 40),
+            child: Observer(
+              builder: (_) => CustomText(
+                store.currentGroupTypeIndex == 0
+                    ? LocaleKeys.create_pubicDetail.tr()
+                    : LocaleKeys.create_passwordDetail.tr(),
+                style: timeOfMessage.copyWith(
+                  height: 1.5,
+                  color: white.withOpacity(
+                    .7,
+                  ),
+                ),
+              ),
+            ),
+          ),
           CreateGroupNavigate(store: store),
         ],
       ),
     );
-  }
-}
-
-class CreateIconTitle extends StatelessWidget {
-  const CreateIconTitle({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.only(bottom: 18.0),
-        child: CustomText(LocaleKeys.create_groupNameDescription.tr(), style: fieldLabel));
   }
 }
 
@@ -92,8 +92,8 @@ class CreateGroupNavigate extends StatelessWidget {
 
   Future _handleSuccess(CreateDetailsStore store, BuildContext context) async {
     final res = await store.createGroup();
-    res.fold((e) => context.showFlushbar(message: '${store.groupName} קיימת'), (s) async {
-      await context.showFlushbar(color: uiTintColorFill, message: '${store.groupName} נוצרה');
+    res.fold((e) => context.showFlushbar(message: '${store.groupName} exists'), (s) async {
+      await context.showFlushbar(color: uiTintColorFill, message: '${store.groupName} created');
       ExtendedNavigator.of(context).popUntilPath(Routes.mainNavigator);
     });
   }
@@ -124,8 +124,8 @@ class ConversationNameInput extends StatelessWidget {
           Container(
             width: context.widthPx * .596,
             child: InputText(
-              hintStyle: fieldLabel,
-              textStyle: fieldLabel,
+              hintStyle: fieldLabel.copyWith(fontSize: 14),
+              textStyle: fieldLabel.copyWith(color: white.withOpacity(.5)),
               hint: LocaleKeys.create_groupNameHint.tr(),
               keyboardType: TextInputType.text,
               onChange: (name) => store.updateGroupName(name),
@@ -147,27 +147,31 @@ class ConversationType extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(height: 18),
-          CustomText('Choose your conversation type', style: fieldLabel),
-          SizedBox(height: 28),
-          CupertinoSlidingSegmentedControl(
-              thumbColor: cornflower,
-              groupValue: store?.currentGroupTypeIndex,
-              children: _conversationTypes(),
-              onValueChanged: (index) => store.setGroupType(index)),
-        ],
-      ),
-    );
+    return Observer(builder: (_) {
+      return Padding(
+        padding: const EdgeInsets.only(top: 16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(height: 18),
+            CustomText(LocaleKeys.create_type.tr(), style: fieldLabel),
+            SizedBox(height: 28),
+            CupertinoSlidingSegmentedControl(
+                thumbColor: cornflower,
+                groupValue: store?.currentGroupTypeIndex,
+                children: _conversationTypes(),
+                onValueChanged: (index) {
+                  Vibration.vibrate(duration: 50);
+                  store.setGroupType(index);
+                }),
+          ],
+        ),
+      );
+    });
   }
 
   Map<int, Widget> _conversationTypes() => {
-        0: CustomText('Public', style: chatMessageName),
-        1: CustomText('Password', style: chatMessageName),
-        // 2: CustomText('Premium', style: chatMessageName),
+        0: CustomText(LocaleKeys.create_public.tr(), style: chatMessageName),
+        1: CustomText(LocaleKeys.create_private.tr(), style: chatMessageName),
       };
 }
