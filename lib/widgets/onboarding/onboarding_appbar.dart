@@ -9,11 +9,13 @@ import '../../core/extensions/context_ext.dart';
 class IconAppbar extends StatelessWidget {
   final bool showBack;
   final Widget widget;
+  final Widget logo;
 
   const IconAppbar({
     Key key,
     this.showBack = false,
     this.widget,
+    this.logo,
   }) : super(key: key);
 
   @override
@@ -31,18 +33,13 @@ class IconAppbar extends StatelessWidget {
               children: <Widget>[
                 if (showBack)
                   Align(
-                      alignment: language.direction == LanguageDirection.ltr
-                          ? Alignment.centerLeft
-                          : Alignment.centerRight,
+                      alignment:
+                          language.direction == LanguageDirection.ltr ? Alignment.centerLeft : Alignment.centerRight,
                       child: IconBackButton()),
-                if (widget != null)
-                  widget,
-                Align(
-                  alignment: language.direction == LanguageDirection.ltr
-                      ? Alignment.centerRight
-                      : Alignment.centerLeft,
-                  child: SvgPicture.asset('assets/images/white_logo.svg',
-                      height: 23.7),
+                if (widget != null) widget,
+                logo ?? Align(
+                  alignment: language.direction == LanguageDirection.ltr ? Alignment.centerRight : Alignment.centerLeft,
+                  child: SvgPicture.asset('assets/images/white_logo.svg', height: 23.7),
                 ),
               ],
             );

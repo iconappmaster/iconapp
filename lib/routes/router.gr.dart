@@ -36,6 +36,7 @@ import '../screens/onboarding_phone.dart';
 import '../screens/onboarding_profile.dart';
 import '../screens/photo_gallery_screen.dart';
 import '../screens/premium_screen.dart';
+import '../screens/redemption_screen.dart';
 import '../screens/rename_conversation.dart';
 import '../screens/search_results_screen.dart';
 import '../screens/settings_screen.dart';
@@ -82,6 +83,7 @@ class Routes {
   static const String customAd = '/custom-ad';
   static const String lockScreen = '/lock-screen';
   static const String premiumScreen = '/premium-screen';
+  static const String redemptionScreen = '/redemption-screen';
   static const all = <String>{
     mainNavigator,
     loginScreen,
@@ -115,6 +117,7 @@ class Routes {
     customAd,
     lockScreen,
     premiumScreen,
+    redemptionScreen,
   };
 }
 
@@ -154,6 +157,7 @@ class Router extends RouterBase {
     RouteDef(Routes.customAd, page: CustomAd),
     RouteDef(Routes.lockScreen, page: LockScreen),
     RouteDef(Routes.premiumScreen, page: PremiumScreen),
+    RouteDef(Routes.redemptionScreen, page: RedemptionScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -418,6 +422,13 @@ class Router extends RouterBase {
         settings: data,
       );
     },
+    RedemptionScreen: (data) {
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => RedemptionScreen(),
+        settings: data,
+        fullscreenDialog: true,
+      );
+    },
   };
 }
 
@@ -617,6 +628,9 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
       );
 
   Future<dynamic> pushPremiumScreen() => push<dynamic>(Routes.premiumScreen);
+
+  Future<dynamic> pushRedemptionScreen() =>
+      push<dynamic>(Routes.redemptionScreen);
 }
 
 /// ************************************************************************

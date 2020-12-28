@@ -1,24 +1,26 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:iconapp/core/ads/admob/admob.dart';
-import 'package:iconapp/core/ads/provider_ads/model/ad_repository.dart';
-import 'package:iconapp/core/ads/provider_ads/store/custom_ads_store.dart';
-import 'package:iconapp/core/deep_link.dart';
-import 'package:iconapp/core/keys.dart';
-import 'package:iconapp/core/notifications/fcm.dart';
-import 'package:iconapp/core/story_cacher.dart';
-import 'package:iconapp/data/repositories/alert_repository.dart';
-import 'package:iconapp/data/repositories/archive_repository.dart';
-import 'package:iconapp/data/repositories/comments_repository.dart';
-import 'package:iconapp/data/repositories/verify_icon_repository.dart';
-import 'package:iconapp/stores/alerts/alert_store.dart';
-import 'package:iconapp/stores/analytics/analytics_firebase.dart';
-import 'package:iconapp/stores/archive/archive_store.dart';
-import 'package:iconapp/stores/comments/comments_store.dart';
-import 'package:iconapp/stores/language/language_store.dart';
-import 'package:iconapp/stores/search_results/search_results_store.dart';
-import 'package:iconapp/stores/story/story_edit_store.dart';
-import 'package:iconapp/stores/verify_icon/verify_icon_store.dart';
+import 'package:iconapp/data/repositories/redemption_repository.dart';
+import 'package:iconapp/stores/redemption_store.dart';
+import '../ads/admob/admob.dart';
+import '../ads/provider_ads/model/ad_repository.dart';
+import '../ads/provider_ads/store/custom_ads_store.dart';
+import '../deep_link.dart';
+import '../keys.dart';
+import '../notifications/fcm.dart';
+import '../story_cacher.dart';
+import '../../data/repositories/alert_repository.dart';
+import '../../data/repositories/archive_repository.dart';
+import '../../data/repositories/comments_repository.dart';
+import '../../data/repositories/verify_icon_repository.dart';
+import '../../stores/alerts/alert_store.dart';
+import '../../stores/analytics/analytics_firebase.dart';
+import '../../stores/archive/archive_store.dart';
+import '../../stores/comments/comments_store.dart';
+import '../../stores/language/language_store.dart';
+import '../../stores/search_results/search_results_store.dart';
+import '../../stores/story/story_edit_store.dart';
+import '../../stores/verify_icon/verify_icon_store.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../data/repositories/auth_repository.dart';
 import '../../data/repositories/chat_repository.dart';
@@ -52,20 +54,17 @@ final sl = GetIt.I;
 
 void initLocator() {
   // LOGIN
-  sl.registerLazySingleton<LoginRepository>(
-      () => LoginRepositoryImpl(restClient: sl()));
+  sl.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(restClient: sl()));
 
   // Socket
   sl.registerLazySingleton<Socket>(() => Socket());
 
   // Prefs
-  sl.registerLazySingleton<SharedPreferencesService>(
-      () => SharedPreferencesService());
+  sl.registerLazySingleton<SharedPreferencesService>(() => SharedPreferencesService());
 
   // Auth
   sl.registerLazySingleton<AuthStore>(() => AuthStore());
-  sl.registerLazySingleton<AuthRepository>(
-      () => AuthRepositoryImpl(restClient: sl(), sp: sl()));
+  sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(restClient: sl(), sp: sl()));
 
   // Login
   sl.registerLazySingleton<LoginStore>(() => LoginStore());
@@ -81,8 +80,7 @@ void initLocator() {
 
   // Home
   sl.registerLazySingleton<HomeStore>(() => HomeStore());
-  sl.registerLazySingleton<HomeRepository>(
-      () => HomeRepositoryImpl(rest: sl(), socket: sl(), cache: sl()));
+  sl.registerLazySingleton<HomeRepository>(() => HomeRepositoryImpl(rest: sl(), socket: sl(), cache: sl()));
 
   // Onboarding
   sl.registerLazySingleton<OnboardingStore>(() => OnboardingStore());
@@ -96,8 +94,7 @@ void initLocator() {
   // Chat
   sl.registerLazySingleton<ChatStore>(() => ChatStore());
   sl.registerLazySingleton<ChatSettingsStore>(() => ChatSettingsStore());
-  sl.registerLazySingleton<ChatSettingsRepository>(
-      () => ChatSettingsRepositoryImpl(restClient: sl()));
+  sl.registerLazySingleton<ChatSettingsRepository>(() => ChatSettingsRepositoryImpl(restClient: sl()));
   sl.registerLazySingleton<ChatRepository>(() => ChatRepositoryImpl(
         remote: sl(),
         socket: sl(),
@@ -108,8 +105,7 @@ void initLocator() {
   sl.registerLazySingleton<CreateCategoryStore>(() => CreateCategoryStore());
   sl.registerLazySingleton<CreateIconStore>(() => CreateIconStore());
   sl.registerLazySingleton<CreateDetailsStore>(() => CreateDetailsStore());
-  sl.registerLazySingleton<CreateRepository>(
-      () => GroupCreateRepositoryImpl(sl()));
+  sl.registerLazySingleton<CreateRepository>(() => GroupCreateRepositoryImpl(sl()));
 
   // User
   sl.registerLazySingleton<UserStore>(() => UserStore());
@@ -148,13 +144,11 @@ void initLocator() {
   );
   // Alerts
   sl.registerLazySingleton<AlertStore>(() => AlertStore());
-  sl.registerLazySingleton<AlertRepository>(
-      () => AlertRepositoryImpl(rest: sl()));
+  sl.registerLazySingleton<AlertRepository>(() => AlertRepositoryImpl(rest: sl()));
 
   // Verify Icon
   sl.registerLazySingleton<VerifyIconStore>(() => VerifyIconStore());
-  sl.registerLazySingleton<VerifyIconRepository>(
-      () => VerifyIconRepositoryImpl(rest: sl()));
+  sl.registerLazySingleton<VerifyIconRepository>(() => VerifyIconRepositoryImpl(rest: sl()));
 
   // Dynamic link
   sl.registerLazySingleton<DynamicLink>(() => DynamicLink());
@@ -164,8 +158,7 @@ void initLocator() {
 
   // Custom Ads
   sl.registerLazySingleton<CustomAdsStore>(() => CustomAdsStore());
-  sl.registerLazySingleton<CustomAdRepository>(
-      () => CustomAdRepositoryImpl(rest: sl()));
+  sl.registerLazySingleton<CustomAdRepository>(() => CustomAdRepositoryImpl(rest: sl()));
 
   // Archive
   sl.registerLazySingleton<ArchiveStore>(() => ArchiveStore());
@@ -173,7 +166,13 @@ void initLocator() {
         rest: sl(),
       ));
 
+  // Analytics
   sl.registerLazySingleton<Analytics>(() => Analytics());
 
+  // Langauge
   sl.registerLazySingleton<LanguageStore>(() => LanguageStore());
+
+  // Redemption
+  sl.registerLazySingleton<RedemptionRepository>(() => RedemptionRepositoryImpl(sl()));
+  sl.registerLazySingleton<RedemptionStore>(() => RedemptionStore());
 }

@@ -224,13 +224,15 @@ abstract class RestClient {
   @GET('media')
   Future<List<MessageModel>> getMedia();
 
-  // user actions
+  // this endpoint will give you a list of all the actions the user took which gave him points
   @GET('user_credit_actions')
   Future<List<CreditActionModel>> userCreditAction();
 
+  // This will be called when user takes an action which should give him points
   @POST('user_credit_actions')
   Future creditAction(@Query('creditActionId') String creditActionId);
 
+  // show all redeption product
   @GET('redemption_products')
   Future<List<RedemptionProductModel>> getRedemptionProdcuts();
 }
