@@ -3,7 +3,9 @@ import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:iconapp/core/ads/provider_ads/model/ad_model.dart';
 import 'package:iconapp/data/models/alerts_response.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
+import 'package:iconapp/data/models/credit_action_model.dart';
 import 'package:iconapp/data/models/message_model.dart';
+import 'package:iconapp/data/models/redemption_product.dart';
 import 'package:iconapp/data/models/story_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/models/create_group_req.dart';
@@ -221,12 +223,28 @@ abstract class RestClient {
 
   @GET('media')
   Future<List<MessageModel>> getMedia();
+
+  // user actions
+  @GET('user_credit_actions')
+  Future<List<CreditActionModel>> userCreditAction();
+
+  @POST('user_credit_actions')
+  Future creditAction(@Query('creditActionId') String creditActionId);
+
+  @GET('redemption_products')
+  Future<List<RedemptionProductModel>> getRedemptionProdcuts();
 }
 
 Dio getDioClient() {
   final dio = Dio();
+
   dio.interceptors.addAll([
-    DioCacheManager(CacheConfig(baseUrl: baseUrlProd, defaultMaxStale: Duration(days: 7))).interceptor,
+    DioCacheManager(
+      CacheConfig(
+        baseUrl: baseUrlProd,
+        defaultMaxStale: const Duration(days: 7),
+      ),
+    ).interceptor,
     HeaderInterceptor(dio),
     LoggingInterceptors(),
   ]);

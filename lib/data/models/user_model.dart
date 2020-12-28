@@ -22,6 +22,7 @@ abstract class UserModel with _$UserModel {
     UserRole userRole,
     bool didCompleteRegistration,
     bool didTurnOffNotifications,
+    int numberOfPoints,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
