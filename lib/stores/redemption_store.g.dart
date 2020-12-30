@@ -9,6 +9,12 @@ part of 'redemption_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$RedemptionStore on _RedemptionStoreBase, Store {
+  Computed<bool> _$loadingComputed;
+
+  @override
+  bool get loading => (_$loadingComputed ??= Computed<bool>(() => super.loading,
+          name: '_RedemptionStoreBase.loading'))
+      .value;
   Computed<List<RedemptionProductModel>> _$redemptionProductsComputed;
 
   @override
@@ -17,13 +23,13 @@ mixin _$RedemptionStore on _RedemptionStoreBase, Store {
               () => super.redemptionProducts,
               name: '_RedemptionStoreBase.redemptionProducts'))
           .value;
-  Computed<int> _$userCreditsComputed;
+  Computed<int> _$userPointBalanceComputed;
 
   @override
-  int get userCredits =>
-      (_$userCreditsComputed ??= Computed<int>(() => super.userCredits,
-              name: '_RedemptionStoreBase.userCredits'))
-          .value;
+  int get userPointBalance => (_$userPointBalanceComputed ??= Computed<int>(
+          () => super.userPointBalance,
+          name: '_RedemptionStoreBase.userPointBalance'))
+      .value;
 
   final _$_prodcutsAtom = Atom(name: '_RedemptionStoreBase._prodcuts');
 
@@ -40,11 +46,28 @@ mixin _$RedemptionStore on _RedemptionStoreBase, Store {
     });
   }
 
-  final _$setPointsAsyncAction = AsyncAction('_RedemptionStoreBase.setPoints');
+  final _$_loadingAtom = Atom(name: '_RedemptionStoreBase._loading');
 
   @override
-  Future<dynamic> setPoints(String creditActionId) {
-    return _$setPointsAsyncAction.run(() => super.setPoints(creditActionId));
+  bool get _loading {
+    _$_loadingAtom.reportRead();
+    return super._loading;
+  }
+
+  @override
+  set _loading(bool value) {
+    _$_loadingAtom.reportWrite(value, super._loading, () {
+      super._loading = value;
+    });
+  }
+
+  final _$setCreditActionPointsAsyncAction =
+      AsyncAction('_RedemptionStoreBase.setCreditActionPoints');
+
+  @override
+  Future<dynamic> setCreditActionPoints(String creditActionId) {
+    return _$setCreditActionPointsAsyncAction
+        .run(() => super.setCreditActionPoints(creditActionId));
   }
 
   final _$getRedemptionProductsAsyncAction =
@@ -56,11 +79,20 @@ mixin _$RedemptionStore on _RedemptionStoreBase, Store {
         .run(() => super.getRedemptionProducts());
   }
 
+  final _$redeemProductAsyncAction =
+      AsyncAction('_RedemptionStoreBase.redeemProduct');
+
+  @override
+  Future<dynamic> redeemProduct(int productId) {
+    return _$redeemProductAsyncAction.run(() => super.redeemProduct(productId));
+  }
+
   @override
   String toString() {
     return '''
+loading: ${loading},
 redemptionProducts: ${redemptionProducts},
-userCredits: ${userCredits}
+userPointBalance: ${userPointBalance}
     ''';
   }
 }

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:iconapp/stores/redemption_store.dart';
 import 'package:iconapp/widgets/home/home_appbar.dart';
 import 'package:iconapp/widgets/home/home_content.dart';
 import 'package:iconapp/widgets/home/home_tabs.dart';
@@ -42,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
   HomeStore _home;
   UserStore _user;
   StoryStore _story;
+  RedemptionStore _redemption;
   SharedPreferencesService _sp;
   DynamicLink _dynamicLink;
   String homeChannelName = 'home';
@@ -54,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _home = sl<HomeStore>();
     _story = sl<StoryStore>();
     _user = sl<UserStore>();
+    _redemption = sl<RedemptionStore>();
     _sp = sl<SharedPreferencesService>();
     _sp.setBool(StorageKey.appForeground, true);
     _dynamicLink = sl<DynamicLink>();
@@ -109,6 +112,8 @@ class _HomeScreenState extends State<HomeScreen> {
     _socket
       ..bindHomeChangeEvent()
       ..bindStoryChangeEvent();
+
+    _redemption.getRedemptionProducts();
   }
 
   Future _handleDynamicLinks() async {
@@ -116,9 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
       (id) async {
         final home = sl<HomeStore>();
         final conversation = await home.getCachedConversationById(id);
-        if (conversation != null)
-          ExtendedNavigator.of(context)
-              .pushChatScreen(conversation: conversation);
+        if (conversation != null) ExtendedNavigator.of(context).pushChatScreen(conversation: conversation);
       },
     );
   }
@@ -165,10 +168,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Observer(builder: (_) {
                     return Visibility(
-                        visible:
-                            !_home.showForceUpdate && _home.showWelcomeDialog,
-                        child: WelcomeDialog(
-                            onTap: () => _home.saveWelcomeSeen()));
+                        visible: !_home.showForceUpdate && _home.showWelcomeDialog,
+                        child: WelcomeDialog(onTap: () => _home.saveWelcomeSeen()));
                   }),
                   Observer(
                     builder: (_) => Visibility(
@@ -193,8 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Future _navigateToChatFromFCM() async {
     if (_sp.contains(StorageKey.fcmConversation)) {
       final conversation = Conversation.loadFCMFromCache();
-      await ExtendedNavigator.of(context)
-          .pushChatScreen(conversation: conversation);
+      await ExtendedNavigator.of(context).pushChatScreen(conversation: conversation);
     }
   }
 
@@ -204,8 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.transparent,
       expand: true,
       context: context,
-      builder: (context, scrollController) =>
-          SearchSheetModal(scrollController: scrollController),
+      builder: (context, scrollController) => SearchSheetModal(scrollController: scrollController),
     );
   }
 
@@ -227,8 +226,7 @@ Future refreshData() async {
   await home.getConversations();
 }
 
-Future onTileTap(
-    Conversation conversation, BuildContext context, int index) async {
+Future onTileTap(Conversation conversation, BuildContext context, int index) async {
   final adMobs = sl<AdMob>();
   final home = sl<HomeStore>();
   final story = sl<StoryStore>();
@@ -238,8 +236,7 @@ Future onTileTap(
   if (conversation.isAllowedIn) {
     analytics.sendConversationEvent(OPENED_CONVERSATION, conversation.id);
     await adMobs.showWithCounterInterstitial();
-    await ExtendedNavigator.of(context)
-        .pushChatScreen(conversation: conversation);
+    await ExtendedNavigator.of(context).pushChatScreen(conversation: conversation);
   } else {
     switch (conversation.conversationType) {
       case ConversationType.public:
@@ -247,8 +244,7 @@ Future onTileTap(
         break;
       case ConversationType.private_code:
         // show code screen
-        await ExtendedNavigator.of(context)
-            .pushLockScreen(conversation: conversation);
+        await ExtendedNavigator.of(context).pushLockScreen(conversation: conversation);
         break;
       case ConversationType.private_premium:
         await ExtendedNavigator.of(context).pushPremiumScreen();

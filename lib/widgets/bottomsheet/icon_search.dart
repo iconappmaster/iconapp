@@ -25,12 +25,11 @@ class IconsSearchWidget extends StatelessWidget {
     final store = sl<SearchStore>();
     return Observer(
       builder: (_) => store.isEmpty
-          ? SearchEmpty(text: LocaleKeys.search_empty_state.tr())
+          ? Center(child: SearchEmpty(text: LocaleKeys.search_empty_state.tr()))
           : ListView.builder(
               itemCount: store.getIcons.length,
               controller: controller,
-              itemBuilder: (context, index) =>
-                  IconSearchItem(icon: store.getIcons[index])),
+              itemBuilder: (context, index) => IconSearchItem(icon: store.getIcons[index])),
     );
   }
 }
@@ -47,11 +46,8 @@ class IconSearchItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: InkWell(
-        onTap: () => ExtendedNavigator.of(context).pushSearchResultsScreen(
-          id: icon.id,
-          mode: SearchResulsMode.icons,
-          name: icon.fullName,
-        ),
+        onTap: () => ExtendedNavigator.of(context)
+            .pushSearchResultsScreen(id: icon.id, mode: SearchResulsMode.icons, name: icon.fullName),
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 28.7),
           height: 70,
@@ -71,7 +67,10 @@ class IconSearchItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  CustomText(icon?.fullName ?? '', style: categoryName),
+                  CustomText(
+                    icon?.fullName ?? '',
+                    style: categoryName,
+                  ),
                 ],
               ),
             ],

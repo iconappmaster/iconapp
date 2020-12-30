@@ -11,13 +11,14 @@ import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/models/create_group_req.dart';
 import 'package:retrofit/retrofit.dart';
 import 'header_interceptor.dart';
-import 'logger_interceptor.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+
 part 'rest_client.g.dart';
 
 const String baseUrlProd = 'https://iconproduction.herokuapp.com/api/v1/';
 const String baseUrlStaging = 'https://iconstaging.herokuapp.com/api/v1/';
 
-@RestApi(baseUrl: baseUrlStaging)
+@RestApi(baseUrl: baseUrlProd)
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
@@ -235,6 +236,9 @@ abstract class RestClient {
   // show all redeption product
   @GET('redemption_products')
   Future<List<RedemptionProductModel>> getRedemptionProdcuts();
+
+  @POST('user_redemptions')
+  Future<RedemptionProductModel> performRedemption(@Query('redemptionProductId') int redemptionProductId);
 }
 
 Dio getDioClient() {
@@ -248,7 +252,13 @@ Dio getDioClient() {
       ),
     ).interceptor,
     HeaderInterceptor(dio),
-    LoggingInterceptors(),
+    PrettyDioLogger(
+      requestHeader: true,
+      requestBody: true,
+      responseBody: true,
+      responseHeader: false,
+      compact: false,
+    ),
   ]);
   return dio;
 }

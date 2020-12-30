@@ -10,6 +10,8 @@ abstract class RedemptionProductModel with _$RedemptionProductModel {
     String name,
     String description,
     int price,
+    String redemptionCode,
+    String redemptionUrl,
   }) = _RedemptionProductModel;
 
   factory RedemptionProductModel.fromJson(Map<String, dynamic> json) => _$RedemptionProductModelFromJson(json);

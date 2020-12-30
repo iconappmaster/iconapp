@@ -25,7 +25,7 @@ _$_UserModel _$_$_UserModelFromJson(Map<String, dynamic> json) {
     userRole: _$enumDecodeNullable(_$UserRoleEnumMap, json['userRole']),
     didCompleteRegistration: json['didCompleteRegistration'] as bool,
     didTurnOffNotifications: json['didTurnOffNotifications'] as bool,
-    numberOfPoints: json['numberOfPoints'] as int,
+    pointBalance: json['pointBalance'] as int,
   );
 }
 
@@ -46,7 +46,7 @@ Map<String, dynamic> _$_$_UserModelToJson(_$_UserModel instance) =>
       'userRole': _$UserRoleEnumMap[instance.userRole],
       'didCompleteRegistration': instance.didCompleteRegistration,
       'didTurnOffNotifications': instance.didTurnOffNotifications,
-      'numberOfPoints': instance.numberOfPoints,
+      'pointBalance': instance.pointBalance,
     };
 
 T _$enumDecode<T>(

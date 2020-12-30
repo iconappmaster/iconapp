@@ -15,7 +15,7 @@ class SearchEmpty extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 42),
+      padding: EdgeInsets.symmetric(vertical: 42, horizontal: 25),
       child: Material(
         color: white,
         child: Column(
@@ -24,8 +24,8 @@ class SearchEmpty extends StatelessWidget {
           children: [
             SvgPicture.asset(
               'assets/images/telescope.svg',
-              width: 128,
-              height: 124,
+              width: 98,
+              height: 94,
             ),
             SizedBox(height: 34.7),
             CustomText(text, style: emptyState)

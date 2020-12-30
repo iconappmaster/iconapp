@@ -33,7 +33,7 @@ class _$UserModelTearOff {
       UserRole userRole,
       bool didCompleteRegistration,
       bool didTurnOffNotifications,
-      int numberOfPoints}) {
+      int pointBalance}) {
     return _UserModel(
       id: id,
       fullName: fullName,
@@ -50,7 +50,7 @@ class _$UserModelTearOff {
       userRole: userRole,
       didCompleteRegistration: didCompleteRegistration,
       didTurnOffNotifications: didTurnOffNotifications,
-      numberOfPoints: numberOfPoints,
+      pointBalance: pointBalance,
     );
   }
 
@@ -81,7 +81,7 @@ mixin _$UserModel {
   UserRole get userRole;
   bool get didCompleteRegistration;
   bool get didTurnOffNotifications;
-  int get numberOfPoints;
+  int get pointBalance;
 
   Map<String, dynamic> toJson();
   $UserModelCopyWith<UserModel> get copyWith;
@@ -107,7 +107,7 @@ abstract class $UserModelCopyWith<$Res> {
       UserRole userRole,
       bool didCompleteRegistration,
       bool didTurnOffNotifications,
-      int numberOfPoints});
+      int pointBalance});
 
   $PhotoModelCopyWith<$Res> get photo;
 }
@@ -137,7 +137,7 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
     Object userRole = freezed,
     Object didCompleteRegistration = freezed,
     Object didTurnOffNotifications = freezed,
-    Object numberOfPoints = freezed,
+    Object pointBalance = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as int,
@@ -163,9 +163,8 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
       didTurnOffNotifications: didTurnOffNotifications == freezed
           ? _value.didTurnOffNotifications
           : didTurnOffNotifications as bool,
-      numberOfPoints: numberOfPoints == freezed
-          ? _value.numberOfPoints
-          : numberOfPoints as int,
+      pointBalance:
+          pointBalance == freezed ? _value.pointBalance : pointBalance as int,
     ));
   }
 
@@ -202,7 +201,7 @@ abstract class _$UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
       UserRole userRole,
       bool didCompleteRegistration,
       bool didTurnOffNotifications,
-      int numberOfPoints});
+      int pointBalance});
 
   @override
   $PhotoModelCopyWith<$Res> get photo;
@@ -234,7 +233,7 @@ class __$UserModelCopyWithImpl<$Res> extends _$UserModelCopyWithImpl<$Res>
     Object userRole = freezed,
     Object didCompleteRegistration = freezed,
     Object didTurnOffNotifications = freezed,
-    Object numberOfPoints = freezed,
+    Object pointBalance = freezed,
   }) {
     return _then(_UserModel(
       id: id == freezed ? _value.id : id as int,
@@ -260,9 +259,8 @@ class __$UserModelCopyWithImpl<$Res> extends _$UserModelCopyWithImpl<$Res>
       didTurnOffNotifications: didTurnOffNotifications == freezed
           ? _value.didTurnOffNotifications
           : didTurnOffNotifications as bool,
-      numberOfPoints: numberOfPoints == freezed
-          ? _value.numberOfPoints
-          : numberOfPoints as int,
+      pointBalance:
+          pointBalance == freezed ? _value.pointBalance : pointBalance as int,
     ));
   }
 }
@@ -287,7 +285,7 @@ class _$_UserModel implements _UserModel {
       this.userRole,
       this.didCompleteRegistration,
       this.didTurnOffNotifications,
-      this.numberOfPoints});
+      this.pointBalance});
 
   factory _$_UserModel.fromJson(Map<String, dynamic> json) =>
       _$_$_UserModelFromJson(json);
@@ -323,11 +321,11 @@ class _$_UserModel implements _UserModel {
   @override
   final bool didTurnOffNotifications;
   @override
-  final int numberOfPoints;
+  final int pointBalance;
 
   @override
   String toString() {
-    return 'UserModel(id: $id, fullName: $fullName, phone: $phone, email: $email, gender: $gender, photo: $photo, os: $os, age: $age, isIcon: $isIcon, pushToken: $pushToken, isPushEnabled: $isPushEnabled, sessionToken: $sessionToken, userRole: $userRole, didCompleteRegistration: $didCompleteRegistration, didTurnOffNotifications: $didTurnOffNotifications, numberOfPoints: $numberOfPoints)';
+    return 'UserModel(id: $id, fullName: $fullName, phone: $phone, email: $email, gender: $gender, photo: $photo, os: $os, age: $age, isIcon: $isIcon, pushToken: $pushToken, isPushEnabled: $isPushEnabled, sessionToken: $sessionToken, userRole: $userRole, didCompleteRegistration: $didCompleteRegistration, didTurnOffNotifications: $didTurnOffNotifications, pointBalance: $pointBalance)';
   }
 
   @override
@@ -373,9 +371,9 @@ class _$_UserModel implements _UserModel {
                     other.didTurnOffNotifications, didTurnOffNotifications) ||
                 const DeepCollectionEquality().equals(
                     other.didTurnOffNotifications, didTurnOffNotifications)) &&
-            (identical(other.numberOfPoints, numberOfPoints) ||
+            (identical(other.pointBalance, pointBalance) ||
                 const DeepCollectionEquality()
-                    .equals(other.numberOfPoints, numberOfPoints)));
+                    .equals(other.pointBalance, pointBalance)));
   }
 
   @override
@@ -396,7 +394,7 @@ class _$_UserModel implements _UserModel {
       const DeepCollectionEquality().hash(userRole) ^
       const DeepCollectionEquality().hash(didCompleteRegistration) ^
       const DeepCollectionEquality().hash(didTurnOffNotifications) ^
-      const DeepCollectionEquality().hash(numberOfPoints);
+      const DeepCollectionEquality().hash(pointBalance);
 
   @override
   _$UserModelCopyWith<_UserModel> get copyWith =>
@@ -425,7 +423,7 @@ abstract class _UserModel implements UserModel {
       UserRole userRole,
       bool didCompleteRegistration,
       bool didTurnOffNotifications,
-      int numberOfPoints}) = _$_UserModel;
+      int pointBalance}) = _$_UserModel;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$_UserModel.fromJson;
@@ -461,7 +459,7 @@ abstract class _UserModel implements UserModel {
   @override
   bool get didTurnOffNotifications;
   @override
-  int get numberOfPoints;
+  int get pointBalance;
   @override
   _$UserModelCopyWith<_UserModel> get copyWith;
 }

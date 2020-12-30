@@ -33,14 +33,13 @@ class SearchBar extends StatelessWidget {
                       autofocus: false,
                       onChanged: (query) => store.search(query),
                       decoration: InputDecoration(
-                        enabledBorder: transparentBorder,
-                        border: transparentBorder,
-                        focusedBorder: transparentBorder,
-                        hintText: store.getSearchMode == SearchMode.categories
-                            ? LocaleKeys.search_categoryHint.tr()
-                            : LocaleKeys.search_iconHint.tr(),
-                        hintStyle: hint,
-                      ),
+                          enabledBorder: transparentBorder,
+                          border: transparentBorder,
+                          focusedBorder: transparentBorder,
+                          hintText: store.getSearchMode == SearchMode.categories
+                              ? LocaleKeys.search_categoryHint.tr()
+                              : LocaleKeys.search_iconHint.tr(),
+                          hintStyle: hint.copyWith(color: darkBlueGrey.withOpacity(.5))),
                     ),
                   ),
                 )

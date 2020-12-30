@@ -13,6 +13,8 @@ _$_RedemptionProductModel _$_$_RedemptionProductModelFromJson(
     name: json['name'] as String,
     description: json['description'] as String,
     price: json['price'] as int,
+    redemptionCode: json['redemptionCode'] as String,
+    redemptionUrl: json['redemptionUrl'] as String,
   );
 }
 
@@ -23,4 +25,6 @@ Map<String, dynamic> _$_$_RedemptionProductModelToJson(
       'name': instance.name,
       'description': instance.description,
       'price': instance.price,
+      'redemptionCode': instance.redemptionCode,
+      'redemptionUrl': instance.redemptionUrl,
     };

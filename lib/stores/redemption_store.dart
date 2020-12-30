@@ -16,19 +16,27 @@ abstract class _RedemptionStoreBase with Store {
   @observable
   ObservableList<RedemptionProductModel> _prodcuts = ObservableList.of([]);
 
+  @observable
+  bool _loading = false;
+
+  @computed
+  bool get loading => _loading;
+
   @computed
   List<RedemptionProductModel> get redemptionProducts => _prodcuts;
 
   @computed
-  int get userCredits => _user.getUser?.numberOfPoints ?? 0;
+  int get userPointBalance => _user.getUser?.pointBalance ?? 0;
 
   @action
-  Future setPoints(String creditActionId) async {
+  Future setCreditActionPoints(String creditActionId) async {
     try {
+      _loading = true;
       _repository.creditAction(creditActionId);
     } catch (e) {
       Crash.report(e.message);
-    }
+    } finally {}
+    _loading = false;
   }
 
   @action
@@ -37,6 +45,16 @@ abstract class _RedemptionStoreBase with Store {
       _prodcuts
         ..clear()
         ..addAll(await _repository.getRedemptionProdcuts());
+    } on DioError catch (e) {
+      Crash.report(e.message);
+    }
+  }
+
+  @action
+  Future redeemProduct(int productId) async {
+    try {
+      final product = await _repository.redeemProduct(productId);
+      print(product);
     } on DioError catch (e) {
       Crash.report(e.message);
     }

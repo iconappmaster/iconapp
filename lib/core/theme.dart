@@ -244,7 +244,7 @@ const hint = TextStyle(
 const emptyState = TextStyle(
   fontFamily: _fontRubikRegular,
   color: darkIndigo2,
-  fontSize: 20,
+  fontSize: 15,
 );
 
 const createGroupTitle = TextStyle(

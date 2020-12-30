@@ -61,7 +61,7 @@ class RedemptionScore extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CustomText(redemption.userCredits?.toString(), style: lastWritten),
+            Observer(builder: (_) => CustomText(redemption.userPointBalance?.toString(), style: lastWritten)),
             SizedBox(width: 5),
             Icon(Icons.money, color: white, size: 18),
           ],

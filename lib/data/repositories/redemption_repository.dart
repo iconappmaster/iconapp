@@ -8,6 +8,8 @@ abstract class RedemptionRepository {
   Future creditAction(String creditActionId);
 
   Future<List<RedemptionProductModel>> getRedemptionProdcuts();
+
+  Future<RedemptionProductModel> redeemProduct(int productId);
 }
 
 class RedemptionRepositoryImpl implements RedemptionRepository {
@@ -16,16 +18,21 @@ class RedemptionRepositoryImpl implements RedemptionRepository {
   RedemptionRepositoryImpl(this.rest);
   @override
   Future creditAction(String creditActionId) async {
-    return rest.creditAction(creditActionId);
+    return await rest.creditAction(creditActionId);
   }
 
   @override
   Future<List<RedemptionProductModel>> getRedemptionProdcuts() async {
-    return rest.getRedemptionProdcuts();
+    return await rest.getRedemptionProdcuts();
   }
 
   @override
   Future<List<CreditActionModel>> userCreditAction() async {
-    return rest.userCreditAction();
+    return await rest.userCreditAction();
+  }
+
+  @override
+  Future<RedemptionProductModel> redeemProduct(int productId) async {
+    return await rest.performRedemption(productId);
   }
 }

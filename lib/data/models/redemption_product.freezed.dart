@@ -19,12 +19,19 @@ class _$RedemptionProductModelTearOff {
 
 // ignore: unused_element
   _RedemptionProductModel call(
-      {int id, String name, String description, int price}) {
+      {int id,
+      String name,
+      String description,
+      int price,
+      String redemptionCode,
+      String redemptionUrl}) {
     return _RedemptionProductModel(
       id: id,
       name: name,
       description: description,
       price: price,
+      redemptionCode: redemptionCode,
+      redemptionUrl: redemptionUrl,
     );
   }
 
@@ -44,6 +51,8 @@ mixin _$RedemptionProductModel {
   String get name;
   String get description;
   int get price;
+  String get redemptionCode;
+  String get redemptionUrl;
 
   Map<String, dynamic> toJson();
   $RedemptionProductModelCopyWith<RedemptionProductModel> get copyWith;
@@ -54,7 +63,13 @@ abstract class $RedemptionProductModelCopyWith<$Res> {
   factory $RedemptionProductModelCopyWith(RedemptionProductModel value,
           $Res Function(RedemptionProductModel) then) =
       _$RedemptionProductModelCopyWithImpl<$Res>;
-  $Res call({int id, String name, String description, int price});
+  $Res call(
+      {int id,
+      String name,
+      String description,
+      int price,
+      String redemptionCode,
+      String redemptionUrl});
 }
 
 /// @nodoc
@@ -72,6 +87,8 @@ class _$RedemptionProductModelCopyWithImpl<$Res>
     Object name = freezed,
     Object description = freezed,
     Object price = freezed,
+    Object redemptionCode = freezed,
+    Object redemptionUrl = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as int,
@@ -79,6 +96,12 @@ class _$RedemptionProductModelCopyWithImpl<$Res>
       description:
           description == freezed ? _value.description : description as String,
       price: price == freezed ? _value.price : price as int,
+      redemptionCode: redemptionCode == freezed
+          ? _value.redemptionCode
+          : redemptionCode as String,
+      redemptionUrl: redemptionUrl == freezed
+          ? _value.redemptionUrl
+          : redemptionUrl as String,
     ));
   }
 }
@@ -90,7 +113,13 @@ abstract class _$RedemptionProductModelCopyWith<$Res>
           $Res Function(_RedemptionProductModel) then) =
       __$RedemptionProductModelCopyWithImpl<$Res>;
   @override
-  $Res call({int id, String name, String description, int price});
+  $Res call(
+      {int id,
+      String name,
+      String description,
+      int price,
+      String redemptionCode,
+      String redemptionUrl});
 }
 
 /// @nodoc
@@ -110,6 +139,8 @@ class __$RedemptionProductModelCopyWithImpl<$Res>
     Object name = freezed,
     Object description = freezed,
     Object price = freezed,
+    Object redemptionCode = freezed,
+    Object redemptionUrl = freezed,
   }) {
     return _then(_RedemptionProductModel(
       id: id == freezed ? _value.id : id as int,
@@ -117,6 +148,12 @@ class __$RedemptionProductModelCopyWithImpl<$Res>
       description:
           description == freezed ? _value.description : description as String,
       price: price == freezed ? _value.price : price as int,
+      redemptionCode: redemptionCode == freezed
+          ? _value.redemptionCode
+          : redemptionCode as String,
+      redemptionUrl: redemptionUrl == freezed
+          ? _value.redemptionUrl
+          : redemptionUrl as String,
     ));
   }
 }
@@ -126,7 +163,12 @@ class __$RedemptionProductModelCopyWithImpl<$Res>
 /// @nodoc
 class _$_RedemptionProductModel implements _RedemptionProductModel {
   const _$_RedemptionProductModel(
-      {this.id, this.name, this.description, this.price});
+      {this.id,
+      this.name,
+      this.description,
+      this.price,
+      this.redemptionCode,
+      this.redemptionUrl});
 
   factory _$_RedemptionProductModel.fromJson(Map<String, dynamic> json) =>
       _$_$_RedemptionProductModelFromJson(json);
@@ -139,10 +181,14 @@ class _$_RedemptionProductModel implements _RedemptionProductModel {
   final String description;
   @override
   final int price;
+  @override
+  final String redemptionCode;
+  @override
+  final String redemptionUrl;
 
   @override
   String toString() {
-    return 'RedemptionProductModel(id: $id, name: $name, description: $description, price: $price)';
+    return 'RedemptionProductModel(id: $id, name: $name, description: $description, price: $price, redemptionCode: $redemptionCode, redemptionUrl: $redemptionUrl)';
   }
 
   @override
@@ -157,7 +203,13 @@ class _$_RedemptionProductModel implements _RedemptionProductModel {
                 const DeepCollectionEquality()
                     .equals(other.description, description)) &&
             (identical(other.price, price) ||
-                const DeepCollectionEquality().equals(other.price, price)));
+                const DeepCollectionEquality().equals(other.price, price)) &&
+            (identical(other.redemptionCode, redemptionCode) ||
+                const DeepCollectionEquality()
+                    .equals(other.redemptionCode, redemptionCode)) &&
+            (identical(other.redemptionUrl, redemptionUrl) ||
+                const DeepCollectionEquality()
+                    .equals(other.redemptionUrl, redemptionUrl)));
   }
 
   @override
@@ -166,7 +218,9 @@ class _$_RedemptionProductModel implements _RedemptionProductModel {
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(description) ^
-      const DeepCollectionEquality().hash(price);
+      const DeepCollectionEquality().hash(price) ^
+      const DeepCollectionEquality().hash(redemptionCode) ^
+      const DeepCollectionEquality().hash(redemptionUrl);
 
   @override
   _$RedemptionProductModelCopyWith<_RedemptionProductModel> get copyWith =>
@@ -184,7 +238,9 @@ abstract class _RedemptionProductModel implements RedemptionProductModel {
       {int id,
       String name,
       String description,
-      int price}) = _$_RedemptionProductModel;
+      int price,
+      String redemptionCode,
+      String redemptionUrl}) = _$_RedemptionProductModel;
 
   factory _RedemptionProductModel.fromJson(Map<String, dynamic> json) =
       _$_RedemptionProductModel.fromJson;
@@ -197,6 +253,10 @@ abstract class _RedemptionProductModel implements RedemptionProductModel {
   String get description;
   @override
   int get price;
+  @override
+  String get redemptionCode;
+  @override
+  String get redemptionUrl;
   @override
   _$RedemptionProductModelCopyWith<_RedemptionProductModel> get copyWith;
 }

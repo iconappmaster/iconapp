@@ -9,7 +9,7 @@ part of 'rest_client.dart';
 class _RestClient implements RestClient {
   _RestClient(this._dio, {this.baseUrl}) {
     ArgumentError.checkNotNull(_dio, '_dio');
-    baseUrl ??= 'https://iconstaging.herokuapp.com/api/v1/';
+    baseUrl ??= 'https://iconproduction.herokuapp.com/api/v1/';
   }
 
   final Dio _dio;
@@ -1190,6 +1190,26 @@ class _RestClient implements RestClient {
         .map((dynamic i) =>
             RedemptionProductModel.fromJson(i as Map<String, dynamic>))
         .toList();
+    return value;
+  }
+
+  @override
+  Future<RedemptionProductModel> performRedemption(redemptionProductId) async {
+    ArgumentError.checkNotNull(redemptionProductId, 'redemptionProductId');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'redemptionProductId': redemptionProductId
+    };
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>('user_redemptions',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = RedemptionProductModel.fromJson(_result.data);
     return value;
   }
 }
