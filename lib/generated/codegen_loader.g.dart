@@ -281,7 +281,7 @@ static const Map<String,dynamic> en_US = {
     "compressing": "compressing",
     "messageDeleted": "Message deleted",
     "deleteMessage": "Delete message",
-    "subsribe": "Subscribe conversation",
+    "subsribe": "Subscribe to conversation",
     "viewerPanel": "Only group managers can send a message",
     "join": "please subscribe before",
     "appbarSubtitle": "{} Icons,{} Followers",

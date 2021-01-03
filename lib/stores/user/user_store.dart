@@ -27,10 +27,16 @@ abstract class _UserStoreBase with Store {
   UserModel _userModel = UserModel();
 
   @observable
+  bool _loading = false;
+
+  @observable
   String _sessionToken = '';
 
   @observable
   bool _isNotification = true;
+
+  @computed
+  bool get loading => _loading;
 
   @computed
   bool get isNotification => _isNotification;
@@ -69,13 +75,21 @@ abstract class _UserStoreBase with Store {
   @action
   Future<UserModel> getRemoteUser() async {
     try {
+      _loading = true;
       final user = await _userRepository.getRemtoeUser();
       _userModel = user;
       return user;
     } on DioError catch (e) {
       Crash.report(e.message);
       return null;
+    } finally {
+      _loading = false;
     }
+  }
+
+  @action
+  void updateBalance(int balance) {
+    _userModel = _userModel.copyWith(pointBalance: balance);
   }
 
   @action
@@ -106,9 +120,7 @@ abstract class _UserStoreBase with Store {
     try {
       _isNotification = value;
 
-      value 
-        ? await _userRepository.turnOnNotifications() 
-        : await _userRepository.turnOffNotifications();
+      value ? await _userRepository.turnOnNotifications() : await _userRepository.turnOffNotifications();
 
       final home = sl<HomeStore>();
       final result = await home.getConversations();

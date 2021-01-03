@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/language/language_store.dart';
+import 'package:iconapp/stores/redemption_store.dart';
+import 'package:iconapp/stores/user/user_store.dart';
 import 'package:iconapp/widgets/global/back_button.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/language_switch_tile.dart';
@@ -25,6 +28,8 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  final redemption = sl<RedemptionStore>();
+  final user = sl<UserStore>();
   String appVer = '';
   @override
   void initState() {
@@ -48,10 +53,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         children: <Widget>[
           LoginBackgroundImage(),
           Positioned(
-            top: context.heightPlusStatusbarPerc(.118),
-            child: SvgPicture.asset('assets/images/icon_logo.svg',
-                height: 169, width: 142),
-          ),
+              top: context.heightPlusStatusbarPerc(.118),
+              child: SvgPicture.asset('assets/images/icon_logo.svg', height: 169, width: 142)),
           Positioned(
             right: language.isLTR ? 0 : null,
             left: language.isLTR ? null : 0,
@@ -60,10 +63,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: CustomText('LOGOUT', style: chatMessageBody),
               onPressed: () async {
                 Navigator.pop(context);
-                await showDialog(
-                  context: context,
-                  builder: (_) => DisconnectDialog(height: 250),
-                );
+                await showDialog(context: context, builder: (_) => DisconnectDialog(height: 250));
               },
             ),
           ),
@@ -74,26 +74,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: IconBackButton()),
           Positioned(
               top: context.heightPlusStatusbarPerc(0.04),
-              child: CustomText(LocaleKeys.settings_title.tr(),
-                  style: searchAppBarTitle)),
+              child: CustomText(LocaleKeys.settings_title.tr(), style: searchAppBarTitle)),
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
               height: context.heightPlusStatusbarPerc(.55),
               decoration: BoxDecoration(
                   color: darkIndigo,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(13.3),
-                      topRight: Radius.circular(13.3))),
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(13.3), topRight: Radius.circular(13.3))),
               child: ListView(
                 children: [
                   AppSettingsTile(
                       title: LocaleKeys.settings_friends.tr(),
-                      onTap: () => SocialShare.shareWhatsapp(whatsappMessage)),
+                      onTap: () async {
+                        final u = await redemption.setCreditActionPoints(CreditActionType.share);
+                        user.updateUser(u);
+                        return SocialShare.shareWhatsapp(whatsappMessage);
+                      }),
                   _SettingsDivider(),
                   AppSettingsTile(
-                      title: LocaleKeys.settings_about.tr(),
-                      onTap: () => showAboutDialog(context: context)),
+                      title: LocaleKeys.settings_about.tr(), onTap: () => showAboutDialog(context: context)),
                   _SettingsDivider(),
                   AppSettingsTile(title: 'Version $appVer', onTap: () => 'tap'),
                   _SettingsDivider(),
@@ -103,10 +103,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
           ),
-          Positioned(
-              bottom: 8,
-              child: CustomText(developedBy,
-                  style: chatMessageBody.copyWith(color: white))),
+          Positioned(bottom: 8, child: CustomText(developedBy, style: chatMessageBody.copyWith(color: white))),
         ],
       ),
     );
@@ -117,8 +114,7 @@ class AppSettingsTile extends StatelessWidget {
   final Function onTap;
   final String title;
 
-  const AppSettingsTile({Key key, @required this.onTap, @required this.title})
-      : super(key: key);
+  const AppSettingsTile({Key key, @required this.onTap, @required this.title}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -129,9 +125,7 @@ class AppSettingsTile extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomText(title,
-                    style:
-                        appSettingsTile.copyWith(color: white, fontSize: 18)),
+                CustomText(title, style: appSettingsTile.copyWith(color: white, fontSize: 18)),
               ],
             )));
   }

@@ -1,15 +1,18 @@
 import 'package:iconapp/data/models/redemption_action_model.dart';
 import 'package:iconapp/data/models/redemption_product.dart';
+import 'package:iconapp/data/models/redemption_redeem_model.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 
 abstract class RedemptionRepository {
   Future setCreditAction(int creditActionId);
-  
+
   Future<List<RedemptionActionModel>> getUserCreditAction();
 
   Future<List<RedemptionProductModel>> getRedemptionProdcuts();
 
-  Future<RedemptionProductModel> redeemProduct(int productId);
+  Future<List<RedemptionProductModel>> getRedeemedProducts();
+
+  Future<RedemptionRedeemModel> redeemProduct(int productId);
 }
 
 class RedemptionRepositoryImpl implements RedemptionRepository {
@@ -32,7 +35,12 @@ class RedemptionRepositoryImpl implements RedemptionRepository {
   }
 
   @override
-  Future<RedemptionProductModel> redeemProduct(int productId) async {
-    return await rest.performRedemption(productId);
+  Future<RedemptionRedeemModel> redeemProduct(int productId) async {
+    return await rest.redeemProduct(productId);
+  }
+
+  @override
+  Future<List<RedemptionProductModel>> getRedeemedProducts() async {
+    return await rest.getRedeemedProduct();
   }
 }

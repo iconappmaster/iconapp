@@ -237,6 +237,7 @@ Future onTileTap(Conversation conversation, BuildContext context, int index) asy
     analytics.sendConversationEvent(OPENED_CONVERSATION, conversation.id);
     await adMobs.showWithCounterInterstitial();
     await ExtendedNavigator.of(context).pushChatScreen(conversation: conversation);
+    sl<UserStore>().getRemoteUser();
   } else {
     switch (conversation.conversationType) {
       case ConversationType.public:

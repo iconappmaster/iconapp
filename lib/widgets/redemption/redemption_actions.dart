@@ -19,25 +19,24 @@ class RedeemActions extends HookWidget {
     }, const []);
 
     return Observer(
-      builder: (_) {
-        if (store.loading) return Center(child: CupertinoLoader());
-
-        return Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            CustomText('Points earned: ${store.totalPoints.toString()}', style: redemptionEmptystyle),
-            store.creditActions.isEmpty
-                ? Center(child: CustomText('No redeem action has been taken', style: redemptionEmptystyle))
-                : Container(
-                    child: Expanded(
-                      child: ListView.builder(
-                          itemCount: store.creditActions?.length,
-                          itemBuilder: (context, index) => RedemptionActionTile(actions: store.creditActions[index])),
-                    ),
-                  ),
-          ],
-        );
-      },
+      builder: (_) => store.loading
+          ? Center(child: CupertinoLoader())
+          : Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                CustomText('Points earned: ${store.totalPoints.toString()}', style: redemptionEmptystyle),
+                store.creditActions.isEmpty
+                    ? Center(child: CustomText('No redeem action has been taken', style: redemptionEmptystyle))
+                    : Container(
+                        child: Expanded(
+                          child: ListView.builder(
+                            itemCount: store.creditActions?.length,
+                            itemBuilder: (context, index) => RedemptionActionTile(actions: store.creditActions[index]),
+                          ),
+                        ),
+                      ),
+              ],
+            ),
     );
   }
 }

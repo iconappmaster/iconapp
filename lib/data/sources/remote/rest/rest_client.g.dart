@@ -1194,7 +1194,7 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<RedemptionProductModel> performRedemption(redemptionProductId) async {
+  Future<RedemptionRedeemModel> redeemProduct(redemptionProductId) async {
     ArgumentError.checkNotNull(redemptionProductId, 'redemptionProductId');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
@@ -1209,7 +1209,27 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = RedemptionProductModel.fromJson(_result.data);
+    final value = RedemptionRedeemModel.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<List<RedemptionProductModel>> getRedeemedProduct() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<List<dynamic>>('user_redemptions',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    var value = _result.data
+        .map((dynamic i) =>
+            RedemptionProductModel.fromJson(i as Map<String, dynamic>))
+        .toList();
     return value;
   }
 }

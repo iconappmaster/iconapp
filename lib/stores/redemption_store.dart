@@ -1,9 +1,12 @@
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/models/redemption_action_model.dart';
 import 'package:iconapp/data/models/redemption_product.dart';
+import 'package:iconapp/data/models/redemption_redeem_model.dart';
 import 'package:iconapp/data/repositories/redemption_repository.dart';
+import 'package:iconapp/domain/redemption/redemption_failure.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:mobx/mobx.dart';
 part 'redemption_store.g.dart';
@@ -17,10 +20,13 @@ abstract class _RedemptionStoreBase with Store {
   final _user = sl<UserStore>();
 
   @observable
-  ObservableList<RedemptionProductModel> _prodcuts = ObservableList.of([]);
+  ObservableList<RedemptionProductModel> _products = ObservableList.of([]);
 
   @observable
   ObservableList<RedemptionActionModel> _creditActions = ObservableList.of([]);
+
+  @observable
+  ObservableList<RedemptionProductModel> _redeemedProducts = ObservableList.of([]);
 
   @observable
   RedemptionTabState _tabState = RedemptionTabState.balance;
@@ -29,7 +35,7 @@ abstract class _RedemptionStoreBase with Store {
   bool _loading = false;
 
   @observable
-  int _balance = 0;
+  bool _redeemLoading = false;
 
   @computed
   String get subtitle {
@@ -59,28 +65,28 @@ abstract class _RedemptionStoreBase with Store {
   }
 
   @computed
-  List<RedemptionProductModel> get codes => _prodcuts.where((p) => p.redemptionCode != null).toList();
-
-  @computed
   int get totalPoints => creditActions.map((a) => a.pointsReceived).reduce((value, element) => value + element);
 
   @computed
   bool get loading => _loading;
 
   @computed
-  int get balance => _balance;
+  bool get redeemLoading => _redeemLoading;
+
+  @computed
+  int get balance => _user.getUser.pointBalance;
 
   @computed
   RedemptionTabState get tabState => _tabState;
 
   @computed
-  List<RedemptionProductModel> get redemptionProducts => _prodcuts;
+  List<RedemptionProductModel> get redemptionProducts => _products;
+
+  @computed
+  List<RedemptionProductModel> get redeemedProducts => _redeemedProducts;
 
   @computed
   List<RedemptionActionModel> get creditActions => _creditActions;
-
-  @computed
-  int get userPointBalance => _balance;
 
   @action
   void setTabIndex(int index) {
@@ -112,9 +118,9 @@ abstract class _RedemptionStoreBase with Store {
     try {
       _loading = true;
 
-      await updateBalance();
+      _user.getRemoteUser();
 
-      _prodcuts
+      _products
         ..clear()
         ..addAll(await _repository.getRedemptionProdcuts());
     } on DioError catch (e) {
@@ -125,13 +131,16 @@ abstract class _RedemptionStoreBase with Store {
   }
 
   @action
-  Future updateBalance() async {
+  Future getRedeemedProducts() async {
     try {
       _loading = true;
-      final user = await _user.getRemoteUser();
-      _balance = user?.pointBalance ?? 0;
+
+      _redeemedProducts
+        ..clear()
+        ..addAll(await _repository.getRedeemedProducts());
     } on DioError catch (e) {
       Crash.report(e.message);
+    } finally {
       _loading = false;
     }
   }
@@ -140,9 +149,11 @@ abstract class _RedemptionStoreBase with Store {
   Future getRedemptionActions() async {
     try {
       _loading = true;
-      _creditActions
-        ..clear()
-        ..addAll(await _repository.getUserCreditAction());
+      final credits = await _repository.getUserCreditAction();
+      if (credits.isNotEmpty)
+        _creditActions
+          ..clear()
+          ..addAll(credits);
     } on DioError catch (e) {
       Crash.report(e.message);
     } finally {
@@ -151,26 +162,46 @@ abstract class _RedemptionStoreBase with Store {
   }
 
   @action
-  Future<RedemptionProductModel> redeemProduct(int productId) async {
+  Future<Either<RedemptionFailure, RedemptionRedeemModel>> redeemProduct(int productId) async {
     try {
-      _loading = true;
-      final product = await _repository.redeemProduct(productId);
-      return product;
+      _redeemLoading = true;
+
+      final redeem = await _repository.redeemProduct(productId);
+
+      // udpate the user balance
+      _user.updateBalance(redeem.pointBalance);
+
+      return right(redeem);
     } on DioError catch (e) {
       Crash.report(e.message);
-      return null;
+
+      if (e.response.data['error'].contains('no active redemption')) {
+        return left(RedemptionFailure.noActiveRedemption());
+      } else if (e.response.data['error'].contains('no money')) {
+        return left(RedemptionFailure.noMoney());
+      }
+
+      return left(RedemptionFailure.serverError());
     } finally {
-      _loading = false;
+      _redeemLoading = false;
     }
   }
 
-  bool isEnoughMoney(int productCost) => (_balance - productCost) >= 0;
-
-  void dispose() {}
+  bool isEnoughMoney(int productCost) => (balance - productCost) >= 0;
 }
 
 final creditActionsMap = {
   CreditActionType.likeMessage: 1,
+  CreditActionType.sentMessage: 2,
+  CreditActionType.commentMessage: 3,
+  CreditActionType.subscribeConversation: 4,
+  CreditActionType.share: 5,
 };
 
-enum CreditActionType { likeMessage }
+enum CreditActionType {
+  likeMessage,
+  subscribeConversation,
+  commentMessage,
+  sentMessage,
+  share,
+}

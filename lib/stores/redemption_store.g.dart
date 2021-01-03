@@ -36,6 +36,13 @@ mixin _$RedemptionStore on _RedemptionStoreBase, Store {
   bool get loading => (_$loadingComputed ??= Computed<bool>(() => super.loading,
           name: '_RedemptionStoreBase.loading'))
       .value;
+  Computed<bool> _$redeemLoadingComputed;
+
+  @override
+  bool get redeemLoading =>
+      (_$redeemLoadingComputed ??= Computed<bool>(() => super.redeemLoading,
+              name: '_RedemptionStoreBase.redeemLoading'))
+          .value;
   Computed<int> _$balanceComputed;
 
   @override
@@ -57,6 +64,14 @@ mixin _$RedemptionStore on _RedemptionStoreBase, Store {
               () => super.redemptionProducts,
               name: '_RedemptionStoreBase.redemptionProducts'))
           .value;
+  Computed<List<RedemptionProductModel>> _$redeemedProductsComputed;
+
+  @override
+  List<RedemptionProductModel> get redeemedProducts =>
+      (_$redeemedProductsComputed ??= Computed<List<RedemptionProductModel>>(
+              () => super.redeemedProducts,
+              name: '_RedemptionStoreBase.redeemedProducts'))
+          .value;
   Computed<List<RedemptionActionModel>> _$creditActionsComputed;
 
   @override
@@ -64,26 +79,19 @@ mixin _$RedemptionStore on _RedemptionStoreBase, Store {
           Computed<List<RedemptionActionModel>>(() => super.creditActions,
               name: '_RedemptionStoreBase.creditActions'))
       .value;
-  Computed<int> _$userPointBalanceComputed;
+
+  final _$_productsAtom = Atom(name: '_RedemptionStoreBase._products');
 
   @override
-  int get userPointBalance => (_$userPointBalanceComputed ??= Computed<int>(
-          () => super.userPointBalance,
-          name: '_RedemptionStoreBase.userPointBalance'))
-      .value;
-
-  final _$_prodcutsAtom = Atom(name: '_RedemptionStoreBase._prodcuts');
-
-  @override
-  ObservableList<RedemptionProductModel> get _prodcuts {
-    _$_prodcutsAtom.reportRead();
-    return super._prodcuts;
+  ObservableList<RedemptionProductModel> get _products {
+    _$_productsAtom.reportRead();
+    return super._products;
   }
 
   @override
-  set _prodcuts(ObservableList<RedemptionProductModel> value) {
-    _$_prodcutsAtom.reportWrite(value, super._prodcuts, () {
-      super._prodcuts = value;
+  set _products(ObservableList<RedemptionProductModel> value) {
+    _$_productsAtom.reportWrite(value, super._products, () {
+      super._products = value;
     });
   }
 
@@ -100,6 +108,22 @@ mixin _$RedemptionStore on _RedemptionStoreBase, Store {
   set _creditActions(ObservableList<RedemptionActionModel> value) {
     _$_creditActionsAtom.reportWrite(value, super._creditActions, () {
       super._creditActions = value;
+    });
+  }
+
+  final _$_redeemedProductsAtom =
+      Atom(name: '_RedemptionStoreBase._redeemedProducts');
+
+  @override
+  ObservableList<RedemptionProductModel> get _redeemedProducts {
+    _$_redeemedProductsAtom.reportRead();
+    return super._redeemedProducts;
+  }
+
+  @override
+  set _redeemedProducts(ObservableList<RedemptionProductModel> value) {
+    _$_redeemedProductsAtom.reportWrite(value, super._redeemedProducts, () {
+      super._redeemedProducts = value;
     });
   }
 
@@ -133,18 +157,19 @@ mixin _$RedemptionStore on _RedemptionStoreBase, Store {
     });
   }
 
-  final _$_balanceAtom = Atom(name: '_RedemptionStoreBase._balance');
+  final _$_redeemLoadingAtom =
+      Atom(name: '_RedemptionStoreBase._redeemLoading');
 
   @override
-  int get _balance {
-    _$_balanceAtom.reportRead();
-    return super._balance;
+  bool get _redeemLoading {
+    _$_redeemLoadingAtom.reportRead();
+    return super._redeemLoading;
   }
 
   @override
-  set _balance(int value) {
-    _$_balanceAtom.reportWrite(value, super._balance, () {
-      super._balance = value;
+  set _redeemLoading(bool value) {
+    _$_redeemLoadingAtom.reportWrite(value, super._redeemLoading, () {
+      super._redeemLoading = value;
     });
   }
 
@@ -166,12 +191,13 @@ mixin _$RedemptionStore on _RedemptionStoreBase, Store {
         .run(() => super.getRedemptionProducts());
   }
 
-  final _$updateBalanceAsyncAction =
-      AsyncAction('_RedemptionStoreBase.updateBalance');
+  final _$getRedeemedProductsAsyncAction =
+      AsyncAction('_RedemptionStoreBase.getRedeemedProducts');
 
   @override
-  Future<dynamic> updateBalance() {
-    return _$updateBalanceAsyncAction.run(() => super.updateBalance());
+  Future<dynamic> getRedeemedProducts() {
+    return _$getRedeemedProductsAsyncAction
+        .run(() => super.getRedeemedProducts());
   }
 
   final _$getRedemptionActionsAsyncAction =
@@ -187,7 +213,8 @@ mixin _$RedemptionStore on _RedemptionStoreBase, Store {
       AsyncAction('_RedemptionStoreBase.redeemProduct');
 
   @override
-  Future<RedemptionProductModel> redeemProduct(int productId) {
+  Future<Either<RedemptionFailure, RedemptionRedeemModel>> redeemProduct(
+      int productId) {
     return _$redeemProductAsyncAction.run(() => super.redeemProduct(productId));
   }
 
@@ -212,11 +239,12 @@ subtitle: ${subtitle},
 tabStateIndex: ${tabStateIndex},
 totalPoints: ${totalPoints},
 loading: ${loading},
+redeemLoading: ${redeemLoading},
 balance: ${balance},
 tabState: ${tabState},
 redemptionProducts: ${redemptionProducts},
-creditActions: ${creditActions},
-userPointBalance: ${userPointBalance}
+redeemedProducts: ${redeemedProducts},
+creditActions: ${creditActions}
     ''';
   }
 }

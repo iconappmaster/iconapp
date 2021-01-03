@@ -24,39 +24,46 @@ class RedemptionScreen extends HookWidget {
     }, const []);
 
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(gradient: purpleGradient),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            AppBarWithDivider(
-                widget: RedemptionScore(), title: 'My Balance', isArrowDirectionDown: true, subtitle: store.subtitle),
-            Container(
-                height: context.heightPlusStatusbarPerc(.05),
-                child: Center(
-                    child: Observer(
-                  builder: (_) => CupertinoSlidingSegmentedControl(
-                      thumbColor: cornflower,
-                      groupValue: store.tabStateIndex,
-                      children: _buildTabs(),
-                      onValueChanged: (index) => store.setTabIndex(index)),
-                ))),
-            Expanded(
-              child: Observer(
-                builder: (_) {
-                  switch (store.tabState) {
-                    case RedemptionTabState.balance:
-                      return RedeemBalance();
-                    case RedemptionTabState.actions:
-                      return RedeemActions();
-                    case RedemptionTabState.reedemCodes:
-                      return RedeemCodes(store: store);
-                  }
-                  return SizedBox();
-                },
+      body: Observer(
+        builder: (_) => Container(
+          decoration: BoxDecoration(gradient: purpleGradient),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Observer(
+                builder: (_) => AppBarWithDivider(
+                  widget: RedemptionScore(),
+                  title: 'My Balance',
+                  isArrowDirectionDown: true,
+                  subtitle: store.subtitle,
+                ),
               ),
-            )
-          ],
+              Container(
+                  height: context.heightPlusStatusbarPerc(.05),
+                  child: Center(
+                    child: CupertinoSlidingSegmentedControl(
+                        thumbColor: cornflower,
+                        groupValue: store.tabStateIndex,
+                        children: _buildTabs(),
+                        onValueChanged: (index) => store.setTabIndex(index)),
+                  )),
+              Expanded(
+                child: Observer(
+                  builder: (_) {
+                    switch (store.tabState) {
+                      case RedemptionTabState.balance:
+                        return RedeemBalance();
+                      case RedemptionTabState.actions:
+                        return RedeemActions();
+                      case RedemptionTabState.reedemCodes:
+                        return RedeemCodes(store: store);
+                    }
+                    return SizedBox();
+                  },
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

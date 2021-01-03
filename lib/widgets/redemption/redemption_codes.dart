@@ -10,7 +10,7 @@ import 'package:iconapp/widgets/global/basic_tile.dart';
 import 'package:iconapp/widgets/global/cupertino_loader.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/next_button.dart';
-import 'package:iconapp/widgets/redemption/redemption_balance.dart';
+import 'package:iconapp/widgets/redemption/redemption_product_tile.dart';
 import '../../core/extensions/context_ext.dart';
 
 class RedeemCodes extends HookWidget {
@@ -30,17 +30,19 @@ class RedeemCodes extends HookWidget {
 
     return Observer(
       builder: (_) {
-        if (store.loading) {
-          return Center(child: CupertinoLoader());
-        }
+        if (store.loading) return Center(child: CupertinoLoader());
         return Container(
-            child: store.codes.isEmpty
-                ? Center(
-                    child: CustomText('No code, try to redeem a product first',
-                        textAlign: TextAlign.center, style: dialogTitle.copyWith(fontSize: 16)))
-                : ListView.builder(
-                    itemCount: store.codes?.length,
-                    itemBuilder: (context, index) => RedemptionProductTile(product: store.codes[index])));
+          child: store.redeemedProducts.isEmpty
+              ? Center(
+                  child: CustomText('No code, try to redeem a product first',
+                      textAlign: TextAlign.center, style: redemptionEmptystyle))
+              : ListView.builder(
+                  itemCount: store.redeemedProducts?.length,
+                  itemBuilder: (context, index) => RedemptionProductTile(
+                    product: store.redeemedProducts[index],
+                  ),
+                ),
+        );
       },
     );
   }

@@ -9,6 +9,12 @@ part of 'user_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$UserStore on _UserStoreBase, Store {
+  Computed<bool> _$loadingComputed;
+
+  @override
+  bool get loading => (_$loadingComputed ??=
+          Computed<bool>(() => super.loading, name: '_UserStoreBase.loading'))
+      .value;
   Computed<bool> _$isNotificationComputed;
 
   @override
@@ -50,6 +56,21 @@ mixin _$UserStore on _UserStoreBase, Store {
   set _userModel(UserModel value) {
     _$_userModelAtom.reportWrite(value, super._userModel, () {
       super._userModel = value;
+    });
+  }
+
+  final _$_loadingAtom = Atom(name: '_UserStoreBase._loading');
+
+  @override
+  bool get _loading {
+    _$_loadingAtom.reportRead();
+    return super._loading;
+  }
+
+  @override
+  set _loading(bool value) {
+    _$_loadingAtom.reportWrite(value, super._loading, () {
+      super._loading = value;
     });
   }
 
@@ -142,6 +163,17 @@ mixin _$UserStore on _UserStoreBase, Store {
       ActionController(name: '_UserStoreBase');
 
   @override
+  void updateBalance(int balance) {
+    final _$actionInfo = _$_UserStoreBaseActionController.startAction(
+        name: '_UserStoreBase.updateBalance');
+    try {
+      return super.updateBalance(balance);
+    } finally {
+      _$_UserStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setUser(UserModel user) {
     final _$actionInfo = _$_UserStoreBaseActionController.startAction(
         name: '_UserStoreBase.setUser');
@@ -155,6 +187,7 @@ mixin _$UserStore on _UserStoreBase, Store {
   @override
   String toString() {
     return '''
+loading: ${loading},
 isNotification: ${isNotification},
 getSessionToken: ${getSessionToken},
 getUser: ${getUser},

@@ -3,20 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:iconapp/stores/user/user_store.dart';
 import '../../core/dependencies/locator.dart';
 import '../../core/theme.dart';
-import '../../stores/redemption_store.dart';
 import '../global/cupertino_loader.dart';
 import '../global/custom_text.dart';
 import '../../routes/router.gr.dart';
 
 class RedemptionScore extends HookWidget {
-  final store = sl<RedemptionStore>();
+  final user = sl<UserStore>();
   @override
   Widget build(BuildContext context) {
     useEffect(() {
-      store.updateBalance();
-      return () => store.updateBalance();
+      user.getRemoteUser();
+      return () => {};
     }, const []);
 
     return GestureDetector(
@@ -32,9 +32,13 @@ class RedemptionScore extends HookWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Observer(
-                builder: (_) => store.loading
-                    ? CupertinoLoader(radius: 8)
-                    : CustomText(store.userPointBalance?.toString(), style: lastWritten)),
+              builder: (_) => user.loading
+                  ? CupertinoLoader(radius: 8)
+                  : CustomText(
+                      user.getUser?.pointBalance.toString(),
+                      style: lastWritten,
+                    ),
+            ),
             SizedBox(width: 5),
             SvgPicture.asset(
               'assets/images/coin.svg',

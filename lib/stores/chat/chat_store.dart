@@ -27,7 +27,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:video_compress/video_compress.dart';
 import '../../widgets/story/story_list.dart';
 import '../analytics/analytics_firebase.dart';
-import '../redemption_store.dart';
 import '../story/story_store.dart';
 
 part 'chat_store.g.dart';
@@ -42,7 +41,6 @@ abstract class _ChatStoreBase with Store {
   MediaStore _mediaStore;
   UserStore _userStore;
   HomeStore _homeStore;
-  RedemptionStore _redemptionStore;
   SharedPreferencesService _prefs;
   FlutterAudioRecorder _recorder;
   StopWatchTimer recordTimer;
@@ -52,7 +50,6 @@ abstract class _ChatStoreBase with Store {
     _userStore = sl<UserStore>();
     _mediaStore = sl<MediaStore>();
     _homeStore = sl<HomeStore>();
-    _redemptionStore = sl<RedemptionStore>();
     _prefs = sl<SharedPreferencesService>();
   }
 
@@ -325,8 +322,6 @@ abstract class _ChatStoreBase with Store {
       final conversation = msg.likeType == likeType
           ? await _repository.unlikeMessage(msg.id, likeType)
           : await _repository.likeMessage(msg.id, likeType);
-
-      _redemptionStore.setCreditActionPoints(CreditActionType.likeMessage);
 
       // find the index of the message in _messages by the id
       final index = _messages.indexWhere((m) => m.id == conversation.id);

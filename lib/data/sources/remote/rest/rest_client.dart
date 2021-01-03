@@ -6,6 +6,7 @@ import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/redemption_action_model.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/models/redemption_product.dart';
+import 'package:iconapp/data/models/redemption_redeem_model.dart';
 import 'package:iconapp/data/models/story_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/models/create_group_req.dart';
@@ -237,8 +238,12 @@ abstract class RestClient {
   @GET('redemption_products')
   Future<List<RedemptionProductModel>> getRedemptionProdcuts();
 
+  // Redeem a product
   @POST('user_redemptions')
-  Future<RedemptionProductModel> performRedemption(@Query('redemptionProductId') int redemptionProductId);
+  Future<RedemptionRedeemModel> redeemProduct(@Query('redemptionProductId') int redemptionProductId);
+
+  @GET('user_redemptions')
+  Future<List<RedemptionProductModel>> getRedeemedProduct();
 }
 
 Dio getDioClient() {

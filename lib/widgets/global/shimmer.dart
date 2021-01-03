@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:iconapp/core/theme.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 ///
 /// An enum defines all supported directions of shimmer effect
@@ -84,20 +86,8 @@ class Shimmer extends StatefulWidget {
   })  : gradient = LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.centerRight,
-            colors: <Color>[
-              baseColor,
-              baseColor,
-              highlightColor,
-              baseColor,
-              baseColor
-            ],
-            stops: const <double>[
-              0.0,
-              0.35,
-              0.5,
-              0.65,
-              1.0
-            ]),
+            colors: <Color>[baseColor, baseColor, highlightColor, baseColor, baseColor],
+            stops: const <double>[0.0, 0.35, 0.5, 0.65, 1.0]),
         super(key: key);
 
   @override
@@ -106,13 +96,10 @@ class Shimmer extends StatefulWidget {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<Gradient>('gradient', gradient,
-        defaultValue: null));
+    properties.add(DiagnosticsProperty<Gradient>('gradient', gradient, defaultValue: null));
     properties.add(EnumProperty<ShimmerDirection>('direction', direction));
-    properties.add(
-        DiagnosticsProperty<Duration>('period', period, defaultValue: null));
-    properties
-        .add(DiagnosticsProperty<bool>('enabled', enabled, defaultValue: null));
+    properties.add(DiagnosticsProperty<Duration>('period', period, defaultValue: null));
+    properties.add(DiagnosticsProperty<bool>('enabled', enabled, defaultValue: null));
   }
 }
 
@@ -312,8 +299,7 @@ class VideoShimmer extends StatefulWidget {
   _VideoShimmerState createState() => _VideoShimmerState();
 }
 
-class _VideoShimmerState extends State<VideoShimmer>
-    with SingleTickerProviderStateMixin {
+class _VideoShimmerState extends State<VideoShimmer> with SingleTickerProviderStateMixin {
   AnimationController _animationController;
   Animation<double> _animation;
 
@@ -321,11 +307,9 @@ class _VideoShimmerState extends State<VideoShimmer>
   @override
   void initState() {
     super.initState();
-    _animationController =
-        AnimationController(duration: Duration(seconds: 1), vsync: this)
-          ..repeat();
-    _animation = Tween<double>(begin: -2, end: 2).animate(CurvedAnimation(
-        curve: Curves.easeInOutSine, parent: _animationController));
+    _animationController = AnimationController(duration: Duration(seconds: 1), vsync: this)..repeat();
+    _animation = Tween<double>(begin: -2, end: 2)
+        .animate(CurvedAnimation(curve: Curves.easeInOutSine, parent: _animationController));
   }
   // ****************************init*************************
 
@@ -366,9 +350,7 @@ class _VideoShimmerState extends State<VideoShimmer>
                       endAlign: widget.endAlign,
                       isVideoShimmer: true,
                       hasCustomColors: widget.hasCustomColors,
-                      colors: widget.colors.length == 3
-                          ? widget.colors
-                          : defaultColors),
+                      colors: widget.colors.length == 3 ? widget.colors : defaultColors),
                   Container(
                     height: height * 0.04,
                     width: width * .7,
@@ -377,13 +359,10 @@ class _VideoShimmerState extends State<VideoShimmer>
                         isPurplishMode: widget.isPurplishMode,
                         isDarkMode: widget.isDarkMode,
                         hasCustomColors: widget.hasCustomColors,
-                        colors: widget.colors.length == 3
-                            ? widget.colors
-                            : defaultColors),
+                        colors: widget.colors.length == 3 ? widget.colors : defaultColors),
                   ),
                   SizedBox(height: 8),
-                  if (widget.showLoadingText)
-                    CustomText('טוען...', style: newMessageNumber),
+                  if (widget.showLoadingText) CustomText(LocaleKeys.general_loading.tr(), style: newMessageNumber),
                 ],
               ),
             ],
@@ -462,11 +441,7 @@ Decoration customBoxDecoration({
           stops: [animation.value - 2, animation.value, animation.value + 1]));
 }
 
-const List<Color> defaultColors = [
-  Color.fromRGBO(0, 0, 0, 0.1),
-  Color(0x44CCCCCC),
-  Color.fromRGBO(0, 0, 0, 0.1)
-];
+const List<Color> defaultColors = [Color.fromRGBO(0, 0, 0, 0.1), Color(0x44CCCCCC), Color.fromRGBO(0, 0, 0, 0.1)];
 
 Decoration radiusBoxDecoration(
     {@required Animation animation,

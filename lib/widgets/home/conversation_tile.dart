@@ -166,7 +166,7 @@ class NewBadge extends StatelessWidget {
           ])),
       child: Center(
         child: CustomText(
-          'חדש',
+          'New',
           style: newMessageNumber,
         ),
       ),

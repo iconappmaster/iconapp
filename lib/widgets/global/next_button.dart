@@ -32,7 +32,7 @@ class NextButton extends StatelessWidget {
         decoration: BoxDecoration(
             color: enabled ? cornflower : cornflower.withOpacity(.3),
             borderRadius: BorderRadius.circular(2.7)),
-        child: Material(
+        child: Material(  
           color: Colors.transparent,
           child: Center(
             child: CustomText(

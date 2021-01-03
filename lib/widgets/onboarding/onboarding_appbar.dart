@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/stores/language/language_store.dart';
 import 'package:iconapp/widgets/global/back_button.dart';
@@ -24,12 +23,11 @@ class IconAppbar extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Container(
-          margin: EdgeInsets.only(top: context.statusbarHeight()),
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          height: context.heightPx * .08,
-          width: double.infinity,
-          child: Observer(builder: (_) {
-            return Stack(
+            margin: EdgeInsets.only(top: context.statusbarHeight()),
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            height: context.heightPx * .08,
+            width: double.infinity,
+            child: Stack(
               children: <Widget>[
                 if (showBack)
                   Align(
@@ -37,14 +35,14 @@ class IconAppbar extends StatelessWidget {
                           language.direction == LanguageDirection.ltr ? Alignment.centerLeft : Alignment.centerRight,
                       child: IconBackButton()),
                 if (widget != null) widget,
-                logo ?? Align(
-                  alignment: language.direction == LanguageDirection.ltr ? Alignment.centerRight : Alignment.centerLeft,
-                  child: SvgPicture.asset('assets/images/white_logo.svg', height: 23.7),
-                ),
+                logo ??
+                    Align(
+                      alignment:
+                          language.direction == LanguageDirection.ltr ? Alignment.centerRight : Alignment.centerLeft,
+                      child: SvgPicture.asset('assets/images/white_logo.svg', height: 23.7),
+                    ),
               ],
-            );
-          }),
-        ),
+            )),
         BlueDivider(),
       ],
     );
