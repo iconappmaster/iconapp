@@ -1,61 +1,70 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:iconapp/core/dependencies/locator.dart';
-import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/stores/redemption_store.dart';
-import 'package:iconapp/widgets/create/create_app_bar.dart';
-import 'package:iconapp/widgets/global/cupertino_loader.dart';
+import 'package:iconapp/widgets/redemption/redemption_score.dart';
+import '../core/dependencies/locator.dart';
+import '../core/theme.dart';
+import '../stores/redemption_store.dart';
+import '../widgets/create/create_app_bar.dart';
+import '../widgets/global/custom_text.dart';
+import '../widgets/redemption/redemption_actions.dart';
+import '../widgets/redemption/redemption_balance.dart';
+import '../widgets/redemption/redemption_codes.dart';
 import '../core/extensions/context_ext.dart';
 
-class RedemptionScreen extends StatelessWidget {
+class RedemptionScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    final style = hint.copyWith(color: white.withOpacity(.7), fontSize: 15);
     final store = sl<RedemptionStore>();
+
+    useEffect(() {
+      store.getRedemptionProducts();
+      return () {};
+    }, const []);
+
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-          gradient: purpleGradient,
-        ),
+        decoration: BoxDecoration(gradient: purpleGradient),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             AppBarWithDivider(
-              title: 'Redemption',
-              isArrowDirectionDown: true,
-              subtitle: 'Here you can redeem with your credit',
-            ),
+                widget: RedemptionScore(), title: 'My Balance', isArrowDirectionDown: true, subtitle: store.subtitle),
             Container(
-                height: context.heightPlusStatusbarPerc(.3),
+                height: context.heightPlusStatusbarPerc(.05),
                 child: Center(
-                    child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text('Balance', style: style),
-                    SizedBox(height: 10),
-                    Icon(Icons.money_sharp, color: white, size: 40),
-                    SizedBox(height: 10),
-                    Text(store?.userPointBalance.toString(), style: dialogTitle),
-                  ],
+                    child: Observer(
+                  builder: (_) => CupertinoSlidingSegmentedControl(
+                      thumbColor: cornflower,
+                      groupValue: store.tabStateIndex,
+                      children: _buildTabs(),
+                      onValueChanged: (index) => store.setTabIndex(index)),
                 ))),
-            Text('Redemption products', style: style),
             Expanded(
-              child: Observer(builder: (_) {
-                return Container(
-                  child: store.loading
-                      ? Center(child: CupertinoLoader())
-                      : ListView.builder(
-                          itemCount: store.redemptionProducts?.length,
-                          itemBuilder: (context, index) {
-                            return Container();
-                          },
-                        ),
-                );
-              }),
+              child: Observer(
+                builder: (_) {
+                  switch (store.tabState) {
+                    case RedemptionTabState.balance:
+                      return RedeemBalance();
+                    case RedemptionTabState.actions:
+                      return RedeemActions();
+                    case RedemptionTabState.reedemCodes:
+                      return RedeemCodes(store: store);
+                  }
+                  return SizedBox();
+                },
+              ),
             )
           ],
         ),
       ),
     );
   }
+
+  Map<int, Widget> _buildTabs() => {
+        0: CustomText('Products', style: chatMessageName),
+        1: CustomText('Actions', style: chatMessageName),
+        2: CustomText('Codes', style: chatMessageName),
+      };
 }

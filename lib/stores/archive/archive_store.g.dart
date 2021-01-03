@@ -85,7 +85,7 @@ mixin _$ArchiveStore on _ArchiveStoreBase, Store {
   final _$disposeAsyncAction = AsyncAction('_ArchiveStoreBase.dispose');
 
   @override
-  Future<dynamic> dispose() {
+  Future dispose() {
     return _$disposeAsyncAction.run(() => super.dispose());
   }
 

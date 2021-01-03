@@ -66,7 +66,7 @@ abstract class _ArchiveStoreBase with Store {
   }
 
   @action
-  Future dispose() async {
+  dispose() async {
     _archivedConversations.clear();
   }
 }

@@ -1,28 +1,29 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
 
-part of 'credit_action_model.dart';
+part of 'redemption_action_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
 // **************************************************************************
 
 T _$identity<T>(T value) => value;
-CreditActionModel _$CreditActionModelFromJson(Map<String, dynamic> json) {
-  return _CreditActionModel.fromJson(json);
+RedemptionActionModel _$RedemptionActionModelFromJson(
+    Map<String, dynamic> json) {
+  return _RedemptionActionModel.fromJson(json);
 }
 
 /// @nodoc
-class _$CreditActionModelTearOff {
-  const _$CreditActionModelTearOff();
+class _$RedemptionActionModelTearOff {
+  const _$RedemptionActionModelTearOff();
 
 // ignore: unused_element
-  _CreditActionModel call(
+  _RedemptionActionModel call(
       {int creditActionId,
       String creditActionName,
       int pointsReceived,
-      String earnedAt}) {
-    return _CreditActionModel(
+      int earnedAt}) {
+    return _RedemptionActionModel(
       creditActionId: creditActionId,
       creditActionName: creditActionName,
       pointsReceived: pointsReceived,
@@ -31,46 +32,46 @@ class _$CreditActionModelTearOff {
   }
 
 // ignore: unused_element
-  CreditActionModel fromJson(Map<String, Object> json) {
-    return CreditActionModel.fromJson(json);
+  RedemptionActionModel fromJson(Map<String, Object> json) {
+    return RedemptionActionModel.fromJson(json);
   }
 }
 
 /// @nodoc
 // ignore: unused_element
-const $CreditActionModel = _$CreditActionModelTearOff();
+const $RedemptionActionModel = _$RedemptionActionModelTearOff();
 
 /// @nodoc
-mixin _$CreditActionModel {
+mixin _$RedemptionActionModel {
   int get creditActionId;
   String get creditActionName;
   int get pointsReceived;
-  String get earnedAt;
+  int get earnedAt;
 
   Map<String, dynamic> toJson();
-  $CreditActionModelCopyWith<CreditActionModel> get copyWith;
+  $RedemptionActionModelCopyWith<RedemptionActionModel> get copyWith;
 }
 
 /// @nodoc
-abstract class $CreditActionModelCopyWith<$Res> {
-  factory $CreditActionModelCopyWith(
-          CreditActionModel value, $Res Function(CreditActionModel) then) =
-      _$CreditActionModelCopyWithImpl<$Res>;
+abstract class $RedemptionActionModelCopyWith<$Res> {
+  factory $RedemptionActionModelCopyWith(RedemptionActionModel value,
+          $Res Function(RedemptionActionModel) then) =
+      _$RedemptionActionModelCopyWithImpl<$Res>;
   $Res call(
       {int creditActionId,
       String creditActionName,
       int pointsReceived,
-      String earnedAt});
+      int earnedAt});
 }
 
 /// @nodoc
-class _$CreditActionModelCopyWithImpl<$Res>
-    implements $CreditActionModelCopyWith<$Res> {
-  _$CreditActionModelCopyWithImpl(this._value, this._then);
+class _$RedemptionActionModelCopyWithImpl<$Res>
+    implements $RedemptionActionModelCopyWith<$Res> {
+  _$RedemptionActionModelCopyWithImpl(this._value, this._then);
 
-  final CreditActionModel _value;
+  final RedemptionActionModel _value;
   // ignore: unused_field
-  final $Res Function(CreditActionModel) _then;
+  final $Res Function(RedemptionActionModel) _then;
 
   @override
   $Res call({
@@ -89,35 +90,35 @@ class _$CreditActionModelCopyWithImpl<$Res>
       pointsReceived: pointsReceived == freezed
           ? _value.pointsReceived
           : pointsReceived as int,
-      earnedAt: earnedAt == freezed ? _value.earnedAt : earnedAt as String,
+      earnedAt: earnedAt == freezed ? _value.earnedAt : earnedAt as int,
     ));
   }
 }
 
 /// @nodoc
-abstract class _$CreditActionModelCopyWith<$Res>
-    implements $CreditActionModelCopyWith<$Res> {
-  factory _$CreditActionModelCopyWith(
-          _CreditActionModel value, $Res Function(_CreditActionModel) then) =
-      __$CreditActionModelCopyWithImpl<$Res>;
+abstract class _$RedemptionActionModelCopyWith<$Res>
+    implements $RedemptionActionModelCopyWith<$Res> {
+  factory _$RedemptionActionModelCopyWith(_RedemptionActionModel value,
+          $Res Function(_RedemptionActionModel) then) =
+      __$RedemptionActionModelCopyWithImpl<$Res>;
   @override
   $Res call(
       {int creditActionId,
       String creditActionName,
       int pointsReceived,
-      String earnedAt});
+      int earnedAt});
 }
 
 /// @nodoc
-class __$CreditActionModelCopyWithImpl<$Res>
-    extends _$CreditActionModelCopyWithImpl<$Res>
-    implements _$CreditActionModelCopyWith<$Res> {
-  __$CreditActionModelCopyWithImpl(
-      _CreditActionModel _value, $Res Function(_CreditActionModel) _then)
-      : super(_value, (v) => _then(v as _CreditActionModel));
+class __$RedemptionActionModelCopyWithImpl<$Res>
+    extends _$RedemptionActionModelCopyWithImpl<$Res>
+    implements _$RedemptionActionModelCopyWith<$Res> {
+  __$RedemptionActionModelCopyWithImpl(_RedemptionActionModel _value,
+      $Res Function(_RedemptionActionModel) _then)
+      : super(_value, (v) => _then(v as _RedemptionActionModel));
 
   @override
-  _CreditActionModel get _value => super._value as _CreditActionModel;
+  _RedemptionActionModel get _value => super._value as _RedemptionActionModel;
 
   @override
   $Res call({
@@ -126,7 +127,7 @@ class __$CreditActionModelCopyWithImpl<$Res>
     Object pointsReceived = freezed,
     Object earnedAt = freezed,
   }) {
-    return _then(_CreditActionModel(
+    return _then(_RedemptionActionModel(
       creditActionId: creditActionId == freezed
           ? _value.creditActionId
           : creditActionId as int,
@@ -136,7 +137,7 @@ class __$CreditActionModelCopyWithImpl<$Res>
       pointsReceived: pointsReceived == freezed
           ? _value.pointsReceived
           : pointsReceived as int,
-      earnedAt: earnedAt == freezed ? _value.earnedAt : earnedAt as String,
+      earnedAt: earnedAt == freezed ? _value.earnedAt : earnedAt as int,
     ));
   }
 }
@@ -144,15 +145,15 @@ class __$CreditActionModelCopyWithImpl<$Res>
 @JsonSerializable()
 
 /// @nodoc
-class _$_CreditActionModel implements _CreditActionModel {
-  const _$_CreditActionModel(
+class _$_RedemptionActionModel implements _RedemptionActionModel {
+  const _$_RedemptionActionModel(
       {this.creditActionId,
       this.creditActionName,
       this.pointsReceived,
       this.earnedAt});
 
-  factory _$_CreditActionModel.fromJson(Map<String, dynamic> json) =>
-      _$_$_CreditActionModelFromJson(json);
+  factory _$_RedemptionActionModel.fromJson(Map<String, dynamic> json) =>
+      _$_$_RedemptionActionModelFromJson(json);
 
   @override
   final int creditActionId;
@@ -161,17 +162,17 @@ class _$_CreditActionModel implements _CreditActionModel {
   @override
   final int pointsReceived;
   @override
-  final String earnedAt;
+  final int earnedAt;
 
   @override
   String toString() {
-    return 'CreditActionModel(creditActionId: $creditActionId, creditActionName: $creditActionName, pointsReceived: $pointsReceived, earnedAt: $earnedAt)';
+    return 'RedemptionActionModel(creditActionId: $creditActionId, creditActionName: $creditActionName, pointsReceived: $pointsReceived, earnedAt: $earnedAt)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _CreditActionModel &&
+        (other is _RedemptionActionModel &&
             (identical(other.creditActionId, creditActionId) ||
                 const DeepCollectionEquality()
                     .equals(other.creditActionId, creditActionId)) &&
@@ -195,24 +196,25 @@ class _$_CreditActionModel implements _CreditActionModel {
       const DeepCollectionEquality().hash(earnedAt);
 
   @override
-  _$CreditActionModelCopyWith<_CreditActionModel> get copyWith =>
-      __$CreditActionModelCopyWithImpl<_CreditActionModel>(this, _$identity);
+  _$RedemptionActionModelCopyWith<_RedemptionActionModel> get copyWith =>
+      __$RedemptionActionModelCopyWithImpl<_RedemptionActionModel>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$_$_CreditActionModelToJson(this);
+    return _$_$_RedemptionActionModelToJson(this);
   }
 }
 
-abstract class _CreditActionModel implements CreditActionModel {
-  const factory _CreditActionModel(
+abstract class _RedemptionActionModel implements RedemptionActionModel {
+  const factory _RedemptionActionModel(
       {int creditActionId,
       String creditActionName,
       int pointsReceived,
-      String earnedAt}) = _$_CreditActionModel;
+      int earnedAt}) = _$_RedemptionActionModel;
 
-  factory _CreditActionModel.fromJson(Map<String, dynamic> json) =
-      _$_CreditActionModel.fromJson;
+  factory _RedemptionActionModel.fromJson(Map<String, dynamic> json) =
+      _$_RedemptionActionModel.fromJson;
 
   @override
   int get creditActionId;
@@ -221,7 +223,7 @@ abstract class _CreditActionModel implements CreditActionModel {
   @override
   int get pointsReceived;
   @override
-  String get earnedAt;
+  int get earnedAt;
   @override
-  _$CreditActionModelCopyWith<_CreditActionModel> get copyWith;
+  _$RedemptionActionModelCopyWith<_RedemptionActionModel> get copyWith;
 }

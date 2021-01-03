@@ -97,7 +97,7 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
           _sliderContext = context;
           return ReplyButton(message: widget.message);
         },
-        child: Stack(children: [
+        child: Stack(alignment: Alignment.center, children: [
           IconBubble(
             isMe: widget.isMe,
             message: widget.message,
@@ -108,11 +108,9 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
               if (store.conversationVideos.length > 1) {
                 ExtendedNavigator.of(context).pushFeedPlayer(
                     media: store.conversationVideos,
-                    index: store.conversationVideos
-                        .indexWhere((m) => m.id == widget.message.id));
+                    index: store.conversationVideos.indexWhere((m) => m.id == widget.message.id));
               } else {
-                ExtendedNavigator.of(context)
-                    .pushDefaultVideoPlayer(url: widget.message?.body ?? '');
+                ExtendedNavigator.of(context).pushDefaultVideoPlayer(url: widget.message?.body ?? '');
               }
             },
             child: Stack(
@@ -123,39 +121,27 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
                     width: MediaQuery.of(context).size.width * .5,
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(4.2),
-                        child: CachedVideoPlayer(
-                            message: widget.message,
-                            manager: widget.videoManager))),
+                        child: CachedVideoPlayer(message: widget.message, manager: widget.videoManager))),
                 Positioned(
                     right: 5,
                     bottom: 5,
                     child: CustomText(widget.message.sender?.fullName ?? '',
-                        style: chatMessageBody.copyWith(fontSize: 12),
-                        textAlign: TextAlign.start)),
+                        style: chatMessageBody.copyWith(fontSize: 12), textAlign: TextAlign.start)),
                 if (widget.message?.viewCount != null)
-                  Positioned(
-                      right: 5,
-                      top: 5,
-                      child:
-                          VideoSeenCounter(counter: widget.message?.viewCount)),
+                  Positioned(right: 5, top: 5, child: VideoSeenCounter(counter: widget.message?.viewCount)),
               ],
             ),
           ),
           Visibility(
             visible: widget.message.status == MessageStatus.pending,
-            child: Positioned(
-              left: 122,
-              top: 91,
-              child: SizedBox(
-                height: 55,
-                width: 55,
-                child: CircularProgressIndicator(
+            child: SizedBox(
+              height: 50,
+              width: 50,
+              child: CircularProgressIndicator(
                   value: _progress,
-                  strokeWidth: 6,
+                  strokeWidth: 2,
                   valueColor: AlwaysStoppedAnimation<Color>(cornflower),
-                  backgroundColor: white,
-                ),
-              ),
+                  backgroundColor: white),
             ),
           ),
           Visibility(

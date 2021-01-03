@@ -12,6 +12,7 @@ class AppBarWithDivider extends StatelessWidget {
   final String subtitle;
   final Function onBackTap;
   final bool isArrowDirectionDown;
+  final Widget widget;
 
   const AppBarWithDivider({
     Key key,
@@ -20,6 +21,7 @@ class AppBarWithDivider extends StatelessWidget {
     this.subtitle,
     this.onBackTap,
     this.isArrowDirectionDown = false,
+    this.widget,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -32,31 +34,26 @@ class AppBarWithDivider extends StatelessWidget {
           child: Stack(
             alignment: Alignment.topCenter,
             children: <Widget>[
-              Positioned(
-                top: 20.7,
-                child: CustomText(
-                  title,
-                  style: createGroupTitle,
-                ),
-              ),
+              Positioned(top: 20.7, child: CustomText(title, style: createGroupTitle)),
               if (subtitle != null)
                 Positioned(
-                  top: 44.7,
-                  child: CustomText(subtitle, style: fieldLabel),
-                ),
+                    top: 49.7, child: CustomText(subtitle, style: fieldLabel.copyWith(color: white.withOpacity(.7)))),
               Positioned(
-                top: 8,
-                right: language.isLTR ? null : 25,
-                left: language.isLTR ? 25 : null,
-                child: IconBackButton(
-                  onBackTap: onBackTap,
-                  isArrowDirectionDown: isArrowDirectionDown,
+                  top: 8,
+                  right: language.isLTR ? null : 16,
+                  left: language.isLTR ? 16 : null,
+                  child: IconBackButton(onBackTap: onBackTap, isArrowDirectionDown: isArrowDirectionDown)),
+              if (widget != null)
+                Positioned(
+                  top: 20,
+                  left: language.isLTR ? null : 16,
+                  right: language.isLTR ? 16 : null,
+                  child: widget,
                 ),
-              ),
             ],
           ),
         ),
-        BlueDivider(color: cornflower),
+        BlueDivider(color: cornflower.withOpacity(.4)),
       ],
     );
   }

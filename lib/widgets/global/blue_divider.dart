@@ -9,7 +9,7 @@ class BlueDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Divider(
-      color: color,
+      color: cornflower.withOpacity(.4),
       endIndent: 0,
       indent: 0,
       thickness: 1,

@@ -27,11 +27,10 @@ class ChatWelcomeDialog extends StatelessWidget {
         children: <Widget>[
           Positioned(
             top: 14.3,
-            child: CustomText(
-              LocaleKeys.chat_welcomeTitle.tr(args: [groupName]),
-              textDirection: language.textDirection,
-              textAlign: language.textAlign,
-              style: dialogTitle,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: CustomText(LocaleKeys.chat_welcomeTitle.tr(args: [groupName]),
+                  textDirection: language.textDirection, textAlign: language.textAlign, style: dialogTitle),
             ),
           ),
           Positioned(

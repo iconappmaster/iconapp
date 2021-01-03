@@ -22,11 +22,10 @@ abstract class UserModel with _$UserModel {
     UserRole userRole,
     bool didCompleteRegistration,
     bool didTurnOffNotifications,
-    int pointBalance,
+    @JsonKey(name: 'point_balance_offset') int pointBalance,
   }) = _UserModel;
 
-  factory UserModel.fromJson(Map<String, dynamic> json) =>
-      _$UserModelFromJson(json);
+  factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
 }
 
 enum UserGender { male, female, other }

@@ -3,7 +3,7 @@ import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:iconapp/core/ads/provider_ads/model/ad_model.dart';
 import 'package:iconapp/data/models/alerts_response.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
-import 'package:iconapp/data/models/credit_action_model.dart';
+import 'package:iconapp/data/models/redemption_action_model.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/models/redemption_product.dart';
 import 'package:iconapp/data/models/story_model.dart';
@@ -18,7 +18,7 @@ part 'rest_client.g.dart';
 const String baseUrlProd = 'https://iconproduction.herokuapp.com/api/v1/';
 const String baseUrlStaging = 'https://iconstaging.herokuapp.com/api/v1/';
 
-@RestApi(baseUrl: baseUrlProd)
+@RestApi(baseUrl: baseUrlStaging)
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
@@ -227,11 +227,11 @@ abstract class RestClient {
 
   // this endpoint will give you a list of all the actions the user took which gave him points
   @GET('user_credit_actions')
-  Future<List<CreditActionModel>> userCreditAction();
+  Future<List<RedemptionActionModel>> userCreditAction();
 
   // This will be called when user takes an action which should give him points
   @POST('user_credit_actions')
-  Future creditAction(@Query('creditActionId') String creditActionId);
+  Future creditAction(@Query('creditActionId') int creditActionId);
 
   // show all redeption product
   @GET('redemption_products')

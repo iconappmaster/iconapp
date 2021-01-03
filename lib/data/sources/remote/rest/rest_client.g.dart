@@ -9,7 +9,7 @@ part of 'rest_client.dart';
 class _RestClient implements RestClient {
   _RestClient(this._dio, {this.baseUrl}) {
     ArgumentError.checkNotNull(_dio, '_dio');
-    baseUrl ??= 'https://iconproduction.herokuapp.com/api/v1/';
+    baseUrl ??= 'https://iconstaging.herokuapp.com/api/v1/';
   }
 
   final Dio _dio;
@@ -1134,7 +1134,7 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<List<CreditActionModel>> userCreditAction() async {
+  Future<List<RedemptionActionModel>> userCreditAction() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -1148,7 +1148,7 @@ class _RestClient implements RestClient {
         data: _data);
     var value = _result.data
         .map((dynamic i) =>
-            CreditActionModel.fromJson(i as Map<String, dynamic>))
+            RedemptionActionModel.fromJson(i as Map<String, dynamic>))
         .toList();
     return value;
   }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/domain/core/errors.dart';
 import 'package:mobx/mobx.dart';
@@ -66,6 +67,18 @@ abstract class _UserStoreBase with Store {
   }
 
   @action
+  Future<UserModel> getRemoteUser() async {
+    try {
+      final user = await _userRepository.getRemtoeUser();
+      _userModel = user;
+      return user;
+    } on DioError catch (e) {
+      Crash.report(e.message);
+      return null;
+    }
+  }
+
+  @action
   Future<bool> save(UserModel user) async {
     return await _prefs.setString(StorageKey.user, jsonEncode(user.toJson()));
   }
@@ -93,9 +106,9 @@ abstract class _UserStoreBase with Store {
     try {
       _isNotification = value;
 
-      value
-          ? await _userRepository.turnOnNotifications()
-          : await _userRepository.turnOffNotifications();
+      value 
+        ? await _userRepository.turnOnNotifications() 
+        : await _userRepository.turnOffNotifications();
 
       final home = sl<HomeStore>();
       final result = await home.getConversations();
@@ -117,7 +130,6 @@ abstract class _UserStoreBase with Store {
       Crash.report(e.message);
     }
   }
- 
 
   bool isMe(int id) => (id == getUser?.id) ?? false;
 }

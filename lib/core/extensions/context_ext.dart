@@ -20,10 +20,10 @@ extension ContextExtensions on BuildContext {
   /// Returns same as MediaQuery.of(context).height
   double get heightPx => sizePx.height;
 
-  showToast(String message, [Color iconColor = white]) {
+  showToast(String message, {Color iconColor = white, Duration duration = const Duration(seconds: 2)}) {
     Flushbar(
       backgroundColor: cornflower,
-      duration: Duration(seconds: 2),
+      duration: duration,
       message: message,
       icon: Icon(Icons.info_outline, size: 28.0, color: iconColor),
     )..show(this);
@@ -32,7 +32,7 @@ extension ContextExtensions on BuildContext {
   showFlushbar({
     @required String message,
     Color color = pastelRed,
-    String title, 
+    String title,
   }) {
     return Flushbar(
       padding: EdgeInsets.fromLTRB(11, 10, 11, 10),
@@ -47,11 +47,9 @@ extension ContextExtensions on BuildContext {
     ).show(this);
   }
 
-  
   statusbarHeight() => MediaQuery.of(this).padding.top;
 
-  heightPlusStatusbarPerc(double height) =>
-      heightPx * height + statusbarHeight();
+  heightPlusStatusbarPerc(double height) => heightPx * height + statusbarHeight();
 
   unFocus() => FocusScope.of(this).requestFocus(FocusNode());
 }

@@ -1,22 +1,23 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'credit_action_model.dart';
+part of 'redemption_action_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_CreditActionModel _$_$_CreditActionModelFromJson(Map<String, dynamic> json) {
-  return _$_CreditActionModel(
+_$_RedemptionActionModel _$_$_RedemptionActionModelFromJson(
+    Map<String, dynamic> json) {
+  return _$_RedemptionActionModel(
     creditActionId: json['creditActionId'] as int,
     creditActionName: json['creditActionName'] as String,
     pointsReceived: json['pointsReceived'] as int,
-    earnedAt: json['earnedAt'] as String,
+    earnedAt: json['earnedAt'] as int,
   );
 }
 
-Map<String, dynamic> _$_$_CreditActionModelToJson(
-        _$_CreditActionModel instance) =>
+Map<String, dynamic> _$_$_RedemptionActionModelToJson(
+        _$_RedemptionActionModel instance) =>
     <String, dynamic>{
       'creditActionId': instance.creditActionId,
       'creditActionName': instance.creditActionName,

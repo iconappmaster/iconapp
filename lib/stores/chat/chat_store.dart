@@ -27,6 +27,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:video_compress/video_compress.dart';
 import '../../widgets/story/story_list.dart';
 import '../analytics/analytics_firebase.dart';
+import '../redemption_store.dart';
 import '../story/story_store.dart';
 
 part 'chat_store.g.dart';
@@ -41,6 +42,7 @@ abstract class _ChatStoreBase with Store {
   MediaStore _mediaStore;
   UserStore _userStore;
   HomeStore _homeStore;
+  RedemptionStore _redemptionStore;
   SharedPreferencesService _prefs;
   FlutterAudioRecorder _recorder;
   StopWatchTimer recordTimer;
@@ -50,13 +52,14 @@ abstract class _ChatStoreBase with Store {
     _userStore = sl<UserStore>();
     _mediaStore = sl<MediaStore>();
     _homeStore = sl<HomeStore>();
+    _redemptionStore = sl<RedemptionStore>();
     _prefs = sl<SharedPreferencesService>();
   }
 
   void init([Conversation conversation]) {
     if (_prefs.contains(StorageKey.fcmConversation)) {
       final conversation = Conversation.loadFCMFromCache();
-      if (conversation != null)setConversation(conversation);
+      if (conversation != null) setConversation(conversation);
     } else {
       if (conversation != null) setConversation(conversation);
     }
@@ -107,17 +110,12 @@ abstract class _ChatStoreBase with Store {
   @computed
   List<PhotoModel> get conversationPhotos => _messages
       .where((message) => message.messageType == MessageType.photo)
-      .map((m) => PhotoModel(
-          id: m.id,
-          thumbnail: m.extraData,
-          url: m.body,
-          description: m.extraData))
+      .map((m) => PhotoModel(id: m.id, thumbnail: m.extraData, url: m.body, description: m.extraData))
       .toList();
 
   @computed
-  List<MessageModel> get conversationVideos => _messages
-      .where((message) => message.messageType == MessageType.video)
-      .toList();
+  List<MessageModel> get conversationVideos =>
+      _messages.where((message) => message.messageType == MessageType.video).toList();
 
   @computed
   ChatState get getState => _state;
@@ -187,8 +185,7 @@ abstract class _ChatStoreBase with Store {
           conversation.messages.length,
         );
 
-      analytics.sendConversationEvent(
-          UNSUBSCRIBED_FROM_CONVERSATION, result.id);
+      analytics.sendConversationEvent(UNSUBSCRIBED_FROM_CONVERSATION, result.id);
     } on ServerError catch (e) {
       Crash.report(e.message);
     } finally {
@@ -232,8 +229,7 @@ abstract class _ChatStoreBase with Store {
       Crash.report(e.message);
     } finally {
       // make sure there are no loading messages in the list
-      _messages
-          .removeWhere((message) => message.messageType == MessageType.loading);
+      _messages.removeWhere((message) => message.messageType == MessageType.loading);
     }
   }
 
@@ -315,8 +311,7 @@ abstract class _ChatStoreBase with Store {
   @action
   Future setConversationViewed() async {
     try {
-      if (conversation?.id != null)
-        await _repository.conversationViewed(conversation?.id);
+      if (conversation?.id != null) await _repository.conversationViewed(conversation?.id);
     } on ServerError catch (e) {
       Crash.report(e.message);
     }
@@ -330,6 +325,8 @@ abstract class _ChatStoreBase with Store {
       final conversation = msg.likeType == likeType
           ? await _repository.unlikeMessage(msg.id, likeType)
           : await _repository.likeMessage(msg.id, likeType);
+
+      _redemptionStore.setCreditActionPoints(CreditActionType.likeMessage);
 
       // find the index of the message in _messages by the id
       final index = _messages.indexWhere((m) => m.id == conversation.id);
@@ -391,8 +388,7 @@ abstract class _ChatStoreBase with Store {
   @action
   Future sendPhotoMessage(ImageSource source) async {
     try {
-      final pickedFile =
-          await sl<ImagePicker>().getImage(source: source, imageQuality: 70);
+      final pickedFile = await sl<ImagePicker>().getImage(source: source, imageQuality: 70);
       if (pickedFile != null) {
         final msg = MessageModel(
           id: DateTime.now().millisecondsSinceEpoch,
@@ -412,11 +408,9 @@ abstract class _ChatStoreBase with Store {
           messageId: msg.id,
         );
 
-        final remote = await _repository.sendMessage(
-            conversation.id, msg.copyWith(body: url));
+        final remote = await _repository.sendMessage(conversation.id, msg.copyWith(body: url));
 
-        _updateId(
-            remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
+        _updateId(remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
 
         analytics.sendConversationEvent(SENT_PHOTO_MESSAGE, remote.id);
       }
@@ -449,15 +443,13 @@ abstract class _ChatStoreBase with Store {
         _messages.add(msg);
 
         // upload thumbnail and video
-        final firbaseThumbnail =
-            await _mediaStore.uploadPhoto(file: File(thumbnail.path));
+        final firbaseThumbnail = await _mediaStore.uploadPhoto(file: File(thumbnail.path));
 
         final info = await compressVideo(file);
 
         setMessageStatus(msg, MessageStatus.pending);
 
-        final firebaseVideo =
-            await _mediaStore.uploadVideo(video: info.file, messageId: msg.id);
+        final firebaseVideo = await _mediaStore.uploadVideo(video: info.file, messageId: msg.id);
 
         // send message with firebase links
         final remote = await _repository.sendMessage(
@@ -468,8 +460,7 @@ abstract class _ChatStoreBase with Store {
           ),
         );
 
-        _updateId(
-            remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
+        _updateId(remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
 
         analytics.sendConversationEvent(SENT_VIDEO_MESSAGE, remote.id);
       }
@@ -489,8 +480,7 @@ abstract class _ChatStoreBase with Store {
       recordTimer.onExecute.add(StopWatchExecute.start);
 
       final appDocDirectory = await getApplicationDocumentsDirectory();
-      final path =
-          '${appDocDirectory.path}/${DateTime.now().millisecondsSinceEpoch}';
+      final path = '${appDocDirectory.path}/${DateTime.now().millisecondsSinceEpoch}';
 
       // if (_recorder == null) {
       _recorder = FlutterAudioRecorder(path, audioFormat: AudioFormat.AAC);
@@ -540,11 +530,9 @@ abstract class _ChatStoreBase with Store {
           final mediaMsg = msg.copyWith(body: url);
 
           // update the backend
-          final remote =
-              await _repository.sendMessage(conversation.id, mediaMsg);
+          final remote = await _repository.sendMessage(conversation.id, mediaMsg);
 
-          _updateId(remote.copyWith(status: MessageStatus.sent, id: msg.id),
-              remote.id);
+          _updateId(remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
 
           analytics.sendConversationEvent(SENT_AUDIO_MESSAGE, remote.id);
         }
@@ -582,8 +570,7 @@ abstract class _ChatStoreBase with Store {
 
   @action
   void watchDeleteMessage() {
-    _deleteMessageSubscribption =
-        _repository.watchDeletedMessage().listen((id) {
+    _deleteMessageSubscribption = _repository.watchDeletedMessage().listen((id) {
       if (id != null) {
         _messages.removeWhere((m) => m.id == id);
       }
@@ -601,16 +588,12 @@ abstract class _ChatStoreBase with Store {
 
   @action
   void watchAddLike() {
-    _socketSubscription.add(_repository
-        .watchAddLike()
-        .listen((message) => _replaceMessage(message)));
+    _socketSubscription.add(_repository.watchAddLike().listen((message) => _replaceMessage(message)));
   }
 
   @action
   void watchRemoveLike() {
-    _socketSubscription.add(_repository
-        .watchRemoveLike()
-        .listen((message) => _replaceMessage(message)));
+    _socketSubscription.add(_repository.watchRemoveLike().listen((message) => _replaceMessage(message)));
   }
 
   @action
@@ -655,8 +638,7 @@ abstract class _ChatStoreBase with Store {
 
   void setMessageStatus(MessageModel msg, MessageStatus status) {
     // update message status to pending
-    final pendingMessage =
-        _messages.firstWhere((m) => m.id == msg.id).copyWith(status: status);
+    final pendingMessage = _messages.firstWhere((m) => m.id == msg.id).copyWith(status: status);
 
     // get message index
     final index = _messages.indexWhere((m) => m.id == pendingMessage.id);

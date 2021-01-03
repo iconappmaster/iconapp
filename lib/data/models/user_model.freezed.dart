@@ -33,7 +33,7 @@ class _$UserModelTearOff {
       UserRole userRole,
       bool didCompleteRegistration,
       bool didTurnOffNotifications,
-      int pointBalance}) {
+      @JsonKey(name: 'point_balance_offset') int pointBalance}) {
     return _UserModel(
       id: id,
       fullName: fullName,
@@ -81,6 +81,7 @@ mixin _$UserModel {
   UserRole get userRole;
   bool get didCompleteRegistration;
   bool get didTurnOffNotifications;
+  @JsonKey(name: 'point_balance_offset')
   int get pointBalance;
 
   Map<String, dynamic> toJson();
@@ -107,7 +108,7 @@ abstract class $UserModelCopyWith<$Res> {
       UserRole userRole,
       bool didCompleteRegistration,
       bool didTurnOffNotifications,
-      int pointBalance});
+      @JsonKey(name: 'point_balance_offset') int pointBalance});
 
   $PhotoModelCopyWith<$Res> get photo;
 }
@@ -201,7 +202,7 @@ abstract class _$UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
       UserRole userRole,
       bool didCompleteRegistration,
       bool didTurnOffNotifications,
-      int pointBalance});
+      @JsonKey(name: 'point_balance_offset') int pointBalance});
 
   @override
   $PhotoModelCopyWith<$Res> get photo;
@@ -285,7 +286,7 @@ class _$_UserModel implements _UserModel {
       this.userRole,
       this.didCompleteRegistration,
       this.didTurnOffNotifications,
-      this.pointBalance});
+      @JsonKey(name: 'point_balance_offset') this.pointBalance});
 
   factory _$_UserModel.fromJson(Map<String, dynamic> json) =>
       _$_$_UserModelFromJson(json);
@@ -321,6 +322,7 @@ class _$_UserModel implements _UserModel {
   @override
   final bool didTurnOffNotifications;
   @override
+  @JsonKey(name: 'point_balance_offset')
   final int pointBalance;
 
   @override
@@ -423,7 +425,7 @@ abstract class _UserModel implements UserModel {
       UserRole userRole,
       bool didCompleteRegistration,
       bool didTurnOffNotifications,
-      int pointBalance}) = _$_UserModel;
+      @JsonKey(name: 'point_balance_offset') int pointBalance}) = _$_UserModel;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$_UserModel.fromJson;
@@ -459,6 +461,7 @@ abstract class _UserModel implements UserModel {
   @override
   bool get didTurnOffNotifications;
   @override
+  @JsonKey(name: 'point_balance_offset')
   int get pointBalance;
   @override
   _$UserModelCopyWith<_UserModel> get copyWith;

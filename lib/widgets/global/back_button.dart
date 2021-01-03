@@ -20,7 +20,7 @@ class IconBackButton extends StatelessWidget {
           ? Icon(
               Icons.keyboard_arrow_down,
               color: white,
-              size: 34,
+              size: 30,
             )
           : RotatedBox(
             quarterTurns: language.isLTR ? 2 : 0,

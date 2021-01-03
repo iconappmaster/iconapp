@@ -90,6 +90,14 @@ mixin _$UserStore on _UserStoreBase, Store {
     return _$initAsyncAction.run(() => super.init());
   }
 
+  final _$getRemoteUserAsyncAction =
+      AsyncAction('_UserStoreBase.getRemoteUser');
+
+  @override
+  Future<UserModel> getRemoteUser() {
+    return _$getRemoteUserAsyncAction.run(() => super.getRemoteUser());
+  }
+
   final _$saveAsyncAction = AsyncAction('_UserStoreBase.save');
 
   @override
