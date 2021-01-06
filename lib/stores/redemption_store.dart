@@ -41,11 +41,11 @@ abstract class _RedemptionStoreBase with Store {
   String get subtitle {
     switch (_tabState) {
       case RedemptionTabState.balance:
-        return 'Product you can redeem with your balance points';
+        return 'Product that you can redeem with balance points';
       case RedemptionTabState.actions:
-        return 'Actions you have made to earn balance points';
+        return 'Actions made to earn balance points';
       case RedemptionTabState.reedemCodes:
-        return 'Vaucher codes your have redeemed';
+        return 'Vaucher codes that you have redeemed';
     }
     return '';
   }
@@ -169,7 +169,7 @@ abstract class _RedemptionStoreBase with Store {
       final redeem = await _repository.redeemProduct(productId);
 
       // udpate the user balance
-      _user.updateBalance(redeem.pointBalance);
+      await _user.updateUser(_user.getUser.copyWith(pointBalance: redeem.pointBalance));
 
       return right(redeem);
     } on DioError catch (e) {

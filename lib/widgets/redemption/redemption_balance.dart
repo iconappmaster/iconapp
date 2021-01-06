@@ -7,7 +7,7 @@ import 'package:iconapp/widgets/global/cupertino_loader.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/redemption/redemption_product_tile.dart';
 
-class RedeemBalance extends StatelessWidget {
+class RedeemBalanceIndicator extends StatelessWidget {
   final store = sl<RedemptionStore>();
   @override
   Widget build(BuildContext context) {
@@ -23,9 +23,7 @@ class RedeemBalance extends StatelessWidget {
               : ListView.builder(
                   itemCount: store.redemptionProducts?.length,
                   itemBuilder: (context, index) {
-                    return RedemptionProductTile(
-                      product: store.redemptionProducts[index],
-                    );
+                    return RedemptionProductTile(product: store.redemptionProducts[index]);
                   }),
         );
       },

@@ -20,7 +20,7 @@ extension ContextExtensions on BuildContext {
   /// Returns same as MediaQuery.of(context).height
   double get heightPx => sizePx.height;
 
-  showToast(String message, {Color iconColor = white, Duration duration = const Duration(seconds: 2)}) {
+  showToast(String message, {Color iconColor = white, Duration duration = const Duration(seconds: 4)}) {
     Flushbar(
       backgroundColor: cornflower,
       duration: duration,

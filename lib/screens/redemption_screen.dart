@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:iconapp/widgets/redemption/redemption_score.dart';
+import 'package:iconapp/widgets/redemption/redemption_score_indicator.dart';
 import '../core/dependencies/locator.dart';
 import '../core/theme.dart';
 import '../stores/redemption_store.dart';
@@ -31,13 +31,11 @@ class RedemptionScreen extends HookWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Observer(
-                builder: (_) => AppBarWithDivider(
-                  widget: RedemptionScore(),
-                  title: 'My Balance',
-                  isArrowDirectionDown: true,
-                  subtitle: store.subtitle,
-                ),
-              ),
+                  builder: (_) => AppBarWithDivider(
+                      widget: RedemptionScoreIndicator(),
+                      title: 'My Balance',
+                      isArrowDirectionDown: true,
+                      subtitle: store.subtitle)),
               Container(
                   height: context.heightPlusStatusbarPerc(.05),
                   child: Center(
@@ -52,7 +50,7 @@ class RedemptionScreen extends HookWidget {
                   builder: (_) {
                     switch (store.tabState) {
                       case RedemptionTabState.balance:
-                        return RedeemBalance();
+                        return RedeemBalanceIndicator();
                       case RedemptionTabState.actions:
                         return RedeemActions();
                       case RedemptionTabState.reedemCodes:
@@ -72,6 +70,7 @@ class RedemptionScreen extends HookWidget {
   Map<int, Widget> _buildTabs() => {
         0: CustomText('Products', style: chatMessageName),
         1: CustomText('Actions', style: chatMessageName),
-        2: CustomText('Codes', style: chatMessageName),
+        2: CustomText('My Vauchers', style: chatMessageName),
       };
 }
+  

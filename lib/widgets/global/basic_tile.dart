@@ -23,7 +23,7 @@ class BasicTile extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Container(
-          height: compact ? 24 : 44,
+          height: compact ? 24 : 54,
           decoration: CupertinoBorderBoxDecoration,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,

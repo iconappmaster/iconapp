@@ -14,6 +14,7 @@ import 'package:iconapp/data/sources/socket/socket_manager.dart';
 import 'package:iconapp/stores/analytics/analytics_firebase.dart';
 import 'package:iconapp/stores/language/language_store.dart';
 import 'package:logger/logger.dart';
+import 'package:lottie/lottie.dart';
 import 'core/bus.dart';
 import 'core/notifications/fcm.dart';
 import 'data/sources/local/shared_preferences.dart';
@@ -95,12 +96,19 @@ class _MyAppState extends State<MyApp> {
   @override
   void didChangeDependencies() {
     _listenLanguageChanges();
+    _listenCoinsEarned();
     super.didChangeDependencies();
   }
 
+  bool showAnimation = false;
+  void _listenCoinsEarned() {
+    sl<Bus>().on<CoinsEarned>().listen((event) {
+      showAnimation = true;
+    });
+  }
+
   void _listenLanguageChanges() {
-    _languageSubscription =
-        sl<Bus>().on<LanguageChangedEvnet>().listen((event) {
+    _languageSubscription = sl<Bus>().on<LanguageChangedEvnet>().listen((event) {
       switch (event.direction) {
         case LanguageDirection.ltr:
           context.locale = Locale('en', 'US');
@@ -126,15 +134,19 @@ class _MyAppState extends State<MyApp> {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       title: appName,
-      theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity),
+      theme: ThemeData(primarySwatch: Colors.blue, visualDensity: VisualDensity.adaptivePlatformDensity),
       onGenerateRoute: rGenerated.Router(),
       builder: (context, child) {
-        return ExtendedNavigator(
-          name: router.$Router.routerName,
-          router: rGenerated.Router(),
-        );
+        return Stack(children: [
+          ExtendedNavigator(
+            name: router.$Router.routerName,
+            router: rGenerated.Router(),
+          ),
+          Visibility(
+            visible: true,
+            child: Lottie.asset('assets/animations/coin_collect.json'),
+          ),
+        ]);
       },
     );
   }
@@ -147,6 +159,7 @@ class _MyAppState extends State<MyApp> {
     super.dispose();
   }
 
-  Future<void> _initSharedPreferences() async =>
-      await sl<SharedPreferencesService>().init();
+  Future<void> _initSharedPreferences() async => await sl<SharedPreferencesService>().init();
 }
+
+class CoinsEarned {}

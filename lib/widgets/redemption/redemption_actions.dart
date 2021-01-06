@@ -24,17 +24,15 @@ class RedeemActions extends HookWidget {
           : Column(
               mainAxisSize: MainAxisSize.max,
               children: [
-                CustomText('Points earned: ${store.totalPoints.toString()}', style: redemptionEmptystyle),
+                CustomText('points earned - ${store.totalPoints.toString()}', style: redemptionEmptystyle),
                 store.creditActions.isEmpty
                     ? Center(child: CustomText('No redeem action has been taken', style: redemptionEmptystyle))
                     : Container(
                         child: Expanded(
-                          child: ListView.builder(
-                            itemCount: store.creditActions?.length,
-                            itemBuilder: (context, index) => RedemptionActionTile(actions: store.creditActions[index]),
-                          ),
-                        ),
-                      ),
+                            child: ListView.builder(
+                                itemCount: store.creditActions?.length,
+                                itemBuilder: (context, index) =>
+                                    RedemptionActionTile(actions: store.creditActions[index])))),
               ],
             ),
     );
@@ -48,13 +46,15 @@ class RedemptionActionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BasicTile(
-      left: CustomText(
-        actions.creditActionName,
-        style: dialogContent,
+      left: Expanded(
+        child: CustomText(
+          actions.creditActionName,
+          style: dialogContent.copyWith(fontSize: 12),
+        ),
       ),
       right: CustomText(
-        '${actions.pointsReceived}  points received',
-        style: dialogContent,
+        '${actions.pointsReceived} points',
+        style: dialogContent.copyWith(fontSize: 12),
       ),
     );
   }

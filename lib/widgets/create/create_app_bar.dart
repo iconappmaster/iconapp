@@ -39,10 +39,14 @@ class AppBarWithDivider extends StatelessWidget {
                 Positioned(
                     top: 49.7, child: CustomText(subtitle, style: fieldLabel.copyWith(color: white.withOpacity(.7)))),
               Positioned(
-                  top: 8,
-                  right: language.isLTR ? null : 16,
-                  left: language.isLTR ? 16 : null,
-                  child: IconBackButton(onBackTap: onBackTap, isArrowDirectionDown: isArrowDirectionDown)),
+                top: 8,
+                right: language.isLTR ? null : 2,
+                left: language.isLTR ? 2 : null,
+                child: IconBackButton(
+                  onBackTap: onBackTap,
+                  isArrowDirectionDown: isArrowDirectionDown,
+                ),
+              ),
               if (widget != null)
                 Positioned(
                   top: 20,

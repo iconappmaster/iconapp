@@ -35,12 +35,10 @@ class IconAppbar extends StatelessWidget {
                           language.direction == LanguageDirection.ltr ? Alignment.centerLeft : Alignment.centerRight,
                       child: IconBackButton()),
                 if (widget != null) widget,
-                logo ??
-                    Align(
-                      alignment:
-                          language.direction == LanguageDirection.ltr ? Alignment.centerRight : Alignment.centerLeft,
-                      child: SvgPicture.asset('assets/images/white_logo.svg', height: 23.7),
-                    ),
+                Align(
+                  alignment: language.direction == LanguageDirection.ltr ? Alignment.centerRight : Alignment.centerLeft,
+                  child: logo ?? SvgPicture.asset('assets/images/white_logo.svg', height: 23.7),
+                ),
               ],
             )),
         BlueDivider(),

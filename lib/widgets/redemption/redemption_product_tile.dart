@@ -1,14 +1,19 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/redemption_product.dart';
+import 'package:iconapp/data/models/redemption_redeem_model.dart';
+import 'package:iconapp/domain/redemption/redemption_failure.dart';
 import 'package:iconapp/stores/redemption_store.dart';
 import 'package:iconapp/widgets/global/basic_tile.dart';
+import 'package:iconapp/widgets/global/cupertino_loader.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
-import 'package:iconapp/widgets/global/next_button.dart';
 import '../../core/extensions/context_ext.dart';
+import 'package:cool_alert/cool_alert.dart';
 
 class RedemptionProductTile extends StatelessWidget {
   final RedemptionProductModel product;
@@ -21,58 +26,101 @@ class RedemptionProductTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = sl<RedemptionStore>();
-
+    final textColor = store.isEnoughMoney(product.price) ? white : white.withOpacity(.7);
     return Observer(
         builder: (_) => BasicTile(
             onTap: () {
               if (store.isEnoughMoney(product.price)) {
                 return showModalBottomSheet(
-                    elevation: 3,
-                    context: context,
-                    builder: (context) {
-                      return Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            CustomText(product?.name, style: dialogContent.copyWith(color: cornflower)),
-                            SizedBox(height: 10),
-                            SizedBox(
-                              width: context.widthPx * .5,
-                              child: NextButton(
-                                height: 40,
-                                title: 'Redeem',
-                                onClick: () async {
-                                  final result = await store.redeemProduct(product.id);
-                                  result.fold((error) {
-                                    error.when(
-                                      noActiveRedemption: () =>
-                                          context.showToast('Out of redemption codes, try later.'),
-                                      noMoney: () => context.showToast('Not enough credits'),
-                                      serverError: () => context.showToast('Server error'),
-                                    );
-                                  }, (redemption) {});
-                                },
-                              ),
-                            )
-                          ],
-                        ),
-                      );
-                    });
+                  elevation: 3,
+                  backgroundColor: iris,
+                  context: context,
+                  builder: (context) {
+                    return Padding(
+                      padding: const EdgeInsets.all(22),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          CustomText(product?.name,
+                              style: dialogContent.copyWith(
+                                fontSize: 25,
+                                color: white,
+                              )),
+                          SizedBox(height: 20),
+                          SizedBox(
+                            width: context.widthPx * .5,
+                            child: Observer(builder: (_) {
+                              return ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: MaterialButton(
+                                  elevation: 0,
+                                  color: pinkish,
+                                  height: 40,
+                                  onPressed: () => store.redeemProduct(product.id).then((r) => r.fold(
+                                      (error) => _handleError(error, context),
+                                      (model) => _showRedeemSuccessDialog(context, model))),
+                                  child: store.redeemLoading
+                                      ? CupertinoLoader(radius: 10)
+                                      : CustomText('Redeem', style: dialogContent),
+                                ),
+                              );
+                            }),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
               } else {
                 context.showToast('Not enought credits to redeem. try to do more actions in the app to gain credit',
                     duration: const Duration(seconds: 5));
               }
             },
-            left: CustomText(product.name, style: dialogContent),
+            left: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomText(product.name, style: dialogContent.copyWith(color: textColor)),
+                SizedBox(height: 3),
+                CustomText(product.description,
+                    style: dialogContent.copyWith(color: textColor.withOpacity(.5), fontSize: 12)),
+              ],
+            ),
             right: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 decoration: BoxDecoration(
                     color: cornflower,
                     border: Border.all(color: store.isEnoughMoney(product.price) ? apple : Colors.transparent),
                     borderRadius: BorderRadius.circular(12)),
-                child: CustomText(product?.price.toString(),
-                    style: dialogContent.copyWith(
-                        color: store.isEnoughMoney(product.price) ? white : white.withOpacity(.7))))));
+                child: Row(
+                  children: [
+                    CustomText(product?.price.toString(), style: dialogContent.copyWith(color: textColor)),
+                    SizedBox(width: 5  ),
+                    SvgPicture.asset('assets/images/coin.svg', height: 15, width: 15, color: white),
+                  ],
+                ))));
+  }
+
+  Future _handleError(RedemptionFailure error, BuildContext context) async {
+    Navigator.pop(context);
+    error.when(
+        noActiveRedemption: () => context.showToast('Out of redemption codes, try again later.'),
+        noMoney: () => context.showToast('Not enough credits'),
+        serverError: () => context.showToast('Server error'));
+  }
+
+  Future _showRedeemSuccessDialog(BuildContext context, RedemptionRedeemModel model) async {
+    await Navigator.pop(context);
+    CoolAlert.show(
+      context: context,
+      backgroundColor: cornflower,
+      lottieAsset: 'assets/animations/vaucher.json',
+      type: CoolAlertType.success,
+      animType: CoolAlertAnimType.scale,
+      cancelBtnText: 'Copy Code',
+      confirmBtnColor: cornflower,
+      title: 'Redeem Succesfull!',
+      text: '${model.redemptionProduct.name}\nCode: ${model.redemptionProduct.redemptionCode}',
+    );
   }
 }
