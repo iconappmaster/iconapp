@@ -15,6 +15,7 @@ import 'package:iconapp/data/sources/socket/socket_manager.dart';
 import 'package:iconapp/stores/analytics/analytics_firebase.dart';
 import 'package:iconapp/stores/language/language_store.dart';
 import 'package:iconapp/stores/redemption/coin_animation_store.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:logger/logger.dart';
 import 'package:lottie/lottie.dart';
 import 'core/bus.dart';
@@ -29,6 +30,13 @@ const appName = 'Icon';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+  // Inform the plugin that this app supports pending purchases on Android.
+  // An error will occur on Android if you access the plugin `instance`
+  // without this call.
+  //
+  // On iOS this is a no-op.
+  InAppPurchaseConnection.enablePendingPurchases();
 
   Admob.initialize();
 
