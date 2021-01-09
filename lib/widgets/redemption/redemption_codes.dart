@@ -11,6 +11,8 @@ import 'package:iconapp/widgets/global/basic_tile.dart';
 import 'package:iconapp/widgets/global/cupertino_loader.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import '../../core/extensions/context_ext.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RedeemCodes extends HookWidget {
   const RedeemCodes({
@@ -33,7 +35,7 @@ class RedeemCodes extends HookWidget {
         return Container(
           child: store.redeemedProducts.isEmpty
               ? Center(
-                  child: CustomText('No code, try to redeem a product first',
+                  child: CustomText(LocaleKeys.redemption_vaucherEmpty.tr(),
                       textAlign: TextAlign.center, style: redemptionEmptystyle))
               : ListView.builder(
                   itemCount: store.redeemedProducts?.length,

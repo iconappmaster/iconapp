@@ -2,18 +2,21 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
-import 'package:iconapp/data/models/redemption_action_model.dart';
-import 'package:iconapp/data/models/redemption_product.dart';
-import 'package:iconapp/data/models/redemption_redeem_model.dart';
-import 'package:iconapp/data/repositories/redemption_repository.dart';
-import 'package:iconapp/domain/redemption/redemption_failure.dart';
+import '../../data/models/redemption_action_model.dart';
+import '../../data/models/redemption_product.dart';
+import '../../data/models/redemption_redeem_model.dart';
+import '../../data/repositories/redemption_repository.dart';
+import '../../domain/redemption/redemption_failure.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:mobx/mobx.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 part 'redemption_store.g.dart';
 
 class RedemptionStore = _RedemptionStoreBase with _$RedemptionStore;
 
-enum RedemptionTabState { balance, actions, reedemCodes }
+enum RedemptionTabState { product, actions, reedemCodes }
 
 abstract class _RedemptionStoreBase with Store {
   final _repository = sl<RedemptionRepository>();
@@ -29,7 +32,7 @@ abstract class _RedemptionStoreBase with Store {
   ObservableList<RedemptionProductModel> _redeemedProducts = ObservableList.of([]);
 
   @observable
-  RedemptionTabState _tabState = RedemptionTabState.balance;
+  RedemptionTabState _tabState = RedemptionTabState.product;
 
   @observable
   bool _loading = false;
@@ -40,12 +43,12 @@ abstract class _RedemptionStoreBase with Store {
   @computed
   String get subtitle {
     switch (_tabState) {
-      case RedemptionTabState.balance:
-        return 'Product that you can redeem with balance points';
+      case RedemptionTabState.product:
+        return LocaleKeys.redemption_detailProducts.tr();
       case RedemptionTabState.actions:
-        return 'Actions made to earn balance points';
+        return LocaleKeys.redemption_detailActions.tr();
       case RedemptionTabState.reedemCodes:
-        return 'Vaucher codes that you have redeemed';
+        return LocaleKeys.redemption_detailVauchers.tr();
     }
     return '';
   }
@@ -53,7 +56,7 @@ abstract class _RedemptionStoreBase with Store {
   @computed
   int get tabStateIndex {
     switch (_tabState) {
-      case RedemptionTabState.balance:
+      case RedemptionTabState.product:
         return 0;
       case RedemptionTabState.actions:
         return 1;
@@ -92,7 +95,7 @@ abstract class _RedemptionStoreBase with Store {
   void setTabIndex(int index) {
     switch (index) {
       case 0:
-        _tabState = RedemptionTabState.balance;
+        _tabState = RedemptionTabState.product;
         break;
       case 1:
         _tabState = RedemptionTabState.actions;

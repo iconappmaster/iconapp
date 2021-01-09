@@ -8,6 +8,8 @@ import 'package:iconapp/stores/redemption/redemption_store.dart';
 import 'package:iconapp/widgets/global/basic_tile.dart';
 import 'package:iconapp/widgets/global/cupertino_loader.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RedeemActions extends HookWidget {
   final store = sl<RedemptionStore>();
@@ -26,7 +28,7 @@ class RedeemActions extends HookWidget {
               children: [
                 CustomText('points earned - ${store.totalPoints.toString()}', style: redemptionEmptystyle),
                 store.creditActions.isEmpty
-                    ? Center(child: CustomText('No redeem action has been taken', style: redemptionEmptystyle))
+                    ? Center(child: CustomText(LocaleKeys.redemption_actionsEmpty.tr(), style: redemptionEmptystyle))
                     : Container(
                         child: Expanded(
                             child: ListView.builder(

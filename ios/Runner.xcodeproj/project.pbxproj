@@ -16,6 +16,7 @@
 		EE06363B258A0DB60026E29F /* notification.aiff in Resources */ = {isa = PBXBuildFile; fileRef = EE06363A258A0DB60026E29F /* notification.aiff */; };
 		EE5D85B4256FF2D000334946 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A3EB122B6FB87BB3C8499F /* Pods_Runner.framework */; };
 		EE90D8BD25727E6D00AC780A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EE90D8BC25727E6D00AC780A /* GoogleService-Info.plist */; };
+		EEF6A1AE25A9C310008E4404 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEF6A1AD25A9C310008E4404 /* StoreKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		EE90D8BC25727E6D00AC780A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		EE9F884725519E16002A8E20 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		EEE4BFEF24FCF57B00221ACB /* RunnerRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RunnerRelease.entitlements; sourceTree = "<group>"; };
+		EEF6A1AD25A9C310008E4404 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +49,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE5D85B4256FF2D000334946 /* Pods_Runner.framework in Frameworks */,
+				EEF6A1AE25A9C310008E4404 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,6 +59,7 @@
 		3FAF15AC5DA2905D16170E6D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EEF6A1AD25A9C310008E4404 /* StoreKit.framework */,
 				41A3EB122B6FB87BB3C8499F /* Pods_Runner.framework */,
 			);
 			name = Frameworks;

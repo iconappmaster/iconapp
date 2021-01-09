@@ -6,8 +6,10 @@ import 'package:iconapp/stores/redemption/redemption_store.dart';
 import 'package:iconapp/widgets/global/cupertino_loader.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/redemption/redemption_product_tile.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 
-class RedeemBalanceIndicator extends StatelessWidget {
+class RedeemProduct extends StatelessWidget {
   final store = sl<RedemptionStore>();
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class RedeemBalanceIndicator extends StatelessWidget {
 
         return Container(
           child: store.redemptionProducts.isEmpty
-              ? Center(child: CustomText('No product currently available', style: redemptionEmptystyle))
+              ? Center(child: CustomText(LocaleKeys.redemption_productEmpty.tr(), style: redemptionEmptystyle))
               : ListView.builder(
                   itemCount: store.redemptionProducts?.length,
                   itemBuilder: (context, index) {

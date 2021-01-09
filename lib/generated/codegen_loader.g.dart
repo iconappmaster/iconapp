@@ -200,6 +200,18 @@ class CodegenLoader extends AssetLoader{
     "title": "כנס לשיחה",
     "subtitle": "זו קבוצה פרטית",
     "content": "הכנס את הקוד האישי שלך"
+  },
+  "redemption": {
+    "title": "My Balance",
+    "tabProducts": "Products",
+    "tabPAction": "Actions",
+    "tabVauchers": "MyVauchers",
+    "detailProducts": "Product that you can redeem with balance points",
+    "detailActions": "Actions made to earn balance points",
+    "detailVauchers": "Vaucher codes that you have redeemed",
+    "productEmpty": "No product currently available",
+    "actionsEmpty": "No redeem action has been taken",
+    "vaucherEmpty": "No code, try to redeem a product first"
   }
 };
 static const Map<String,dynamic> en_US = {
@@ -386,6 +398,18 @@ static const Map<String,dynamic> en_US = {
     "title": "Enter Conversation",
     "subtitle": "This group is private",
     "content": "Please enter your personal code"
+  },
+  "redemption": {
+    "title": "My Balance",
+    "tabProducts": "Products",
+    "tabPAction": "Actions",
+    "tabVauchers": "MyVauchers",
+    "detailProducts": "Product that you can redeem with balance points",
+    "detailActions": "Actions made to earn balance points",
+    "detailVauchers": "Vaucher codes that you have redeemed",
+    "productEmpty": "No product currently available",
+    "actionsEmpty": "No redeem action has been taken",
+    "vaucherEmpty": "No code, try to redeem a product first"
   }
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"he_HE": he_HE, "en_US": en_US};

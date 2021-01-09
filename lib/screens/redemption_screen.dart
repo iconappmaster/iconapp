@@ -9,9 +9,11 @@ import '../stores/redemption/redemption_store.dart';
 import '../widgets/create/create_app_bar.dart';
 import '../widgets/global/custom_text.dart';
 import '../widgets/redemption/redemption_actions.dart';
-import '../widgets/redemption/redemption_balance.dart';
+import '../widgets/redemption/redemption_product.dart';
 import '../widgets/redemption/redemption_codes.dart';
 import '../core/extensions/context_ext.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RedemptionScreen extends HookWidget {
   @override
@@ -31,11 +33,13 @@ class RedemptionScreen extends HookWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Observer(
-                  builder: (_) => AppBarWithDivider(
-                      widget: RedemptionScoreIndicator(),
-                      title: 'My Balance',
-                      isArrowDirectionDown: true,
-                      subtitle: store.subtitle)),
+                builder: (_) => AppBarWithDivider(
+                  widget: RedemptionScoreIndicator(),
+                  title: LocaleKeys.redemption_title.tr(),
+                  isArrowDirectionDown: true,
+                  subtitle: store.subtitle,
+                ),
+              ),
               Container(
                   height: context.heightPlusStatusbarPerc(.05),
                   child: Center(
@@ -49,8 +53,8 @@ class RedemptionScreen extends HookWidget {
                 child: Observer(
                   builder: (_) {
                     switch (store.tabState) {
-                      case RedemptionTabState.balance:
-                        return RedeemBalanceIndicator();
+                      case RedemptionTabState.product:
+                        return RedeemProduct();
                       case RedemptionTabState.actions:
                         return RedeemActions();
                       case RedemptionTabState.reedemCodes:
@@ -68,8 +72,8 @@ class RedemptionScreen extends HookWidget {
   }
 
   Map<int, Widget> _buildTabs() => {
-        0: CustomText('Products', style: chatMessageName),
-        1: CustomText('Actions', style: chatMessageName),
-        2: CustomText('My Vauchers', style: chatMessageName),
+        0: CustomText(LocaleKeys.redemption_tabProducts.tr(), style: chatMessageName),
+        1: CustomText(LocaleKeys.redemption_tabPAction.tr(), style: chatMessageName),
+        2: CustomText(LocaleKeys.redemption_tabVauchers.tr(), style: chatMessageName),
       };
 }
