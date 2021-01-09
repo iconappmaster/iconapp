@@ -44,11 +44,9 @@ class IconFab extends StatelessWidget {
       fabCloseIcon: Icon(Icons.close, color: lightMustard, size: 20),
       fabSize: 50,
       ringDiameter: 350,
-      fabOpenIcon: SvgPicture.asset('assets/images/icon_star.svg',
-          height: 20, width: 20),
+      fabOpenIcon: SvgPicture.asset('assets/images/icon_star.svg', height: 20, width: 20),
       ringColor: warmPurple,
-      children:
-          _user.getUser.isIcon ? _showIconMenu(context) : _showViewer(context),
+      children: _user.getUser.isIcon ? _showIconMenu(context) : _showViewer(context),
     );
   }
 
@@ -58,18 +56,14 @@ class IconFab extends StatelessWidget {
     return [
       Observer(builder: (_) {
         return FabTile(
-            text: home.viewMode == ViewHomeMode.staggered
-                ? LocaleKeys.fab_list.tr()
-                : LocaleKeys.fab_staggered.tr(),
+            text: home.viewMode == ViewHomeMode.staggered ? LocaleKeys.fab_list.tr() : LocaleKeys.fab_staggered.tr(),
             onTap: () {
               _close();
               _saveViewMode(home, sp);
               home.switchViewMode();
               home.setTabMode(TabMode.conversation);
             },
-            iconData: home.viewMode == ViewHomeMode.staggered
-                ? Icons.line_style
-                : Icons.list);
+            iconData: home.viewMode == ViewHomeMode.staggered ? Icons.line_style : Icons.list);
       }),
       BellAlert(onPressed: () {
         final alerts = sl<AlertStore>();
@@ -80,9 +74,7 @@ class IconFab extends StatelessWidget {
   }
 
   void _saveViewMode(HomeStore home, SharedPreferencesService sp) {
-    final mode = home.viewMode == ViewHomeMode.staggered
-        ? ViewHomeMode.list
-        : ViewHomeMode.staggered;
+    final mode = home.viewMode == ViewHomeMode.staggered ? ViewHomeMode.list : ViewHomeMode.staggered;
 
     // save mode
     sp.setString(StorageKey.homeViewMode, mode.toString().parseEnum());
@@ -94,18 +86,14 @@ class IconFab extends StatelessWidget {
     return [
       Observer(builder: (_) {
         return FabTile(
-            text: home.viewMode == ViewHomeMode.staggered
-                ? LocaleKeys.fab_list.tr()
-                : LocaleKeys.fab_staggered.tr(),
+            text: home.viewMode == ViewHomeMode.staggered ? LocaleKeys.fab_list.tr() : LocaleKeys.fab_staggered.tr(),
             onTap: () {
               _close();
               _saveViewMode(home, sp);
               home.setTabMode(TabMode.conversation);
               home.switchViewMode();
             },
-            iconData: home.viewMode == ViewHomeMode.staggered
-                ? Icons.list
-                : Icons.line_style);
+            iconData: home.viewMode == ViewHomeMode.staggered ? Icons.list : Icons.line_style);
       }),
       FabTile(
         iconData: Icons.add,
@@ -116,8 +104,7 @@ class IconFab extends StatelessWidget {
           final categoryStore = sl<CreateCategoryStore>();
           iconStore.clear();
           categoryStore.clear();
-          return ExtendedNavigator.of(context)
-              .pushSelectIconScreen(mode: SelectIconMode.fromGroup);
+          return ExtendedNavigator.of(context).pushSelectIconScreen(mode: SelectIconMode.fromGroup);
         },
       ),
       BellAlert(onPressed: () {
@@ -138,12 +125,7 @@ class FabTile extends StatelessWidget {
   final IconData iconData;
   final Function onTap;
 
-  const FabTile(
-      {Key key,
-      @required this.text,
-      @required this.onTap,
-      @required this.iconData})
-      : super(key: key);
+  const FabTile({Key key, @required this.text, @required this.onTap, @required this.iconData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

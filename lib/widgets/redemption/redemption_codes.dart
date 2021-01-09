@@ -6,7 +6,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/clipboard.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/redemption_product.dart';
-import 'package:iconapp/stores/redemption_store.dart';
+import 'package:iconapp/stores/redemption/redemption_store.dart';
 import 'package:iconapp/widgets/global/basic_tile.dart';
 import 'package:iconapp/widgets/global/cupertino_loader.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';

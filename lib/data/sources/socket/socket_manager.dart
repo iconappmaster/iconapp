@@ -8,6 +8,7 @@ import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/likes.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/models/story_model.dart';
+import 'package:iconapp/stores/redemption/coin_animation_store.dart';
 import 'package:iconapp/stores/user/user_store.dart';
 import 'package:pusher_websocket_flutter/pusher.dart';
 import 'package:rxdart/subjects.dart';
@@ -28,6 +29,8 @@ const conversationChangedEvent = 'conversation-changed';
 const storyChangedEvent = 'story-changed';
 const commentsEvent = 'new-comment';
 
+const coinEvent = 'credits-updated';
+
 class Socket {
   BehaviorSubject<MessageModel> messageSubject = BehaviorSubject();
   BehaviorSubject<MessageModel> addedLikeSubject = BehaviorSubject();
@@ -42,11 +45,12 @@ class Socket {
 
   Channel _conversationChannel;
   Channel _homeChannel;
+  Channel _coinChannel;
 
   void init() async {
     try {
       await Pusher.init(
-        PRODUCTION_PUSHER_KEY, 
+        PRODUCTION_PUSHER_KEY,  
         PusherOptions(cluster: "us2"),
         enableLogging: true,
       );
@@ -63,6 +67,10 @@ class Socket {
     await Pusher.disconnect();
   }
 
+  Future subscribeCoinChannel(String userId) async {
+    _coinChannel = await Pusher.subscribe(userId);
+  }
+
   // I subscribe with the conversaion id
   Future subscribeConversationChannel(String channelName) async {
     _conversationChannel = await Pusher.subscribe(channelName);
@@ -74,6 +82,12 @@ class Socket {
 
   Future unsubscribe(String channelName) async {
     await Pusher.unsubscribe(channelName);
+  }
+
+  void bindCoinChangeEvent() {
+    _coinChannel.bind(coinEvent, (event) {
+      sl<CoinAnimationStore>().setShowCoins(true);
+    });
   }
 
   // Story
@@ -104,16 +118,14 @@ class Socket {
       final json = jsonDecode(event.data);
       final message = MessageModel.fromJson(json);
 
-      if (message != null &&
-          (!user.isMe(message.sender?.id) || _isSystemMessage(message))) {
+      if (message != null && (!user.isMe(message.sender?.id) || _isSystemMessage(message))) {
         messageSubject.add(message.copyWith(likeCounts: LikesCount.initial()));
       }
     });
   }
 
   void bindAddLikeEvent() {
-    _conversationChannel.bind(addedLikeEvent,
-        (event) => _proccessLikeEventToMessage(addedLikeSubject, event));
+    _conversationChannel.bind(addedLikeEvent, (event) => _proccessLikeEventToMessage(addedLikeSubject, event));
   }
 
   void bindDeletedMessageEvent() {
@@ -127,8 +139,7 @@ class Socket {
   }
 
   void bindRemoveLikeEvent() {
-    _conversationChannel.bind(removedLikeEvent,
-        (event) => _proccessLikeEventToMessage(removeLikeSubject, event));
+    _conversationChannel.bind(removedLikeEvent, (event) => _proccessLikeEventToMessage(removeLikeSubject, event));
   }
 
   // Comments
@@ -146,8 +157,7 @@ class Socket {
 
   bool _isSystemMessage(MessageModel message) => message.sender == null;
 
-  void _proccessLikeEventToMessage(
-      BehaviorSubject<MessageModel> obeserver, Event event) {
+  void _proccessLikeEventToMessage(BehaviorSubject<MessageModel> obeserver, Event event) {
     final json = jsonDecode(event.data);
     final message = MessageModel.fromJson(json);
 

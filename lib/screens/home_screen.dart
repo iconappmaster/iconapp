@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:iconapp/stores/redemption_store.dart';
+import 'package:iconapp/stores/redemption/redemption_store.dart';
 import 'package:iconapp/widgets/home/home_appbar.dart';
 import 'package:iconapp/widgets/home/home_content.dart';
 import 'package:iconapp/widgets/home/home_tabs.dart';
@@ -100,6 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _socket = sl<Socket>();
 
     await _socket.subscribeHomeChannel(homeChannelName);
+    await _socket.subscribeCoinChannel(_user.getUser.id.toString());
 
     _home
       ..watchConversation()
@@ -110,6 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _story.watchStories();
 
     _socket
+      ..bindCoinChangeEvent()
       ..bindHomeChangeEvent()
       ..bindStoryChangeEvent();
 
@@ -145,6 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       HomeAppbar(scaffoldKey: _scaffoldKey),
+                      SizedBox(height: 4),
                       HomeStories(story: _story),
                       HomeTabs(home: _home),
                       HomeContent(home: _home, controller: _controller),

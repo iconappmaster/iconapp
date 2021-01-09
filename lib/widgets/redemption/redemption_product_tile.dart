@@ -2,13 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/redemption_product.dart';
 import 'package:iconapp/data/models/redemption_redeem_model.dart';
 import 'package:iconapp/domain/redemption/redemption_failure.dart';
-import 'package:iconapp/stores/redemption_store.dart';
+import 'package:iconapp/stores/redemption/redemption_store.dart';
 import 'package:iconapp/widgets/global/basic_tile.dart';
 import 'package:iconapp/widgets/global/cupertino_loader.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
@@ -95,8 +94,12 @@ class RedemptionProductTile extends StatelessWidget {
                 child: Row(
                   children: [
                     CustomText(product?.price.toString(), style: dialogContent.copyWith(color: textColor)),
-                    SizedBox(width: 5  ),
-                    SvgPicture.asset('assets/images/coin.svg', height: 15, width: 15, color: white),
+                    SizedBox(width: 5),
+                    Image.asset(
+                      'assets/images/money.png',
+                      height: 15,
+                      width: 15,
+                    ),
                   ],
                 ))));
   }

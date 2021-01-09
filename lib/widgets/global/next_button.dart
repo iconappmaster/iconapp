@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconapp/widgets/global/bouncing.dart';
 import 'package:iconapp/core/theme.dart';
-import '../../core/extensions/context_ext.dart';
 import 'custom_text.dart';
 import '../../generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -26,13 +25,12 @@ class NextButton extends StatelessWidget {
       onPressed: enabled ? onClick : onError,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
-        height: height ?? context.heightPlusStatusbarPerc(.035),
-        width: MediaQuery.of(context).size.width * .9,
+        height: height ?? 60,
+        width: MediaQuery.of(context).size.width * .75,
         margin: EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
-            color: enabled ? cornflower : cornflower.withOpacity(.3),
-            borderRadius: BorderRadius.circular(2.7)),
-        child: Material(  
+            color: enabled ? cornflower : cornflower.withOpacity(.3), borderRadius: BorderRadius.circular(8.7)),
+        child: Material(
           color: Colors.transparent,
           child: Center(
             child: CustomText(

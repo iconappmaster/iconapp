@@ -7,6 +7,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/archive/archive_store.dart';
+import 'package:iconapp/widgets/global/lottie_loader.dart';
 import 'package:iconapp/widgets/global/shimmer.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '../../core/bus.dart';
@@ -39,35 +40,49 @@ class HomeStaggered extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Observer(
-      builder: (_) => StaggeredGridView.countBuilder(
-        staggeredTileBuilder: (int index) =>
-            StaggeredTile.count(2, home.conversations[index]?.media?.mediaType == typeVideo ? 3 : 2),
-        crossAxisCount: 4,
-        itemCount:
-            home.filterType == HomeFilterType.forYou ? home.conversations.length : home.conversationPopular.length,
-        mainAxisSpacing: 4.0,
-        crossAxisSpacing: 4.0,
-        physics: BouncingScrollPhysics(),
-        padding: EdgeInsets.only(bottom: 100),
-        itemBuilder: (BuildContext context, int index) {
-          final conversation =
-              home.filterType == HomeFilterType.forYou ? home.conversations[index] : home.conversationPopular[index];
+      builder: (_) {
+        if (home.isLoading && home.conversations.length == 0) {
+          return Align(
+              alignment: Alignment.topCenter,
+              child: Padding(padding: EdgeInsets.only(top: 80.0), child: LottieLoader()));
+        }
 
-          switch (conversation?.media?.mediaType) {
-            case typePhoto:
-              return GestureDetector(
-                  onTap: () => _onTap(conversation, index), child: StaggeredPhotoTile(conversation: conversation));
+        return StaggeredGridView.countBuilder(
+          staggeredTileBuilder: (int index) =>
+              StaggeredTile.count(2, home.conversations[index]?.media?.mediaType == typeVideo ? 3 : 2),
+          crossAxisCount: 4,
+          itemCount:
+              home.filterType == HomeFilterType.forYou ? home.conversations.length : home.conversationPopular.length,
+          mainAxisSpacing: 4.0,
+          crossAxisSpacing: 4.0,
+          physics: BouncingScrollPhysics(),
+          padding: EdgeInsets.only(bottom: 100),
+          itemBuilder: (BuildContext context, int index) {
+            final conversation =
+                home.filterType == HomeFilterType.forYou ? home.conversations[index] : home.conversationPopular[index];
 
-            case typeVideo:
-              return GestureDetector(
-                  onTap: () => _onTap(conversation, index), child: StaggeredVideoTile(conversation: conversation));
+            switch (conversation?.media?.mediaType) {
+              case typePhoto:
+                return GestureDetector(
+                  onTap: () => _onTap(conversation, index),
+                  child: StaggeredPhotoTile(conversation: conversation),
+                );
 
-            default:
-              return GestureDetector(
-                  onTap: () => _onTap(conversation, index), child: StaggeredPhotoTile(conversation: conversation));
-          }
-        },
-      ),
+              case typeVideo:
+                return GestureDetector(
+                  onTap: () => _onTap(conversation, index),
+                  child: StaggeredVideoTile(conversation: conversation),
+                );
+
+              default:
+                return GestureDetector(
+                  onTap: () => _onTap(conversation, index),
+                  child: StaggeredPhotoTile(conversation: conversation),
+                );
+            }
+          },
+        );
+      },
     );
   }
 

@@ -6,6 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/keys.dart';
 import 'package:iconapp/routes/router.dart' as router;
@@ -13,6 +14,7 @@ import 'package:iconapp/routes/router.gr.dart' as rGenerated;
 import 'package:iconapp/data/sources/socket/socket_manager.dart';
 import 'package:iconapp/stores/analytics/analytics_firebase.dart';
 import 'package:iconapp/stores/language/language_store.dart';
+import 'package:iconapp/stores/redemption/coin_animation_store.dart';
 import 'package:logger/logger.dart';
 import 'package:lottie/lottie.dart';
 import 'core/bus.dart';
@@ -55,6 +57,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   Socket _socket;
   Analytics _analytics;
+  CoinAnimationStore _coinStore;
 
   StreamSubscription<LanguageChangedEvnet> _languageSubscription;
 
@@ -63,7 +66,7 @@ class _MyAppState extends State<MyApp> {
     init();
 
     _socket = sl<Socket>();
-
+    _coinStore = sl<CoinAnimationStore>();
     // setup firebase listeners
     sl<Fcm>().setFirebase();
     _analytics = sl<Analytics>();
@@ -96,15 +99,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void didChangeDependencies() {
     _listenLanguageChanges();
-    _listenCoinsEarned();
     super.didChangeDependencies();
-  }
-
-  bool showAnimation = false;
-  void _listenCoinsEarned() {
-    sl<Bus>().on<CoinsEarned>().listen((event) {
-      showAnimation = true;
-    });
   }
 
   void _listenLanguageChanges() {
@@ -142,10 +137,18 @@ class _MyAppState extends State<MyApp> {
             name: router.$Router.routerName,
             router: rGenerated.Router(),
           ),
-          Visibility(
-            visible: true,
-            child: Lottie.asset('assets/animations/coin_collect.json'),
-          ),
+          Observer(builder: (_) {
+            return Visibility(
+              visible: _coinStore.showCoins,
+              child: Lottie.asset(
+                'assets/animations/coin_collect.json',
+                onLoaded: (composition) => Timer(
+                  composition.duration - Duration(seconds: 2),
+                  () => _coinStore.setShowCoins(false),
+                ),
+              ),
+            );
+          }),
         ]);
       },
     );
@@ -156,10 +159,9 @@ class _MyAppState extends State<MyApp> {
     _socket.disconnect();
     _languageSubscription?.cancel();
     sl<Fcm>().dispose();
+
     super.dispose();
   }
 
   Future<void> _initSharedPreferences() async => await sl<SharedPreferencesService>().init();
 }
-
-class CoinsEarned {}

@@ -4,7 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/redemption_action_model.dart';
-import 'package:iconapp/stores/redemption_store.dart';
+import 'package:iconapp/stores/redemption/redemption_store.dart';
 import 'package:iconapp/widgets/global/basic_tile.dart';
 import 'package:iconapp/widgets/global/cupertino_loader.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
@@ -52,9 +52,19 @@ class RedemptionActionTile extends StatelessWidget {
           style: dialogContent.copyWith(fontSize: 12),
         ),
       ),
-      right: CustomText(
-        '${actions.pointsReceived} points',
-        style: dialogContent.copyWith(fontSize: 12),
+      right: Row(
+        children: [
+          CustomText(
+            '${actions.pointsReceived}',
+            style: dialogContent.copyWith(fontSize: 12),
+          ),
+          SizedBox(width: 4),
+          Image.asset(
+            'assets/images/money.png',
+            height: 18,
+            width: 18,
+          ),
+        ],
       ),
     );
   }

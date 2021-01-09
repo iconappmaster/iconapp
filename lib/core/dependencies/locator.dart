@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:iconapp/data/repositories/redemption_repository.dart';
-import 'package:iconapp/stores/redemption_store.dart';
+import 'package:iconapp/stores/redemption/coin_animation_store.dart';
+import 'package:iconapp/stores/redemption/redemption_store.dart';
 import '../ads/admob/admob.dart';
 import '../ads/provider_ads/model/ad_repository.dart';
 import '../ads/provider_ads/store/custom_ads_store.dart';
@@ -175,4 +176,7 @@ void initLocator() {
   // Redemption
   sl.registerLazySingleton<RedemptionRepository>(() => RedemptionRepositoryImpl(sl()));
   sl.registerLazySingleton<RedemptionStore>(() => RedemptionStore());
+
+  // Coin store
+  sl.registerLazySingleton<CoinAnimationStore>(() => CoinAnimationStore());
 }

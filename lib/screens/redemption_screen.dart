@@ -5,7 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/widgets/redemption/redemption_score_indicator.dart';
 import '../core/dependencies/locator.dart';
 import '../core/theme.dart';
-import '../stores/redemption_store.dart';
+import '../stores/redemption/redemption_store.dart';
 import '../widgets/create/create_app_bar.dart';
 import '../widgets/global/custom_text.dart';
 import '../widgets/redemption/redemption_actions.dart';
@@ -73,4 +73,3 @@ class RedemptionScreen extends HookWidget {
         2: CustomText('My Vauchers', style: chatMessageName),
       };
 }
-  
