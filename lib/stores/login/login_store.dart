@@ -6,10 +6,12 @@ import 'package:iconapp/core/notifications/fcm.dart';
 import 'package:iconapp/data/repositories/login_repository.dart';
 import 'package:iconapp/domain/auth/auth_failure.dart';
 import 'package:iconapp/domain/auth/auth_success.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:mobx/mobx.dart';
 import '../analytics/analytics_firebase.dart';
 import '../user/user_store.dart';
 import 'login_state.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 part 'login_store.g.dart';
 
@@ -20,28 +22,31 @@ const defaultCountTimeSec = 17;
 abstract class _LoginStoreBase with Store {
   LoginRepository _repository;
   UserStore _store;
-  Timer _timer;
+  // Timer _timer;
 
   _LoginStoreBase() {
     _repository = sl<LoginRepository>();
     _store = sl<UserStore>();
   }
 
-  @observable
-  int _currentCountDown = 0;
+  // @observable
+  // int _currentCountDown = 0;
 
   @observable
-  bool agreeTerms = false;
+  bool _agreeTerms = false;
+
+  @computed
+  bool get agreeterms => _agreeTerms;
 
   @observable
   LoginState _state = LoginState.initial();
 
-  @computed
-  String get displayCountdown =>
-      (defaultCountTimeSec - _currentCountDown).toString();
+  // @computed
+  // String get displayCountdown =>
+  //     (defaultCountTimeSec - _currentCountDown).toString();
 
-  @computed
-  bool get counterReachedZero => _currentCountDown == 0;
+  // @computed
+  // bool get counterReachedZero => _currentCountDown == 0;
 
   @computed
   bool get isPhoneMode => _state.phonePageState == PhoneOnboardingState.idle;
@@ -78,15 +83,12 @@ abstract class _LoginStoreBase with Store {
 
   @action
   Future verifyPhone() async {
-    startCountDown();
-
     _state = _state.copyWith(
       loading: true,
       phonePageState: PhoneOnboardingState.sent,
     );
 
-    final failureOrSuccess =
-        await _repository.verifyPhone(_state.countryCode + _state.phone);
+    final failureOrSuccess = await _repository.verifyPhone(_state.countryCode + _state.phone);
 
     failureOrSuccess.fold(
       (failure) {
@@ -94,13 +96,12 @@ abstract class _LoginStoreBase with Store {
             loading: false,
             phonePageState: PhoneOnboardingState.idle,
             errorMessage: failure.maybeWhen(
-              serverError: () => 'תקלה בשרת',
+              serverError: () => LocaleKeys.general_server_error.tr(),
               orElse: () => null,
             ));
       },
       (_) {
-        _state = _state.copyWith(
-            loading: false, phonePageState: PhoneOnboardingState.sent);
+        _state = _state.copyWith(loading: false, phonePageState: PhoneOnboardingState.sent);
       },
     );
   }
@@ -109,8 +110,7 @@ abstract class _LoginStoreBase with Store {
   Future<Either<AuthFailure, AuthSuccess>> verifySms() async {
     _state = _state.copyWith(loading: true);
     try {
-      final user = await _repository.verifyCode(
-          _state.countryCode + _state.phone, _state.code);
+      final user = await _repository.verifyCode(_state.countryCode + _state.phone, _state.code);
 
       _store
         ..save(user)
@@ -121,9 +121,7 @@ abstract class _LoginStoreBase with Store {
 
       analytics.userFinishedOnboarind(user);
 
-      return right(user.didCompleteRegistration
-          ? AuthSuccess.navigateHome()
-          : AuthSuccess.navigateProfile());
+      return right(user.didCompleteRegistration ? AuthSuccess.navigateHome() : AuthSuccess.navigateProfile());
     } on DioError catch (error) {
       if (error.response.data['error'] == "ERROR_WRONG_SMS") {
         return left(const AuthFailure.wrongCode());
@@ -137,7 +135,7 @@ abstract class _LoginStoreBase with Store {
 
   @action
   void updateTerms(bool value) {
-    agreeTerms = value;
+    _agreeTerms = value;
   }
 
   @action
@@ -148,24 +146,24 @@ abstract class _LoginStoreBase with Store {
     );
   }
 
-  void startCountDown() {
-    if (_timer == null) {
-      _timer = Timer.periodic(
-        Duration(seconds: 1),
-        (time) {
-          _currentCountDown = time.tick;
-          if (time.tick == defaultCountTimeSec) {
-            time.cancel();
-          }
-        },
-      );
-    }
-  }
+  // void startCountDown() {
+  //   if (_timer == null) {
+  //     _timer = Timer.periodic(
+  //       Duration(seconds: 1),
+  //       (time) {
+  //         _currentCountDown = time.tick;
+  //         if (time.tick == defaultCountTimeSec) {
+  //           time.cancel();
+  //         }
+  //       },
+  //     );
+  //   }
+  // }
 
   void dispose() {
     _state = LoginState.initial();
-    _currentCountDown = 0;
-    _timer.cancel();
-    _timer = null;
+    // _currentCountDown = 0;
+    // _timer.cancel();
+    // _timer = null;
   }
 }

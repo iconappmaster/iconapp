@@ -4,8 +4,10 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/core/hooks/timer_hook.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/screens/onboarding_profile.dart';
@@ -41,21 +43,16 @@ FocusNode _pinCodeFocusNode = FocusNode();
 /// an [SMS] code that is being sent.
 /// The store for this page is [LoginStore] that manages the [Timer], [VerifyPhone]
 /// call and [VerifyCode] that returns the user with the [Token].
-class OnboardingScreen extends StatefulWidget {
-  @override
-  _OnboardingScreenState createState() => _OnboardingScreenState();
-}
-
-class _OnboardingScreenState extends State<OnboardingScreen> {
-  @override
-  void initState() {
-    _pinCodeFocusNode = FocusNode();
-    super.initState();
-  }
-
+class OnboardingScreen extends HookWidget {
+  
+  final store = sl<LoginStore>();
+  
   @override
   Widget build(BuildContext context) {
-    final store = sl<LoginStore>();
+    useEffect(() {
+      _pinCodeFocusNode = FocusNode();
+      return _dispose;
+    }, const []);
 
     return BaseGradientBackground(
       child: Observer(
@@ -85,6 +82,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
+  _dispose() {
+    sl<LoginStore>().dispose();
+    _pinCodeFocusNode.dispose();
+  }
+
   Widget _nextButton(LoginStore store, BuildContext context) {
     return Visibility(
       visible: store.isPhoneMode,
@@ -98,13 +100,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 store.verifyPhone();
               })),
     );
-  }
-
-  @override
-  void dispose() {
-    sl<LoginStore>().dispose();
-    _pinCodeFocusNode.dispose();
-    super.dispose();
   }
 }
 
@@ -123,9 +118,7 @@ class _SendAgain extends StatelessWidget {
         top: context.heightPlusStatusbarPerc(.49),
         child: RichText(
           text: TextSpan(children: [
-            TextSpan(
-                text: LocaleKeys.onboarding_sendAgainTitle.tr(),
-                style: loginSmallText),
+            TextSpan(text: LocaleKeys.onboarding_sendAgainTitle.tr(), style: loginSmallText),
             TextSpan(
               text: LocaleKeys.onboarding_sendAgain.tr(),
               style: smallLine.copyWith(
@@ -145,7 +138,7 @@ class _SendAgain extends StatelessWidget {
   }
 }
 
-class _SmsCounter extends StatelessWidget {
+class _SmsCounter extends HookWidget {
   final LoginStore store;
 
   const _SmsCounter({
@@ -155,20 +148,31 @@ class _SmsCounter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int time = 0;
+    
+    if (store.isPinCodeMode) {
+      time = useCountDown(defaultCountTimeSec);
+    }
+
     return Observer(
-      builder: (_) => Visibility(
-        visible: store.isPinCodeMode,
-        child: Positioned(
-          top: context.heightPlusStatusbarPerc(.46),
-          child: CustomText(
-            int.tryParse(store.displayCountdown) > 0
-                ? LocaleKeys.onboarding_phoneCounting
-                    .tr(args: [store.displayCountdown])
-                : LocaleKeys.onboarding_didCodeSent.tr(),
-            style: loginSmallText,
+      builder: (_) {
+        return Visibility(
+          visible: store.isPinCodeMode,
+          child: Positioned(
+            top: context.heightPlusStatusbarPerc(.46),
+            child: CustomText(
+              time == 0
+                  ? LocaleKeys.onboarding_didCodeSent.tr()
+                  : LocaleKeys.onboarding_phoneCounting.tr(
+                      args: [
+                        time.toString(),
+                      ],
+                    ),
+              style: loginSmallText,
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
@@ -209,23 +213,18 @@ class _PinCode extends StatelessWidget {
                 final successFailure = await store.verifySms();
                 successFailure.fold(
                   (error) => error.when(
-                      serverError: () => context
-                          .showFlushbar(
-                              message: LocaleKeys.general_server_error)
-                          .tr(),
-                      wrongCode: () => context.showFlushbar(
-                          message: LocaleKeys.onboarding_wrongCode.tr())),
+                      serverError: () => context.showFlushbar(message: LocaleKeys.general_server_error).tr(),
+                      wrongCode: () => context.showFlushbar(message: LocaleKeys.onboarding_wrongCode.tr())),
                   (success) => success.when(
                     navigateHome: () {
                       sl<AuthStore>()
                         ..setSignedIn()
                         ..validateAuthState();
 
-                      ExtendedNavigator.of(context).pushAndRemoveUntil(
-                          Routes.mainNavigator, (route) => false);
+                      ExtendedNavigator.of(context).pushAndRemoveUntil(Routes.mainNavigator, (route) => false);
                     },
-                    navigateProfile: () => ExtendedNavigator.of(context)
-                        .pushOnboardingProfile(mode: OnboardingMode.onboarding),
+                    navigateProfile: () =>
+                        ExtendedNavigator.of(context).pushOnboardingProfile(mode: OnboardingMode.onboarding),
                   ),
                 );
               },
@@ -248,13 +247,9 @@ class _OnboardingPhoneSubtitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: store.isPhoneMode
-          ? context.heightPlusStatusbarPerc(.21)
-          : context.heightPlusStatusbarPerc(.335),
+      top: store.isPhoneMode ? context.heightPlusStatusbarPerc(.21) : context.heightPlusStatusbarPerc(.335),
       child: CustomText(
-        store.isPhoneMode
-            ? LocaleKeys.onboarding_phoneSubtitle.tr()
-            : LocaleKeys.onboarding_enterCode.tr(),
+        store.isPhoneMode ? LocaleKeys.onboarding_phoneSubtitle.tr() : LocaleKeys.onboarding_enterCode.tr(),
         textDirection: language.textDirection,
         style: loginSmallText,
       ),
@@ -300,8 +295,7 @@ class _CheckSign extends StatelessWidget {
             SizedBox(
                 height: context.widthPx * .086,
                 width: context.widthPx * .086,
-                child: CircularProgressIndicator(
-                    backgroundColor: white, strokeWidth: 2)),
+                child: CircularProgressIndicator(backgroundColor: white, strokeWidth: 2)),
           Image.asset(
             'assets/images/check.png',
             width: context.widthPx * .086,
@@ -321,14 +315,11 @@ class _PhoneNumberInput extends StatelessWidget {
     return AnimatedPositioned(
         curve: Curves.easeInOut,
         duration: const Duration(milliseconds: 700),
-        top: store.isPhoneMode
-            ? context.heightPlusStatusbarPerc(.272)
-            : context.heightPlusStatusbarPerc(.2),
+        top: store.isPhoneMode ? context.heightPlusStatusbarPerc(.272) : context.heightPlusStatusbarPerc(.2),
         child: Column(
           children: <Widget>[
             CountryCodePicker(
-                onChanged: (countryCode) =>
-                    store.updateCountryCode(countryCode.dialCode),
+                onChanged: (countryCode) => store.updateCountryCode(countryCode.dialCode),
                 initialSelection: 'IL',
                 favorite: ['+972', 'IL'],
                 showCountryOnly: true,
@@ -337,8 +328,7 @@ class _PhoneNumberInput extends StatelessWidget {
                 showOnlyCountryWhenClosed: false,
                 alignLeft: false,
                 hideMainText: true,
-                onInit: (countryCode) =>
-                    store.updateCountryCode(countryCode.dialCode)),
+                onInit: (countryCode) => store.updateCountryCode(countryCode.dialCode)),
             SizedBox(width: context.widthPx * .08),
             _buildPhone(context, store),
           ],
@@ -357,11 +347,9 @@ class _PhoneNumberInput extends StatelessWidget {
         keyboardType: TextInputType.phone,
         decoration: InputDecoration(
             hintText: LocaleKeys.onboarding_phoneNumberHint.tr(),
-            hintStyle: phoneNumber.copyWith(
-                color: whiteOpacity50, decoration: TextDecoration.none),
+            hintStyle: phoneNumber.copyWith(color: whiteOpacity50, decoration: TextDecoration.none),
             counterText: '',
-            enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.transparent))),
+            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent))),
       ),
     );
   }

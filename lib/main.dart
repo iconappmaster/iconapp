@@ -148,11 +148,17 @@ class _MyAppState extends State<MyApp> {
           Observer(builder: (_) {
             return Visibility(
               visible: _coinStore.showCoins,
-              child: Lottie.asset(
-                'assets/animations/coin_collect.json',
-                onLoaded: (composition) => Timer(
-                  composition.duration - Duration(seconds: 2),
-                  () => _coinStore.setShowCoins(false),
+              child: Positioned(
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * .4,
+                  width: MediaQuery.of(context).size.height * .6,
+                  child: Lottie.asset(
+                    'assets/animations/coin_collect.json',
+                    onLoaded: (composition) => Timer(
+                      composition.duration - Duration(seconds: 2),
+                      () => _coinStore.setShowCoins(false),
+                    ),
+                  ),
                 ),
               ),
             );

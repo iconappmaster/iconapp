@@ -9,20 +9,13 @@ part of 'login_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$LoginStore on _LoginStoreBase, Store {
-  Computed<String> _$displayCountdownComputed;
+  Computed<bool> _$agreetermsComputed;
 
   @override
-  String get displayCountdown => (_$displayCountdownComputed ??=
-          Computed<String>(() => super.displayCountdown,
-              name: '_LoginStoreBase.displayCountdown'))
-      .value;
-  Computed<bool> _$counterReachedZeroComputed;
-
-  @override
-  bool get counterReachedZero => (_$counterReachedZeroComputed ??=
-          Computed<bool>(() => super.counterReachedZero,
-              name: '_LoginStoreBase.counterReachedZero'))
-      .value;
+  bool get agreeterms =>
+      (_$agreetermsComputed ??= Computed<bool>(() => super.agreeterms,
+              name: '_LoginStoreBase.agreeterms'))
+          .value;
   Computed<bool> _$isPhoneModeComputed;
 
   @override
@@ -52,34 +45,18 @@ mixin _$LoginStore on _LoginStoreBase, Store {
               name: '_LoginStoreBase.getState'))
           .value;
 
-  final _$_currentCountDownAtom =
-      Atom(name: '_LoginStoreBase._currentCountDown');
+  final _$_agreeTermsAtom = Atom(name: '_LoginStoreBase._agreeTerms');
 
   @override
-  int get _currentCountDown {
-    _$_currentCountDownAtom.reportRead();
-    return super._currentCountDown;
+  bool get _agreeTerms {
+    _$_agreeTermsAtom.reportRead();
+    return super._agreeTerms;
   }
 
   @override
-  set _currentCountDown(int value) {
-    _$_currentCountDownAtom.reportWrite(value, super._currentCountDown, () {
-      super._currentCountDown = value;
-    });
-  }
-
-  final _$agreeTermsAtom = Atom(name: '_LoginStoreBase.agreeTerms');
-
-  @override
-  bool get agreeTerms {
-    _$agreeTermsAtom.reportRead();
-    return super.agreeTerms;
-  }
-
-  @override
-  set agreeTerms(bool value) {
-    _$agreeTermsAtom.reportWrite(value, super.agreeTerms, () {
-      super.agreeTerms = value;
+  set _agreeTerms(bool value) {
+    _$_agreeTermsAtom.reportWrite(value, super._agreeTerms, () {
+      super._agreeTerms = value;
     });
   }
 
@@ -169,9 +146,7 @@ mixin _$LoginStore on _LoginStoreBase, Store {
   @override
   String toString() {
     return '''
-agreeTerms: ${agreeTerms},
-displayCountdown: ${displayCountdown},
-counterReachedZero: ${counterReachedZero},
+agreeterms: ${agreeterms},
 isPhoneMode: ${isPhoneMode},
 isPinCodeMode: ${isPinCodeMode},
 numberValid: ${numberValid},

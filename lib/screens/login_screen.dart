@@ -26,16 +26,19 @@ class LoginScreen extends StatelessWidget {
           LoginBackgroundImage(),
           Positioned(
             bottom: context.heightPx * .145,
-            child: NextButton(
-              title: 'CONTINUE',
-              onClick: () {
-                if (login.agreeTerms)
-                  ExtendedNavigator.of(context).pushOnboardingScreen();
-                else {
-                  context.showFlushbar(message: 'Please agree to the tearms');
-                }
-              },
-            ),
+            child: Observer(builder: (_) {
+              return NextButton(
+                enabled: login.agreeterms,
+                title: 'CONTINUE',
+                onClick: () {
+                  if (login.agreeterms)
+                    ExtendedNavigator.of(context).pushOnboardingScreen();
+                  else {
+                    context.showFlushbar(message: 'Please agree to the tearms');
+                  }
+                },
+              );
+            }),
           ),
           Positioned(bottom: context.heightPx * .054, child: PrivacyAndTerms()),
           Positioned(
@@ -66,13 +69,10 @@ class PrivacyAndTerms extends StatelessWidget {
           RichText(
             textAlign: TextAlign.left,
             text: TextSpan(children: [
-              TextSpan(
-                  text: 'To log in, you must first read and accept our\n',
-                  style: smallLine),
+              TextSpan(text: 'To log in, you must first read and accept our\n', style: smallLine),
               TextSpan(
                   text: 'terms of use',
-                  style:
-                      smallLine.copyWith(decoration: TextDecoration.underline),
+                  style: smallLine.copyWith(decoration: TextDecoration.underline),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () async {
                       if (await canLaunch(policyUrl)) launch(policyUrl);
@@ -85,7 +85,7 @@ class PrivacyAndTerms extends StatelessWidget {
               child: Checkbox(
                 checkColor: cornflower,
                 activeColor: white,
-                value: login.agreeTerms,
+                value: login.agreeterms,
                 onChanged: (bool value) => login.updateTerms(value),
               ),
             ),
