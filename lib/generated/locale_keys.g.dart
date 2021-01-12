@@ -170,12 +170,15 @@ abstract class  LocaleKeys {
   static const redemption_tabProducts = 'redemption.tabProducts';
   static const redemption_tabPAction = 'redemption.tabPAction';
   static const redemption_tabVauchers = 'redemption.tabVauchers';
+  static const redemption_tabStore = 'redemption.tabStore';
   static const redemption_detailProducts = 'redemption.detailProducts';
+  static const redemption_detailStore = 'redemption.detailStore';
   static const redemption_detailActions = 'redemption.detailActions';
   static const redemption_detailVauchers = 'redemption.detailVauchers';
   static const redemption_productEmpty = 'redemption.productEmpty';
   static const redemption_actionsEmpty = 'redemption.actionsEmpty';
   static const redemption_vaucherEmpty = 'redemption.vaucherEmpty';
+  static const redemption_storeEmpty = 'redemption.storeEmpty';
   static const redemption = 'redemption';
 
 }

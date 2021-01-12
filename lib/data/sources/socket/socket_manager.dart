@@ -50,7 +50,7 @@ class Socket {
   void init() async {
     try {
       await Pusher.init(
-        PRODUCTION_PUSHER_KEY,  
+        PRODUCTION_PUSHER_KEY,
         PusherOptions(cluster: "us2"),
         enableLogging: true,
       );
@@ -90,7 +90,7 @@ class Socket {
     });
   }
 
-  // Story
+  // Story 
   void bindStoryChangeEvent() {
     _homeChannel.bind(storyChangedEvent, (event) {
       final json = jsonDecode(event.data);

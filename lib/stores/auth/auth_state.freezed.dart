@@ -48,38 +48,38 @@ const $AuthState = _$AuthStateTearOff();
 /// @nodoc
 mixin _$AuthState {
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result onboarding(),
-    @required Result authenticated(),
-    @required Result unauthenticated(),
-    @required Result fromNotificationOpenChat(Conversation conversation),
+  TResult when<TResult extends Object>({
+    @required TResult initial(),
+    @required TResult onboarding(),
+    @required TResult authenticated(),
+    @required TResult unauthenticated(),
+    @required TResult fromNotificationOpenChat(Conversation conversation),
   });
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result onboarding(),
-    Result authenticated(),
-    Result unauthenticated(),
-    Result fromNotificationOpenChat(Conversation conversation),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult initial(),
+    TResult onboarding(),
+    TResult authenticated(),
+    TResult unauthenticated(),
+    TResult fromNotificationOpenChat(Conversation conversation),
+    @required TResult orElse(),
   });
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(Initial value),
-    @required Result onboarding(Onboarding value),
-    @required Result authenticated(Authenticated value),
-    @required Result unauthenticated(Unauthenticated value),
-    @required Result fromNotificationOpenChat(OpenChat value),
+  TResult map<TResult extends Object>({
+    @required TResult initial(Initial value),
+    @required TResult onboarding(Onboarding value),
+    @required TResult authenticated(Authenticated value),
+    @required TResult unauthenticated(Unauthenticated value),
+    @required TResult fromNotificationOpenChat(OpenChat value),
   });
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(Initial value),
-    Result onboarding(Onboarding value),
-    Result authenticated(Authenticated value),
-    Result unauthenticated(Unauthenticated value),
-    Result fromNotificationOpenChat(OpenChat value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult initial(Initial value),
+    TResult onboarding(Onboarding value),
+    TResult authenticated(Authenticated value),
+    TResult unauthenticated(Unauthenticated value),
+    TResult fromNotificationOpenChat(OpenChat value),
+    @required TResult orElse(),
   });
 }
 
@@ -133,12 +133,12 @@ class _$Initial implements Initial {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result onboarding(),
-    @required Result authenticated(),
-    @required Result unauthenticated(),
-    @required Result fromNotificationOpenChat(Conversation conversation),
+  TResult when<TResult extends Object>({
+    @required TResult initial(),
+    @required TResult onboarding(),
+    @required TResult authenticated(),
+    @required TResult unauthenticated(),
+    @required TResult fromNotificationOpenChat(Conversation conversation),
   }) {
     assert(initial != null);
     assert(onboarding != null);
@@ -150,13 +150,13 @@ class _$Initial implements Initial {
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result onboarding(),
-    Result authenticated(),
-    Result unauthenticated(),
-    Result fromNotificationOpenChat(Conversation conversation),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult initial(),
+    TResult onboarding(),
+    TResult authenticated(),
+    TResult unauthenticated(),
+    TResult fromNotificationOpenChat(Conversation conversation),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (initial != null) {
@@ -167,12 +167,12 @@ class _$Initial implements Initial {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(Initial value),
-    @required Result onboarding(Onboarding value),
-    @required Result authenticated(Authenticated value),
-    @required Result unauthenticated(Unauthenticated value),
-    @required Result fromNotificationOpenChat(OpenChat value),
+  TResult map<TResult extends Object>({
+    @required TResult initial(Initial value),
+    @required TResult onboarding(Onboarding value),
+    @required TResult authenticated(Authenticated value),
+    @required TResult unauthenticated(Unauthenticated value),
+    @required TResult fromNotificationOpenChat(OpenChat value),
   }) {
     assert(initial != null);
     assert(onboarding != null);
@@ -184,13 +184,13 @@ class _$Initial implements Initial {
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(Initial value),
-    Result onboarding(Onboarding value),
-    Result authenticated(Authenticated value),
-    Result unauthenticated(Unauthenticated value),
-    Result fromNotificationOpenChat(OpenChat value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult initial(Initial value),
+    TResult onboarding(Onboarding value),
+    TResult authenticated(Authenticated value),
+    TResult unauthenticated(Unauthenticated value),
+    TResult fromNotificationOpenChat(OpenChat value),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (initial != null) {
@@ -240,12 +240,12 @@ class _$Onboarding implements Onboarding {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result onboarding(),
-    @required Result authenticated(),
-    @required Result unauthenticated(),
-    @required Result fromNotificationOpenChat(Conversation conversation),
+  TResult when<TResult extends Object>({
+    @required TResult initial(),
+    @required TResult onboarding(),
+    @required TResult authenticated(),
+    @required TResult unauthenticated(),
+    @required TResult fromNotificationOpenChat(Conversation conversation),
   }) {
     assert(initial != null);
     assert(onboarding != null);
@@ -257,13 +257,13 @@ class _$Onboarding implements Onboarding {
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result onboarding(),
-    Result authenticated(),
-    Result unauthenticated(),
-    Result fromNotificationOpenChat(Conversation conversation),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult initial(),
+    TResult onboarding(),
+    TResult authenticated(),
+    TResult unauthenticated(),
+    TResult fromNotificationOpenChat(Conversation conversation),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (onboarding != null) {
@@ -274,12 +274,12 @@ class _$Onboarding implements Onboarding {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(Initial value),
-    @required Result onboarding(Onboarding value),
-    @required Result authenticated(Authenticated value),
-    @required Result unauthenticated(Unauthenticated value),
-    @required Result fromNotificationOpenChat(OpenChat value),
+  TResult map<TResult extends Object>({
+    @required TResult initial(Initial value),
+    @required TResult onboarding(Onboarding value),
+    @required TResult authenticated(Authenticated value),
+    @required TResult unauthenticated(Unauthenticated value),
+    @required TResult fromNotificationOpenChat(OpenChat value),
   }) {
     assert(initial != null);
     assert(onboarding != null);
@@ -291,13 +291,13 @@ class _$Onboarding implements Onboarding {
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(Initial value),
-    Result onboarding(Onboarding value),
-    Result authenticated(Authenticated value),
-    Result unauthenticated(Unauthenticated value),
-    Result fromNotificationOpenChat(OpenChat value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult initial(Initial value),
+    TResult onboarding(Onboarding value),
+    TResult authenticated(Authenticated value),
+    TResult unauthenticated(Unauthenticated value),
+    TResult fromNotificationOpenChat(OpenChat value),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (onboarding != null) {
@@ -348,12 +348,12 @@ class _$Authenticated implements Authenticated {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result onboarding(),
-    @required Result authenticated(),
-    @required Result unauthenticated(),
-    @required Result fromNotificationOpenChat(Conversation conversation),
+  TResult when<TResult extends Object>({
+    @required TResult initial(),
+    @required TResult onboarding(),
+    @required TResult authenticated(),
+    @required TResult unauthenticated(),
+    @required TResult fromNotificationOpenChat(Conversation conversation),
   }) {
     assert(initial != null);
     assert(onboarding != null);
@@ -365,13 +365,13 @@ class _$Authenticated implements Authenticated {
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result onboarding(),
-    Result authenticated(),
-    Result unauthenticated(),
-    Result fromNotificationOpenChat(Conversation conversation),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult initial(),
+    TResult onboarding(),
+    TResult authenticated(),
+    TResult unauthenticated(),
+    TResult fromNotificationOpenChat(Conversation conversation),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (authenticated != null) {
@@ -382,12 +382,12 @@ class _$Authenticated implements Authenticated {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(Initial value),
-    @required Result onboarding(Onboarding value),
-    @required Result authenticated(Authenticated value),
-    @required Result unauthenticated(Unauthenticated value),
-    @required Result fromNotificationOpenChat(OpenChat value),
+  TResult map<TResult extends Object>({
+    @required TResult initial(Initial value),
+    @required TResult onboarding(Onboarding value),
+    @required TResult authenticated(Authenticated value),
+    @required TResult unauthenticated(Unauthenticated value),
+    @required TResult fromNotificationOpenChat(OpenChat value),
   }) {
     assert(initial != null);
     assert(onboarding != null);
@@ -399,13 +399,13 @@ class _$Authenticated implements Authenticated {
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(Initial value),
-    Result onboarding(Onboarding value),
-    Result authenticated(Authenticated value),
-    Result unauthenticated(Unauthenticated value),
-    Result fromNotificationOpenChat(OpenChat value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult initial(Initial value),
+    TResult onboarding(Onboarding value),
+    TResult authenticated(Authenticated value),
+    TResult unauthenticated(Unauthenticated value),
+    TResult fromNotificationOpenChat(OpenChat value),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (authenticated != null) {
@@ -456,12 +456,12 @@ class _$Unauthenticated implements Unauthenticated {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result onboarding(),
-    @required Result authenticated(),
-    @required Result unauthenticated(),
-    @required Result fromNotificationOpenChat(Conversation conversation),
+  TResult when<TResult extends Object>({
+    @required TResult initial(),
+    @required TResult onboarding(),
+    @required TResult authenticated(),
+    @required TResult unauthenticated(),
+    @required TResult fromNotificationOpenChat(Conversation conversation),
   }) {
     assert(initial != null);
     assert(onboarding != null);
@@ -473,13 +473,13 @@ class _$Unauthenticated implements Unauthenticated {
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result onboarding(),
-    Result authenticated(),
-    Result unauthenticated(),
-    Result fromNotificationOpenChat(Conversation conversation),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult initial(),
+    TResult onboarding(),
+    TResult authenticated(),
+    TResult unauthenticated(),
+    TResult fromNotificationOpenChat(Conversation conversation),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (unauthenticated != null) {
@@ -490,12 +490,12 @@ class _$Unauthenticated implements Unauthenticated {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(Initial value),
-    @required Result onboarding(Onboarding value),
-    @required Result authenticated(Authenticated value),
-    @required Result unauthenticated(Unauthenticated value),
-    @required Result fromNotificationOpenChat(OpenChat value),
+  TResult map<TResult extends Object>({
+    @required TResult initial(Initial value),
+    @required TResult onboarding(Onboarding value),
+    @required TResult authenticated(Authenticated value),
+    @required TResult unauthenticated(Unauthenticated value),
+    @required TResult fromNotificationOpenChat(OpenChat value),
   }) {
     assert(initial != null);
     assert(onboarding != null);
@@ -507,13 +507,13 @@ class _$Unauthenticated implements Unauthenticated {
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(Initial value),
-    Result onboarding(Onboarding value),
-    Result authenticated(Authenticated value),
-    Result unauthenticated(Unauthenticated value),
-    Result fromNotificationOpenChat(OpenChat value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult initial(Initial value),
+    TResult onboarding(Onboarding value),
+    TResult authenticated(Authenticated value),
+    TResult unauthenticated(Unauthenticated value),
+    TResult fromNotificationOpenChat(OpenChat value),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (unauthenticated != null) {
@@ -598,12 +598,12 @@ class _$OpenChat implements OpenChat {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result onboarding(),
-    @required Result authenticated(),
-    @required Result unauthenticated(),
-    @required Result fromNotificationOpenChat(Conversation conversation),
+  TResult when<TResult extends Object>({
+    @required TResult initial(),
+    @required TResult onboarding(),
+    @required TResult authenticated(),
+    @required TResult unauthenticated(),
+    @required TResult fromNotificationOpenChat(Conversation conversation),
   }) {
     assert(initial != null);
     assert(onboarding != null);
@@ -615,13 +615,13 @@ class _$OpenChat implements OpenChat {
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result onboarding(),
-    Result authenticated(),
-    Result unauthenticated(),
-    Result fromNotificationOpenChat(Conversation conversation),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult initial(),
+    TResult onboarding(),
+    TResult authenticated(),
+    TResult unauthenticated(),
+    TResult fromNotificationOpenChat(Conversation conversation),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (fromNotificationOpenChat != null) {
@@ -632,12 +632,12 @@ class _$OpenChat implements OpenChat {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(Initial value),
-    @required Result onboarding(Onboarding value),
-    @required Result authenticated(Authenticated value),
-    @required Result unauthenticated(Unauthenticated value),
-    @required Result fromNotificationOpenChat(OpenChat value),
+  TResult map<TResult extends Object>({
+    @required TResult initial(Initial value),
+    @required TResult onboarding(Onboarding value),
+    @required TResult authenticated(Authenticated value),
+    @required TResult unauthenticated(Unauthenticated value),
+    @required TResult fromNotificationOpenChat(OpenChat value),
   }) {
     assert(initial != null);
     assert(onboarding != null);
@@ -649,13 +649,13 @@ class _$OpenChat implements OpenChat {
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(Initial value),
-    Result onboarding(Onboarding value),
-    Result authenticated(Authenticated value),
-    Result unauthenticated(Unauthenticated value),
-    Result fromNotificationOpenChat(OpenChat value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult initial(Initial value),
+    TResult onboarding(Onboarding value),
+    TResult authenticated(Authenticated value),
+    TResult unauthenticated(Unauthenticated value),
+    TResult fromNotificationOpenChat(OpenChat value),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (fromNotificationOpenChat != null) {

@@ -36,30 +36,30 @@ const $RedemptionFailure = _$RedemptionFailureTearOff();
 /// @nodoc
 mixin _$RedemptionFailure {
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result noActiveRedemption(),
-    @required Result noMoney(),
-    @required Result serverError(),
+  TResult when<TResult extends Object>({
+    @required TResult noActiveRedemption(),
+    @required TResult noMoney(),
+    @required TResult serverError(),
   });
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result noActiveRedemption(),
-    Result noMoney(),
-    Result serverError(),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult noActiveRedemption(),
+    TResult noMoney(),
+    TResult serverError(),
+    @required TResult orElse(),
   });
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result noActiveRedemption(NoActiveRedemption value),
-    @required Result noMoney(NoMoney value),
-    @required Result serverError(ServerError value),
+  TResult map<TResult extends Object>({
+    @required TResult noActiveRedemption(NoActiveRedemption value),
+    @required TResult noMoney(NoMoney value),
+    @required TResult serverError(ServerError value),
   });
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result noActiveRedemption(NoActiveRedemption value),
-    Result noMoney(NoMoney value),
-    Result serverError(ServerError value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult noActiveRedemption(NoActiveRedemption value),
+    TResult noMoney(NoMoney value),
+    TResult serverError(ServerError value),
+    @required TResult orElse(),
   });
 }
 
@@ -118,10 +118,10 @@ class _$NoActiveRedemption implements NoActiveRedemption {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result noActiveRedemption(),
-    @required Result noMoney(),
-    @required Result serverError(),
+  TResult when<TResult extends Object>({
+    @required TResult noActiveRedemption(),
+    @required TResult noMoney(),
+    @required TResult serverError(),
   }) {
     assert(noActiveRedemption != null);
     assert(noMoney != null);
@@ -131,11 +131,11 @@ class _$NoActiveRedemption implements NoActiveRedemption {
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result noActiveRedemption(),
-    Result noMoney(),
-    Result serverError(),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult noActiveRedemption(),
+    TResult noMoney(),
+    TResult serverError(),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (noActiveRedemption != null) {
@@ -146,10 +146,10 @@ class _$NoActiveRedemption implements NoActiveRedemption {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result noActiveRedemption(NoActiveRedemption value),
-    @required Result noMoney(NoMoney value),
-    @required Result serverError(ServerError value),
+  TResult map<TResult extends Object>({
+    @required TResult noActiveRedemption(NoActiveRedemption value),
+    @required TResult noMoney(NoMoney value),
+    @required TResult serverError(ServerError value),
   }) {
     assert(noActiveRedemption != null);
     assert(noMoney != null);
@@ -159,11 +159,11 @@ class _$NoActiveRedemption implements NoActiveRedemption {
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result noActiveRedemption(NoActiveRedemption value),
-    Result noMoney(NoMoney value),
-    Result serverError(ServerError value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult noActiveRedemption(NoActiveRedemption value),
+    TResult noMoney(NoMoney value),
+    TResult serverError(ServerError value),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (noActiveRedemption != null) {
@@ -212,10 +212,10 @@ class _$NoMoney implements NoMoney {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result noActiveRedemption(),
-    @required Result noMoney(),
-    @required Result serverError(),
+  TResult when<TResult extends Object>({
+    @required TResult noActiveRedemption(),
+    @required TResult noMoney(),
+    @required TResult serverError(),
   }) {
     assert(noActiveRedemption != null);
     assert(noMoney != null);
@@ -225,11 +225,11 @@ class _$NoMoney implements NoMoney {
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result noActiveRedemption(),
-    Result noMoney(),
-    Result serverError(),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult noActiveRedemption(),
+    TResult noMoney(),
+    TResult serverError(),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (noMoney != null) {
@@ -240,10 +240,10 @@ class _$NoMoney implements NoMoney {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result noActiveRedemption(NoActiveRedemption value),
-    @required Result noMoney(NoMoney value),
-    @required Result serverError(ServerError value),
+  TResult map<TResult extends Object>({
+    @required TResult noActiveRedemption(NoActiveRedemption value),
+    @required TResult noMoney(NoMoney value),
+    @required TResult serverError(ServerError value),
   }) {
     assert(noActiveRedemption != null);
     assert(noMoney != null);
@@ -253,11 +253,11 @@ class _$NoMoney implements NoMoney {
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result noActiveRedemption(NoActiveRedemption value),
-    Result noMoney(NoMoney value),
-    Result serverError(ServerError value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult noActiveRedemption(NoActiveRedemption value),
+    TResult noMoney(NoMoney value),
+    TResult serverError(ServerError value),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (noMoney != null) {
@@ -309,10 +309,10 @@ class _$ServerError implements ServerError {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result noActiveRedemption(),
-    @required Result noMoney(),
-    @required Result serverError(),
+  TResult when<TResult extends Object>({
+    @required TResult noActiveRedemption(),
+    @required TResult noMoney(),
+    @required TResult serverError(),
   }) {
     assert(noActiveRedemption != null);
     assert(noMoney != null);
@@ -322,11 +322,11 @@ class _$ServerError implements ServerError {
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result noActiveRedemption(),
-    Result noMoney(),
-    Result serverError(),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult noActiveRedemption(),
+    TResult noMoney(),
+    TResult serverError(),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (serverError != null) {
@@ -337,10 +337,10 @@ class _$ServerError implements ServerError {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result noActiveRedemption(NoActiveRedemption value),
-    @required Result noMoney(NoMoney value),
-    @required Result serverError(ServerError value),
+  TResult map<TResult extends Object>({
+    @required TResult noActiveRedemption(NoActiveRedemption value),
+    @required TResult noMoney(NoMoney value),
+    @required TResult serverError(ServerError value),
   }) {
     assert(noActiveRedemption != null);
     assert(noMoney != null);
@@ -350,11 +350,11 @@ class _$ServerError implements ServerError {
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result noActiveRedemption(NoActiveRedemption value),
-    Result noMoney(NoMoney value),
-    Result serverError(ServerError value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult noActiveRedemption(NoActiveRedemption value),
+    TResult noMoney(NoMoney value),
+    TResult serverError(ServerError value),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (serverError != null) {

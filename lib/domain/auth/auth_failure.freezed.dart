@@ -31,26 +31,26 @@ const $AuthFailure = _$AuthFailureTearOff();
 /// @nodoc
 mixin _$AuthFailure {
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result serverError(),
-    @required Result wrongCode(),
+  TResult when<TResult extends Object>({
+    @required TResult serverError(),
+    @required TResult wrongCode(),
   });
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result serverError(),
-    Result wrongCode(),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult serverError(),
+    TResult wrongCode(),
+    @required TResult orElse(),
   });
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result serverError(ServerError value),
-    @required Result wrongCode(WrongCode value),
+  TResult map<TResult extends Object>({
+    @required TResult serverError(ServerError value),
+    @required TResult wrongCode(WrongCode value),
   });
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result serverError(ServerError value),
-    Result wrongCode(WrongCode value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult serverError(ServerError value),
+    TResult wrongCode(WrongCode value),
+    @required TResult orElse(),
   });
 }
 
@@ -107,9 +107,9 @@ class _$ServerError implements ServerError {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result serverError(),
-    @required Result wrongCode(),
+  TResult when<TResult extends Object>({
+    @required TResult serverError(),
+    @required TResult wrongCode(),
   }) {
     assert(serverError != null);
     assert(wrongCode != null);
@@ -118,10 +118,10 @@ class _$ServerError implements ServerError {
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result serverError(),
-    Result wrongCode(),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult serverError(),
+    TResult wrongCode(),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (serverError != null) {
@@ -132,9 +132,9 @@ class _$ServerError implements ServerError {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result serverError(ServerError value),
-    @required Result wrongCode(WrongCode value),
+  TResult map<TResult extends Object>({
+    @required TResult serverError(ServerError value),
+    @required TResult wrongCode(WrongCode value),
   }) {
     assert(serverError != null);
     assert(wrongCode != null);
@@ -143,10 +143,10 @@ class _$ServerError implements ServerError {
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result serverError(ServerError value),
-    Result wrongCode(WrongCode value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult serverError(ServerError value),
+    TResult wrongCode(WrongCode value),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (serverError != null) {
@@ -195,9 +195,9 @@ class _$WrongCode implements WrongCode {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result serverError(),
-    @required Result wrongCode(),
+  TResult when<TResult extends Object>({
+    @required TResult serverError(),
+    @required TResult wrongCode(),
   }) {
     assert(serverError != null);
     assert(wrongCode != null);
@@ -206,10 +206,10 @@ class _$WrongCode implements WrongCode {
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result serverError(),
-    Result wrongCode(),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult serverError(),
+    TResult wrongCode(),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (wrongCode != null) {
@@ -220,9 +220,9 @@ class _$WrongCode implements WrongCode {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result serverError(ServerError value),
-    @required Result wrongCode(WrongCode value),
+  TResult map<TResult extends Object>({
+    @required TResult serverError(ServerError value),
+    @required TResult wrongCode(WrongCode value),
   }) {
     assert(serverError != null);
     assert(wrongCode != null);
@@ -231,10 +231,10 @@ class _$WrongCode implements WrongCode {
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result serverError(ServerError value),
-    Result wrongCode(WrongCode value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult serverError(ServerError value),
+    TResult wrongCode(WrongCode value),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (wrongCode != null) {

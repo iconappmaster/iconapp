@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
@@ -11,20 +10,15 @@ import 'package:image_picker/image_picker.dart';
 class ComposeActionButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Observer(
-      builder: (_) => Row(
-        children: <Widget>[
-          _buildActionButton('assets/images/camera.svg',
-              onTap: () => _showPhotoSheet(context)),
-          _buildActionButton('assets/images/photo.svg',
-              onTap: () => _showGallerySheet(context)),
-        ],
-      ),
+    return Row(
+      children: <Widget>[
+        _buildActionButton('assets/images/camera.svg', onTap: () => _showPhotoSheet(context)),
+        _buildActionButton('assets/images/photo.svg', onTap: () => _showGallerySheet(context)),
+      ],
     );
   }
 
-  Widget _buildActionButton(String asset,
-      {Function onTap, Function onLongTap}) {
+  Widget _buildActionButton(String asset, {Function onTap, Function onLongTap}) {
     final size = 25.7;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4.7),
@@ -55,8 +49,7 @@ class ComposeActionButtons extends StatelessWidget {
                   child: Wrap(
                     children: <Widget>[
                       ListTile(
-                          leading: SvgPicture.asset('assets/images/camera.svg',
-                              height: 40, width: 40, color: white),
+                          leading: SvgPicture.asset('assets/images/camera.svg', height: 40, width: 40, color: white),
                           title: Text('מצלמה', style: settingsAppbarTitle),
                           onTap: () {
                             store.sendPhotoMessage(ImageSource.camera);
@@ -89,8 +82,7 @@ class ComposeActionButtons extends StatelessWidget {
               child: Wrap(
                 children: <Widget>[
                   ListTile(
-                      leading: SvgPicture.asset('assets/images/photo.svg',
-                          height: 40, width: 40, color: white),
+                      leading: SvgPicture.asset('assets/images/photo.svg', height: 40, width: 40, color: white),
                       title: Text('גלריה מצלמה', style: settingsAppbarTitle),
                       onTap: () {
                         store.sendPhotoMessage(ImageSource.gallery);

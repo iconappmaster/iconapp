@@ -187,12 +187,15 @@
         "title" : "My Balance",
         "tabProducts" : "Products",
         "tabPAction" : "Actions",
-        "tabVauchers" : "MyVouchers",
+        "tabVauchers" : "Vouchers",
+        "tabStore" : "Store",
         "detailProducts" : "Product that you can redeem with balance points",
+        "detailStore" : "Purchase products",
         "detailActions" : "Actions made to earn balance points",
         "detailVauchers" : "Voucher codes that you have redeemed",
         "productEmpty" : "No product currently available",
         "actionsEmpty" : "No redeem action has been taken",
-        "vaucherEmpty" : "No code, try to redeem a product first"
+        "vaucherEmpty" : "No code, try to redeem a product first",
+        "storeEmpty" : "No products in the store"
     }
 }

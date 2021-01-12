@@ -44,30 +44,30 @@ mixin _$ValueFailure<T> {
   T get failedValue;
 
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result shortNumber(T failedValue),
-    @required Result tooYoung(T failedValue),
-    @required Result lastNameMissing(T failedValue),
+  TResult when<TResult extends Object>({
+    @required TResult shortNumber(T failedValue),
+    @required TResult tooYoung(T failedValue),
+    @required TResult lastNameMissing(T failedValue),
   });
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result shortNumber(T failedValue),
-    Result tooYoung(T failedValue),
-    Result lastNameMissing(T failedValue),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult shortNumber(T failedValue),
+    TResult tooYoung(T failedValue),
+    TResult lastNameMissing(T failedValue),
+    @required TResult orElse(),
   });
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result shortNumber(InvalidEmail<T> value),
-    @required Result tooYoung(InvalidAge<T> value),
-    @required Result lastNameMissing(LastNameMissing<T> value),
+  TResult map<TResult extends Object>({
+    @required TResult shortNumber(InvalidEmail<T> value),
+    @required TResult tooYoung(InvalidAge<T> value),
+    @required TResult lastNameMissing(LastNameMissing<T> value),
   });
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result shortNumber(InvalidEmail<T> value),
-    Result tooYoung(InvalidAge<T> value),
-    Result lastNameMissing(LastNameMissing<T> value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult shortNumber(InvalidEmail<T> value),
+    TResult tooYoung(InvalidAge<T> value),
+    TResult lastNameMissing(LastNameMissing<T> value),
+    @required TResult orElse(),
   });
 
   $ValueFailureCopyWith<T, ValueFailure<T>> get copyWith;
@@ -165,10 +165,10 @@ class _$InvalidEmail<T> implements InvalidEmail<T> {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result shortNumber(T failedValue),
-    @required Result tooYoung(T failedValue),
-    @required Result lastNameMissing(T failedValue),
+  TResult when<TResult extends Object>({
+    @required TResult shortNumber(T failedValue),
+    @required TResult tooYoung(T failedValue),
+    @required TResult lastNameMissing(T failedValue),
   }) {
     assert(shortNumber != null);
     assert(tooYoung != null);
@@ -178,11 +178,11 @@ class _$InvalidEmail<T> implements InvalidEmail<T> {
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result shortNumber(T failedValue),
-    Result tooYoung(T failedValue),
-    Result lastNameMissing(T failedValue),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult shortNumber(T failedValue),
+    TResult tooYoung(T failedValue),
+    TResult lastNameMissing(T failedValue),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (shortNumber != null) {
@@ -193,10 +193,10 @@ class _$InvalidEmail<T> implements InvalidEmail<T> {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result shortNumber(InvalidEmail<T> value),
-    @required Result tooYoung(InvalidAge<T> value),
-    @required Result lastNameMissing(LastNameMissing<T> value),
+  TResult map<TResult extends Object>({
+    @required TResult shortNumber(InvalidEmail<T> value),
+    @required TResult tooYoung(InvalidAge<T> value),
+    @required TResult lastNameMissing(LastNameMissing<T> value),
   }) {
     assert(shortNumber != null);
     assert(tooYoung != null);
@@ -206,11 +206,11 @@ class _$InvalidEmail<T> implements InvalidEmail<T> {
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result shortNumber(InvalidEmail<T> value),
-    Result tooYoung(InvalidAge<T> value),
-    Result lastNameMissing(LastNameMissing<T> value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult shortNumber(InvalidEmail<T> value),
+    TResult tooYoung(InvalidAge<T> value),
+    TResult lastNameMissing(LastNameMissing<T> value),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (shortNumber != null) {
@@ -293,10 +293,10 @@ class _$InvalidAge<T> implements InvalidAge<T> {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result shortNumber(T failedValue),
-    @required Result tooYoung(T failedValue),
-    @required Result lastNameMissing(T failedValue),
+  TResult when<TResult extends Object>({
+    @required TResult shortNumber(T failedValue),
+    @required TResult tooYoung(T failedValue),
+    @required TResult lastNameMissing(T failedValue),
   }) {
     assert(shortNumber != null);
     assert(tooYoung != null);
@@ -306,11 +306,11 @@ class _$InvalidAge<T> implements InvalidAge<T> {
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result shortNumber(T failedValue),
-    Result tooYoung(T failedValue),
-    Result lastNameMissing(T failedValue),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult shortNumber(T failedValue),
+    TResult tooYoung(T failedValue),
+    TResult lastNameMissing(T failedValue),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (tooYoung != null) {
@@ -321,10 +321,10 @@ class _$InvalidAge<T> implements InvalidAge<T> {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result shortNumber(InvalidEmail<T> value),
-    @required Result tooYoung(InvalidAge<T> value),
-    @required Result lastNameMissing(LastNameMissing<T> value),
+  TResult map<TResult extends Object>({
+    @required TResult shortNumber(InvalidEmail<T> value),
+    @required TResult tooYoung(InvalidAge<T> value),
+    @required TResult lastNameMissing(LastNameMissing<T> value),
   }) {
     assert(shortNumber != null);
     assert(tooYoung != null);
@@ -334,11 +334,11 @@ class _$InvalidAge<T> implements InvalidAge<T> {
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result shortNumber(InvalidEmail<T> value),
-    Result tooYoung(InvalidAge<T> value),
-    Result lastNameMissing(LastNameMissing<T> value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult shortNumber(InvalidEmail<T> value),
+    TResult tooYoung(InvalidAge<T> value),
+    TResult lastNameMissing(LastNameMissing<T> value),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (tooYoung != null) {
@@ -421,10 +421,10 @@ class _$LastNameMissing<T> implements LastNameMissing<T> {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result shortNumber(T failedValue),
-    @required Result tooYoung(T failedValue),
-    @required Result lastNameMissing(T failedValue),
+  TResult when<TResult extends Object>({
+    @required TResult shortNumber(T failedValue),
+    @required TResult tooYoung(T failedValue),
+    @required TResult lastNameMissing(T failedValue),
   }) {
     assert(shortNumber != null);
     assert(tooYoung != null);
@@ -434,11 +434,11 @@ class _$LastNameMissing<T> implements LastNameMissing<T> {
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result shortNumber(T failedValue),
-    Result tooYoung(T failedValue),
-    Result lastNameMissing(T failedValue),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult shortNumber(T failedValue),
+    TResult tooYoung(T failedValue),
+    TResult lastNameMissing(T failedValue),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (lastNameMissing != null) {
@@ -449,10 +449,10 @@ class _$LastNameMissing<T> implements LastNameMissing<T> {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result shortNumber(InvalidEmail<T> value),
-    @required Result tooYoung(InvalidAge<T> value),
-    @required Result lastNameMissing(LastNameMissing<T> value),
+  TResult map<TResult extends Object>({
+    @required TResult shortNumber(InvalidEmail<T> value),
+    @required TResult tooYoung(InvalidAge<T> value),
+    @required TResult lastNameMissing(LastNameMissing<T> value),
   }) {
     assert(shortNumber != null);
     assert(tooYoung != null);
@@ -462,11 +462,11 @@ class _$LastNameMissing<T> implements LastNameMissing<T> {
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result shortNumber(InvalidEmail<T> value),
-    Result tooYoung(InvalidAge<T> value),
-    Result lastNameMissing(LastNameMissing<T> value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult shortNumber(InvalidEmail<T> value),
+    TResult tooYoung(InvalidAge<T> value),
+    TResult lastNameMissing(LastNameMissing<T> value),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (lastNameMissing != null) {

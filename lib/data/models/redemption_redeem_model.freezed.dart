@@ -19,7 +19,7 @@ class _$RedemptionRedeemModelTearOff {
 
 // ignore: unused_element
   _RedemptionRedeemModel call(
-      {RedemptionProductModel redemptionProduct, int pointBalance}) {
+      {ProductModel redemptionProduct, int pointBalance}) {
     return _RedemptionRedeemModel(
       redemptionProduct: redemptionProduct,
       pointBalance: pointBalance,
@@ -38,7 +38,7 @@ const $RedemptionRedeemModel = _$RedemptionRedeemModelTearOff();
 
 /// @nodoc
 mixin _$RedemptionRedeemModel {
-  RedemptionProductModel get redemptionProduct;
+  ProductModel get redemptionProduct;
   int get pointBalance;
 
   Map<String, dynamic> toJson();
@@ -50,9 +50,9 @@ abstract class $RedemptionRedeemModelCopyWith<$Res> {
   factory $RedemptionRedeemModelCopyWith(RedemptionRedeemModel value,
           $Res Function(RedemptionRedeemModel) then) =
       _$RedemptionRedeemModelCopyWithImpl<$Res>;
-  $Res call({RedemptionProductModel redemptionProduct, int pointBalance});
+  $Res call({ProductModel redemptionProduct, int pointBalance});
 
-  $RedemptionProductModelCopyWith<$Res> get redemptionProduct;
+  $ProductModelCopyWith<$Res> get redemptionProduct;
 }
 
 /// @nodoc
@@ -72,19 +72,18 @@ class _$RedemptionRedeemModelCopyWithImpl<$Res>
     return _then(_value.copyWith(
       redemptionProduct: redemptionProduct == freezed
           ? _value.redemptionProduct
-          : redemptionProduct as RedemptionProductModel,
+          : redemptionProduct as ProductModel,
       pointBalance:
           pointBalance == freezed ? _value.pointBalance : pointBalance as int,
     ));
   }
 
   @override
-  $RedemptionProductModelCopyWith<$Res> get redemptionProduct {
+  $ProductModelCopyWith<$Res> get redemptionProduct {
     if (_value.redemptionProduct == null) {
       return null;
     }
-    return $RedemptionProductModelCopyWith<$Res>(_value.redemptionProduct,
-        (value) {
+    return $ProductModelCopyWith<$Res>(_value.redemptionProduct, (value) {
       return _then(_value.copyWith(redemptionProduct: value));
     });
   }
@@ -97,10 +96,10 @@ abstract class _$RedemptionRedeemModelCopyWith<$Res>
           $Res Function(_RedemptionRedeemModel) then) =
       __$RedemptionRedeemModelCopyWithImpl<$Res>;
   @override
-  $Res call({RedemptionProductModel redemptionProduct, int pointBalance});
+  $Res call({ProductModel redemptionProduct, int pointBalance});
 
   @override
-  $RedemptionProductModelCopyWith<$Res> get redemptionProduct;
+  $ProductModelCopyWith<$Res> get redemptionProduct;
 }
 
 /// @nodoc
@@ -122,7 +121,7 @@ class __$RedemptionRedeemModelCopyWithImpl<$Res>
     return _then(_RedemptionRedeemModel(
       redemptionProduct: redemptionProduct == freezed
           ? _value.redemptionProduct
-          : redemptionProduct as RedemptionProductModel,
+          : redemptionProduct as ProductModel,
       pointBalance:
           pointBalance == freezed ? _value.pointBalance : pointBalance as int,
     ));
@@ -139,7 +138,7 @@ class _$_RedemptionRedeemModel implements _RedemptionRedeemModel {
       _$_$_RedemptionRedeemModelFromJson(json);
 
   @override
-  final RedemptionProductModel redemptionProduct;
+  final ProductModel redemptionProduct;
   @override
   final int pointBalance;
 
@@ -179,14 +178,14 @@ class _$_RedemptionRedeemModel implements _RedemptionRedeemModel {
 
 abstract class _RedemptionRedeemModel implements RedemptionRedeemModel {
   const factory _RedemptionRedeemModel(
-      {RedemptionProductModel redemptionProduct,
+      {ProductModel redemptionProduct,
       int pointBalance}) = _$_RedemptionRedeemModel;
 
   factory _RedemptionRedeemModel.fromJson(Map<String, dynamic> json) =
       _$_RedemptionRedeemModel.fromJson;
 
   @override
-  RedemptionProductModel get redemptionProduct;
+  ProductModel get redemptionProduct;
   @override
   int get pointBalance;
   @override

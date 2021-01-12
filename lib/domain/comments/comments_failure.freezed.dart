@@ -38,30 +38,30 @@ const $CommentsFailure = _$CommentsFailureTearOff();
 /// @nodoc
 mixin _$CommentsFailure {
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result serverError(String error),
-    @required Result exceededMaxCount(),
-    @required Result messageEmpty(),
+  TResult when<TResult extends Object>({
+    @required TResult serverError(String error),
+    @required TResult exceededMaxCount(),
+    @required TResult messageEmpty(),
   });
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result serverError(String error),
-    Result exceededMaxCount(),
-    Result messageEmpty(),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult serverError(String error),
+    TResult exceededMaxCount(),
+    TResult messageEmpty(),
+    @required TResult orElse(),
   });
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result serverError(CommentServerFailure value),
-    @required Result exceededMaxCount(ExceededMaxCount value),
-    @required Result messageEmpty(MessageEmpty value),
+  TResult map<TResult extends Object>({
+    @required TResult serverError(CommentServerFailure value),
+    @required TResult exceededMaxCount(ExceededMaxCount value),
+    @required TResult messageEmpty(MessageEmpty value),
   });
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result serverError(CommentServerFailure value),
-    Result exceededMaxCount(ExceededMaxCount value),
-    Result messageEmpty(MessageEmpty value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult serverError(CommentServerFailure value),
+    TResult exceededMaxCount(ExceededMaxCount value),
+    TResult messageEmpty(MessageEmpty value),
+    @required TResult orElse(),
   });
 }
 
@@ -142,10 +142,10 @@ class _$CommentServerFailure implements CommentServerFailure {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result serverError(String error),
-    @required Result exceededMaxCount(),
-    @required Result messageEmpty(),
+  TResult when<TResult extends Object>({
+    @required TResult serverError(String error),
+    @required TResult exceededMaxCount(),
+    @required TResult messageEmpty(),
   }) {
     assert(serverError != null);
     assert(exceededMaxCount != null);
@@ -155,11 +155,11 @@ class _$CommentServerFailure implements CommentServerFailure {
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result serverError(String error),
-    Result exceededMaxCount(),
-    Result messageEmpty(),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult serverError(String error),
+    TResult exceededMaxCount(),
+    TResult messageEmpty(),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (serverError != null) {
@@ -170,10 +170,10 @@ class _$CommentServerFailure implements CommentServerFailure {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result serverError(CommentServerFailure value),
-    @required Result exceededMaxCount(ExceededMaxCount value),
-    @required Result messageEmpty(MessageEmpty value),
+  TResult map<TResult extends Object>({
+    @required TResult serverError(CommentServerFailure value),
+    @required TResult exceededMaxCount(ExceededMaxCount value),
+    @required TResult messageEmpty(MessageEmpty value),
   }) {
     assert(serverError != null);
     assert(exceededMaxCount != null);
@@ -183,11 +183,11 @@ class _$CommentServerFailure implements CommentServerFailure {
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result serverError(CommentServerFailure value),
-    Result exceededMaxCount(ExceededMaxCount value),
-    Result messageEmpty(MessageEmpty value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult serverError(CommentServerFailure value),
+    TResult exceededMaxCount(ExceededMaxCount value),
+    TResult messageEmpty(MessageEmpty value),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (serverError != null) {
@@ -242,10 +242,10 @@ class _$ExceededMaxCount implements ExceededMaxCount {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result serverError(String error),
-    @required Result exceededMaxCount(),
-    @required Result messageEmpty(),
+  TResult when<TResult extends Object>({
+    @required TResult serverError(String error),
+    @required TResult exceededMaxCount(),
+    @required TResult messageEmpty(),
   }) {
     assert(serverError != null);
     assert(exceededMaxCount != null);
@@ -255,11 +255,11 @@ class _$ExceededMaxCount implements ExceededMaxCount {
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result serverError(String error),
-    Result exceededMaxCount(),
-    Result messageEmpty(),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult serverError(String error),
+    TResult exceededMaxCount(),
+    TResult messageEmpty(),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (exceededMaxCount != null) {
@@ -270,10 +270,10 @@ class _$ExceededMaxCount implements ExceededMaxCount {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result serverError(CommentServerFailure value),
-    @required Result exceededMaxCount(ExceededMaxCount value),
-    @required Result messageEmpty(MessageEmpty value),
+  TResult map<TResult extends Object>({
+    @required TResult serverError(CommentServerFailure value),
+    @required TResult exceededMaxCount(ExceededMaxCount value),
+    @required TResult messageEmpty(MessageEmpty value),
   }) {
     assert(serverError != null);
     assert(exceededMaxCount != null);
@@ -283,11 +283,11 @@ class _$ExceededMaxCount implements ExceededMaxCount {
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result serverError(CommentServerFailure value),
-    Result exceededMaxCount(ExceededMaxCount value),
-    Result messageEmpty(MessageEmpty value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult serverError(CommentServerFailure value),
+    TResult exceededMaxCount(ExceededMaxCount value),
+    TResult messageEmpty(MessageEmpty value),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (exceededMaxCount != null) {
@@ -339,10 +339,10 @@ class _$MessageEmpty implements MessageEmpty {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result serverError(String error),
-    @required Result exceededMaxCount(),
-    @required Result messageEmpty(),
+  TResult when<TResult extends Object>({
+    @required TResult serverError(String error),
+    @required TResult exceededMaxCount(),
+    @required TResult messageEmpty(),
   }) {
     assert(serverError != null);
     assert(exceededMaxCount != null);
@@ -352,11 +352,11 @@ class _$MessageEmpty implements MessageEmpty {
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result serverError(String error),
-    Result exceededMaxCount(),
-    Result messageEmpty(),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult serverError(String error),
+    TResult exceededMaxCount(),
+    TResult messageEmpty(),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (messageEmpty != null) {
@@ -367,10 +367,10 @@ class _$MessageEmpty implements MessageEmpty {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result serverError(CommentServerFailure value),
-    @required Result exceededMaxCount(ExceededMaxCount value),
-    @required Result messageEmpty(MessageEmpty value),
+  TResult map<TResult extends Object>({
+    @required TResult serverError(CommentServerFailure value),
+    @required TResult exceededMaxCount(ExceededMaxCount value),
+    @required TResult messageEmpty(MessageEmpty value),
   }) {
     assert(serverError != null);
     assert(exceededMaxCount != null);
@@ -380,11 +380,11 @@ class _$MessageEmpty implements MessageEmpty {
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result serverError(CommentServerFailure value),
-    Result exceededMaxCount(ExceededMaxCount value),
-    Result messageEmpty(MessageEmpty value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult serverError(CommentServerFailure value),
+    TResult exceededMaxCount(ExceededMaxCount value),
+    TResult messageEmpty(MessageEmpty value),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (messageEmpty != null) {

@@ -230,15 +230,15 @@ PODS:
     - Flutter
   - social_share (0.0.1):
     - Flutter
-  - sqflite (0.0.1):
+  - sqflite (0.0.2):
     - Flutter
-    - FMDB (~> 2.7.2)
+    - FMDB (>= 2.7.5)
   - Starscream (3.0.6)
   - SwiftyGif (5.3.0)
   - TOCropViewController (2.5.5)
   - url_launcher (0.0.1):
     - Flutter
-  - vibration (1.5.0):
+  - vibration (1.7.3):
     - Flutter
   - video_compress (0.3.0):
     - Flutter
@@ -436,12 +436,12 @@ SPEC CHECKSUMS:
   SDWebImageWebPCoder: c359317c2e7cfec85d7ea137521c7a36ed239674
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
   social_share: 702a5e3842addd22db515aa9e1e00a4b80a0296d
-  sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
+  sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
   SwiftyGif: e466e86c660d343357ab944a819a101c4127cb40
   TOCropViewController: da59f531f8ac8a94ef6d6c0fc34009350f9e8bfe
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
-  vibration: 64de683387ea8cc822f7b4f1653747bc8ff91662
+  vibration: b5a33e764c3f609a975b9dca73dce20fdde627dc
   video_compress: fce97e4fb1dfd88175aa07d2ffc8a2f297f87fbe
   video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
   video_thumbnail: c4e2a3c539e247d4de13cd545344fd2d26ffafd1

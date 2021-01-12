@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/data/models/redemption_product.dart';
+import 'package:iconapp/data/models/product_model.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/language/language_store.dart';
 import 'package:iconapp/widgets/global/base_dialog.dart';
@@ -11,7 +11,7 @@ import '../../core/extensions/context_ext.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class RedemptionDialog extends StatelessWidget {
-  final RedemptionProductModel redemption;
+  final ProductModel redemption;
 
   const RedemptionDialog({
     Key key,

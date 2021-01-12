@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/generated/locale_keys.g.dart';
-import 'package:iconapp/widgets/global/custom_text.dart';
-import 'package:iconapp/widgets/login/login_background.dart';
-import '../core/extensions/context_ext.dart';
 import 'package:easy_localization/easy_localization.dart';
+import '../core/theme.dart';
+import '../generated/locale_keys.g.dart';
+import '../widgets/global/custom_text.dart';
+import '../widgets/login/login_background.dart';
+import '../core/extensions/context_ext.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({

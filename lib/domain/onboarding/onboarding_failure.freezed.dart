@@ -31,26 +31,26 @@ const $OnboardinFailure = _$OnboardinFailureTearOff();
 /// @nodoc
 mixin _$OnboardinFailure {
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result wrongName(),
-    @required Result wrongAge(),
+  TResult when<TResult extends Object>({
+    @required TResult wrongName(),
+    @required TResult wrongAge(),
   });
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result wrongName(),
-    Result wrongAge(),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult wrongName(),
+    TResult wrongAge(),
+    @required TResult orElse(),
   });
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result wrongName(WrongName value),
-    @required Result wrongAge(WrongAge value),
+  TResult map<TResult extends Object>({
+    @required TResult wrongName(WrongName value),
+    @required TResult wrongAge(WrongAge value),
   });
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result wrongName(WrongName value),
-    Result wrongAge(WrongAge value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult wrongName(WrongName value),
+    TResult wrongAge(WrongAge value),
+    @required TResult orElse(),
   });
 }
 
@@ -106,9 +106,9 @@ class _$WrongName implements WrongName {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result wrongName(),
-    @required Result wrongAge(),
+  TResult when<TResult extends Object>({
+    @required TResult wrongName(),
+    @required TResult wrongAge(),
   }) {
     assert(wrongName != null);
     assert(wrongAge != null);
@@ -117,10 +117,10 @@ class _$WrongName implements WrongName {
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result wrongName(),
-    Result wrongAge(),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult wrongName(),
+    TResult wrongAge(),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (wrongName != null) {
@@ -131,9 +131,9 @@ class _$WrongName implements WrongName {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result wrongName(WrongName value),
-    @required Result wrongAge(WrongAge value),
+  TResult map<TResult extends Object>({
+    @required TResult wrongName(WrongName value),
+    @required TResult wrongAge(WrongAge value),
   }) {
     assert(wrongName != null);
     assert(wrongAge != null);
@@ -142,10 +142,10 @@ class _$WrongName implements WrongName {
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result wrongName(WrongName value),
-    Result wrongAge(WrongAge value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult wrongName(WrongName value),
+    TResult wrongAge(WrongAge value),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (wrongName != null) {
@@ -194,9 +194,9 @@ class _$WrongAge implements WrongAge {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result wrongName(),
-    @required Result wrongAge(),
+  TResult when<TResult extends Object>({
+    @required TResult wrongName(),
+    @required TResult wrongAge(),
   }) {
     assert(wrongName != null);
     assert(wrongAge != null);
@@ -205,10 +205,10 @@ class _$WrongAge implements WrongAge {
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result wrongName(),
-    Result wrongAge(),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult wrongName(),
+    TResult wrongAge(),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (wrongAge != null) {
@@ -219,9 +219,9 @@ class _$WrongAge implements WrongAge {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result wrongName(WrongName value),
-    @required Result wrongAge(WrongAge value),
+  TResult map<TResult extends Object>({
+    @required TResult wrongName(WrongName value),
+    @required TResult wrongAge(WrongAge value),
   }) {
     assert(wrongName != null);
     assert(wrongAge != null);
@@ -230,10 +230,10 @@ class _$WrongAge implements WrongAge {
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result wrongName(WrongName value),
-    Result wrongAge(WrongAge value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult wrongName(WrongName value),
+    TResult wrongAge(WrongAge value),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (wrongAge != null) {

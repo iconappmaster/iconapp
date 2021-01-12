@@ -31,26 +31,26 @@ const $CreateFailure = _$CreateFailureTearOff();
 /// @nodoc
 mixin _$CreateFailure {
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result wrongName(),
-    @required Result generalError(),
+  TResult when<TResult extends Object>({
+    @required TResult wrongName(),
+    @required TResult generalError(),
   });
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result wrongName(),
-    Result generalError(),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult wrongName(),
+    TResult generalError(),
+    @required TResult orElse(),
   });
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result wrongName(NameTaken value),
-    @required Result generalError(GeneralError value),
+  TResult map<TResult extends Object>({
+    @required TResult wrongName(NameTaken value),
+    @required TResult generalError(GeneralError value),
   });
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result wrongName(NameTaken value),
-    Result generalError(GeneralError value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult wrongName(NameTaken value),
+    TResult generalError(GeneralError value),
+    @required TResult orElse(),
   });
 }
 
@@ -106,9 +106,9 @@ class _$NameTaken implements NameTaken {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result wrongName(),
-    @required Result generalError(),
+  TResult when<TResult extends Object>({
+    @required TResult wrongName(),
+    @required TResult generalError(),
   }) {
     assert(wrongName != null);
     assert(generalError != null);
@@ -117,10 +117,10 @@ class _$NameTaken implements NameTaken {
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result wrongName(),
-    Result generalError(),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult wrongName(),
+    TResult generalError(),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (wrongName != null) {
@@ -131,9 +131,9 @@ class _$NameTaken implements NameTaken {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result wrongName(NameTaken value),
-    @required Result generalError(GeneralError value),
+  TResult map<TResult extends Object>({
+    @required TResult wrongName(NameTaken value),
+    @required TResult generalError(GeneralError value),
   }) {
     assert(wrongName != null);
     assert(generalError != null);
@@ -142,10 +142,10 @@ class _$NameTaken implements NameTaken {
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result wrongName(NameTaken value),
-    Result generalError(GeneralError value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult wrongName(NameTaken value),
+    TResult generalError(GeneralError value),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (wrongName != null) {
@@ -196,9 +196,9 @@ class _$GeneralError implements GeneralError {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result wrongName(),
-    @required Result generalError(),
+  TResult when<TResult extends Object>({
+    @required TResult wrongName(),
+    @required TResult generalError(),
   }) {
     assert(wrongName != null);
     assert(generalError != null);
@@ -207,10 +207,10 @@ class _$GeneralError implements GeneralError {
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result wrongName(),
-    Result generalError(),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult wrongName(),
+    TResult generalError(),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (generalError != null) {
@@ -221,9 +221,9 @@ class _$GeneralError implements GeneralError {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result wrongName(NameTaken value),
-    @required Result generalError(GeneralError value),
+  TResult map<TResult extends Object>({
+    @required TResult wrongName(NameTaken value),
+    @required TResult generalError(GeneralError value),
   }) {
     assert(wrongName != null);
     assert(generalError != null);
@@ -232,10 +232,10 @@ class _$GeneralError implements GeneralError {
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result wrongName(NameTaken value),
-    Result generalError(GeneralError value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult wrongName(NameTaken value),
+    TResult generalError(GeneralError value),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (generalError != null) {

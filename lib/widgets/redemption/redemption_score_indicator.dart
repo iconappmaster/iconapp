@@ -10,7 +10,13 @@ import '../global/custom_text.dart';
 import '../../routes/router.gr.dart';
 
 class RedemptionScoreIndicator extends HookWidget {
+  final bool openRedemptionScreen;
   final user = sl<UserStore>();
+
+  RedemptionScoreIndicator({
+    this.openRedemptionScreen = true,
+  });
+
   @override
   Widget build(BuildContext context) {
     useEffect(() {
@@ -21,7 +27,7 @@ class RedemptionScoreIndicator extends HookWidget {
     }, const []);
 
     return GestureDetector(
-      onTap: () => ExtendedNavigator.of(context).pushRedemptionScreen(),
+      onTap: () => openRedemptionScreen ? ExtendedNavigator.of(context).pushRedemptionScreen() : null,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: warmPurple),

@@ -228,7 +228,7 @@ const chatMessageBody = TextStyle(
 const chatMessageName = TextStyle(
   fontFamily: _fontRubikMedium,
   color: white,
-  fontSize: 13.7,
+  fontSize: 12.7,
   height: 1.3,
 );
 

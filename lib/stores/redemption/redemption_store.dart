@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
 import '../../data/models/redemption_action_model.dart';
-import '../../data/models/redemption_product.dart';
+import '../../data/models/product_model.dart';
 import '../../data/models/redemption_redeem_model.dart';
 import '../../data/repositories/redemption_repository.dart';
 import '../../domain/redemption/redemption_failure.dart';
@@ -16,20 +16,20 @@ part 'redemption_store.g.dart';
 
 class RedemptionStore = _RedemptionStoreBase with _$RedemptionStore;
 
-enum RedemptionTabState { product, actions, reedemCodes }
+enum RedemptionTabState { product, actions, reedemCodes, store }
 
 abstract class _RedemptionStoreBase with Store {
   final _repository = sl<RedemptionRepository>();
   final _user = sl<UserStore>();
 
   @observable
-  ObservableList<RedemptionProductModel> _products = ObservableList.of([]);
+  ObservableList<ProductModel> _products = ObservableList.of([]);
 
   @observable
   ObservableList<RedemptionActionModel> _creditActions = ObservableList.of([]);
 
   @observable
-  ObservableList<RedemptionProductModel> _redeemedProducts = ObservableList.of([]);
+  ObservableList<ProductModel> _redeemedProducts = ObservableList.of([]);
 
   @observable
   RedemptionTabState _tabState = RedemptionTabState.product;
@@ -49,6 +49,9 @@ abstract class _RedemptionStoreBase with Store {
         return LocaleKeys.redemption_detailActions.tr();
       case RedemptionTabState.reedemCodes:
         return LocaleKeys.redemption_detailVauchers.tr();
+      case RedemptionTabState.store:
+        return LocaleKeys.redemption_detailStore.tr();
+        break;
     }
     return '';
   }
@@ -62,6 +65,9 @@ abstract class _RedemptionStoreBase with Store {
         return 1;
       case RedemptionTabState.reedemCodes:
         return 2;
+      case RedemptionTabState.store:
+        return 3;
+
       default:
         return 0;
     }
@@ -83,10 +89,10 @@ abstract class _RedemptionStoreBase with Store {
   RedemptionTabState get tabState => _tabState;
 
   @computed
-  List<RedemptionProductModel> get redemptionProducts => _products;
+  List<ProductModel> get redemptionProducts => _products;
 
   @computed
-  List<RedemptionProductModel> get redeemedProducts => _redeemedProducts;
+  List<ProductModel> get redeemedProducts => _redeemedProducts;
 
   @computed
   List<RedemptionActionModel> get creditActions => _creditActions;
@@ -103,6 +109,8 @@ abstract class _RedemptionStoreBase with Store {
       case 2:
         _tabState = RedemptionTabState.reedemCodes;
         break;
+      case 3:
+        _tabState = RedemptionTabState.store;
     }
   }
 

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/data/models/redemption_product.dart';
+import 'package:iconapp/data/models/product_model.dart';
 import 'package:iconapp/data/models/redemption_redeem_model.dart';
 import 'package:iconapp/domain/redemption/redemption_failure.dart';
 import 'package:iconapp/stores/redemption/redemption_store.dart';
@@ -15,7 +15,7 @@ import '../../core/extensions/context_ext.dart';
 import 'package:cool_alert/cool_alert.dart';
 
 class RedemptionProductTile extends StatelessWidget {
-  final RedemptionProductModel product;
+  final ProductModel product;
 
   const RedemptionProductTile({
     Key key,

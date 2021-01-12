@@ -3,16 +3,16 @@ import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:iconapp/core/ads/provider_ads/model/ad_model.dart';
 import 'package:iconapp/data/models/alerts_response.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
+import 'package:iconapp/data/models/purchase_model.dart';
 import 'package:iconapp/data/models/redemption_action_model.dart';
 import 'package:iconapp/data/models/message_model.dart';
-import 'package:iconapp/data/models/redemption_product.dart';
+import 'package:iconapp/data/models/product_model.dart';
 import 'package:iconapp/data/models/redemption_redeem_model.dart';
 import 'package:iconapp/data/models/story_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/models/create_group_req.dart';
 import 'package:retrofit/retrofit.dart';
 import 'header_interceptor.dart';
-import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 part 'rest_client.g.dart';
 
@@ -236,34 +236,37 @@ abstract class RestClient {
 
   // show all redeption product
   @GET('redemption_products')
-  Future<List<RedemptionProductModel>> getRedemptionProdcuts();
+  Future<List<ProductModel>> getRedemptionProdcuts();
 
   // Redeem a product
   @POST('user_redemptions')
   Future<RedemptionRedeemModel> redeemProduct(@Query('redemptionProductId') int redemptionProductId);
 
   @GET('user_redemptions')
-  Future<List<RedemptionProductModel>> getRedeemedProduct();
+  Future<List<ProductModel>> getRedeemedProduct();
+
+  // Purchase
+  @GET('purchase/items')
+  Future<List<ProductModel>> getPurchaseItems();
+  
+  @POST('purchase/item')
+  Future<UserModel> consumeProduct(@Body() PurchaseModel purchaseModel);
+
 }
 
 Dio getDioClient() {
   final dio = Dio();
 
   dio.interceptors.addAll([
-    DioCacheManager(
-      CacheConfig(
-        baseUrl: baseUrlProd,
-        defaultMaxStale: const Duration(days: 7),
-      ),
-    ).interceptor,
+    DioCacheManager(CacheConfig(baseUrl: baseUrlProd, defaultMaxStale: const Duration(days: 7))).interceptor,
     HeaderInterceptor(dio),
-    PrettyDioLogger(
-      requestHeader: true,
-      requestBody: true,
-      responseBody: true,
-      responseHeader: false,
-      compact: false,
-    ),
+    // PrettyDioLogger(
+    //   requestHeader: true,
+    //   requestBody: true,
+    //   responseBody: true,
+    //   responseHeader: false,
+    //   compact: true,
+    // ),
   ]);
   return dio;
 }

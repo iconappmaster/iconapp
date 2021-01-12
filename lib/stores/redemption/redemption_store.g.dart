@@ -56,22 +56,20 @@ mixin _$RedemptionStore on _RedemptionStoreBase, Store {
       (_$tabStateComputed ??= Computed<RedemptionTabState>(() => super.tabState,
               name: '_RedemptionStoreBase.tabState'))
           .value;
-  Computed<List<RedemptionProductModel>> _$redemptionProductsComputed;
+  Computed<List<ProductModel>> _$redemptionProductsComputed;
 
   @override
-  List<RedemptionProductModel> get redemptionProducts =>
-      (_$redemptionProductsComputed ??= Computed<List<RedemptionProductModel>>(
-              () => super.redemptionProducts,
+  List<ProductModel> get redemptionProducts => (_$redemptionProductsComputed ??=
+          Computed<List<ProductModel>>(() => super.redemptionProducts,
               name: '_RedemptionStoreBase.redemptionProducts'))
-          .value;
-  Computed<List<RedemptionProductModel>> _$redeemedProductsComputed;
+      .value;
+  Computed<List<ProductModel>> _$redeemedProductsComputed;
 
   @override
-  List<RedemptionProductModel> get redeemedProducts =>
-      (_$redeemedProductsComputed ??= Computed<List<RedemptionProductModel>>(
-              () => super.redeemedProducts,
+  List<ProductModel> get redeemedProducts => (_$redeemedProductsComputed ??=
+          Computed<List<ProductModel>>(() => super.redeemedProducts,
               name: '_RedemptionStoreBase.redeemedProducts'))
-          .value;
+      .value;
   Computed<List<RedemptionActionModel>> _$creditActionsComputed;
 
   @override
@@ -83,13 +81,13 @@ mixin _$RedemptionStore on _RedemptionStoreBase, Store {
   final _$_productsAtom = Atom(name: '_RedemptionStoreBase._products');
 
   @override
-  ObservableList<RedemptionProductModel> get _products {
+  ObservableList<ProductModel> get _products {
     _$_productsAtom.reportRead();
     return super._products;
   }
 
   @override
-  set _products(ObservableList<RedemptionProductModel> value) {
+  set _products(ObservableList<ProductModel> value) {
     _$_productsAtom.reportWrite(value, super._products, () {
       super._products = value;
     });
@@ -115,13 +113,13 @@ mixin _$RedemptionStore on _RedemptionStoreBase, Store {
       Atom(name: '_RedemptionStoreBase._redeemedProducts');
 
   @override
-  ObservableList<RedemptionProductModel> get _redeemedProducts {
+  ObservableList<ProductModel> get _redeemedProducts {
     _$_redeemedProductsAtom.reportRead();
     return super._redeemedProducts;
   }
 
   @override
-  set _redeemedProducts(ObservableList<RedemptionProductModel> value) {
+  set _redeemedProducts(ObservableList<ProductModel> value) {
     _$_redeemedProductsAtom.reportWrite(value, super._redeemedProducts, () {
       super._redeemedProducts = value;
     });

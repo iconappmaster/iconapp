@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:iconapp/data/models/redemption_product.dart';
+import 'package:iconapp/data/models/product_model.dart';
 
 part 'redemption_redeem_model.g.dart';
 part 'redemption_redeem_model.freezed.dart';
@@ -7,7 +7,7 @@ part 'redemption_redeem_model.freezed.dart';
 @freezed
 abstract class RedemptionRedeemModel with _$RedemptionRedeemModel {
   const factory RedemptionRedeemModel({
-    RedemptionProductModel redemptionProduct,
+    ProductModel redemptionProduct,
     int pointBalance,
   }) = _RedemptionRedeemModel;
 

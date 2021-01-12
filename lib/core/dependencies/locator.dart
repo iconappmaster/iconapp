@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:iconapp/data/repositories/redemption_repository.dart';
-import 'package:iconapp/stores/redemption/coin_animation_store.dart';
-import 'package:iconapp/stores/redemption/redemption_store.dart';
+import '../../data/repositories/purchase_repository.dart';
+import '../../data/repositories/redemption_repository.dart';
+import '../../stores/purchase/purchase_store.dart';
+import '../../stores/redemption/coin_animation_store.dart';
+import '../../stores/redemption/redemption_store.dart';
 import '../ads/admob/admob.dart';
 import '../ads/provider_ads/model/ad_repository.dart';
 import '../ads/provider_ads/store/custom_ads_store.dart';
@@ -179,4 +181,8 @@ void initLocator() {
 
   // Coin store
   sl.registerLazySingleton<CoinAnimationStore>(() => CoinAnimationStore());
+
+  // Purchase
+  sl.registerLazySingleton<PurchaseStore>(() => PurchaseStore());
+  sl.registerLazySingleton<PurchaseRepository>(() => PurchaseRepositoryImpl(rest: sl()));
 }

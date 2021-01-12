@@ -11,7 +11,7 @@ _$_RedemptionRedeemModel _$_$_RedemptionRedeemModelFromJson(
   return _$_RedemptionRedeemModel(
     redemptionProduct: json['redemptionProduct'] == null
         ? null
-        : RedemptionProductModel.fromJson(
+        : ProductModel.fromJson(
             json['redemptionProduct'] as Map<String, dynamic>),
     pointBalance: json['pointBalance'] as int,
   );

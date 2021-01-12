@@ -205,13 +205,16 @@ class CodegenLoader extends AssetLoader{
     "title": "My Balance",
     "tabProducts": "Products",
     "tabPAction": "Actions",
-    "tabVauchers": "MyVauchers",
+    "tabVauchers": "Vouchers",
+    "tabStore": "Store",
     "detailProducts": "Product that you can redeem with balance points",
+    "detailStore": "Purchase products",
     "detailActions": "Actions made to earn balance points",
-    "detailVauchers": "Vaucher codes that you have redeemed",
+    "detailVauchers": "Voucher codes that you have redeemed",
     "productEmpty": "No product currently available",
     "actionsEmpty": "No redeem action has been taken",
-    "vaucherEmpty": "No code, try to redeem a product first"
+    "vaucherEmpty": "No code, try to redeem a product first",
+    "storeEmpty": "No products in the store"
   }
 };
 static const Map<String,dynamic> en_US = {
@@ -403,13 +406,16 @@ static const Map<String,dynamic> en_US = {
     "title": "My Balance",
     "tabProducts": "Products",
     "tabPAction": "Actions",
-    "tabVauchers": "MyVauchers",
+    "tabVauchers": "Vouchers",
+    "tabStore": "Store",
     "detailProducts": "Product that you can redeem with balance points",
+    "detailStore": "Purchase products",
     "detailActions": "Actions made to earn balance points",
-    "detailVauchers": "Vaucher codes that you have redeemed",
+    "detailVauchers": "Voucher codes that you have redeemed",
     "productEmpty": "No product currently available",
     "actionsEmpty": "No redeem action has been taken",
-    "vaucherEmpty": "No code, try to redeem a product first"
+    "vaucherEmpty": "No code, try to redeem a product first",
+    "storeEmpty": "No products in the store"
   }
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"he_HE": he_HE, "en_US": en_US};

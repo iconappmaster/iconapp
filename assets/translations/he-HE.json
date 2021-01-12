@@ -185,16 +185,19 @@
         "subtitle": "זו קבוצה פרטית",
         "content": "הכנס את הקוד האישי שלך"
     },
-    "redemption": {
-        "title": "My Balance",
-        "tabProducts": "Products",
-        "tabPAction": "Actions",
-        "tabVauchers": "MyVauchers",
-        "detailProducts": "Product that you can redeem with balance points",
-        "detailActions": "Actions made to earn balance points",
-        "detailVauchers": "Vaucher codes that you have redeemed",
-        "productEmpty": "No product currently available",
-        "actionsEmpty": "No redeem action has been taken",
-        "vaucherEmpty": "No code, try to redeem a product first"
+    "redemption" : {
+        "title" : "My Balance",
+        "tabProducts" : "Products",
+        "tabPAction" : "Actions",
+        "tabVauchers" : "Vouchers",
+        "tabStore" : "Store",
+        "detailProducts" : "Product that you can redeem with balance points",
+        "detailStore" : "Purchase products",
+        "detailActions" : "Actions made to earn balance points",
+        "detailVauchers" : "Voucher codes that you have redeemed",
+        "productEmpty" : "No product currently available",
+        "actionsEmpty" : "No redeem action has been taken",
+        "vaucherEmpty" : "No code, try to redeem a product first",
+        "storeEmpty" : "No products in the store"
     }
 }

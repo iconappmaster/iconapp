@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/data/models/photo_model.dart';
-import 'package:iconapp/widgets/global/blur_appbar.dart';
+import '../core/theme.dart';
+import '../data/models/photo_model.dart';
+import '../widgets/global/blur_appbar.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:iconapp/routes/router.gr.dart';
 

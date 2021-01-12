@@ -5,7 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/clipboard.dart';
 import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/data/models/redemption_product.dart';
+import 'package:iconapp/data/models/product_model.dart';
 import 'package:iconapp/stores/redemption/redemption_store.dart';
 import 'package:iconapp/widgets/global/basic_tile.dart';
 import 'package:iconapp/widgets/global/cupertino_loader.dart';
@@ -38,6 +38,7 @@ class RedeemCodes extends HookWidget {
                   child: CustomText(LocaleKeys.redemption_vaucherEmpty.tr(),
                       textAlign: TextAlign.center, style: redemptionEmptystyle))
               : ListView.builder(
+                physics: BouncingScrollPhysics(),
                   itemCount: store.redeemedProducts?.length,
                   itemBuilder: (context, index) => RedeemedTile(
                     product: store.redeemedProducts[index],
@@ -50,7 +51,7 @@ class RedeemCodes extends HookWidget {
 }
 
 class RedeemedTile extends StatelessWidget {
-  final RedemptionProductModel product;
+  final ProductModel product;
 
   const RedeemedTile({Key key, this.product}) : super(key: key);
   @override

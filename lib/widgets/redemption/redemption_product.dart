@@ -23,6 +23,7 @@ class RedeemProduct extends StatelessWidget {
           child: store.redemptionProducts.isEmpty
               ? Center(child: CustomText(LocaleKeys.redemption_productEmpty.tr(), style: redemptionEmptystyle))
               : ListView.builder(
+                  physics: BouncingScrollPhysics(),
                   itemCount: store.redemptionProducts?.length,
                   itemBuilder: (context, index) {
                     return RedemptionProductTile(product: store.redemptionProducts[index]);

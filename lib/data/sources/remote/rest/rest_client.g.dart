@@ -1174,7 +1174,7 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<List<RedemptionProductModel>> getRedemptionProdcuts() async {
+  Future<List<ProductModel>> getRedemptionProdcuts() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -1187,8 +1187,7 @@ class _RestClient implements RestClient {
             baseUrl: baseUrl),
         data: _data);
     var value = _result.data
-        .map((dynamic i) =>
-            RedemptionProductModel.fromJson(i as Map<String, dynamic>))
+        .map((dynamic i) => ProductModel.fromJson(i as Map<String, dynamic>))
         .toList();
     return value;
   }
@@ -1214,7 +1213,7 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<List<RedemptionProductModel>> getRedeemedProduct() async {
+  Future<List<ProductModel>> getRedeemedProduct() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -1227,9 +1226,47 @@ class _RestClient implements RestClient {
             baseUrl: baseUrl),
         data: _data);
     var value = _result.data
-        .map((dynamic i) =>
-            RedemptionProductModel.fromJson(i as Map<String, dynamic>))
+        .map((dynamic i) => ProductModel.fromJson(i as Map<String, dynamic>))
         .toList();
+    return value;
+  }
+
+  @override
+  Future<List<ProductModel>> getPurchaseItems() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<List<dynamic>>('purchase/items',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    var value = _result.data
+        .map((dynamic i) => ProductModel.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return value;
+  }
+
+  @override
+  Future<UserModel> purchaseProduct(purchaseModel) async {
+    ArgumentError.checkNotNull(purchaseModel, 'purchaseModel');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(purchaseModel?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<Map<String, dynamic>>('purchase/item',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = UserModel.fromJson(_result.data);
     return value;
   }
 }

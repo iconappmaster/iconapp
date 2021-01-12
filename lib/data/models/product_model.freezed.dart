@@ -1,31 +1,30 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
 
-part of 'redemption_product.dart';
+part of 'product_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
 // **************************************************************************
 
 T _$identity<T>(T value) => value;
-RedemptionProductModel _$RedemptionProductModelFromJson(
-    Map<String, dynamic> json) {
-  return _RedemptionProductModel.fromJson(json);
+ProductModel _$ProductModelFromJson(Map<String, dynamic> json) {
+  return _ProductModel.fromJson(json);
 }
 
 /// @nodoc
-class _$RedemptionProductModelTearOff {
-  const _$RedemptionProductModelTearOff();
+class _$ProductModelTearOff {
+  const _$ProductModelTearOff();
 
 // ignore: unused_element
-  _RedemptionProductModel call(
+  _ProductModel call(
       {int id,
       String name,
       String description,
       int price,
       String redemptionCode,
       String redemptionUrl}) {
-    return _RedemptionProductModel(
+    return _ProductModel(
       id: id,
       name: name,
       description: description,
@@ -36,17 +35,17 @@ class _$RedemptionProductModelTearOff {
   }
 
 // ignore: unused_element
-  RedemptionProductModel fromJson(Map<String, Object> json) {
-    return RedemptionProductModel.fromJson(json);
+  ProductModel fromJson(Map<String, Object> json) {
+    return ProductModel.fromJson(json);
   }
 }
 
 /// @nodoc
 // ignore: unused_element
-const $RedemptionProductModel = _$RedemptionProductModelTearOff();
+const $ProductModel = _$ProductModelTearOff();
 
 /// @nodoc
-mixin _$RedemptionProductModel {
+mixin _$ProductModel {
   int get id;
   String get name;
   String get description;
@@ -55,14 +54,14 @@ mixin _$RedemptionProductModel {
   String get redemptionUrl;
 
   Map<String, dynamic> toJson();
-  $RedemptionProductModelCopyWith<RedemptionProductModel> get copyWith;
+  $ProductModelCopyWith<ProductModel> get copyWith;
 }
 
 /// @nodoc
-abstract class $RedemptionProductModelCopyWith<$Res> {
-  factory $RedemptionProductModelCopyWith(RedemptionProductModel value,
-          $Res Function(RedemptionProductModel) then) =
-      _$RedemptionProductModelCopyWithImpl<$Res>;
+abstract class $ProductModelCopyWith<$Res> {
+  factory $ProductModelCopyWith(
+          ProductModel value, $Res Function(ProductModel) then) =
+      _$ProductModelCopyWithImpl<$Res>;
   $Res call(
       {int id,
       String name,
@@ -73,13 +72,12 @@ abstract class $RedemptionProductModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$RedemptionProductModelCopyWithImpl<$Res>
-    implements $RedemptionProductModelCopyWith<$Res> {
-  _$RedemptionProductModelCopyWithImpl(this._value, this._then);
+class _$ProductModelCopyWithImpl<$Res> implements $ProductModelCopyWith<$Res> {
+  _$ProductModelCopyWithImpl(this._value, this._then);
 
-  final RedemptionProductModel _value;
+  final ProductModel _value;
   // ignore: unused_field
-  final $Res Function(RedemptionProductModel) _then;
+  final $Res Function(ProductModel) _then;
 
   @override
   $Res call({
@@ -107,11 +105,11 @@ class _$RedemptionProductModelCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$RedemptionProductModelCopyWith<$Res>
-    implements $RedemptionProductModelCopyWith<$Res> {
-  factory _$RedemptionProductModelCopyWith(_RedemptionProductModel value,
-          $Res Function(_RedemptionProductModel) then) =
-      __$RedemptionProductModelCopyWithImpl<$Res>;
+abstract class _$ProductModelCopyWith<$Res>
+    implements $ProductModelCopyWith<$Res> {
+  factory _$ProductModelCopyWith(
+          _ProductModel value, $Res Function(_ProductModel) then) =
+      __$ProductModelCopyWithImpl<$Res>;
   @override
   $Res call(
       {int id,
@@ -123,15 +121,14 @@ abstract class _$RedemptionProductModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$RedemptionProductModelCopyWithImpl<$Res>
-    extends _$RedemptionProductModelCopyWithImpl<$Res>
-    implements _$RedemptionProductModelCopyWith<$Res> {
-  __$RedemptionProductModelCopyWithImpl(_RedemptionProductModel _value,
-      $Res Function(_RedemptionProductModel) _then)
-      : super(_value, (v) => _then(v as _RedemptionProductModel));
+class __$ProductModelCopyWithImpl<$Res> extends _$ProductModelCopyWithImpl<$Res>
+    implements _$ProductModelCopyWith<$Res> {
+  __$ProductModelCopyWithImpl(
+      _ProductModel _value, $Res Function(_ProductModel) _then)
+      : super(_value, (v) => _then(v as _ProductModel));
 
   @override
-  _RedemptionProductModel get _value => super._value as _RedemptionProductModel;
+  _ProductModel get _value => super._value as _ProductModel;
 
   @override
   $Res call({
@@ -142,7 +139,7 @@ class __$RedemptionProductModelCopyWithImpl<$Res>
     Object redemptionCode = freezed,
     Object redemptionUrl = freezed,
   }) {
-    return _then(_RedemptionProductModel(
+    return _then(_ProductModel(
       id: id == freezed ? _value.id : id as int,
       name: name == freezed ? _value.name : name as String,
       description:
@@ -161,8 +158,8 @@ class __$RedemptionProductModelCopyWithImpl<$Res>
 @JsonSerializable()
 
 /// @nodoc
-class _$_RedemptionProductModel implements _RedemptionProductModel {
-  const _$_RedemptionProductModel(
+class _$_ProductModel implements _ProductModel {
+  const _$_ProductModel(
       {this.id,
       this.name,
       this.description,
@@ -170,8 +167,8 @@ class _$_RedemptionProductModel implements _RedemptionProductModel {
       this.redemptionCode,
       this.redemptionUrl});
 
-  factory _$_RedemptionProductModel.fromJson(Map<String, dynamic> json) =>
-      _$_$_RedemptionProductModelFromJson(json);
+  factory _$_ProductModel.fromJson(Map<String, dynamic> json) =>
+      _$_$_ProductModelFromJson(json);
 
   @override
   final int id;
@@ -188,13 +185,13 @@ class _$_RedemptionProductModel implements _RedemptionProductModel {
 
   @override
   String toString() {
-    return 'RedemptionProductModel(id: $id, name: $name, description: $description, price: $price, redemptionCode: $redemptionCode, redemptionUrl: $redemptionUrl)';
+    return 'ProductModel(id: $id, name: $name, description: $description, price: $price, redemptionCode: $redemptionCode, redemptionUrl: $redemptionUrl)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _RedemptionProductModel &&
+        (other is _ProductModel &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.name, name) ||
@@ -223,27 +220,26 @@ class _$_RedemptionProductModel implements _RedemptionProductModel {
       const DeepCollectionEquality().hash(redemptionUrl);
 
   @override
-  _$RedemptionProductModelCopyWith<_RedemptionProductModel> get copyWith =>
-      __$RedemptionProductModelCopyWithImpl<_RedemptionProductModel>(
-          this, _$identity);
+  _$ProductModelCopyWith<_ProductModel> get copyWith =>
+      __$ProductModelCopyWithImpl<_ProductModel>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$_$_RedemptionProductModelToJson(this);
+    return _$_$_ProductModelToJson(this);
   }
 }
 
-abstract class _RedemptionProductModel implements RedemptionProductModel {
-  const factory _RedemptionProductModel(
+abstract class _ProductModel implements ProductModel {
+  const factory _ProductModel(
       {int id,
       String name,
       String description,
       int price,
       String redemptionCode,
-      String redemptionUrl}) = _$_RedemptionProductModel;
+      String redemptionUrl}) = _$_ProductModel;
 
-  factory _RedemptionProductModel.fromJson(Map<String, dynamic> json) =
-      _$_RedemptionProductModel.fromJson;
+  factory _ProductModel.fromJson(Map<String, dynamic> json) =
+      _$_ProductModel.fromJson;
 
   @override
   int get id;
@@ -258,5 +254,5 @@ abstract class _RedemptionProductModel implements RedemptionProductModel {
   @override
   String get redemptionUrl;
   @override
-  _$RedemptionProductModelCopyWith<_RedemptionProductModel> get copyWith;
+  _$ProductModelCopyWith<_ProductModel> get copyWith;
 }

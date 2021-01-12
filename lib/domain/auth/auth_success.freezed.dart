@@ -31,26 +31,26 @@ const $AuthSuccess = _$AuthSuccessTearOff();
 /// @nodoc
 mixin _$AuthSuccess {
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result navigateHome(),
-    @required Result navigateProfile(),
+  TResult when<TResult extends Object>({
+    @required TResult navigateHome(),
+    @required TResult navigateProfile(),
   });
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result navigateHome(),
-    Result navigateProfile(),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult navigateHome(),
+    TResult navigateProfile(),
+    @required TResult orElse(),
   });
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result navigateHome(NavigateHome value),
-    @required Result navigateProfile(NavigateProfile value),
+  TResult map<TResult extends Object>({
+    @required TResult navigateHome(NavigateHome value),
+    @required TResult navigateProfile(NavigateProfile value),
   });
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result navigateHome(NavigateHome value),
-    Result navigateProfile(NavigateProfile value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult navigateHome(NavigateHome value),
+    TResult navigateProfile(NavigateProfile value),
+    @required TResult orElse(),
   });
 }
 
@@ -107,9 +107,9 @@ class _$NavigateHome implements NavigateHome {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result navigateHome(),
-    @required Result navigateProfile(),
+  TResult when<TResult extends Object>({
+    @required TResult navigateHome(),
+    @required TResult navigateProfile(),
   }) {
     assert(navigateHome != null);
     assert(navigateProfile != null);
@@ -118,10 +118,10 @@ class _$NavigateHome implements NavigateHome {
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result navigateHome(),
-    Result navigateProfile(),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult navigateHome(),
+    TResult navigateProfile(),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (navigateHome != null) {
@@ -132,9 +132,9 @@ class _$NavigateHome implements NavigateHome {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result navigateHome(NavigateHome value),
-    @required Result navigateProfile(NavigateProfile value),
+  TResult map<TResult extends Object>({
+    @required TResult navigateHome(NavigateHome value),
+    @required TResult navigateProfile(NavigateProfile value),
   }) {
     assert(navigateHome != null);
     assert(navigateProfile != null);
@@ -143,10 +143,10 @@ class _$NavigateHome implements NavigateHome {
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result navigateHome(NavigateHome value),
-    Result navigateProfile(NavigateProfile value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult navigateHome(NavigateHome value),
+    TResult navigateProfile(NavigateProfile value),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (navigateHome != null) {
@@ -198,9 +198,9 @@ class _$NavigateProfile implements NavigateProfile {
 
   @override
   @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result navigateHome(),
-    @required Result navigateProfile(),
+  TResult when<TResult extends Object>({
+    @required TResult navigateHome(),
+    @required TResult navigateProfile(),
   }) {
     assert(navigateHome != null);
     assert(navigateProfile != null);
@@ -209,10 +209,10 @@ class _$NavigateProfile implements NavigateProfile {
 
   @override
   @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result navigateHome(),
-    Result navigateProfile(),
-    @required Result orElse(),
+  TResult maybeWhen<TResult extends Object>({
+    TResult navigateHome(),
+    TResult navigateProfile(),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (navigateProfile != null) {
@@ -223,9 +223,9 @@ class _$NavigateProfile implements NavigateProfile {
 
   @override
   @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result navigateHome(NavigateHome value),
-    @required Result navigateProfile(NavigateProfile value),
+  TResult map<TResult extends Object>({
+    @required TResult navigateHome(NavigateHome value),
+    @required TResult navigateProfile(NavigateProfile value),
   }) {
     assert(navigateHome != null);
     assert(navigateProfile != null);
@@ -234,10 +234,10 @@ class _$NavigateProfile implements NavigateProfile {
 
   @override
   @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result navigateHome(NavigateHome value),
-    Result navigateProfile(NavigateProfile value),
-    @required Result orElse(),
+  TResult maybeMap<TResult extends Object>({
+    TResult navigateHome(NavigateHome value),
+    TResult navigateProfile(NavigateProfile value),
+    @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (navigateProfile != null) {
