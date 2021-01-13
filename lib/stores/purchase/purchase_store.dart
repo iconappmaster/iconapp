@@ -37,10 +37,15 @@ abstract class _PurchaseStoreBase with Store {
   }
 
   @action
-  Future purchaseProduct(String productId) async {
-    final response = await _purchase.queryProductDetails(pd);
-    final product = response.productDetails.firstWhere((element) => element.skProduct.productIdentifier == productId);
+  Future getProductsFromStore() async {
+    final response = await _purchase.queryProductDetails(packages);
+    print(response);
+  }
 
+  @action
+  Future purchaseProduct(String productId) async {
+    final response = await _purchase.queryProductDetails(packages);
+    final product = response.productDetails.firstWhere((element) => element.skProduct.productIdentifier == productId);
     final success = await _purchase.buyConsumable(purchaseParam: PurchaseParam(productDetails: product));
 
     if (success) {
@@ -50,4 +55,8 @@ abstract class _PurchaseStoreBase with Store {
   }
 }
 
-final pd = Set<String>.of(['elements']);
+final packages = Set<String>.of([
+  'small_credits_package',
+  'medium_credits_package',
+  'big_credits_package',
+]);
