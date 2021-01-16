@@ -4,7 +4,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
-import 'package:iconapp/helpers/tutorial.dart';
 import 'package:iconapp/stores/language/language_store.dart';
 import 'package:iconapp/widgets/comments/comments_appbar_icon.dart';
 import 'package:iconapp/widgets/global/report_dialog.dart';
@@ -31,7 +30,7 @@ class ChatAppbar extends StatelessWidget {
     final store = sl<ChatStore>();
     final iconsLength = (store.conversation?.users?.length)?.toString() ?? '';
     final followers = (store.conversation?.numberOfParticipants)?.toString() ?? '';
-    
+
     return Observer(
       builder: (_) => Container(
         height: context.heightPlusStatusbarPerc(.1),
@@ -40,8 +39,7 @@ class ChatAppbar extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              ChatBackButton(
-                  url: store.conversation?.backgroundPhoto?.url ?? ''),
+              ChatBackButton(url: store.conversation?.backgroundPhoto?.url ?? ''),
               SizedBox(width: 8),
               Expanded(
                 child: GestureDetector(
@@ -82,12 +80,9 @@ class ChatAppbar extends StatelessWidget {
               SizedBox(width: 4),
               if (showPin) PinConversation(store: store),
               IconButton(
-                  key: menuKey,
                   visualDensity: VisualDensity.comfortable,
                   icon: SvgPicture.asset('assets/images/dots.svg',
-                      height: 26,
-                      width: 26,
-                      color: store.dataReady ? white : Colors.grey[400]),
+                      height: 26, width: 26, color: store.dataReady ? white : Colors.grey[400]),
                   onPressed: _openChatSettings(store, context)),
             ],
           ),
@@ -97,9 +92,7 @@ class ChatAppbar extends StatelessWidget {
   }
 
   Function _openChatSettings(ChatStore store, BuildContext context) {
-    return store.dataReady
-        ? () => ExtendedNavigator.of(context).pushChatSettingsScreen()
-        : null;
+    return store.dataReady ? () => ExtendedNavigator.of(context).pushChatSettingsScreen() : null;
   }
 }
 
@@ -116,13 +109,10 @@ class PinConversation extends StatelessWidget {
     return Observer(builder: (_) {
       final pinSize = 30.0;
       return InkResponse(
-        onTap: store.dataReady
-            ? () => store.pinConversation(!store.conversation.isPinned)
-            : () {},
+        onTap: store.dataReady ? () => store.pinConversation(!store.conversation.isPinned) : () {},
         child: AnimatedSwitcher(
           duration: Duration(milliseconds: 300),
-          transitionBuilder: (child, animation) =>
-              ScaleTransition(scale: animation, child: child),
+          transitionBuilder: (child, animation) => ScaleTransition(scale: animation, child: child),
           child: store.conversation?.isPinned ?? false
               ? SvgPicture.asset('assets/images/pin_purple.svg',
                   color: store.dataReady ? cornflower : Colors.grey[500],
@@ -147,9 +137,7 @@ class ReportButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: () => _showReportBottomSheet(context),
-        child: Icon(Icons.flag, color: white));
+    return GestureDetector(onTap: () => _showReportBottomSheet(context), child: Icon(Icons.flag, color: white));
   }
 }
 
@@ -165,13 +153,10 @@ Future _showReportBottomSheet(BuildContext context) async {
           ),
           CustomText(
             'Report/Block Abusive Content',
-            style:
-                settingsAppbarTitle.copyWith(fontSize: 20, color: Colors.black),
+            style: settingsAppbarTitle.copyWith(fontSize: 20, color: Colors.black),
           ),
           ListTile(
-              title: CustomText('Report Abuse',
-                  style: settingsButton.copyWith(
-                      fontSize: 18, color: Colors.black)),
+              title: CustomText('Report Abuse', style: settingsButton.copyWith(fontSize: 18, color: Colors.black)),
               onTap: () async {
                 await showDialog(
                     context: context,

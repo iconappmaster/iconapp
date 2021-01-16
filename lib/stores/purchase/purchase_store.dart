@@ -43,7 +43,7 @@ abstract class _PurchaseStoreBase with Store {
   }
 
   @action
-  Future purchaseProduct(String productId) async {
+  Future consomeProduct(String productId) async {
     final response = await _purchase.queryProductDetails(packages);
     final product = response.productDetails.firstWhere((element) => element.skProduct.productIdentifier == productId);
     final success = await _purchase.buyConsumable(purchaseParam: PurchaseParam(productDetails: product));

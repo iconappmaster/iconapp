@@ -14,7 +14,7 @@ import 'package:easy_localization/easy_localization.dart';
 class RedeemActions extends HookWidget {
   final store = sl<RedemptionStore>();
   @override
-  Widget build(BuildContext context)  {
+  Widget build(BuildContext context) {
     useEffect(() {
       store.getRedemptionActions();
       return () {};
@@ -32,7 +32,7 @@ class RedeemActions extends HookWidget {
                     : Container(
                         child: Expanded(
                             child: ListView.builder(
-                              physics: BouncingScrollPhysics(),
+                                physics: BouncingScrollPhysics(),
                                 itemCount: store.creditActions?.length,
                                 itemBuilder: (context, index) =>
                                     RedemptionActionTile(actions: store.creditActions[index])))),
@@ -49,6 +49,7 @@ class RedemptionActionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BasicTile(
+      compact: true,
       left: Expanded(
         child: CustomText(
           actions.creditActionName,

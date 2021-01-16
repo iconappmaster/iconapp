@@ -318,6 +318,7 @@ class _PhoneNumberInput extends StatelessWidget {
         top: store.isPhoneMode ? context.heightPlusStatusbarPerc(.272) : context.heightPlusStatusbarPerc(.2),
         child: Column(
           children: <Widget>[
+            CustomText('test'),
             CountryCodePicker(
                 onChanged: (countryCode) => store.updateCountryCode(countryCode.dialCode),
                 initialSelection: 'IL',

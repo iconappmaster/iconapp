@@ -19,16 +19,20 @@ class _$ProductModelTearOff {
 // ignore: unused_element
   _ProductModel call(
       {int id,
+      String productId,
       String name,
       String description,
       int price,
+      String priceFormatted,
       String redemptionCode,
       String redemptionUrl}) {
     return _ProductModel(
       id: id,
+      productId: productId,
       name: name,
       description: description,
       price: price,
+      priceFormatted: priceFormatted,
       redemptionCode: redemptionCode,
       redemptionUrl: redemptionUrl,
     );
@@ -47,9 +51,11 @@ const $ProductModel = _$ProductModelTearOff();
 /// @nodoc
 mixin _$ProductModel {
   int get id;
+  String get productId;
   String get name;
   String get description;
   int get price;
+  String get priceFormatted;
   String get redemptionCode;
   String get redemptionUrl;
 
@@ -64,9 +70,11 @@ abstract class $ProductModelCopyWith<$Res> {
       _$ProductModelCopyWithImpl<$Res>;
   $Res call(
       {int id,
+      String productId,
       String name,
       String description,
       int price,
+      String priceFormatted,
       String redemptionCode,
       String redemptionUrl});
 }
@@ -82,18 +90,24 @@ class _$ProductModelCopyWithImpl<$Res> implements $ProductModelCopyWith<$Res> {
   @override
   $Res call({
     Object id = freezed,
+    Object productId = freezed,
     Object name = freezed,
     Object description = freezed,
     Object price = freezed,
+    Object priceFormatted = freezed,
     Object redemptionCode = freezed,
     Object redemptionUrl = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as int,
+      productId: productId == freezed ? _value.productId : productId as String,
       name: name == freezed ? _value.name : name as String,
       description:
           description == freezed ? _value.description : description as String,
       price: price == freezed ? _value.price : price as int,
+      priceFormatted: priceFormatted == freezed
+          ? _value.priceFormatted
+          : priceFormatted as String,
       redemptionCode: redemptionCode == freezed
           ? _value.redemptionCode
           : redemptionCode as String,
@@ -113,9 +127,11 @@ abstract class _$ProductModelCopyWith<$Res>
   @override
   $Res call(
       {int id,
+      String productId,
       String name,
       String description,
       int price,
+      String priceFormatted,
       String redemptionCode,
       String redemptionUrl});
 }
@@ -133,18 +149,24 @@ class __$ProductModelCopyWithImpl<$Res> extends _$ProductModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object id = freezed,
+    Object productId = freezed,
     Object name = freezed,
     Object description = freezed,
     Object price = freezed,
+    Object priceFormatted = freezed,
     Object redemptionCode = freezed,
     Object redemptionUrl = freezed,
   }) {
     return _then(_ProductModel(
       id: id == freezed ? _value.id : id as int,
+      productId: productId == freezed ? _value.productId : productId as String,
       name: name == freezed ? _value.name : name as String,
       description:
           description == freezed ? _value.description : description as String,
       price: price == freezed ? _value.price : price as int,
+      priceFormatted: priceFormatted == freezed
+          ? _value.priceFormatted
+          : priceFormatted as String,
       redemptionCode: redemptionCode == freezed
           ? _value.redemptionCode
           : redemptionCode as String,
@@ -161,9 +183,11 @@ class __$ProductModelCopyWithImpl<$Res> extends _$ProductModelCopyWithImpl<$Res>
 class _$_ProductModel implements _ProductModel {
   const _$_ProductModel(
       {this.id,
+      this.productId,
       this.name,
       this.description,
       this.price,
+      this.priceFormatted,
       this.redemptionCode,
       this.redemptionUrl});
 
@@ -173,11 +197,15 @@ class _$_ProductModel implements _ProductModel {
   @override
   final int id;
   @override
+  final String productId;
+  @override
   final String name;
   @override
   final String description;
   @override
   final int price;
+  @override
+  final String priceFormatted;
   @override
   final String redemptionCode;
   @override
@@ -185,7 +213,7 @@ class _$_ProductModel implements _ProductModel {
 
   @override
   String toString() {
-    return 'ProductModel(id: $id, name: $name, description: $description, price: $price, redemptionCode: $redemptionCode, redemptionUrl: $redemptionUrl)';
+    return 'ProductModel(id: $id, productId: $productId, name: $name, description: $description, price: $price, priceFormatted: $priceFormatted, redemptionCode: $redemptionCode, redemptionUrl: $redemptionUrl)';
   }
 
   @override
@@ -194,6 +222,9 @@ class _$_ProductModel implements _ProductModel {
         (other is _ProductModel &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.productId, productId) ||
+                const DeepCollectionEquality()
+                    .equals(other.productId, productId)) &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.description, description) ||
@@ -201,6 +232,9 @@ class _$_ProductModel implements _ProductModel {
                     .equals(other.description, description)) &&
             (identical(other.price, price) ||
                 const DeepCollectionEquality().equals(other.price, price)) &&
+            (identical(other.priceFormatted, priceFormatted) ||
+                const DeepCollectionEquality()
+                    .equals(other.priceFormatted, priceFormatted)) &&
             (identical(other.redemptionCode, redemptionCode) ||
                 const DeepCollectionEquality()
                     .equals(other.redemptionCode, redemptionCode)) &&
@@ -213,9 +247,11 @@ class _$_ProductModel implements _ProductModel {
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(productId) ^
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(description) ^
       const DeepCollectionEquality().hash(price) ^
+      const DeepCollectionEquality().hash(priceFormatted) ^
       const DeepCollectionEquality().hash(redemptionCode) ^
       const DeepCollectionEquality().hash(redemptionUrl);
 
@@ -232,9 +268,11 @@ class _$_ProductModel implements _ProductModel {
 abstract class _ProductModel implements ProductModel {
   const factory _ProductModel(
       {int id,
+      String productId,
       String name,
       String description,
       int price,
+      String priceFormatted,
       String redemptionCode,
       String redemptionUrl}) = _$_ProductModel;
 
@@ -244,11 +282,15 @@ abstract class _ProductModel implements ProductModel {
   @override
   int get id;
   @override
+  String get productId;
+  @override
   String get name;
   @override
   String get description;
   @override
   int get price;
+  @override
+  String get priceFormatted;
   @override
   String get redemptionCode;
   @override

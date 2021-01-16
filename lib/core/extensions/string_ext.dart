@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 
 extension StringExtention on String {
   ImageProvider showImage() {
-    return this != null && this.isNotEmpty && this.startsWith('http')
-        ? NetworkImage(this)
-        : AssetImage(this);
+    return this != null && this.isNotEmpty && this.startsWith('http') ? NetworkImage(this) : AssetImage(this);
   }
 
   String parseEnum() {
@@ -13,9 +11,10 @@ extension StringExtention on String {
     return _tmp;
   }
 
-  bool isValidAddress() => RegExp(
-          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-      .hasMatch(this);
+  bool isValidAddress() =>
+      RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(this);
 
   String get removeTokenFromUrl => toString().substring(0, this.indexOf('&token'));
+
+  int get extractNum => int.parse(this.replaceAll(RegExp(r'[^0-9]'), ''));
 }

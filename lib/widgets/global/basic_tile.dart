@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 class BasicTile extends StatelessWidget {
   final Widget left;
-  final Widget center;
   final Widget right;
   final bool compact;
   final Function onTap;
@@ -10,7 +9,6 @@ class BasicTile extends StatelessWidget {
   const BasicTile({
     Key key,
     this.left = const Spacer(),
-    this.center = const Spacer(),
     this.right = const Spacer(),
     this.compact = false,
     this.onTap,
@@ -21,15 +19,14 @@ class BasicTile extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: EdgeInsets.symmetric(horizontal: 6),
         child: Container(
-          height: compact ? 24 : 54,
+          height: compact ? 24 : 75,
           decoration: CupertinoBorderBoxDecoration,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              left,
-              center,
+              Expanded(child: left),
               right,
             ],
           ),

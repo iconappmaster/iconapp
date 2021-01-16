@@ -2,7 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:iconapp/helpers/tutorial.dart';
 import 'package:iconapp/widgets/redemption/redemption_score_indicator.dart';
+import 'package:showcaseview/showcase.dart';
 import '../../core/dependencies/locator.dart';
 import '../../stores/home/home_store.dart';
 import '../../stores/language/language_store.dart';
@@ -26,7 +28,11 @@ class HomeAppbar extends StatelessWidget {
     return IconAppbar(
       logo: Align(
         alignment: language.isLTR ? Alignment.centerRight : Alignment.centerLeft,
-        child: RedemptionScoreIndicator(),
+        child: Showcase(
+          description: 'store bla bla',
+          
+          key: tutorialStoreKey,
+          child: RedemptionScoreIndicator()),
       ),
       widget: Align(
         alignment: language.direction == LanguageDirection.ltr ? Alignment.centerLeft : Alignment.centerRight,

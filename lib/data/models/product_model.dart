@@ -7,9 +7,11 @@ part 'product_model.freezed.dart';
 abstract class ProductModel with _$ProductModel {
   const factory ProductModel({
     int id,
+    String productId,
     String name,
     String description,
     int price,
+    String priceFormatted,
     String redemptionCode,
     String redemptionUrl,
   }) = _ProductModel;

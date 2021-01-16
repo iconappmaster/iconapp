@@ -8,6 +8,7 @@ import 'package:iconapp/widgets/home/home_tabs.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:showcaseview/showcase_widget.dart';
 import '../core/ads/admob/admob.dart';
 import '../core/deep_link.dart';
 import '../core/dependencies/locator.dart';
@@ -115,7 +116,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ..bindHomeChangeEvent()
       ..bindStoryChangeEvent();
 
-
     _redemption.getRedemptionProducts();
   }
 
@@ -131,62 +131,67 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      drawer: HomeDrawer(),
-      body: Container(
-        color: white,
-        child: SafeArea(
-          top: false,
-          child: Container(
-            decoration: BoxDecoration(gradient: purpleGradient),
-            child: Observer(
-              builder: (_) => Stack(
-                alignment: Alignment.topCenter,
-                children: <Widget>[
-                  Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      HomeAppbar(scaffoldKey: _scaffoldKey),
-                      SizedBox(height: 4),
-                      HomeStories(story: _story),
-                      HomeTabs(home: _home),
-                      HomeContent(home: _home, controller: _controller),
+    return ShowCaseWidget(
+      autoPlay: true,
+      builder: Builder(
+        builder: (context) => Scaffold(
+          key: _scaffoldKey,
+          drawer: HomeDrawer(),
+          body: Container(
+            color: white,
+            child: SafeArea(
+              top: false,
+              child: Container(
+                decoration: BoxDecoration(gradient: purpleGradient),
+                child: Observer(
+                  builder: (_) => Stack(
+                    alignment: Alignment.topCenter,
+                    children: <Widget>[
+                      Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          HomeAppbar(scaffoldKey: _scaffoldKey),
+                          SizedBox(height: 4),
+                          HomeStories(story: _story),
+                          HomeTabs(home: _home),
+                          HomeContent(home: _home, controller: _controller),
+                        ],
+                      ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: GestureDetector(
+                          onTap: () => openBottomSheet(context),
+                          onPanUpdate: (details) {
+                            if (details.delta.dy < 0) {
+                              openBottomSheet(context);
+                            }
+                          },
+                          child: BottomSheetBar(
+                            showCategoriesSelected: false,
+                            showIconsSelected: false,
+                            onTap: () => openBottomSheet(context),
+                          ),
+                        ),
+                      ),
+                      Observer(builder: (_) {
+                        return Visibility(
+                            visible: !_home.showForceUpdate && _home.showWelcomeDialog,
+                            child: WelcomeDialog(onTap: () => _home.saveWelcomeSeen()));
+                      }),
+                      Observer(
+                        builder: (_) => Visibility(
+                          visible: _home.showForceUpdate,
+                          child: ForceUpdateDialog(),
+                        ),
+                      ),
+                      if (!_home.showForceUpdate)
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 27),
+                          child: IconFab(user: _user),
+                        ),
                     ],
                   ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: GestureDetector(
-                      onTap: () => openBottomSheet(context),
-                      onPanUpdate: (details) {
-                        if (details.delta.dy < 0) {
-                          openBottomSheet(context);
-                        }
-                      },
-                      child: BottomSheetBar(
-                        showCategoriesSelected: false,
-                        showIconsSelected: false,
-                        onTap: () => openBottomSheet(context),
-                      ),
-                    ),
-                  ),
-                  Observer(builder: (_) {
-                    return Visibility(
-                        visible: !_home.showForceUpdate && _home.showWelcomeDialog,
-                        child: WelcomeDialog(onTap: () => _home.saveWelcomeSeen()));
-                  }),
-                  Observer(
-                    builder: (_) => Visibility(
-                      visible: _home.showForceUpdate,
-                      child: ForceUpdateDialog(),
-                    ),
-                  ),
-                  if (!_home.showForceUpdate)
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 27),
-                      child: IconFab(user: _user),
-                    ),
-                ],
+                ),
               ),
             ),
           ),
