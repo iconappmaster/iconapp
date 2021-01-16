@@ -52,11 +52,13 @@
         "fullNameValidation": "Specify first and last name"
     },
     "create": {
-        "type" : "conversation type",
-        "public" : "Public",
-        "private" : "Password Protected",
-        "passwordDetail" :"The group is protected with 6-digit password that can be shared from the chat settings", 
-        "pubicDetail" :"An open group that anyone can enter", 
+        "type": "conversation type",
+        "public": "Public",
+        "private": "Password",
+        "premium": "Premium",
+        "passwordDetail": "Closed groud that is protected with 6-digit password that can be shared from the chat settings",
+        "pubicDetail": "Public group that anyone can use",
+        "premiumDetail": "Closed group that costs one-time payment to enter",
         "groupNameHint": "Write the conversation name",
         "groupNameDescription": "Conversation Name",
         "groupNameAppbarTitle": "Conversation details",
@@ -183,19 +185,19 @@
         "subtitle": "This group is private",
         "content": "Please enter your personal code"
     },
-    "redemption" : {
-        "title" : "My Balance",
-        "tabProducts" : "Products",
-        "tabPAction" : "Actions",
-        "tabVauchers" : "Vouchers",
-        "tabStore" : "Store",
-        "detailProducts" : "Product that you can redeem with balance points",
-        "detailStore" : "Purchase products",
-        "detailActions" : "Actions made to earn balance points",
-        "detailVauchers" : "Voucher codes that you have redeemed",
-        "productEmpty" : "No product currently available",
-        "actionsEmpty" : "No redeem action has been taken",
-        "vaucherEmpty" : "No code, try to redeem a product first",
-        "storeEmpty" : "No products in the store"
+    "redemption": {
+        "title": "My Balance",
+        "tabProducts": "Products",
+        "tabPAction": "Actions",
+        "tabVauchers": "Vouchers",
+        "tabStore": "Store",
+        "detailProducts": "Product that you can redeem with balance points",
+        "detailStore": "Purchase products",
+        "detailActions": "Actions made to earn balance points",
+        "detailVauchers": "Voucher codes that you have redeemed",
+        "productEmpty": "No product currently available",
+        "actionsEmpty": "No redeem action has been taken",
+        "vaucherEmpty": "No code, try to redeem a product first",
+        "storeEmpty": "No products in the store"
     }
 }

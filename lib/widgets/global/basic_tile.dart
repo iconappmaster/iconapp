@@ -25,8 +25,9 @@ class BasicTile extends StatelessWidget {
           decoration: CupertinoBorderBoxDecoration,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(child: left),
+              left,
               right,
             ],
           ),

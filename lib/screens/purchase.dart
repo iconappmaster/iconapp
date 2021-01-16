@@ -16,34 +16,38 @@ class Purchase extends HookWidget {
   @override
   Widget build(BuildContext context) {
     useEffect(() {
-      store.getProductsFromStore();
-      return () {};
+      store
+        ..listenPurchaseEvents()
+        ..getProductsFromStore();
+      
+      return () => store.dispose();
     }, const []);
 
     return Observer(
       builder: (_) {
-        if (store.loading) return Center(child: CupertinoLoader());
-        return Container(
-          child: store.purchaseProducts.isEmpty
-              ? Center(
-                  child: CustomText(LocaleKeys.redemption_storeEmpty.tr(),
-                      textAlign: TextAlign.center, style: redemptionEmptystyle))
-              : ListView.builder(
-                  physics: BouncingScrollPhysics(),
-                  itemCount: store.purchaseProducts?.length,
-                  itemBuilder: (context, index) {
-                    return PurchaseTile(
-                      product: store.purchaseProducts[index],
-                    );
-                  },
-                ),
-        );
+        if (store.loading) {
+          return Center(child: CupertinoLoader());
+        }
+
+        return store.purchaseProducts.isEmpty
+            ? Center(
+                child: CustomText(LocaleKeys.redemption_storeEmpty.tr(),
+                    textAlign: TextAlign.center, style: redemptionEmptystyle))
+            : ListView.builder(
+                physics: BouncingScrollPhysics(),
+                itemCount: store.purchaseProducts?.length,
+                itemBuilder: (context, index) {
+                  return PurchaseTile(
+                    product: store.purchaseProducts[index],
+                  );
+                },
+              );
       },
     );
   }
 }
 
-class PurchaseTile extends StatelessWidget {
+class PurchaseTile extends HookWidget {
   final ProductModel product;
 
   const PurchaseTile({Key key, @required this.product}) : super(key: key);
@@ -52,6 +56,10 @@ class PurchaseTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final store = sl<PurchaseStore>();
 
+    useEffect(() {
+      return store.dispose();
+    }, const []);
+
     return BasicTile(
       left: Column(
         mainAxisSize: MainAxisSize.min,
@@ -59,19 +67,16 @@ class PurchaseTile extends StatelessWidget {
         children: [
           CustomText(product.name, style: dialogContent.copyWith(color: white)),
           SizedBox(height: 3),
-          CustomText(product.description, style: dialogContent.copyWith(color: white.withOpacity(.5), fontSize: 12)),
+          // CustomText(
+          //   product.description,
+          //   style: dialogContent.copyWith(color: white.withOpacity(.5), fontSize: 12),
+          //   maxLines: 1,
+          // ),
         ],
       ),
       right: GestureDetector(
-        onTap: () async  {
-          final success =await store.consumeProduct(product.productId);
-          if (success) {
-            //show success dialog
-
-          } else {
-            // show failure dialog
-            
-          }
+        onTap: () async {
+          await store.consumeProduct(product.productId);
         },
         child: Container(
           padding: const EdgeInsets.all(4),

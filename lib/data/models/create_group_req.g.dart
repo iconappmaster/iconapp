@@ -17,6 +17,7 @@ _$_CreateGroupReq _$_$_CreateGroupReqFromJson(Map<String, dynamic> json) {
             e == null ? null : UserModel.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     categoryId: json['categoryId'] as int,
+    conversationPrice: json['conversationPrice'] as int,
     conversationType: json['conversationType'] as String,
   );
 }
@@ -27,5 +28,6 @@ Map<String, dynamic> _$_$_CreateGroupReqToJson(_$_CreateGroupReq instance) =>
       'name': instance.name,
       'users': instance.users,
       'categoryId': instance.categoryId,
+      'conversationPrice': instance.conversationPrice,
       'conversationType': instance.conversationType,
     };

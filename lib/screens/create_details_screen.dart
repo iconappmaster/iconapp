@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
@@ -19,10 +20,17 @@ import 'package:vibration/vibration.dart';
 
 import '../core/extensions/context_ext.dart';
 
-class CreateDetailsScreen extends StatelessWidget {
+class CreateDetailsScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final store = sl<CreateDetailsStore>();
+    useEffect(
+      () {
+        return store.dispose();
+      },
+      const [],
+    );
+
     return BaseGradientBackground(
       child: Stack(
         alignment: Alignment.center,
@@ -34,25 +42,35 @@ class CreateDetailsScreen extends StatelessWidget {
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[ConversationNameInput(store: store), ConversationType(store: store)])),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 40),
-            child: Observer(
-              builder: (_) => CustomText(
-                store.currentGroupTypeIndex == 0
-                    ? LocaleKeys.create_pubicDetail.tr()
-                    : LocaleKeys.create_passwordDetail.tr(),
-                style: timeOfMessage.copyWith(
-                  height: 1.5,
-                  color: white.withOpacity(
-                    .7,
-                  ),
-                ),
-              ),
-            ),
-          ),
+                  children: <Widget>[
+                    ConversationNameInput(store: store),
+                    ConversationTypeSwitch(store: store),
+                  ])),
+          ConversationTypeDescription(store: store),
           CreateGroupNavigate(store: store),
         ],
+      ),
+    );
+  }
+}
+
+class ConversationTypeDescription extends StatelessWidget {
+  const ConversationTypeDescription({
+    Key key,
+    @required this.store,
+  }) : super(key: key);
+
+  final CreateDetailsStore store;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 40),
+      child: Observer(
+        builder: (_) => CustomText(
+          store.getSwitchSelectionDescription,
+          style: timeOfMessage.copyWith(height: 1.5, color: white.withOpacity(.7)),
+        ),
       ),
     );
   }
@@ -137,8 +155,8 @@ class ConversationNameInput extends StatelessWidget {
   }
 }
 
-class ConversationType extends StatelessWidget {
-  const ConversationType({
+class ConversationTypeSwitch extends StatelessWidget {
+  const ConversationTypeSwitch({
     Key key,
     @required this.store,
   }) : super(key: key);
@@ -156,14 +174,17 @@ class ConversationType extends StatelessWidget {
             SizedBox(height: 18),
             CustomText(LocaleKeys.create_type.tr(), style: fieldLabel),
             SizedBox(height: 28),
-            CupertinoSlidingSegmentedControl(
-                thumbColor: cornflower,
-                groupValue: store?.currentGroupTypeIndex,
-                children: _conversationTypes(),
-                onValueChanged: (index) {
-                  Vibration.vibrate(duration: 50);
-                  store.setGroupType(index);
-                }),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * .8,
+              child: CupertinoSlidingSegmentedControl(
+                  thumbColor: cornflower,
+                  groupValue: store?.currentGroupTypeIndex,
+                  children: _conversationTypes(),
+                  onValueChanged: (index) {
+                    Vibration.vibrate(duration: 50);
+                    store.setGroupType(index);
+                  }),
+            ),
           ],
         ),
       );
@@ -173,5 +194,6 @@ class ConversationType extends StatelessWidget {
   Map<int, Widget> _conversationTypes() => {
         0: CustomText(LocaleKeys.create_public.tr(), style: chatMessageName),
         1: CustomText(LocaleKeys.create_private.tr(), style: chatMessageName),
+        2: CustomText(LocaleKeys.create_premium.tr(), style: chatMessageName),
       };
 }

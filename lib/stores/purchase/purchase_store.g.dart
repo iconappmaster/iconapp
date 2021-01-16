@@ -54,15 +54,6 @@ mixin _$PurchaseStore on _PurchaseStoreBase, Store {
     });
   }
 
-  final _$getPurchaseProductsAsyncAction =
-      AsyncAction('_PurchaseStoreBase.getPurchaseProducts');
-
-  @override
-  Future<dynamic> getPurchaseProducts() {
-    return _$getPurchaseProductsAsyncAction
-        .run(() => super.getPurchaseProducts());
-  }
-
   final _$getProductsFromStoreAsyncAction =
       AsyncAction('_PurchaseStoreBase.getProductsFromStore');
 
@@ -72,13 +63,13 @@ mixin _$PurchaseStore on _PurchaseStoreBase, Store {
         .run(() => super.getProductsFromStore());
   }
 
-  final _$consomeProductAsyncAction =
-      AsyncAction('_PurchaseStoreBase.consomeProduct');
+  final _$consumeProductAsyncAction =
+      AsyncAction('_PurchaseStoreBase.consumeProduct');
 
   @override
-  Future<dynamic> consomeProduct(String productId) {
-    return _$consomeProductAsyncAction
-        .run(() => super.consomeProduct(productId));
+  Future<dynamic> consumeProduct(String productId) {
+    return _$consumeProductAsyncAction
+        .run(() => super.consumeProduct(productId));
   }
 
   @override

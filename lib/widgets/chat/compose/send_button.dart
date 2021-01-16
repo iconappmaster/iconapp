@@ -75,8 +75,6 @@ class _SendButtonState extends State<SendButton> {
                           messageEmpty: () => print('meesage empty'),
                           serverError: (e) => Crash.report(e),
                           orElse: () => print(''),
-                          // exceededMaxCount: context.showFlushbar(
-                          //     message: 'הקבוצה נסגרה לתגובות בשלב זה.'),
                         ),
                         (success) => print('comment sent!'),
                       );

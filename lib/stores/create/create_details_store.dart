@@ -7,11 +7,13 @@ import 'package:iconapp/data/models/photo_model.dart';
 import 'package:iconapp/data/repositories/create_repository.dart';
 import 'package:iconapp/domain/core/errors.dart';
 import 'package:iconapp/domain/create/create_failure.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/create/create_category_store.dart';
 import 'package:iconapp/stores/create/create_icon_store.dart';
 import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/stores/media/media_store.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:mobx/mobx.dart';
 part 'create_details_store.g.dart';
 
@@ -38,6 +40,9 @@ abstract class _CreateDetailsStoreBase with Store {
   String _selectedPhoto = '';
 
   @observable
+  int conversationPrice;
+
+  @observable
   bool isLoading = false;
 
   @observable
@@ -48,6 +53,21 @@ abstract class _CreateDetailsStoreBase with Store {
 
   @computed
   String get getSelectedPhoto => _selectedPhoto;
+
+  @computed
+  String get getSwitchSelectionDescription {
+    switch (_currentGroupTypeIndex) {
+      case 0:
+        return LocaleKeys.create_pubicDetail.tr();
+
+      case 1:
+        return LocaleKeys.create_passwordDetail.tr();
+
+      case 2:
+        return LocaleKeys.create_premiumDetail.tr();
+    }
+    return "";
+  }
 
   @computed
   String get groupName => _groupName;
@@ -86,6 +106,7 @@ abstract class _CreateDetailsStoreBase with Store {
       final req = CreateGroupReq(
         categoryId: category.id,
         users: icons,
+        conversationPrice: conversationPrice,
         backgroundPhoto: PhotoModel(url: _selectedPhoto),
         name: _groupName,
         conversationType: _getConversationType(),
@@ -96,9 +117,7 @@ abstract class _CreateDetailsStoreBase with Store {
 
       return right(unit);
     } on Exception catch (e) {
-      if (e is DioError &&
-          e.response.data['error'] ==
-              'Validation failed: Name has already been taken') {
+      if (e is DioError && e.response.data['error'] == 'Validation failed: Name has already been taken') {
         return left(CreateFailure.wrongName());
       } else {
         return left(CreateFailure.generalError());
@@ -109,9 +128,10 @@ abstract class _CreateDetailsStoreBase with Store {
   }
 
   @action
-  void clear() {
+  dispose() {
     _groupName = '';
     _selectedPhoto = '';
+    conversationPrice = 0;
   }
 
   String _getConversationType() {

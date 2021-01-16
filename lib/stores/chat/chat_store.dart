@@ -24,6 +24,7 @@ import 'package:iconapp/stores/user/user_store.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:video_compress/video_compress.dart';
 import '../../widgets/story/story_list.dart';
 import '../analytics/analytics_firebase.dart';
@@ -53,7 +54,10 @@ abstract class _ChatStoreBase with Store {
     _prefs = sl<SharedPreferencesService>();
   }
 
-  void init([Conversation conversation]) {
+  Future<void> init([Conversation conversation]) async {
+    // request microphone permissions
+    await Permission.microphone.request();
+    
     if (_prefs.contains(StorageKey.fcmConversation)) {
       final conversation = Conversation.loadFCMFromCache();
       if (conversation != null) setConversation(conversation);

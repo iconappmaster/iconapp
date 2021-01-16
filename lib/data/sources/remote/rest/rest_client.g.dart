@@ -1251,7 +1251,7 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<UserModel> purchaseProduct(purchaseModel) async {
+  Future<UserModel> consumeProduct(purchaseModel) async {
     ArgumentError.checkNotNull(purchaseModel, 'purchaseModel');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

@@ -51,8 +51,10 @@ abstract class  LocaleKeys {
   static const create_type = 'create.type';
   static const create_public = 'create.public';
   static const create_private = 'create.private';
+  static const create_premium = 'create.premium';
   static const create_passwordDetail = 'create.passwordDetail';
   static const create_pubicDetail = 'create.pubicDetail';
+  static const create_premiumDetail = 'create.premiumDetail';
   static const create_groupNameHint = 'create.groupNameHint';
   static const create_groupNameDescription = 'create.groupNameDescription';
   static const create_groupNameAppbarTitle = 'create.groupNameAppbarTitle';

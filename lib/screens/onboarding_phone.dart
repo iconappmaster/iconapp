@@ -44,9 +44,8 @@ FocusNode _pinCodeFocusNode = FocusNode();
 /// The store for this page is [LoginStore] that manages the [Timer], [VerifyPhone]
 /// call and [VerifyCode] that returns the user with the [Token].
 class OnboardingScreen extends HookWidget {
-  
   final store = sl<LoginStore>();
-  
+
   @override
   Widget build(BuildContext context) {
     useEffect(() {
@@ -149,7 +148,7 @@ class _SmsCounter extends HookWidget {
   @override
   Widget build(BuildContext context) {
     int time = 0;
-    
+
     if (store.isPinCodeMode) {
       time = useCountDown(defaultCountTimeSec);
     }
@@ -285,21 +284,26 @@ class _CheckSign extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = 35.0;
     return Visibility(
       visible: store.isPinCodeMode,
       child: Positioned(
-        top: context.heightPlusStatusbarPerc(.21),
-        right: context.widthPx * .36,
+        top: context.heightPlusStatusbarPerc(.268),
+        right: context.widthPx * .24,
         child: Stack(children: [
           if (store.getState.loading)
             SizedBox(
-                height: context.widthPx * .086,
-                width: context.widthPx * .086,
-                child: CircularProgressIndicator(backgroundColor: white, strokeWidth: 2)),
+              height: size,
+              width: size,
+              child: CircularProgressIndicator(
+                backgroundColor: white,
+                strokeWidth: 1,
+              ),
+            ),
           Image.asset(
             'assets/images/check.png',
-            width: context.widthPx * .086,
-            height: context.widthPx * .086,
+            width: size,
+            height: size,
           ),
         ]),
       ),
@@ -318,7 +322,6 @@ class _PhoneNumberInput extends StatelessWidget {
         top: store.isPhoneMode ? context.heightPlusStatusbarPerc(.272) : context.heightPlusStatusbarPerc(.2),
         child: Column(
           children: <Widget>[
-            CustomText('test'),
             CountryCodePicker(
                 onChanged: (countryCode) => store.updateCountryCode(countryCode.dialCode),
                 initialSelection: 'IL',

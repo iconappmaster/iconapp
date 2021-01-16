@@ -22,12 +22,14 @@ class _$CreateGroupReqTearOff {
       String name,
       List<UserModel> users,
       int categoryId,
+      int conversationPrice,
       String conversationType}) {
     return _CreateGroupReq(
       backgroundPhoto: backgroundPhoto,
       name: name,
       users: users,
       categoryId: categoryId,
+      conversationPrice: conversationPrice,
       conversationType: conversationType,
     );
   }
@@ -48,6 +50,7 @@ mixin _$CreateGroupReq {
   String get name;
   List<UserModel> get users;
   int get categoryId;
+  int get conversationPrice;
   String get conversationType;
 
   Map<String, dynamic> toJson();
@@ -64,6 +67,7 @@ abstract class $CreateGroupReqCopyWith<$Res> {
       String name,
       List<UserModel> users,
       int categoryId,
+      int conversationPrice,
       String conversationType});
 
   $PhotoModelCopyWith<$Res> get backgroundPhoto;
@@ -84,6 +88,7 @@ class _$CreateGroupReqCopyWithImpl<$Res>
     Object name = freezed,
     Object users = freezed,
     Object categoryId = freezed,
+    Object conversationPrice = freezed,
     Object conversationType = freezed,
   }) {
     return _then(_value.copyWith(
@@ -93,6 +98,9 @@ class _$CreateGroupReqCopyWithImpl<$Res>
       name: name == freezed ? _value.name : name as String,
       users: users == freezed ? _value.users : users as List<UserModel>,
       categoryId: categoryId == freezed ? _value.categoryId : categoryId as int,
+      conversationPrice: conversationPrice == freezed
+          ? _value.conversationPrice
+          : conversationPrice as int,
       conversationType: conversationType == freezed
           ? _value.conversationType
           : conversationType as String,
@@ -122,6 +130,7 @@ abstract class _$CreateGroupReqCopyWith<$Res>
       String name,
       List<UserModel> users,
       int categoryId,
+      int conversationPrice,
       String conversationType});
 
   @override
@@ -145,6 +154,7 @@ class __$CreateGroupReqCopyWithImpl<$Res>
     Object name = freezed,
     Object users = freezed,
     Object categoryId = freezed,
+    Object conversationPrice = freezed,
     Object conversationType = freezed,
   }) {
     return _then(_CreateGroupReq(
@@ -154,6 +164,9 @@ class __$CreateGroupReqCopyWithImpl<$Res>
       name: name == freezed ? _value.name : name as String,
       users: users == freezed ? _value.users : users as List<UserModel>,
       categoryId: categoryId == freezed ? _value.categoryId : categoryId as int,
+      conversationPrice: conversationPrice == freezed
+          ? _value.conversationPrice
+          : conversationPrice as int,
       conversationType: conversationType == freezed
           ? _value.conversationType
           : conversationType as String,
@@ -170,6 +183,7 @@ class _$_CreateGroupReq implements _CreateGroupReq {
       this.name,
       this.users,
       this.categoryId,
+      this.conversationPrice,
       this.conversationType});
 
   factory _$_CreateGroupReq.fromJson(Map<String, dynamic> json) =>
@@ -184,11 +198,13 @@ class _$_CreateGroupReq implements _CreateGroupReq {
   @override
   final int categoryId;
   @override
+  final int conversationPrice;
+  @override
   final String conversationType;
 
   @override
   String toString() {
-    return 'CreateGroupReq(backgroundPhoto: $backgroundPhoto, name: $name, users: $users, categoryId: $categoryId, conversationType: $conversationType)';
+    return 'CreateGroupReq(backgroundPhoto: $backgroundPhoto, name: $name, users: $users, categoryId: $categoryId, conversationPrice: $conversationPrice, conversationType: $conversationType)';
   }
 
   @override
@@ -205,6 +221,9 @@ class _$_CreateGroupReq implements _CreateGroupReq {
             (identical(other.categoryId, categoryId) ||
                 const DeepCollectionEquality()
                     .equals(other.categoryId, categoryId)) &&
+            (identical(other.conversationPrice, conversationPrice) ||
+                const DeepCollectionEquality()
+                    .equals(other.conversationPrice, conversationPrice)) &&
             (identical(other.conversationType, conversationType) ||
                 const DeepCollectionEquality()
                     .equals(other.conversationType, conversationType)));
@@ -217,6 +236,7 @@ class _$_CreateGroupReq implements _CreateGroupReq {
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(users) ^
       const DeepCollectionEquality().hash(categoryId) ^
+      const DeepCollectionEquality().hash(conversationPrice) ^
       const DeepCollectionEquality().hash(conversationType);
 
   @override
@@ -235,6 +255,7 @@ abstract class _CreateGroupReq implements CreateGroupReq {
       String name,
       List<UserModel> users,
       int categoryId,
+      int conversationPrice,
       String conversationType}) = _$_CreateGroupReq;
 
   factory _CreateGroupReq.fromJson(Map<String, dynamic> json) =
@@ -248,6 +269,8 @@ abstract class _CreateGroupReq implements CreateGroupReq {
   List<UserModel> get users;
   @override
   int get categoryId;
+  @override
+  int get conversationPrice;
   @override
   String get conversationType;
   @override

@@ -37,16 +37,16 @@ class RedemptionScreen extends HookWidget {
                     Observer(
                         builder: (_) => AppBarWithDivider(
                             widget: RedemptionScoreIndicator(openRedemptionScreen: false),
-                            title: LocaleKeys.redemption_title.tr(),
+                            title: store.title,
                             isArrowDirectionDown: true,
                             subtitle: store.subtitle)),
                     Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 16),
+                        margin: const EdgeInsets.symmetric(horizontal: 16),
                         height: context.heightPlusStatusbarPerc(.05),
                         child: CupertinoSlidingSegmentedControl(
                             thumbColor: cornflower,
                             groupValue: store.tabStateIndex,
-                            children: _buildTabs(),
+                            children: _tabNamesMap(),
                             onValueChanged: (index) => store.setTabIndex(index))),
                     Expanded(
                       child: Observer(
@@ -69,7 +69,7 @@ class RedemptionScreen extends HookWidget {
                 ))));
   }
 
-  Map<int, Widget> _buildTabs() => {
+  Map<int, Widget> _tabNamesMap() => {
         0: CustomText(LocaleKeys.redemption_tabProducts.tr(), style: chatMessageName),
         1: CustomText(LocaleKeys.redemption_tabPAction.tr(), style: chatMessageName),
         2: CustomText(LocaleKeys.redemption_tabVauchers.tr(), style: chatMessageName),

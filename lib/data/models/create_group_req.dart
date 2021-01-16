@@ -12,6 +12,7 @@ abstract class CreateGroupReq with _$CreateGroupReq {
     String name,
     List<UserModel> users,
     int categoryId,
+    int conversationPrice,
     String conversationType,
   }) = _CreateGroupReq;
 

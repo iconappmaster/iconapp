@@ -39,6 +39,22 @@ abstract class _RedemptionStoreBase with Store {
 
   @observable
   bool _redeemLoading = false;
+ 
+  @computed
+  String get title {
+    switch (_tabState) {
+      case RedemptionTabState.product:
+        return "Products";
+      case RedemptionTabState.actions:
+        return "Actions";
+      case RedemptionTabState.reedemCodes:
+        return "Vouchers";
+      case RedemptionTabState.store:
+        return "Store";
+        break;
+    }
+    return '';
+  }
 
   @computed
   String get subtitle {

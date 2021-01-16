@@ -23,6 +23,14 @@ mixin _$CreateDetailsStore on _CreateDetailsStoreBase, Store {
           Computed<String>(() => super.getSelectedPhoto,
               name: '_CreateDetailsStoreBase.getSelectedPhoto'))
       .value;
+  Computed<String> _$getSwitchSelectionDescriptionComputed;
+
+  @override
+  String get getSwitchSelectionDescription =>
+      (_$getSwitchSelectionDescriptionComputed ??= Computed<String>(
+              () => super.getSwitchSelectionDescription,
+              name: '_CreateDetailsStoreBase.getSwitchSelectionDescription'))
+          .value;
   Computed<String> _$groupNameComputed;
 
   @override
@@ -59,6 +67,22 @@ mixin _$CreateDetailsStore on _CreateDetailsStoreBase, Store {
   set _selectedPhoto(String value) {
     _$_selectedPhotoAtom.reportWrite(value, super._selectedPhoto, () {
       super._selectedPhoto = value;
+    });
+  }
+
+  final _$conversationPriceAtom =
+      Atom(name: '_CreateDetailsStoreBase.conversationPrice');
+
+  @override
+  int get conversationPrice {
+    _$conversationPriceAtom.reportRead();
+    return super.conversationPrice;
+  }
+
+  @override
+  set conversationPrice(int value) {
+    _$conversationPriceAtom.reportWrite(value, super.conversationPrice, () {
+      super.conversationPrice = value;
     });
   }
 
@@ -136,11 +160,11 @@ mixin _$CreateDetailsStore on _CreateDetailsStoreBase, Store {
   }
 
   @override
-  void clear() {
+  dynamic dispose() {
     final _$actionInfo = _$_CreateDetailsStoreBaseActionController.startAction(
-        name: '_CreateDetailsStoreBase.clear');
+        name: '_CreateDetailsStoreBase.dispose');
     try {
-      return super.clear();
+      return super.dispose();
     } finally {
       _$_CreateDetailsStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -149,9 +173,11 @@ mixin _$CreateDetailsStore on _CreateDetailsStoreBase, Store {
   @override
   String toString() {
     return '''
+conversationPrice: ${conversationPrice},
 isLoading: ${isLoading},
 currentGroupTypeIndex: ${currentGroupTypeIndex},
 getSelectedPhoto: ${getSelectedPhoto},
+getSwitchSelectionDescription: ${getSwitchSelectionDescription},
 groupName: ${groupName}
     ''';
   }
