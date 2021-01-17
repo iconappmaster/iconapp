@@ -273,7 +273,7 @@ static const Map<String,dynamic> en_US = {
     "fullNameValidation": "Specify first and last name"
   },
   "create": {
-    "type": "conversation type",
+    "type": "Conversation Type",
     "public": "Public",
     "private": "Password",
     "premium": "Premium",

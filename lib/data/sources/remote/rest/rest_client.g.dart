@@ -1258,7 +1258,8 @@ class _RestClient implements RestClient {
     final _data = <String, dynamic>{};
     _data.addAll(purchaseModel?.toJson() ?? <String, dynamic>{});
     _data.removeWhere((k, v) => v == null);
-    final _result = await _dio.request<Map<String, dynamic>>('purchase/item',
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'purchase_consumable',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',

@@ -16,6 +16,20 @@ mixin _$CreateDetailsStore on _CreateDetailsStoreBase, Store {
           Computed<int>(() => super.currentGroupTypeIndex,
               name: '_CreateDetailsStoreBase.currentGroupTypeIndex'))
       .value;
+  Computed<bool> _$showPriceButtonComputed;
+
+  @override
+  bool get showPriceButton =>
+      (_$showPriceButtonComputed ??= Computed<bool>(() => super.showPriceButton,
+              name: '_CreateDetailsStoreBase.showPriceButton'))
+          .value;
+  Computed<bool> _$showPriceComputed;
+
+  @override
+  bool get showPrice =>
+      (_$showPriceComputed ??= Computed<bool>(() => super.showPrice,
+              name: '_CreateDetailsStoreBase.showPrice'))
+          .value;
   Computed<String> _$getSelectedPhotoComputed;
 
   @override
@@ -67,6 +81,21 @@ mixin _$CreateDetailsStore on _CreateDetailsStoreBase, Store {
   set _selectedPhoto(String value) {
     _$_selectedPhotoAtom.reportWrite(value, super._selectedPhoto, () {
       super._selectedPhoto = value;
+    });
+  }
+
+  final _$_showPriceAtom = Atom(name: '_CreateDetailsStoreBase._showPrice');
+
+  @override
+  bool get _showPrice {
+    _$_showPriceAtom.reportRead();
+    return super._showPrice;
+  }
+
+  @override
+  set _showPrice(bool value) {
+    _$_showPriceAtom.reportWrite(value, super._showPrice, () {
+      super._showPrice = value;
     });
   }
 
@@ -160,6 +189,17 @@ mixin _$CreateDetailsStore on _CreateDetailsStoreBase, Store {
   }
 
   @override
+  void setShowPrice(bool showPrice) {
+    final _$actionInfo = _$_CreateDetailsStoreBaseActionController.startAction(
+        name: '_CreateDetailsStoreBase.setShowPrice');
+    try {
+      return super.setShowPrice(showPrice);
+    } finally {
+      _$_CreateDetailsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic dispose() {
     final _$actionInfo = _$_CreateDetailsStoreBaseActionController.startAction(
         name: '_CreateDetailsStoreBase.dispose');
@@ -176,6 +216,8 @@ mixin _$CreateDetailsStore on _CreateDetailsStoreBase, Store {
 conversationPrice: ${conversationPrice},
 isLoading: ${isLoading},
 currentGroupTypeIndex: ${currentGroupTypeIndex},
+showPriceButton: ${showPriceButton},
+showPrice: ${showPrice},
 getSelectedPhoto: ${getSelectedPhoto},
 getSwitchSelectionDescription: ${getSwitchSelectionDescription},
 groupName: ${groupName}

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,16 +22,18 @@ import 'package:vibration/vibration.dart';
 
 import '../core/extensions/context_ext.dart';
 
+const _borderStyle = OutlineInputBorder(borderSide: BorderSide(color: white, width: 3.0));
+
 class CreateDetailsScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final store = sl<CreateDetailsStore>();
-    useEffect(
-      () {
-        return store.dispose();
-      },
-      const [],
-    );
+
+    useEffect(() {
+      return () {
+        store.dispose();
+      };
+    }, const []);
 
     return BaseGradientBackground(
       child: Stack(
@@ -47,10 +51,115 @@ class CreateDetailsScreen extends HookWidget {
                     ConversationTypeSwitch(store: store),
                   ])),
           ConversationTypeDescription(store: store),
+          ConversationPriceButton(),
+          ConversationPriceInputText(),
           CreateGroupNavigate(store: store),
         ],
       ),
     );
+  }
+}
+
+class ConversationPriceButton extends StatelessWidget {
+  final store = sl<CreateDetailsStore>();
+  @override
+  Widget build(BuildContext context) {
+    return Observer(
+      builder: (_) => Visibility(
+        visible: store.showPriceButton,
+        child: Positioned(
+          bottom: MediaQuery.of(context).size.height * .29,
+          child: Column(
+            children: [
+              CustomText('Conversation Price', style: chatMessageName),
+              SizedBox(height: 10),
+              CupertinoButton(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                color: cornflower,
+                child: Row(
+                  children: [
+                    Image.asset(
+                      'assets/images/money.png',
+                      width: 20,
+                      height: 20,
+                    ),
+                    SizedBox(width: 5),
+                    CustomText(store.conversationPrice == 0 ? "Set Price" : store.conversationPrice.toString()),
+                  ],
+                ),
+                onPressed: () {
+                  store.setShowPrice(true);
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ConversationPriceInputText extends HookWidget {
+  @override
+  Widget build(BuildContext context) {
+    final store = sl<CreateDetailsStore>();
+
+    final controller = useTextEditingController();
+    int currentPrice = store.conversationPrice;
+    controller.text = currentPrice.toString();
+
+    return Observer(builder: (_) {
+      return Visibility(
+        visible: store.showPrice,
+        child: Positioned(
+          top: MediaQuery.of(context).size.height * .29,
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+            child: Container(
+              width: MediaQuery.of(context).size.width * .6,
+              child: Column(
+                children: [
+                  TextField(
+                    keyboardAppearance: Brightness.light,
+                    cursorColor: cornflower,
+                    autofocus: true,
+                    textAlign: TextAlign.center,
+                    style: chatMessageBody,
+                    controller: controller,
+                    minLines: 1,
+                    onChanged: (price) {
+                      currentPrice = int.tryParse(price);
+                    },
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      icon: Image.asset(
+                        'assets/images/money.png',
+                        width: 20,
+                        height: 20,
+                      ),
+                      focusedBorder: _borderStyle,
+                      enabledBorder: _borderStyle,
+                      hintStyle: chatMessageBody,
+                      labelText: 'Price',
+                      labelStyle: chatMessageName,
+                    ),
+                  ),
+                  SizedBox(height: 120),
+                  CupertinoButton(
+                    child: CustomText('OK'),
+                    onPressed: () {
+                      store.conversationPrice = currentPrice;
+                      store.setShowPrice(false);
+                    },
+                    color: cornflower,
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    });
   }
 }
 
@@ -87,23 +196,26 @@ class CreateGroupNavigate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Observer(
-      builder: (_) => Positioned(
-        bottom: 25,
-        child: FloatingActionButton(
-            heroTag: 'fab1',
-            child: RotatedBox(
-                quarterTurns: language.isLTR ? 2 : 0,
-                child: SvgPicture.asset('assets/images/go_arrow.svg', height: 16.3, width: 16.3)),
-            backgroundColor: store.isLoading ? whiteOpacity30 : cornflower,
-            onPressed: () async {
-              if (store.getSelectedPhoto.isEmpty) {
-                await context.showFlushbar(color: uiTintColorFill, message: LocaleKeys.create_addPhotoMandatory.tr());
-              }
+      builder: (_) => Visibility(
+        visible: !store.showPrice,
+        child: Positioned(
+          bottom: 25,
+          child: FloatingActionButton(
+              heroTag: 'fab1',
+              child: RotatedBox(
+                  quarterTurns: language.isLTR ? 2 : 0,
+                  child: SvgPicture.asset('assets/images/go_arrow.svg', height: 16.3, width: 16.3)),
+              backgroundColor: store.isLoading ? whiteOpacity30 : cornflower,
+              onPressed: () async {
+                if (store.getSelectedPhoto.isEmpty) {
+                  await context.showFlushbar(color: uiTintColorFill, message: LocaleKeys.create_addPhotoMandatory.tr());
+                }
 
-              if (store.groupName.isNotEmpty && store.getSelectedPhoto.isNotEmpty && !store.isLoading) {
-                await _handleSuccess(store, context);
-              }
-            }),
+                if (store.groupName.isNotEmpty && store.getSelectedPhoto.isNotEmpty && !store.isLoading) {
+                  await _handleSuccess(store, context);
+                }
+              }),
+        ),
       ),
     );
   }
@@ -172,7 +284,7 @@ class ConversationTypeSwitch extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(height: 18),
-            CustomText(LocaleKeys.create_type.tr(), style: fieldLabel),
+            CustomText(LocaleKeys.create_type.tr(), style: chatMessageName),
             SizedBox(height: 28),
             SizedBox(
               width: MediaQuery.of(context).size.width * .8,

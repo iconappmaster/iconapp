@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'package:iconapp/core/bus.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/models/product_model.dart';
+import 'package:iconapp/data/models/purchase_model.dart';
 import 'package:iconapp/data/repositories/purchase_repository.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import '../../core/extensions/string_ext.dart';
@@ -13,7 +15,7 @@ class PurchaseStore = _PurchaseStoreBase with _$PurchaseStore;
 abstract class _PurchaseStoreBase with Store {
   final _repository = sl<PurchaseRepository>();
   final InAppPurchaseConnection _purchase = InAppPurchaseConnection.instance;
-
+  final _bus = sl<Bus>();
   StreamSubscription _subscription;
 
   @observable
@@ -40,6 +42,7 @@ abstract class _PurchaseStoreBase with Store {
               name: m.title,
               price: m.price.extractNum,
               priceFormatted: m.price,
+              description: m.description,
               productId: m.id,
             )));
     } on Exception catch (e) {
@@ -56,61 +59,49 @@ abstract class _PurchaseStoreBase with Store {
 
     final product = response.productDetails.firstWhere((p) => p.id == productId);
 
-    final past = await _purchase.queryProductDetails(packages);
-    
+    // final past = await _purchase.queryProductDetails(packages);
+
     _purchase.buyConsumable(
       purchaseParam: PurchaseParam(productDetails: product),
     );
   }
 
   Future listenPurchaseEvents() async {
-    _subscription = _purchase?.purchaseUpdatedStream?.listen((purchases) {
+    _subscription ??= _purchase?.purchaseUpdatedStream?.listen((purchases) {
       purchases.forEach((purchaseDetails) async {
         if (purchaseDetails.pendingCompletePurchase) {
           await InAppPurchaseConnection.instance.completePurchase(purchaseDetails);
         }
-
         switch (purchaseDetails.status) {
           case PurchaseStatus.pending:
+            print('pending');
             // showPendingUI();
             break;
           case PurchaseStatus.purchased:
             final valid = await _verifyPurchase(purchaseDetails);
-            if (valid) {
-              _deliverProdcuct();
-            } else {
-              _handleInvalidPurchase();
-            }
+            _bus.fire(valid ? PurchaseSuccess(purchaseDetails) : PurchaseError());
             break;
           case PurchaseStatus.error:
-            // handleError(purchaseDetails.error);
+            _bus.fire(PurchaseError());
             break;
         }
       });
-    }, onDone: () {
-      _subscription.cancel();
-    }, onError: () {
-      Crash.report('Cant finish purchase');
     });
   }
 
   // purchase was succesfull and now we are velidating with hte backendh
   Future<bool> _verifyPurchase(PurchaseDetails purchaseDetails) async {
-    return true;
-  }
+    final model = PurchaseModel(
+      orderId: purchaseDetails.billingClientPurchase.orderId,
+      productId: purchaseDetails?.productID,
+      purchaseToken: purchaseDetails.billingClientPurchase?.purchaseToken,
+      
+    );
 
-  // show on the ui invalid purchase
-  void _handleInvalidPurchase() {
-    // TODO
-  }
+    
+    
 
-  // show on the ui purchase success
-  void _deliverProdcuct() {
-    // TODO
-  }
-
-  dispose() {
-    _subscription?.cancel();
+    await _repository.consumeProduct(model);
   }
 }
 
@@ -119,3 +110,11 @@ final packages = Set<String>.of([
   'medium_credits_package',
   'big_credits_package',
 ]);
+
+class PurchaseSuccess {
+  final PurchaseDetails purchaseDetails;
+
+  PurchaseSuccess(this.purchaseDetails);
+}
+
+class PurchaseError {}

@@ -249,7 +249,7 @@ abstract class RestClient {
   @GET('purchase/items')
   Future<List<ProductModel>> getPurchaseItems();
   
-  @POST('purchase/item')
+  @POST('purchase_consumable')
   Future<UserModel> consumeProduct(@Body() PurchaseModel purchaseModel);
 
 }

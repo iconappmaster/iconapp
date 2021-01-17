@@ -36,7 +36,9 @@ void main() async {
   // without this call.
   //
   // On iOS this is a no-op.
-  InAppPurchaseConnection.enablePendingPurchases();
+  if (Platform.isAndroid) {
+    InAppPurchaseConnection.enablePendingPurchases();
+  }
 
   Admob.initialize();
 

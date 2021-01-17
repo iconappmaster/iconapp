@@ -55,47 +55,51 @@ class RedemptionProductTile extends StatelessWidget {
   }
 
   Future<dynamic> _onProductTap(RedemptionStore store, BuildContext context) {
-    if (store.isEnoughMoney(product.price)) {
-      return showModalBottomSheet(
-        elevation: 3,
-        backgroundColor: iris,
+    if (!store.isEnoughMoney(product.price)) {
+      return CoolAlert.show(
         context: context,
-        builder: (context) {
-          return Padding(
-            padding: const EdgeInsets.all(22),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CustomText(product?.name, style: dialogContent.copyWith(fontSize: 25, color: white)),
-                SizedBox(height: 20),
-                SizedBox(
-                  width: context.widthPx * .5,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: MaterialButton(
-                      elevation: 0,
-                      color: pinkish,
-                      height: 40,
-                      onPressed: () => store.redeemProduct(product.id).then((r) => r.fold(
-                          (error) => _handleError(error, context),
-                          (model) => _showRedeemSuccessDialog(context, model))),
-                      child: store.redeemLoading
-                          ? CupertinoLoader(radius: 10)
-                          : CustomText('Redeem', style: dialogContent),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
+        backgroundColor: dustyOrange,
+        lottieAsset: 'assets/animations/action.json',
+        type: CoolAlertType.info,
+        animType: CoolAlertAnimType.scale,
+        confirmBtnColor: cornflower,
+        title: 'Not enought credits!',
+        text: 'Try to do more actions in the app to gain extra credit',
       );
-    } else {
-      context.showToast('Not enought credits to redeem. try to do more actions in the app to gain credit',
-          duration: const Duration(seconds: 5));
     }
 
-    return null;
+    return showModalBottomSheet(
+      elevation: 3,
+      backgroundColor: iris,
+      context: context,
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.all(22),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CustomText(product?.name, style: dialogContent.copyWith(fontSize: 25, color: white)),
+              SizedBox(height: 20),
+              SizedBox(
+                width: context.widthPx * .5,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: MaterialButton(
+                    elevation: 0,
+                    color: pinkish,
+                    height: 40,
+                    onPressed: () => store.redeemProduct(product.id).then((r) => r.fold(
+                        (error) => _handleError(error, context), (model) => _showRedeemSuccessDialog(context, model))),
+                    child:
+                        store.redeemLoading ? CupertinoLoader(radius: 10) : CustomText('Redeem', style: dialogContent),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Future _handleError(RedemptionFailure error, BuildContext context) async {

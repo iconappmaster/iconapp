@@ -40,7 +40,10 @@ abstract class _CreateDetailsStoreBase with Store {
   String _selectedPhoto = '';
 
   @observable
-  int conversationPrice;
+  bool _showPrice = false;
+
+  @observable
+  int conversationPrice = 0;
 
   @observable
   bool isLoading = false;
@@ -50,6 +53,12 @@ abstract class _CreateDetailsStoreBase with Store {
 
   @computed
   int get currentGroupTypeIndex => _currentGroupTypeIndex;
+  
+  @computed
+  bool get showPriceButton => _currentGroupTypeIndex == 2;
+
+  @computed
+  bool get showPrice => _showPrice;
 
   @computed
   String get getSelectedPhoto => _selectedPhoto;
@@ -93,6 +102,11 @@ abstract class _CreateDetailsStoreBase with Store {
     } finally {
       isLoading = false;
     }
+  }
+
+  @action
+  void setShowPrice(bool showPrice) {
+    _showPrice = showPrice;
   }
 
   @action
