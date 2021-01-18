@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'package:dio/dio.dart';
 import 'package:iconapp/core/bus.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/models/product_model.dart';
 import 'package:iconapp/data/models/purchase_model.dart';
 import 'package:iconapp/data/repositories/purchase_repository.dart';
+import 'package:iconapp/stores/home/home_store.dart';
+import 'package:iconapp/stores/user/user_store.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import '../../core/extensions/string_ext.dart';
 import 'package:mobx/mobx.dart';
@@ -14,6 +17,8 @@ class PurchaseStore = _PurchaseStoreBase with _$PurchaseStore;
 
 abstract class _PurchaseStoreBase with Store {
   final _repository = sl<PurchaseRepository>();
+  final _user = sl<UserStore>();
+  final _home = sl<HomeStore>();
   final InAppPurchaseConnection _purchase = InAppPurchaseConnection.instance;
   final _bus = sl<Bus>();
   StreamSubscription _subscription;
@@ -36,15 +41,18 @@ abstract class _PurchaseStoreBase with Store {
       _loading = true;
       final response = await _purchase.queryProductDetails(packages);
 
+      final productModels = response.productDetails.map((m) => ProductModel(
+            name: m.title,
+            price: m.price.extractNum,
+            priceFormatted: m.price,
+            description: m.description,
+            productId: m.id,
+          ));
+   
       _purchaseProducts
         ..clear()
-        ..addAll(response.productDetails.map((m) => ProductModel(
-              name: m.title,
-              price: m.price.extractNum,
-              priceFormatted: m.price,
-              description: m.description,
-              productId: m.id,
-            )));
+        ..addAll(productModels);
+
     } on Exception catch (e) {
       Crash.report(e.toString());
     } finally {
@@ -91,17 +99,38 @@ abstract class _PurchaseStoreBase with Store {
 
   // purchase was succesfull and now we are velidating with hte backendh
   Future<bool> _verifyPurchase(PurchaseDetails purchaseDetails) async {
-    final model = PurchaseModel(
-      orderId: purchaseDetails.billingClientPurchase.orderId,
-      productId: purchaseDetails?.productID,
-      purchaseToken: purchaseDetails.billingClientPurchase?.purchaseToken,
-      
-    );
+    try {
+      _loading = true;
+      final model = PurchaseModel(
+        orderId: purchaseDetails.billingClientPurchase.orderId,
+        productId: purchaseDetails?.productID,
+        purchaseToken: purchaseDetails.billingClientPurchase?.purchaseToken,
+      );
+      final user = await _repository.consumeProduct(model);
+      _user.setUser(user);
+      return true;
+    } on DioError catch (e) {
+      Crash.report(e.message);
+      return false;
+    } finally {
+      _loading = false;
+    }
+  }
 
-    
-    
-
-    await _repository.consumeProduct(model);
+  @action
+  Future<bool> payForConversation(int conversationId) async {
+    try {
+      _loading = true;
+      final response = await _repository.payForConversation(conversationId);
+      _user.updateUser(response.user);
+      _home.updateConversation(response.conversation);
+      return true;
+    } on DioError catch (e) {
+      Crash.report(e.message);
+      return false;
+    } finally {
+      _loading = false;
+    }
   }
 }
 

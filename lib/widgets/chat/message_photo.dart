@@ -4,8 +4,8 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
-import 'package:vibration/vibration.dart';
 import '../../core/bus.dart';
 import '../../core/dependencies/locator.dart';
 import '../../core/theme.dart';
@@ -63,7 +63,7 @@ class _PhotoMessageState extends State<PhotoMessage> {
       onSlideIsOpenChanged: (isOpen) {
         if (mounted) {
           setState(() async {
-            await Vibration.vibrate(duration: 150);
+            HapticFeedback.lightImpact();
             _isOpen = isOpen;
             sl<ChatStore>().setReplyMessage(widget.message);
             final slide = Slidable.of(_sliderContext);
@@ -100,11 +100,9 @@ class _PhotoMessageState extends State<PhotoMessage> {
                   onTap: () => store.conversationPhotos.length > 1
                       ? ExtendedNavigator.of(context).pushPhotoGalleryScreen(
                           photos: store.conversationPhotos,
-                          intialIndex: store.conversationPhotos
-                              .indexWhere((m) => m.id == widget.message.id),
+                          intialIndex: store.conversationPhotos.indexWhere((m) => m.id == widget.message.id),
                         )
-                      : ExtendedNavigator.of(context)
-                          .pushSingleImage(url: widget.message.body),
+                      : ExtendedNavigator.of(context).pushSingleImage(url: widget.message.body),
                   child: Stack(children: [
                     Hero(
                       tag: widget.index,
@@ -116,15 +114,13 @@ class _PhotoMessageState extends State<PhotoMessage> {
                           widget.message.body.startsWith('http')
                               ? SizedBox(
                                   height: 230,
-                                  width:
-                                      MediaQuery.of(context).size.width * .75,
+                                  width: MediaQuery.of(context).size.width * .75,
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(4.2),
                                     child: CachedNetworkImage(
                                       fadeInCurve: Curves.linear,
                                       fit: BoxFit.cover,
-                                      progressIndicatorBuilder:
-                                          (context, url, data) {
+                                      progressIndicatorBuilder: (context, url, data) {
                                         return Center(
                                           child: SizedBox(
                                             height: 20,
@@ -132,16 +128,13 @@ class _PhotoMessageState extends State<PhotoMessage> {
                                             child: CircularProgressIndicator(
                                               strokeWidth: 1,
                                               value: data.progress,
-                                              valueColor:
-                                                  AlwaysStoppedAnimation(
-                                                      cornflower),
+                                              valueColor: AlwaysStoppedAnimation(cornflower),
                                             ),
                                           ),
                                         );
                                       },
                                       imageUrl: widget.message.body,
-                                      fadeOutDuration:
-                                          const Duration(milliseconds: 250),
+                                      fadeOutDuration: const Duration(milliseconds: 250),
                                     ),
                                   ),
                                 )
@@ -150,9 +143,7 @@ class _PhotoMessageState extends State<PhotoMessage> {
                                   width: 250,
                                   child: ClipRRect(
                                       borderRadius: BorderRadius.circular(4.2),
-                                      child: Image.file(
-                                          File(widget.message.body),
-                                          fit: BoxFit.cover))),
+                                      child: Image.file(File(widget.message.body), fit: BoxFit.cover))),
                         ],
                       ),
                     ),
@@ -162,8 +153,7 @@ class _PhotoMessageState extends State<PhotoMessage> {
                       child: CustomText(
                         widget.message.status == MessageStatus.pending
                             ? ''
-                            : widget.message?.timestamp?.humanReadableTime() ??
-                                '',
+                            : widget.message?.timestamp?.humanReadableTime() ?? '',
                         style: chatMessageBody.copyWith(fontSize: 9),
                         textAlign: TextAlign.start,
                       ),
@@ -190,9 +180,7 @@ class _PhotoMessageState extends State<PhotoMessage> {
                           child: Container(
                             height: 60,
                             width: 60,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: cornflower.withOpacity(.3)),
+                            decoration: BoxDecoration(shape: BoxShape.circle, color: cornflower.withOpacity(.3)),
                           ),
                         ),
                         Center(

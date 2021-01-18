@@ -422,11 +422,11 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   }
 
   @override
-  void setConversation(Conversation conversation) {
+  void updateConversation(Conversation conversation) {
     final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
-        name: '_HomeStoreBase.setConversation');
+        name: '_HomeStoreBase.updateConversation');
     try {
-      return super.setConversation(conversation);
+      return super.updateConversation(conversation);
     } finally {
       _$_HomeStoreBaseActionController.endAction(_$actionInfo);
     }

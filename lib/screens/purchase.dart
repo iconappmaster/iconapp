@@ -26,7 +26,7 @@ class Purchase extends HookWidget {
 
     useEffect(() {
       _subscription = bus.on<PurchaseSuccess>().listen((event) {
-        final details = event.purchaseDetails;
+        final details = event. purchaseDetails;
         CoolAlert.show(
           context: context,
           backgroundColor: dustyOrange,
@@ -34,8 +34,8 @@ class Purchase extends HookWidget {
           type: CoolAlertType.success,
           animType: CoolAlertAnimType.scale,
           confirmBtnColor: cornflower,
-          title: 'Thank you',
-          text: 'You bought ${getPackageText(details.productID)} credits',
+          title: 'Thank you!',
+          text: 'You purchased ${getPackageText(details.productID)}',
         );
       });
 
@@ -140,7 +140,7 @@ class PurchaseTile extends HookWidget {
     } else if (product.productId.contains('medium')) {
       return 50;
     } else if (product.productId.contains('big')) {
-      return 70;
+      return 60;
     }
     return 40;
   }

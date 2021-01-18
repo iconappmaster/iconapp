@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/services.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,6 @@ import 'package:iconapp/stores/language/language_store.dart';
 import 'package:iconapp/widgets/global/auto_direction.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:vibration/vibration.dart';
 import '../global/bubble.dart';
 import 'chat_list.dart';
 import 'reply_slider.dart';
@@ -65,7 +65,7 @@ class _TextMessageState extends State<TextMessage> {
       onSlideIsOpenChanged: (isOpen) {
         if (mounted) {
           setState(() async {
-            await Vibration.vibrate(duration: 150);
+            HapticFeedback.lightImpact();
             _isOpen = isOpen;
             _chat.setReplyMessage(widget.message);
             final slide = Slidable.of(_sliderContext);

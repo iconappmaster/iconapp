@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:flutter/services.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:auto_route/auto_route.dart';
@@ -9,7 +10,6 @@ import 'package:iconapp/stores/story/story_edit_store.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/list_wheel.dart';
 import 'package:iconapp/widgets/global/next_button.dart';
-import 'package:vibration/vibration.dart';
 
 class StoryDurationPicker extends StatelessWidget {
   @override
@@ -19,10 +19,7 @@ class StoryDurationPicker extends StatelessWidget {
       backgroundColor: Colors.transparent,
       body: ClipRRect(
         child: BackdropFilter(
-          filter: ImageFilter.blur(
-            sigmaX: 6.0,
-            sigmaY: 6.0
-          ),
+          filter: ImageFilter.blur(sigmaX: 6.0, sigmaY: 6.0),
           child: Stack(
             alignment: Alignment.center,
             children: [
@@ -35,7 +32,7 @@ class StoryDurationPicker extends StatelessWidget {
                   unSelectTextStyle: dialogContent,
                   magnification: 3,
                   onValueChanged: (duration) async {
-                    Vibration.vibrate(duration: 200);
+                    HapticFeedback.lightImpact();
                     return story.updateStoryDuration(duration);
                   },
                   minValue: 1,
@@ -58,8 +55,7 @@ class StoryDurationPicker extends StatelessWidget {
               Positioned(
                   bottom: 50,
                   child: NextButton(
-                      title: LocaleKeys.general_close.tr(),
-                      onClick: () => ExtendedNavigator.of(context).pop()))
+                      title: LocaleKeys.general_close.tr(), onClick: () => ExtendedNavigator.of(context).pop()))
             ],
           ),
         ),

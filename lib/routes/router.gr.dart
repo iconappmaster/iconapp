@@ -35,7 +35,6 @@ import '../screens/media_descrioption_screen.dart';
 import '../screens/onboarding_phone.dart';
 import '../screens/onboarding_profile.dart';
 import '../screens/photo_gallery_screen.dart';
-import '../screens/premium_screen.dart';
 import '../screens/redemption_screen.dart';
 import '../screens/rename_conversation.dart';
 import '../screens/search_results_screen.dart';
@@ -82,7 +81,6 @@ class Routes {
   static const String archiveScreen = '/archive-screen';
   static const String customAd = '/custom-ad';
   static const String lockScreen = '/lock-screen';
-  static const String premiumScreen = '/premium-screen';
   static const String redemptionScreen = '/redemption-screen';
   static const all = <String>{
     mainNavigator,
@@ -116,7 +114,6 @@ class Routes {
     archiveScreen,
     customAd,
     lockScreen,
-    premiumScreen,
     redemptionScreen,
   };
 }
@@ -156,7 +153,6 @@ class Router extends RouterBase {
     RouteDef(Routes.archiveScreen, page: ArchiveScreen),
     RouteDef(Routes.customAd, page: CustomAd),
     RouteDef(Routes.lockScreen, page: LockScreen),
-    RouteDef(Routes.premiumScreen, page: PremiumScreen),
     RouteDef(Routes.redemptionScreen, page: RedemptionScreen),
   ];
   @override
@@ -416,12 +412,6 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    PremiumScreen: (data) {
-      return CupertinoPageRoute<dynamic>(
-        builder: (context) => PremiumScreen(),
-        settings: data,
-      );
-    },
     RedemptionScreen: (data) {
       return CupertinoPageRoute<dynamic>(
         builder: (context) => RedemptionScreen(),
@@ -626,8 +616,6 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
         Routes.lockScreen,
         arguments: LockScreenArguments(key: key, conversation: conversation),
       );
-
-  Future<dynamic> pushPremiumScreen() => push<dynamic>(Routes.premiumScreen);
 
   Future<dynamic> pushRedemptionScreen() =>
       push<dynamic>(Routes.redemptionScreen);

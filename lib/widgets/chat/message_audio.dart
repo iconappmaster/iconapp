@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/bus.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
@@ -16,7 +17,6 @@ import 'package:iconapp/widgets/global/bubble.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/slidable/slidable.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
-import 'package:vibration/vibration.dart';
 
 import 'chat_list.dart';
 import 'icon_bubble.dart';
@@ -88,7 +88,7 @@ class _VoiceMessageState extends State<VoiceMessage> {
       onSlideIsOpenChanged: (isOpen) {
         if (mounted) {
           setState(() async {
-            await Vibration.vibrate(duration: 150);
+            HapticFeedback.lightImpact();
             _isOpen = isOpen;
             sl<ChatStore>().setReplyMessage(widget.message);
             final slide = Slidable.of(_sliderContext);
@@ -135,8 +135,7 @@ class _VoiceMessageState extends State<VoiceMessage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomText(widget.message.sender.fullName,
-                    style: newMessageNumber),
+                CustomText(widget.message.sender.fullName, style: newMessageNumber),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -147,16 +146,13 @@ class _VoiceMessageState extends State<VoiceMessage> {
                         activeColor: cornflower,
                         onChanged: (v) {
                           final position = v * _duration.inMilliseconds;
-                          _audioPlayer
-                              .seek(Duration(milliseconds: position.round()));
+                          _audioPlayer.seek(Duration(milliseconds: position.round()));
                         },
                         value: (_position != null &&
                                 _duration != null &&
                                 _position.inMilliseconds > 0 &&
-                                _position.inMilliseconds <
-                                    _duration.inMilliseconds)
-                            ? _position.inMilliseconds /
-                                _duration.inMilliseconds
+                                _position.inMilliseconds < _duration.inMilliseconds)
+                            ? _position.inMilliseconds / _duration.inMilliseconds
                             : 0.0,
                       ),
                     ),
@@ -178,14 +174,10 @@ class _VoiceMessageState extends State<VoiceMessage> {
                               child: AnimatedSwitcher(
                                 duration: Duration(milliseconds: 250),
                                 transitionBuilder: (child, animation) =>
-                                    ScaleTransition(
-                                        scale: animation, child: child),
+                                    ScaleTransition(scale: animation, child: child),
                                 child: _isPlaying
-                                    ? SvgPicture.asset(
-                                        'assets/images/pause.svg',
-                                        key: Key('pause_button'),
-                                        height: 10,
-                                        width: 10)
+                                    ? SvgPicture.asset('assets/images/pause.svg',
+                                        key: Key('pause_button'), height: 10, width: 10)
                                     : SvgPicture.asset(
                                         'assets/images/play.svg',
                                         height: 10,
@@ -204,7 +196,9 @@ class _VoiceMessageState extends State<VoiceMessage> {
                     child: CustomText(
                       _position != null
                           ? '${_durationText ?? ''} / ${_positionText ?? ''}'
-                          : _duration != null ? _durationText : '',
+                          : _duration != null
+                              ? _durationText
+                              : '',
                       style: newMessageNumber,
                     ),
                   ),
@@ -228,8 +222,7 @@ class _VoiceMessageState extends State<VoiceMessage> {
       if (mounted) setState(() => _position = p);
     });
 
-    _playerCompleteSubscription =
-        _audioPlayer.onPlayerCompletion.listen((event) {
+    _playerCompleteSubscription = _audioPlayer.onPlayerCompletion.listen((event) {
       _onComplete();
 
       if (mounted) setState(() => _position = _duration);
@@ -253,10 +246,8 @@ class _VoiceMessageState extends State<VoiceMessage> {
         ? _position
         : null;
 
-    final result =
-        await _audioPlayer.play(widget.message.body, position: playPosition);
-    if (result == 1 && mounted)
-      setState(() => _playerState = PlayerState.playing);
+    final result = await _audioPlayer.play(widget.message.body, position: playPosition);
+    if (result == 1 && mounted) setState(() => _playerState = PlayerState.playing);
 
     // default playback rate is 1.0
     // this should be called after _audioPlayer.play() or _audioPlayer.resume()
@@ -268,8 +259,7 @@ class _VoiceMessageState extends State<VoiceMessage> {
 
   Future<int> _pause() async {
     final result = await _audioPlayer.pause();
-    if (result == 1 && mounted)
-      setState(() => _playerState = PlayerState.paused);
+    if (result == 1 && mounted) setState(() => _playerState = PlayerState.paused);
     return result;
   }
 

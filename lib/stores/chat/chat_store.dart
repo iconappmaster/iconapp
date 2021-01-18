@@ -162,7 +162,7 @@ abstract class _ChatStoreBase with Store {
       _determineComposerMode();
 
       _homeStore
-        ..setConversation(conversation)
+        ..updateConversation(conversation)
         ..moveConversationToIndex(conversation, 0);
     } on ServerError catch (e) {
       Crash.report(e.message);
@@ -180,7 +180,7 @@ abstract class _ChatStoreBase with Store {
       _determineComposerMode();
 
       _homeStore
-        ..setConversation(conversation)
+        ..updateConversation(conversation)
         ..moveConversationToIndex(
           conversation,
           conversation.messages.length,

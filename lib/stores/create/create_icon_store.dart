@@ -1,10 +1,10 @@
+import 'package:flutter/services.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/domain/core/errors.dart';
 import 'package:iconapp/stores/search/search_store.dart';
 import 'package:mobx/mobx.dart';
-import 'package:vibration/vibration.dart';
 
 part 'create_icon_store.g.dart';
 
@@ -73,7 +73,7 @@ abstract class _CreateIconStoreBase with Store {
 
   @action
   Future updateSelected(UserModel icon) async {
-    await Vibration.vibrate(duration: 250);
+    HapticFeedback.lightImpact();
     _selected.contains(icon) ? _selected.remove(icon) : _selected.add(icon);
   }
 

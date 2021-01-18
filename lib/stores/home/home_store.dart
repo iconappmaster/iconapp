@@ -239,7 +239,7 @@ abstract class _HomeStoreBase with Store {
   }
 
   @action
-  void setConversation(Conversation conversation) {
+  void updateConversation(Conversation conversation) {
     final index = _conversations.indexWhere((c) => c.id == conversation.id);
     if (index != -1) _conversations[index] = conversation;
   }
@@ -296,7 +296,7 @@ abstract class _HomeStoreBase with Store {
     try {
       _loading = true;
       final conversation = await _repository.verifyConversationCode(conversationId, conversationCode);
-      setConversation(conversation);
+      updateConversation(conversation);
       return true;
     } on DioError catch (e) {
       Crash.report(e.message);

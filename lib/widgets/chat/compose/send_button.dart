@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/stores/language/language_store.dart';
 import 'compose_panel.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:vibration/vibration.dart';
 import '../../../core/dependencies/locator.dart';
 import '../../../core/theme.dart';
 import '../../../stores/chat/chat_store.dart';
@@ -43,7 +43,7 @@ class _SendButtonState extends State<SendButton> {
           onLongPress: () async {
             final granted = await Permission.microphone.request().isGranted;
             if (granted) {
-              await Vibration.vibrate(duration: 300);
+              HapticFeedback.lightImpact();
               chat.startRecording();
             }
           },

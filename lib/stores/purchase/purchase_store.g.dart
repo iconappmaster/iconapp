@@ -72,6 +72,15 @@ mixin _$PurchaseStore on _PurchaseStoreBase, Store {
         .run(() => super.consumeProduct(productId));
   }
 
+  final _$payForConversationAsyncAction =
+      AsyncAction('_PurchaseStoreBase.payForConversation');
+
+  @override
+  Future<bool> payForConversation(int conversationId) {
+    return _$payForConversationAsyncAction
+        .run(() => super.payForConversation(conversationId));
+  }
+
   @override
   String toString() {
     return '''

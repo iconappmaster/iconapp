@@ -2,12 +2,12 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:iconapp/core/ads/admob/admob.dart';
 import 'package:iconapp/core/video/caching_player.dart';
 import 'package:iconapp/core/video/feed_player/multi_manager/flick_multi_manager.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
-import 'package:vibration/vibration.dart';
 import '../../core/bus.dart';
 import '../../core/dependencies/locator.dart';
 import '../../core/theme.dart';
@@ -70,7 +70,7 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
       onSlideIsOpenChanged: (isOpen) {
         if (mounted) {
           setState(() async {
-            await Vibration.vibrate(duration: 150);
+            HapticFeedback.lightImpact();
             _isOpen = isOpen;
             sl<ChatStore>().setReplyMessage(widget.message);
             final slide = Slidable.of(_sliderContext);

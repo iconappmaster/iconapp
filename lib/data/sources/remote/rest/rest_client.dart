@@ -3,6 +3,7 @@ import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:iconapp/core/ads/provider_ads/model/ad_model.dart';
 import 'package:iconapp/data/models/alerts_response.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
+import 'package:iconapp/data/models/conversation_pay_model.dart';
 import 'package:iconapp/data/models/purchase_model.dart';
 import 'package:iconapp/data/models/redemption_action_model.dart';
 import 'package:iconapp/data/models/message_model.dart';
@@ -11,6 +12,7 @@ import 'package:iconapp/data/models/redemption_redeem_model.dart';
 import 'package:iconapp/data/models/story_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/models/create_group_req.dart';
+import 'package:iconapp/data/sources/remote/rest/logger_interceptor.dart';
 import 'package:retrofit/retrofit.dart';
 import 'header_interceptor.dart';
 
@@ -19,7 +21,7 @@ part 'rest_client.g.dart';
 const String baseUrlProd = 'https://iconproduction.herokuapp.com/api/v1/';
 const String baseUrlStaging = 'https://iconstaging.herokuapp.com/api/v1/';
 
-@RestApi(baseUrl: baseUrlProd)
+@RestApi(baseUrl: baseUrlStaging)
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
@@ -138,6 +140,9 @@ abstract class RestClient {
   @POST('conversations/{conversationId}/viewed_conversation')
   Future viewedConversation(@Path('conversationId') int id);
 
+  @POST('conversations/{conversationId}/pay_for_conversation')
+  Future<ConversationPayModel> payForConversation(@Path('conversationId') int id);
+
   @POST('conversations/{conversationId}/turn_on_notifications')
   Future turnOnConversationNotifications(@Path('conversationId') int id);
 
@@ -248,10 +253,9 @@ abstract class RestClient {
   // Purchase
   @GET('purchase/items')
   Future<List<ProductModel>> getPurchaseItems();
-  
+
   @POST('purchase_consumable')
   Future<UserModel> consumeProduct(@Body() PurchaseModel purchaseModel);
-
 }
 
 Dio getDioClient() {
@@ -260,13 +264,7 @@ Dio getDioClient() {
   dio.interceptors.addAll([
     DioCacheManager(CacheConfig(baseUrl: baseUrlProd, defaultMaxStale: const Duration(days: 7))).interceptor,
     HeaderInterceptor(dio),
-    // PrettyDioLogger(
-    //   requestHeader: true,
-    //   requestBody: true,
-    //   responseBody: true,
-    //   responseHeader: false,
-    //   compact: true,
-    // ),
+    LoggingInterceptors(),
   ]);
   return dio;
 }

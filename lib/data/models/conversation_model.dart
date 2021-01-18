@@ -42,6 +42,7 @@ abstract class Conversation with _$Conversation {
     final ConversationMedia media,
     final int entranceCode,
     final bool isAllowedIn,
+    final int conversationPrice,
   }) = _Conversation;
 
   factory Conversation.loadFCMFromCache() {

@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route_annotations.dart';
 import 'package:iconapp/screens/lock_screen.dart';
-import 'package:iconapp/screens/premium_screen.dart';
 import 'package:iconapp/screens/redemption_screen.dart';
 import '../core/ads/provider_ads/custom_ad.dart';
 import '../core/video/default_player/default_player.dart';
@@ -67,7 +66,6 @@ import '../widgets/global/single_image.dart';
     CupertinoRoute(page: ArchiveScreen),
     CupertinoRoute(page: CustomAd),
     CupertinoRoute(page: LockScreen),
-    CupertinoRoute(page: PremiumScreen),
     CupertinoRoute(page: RedemptionScreen, fullscreenDialog: true),
   ],
 )

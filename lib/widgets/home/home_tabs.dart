@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
-import 'package:vibration/vibration.dart';
 import 'package:flutter/rendering.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -34,7 +34,7 @@ class HomeTabs extends StatelessWidget {
               1: CustomText(LocaleKeys.home_media.tr(), style: chatMessageName),
             },
             onValueChanged: (index) {
-              Vibration.vibrate(duration: 150);
+              HapticFeedback.lightImpact();
               _home.setTabMode(index == 0 ? TabMode.conversation : TabMode.media);
 
               if (_home.tabMode == TabMode.media) {

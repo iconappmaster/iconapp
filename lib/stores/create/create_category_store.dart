@@ -1,8 +1,8 @@
+import 'package:flutter/services.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/stores/search/search_store.dart';
 import 'package:mobx/mobx.dart';
-import 'package:vibration/vibration.dart';
 
 part 'create_category_store.g.dart';
 
@@ -41,7 +41,7 @@ abstract class _CreateCategoryStoreBase with Store {
 
   @action
   Future updateSelected(Conversation category) async {
-    await Vibration.vibrate(duration: 250);
+     HapticFeedback.lightImpact();
     _selectedCategory = category;
   }
 

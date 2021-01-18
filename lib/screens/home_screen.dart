@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:iconapp/stores/purchase/purchase_store.dart';
 import 'package:iconapp/stores/redemption/redemption_store.dart';
 import 'package:iconapp/widgets/home/home_appbar.dart';
 import 'package:iconapp/widgets/home/home_content.dart';
@@ -31,6 +33,7 @@ import '../widgets/home/icon_fab.dart';
 import '../widgets/story/story_list.dart';
 import '../widgets/home/welcome_dialog.dart';
 import '../stores/analytics/analytics_firebase.dart';
+import '../core/extensions/context_ext.dart';
 import 'home_story.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -254,10 +257,19 @@ Future onTileTap(Conversation conversation, BuildContext context, int index) asy
         break;
       case ConversationType.private_code:
         // show code screen
-        await ExtendedNavigator.of(context).pushLockScreen(conversation: conversation);
+        ExtendedNavigator.of(context).pushLockScreen(conversation: conversation);
         break;
       case ConversationType.private_premium:
-        await ExtendedNavigator.of(context).pushPremiumScreen();
+        // check if enought money
+        final rs = sl<RedemptionStore>();
+        final enoughtMoney = rs.isEnoughMoney(conversation.conversationPrice);
+
+        enoughtMoney
+            ? _showPayConversationAlert(context, conversation)
+            : _showNotEnoghMoneyAlert(
+                context,
+              );
+
         break;
     }
   }
@@ -267,4 +279,50 @@ Future onTileTap(Conversation conversation, BuildContext context, int index) asy
   story
     ..setStoryMode(StoryMode.home)
     ..refreshStories();
+}
+
+Future _showPayConversationAlert(BuildContext context, Conversation conversation) {
+  return CoolAlert.show(
+    context: context,
+    backgroundColor: cornflower,
+    lottieAsset: 'assets/animations/purchase.json',
+    type: CoolAlertType.success,
+    animType: CoolAlertAnimType.scale,
+    confirmBtnColor: cornflower,
+    confirmBtnText: 'Pay ${conversation.conversationPrice} credits',
+    onConfirmBtnTap: () async {
+      final ps = sl<PurchaseStore>();
+      final success = await ps.payForConversation(conversation.id);
+      if (success) {
+        ExtendedNavigator.of(context).pushChatScreen(conversation: conversation);
+      } else {
+        context.showToast('Something went wrong, try again later');
+      }
+    },
+    cancelBtnText: 'Close',
+    onCancelBtnTap: () => ExtendedNavigator.of(context).pop(),
+    showCancelBtn: true,
+    title: 'Get access to ${conversation.name}',
+    text: 'Pay ${conversation.conversationPrice} one time to gain access forever.',
+  );
+}
+
+Future _showNotEnoghMoneyAlert(BuildContext context) {
+  return CoolAlert.show(
+    context: context,
+    backgroundColor: dustyOrange,
+    lottieAsset: 'assets/animations/action.json',
+    type: CoolAlertType.info,
+    animType: CoolAlertAnimType.scale,
+    confirmBtnColor: cornflower,
+    confirmBtnText: 'Open Store',
+    onConfirmBtnTap: () => ExtendedNavigator.of(context)
+      ..pushRedemptionScreen()
+      ..pop(),
+    cancelBtnText: 'Close',
+    onCancelBtnTap: () => ExtendedNavigator.of(context).pop(),
+    showCancelBtn: true,
+    title: 'Not enought credits!',
+    text: 'Try to do more actions in the app, you can also buy credits from the store',
+  );
 }

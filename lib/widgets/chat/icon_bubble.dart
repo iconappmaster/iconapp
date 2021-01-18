@@ -75,14 +75,10 @@ class _IconBubbleState extends State<IconBubble> {
           isMe: widget.isMe,
           message: widget.message,
           child: Row(
-            mainAxisAlignment:
-                widget.isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+            mainAxisAlignment: widget.isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
             children: [
               if (!widget.hideEmoji && widget.isMe)
-                EmojiPlus(
-                    isMe: widget.isMe,
-                    message: widget.message,
-                    likeAsset: widget.message?.likeType),
+                EmojiPlus(isMe: widget.isMe, message: widget.message, likeAsset: widget.message?.likeType),
               GestureDetector(
                 onTap: widget.onTap,
                 child: Column(
@@ -90,13 +86,9 @@ class _IconBubbleState extends State<IconBubble> {
                     Bubble(
                       elevation: 1,
                       stick: false,
-                      padding: widget.padding ??
-                          BubbleEdges.symmetric(horizontal: 4),
-                      margin: BubbleEdges.only(
-                          right: 4, top: 5, bottom: 5, left: 4),
-                      alignment: widget.isMe
-                          ? Alignment.centerLeft
-                          : Alignment.centerRight,
+                      padding: widget.padding ?? BubbleEdges.symmetric(horizontal: 4),
+                      margin: BubbleEdges.only(right: 4, top: 5, bottom: 5, left: 4),
+                      alignment: widget.isMe ? Alignment.centerLeft : Alignment.centerRight,
                       color: color,
                       nip: widget.showPin
                           ? widget.isMe
@@ -112,36 +104,29 @@ class _IconBubbleState extends State<IconBubble> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           if (widget.message?.repliedToMessage != null)
-                            MessageReply(
-                                widget: widget,
-                                width: MediaQuery.of(context).size.width * .7),
+                            MessageReply(widget: widget, width: MediaQuery.of(context).size.width * .7),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              if (!widget.hideAvatar &&
-                                  widget.message.messageType ==
-                                      MessageType.text &&
-                                  !widget.isMe)
+                              if (!widget.hideAvatar && widget.message.messageType == MessageType.text && !widget.isMe)
                                 Padding(
-                                  padding: EdgeInsets.only(
-                                      left: isLtr ? 0.0 : 5.0,
-                                      right: isLtr ? 5.0 : 0.0,
-                                      top: 7.0),
+                                  padding: EdgeInsets.only(left: isLtr ? 0.0 : 5.0, right: isLtr ? 5.0 : 0.0, top: 7.0),
                                   child: Stack(children: [
                                     // Bubble Avatar
                                     Container(
-                                        width: 40,
-                                        height: 40,
-                                        child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(4.2),
-                                            child: GestureDetector(
-                                                onTap: () =>
-                                                    _onAvatarTap(context),
-                                                child: NetworkPhoto(
-                                                    imageUrl:
-                                                        _getAvatarUrl())))),
+                                      width: 40,
+                                      height: 40,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(4.2),
+                                        child: GestureDetector(
+                                          onTap: () => _onAvatarTap(context),
+                                          child: NetworkPhoto(
+                                            imageUrl: _getAvatarUrl(),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
 
                                     // Icon blue check
                                     if (widget.message?.sender?.isIcon ?? false)
@@ -182,9 +167,7 @@ class _IconBubbleState extends State<IconBubble> {
                 bottom: 4.7,
               ),
               child: Row(
-                mainAxisAlignment: widget.isMe
-                    ? MainAxisAlignment.end
-                    : MainAxisAlignment.start,
+                mainAxisAlignment: widget.isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
                 children: [
                   if ((widget.message.likeCounts.like1 > 0) ?? false)
                     EmojiLikeBubble(
@@ -214,20 +197,15 @@ class _IconBubbleState extends State<IconBubble> {
 
   void _onAvatarTap(BuildContext context) {
     if (widget.message.sender?.photo?.url != null)
-      ExtendedNavigator.of(context)
-          .pushSingleImage(url: widget.message.sender?.photo?.url ?? '');
+      ExtendedNavigator.of(context).pushSingleImage(url: widget.message.sender?.photo?.url ?? '');
   }
 
   String _getAvatarUrl() {
-    return widget.message?.sender?.photo != null
-        ? widget.message.sender?.photo?.url ?? ''
-        : '';
+    return widget.message?.sender?.photo != null ? widget.message.sender?.photo?.url ?? '' : '';
   }
 
   bool get showLikeIndicator =>
-      widget.message.likeCounts.like1 > 0 ||
-      widget.message.likeCounts.like2 > 0 ||
-      widget.message.likeCounts.like3 > 0;
+      widget.message.likeCounts.like1 > 0 || widget.message.likeCounts.like2 > 0 || widget.message.likeCounts.like3 > 0;
 }
 
 class MessageReply extends StatelessWidget {
@@ -273,9 +251,7 @@ class MessageReply extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomText(message.sender?.fullName ?? '',
-                      style: replayTitle,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis),
+                      style: replayTitle, maxLines: 2, overflow: TextOverflow.ellipsis),
                   if (message != null)
                     SizedBox(
                       width: MediaQuery.of(context).size.width * .6,
