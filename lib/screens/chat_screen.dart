@@ -60,8 +60,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
       ..watchMessages();
 
     _chatController = AutoScrollController(
-      viewportBoundaryGetter: () =>
-          Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
+      viewportBoundaryGetter: () => Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
       axis: Axis.vertical,
       suggestedRowHeight: 200,
       initialScrollOffset: 0,
@@ -71,8 +70,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   }
 
   void _detectScrollUp() {
-    _upDirection =
-        _chatController.position.userScrollDirection == ScrollDirection.forward;
+    _upDirection = _chatController.position.userScrollDirection == ScrollDirection.forward;
     if (_upDirection != _flag && mounted) setState(() {});
 
     _flag = _upDirection;
@@ -93,8 +91,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   }
 
   Future _initSocket() async {
-    await _socket
-        .subscribeConversationChannel(widget.conversation.id.toString());
+    await _socket.subscribeConversationChannel(widget.conversation.id.toString());
 
     _socket
       ..bindIncomingMessagesEvent()
@@ -109,17 +106,14 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
       child: Scaffold(
         body: WillPopScope(
           onWillPop: () async {
-            if (_chat.uploading)
-              context.showToast(LocaleKeys.general_uploading.tr());
+            if (_chat.uploading) context.showToast(LocaleKeys.general_uploading.tr());
             return !_chat.uploading;
           },
           child: Stack(
             children: [
               Observer(builder: (_) {
                 return Container(
-                    decoration: BoxDecoration(
-                        gradient: gradientList[
-                            _chat?.conversation?.backgroundColor ?? 0]),
+                    decoration: BoxDecoration(gradient: gradientList[_chat?.conversation?.backgroundColor ?? 0]),
                     child: Column(
                       children: <Widget>[
                         ChatAppbar(showPin: false),
@@ -128,11 +122,8 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                         AnimatedSize(
                             vsync: this,
                             child: ConstrainedBox(
-                                constraints: BoxConstraints(
-                                    minHeight: (_chat.composerMode !=
-                                            ComposerMode.viewer)
-                                        ? 82
-                                        : 0),
+                                constraints:
+                                    BoxConstraints(minHeight: (_chat.composerMode != ComposerMode.viewer) ? 82 : 0),
                                 child: initComposer(_chatController)),
                             duration: const Duration(milliseconds: 350),
                             curve: Curves.easeInToLinear),
@@ -155,9 +146,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
         case ComposerMode.viewer:
           return Container();
         case ComposerMode.icon:
-          return PanelMessageCompose(
-              scrollController: controller,
-              composerMode: ComposerPanelMode.conversation);
+          return PanelMessageCompose(scrollController: controller, composerMode: ComposerPanelMode.conversation);
         case ComposerMode.subscriber:
           return PanelSubscriber();
       }

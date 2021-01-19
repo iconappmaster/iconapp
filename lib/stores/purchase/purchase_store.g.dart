@@ -9,6 +9,13 @@ part of 'purchase_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$PurchaseStore on _PurchaseStoreBase, Store {
+  Computed<bool> _$showConffetiAnimationComputed;
+
+  @override
+  bool get showConffetiAnimation => (_$showConffetiAnimationComputed ??=
+          Computed<bool>(() => super.showConffetiAnimation,
+              name: '_PurchaseStoreBase.showConffetiAnimation'))
+      .value;
   Computed<List<ProductModel>> _$purchaseProductsComputed;
 
   @override
@@ -54,6 +61,23 @@ mixin _$PurchaseStore on _PurchaseStoreBase, Store {
     });
   }
 
+  final _$_showConffetiAnimationAtom =
+      Atom(name: '_PurchaseStoreBase._showConffetiAnimation');
+
+  @override
+  bool get _showConffetiAnimation {
+    _$_showConffetiAnimationAtom.reportRead();
+    return super._showConffetiAnimation;
+  }
+
+  @override
+  set _showConffetiAnimation(bool value) {
+    _$_showConffetiAnimationAtom
+        .reportWrite(value, super._showConffetiAnimation, () {
+      super._showConffetiAnimation = value;
+    });
+  }
+
   final _$getProductsFromStoreAsyncAction =
       AsyncAction('_PurchaseStoreBase.getProductsFromStore');
 
@@ -81,9 +105,24 @@ mixin _$PurchaseStore on _PurchaseStoreBase, Store {
         .run(() => super.payForConversation(conversationId));
   }
 
+  final _$_PurchaseStoreBaseActionController =
+      ActionController(name: '_PurchaseStoreBase');
+
+  @override
+  void setConffettiAnimation(bool show) {
+    final _$actionInfo = _$_PurchaseStoreBaseActionController.startAction(
+        name: '_PurchaseStoreBase.setConffettiAnimation');
+    try {
+      return super.setConffettiAnimation(show);
+    } finally {
+      _$_PurchaseStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
+showConffetiAnimation: ${showConffetiAnimation},
 purchaseProducts: ${purchaseProducts},
 loading: ${loading}
     ''';

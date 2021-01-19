@@ -10,6 +10,7 @@ import 'package:iconapp/stores/archive/archive_store.dart';
 import 'package:iconapp/widgets/global/lottie_loader.dart';
 import 'package:iconapp/widgets/global/shimmer.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:lottie/lottie.dart';
 import '../../core/bus.dart';
 import '../../core/dependencies/locator.dart';
 import '../../core/theme.dart';
@@ -161,13 +162,48 @@ class StaggeredOverlay extends StatelessWidget {
             alignment: Alignment.topCenter,
             child: RotatedBox(
                 quarterTurns: 2, child: Container(height: 40, decoration: BoxDecoration(gradient: staggeredGradient)))),
-        if (conversation.conversationType == ConversationType.private_code && !conversation.isAllowedIn) HomeTileLock(),
+        if (conversation.conversationType == ConversationType.private_code && !conversation.isAllowedIn)
+          HomeTileAnimatedLogo(
+            asset: 'assets/animations/lock.json',
+          ),
+        if (conversation.conversationType == ConversationType.private_premium)
+          HomeTileAnimatedLogo(
+            asset: 'assets/animations/premium.json',
+          ),
         if (conversation.isSubscribed) Positioned(top: 8, left: 8, child: RoundIcon(asset: 'assets/images/bell.svg')),
         if (conversation?.areNotificationsDisabled)
           Positioned(top: 6, left: 30, child: SvgPicture.asset('assets/images/mute.svg', height: 25, width: 25)),
         StaggeredMenu(conversation: conversation),
       ],
     );
+  }
+}
+
+class HomeTileAnimatedLogo extends StatelessWidget {
+  final String asset;
+  const HomeTileAnimatedLogo({
+    Key key,
+    @required this.asset,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: Container(
+      height: 100,
+      width: 100,
+      decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.black54.withOpacity(.3)),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(100),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(
+            sigmaX: 10.0,
+            sigmaY: 10.0,
+          ),
+          child: LottieBuilder.asset(asset),
+        ),
+      ),
+    ));
   }
 }
 

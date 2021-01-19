@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -26,17 +27,20 @@ class Purchase extends HookWidget {
 
     useEffect(() {
       _subscription = bus.on<PurchaseSuccess>().listen((event) {
-        final details = event. purchaseDetails;
+        final details = event.purchaseDetails;
         CoolAlert.show(
-          context: context,
-          backgroundColor: dustyOrange,
-          lottieAsset: 'assets/animations/purchase.json',
-          type: CoolAlertType.success,
-          animType: CoolAlertAnimType.scale,
-          confirmBtnColor: cornflower,
-          title: 'Thank you!',
-          text: 'You purchased ${getPackageText(details.productID)}',
-        );
+            context: context,
+            backgroundColor: dustyOrange,
+            lottieAsset: 'assets/animations/purchase.json',
+            type: CoolAlertType.success,
+            animType: CoolAlertAnimType.scale,
+            confirmBtnColor: cornflower,
+            title: 'Thank you!',
+            text: 'You purchased ${getPackageText(details.productID)}',
+            onConfirmBtnTap: () {
+              store.setConffettiAnimation(false);
+              ExtendedNavigator.of(context).pop();
+            });
       });
 
       store
@@ -58,15 +62,21 @@ class Purchase extends HookWidget {
             ? Center(
                 child: CustomText(LocaleKeys.redemption_storeEmpty.tr(),
                     textAlign: TextAlign.center, style: redemptionEmptystyle))
-            : ListView.builder(
-                physics: BouncingScrollPhysics(),
-                itemCount: store.purchaseProducts?.length,
-                itemBuilder: (context, index) {
-                  return PurchaseTile(
-                    product: store.purchaseProducts[index],
-                  );
-                },
-              );
+            : Stack(children: [
+                ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: store.purchaseProducts?.length,
+                  itemBuilder: (context, index) {
+                    return PurchaseTile(
+                      product: store.purchaseProducts[index],
+                    );
+                  },
+                ),
+                if (store.showConffetiAnimation)
+                  Center(
+                    child: LottieBuilder.asset('assets/animations/confetti.json'),
+                  ),
+              ]);
       },
     );
   }

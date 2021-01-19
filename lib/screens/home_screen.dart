@@ -238,7 +238,7 @@ Future refreshData() async {
   await home.getConversations();
 }
 
-Future onTileTap(Conversation conversation, BuildContext context, int index) async {
+Future onTileTap(Conversation conversation, BuildContext context, int index, [bool withAds = false]) async {
   final adMobs = sl<AdMob>();
   final home = sl<HomeStore>();
   final story = sl<StoryStore>();
@@ -247,7 +247,11 @@ Future onTileTap(Conversation conversation, BuildContext context, int index) asy
 
   if (conversation.isAllowedIn) {
     analytics.sendConversationEvent(OPENED_CONVERSATION, conversation.id);
-    await adMobs.showWithCounterInterstitial();
+
+    if (withAds) {
+      await adMobs.showWithCounterInterstitial();
+    }
+
     await ExtendedNavigator.of(context).pushChatScreen(conversation: conversation);
     sl<UserStore>().getRemoteUser();
   } else {
@@ -302,6 +306,8 @@ Future _showPayConversationAlert(BuildContext context, Conversation conversation
     cancelBtnText: 'Close',
     onCancelBtnTap: () => ExtendedNavigator.of(context).pop(),
     showCancelBtn: true,
+    confirmBtnTextStyle: newMessageNumber,
+    cancelBtnTextStyle: fieldLabel.copyWith(color: dustyOrange),
     title: 'Get access to ${conversation.name}',
     text: 'Pay ${conversation.conversationPrice} one time to gain access forever.',
   );

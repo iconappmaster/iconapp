@@ -29,6 +29,12 @@ abstract class _PurchaseStoreBase with Store {
   @observable
   ObservableList<ProductModel> _purchaseProducts = ObservableList.of([]);
 
+  @observable
+  bool _showConffetiAnimation = false;
+
+  @computed
+  bool get showConffetiAnimation => _showConffetiAnimation;
+
   @computed
   List<ProductModel> get purchaseProducts => _purchaseProducts;
 
@@ -48,11 +54,10 @@ abstract class _PurchaseStoreBase with Store {
             description: m.description,
             productId: m.id,
           ));
-   
+
       _purchaseProducts
         ..clear()
         ..addAll(productModels);
-
     } on Exception catch (e) {
       Crash.report(e.toString());
     } finally {
@@ -87,6 +92,9 @@ abstract class _PurchaseStoreBase with Store {
             break;
           case PurchaseStatus.purchased:
             final valid = await _verifyPurchase(purchaseDetails);
+            if (valid) {
+              _showConffetiAnimation = true;
+            }
             _bus.fire(valid ? PurchaseSuccess(purchaseDetails) : PurchaseError());
             break;
           case PurchaseStatus.error:
@@ -106,6 +114,7 @@ abstract class _PurchaseStoreBase with Store {
         productId: purchaseDetails?.productID,
         purchaseToken: purchaseDetails.billingClientPurchase?.purchaseToken,
       );
+
       final user = await _repository.consumeProduct(model);
       _user.setUser(user);
       return true;
@@ -131,6 +140,11 @@ abstract class _PurchaseStoreBase with Store {
     } finally {
       _loading = false;
     }
+  }
+
+  @action
+  void setConffettiAnimation(bool show) {
+    _showConffetiAnimation = show;
   }
 }
 

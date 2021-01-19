@@ -40,8 +40,7 @@ class RollingSwitch extends StatefulWidget {
   _RollingSwitchState createState() => _RollingSwitchState();
 }
 
-class _RollingSwitchState extends State<RollingSwitch>
-    with SingleTickerProviderStateMixin {
+class _RollingSwitchState extends State<RollingSwitch> with SingleTickerProviderStateMixin {
   AnimationController animationController;
   Animation<double> animation;
   double value = 0.0;
@@ -57,13 +56,9 @@ class _RollingSwitchState extends State<RollingSwitch>
   @override
   void initState() {
     super.initState();
-    animationController = AnimationController(
-        vsync: this,
-        lowerBound: 0.0,
-        upperBound: 1.0,
-        duration: widget.animationDuration);
-    animation =
-        CurvedAnimation(parent: animationController, curve: Curves.easeInOut);
+    animationController =
+        AnimationController(vsync: this, lowerBound: 0.0, upperBound: 1.0, duration: widget.animationDuration);
+    animation = CurvedAnimation(parent: animationController, curve: Curves.easeInOut);
     animationController.addListener(() {
       if (mounted)
         setState(() {
@@ -84,27 +79,27 @@ class _RollingSwitchState extends State<RollingSwitch>
     // check if need to change state
     determine();
 
-    return GestureDetector(
-      onTap: () {
-        setCurrentGender();
-        if (widget.onTap != null) widget.onTap();
-      },
-      onPanEnd: (details) {
-        setCurrentGender();
-        if (widget.onSwipe != null) widget.onSwipe();
-      },
-      child: Container(
-        width: 90.6,
-        height: 38.3,
-        decoration: BoxDecoration(
-            border: Border.all(color: cornflower, width: 1.2),
-            color: transitionColor,
-            borderRadius: BorderRadius.circular(19.4)),
-        child: Stack(
-          children: <Widget>[
-            _buildBackgroundText(),
-            _rotatingBall(transitionColor)
-          ],
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: GestureDetector(
+        onTap: () {
+          setCurrentGender();
+          if (widget.onTap != null) widget.onTap();
+        },
+        onPanEnd: (details) {
+          setCurrentGender();
+          if (widget.onSwipe != null) widget.onSwipe();
+        },
+        child: Container(
+          width: 90.6,
+          height: 38.3,
+          decoration: BoxDecoration(
+              border: Border.all(color: cornflower, width: 1.2),
+              color: transitionColor,
+              borderRadius: BorderRadius.circular(19.4)),
+          child: Stack(
+            children: <Widget>[_buildBackgroundText(), _rotatingBall(transitionColor)],
+          ),
         ),
       ),
     );
@@ -166,9 +161,7 @@ class _RollingSwitchState extends State<RollingSwitch>
     if (mounted)
       setState(() {
         turnState = genderMap[widget.gender];
-        turnState
-            ? animationController.forward()
-            : animationController.reverse();
+        turnState ? animationController.forward() : animationController.reverse();
         widget.onChanged(turnState);
       });
   }
