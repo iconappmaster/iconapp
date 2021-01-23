@@ -33,6 +33,10 @@ abstract class _CreateDetailsStoreBase with Store {
     _mediaStore = sl<MediaStore>();
     _home = sl<HomeStore>();
   }
+
+  @observable
+  int _expiration = expirationMap.keys.first;
+
   @observable
   String _groupName = '';
 
@@ -43,7 +47,7 @@ abstract class _CreateDetailsStoreBase with Store {
   bool _showPrice = false;
 
   @observable
-  int conversationPrice = 0;
+  int _conversationPrice = 0;
 
   @observable
   bool isLoading = false;
@@ -52,13 +56,22 @@ abstract class _CreateDetailsStoreBase with Store {
   int _currentGroupTypeIndex = 0;
 
   @computed
+  int get expiration => _expiration;
+
+  @computed
+  int get conversationPrice => _conversationPrice;
+
+  @computed
   int get currentGroupTypeIndex => _currentGroupTypeIndex;
-  
+
   @computed
   bool get showPriceButton => _currentGroupTypeIndex == 2;
 
   @computed
   bool get showPrice => _showPrice;
+
+  @computed
+  bool get userSetPrice => _conversationPrice > 0;
 
   @computed
   String get getSelectedPhoto => _selectedPhoto;
@@ -80,6 +93,11 @@ abstract class _CreateDetailsStoreBase with Store {
 
   @computed
   String get groupName => _groupName;
+
+  @action
+  void setExpiration(int expiration) {
+    _expiration = expiration;
+  }
 
   @action
   void updateGroupName(String name) {
@@ -105,6 +123,11 @@ abstract class _CreateDetailsStoreBase with Store {
   }
 
   @action
+  void setConversationPrice(int price) {
+    _conversationPrice = price;
+  }
+
+  @action
   void setShowPrice(bool showPrice) {
     _showPrice = showPrice;
   }
@@ -120,7 +143,7 @@ abstract class _CreateDetailsStoreBase with Store {
       final req = CreateGroupReq(
         categoryId: category.id,
         users: icons,
-        conversationPrice: conversationPrice,
+        conversationPrice: _conversationPrice,
         backgroundPhoto: PhotoModel(url: _selectedPhoto),
         name: _groupName,
         conversationType: _getConversationType(),
@@ -145,7 +168,7 @@ abstract class _CreateDetailsStoreBase with Store {
   dispose() {
     _groupName = '';
     _selectedPhoto = '';
-    conversationPrice = 0;
+    _conversationPrice = 0;
   }
 
   String _getConversationType() {
@@ -161,3 +184,10 @@ abstract class _CreateDetailsStoreBase with Store {
     return '';
   }
 }
+
+final expirationMap = {
+  0: "Never",
+  1: "1 Month",
+  2: "2 Month",
+  3: "3 Month",
+};

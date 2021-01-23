@@ -32,12 +32,18 @@ class InputText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final border = OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: BorderSide(
+          color: cornflower,
+          width: 1.0,
+        ));
     return Directionality(
       textDirection: language.isLTR ? TextDirection.rtl : TextDirection.ltr,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          if (title != null) CustomText(title, style: fieldLabel),
+          if (title != null) Center(child: CustomText(title, style: fieldLabel)),
           TextFormField(
             key: key,
             initialValue: initialValue,
@@ -50,11 +56,8 @@ class InputText extends StatelessWidget {
               hintStyle: hintStyle,
               hintText: hint,
               counterText: '',
-              enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: cornflower)),
-              border: UnderlineInputBorder(
-                borderSide: BorderSide(color: cornflower, width: .7),
-              ),
+              enabledBorder: border,
+              border: border,
             ),
             onChanged: onChange,
             style: textStyle,

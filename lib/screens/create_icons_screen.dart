@@ -14,6 +14,7 @@ import 'package:iconapp/widgets/create/create_app_bar.dart';
 import 'package:iconapp/widgets/create/create_tile.dart';
 import 'package:iconapp/widgets/create/create_next_button.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
+import 'package:iconapp/widgets/global/input_box.dart';
 import 'package:iconapp/widgets/global/lottie_loader.dart';
 import 'package:iconapp/widgets/onboarding/base_onboarding_widget.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -137,37 +138,36 @@ class SearchBar extends StatelessWidget {
               children: <Widget>[
                 SizedBox(width: 15),
                 Expanded(
-                  child: TextField(
-                    style: flushbar,
-                    onChanged: (query) => store.search(query),
-                    decoration: InputDecoration(
-                      enabledBorder: transparentBorder,
-                      border: transparentBorder,
-                      focusedBorder: transparentBorder,
-                      hintText: store.getSearchMode == SearchMode.categories
-                          ? LocaleKeys.search_categoryHint.tr()
-                          : LocaleKeys.search_iconHint.tr(),
-                      hintStyle: flushbar.copyWith(
-                        color: white.withOpacity(.4),
-                      ),
+                  child: InputText(
+                    onChange: (query) => store.search(query),
+                    hint: store.getSearchMode == SearchMode.categories
+                        ? LocaleKeys.search_categoryHint.tr()
+                        : LocaleKeys.search_iconHint.tr(),
+                    hintStyle: flushbar.copyWith(
+                      color: white.withOpacity(.2),
                     ),
+                    // : InputDecoration(
+                    //   enabledBorder: transparentBorder,
+                    //   border: transparentBorder,
+                    //   focusedBorder: transparentBorder,
+                    //   hintText: store.getSearchMode == SearchMode.categories
+                    //       ? LocaleKeys.search_categoryHint.tr()
+                    //       : LocaleKeys.search_iconHint.tr(),
+                    //   hintStyle: flushbar.copyWith(
+                    //     color: white.withOpacity(.4),
+                    //   ),
+                    // ),
                   ),
                 ),
+                SizedBox(width: 10),
                 SvgPicture.asset(
                   'assets/images/search_icon_white.svg',
-                  height: 37.7,
-                  width: 37.7,
+                  height: 27.7,
+                  width: 27.7,
+                  color: cornflower,
                 ),
               ],
             ),
-          ),
-          SizedBox(height: 17),
-          Divider(
-            color: cornflower,
-            height: 0,
-            thickness: .7,
-            indent: 28.7,
-            endIndent: 28.7,
           ),
         ]),
       ),

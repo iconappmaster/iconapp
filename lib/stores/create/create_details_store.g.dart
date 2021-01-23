@@ -9,6 +9,20 @@ part of 'create_details_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$CreateDetailsStore on _CreateDetailsStoreBase, Store {
+  Computed<int> _$expirationComputed;
+
+  @override
+  int get expiration =>
+      (_$expirationComputed ??= Computed<int>(() => super.expiration,
+              name: '_CreateDetailsStoreBase.expiration'))
+          .value;
+  Computed<int> _$conversationPriceComputed;
+
+  @override
+  int get conversationPrice => (_$conversationPriceComputed ??= Computed<int>(
+          () => super.conversationPrice,
+          name: '_CreateDetailsStoreBase.conversationPrice'))
+      .value;
   Computed<int> _$currentGroupTypeIndexComputed;
 
   @override
@@ -29,6 +43,13 @@ mixin _$CreateDetailsStore on _CreateDetailsStoreBase, Store {
   bool get showPrice =>
       (_$showPriceComputed ??= Computed<bool>(() => super.showPrice,
               name: '_CreateDetailsStoreBase.showPrice'))
+          .value;
+  Computed<bool> _$userSetPriceComputed;
+
+  @override
+  bool get userSetPrice =>
+      (_$userSetPriceComputed ??= Computed<bool>(() => super.userSetPrice,
+              name: '_CreateDetailsStoreBase.userSetPrice'))
           .value;
   Computed<String> _$getSelectedPhotoComputed;
 
@@ -52,6 +73,21 @@ mixin _$CreateDetailsStore on _CreateDetailsStoreBase, Store {
       (_$groupNameComputed ??= Computed<String>(() => super.groupName,
               name: '_CreateDetailsStoreBase.groupName'))
           .value;
+
+  final _$_expirationAtom = Atom(name: '_CreateDetailsStoreBase._expiration');
+
+  @override
+  int get _expiration {
+    _$_expirationAtom.reportRead();
+    return super._expiration;
+  }
+
+  @override
+  set _expiration(int value) {
+    _$_expirationAtom.reportWrite(value, super._expiration, () {
+      super._expiration = value;
+    });
+  }
 
   final _$_groupNameAtom = Atom(name: '_CreateDetailsStoreBase._groupName');
 
@@ -99,19 +135,19 @@ mixin _$CreateDetailsStore on _CreateDetailsStoreBase, Store {
     });
   }
 
-  final _$conversationPriceAtom =
-      Atom(name: '_CreateDetailsStoreBase.conversationPrice');
+  final _$_conversationPriceAtom =
+      Atom(name: '_CreateDetailsStoreBase._conversationPrice');
 
   @override
-  int get conversationPrice {
-    _$conversationPriceAtom.reportRead();
-    return super.conversationPrice;
+  int get _conversationPrice {
+    _$_conversationPriceAtom.reportRead();
+    return super._conversationPrice;
   }
 
   @override
-  set conversationPrice(int value) {
-    _$conversationPriceAtom.reportWrite(value, super.conversationPrice, () {
-      super.conversationPrice = value;
+  set _conversationPrice(int value) {
+    _$_conversationPriceAtom.reportWrite(value, super._conversationPrice, () {
+      super._conversationPrice = value;
     });
   }
 
@@ -167,6 +203,17 @@ mixin _$CreateDetailsStore on _CreateDetailsStoreBase, Store {
       ActionController(name: '_CreateDetailsStoreBase');
 
   @override
+  void setExpiration(int expiration) {
+    final _$actionInfo = _$_CreateDetailsStoreBaseActionController.startAction(
+        name: '_CreateDetailsStoreBase.setExpiration');
+    try {
+      return super.setExpiration(expiration);
+    } finally {
+      _$_CreateDetailsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void updateGroupName(String name) {
     final _$actionInfo = _$_CreateDetailsStoreBaseActionController.startAction(
         name: '_CreateDetailsStoreBase.updateGroupName');
@@ -183,6 +230,17 @@ mixin _$CreateDetailsStore on _CreateDetailsStoreBase, Store {
         name: '_CreateDetailsStoreBase.setGroupType');
     try {
       return super.setGroupType(index);
+    } finally {
+      _$_CreateDetailsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setConversationPrice(int price) {
+    final _$actionInfo = _$_CreateDetailsStoreBaseActionController.startAction(
+        name: '_CreateDetailsStoreBase.setConversationPrice');
+    try {
+      return super.setConversationPrice(price);
     } finally {
       _$_CreateDetailsStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -213,11 +271,13 @@ mixin _$CreateDetailsStore on _CreateDetailsStoreBase, Store {
   @override
   String toString() {
     return '''
-conversationPrice: ${conversationPrice},
 isLoading: ${isLoading},
+expiration: ${expiration},
+conversationPrice: ${conversationPrice},
 currentGroupTypeIndex: ${currentGroupTypeIndex},
 showPriceButton: ${showPriceButton},
 showPrice: ${showPrice},
+userSetPrice: ${userSetPrice},
 getSelectedPhoto: ${getSelectedPhoto},
 getSwitchSelectionDescription: ${getSwitchSelectionDescription},
 groupName: ${groupName}

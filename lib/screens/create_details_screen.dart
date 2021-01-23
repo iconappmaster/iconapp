@@ -7,22 +7,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/create/create_details_store.dart';
-import 'package:iconapp/stores/language/language_store.dart';
 import 'package:iconapp/widgets/create/create_app_bar.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/input_box.dart';
 import 'package:iconapp/widgets/global/user_avatar.dart';
 import 'package:iconapp/widgets/onboarding/base_onboarding_widget.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../core/extensions/context_ext.dart';
 
-const _borderStyle = OutlineInputBorder(borderSide: BorderSide(color: white, width: 3.0));
+const _borderStyle = OutlineInputBorder(
+  borderSide: BorderSide(
+    color: cornflower,
+    width: 1.0,
+  ),
+);
 
 class CreateDetailsScreen extends HookWidget {
   final store = sl<CreateDetailsStore>();
@@ -35,30 +39,41 @@ class CreateDetailsScreen extends HookWidget {
       };
     }, const []);
 
-    return BaseGradientBackground(
-      child: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          AppBarWithDivider(title: LocaleKeys.create_groupNameAppbarTitle.tr()),
-          Positioned(
-              top: context.heightPlusStatusbarPerc(.164),
-              right: context.widthPx * .08,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: 20),
-                    ConversationNameInput(store: store),
-                    SizedBox(height: 20),
-                    ConversationTypeSwitch(store: store),
-                    SizedBox(height: 20),
-                    ConversationTypeDescription(),
-                    SizedBox(height: 20),
-                    ConversationPriceButton(),
-                  ])),
-          ConversationPriceInputText(),
-          CreateGroupNavigate(),
-        ],
+    return WillPopScope(
+      onWillPop: () {
+        if (store.showPrice) {
+          store.setShowPrice(false);
+          return Future.value(false);
+        }
+
+        return Future.value(true);
+      },
+      child: BaseGradientBackground(
+        child: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            AppBarWithDivider(title: LocaleKeys.create_groupNameAppbarTitle.tr()),
+            Positioned(
+                top: context.heightPlusStatusbarPerc(.13),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      CustomText('Set name and photo', style: dialogContent),
+                      SizedBox(height: 20),
+                      ConversationNameInput(store: store),
+                      ConversationTypeSwitch(store: store),
+                      SizedBox(height: 20),
+                      ConversationTypeDescription(),
+                      SizedBox(height: 40),
+                      ConversationPriceButton(),
+                      SizedBox(height: 20),
+                      ConversationExperationButton(),
+                    ])),
+            ConversationSetPrice(),
+            CreateGroupNavigate(),
+          ],
+        ),
       ),
     );
   }
@@ -73,11 +88,11 @@ class ConversationPriceButton extends StatelessWidget {
         visible: store.showPriceButton,
         child: Column(
           children: [
-            CustomText('Conversation Price', style: chatMessageName),
-            SizedBox(height: 10),
+            CustomText('How much the user will pay in Coins', style: dialogContent),
+            SizedBox(height: 15),
             CupertinoButton(
+              color: store.userSetPrice ? cornflower : dusk,
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              color: cornflower,
               child: Row(
                 children: [
                   Image.asset(
@@ -85,7 +100,7 @@ class ConversationPriceButton extends StatelessWidget {
                     width: 20,
                     height: 20,
                   ),
-                  SizedBox(width: 5),
+                  SizedBox(width: 8),
                   CustomText(store.conversationPrice == 0 ? "Set Price" : store.conversationPrice.toString()),
                 ],
               ),
@@ -100,7 +115,63 @@ class ConversationPriceButton extends StatelessWidget {
   }
 }
 
-class ConversationPriceInputText extends HookWidget {
+class ConversationExperationButton extends StatelessWidget {
+  final store = sl<CreateDetailsStore>();
+  @override
+  Widget build(BuildContext context) {
+    return Observer(
+      builder: (_) => Visibility(
+        visible: store.showPriceButton,
+        child: Column(
+          children: [
+            CustomText('Select the duration in months', style: dialogContent),
+            SizedBox(height: 15),
+            CupertinoButton(
+              color: cornflower,
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                children: [
+                  Icon(Icons.lock_clock),
+                  SizedBox(width: 5),
+                  Observer(
+                    builder: (_) => CustomText(
+                      store.expiration == 0 ? "Never" : expirationMap[store.expiration],
+                    ),
+                  ),
+                ],
+              ),
+              onPressed: () {
+                showCupertinoModalBottomSheet(
+                    expand: false,
+                    bounce: true,
+                    animationCurve: Curves.easeInOut,
+                    context: context,
+                    builder: (_, controller) {
+                      return ListView(
+                        shrinkWrap: true,
+                        children: expirationMap.entries
+                            .map(
+                              (e) => CupertinoButton(
+                                child: CustomText(e.value),
+                                onPressed: () {
+                                  store.setExpiration(e.key);
+                                  ExtendedNavigator.of(context).pop();
+                                },
+                              ),
+                            )
+                            .toList(),
+                      );
+                    });
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ConversationSetPrice extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final store = sl<CreateDetailsStore>();
@@ -113,46 +184,63 @@ class ConversationPriceInputText extends HookWidget {
       return Visibility(
         visible: store.showPrice,
         child: Positioned(
-          top: MediaQuery.of(context).size.height * .29,
+          top: MediaQuery.of(context).size.height * .12,
           child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+            filter: ImageFilter.blur(sigmaX: 20.0, sigmaY: 20.0),
             child: Container(
               width: MediaQuery.of(context).size.width * .6,
               child: Column(
                 children: [
+                  CustomText('Conversation Price', style: dialogContent),
+                  SizedBox(height: 20),
                   TextField(
-                    keyboardAppearance: Brightness.light,
-                    cursorColor: cornflower,
-                    autofocus: true,
-                    textAlign: TextAlign.center,
-                    style: chatMessageBody,
-                    controller: controller,
-                    minLines: 1,
-                    onChanged: (price) {
-                      currentPrice = int.tryParse(price);
-                    },
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      icon: Image.asset(
-                        'assets/images/money.png',
-                        width: 20,
-                        height: 20,
-                      ),
-                      focusedBorder: _borderStyle,
-                      enabledBorder: _borderStyle,
-                      hintStyle: chatMessageBody,
-                      labelText: 'Price',
-                      labelStyle: chatMessageName,
-                    ),
+                      keyboardAppearance: Brightness.light,
+                      cursorColor: cornflower,
+                      autofocus: true,
+                      textAlign: TextAlign.center,
+                      style: chatMessageBody,
+                      controller: controller,
+                      minLines: 1,
+                      onChanged: (price) => currentPrice = int.tryParse(price),
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                          focusedBorder: _borderStyle,
+                          enabledBorder: _borderStyle,
+                          hintStyle: chatMessageBody,
+                          labelText: 'Price',
+                          labelStyle: chatMessageName)),
+                  SizedBox(height: 20),
+                  CustomText(
+                    'The price you set is measured in coins. you can get references from the items on store tab',
+                    style: fieldLabel,
                   ),
-                  SizedBox(height: 120),
+                  SizedBox(height: 10),
                   CupertinoButton(
-                    child: CustomText('OK'),
-                    onPressed: () {
-                      store.conversationPrice = currentPrice;
-                      store.setShowPrice(false);
-                    },
-                    color: cornflower,
+                      child: CustomText('open store'),
+                      onPressed: () {
+                        ExtendedNavigator.of(context).pushRedemptionScreen();
+                      }),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CupertinoButton(
+                        color: cornflower,
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: CustomText('SET PRICE'),
+                        onPressed: () {
+                          store.setConversationPrice(currentPrice);
+                          store.setShowPrice(false);
+                        },
+                      ),
+                      CupertinoButton(
+                        child: CustomText('CANCEL'),
+                        onPressed: () {
+                          store.setConversationPrice(0);
+                          store.setShowPrice(false);
+                        },
+                      ),
+                    ],
                   )
                 ],
               ),
@@ -169,11 +257,13 @@ class ConversationTypeDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 40),
+      width: MediaQuery.of(context).size.width * .7,
       child: Observer(
         builder: (_) => CustomText(
           store.getSwitchSelectionDescription,
           style: timeOfMessage.copyWith(height: 1.5, color: white.withOpacity(.7)),
+          textAlign: TextAlign.center,
+          maxLines: 4,
         ),
       ),
     );
@@ -190,12 +280,9 @@ class CreateGroupNavigate extends StatelessWidget {
         visible: !store.showPrice,
         child: Positioned(
           bottom: 25,
-          child: FloatingActionButton(
-              heroTag: 'fab1',
-              child: RotatedBox(
-                  quarterTurns: language.isLTR ? 2 : 0,
-                  child: SvgPicture.asset('assets/images/go_arrow.svg', height: 16.3, width: 16.3)),
-              backgroundColor: store.isLoading ? whiteOpacity30 : cornflower,
+          child: CupertinoButton(
+              child: CustomText('CREATE'),
+              color: store.isLoading ? whiteOpacity30 : cornflower,
               onPressed: () async {
                 if (store.getSelectedPhoto.isEmpty) {
                   await context.showFlushbar(color: uiTintColorFill, message: LocaleKeys.create_addPhotoMandatory.tr());
@@ -209,7 +296,9 @@ class CreateGroupNavigate extends StatelessWidget {
                 // handle premium
                 if (isPremium && userSetPrice && canGoForward) {
                   _handleSuccess(store, context);
-                } else {
+                }
+
+                if (isPremium && !userSetPrice) {
                   context.showFlushbar(
                       color: uiTintColorFill, message: "Pelase set a price before creating the conversation");
                 }
@@ -257,9 +346,10 @@ class ConversationNameInput extends StatelessWidget {
           Container(
             width: context.widthPx * .596,
             child: InputText(
-              hintStyle: fieldLabel.copyWith(fontSize: 14),
+              contentPadding: const EdgeInsets.symmetric(vertical: 3, horizontal: 16),
+              hintStyle: fieldLabel.copyWith(fontSize: 12, color: white.withOpacity(.7)),
               textStyle: fieldLabel.copyWith(color: white.withOpacity(.5)),
-              hint: LocaleKeys.create_groupNameHint.tr(),
+              hint: 'example: cooking show',
               keyboardType: TextInputType.text,
               onChange: (name) => store.updateGroupName(name),
             ),
@@ -287,7 +377,7 @@ class ConversationTypeSwitch extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(height: 18),
-            CustomText(LocaleKeys.create_type.tr(), style: chatMessageName),
+            CustomText("Select conversation type", style: dialogContent),
             SizedBox(height: 28),
             SizedBox(
               width: MediaQuery.of(context).size.width * .8,
@@ -296,7 +386,7 @@ class ConversationTypeSwitch extends StatelessWidget {
                   groupValue: store?.currentGroupTypeIndex,
                   children: _conversationTypes(),
                   onValueChanged: (index) {
-                     HapticFeedback.lightImpact();
+                    HapticFeedback.lightImpact();
                     store.setGroupType(index);
                   }),
             ),

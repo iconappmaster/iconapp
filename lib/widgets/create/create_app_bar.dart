@@ -29,7 +29,7 @@ class AppBarWithDivider extends StatelessWidget {
       children: <Widget>[
         Container(
           margin: EdgeInsets.only(top: context.statusbarHeight()),
-          height: 75,
+          height: (subtitle != null && subtitle.isNotEmpty) ? 75 : 65,
           width: double.infinity,
           child: Stack(
             alignment: Alignment.topCenter,
