@@ -53,7 +53,7 @@ class ConversationTile extends StatelessWidget {
           child: InkWell(
             onTap: onTap,
             child: Container(
-              height: 85,
+              height: 95,
               padding: EdgeInsets.all(8.7),
               width: context.widthPx,
               decoration: BoxDecoration(
@@ -76,6 +76,11 @@ class ConversationTile extends StatelessWidget {
                       ),
                       if (conversation.conversationType == ConversationType.private_code && !conversation.isAllowedIn)
                         HomeTileLock(),
+                      if (conversation.conversationType == ConversationType.private_premium)
+                        HomeTileAnimatedLogo(
+                          asset: 'assets/animations/premium.json',
+                          size: 50,
+                        )
                     ],
                   ),
                   SizedBox(width: 10.7),

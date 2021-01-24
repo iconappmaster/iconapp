@@ -43,6 +43,7 @@ abstract class Conversation with _$Conversation {
     final int entranceCode,
     final bool isAllowedIn,
     final int conversationPrice,
+    final int conversationExpirationInMonths,
   }) = _Conversation;
 
   factory Conversation.loadFCMFromCache() {

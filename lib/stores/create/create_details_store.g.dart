@@ -77,15 +77,15 @@ mixin _$CreateDetailsStore on _CreateDetailsStoreBase, Store {
   final _$_expirationAtom = Atom(name: '_CreateDetailsStoreBase._expiration');
 
   @override
-  int get _expiration {
+  int get _expirationInMonths {
     _$_expirationAtom.reportRead();
-    return super._expiration;
+    return super._expirationInMonths;
   }
 
   @override
-  set _expiration(int value) {
-    _$_expirationAtom.reportWrite(value, super._expiration, () {
-      super._expiration = value;
+  set _expirationInMonths(int value) {
+    _$_expirationAtom.reportWrite(value, super._expirationInMonths, () {
+      super._expirationInMonths = value;
     });
   }
 

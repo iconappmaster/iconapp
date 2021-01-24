@@ -40,50 +40,52 @@ class HomeStaggered extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Observer(
-      builder: (_) {
-        if (home.isLoading && home.conversations.length == 0) {
-          return Align(
-              alignment: Alignment.topCenter,
-              child: Padding(padding: EdgeInsets.only(top: 80.0), child: LottieLoader()));
-        }
+    return Container(
+          child: Observer(
+        builder: (_) {
+          if (home.isLoading && home.conversations.length == 0) {
+            return Align(
+                alignment: Alignment.topCenter,
+                child: Padding(padding: EdgeInsets.only(top: 80.0), child: LottieLoader()));
+          }
 
-        return StaggeredGridView.countBuilder(
-          staggeredTileBuilder: (int index) =>
-              StaggeredTile.count(2, home.conversations[index]?.media?.mediaType == typeVideo ? 3 : 2),
-          crossAxisCount: 4,
-          itemCount:
-              home.filterType == HomeFilterType.forYou ? home.conversations.length : home.conversationPopular.length,
-          mainAxisSpacing: 4.0,
-          crossAxisSpacing: 4.0,
-          physics: BouncingScrollPhysics(),
-          padding: EdgeInsets.only(bottom: 100),
-          itemBuilder: (BuildContext context, int index) {
-            final conversation =
-                home.filterType == HomeFilterType.forYou ? home.conversations[index] : home.conversationPopular[index];
+          return StaggeredGridView.countBuilder(
+            staggeredTileBuilder: (int index) =>
+                StaggeredTile.count(2, home.conversations[index]?.media?.mediaType == typeVideo ? 3 : 2),
+            crossAxisCount: 4,
+            itemCount:
+                home.filterType == HomeFilterType.forYou ? home.conversations.length : home.conversationPopular.length,
+            mainAxisSpacing: 4.0,
+            crossAxisSpacing: 4.0,
+            physics: BouncingScrollPhysics(),
+            padding: EdgeInsets.only(bottom: 100),
+            itemBuilder: (BuildContext context, int index) {
+              final conversation =
+                  home.filterType == HomeFilterType.forYou ? home.conversations[index] : home.conversationPopular[index];
 
-            switch (conversation?.media?.mediaType) {
-              case typePhoto:
-                return GestureDetector(
-                  onTap: () => _onTap(conversation, index),
-                  child: StaggeredPhotoTile(conversation: conversation),
-                );
+              switch (conversation?.media?.mediaType) {
+                case typePhoto:
+                  return GestureDetector(
+                    onTap: () => _onTap(conversation, index),
+                    child: StaggeredPhotoTile(conversation: conversation),
+                  );
 
-              case typeVideo:
-                return GestureDetector(
-                  onTap: () => _onTap(conversation, index),
-                  child: StaggeredVideoTile(conversation: conversation),
-                );
+                case typeVideo:
+                  return GestureDetector(
+                    onTap: () => _onTap(conversation, index),
+                    child: StaggeredVideoTile(conversation: conversation),
+                  );
 
-              default:
-                return GestureDetector(
-                  onTap: () => _onTap(conversation, index),
-                  child: StaggeredPhotoTile(conversation: conversation),
-                );
-            }
-          },
-        );
-      },
+                default:
+                  return GestureDetector(
+                    onTap: () => _onTap(conversation, index),
+                    child: StaggeredPhotoTile(conversation: conversation),
+                  );
+              }
+            },
+          );
+        },
+      ),
     );
   }
 
@@ -109,6 +111,7 @@ class StaggeredPhotoTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(tilePadding),
       child: Container(
+        key: Key(conversation.id.toString()),
         decoration: BoxDecoration(
           boxShadow: itemShadow,
           gradient: redPinkGradient,
@@ -181,17 +184,19 @@ class StaggeredOverlay extends StatelessWidget {
 
 class HomeTileAnimatedLogo extends StatelessWidget {
   final String asset;
+  final double size;
   const HomeTileAnimatedLogo({
     Key key,
     @required this.asset,
+    this.size = 100,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Center(
         child: Container(
-      height: 100,
-      width: 100,
+      height: size,
+      width: size,
       decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.black54.withOpacity(.3)),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(100),
@@ -316,6 +321,7 @@ class _StaggeredVideoTileState extends State<StaggeredVideoTile> {
     return Padding(
       padding: const EdgeInsets.all(tilePadding),
       child: Container(
+        key: Key(widget.conversation.id.toString()),
         decoration: BoxDecoration(
             boxShadow: itemShadow,
             gradient: redPinkGradient,

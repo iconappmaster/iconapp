@@ -12,7 +12,6 @@ import 'package:iconapp/data/models/redemption_redeem_model.dart';
 import 'package:iconapp/data/models/story_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/models/create_group_req.dart';
-import 'package:iconapp/data/sources/remote/rest/logger_interceptor.dart';
 import 'package:retrofit/retrofit.dart';
 import 'header_interceptor.dart';
 
@@ -264,7 +263,7 @@ Dio getDioClient() {
   dio.interceptors.addAll([
     DioCacheManager(CacheConfig(baseUrl: baseUrlProd, defaultMaxStale: const Duration(days: 7))).interceptor,
     HeaderInterceptor(dio),
-    LoggingInterceptors(),
+    // LoggingInterceptors(),
   ]);
   return dio;
 }

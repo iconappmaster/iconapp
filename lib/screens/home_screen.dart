@@ -76,6 +76,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ..loadInterstital()
       ..loadReward();
 
+    sl<PurchaseStore>().getProductsFromStore();
+
     super.initState();
   }
 
@@ -182,10 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: WelcomeDialog(onTap: () => _home.saveWelcomeSeen()));
                       }),
                       Observer(
-                        builder: (_) => Visibility(
-                          visible: _home.showForceUpdate,
-                          child: ForceUpdateDialog(),
-                        ),
+                        builder: (_) => Visibility(visible: _home.showForceUpdate, child: ForceUpdateDialog()),
                       ),
                       if (!_home.showForceUpdate)
                         Padding(
@@ -286,6 +285,22 @@ Future onTileTap(Conversation conversation, BuildContext context, int index, [bo
 }
 
 Future _showPayConversationAlert(BuildContext context, Conversation conversation) {
+  String getText() {
+    final expirationInMonthes = conversation.conversationExpirationInMonths;
+    switch (expirationInMonthes) {
+      case 0:
+        return 'Pay ${conversation.conversationPrice} one time to gain access forever.';
+      case 1:
+        return 'Pay ${conversation.conversationPrice} one time to gain access for 1 month.';
+      case 2:
+        return 'Pay ${conversation.conversationPrice} one time to gain access for 2 month.';
+      case 3:
+        return 'Pay ${conversation.conversationPrice} one time to gain access for 3 month.';
+    }
+
+    return "";
+  }
+
   return CoolAlert.show(
     context: context,
     backgroundColor: cornflower,
@@ -309,7 +324,7 @@ Future _showPayConversationAlert(BuildContext context, Conversation conversation
     confirmBtnTextStyle: newMessageNumber,
     cancelBtnTextStyle: fieldLabel.copyWith(color: dustyOrange),
     title: 'Get access to ${conversation.name}',
-    text: 'Pay ${conversation.conversationPrice} one time to gain access forever.',
+    text: getText(),
   );
 }
 

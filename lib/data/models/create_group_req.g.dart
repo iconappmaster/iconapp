@@ -19,6 +19,8 @@ _$_CreateGroupReq _$_$_CreateGroupReqFromJson(Map<String, dynamic> json) {
     categoryId: json['categoryId'] as int,
     conversationPrice: json['conversationPrice'] as int,
     conversationType: json['conversationType'] as String,
+    conversationExpirationInMonths:
+        json['conversationExpirationInMonths'] as int,
   );
 }
 
@@ -30,4 +32,5 @@ Map<String, dynamic> _$_$_CreateGroupReqToJson(_$_CreateGroupReq instance) =>
       'categoryId': instance.categoryId,
       'conversationPrice': instance.conversationPrice,
       'conversationType': instance.conversationType,
+      'conversationExpirationInMonths': instance.conversationExpirationInMonths,
     };

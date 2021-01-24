@@ -23,7 +23,8 @@ class _$CreateGroupReqTearOff {
       List<UserModel> users,
       int categoryId,
       int conversationPrice,
-      String conversationType}) {
+      String conversationType,
+      int conversationExpirationInMonths}) {
     return _CreateGroupReq(
       backgroundPhoto: backgroundPhoto,
       name: name,
@@ -31,6 +32,7 @@ class _$CreateGroupReqTearOff {
       categoryId: categoryId,
       conversationPrice: conversationPrice,
       conversationType: conversationType,
+      conversationExpirationInMonths: conversationExpirationInMonths,
     );
   }
 
@@ -52,6 +54,7 @@ mixin _$CreateGroupReq {
   int get categoryId;
   int get conversationPrice;
   String get conversationType;
+  int get conversationExpirationInMonths;
 
   Map<String, dynamic> toJson();
   $CreateGroupReqCopyWith<CreateGroupReq> get copyWith;
@@ -68,7 +71,8 @@ abstract class $CreateGroupReqCopyWith<$Res> {
       List<UserModel> users,
       int categoryId,
       int conversationPrice,
-      String conversationType});
+      String conversationType,
+      int conversationExpirationInMonths});
 
   $PhotoModelCopyWith<$Res> get backgroundPhoto;
 }
@@ -90,6 +94,7 @@ class _$CreateGroupReqCopyWithImpl<$Res>
     Object categoryId = freezed,
     Object conversationPrice = freezed,
     Object conversationType = freezed,
+    Object conversationExpirationInMonths = freezed,
   }) {
     return _then(_value.copyWith(
       backgroundPhoto: backgroundPhoto == freezed
@@ -104,6 +109,9 @@ class _$CreateGroupReqCopyWithImpl<$Res>
       conversationType: conversationType == freezed
           ? _value.conversationType
           : conversationType as String,
+      conversationExpirationInMonths: conversationExpirationInMonths == freezed
+          ? _value.conversationExpirationInMonths
+          : conversationExpirationInMonths as int,
     ));
   }
 
@@ -131,7 +139,8 @@ abstract class _$CreateGroupReqCopyWith<$Res>
       List<UserModel> users,
       int categoryId,
       int conversationPrice,
-      String conversationType});
+      String conversationType,
+      int conversationExpirationInMonths});
 
   @override
   $PhotoModelCopyWith<$Res> get backgroundPhoto;
@@ -156,6 +165,7 @@ class __$CreateGroupReqCopyWithImpl<$Res>
     Object categoryId = freezed,
     Object conversationPrice = freezed,
     Object conversationType = freezed,
+    Object conversationExpirationInMonths = freezed,
   }) {
     return _then(_CreateGroupReq(
       backgroundPhoto: backgroundPhoto == freezed
@@ -170,6 +180,9 @@ class __$CreateGroupReqCopyWithImpl<$Res>
       conversationType: conversationType == freezed
           ? _value.conversationType
           : conversationType as String,
+      conversationExpirationInMonths: conversationExpirationInMonths == freezed
+          ? _value.conversationExpirationInMonths
+          : conversationExpirationInMonths as int,
     ));
   }
 }
@@ -184,7 +197,8 @@ class _$_CreateGroupReq implements _CreateGroupReq {
       this.users,
       this.categoryId,
       this.conversationPrice,
-      this.conversationType});
+      this.conversationType,
+      this.conversationExpirationInMonths});
 
   factory _$_CreateGroupReq.fromJson(Map<String, dynamic> json) =>
       _$_$_CreateGroupReqFromJson(json);
@@ -201,10 +215,12 @@ class _$_CreateGroupReq implements _CreateGroupReq {
   final int conversationPrice;
   @override
   final String conversationType;
+  @override
+  final int conversationExpirationInMonths;
 
   @override
   String toString() {
-    return 'CreateGroupReq(backgroundPhoto: $backgroundPhoto, name: $name, users: $users, categoryId: $categoryId, conversationPrice: $conversationPrice, conversationType: $conversationType)';
+    return 'CreateGroupReq(backgroundPhoto: $backgroundPhoto, name: $name, users: $users, categoryId: $categoryId, conversationPrice: $conversationPrice, conversationType: $conversationType, conversationExpirationInMonths: $conversationExpirationInMonths)';
   }
 
   @override
@@ -226,7 +242,12 @@ class _$_CreateGroupReq implements _CreateGroupReq {
                     .equals(other.conversationPrice, conversationPrice)) &&
             (identical(other.conversationType, conversationType) ||
                 const DeepCollectionEquality()
-                    .equals(other.conversationType, conversationType)));
+                    .equals(other.conversationType, conversationType)) &&
+            (identical(other.conversationExpirationInMonths,
+                    conversationExpirationInMonths) ||
+                const DeepCollectionEquality().equals(
+                    other.conversationExpirationInMonths,
+                    conversationExpirationInMonths)));
   }
 
   @override
@@ -237,7 +258,8 @@ class _$_CreateGroupReq implements _CreateGroupReq {
       const DeepCollectionEquality().hash(users) ^
       const DeepCollectionEquality().hash(categoryId) ^
       const DeepCollectionEquality().hash(conversationPrice) ^
-      const DeepCollectionEquality().hash(conversationType);
+      const DeepCollectionEquality().hash(conversationType) ^
+      const DeepCollectionEquality().hash(conversationExpirationInMonths);
 
   @override
   _$CreateGroupReqCopyWith<_CreateGroupReq> get copyWith =>
@@ -256,7 +278,8 @@ abstract class _CreateGroupReq implements CreateGroupReq {
       List<UserModel> users,
       int categoryId,
       int conversationPrice,
-      String conversationType}) = _$_CreateGroupReq;
+      String conversationType,
+      int conversationExpirationInMonths}) = _$_CreateGroupReq;
 
   factory _CreateGroupReq.fromJson(Map<String, dynamic> json) =
       _$_CreateGroupReq.fromJson;
@@ -273,6 +296,8 @@ abstract class _CreateGroupReq implements CreateGroupReq {
   int get conversationPrice;
   @override
   String get conversationType;
+  @override
+  int get conversationExpirationInMonths;
   @override
   _$CreateGroupReqCopyWith<_CreateGroupReq> get copyWith;
 }

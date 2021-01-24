@@ -14,6 +14,7 @@ abstract class CreateGroupReq with _$CreateGroupReq {
     int categoryId,
     int conversationPrice,
     String conversationType,
+    int conversationExpirationInMonths,
   }) = _CreateGroupReq;
 
   factory CreateGroupReq.fromJson(Map<String, dynamic> json) =>

@@ -72,7 +72,7 @@ abstract class _PurchaseStoreBase with Store {
 
     final product = response.productDetails.firstWhere((p) => p.id == productId);
 
-    // final past = await _purchase.queryProductDetails(packages);
+    // final past = await _purchase.queryPastPurchases();
 
     _purchase.buyConsumable(
       purchaseParam: PurchaseParam(productDetails: product),
@@ -87,8 +87,7 @@ abstract class _PurchaseStoreBase with Store {
         }
         switch (purchaseDetails.status) {
           case PurchaseStatus.pending:
-            print('pending');
-            // showPendingUI();
+            _loading = true;
             break;
           case PurchaseStatus.purchased:
             final valid = await _verifyPurchase(purchaseDetails);

@@ -35,7 +35,7 @@ abstract class _CreateDetailsStoreBase with Store {
   }
 
   @observable
-  int _expiration = expirationMap.keys.first;
+  int _expirationInMonths = expirationMap.keys.first;
 
   @observable
   String _groupName = '';
@@ -56,7 +56,7 @@ abstract class _CreateDetailsStoreBase with Store {
   int _currentGroupTypeIndex = 0;
 
   @computed
-  int get expiration => _expiration;
+  int get expiration => _expirationInMonths;
 
   @computed
   int get conversationPrice => _conversationPrice;
@@ -96,7 +96,7 @@ abstract class _CreateDetailsStoreBase with Store {
 
   @action
   void setExpiration(int expiration) {
-    _expiration = expiration;
+    _expirationInMonths = expiration;
   }
 
   @action
@@ -143,6 +143,7 @@ abstract class _CreateDetailsStoreBase with Store {
       final req = CreateGroupReq(
         categoryId: category.id,
         users: icons,
+        conversationExpirationInMonths: _expirationInMonths,
         conversationPrice: _conversationPrice,
         backgroundPhoto: PhotoModel(url: _selectedPhoto),
         name: _groupName,
