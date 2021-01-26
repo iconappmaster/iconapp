@@ -19,6 +19,7 @@ abstract class MessageModel with _$MessageModel {
     final MessageStatus status,
     final String extraData,
     final int viewCount,
+    final String messageDescription,
     final MessageModel repliedToMessage,
   }) = _MessageModel;
 

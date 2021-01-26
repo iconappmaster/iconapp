@@ -24,7 +24,7 @@ class MediaDescriptionScreen extends StatefulWidget {
 }
 
 class _MediaDescriptionScreenState extends State<MediaDescriptionScreen> {
-  String _description = '';
+  String _description;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,8 +32,15 @@ class _MediaDescriptionScreenState extends State<MediaDescriptionScreen> {
         fit: StackFit.expand,
         children: [
           widget.type == MediaType.photo
-              ? NetworkPhoto(imageUrl: widget.url)
-              : VideoScreen(url: widget.url),
+              ? widget.url.startsWith('http')
+                  ? NetworkPhoto(imageUrl: widget.url)
+                  : Image.asset(
+                      widget.url,
+                      fit: BoxFit.cover,
+                    )
+              : VideoScreen(
+                  url: widget.url,
+                ),
           Positioned(
             bottom: 54,
             child: Opacity(
@@ -41,14 +48,12 @@ class _MediaDescriptionScreenState extends State<MediaDescriptionScreen> {
               child: Container(
                 decoration: BoxDecoration(gradient: descriptionPanelGradient),
                 width: MediaQuery.of(context).size.width,
-                height: 101.7,
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 24.7, vertical: 5),
+                      padding: const EdgeInsets.symmetric(horizontal: 24.7, vertical: 5),
                       child: TextField(
-                        maxLines: 2,
+                        maxLines: null,
                         style: flushbar,
                         onChanged: (description) => _description = description,
                         decoration: InputDecoration(
@@ -60,31 +65,23 @@ class _MediaDescriptionScreenState extends State<MediaDescriptionScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 17),
-                    Divider(
-                      color: cornflower,
-                      height: 0,
-                      thickness: .7,
-                      indent: 28.7,
-                      endIndent: 28.7,
-                    ),
                   ],
                 ),
               ),
             ),
           ),
           Positioned(
-            bottom: 133,
-            left: 26.7,
+            bottom: 30,
+            right: 26.7,
             child: SizedBox(
               height: 50,
               width: 50,
               child: FloatingActionButton(
                 backgroundColor: cornflower,
-                child: SvgPicture.asset('assets/images/send_icon.svg',
-                    width: 18.7, height: 18.7),
-                onPressed: () =>
-                    ExtendedNavigator.of(context).pop(_description),
+                child: RotatedBox(
+                  quarterTurns: 2,
+                  child: SvgPicture.asset('assets/images/send_icon.svg', width: 18.7, height: 18.7)),
+                onPressed: () => ExtendedNavigator.of(context).pop(_description),
               ),
             ),
           ),

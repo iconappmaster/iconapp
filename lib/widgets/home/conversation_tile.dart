@@ -78,6 +78,7 @@ class ConversationTile extends StatelessWidget {
                         HomeTileLock(),
                       if (conversation.conversationType == ConversationType.private_premium)
                         HomeTileAnimatedLogo(
+                          title: 'Premium',
                           asset: 'assets/animations/premium.json',
                           size: 50,
                         )

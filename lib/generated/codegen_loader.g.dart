@@ -413,7 +413,7 @@ static const Map<String,dynamic> en_US = {
     "tabVauchers": "Vouchers",
     "tabStore": "Store",
     "detailProducts": "Product that you can redeem with balance points",
-    "detailStore": "Purchase products",
+    "detailStore": "Purchase credits",
     "detailActions": "Actions made to earn balance points",
     "detailVauchers": "Voucher codes that you have redeemed",
     "productEmpty": "No product currently available",

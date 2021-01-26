@@ -9,7 +9,7 @@ part of 'rest_client.dart';
 class _RestClient implements RestClient {
   _RestClient(this._dio, {this.baseUrl}) {
     ArgumentError.checkNotNull(_dio, '_dio');
-    baseUrl ??= 'https://iconstaging.herokuapp.com/api/v1/';
+    baseUrl ??= 'https://iconproduction.herokuapp.com/api/v1/';
   }
 
   final Dio _dio;
@@ -699,21 +699,23 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<MessageModel> sendMessage(
-      id, body, type, extraData, messageId, timestamp) async {
+  Future<MessageModel> sendMessage(id, body, type, extraData, messageId,
+      timestamp, messageDescription) async {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(body, 'body');
     ArgumentError.checkNotNull(type, 'type');
     ArgumentError.checkNotNull(extraData, 'extraData');
     ArgumentError.checkNotNull(messageId, 'messageId');
     ArgumentError.checkNotNull(timestamp, 'timestamp');
+    ArgumentError.checkNotNull(messageDescription, 'messageDescription');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'body': body,
       r'messageType': type,
       r'extraData': extraData,
       r'repliedToMessageId': messageId,
-      r'timestamp': timestamp
+      r'timestamp': timestamp,
+      r'messageDescription': messageDescription
     };
     final _data = <String, dynamic>{};
     final _result = await _dio.request<Map<String, dynamic>>(

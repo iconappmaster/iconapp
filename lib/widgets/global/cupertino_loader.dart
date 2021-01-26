@@ -18,6 +18,7 @@ class CupertinoLoader extends StatelessWidget {
           ),
         ),
         child: CupertinoActivityIndicator(
+          
           radius: radius,
         ));
   }

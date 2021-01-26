@@ -54,6 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Socket _socket;
   AdMob _adMobs;
 
+  PurchaseStore _purchase;
+
   @override
   void initState() {
     _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -66,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _dynamicLink = sl<DynamicLink>();
     _adMobs = sl<AdMob>();
     _controller = ScrollController();
-
+    _purchase = sl<PurchaseStore>();
     _initSocket();
 
     refreshData();
@@ -76,7 +78,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ..loadInterstital()
       ..loadReward();
 
-    sl<PurchaseStore>().getProductsFromStore();
+    _purchase
+      ..getProductsFromStore()
+      ..listenPurchaseEvents();
 
     super.initState();
   }
@@ -224,6 +228,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _socket.unsubscribe(homeChannelName);
     _home?.dispose();
     _story?.dispose();
+    _purchase?.dispose();
     super.dispose();
   }
 }
@@ -271,6 +276,7 @@ Future onTileTap(Conversation conversation, BuildContext context, int index, [bo
             ? _showPayConversationAlert(context, conversation)
             : _showNotEnoghMoneyAlert(
                 context,
+                conversation,
               );
 
         break;
@@ -291,11 +297,11 @@ Future _showPayConversationAlert(BuildContext context, Conversation conversation
       case 0:
         return 'Pay ${conversation.conversationPrice} one time to gain access forever.';
       case 1:
-        return 'Pay ${conversation.conversationPrice} one time to gain access for 1 month.';
+        return 'Pay ${conversation.conversationPrice} Credits to gain access for 1 month';
       case 2:
-        return 'Pay ${conversation.conversationPrice} one time to gain access for 2 month.';
+        return 'Pay ${conversation.conversationPrice} Credits to gain access for 2 month';
       case 3:
-        return 'Pay ${conversation.conversationPrice} one time to gain access for 3 month.';
+        return 'Pay ${conversation.conversationPrice} Credits to gain access for 3 month';
     }
 
     return "";
@@ -328,7 +334,7 @@ Future _showPayConversationAlert(BuildContext context, Conversation conversation
   );
 }
 
-Future _showNotEnoghMoneyAlert(BuildContext context) {
+Future _showNotEnoghMoneyAlert(BuildContext context, Conversation conversation) {
   return CoolAlert.show(
     context: context,
     backgroundColor: dustyOrange,
@@ -344,6 +350,7 @@ Future _showNotEnoghMoneyAlert(BuildContext context) {
     onCancelBtnTap: () => ExtendedNavigator.of(context).pop(),
     showCancelBtn: true,
     title: 'Not enought credits!',
-    text: 'Try to do more actions in the app, you can also buy credits from the store',
+    text:
+        'This conversation is premium and costs ${conversation?.conversationPrice} Credits to enter. You can earn credits by taking certain actions in the app, or by buying them from the Store.',
   );
 }

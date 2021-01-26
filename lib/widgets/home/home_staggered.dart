@@ -41,7 +41,7 @@ class HomeStaggered extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-          child: Observer(
+      child: Observer(
         builder: (_) {
           if (home.isLoading && home.conversations.length == 0) {
             return Align(
@@ -60,8 +60,9 @@ class HomeStaggered extends StatelessWidget {
             physics: BouncingScrollPhysics(),
             padding: EdgeInsets.only(bottom: 100),
             itemBuilder: (BuildContext context, int index) {
-              final conversation =
-                  home.filterType == HomeFilterType.forYou ? home.conversations[index] : home.conversationPopular[index];
+              final conversation = home.filterType == HomeFilterType.forYou
+                  ? home.conversations[index]
+                  : home.conversationPopular[index];
 
               switch (conversation?.media?.mediaType) {
                 case typePhoto:
@@ -165,14 +166,21 @@ class StaggeredOverlay extends StatelessWidget {
             alignment: Alignment.topCenter,
             child: RotatedBox(
                 quarterTurns: 2, child: Container(height: 40, decoration: BoxDecoration(gradient: staggeredGradient)))),
-        if (conversation.conversationType == ConversationType.private_code && !conversation.isAllowedIn)
-          HomeTileAnimatedLogo(
-            asset: 'assets/animations/lock.json',
-          ),
+        if (conversation.conversationType == ConversationType.private_code && !conversation.isAllowedIn) HomeTileLock(),
         if (conversation.conversationType == ConversationType.private_premium)
-          HomeTileAnimatedLogo(
-            asset: 'assets/animations/premium.json',
-          ),
+          HomeTileAnimatedLogo(title: 'Premium', asset: 'assets/animations/premium.json'),
+        if (conversation.conversationType == ConversationType.private_premium && !conversation.isAllowedIn)
+          Positioned(
+              left: 8,
+              bottom: 8,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset('assets/images/money.png', height: 14, width: 14),
+                  SizedBox(width: 4),
+                  CustomText(conversation.conversationPrice?.toString() ?? '', style: timeOfMessage),
+                ],
+              )),
         if (conversation.isSubscribed) Positioned(top: 8, left: 8, child: RoundIcon(asset: 'assets/images/bell.svg')),
         if (conversation?.areNotificationsDisabled)
           Positioned(top: 6, left: 30, child: SvgPicture.asset('assets/images/mute.svg', height: 25, width: 25)),
@@ -183,32 +191,46 @@ class StaggeredOverlay extends StatelessWidget {
 }
 
 class HomeTileAnimatedLogo extends StatelessWidget {
+  final String title;
   final String asset;
   final double size;
   const HomeTileAnimatedLogo({
     Key key,
     @required this.asset,
     this.size = 100,
+    @required this.title,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: Container(
-      height: size,
-      width: size,
-      decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.black54.withOpacity(.3)),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(100),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(
-            sigmaX: 10.0,
-            sigmaY: 10.0,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          CustomText(
+            title,
+            style: timeOfMessage.copyWith(
+              color: lightMustard,
+            ),
           ),
-          child: LottieBuilder.asset(asset),
-        ),
+          SizedBox(height: 3),
+          Container(
+            height: size,
+            width: size,
+            decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.black54.withOpacity(.3)),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+              child: BackdropFilter(
+                  filter: ImageFilter.blur(
+                    sigmaX: 10.0,
+                    sigmaY: 10.0,
+                  ),
+                  child: LottieBuilder.asset(asset)),
+            ),
+          ),
+        ],
       ),
-    ));
+    );
   }
 }
 
@@ -220,7 +242,12 @@ class HomeTileLock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: Container(
+        child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        CustomText('Locked Conversation', style: timeOfMessage.copyWith(color: lightMustard)),
+        SizedBox(height: 8),
+        Container(
             height: 60,
             width: 60,
             decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.black54.withOpacity(.3)),
@@ -235,7 +262,9 @@ class HomeTileLock extends StatelessWidget {
                       Icons.lock,
                       color: Colors.white,
                       size: 20,
-                    )))));
+                    )))),
+      ],
+    ));
   }
 }
 

@@ -29,6 +29,7 @@ class _$MessageModelTearOff {
       MessageStatus status,
       String extraData,
       int viewCount,
+      String messageDescription,
       MessageModel repliedToMessage}) {
     return _MessageModel(
       id: id,
@@ -42,6 +43,7 @@ class _$MessageModelTearOff {
       status: status,
       extraData: extraData,
       viewCount: viewCount,
+      messageDescription: messageDescription,
       repliedToMessage: repliedToMessage,
     );
   }
@@ -69,6 +71,7 @@ mixin _$MessageModel {
   MessageStatus get status;
   String get extraData;
   int get viewCount;
+  String get messageDescription;
   MessageModel get repliedToMessage;
 
   Map<String, dynamic> toJson();
@@ -92,6 +95,7 @@ abstract class $MessageModelCopyWith<$Res> {
       MessageStatus status,
       String extraData,
       int viewCount,
+      String messageDescription,
       MessageModel repliedToMessage});
 
   $UserModelCopyWith<$Res> get sender;
@@ -120,6 +124,7 @@ class _$MessageModelCopyWithImpl<$Res> implements $MessageModelCopyWith<$Res> {
     Object status = freezed,
     Object extraData = freezed,
     Object viewCount = freezed,
+    Object messageDescription = freezed,
     Object repliedToMessage = freezed,
   }) {
     return _then(_value.copyWith(
@@ -137,6 +142,9 @@ class _$MessageModelCopyWithImpl<$Res> implements $MessageModelCopyWith<$Res> {
       status: status == freezed ? _value.status : status as MessageStatus,
       extraData: extraData == freezed ? _value.extraData : extraData as String,
       viewCount: viewCount == freezed ? _value.viewCount : viewCount as int,
+      messageDescription: messageDescription == freezed
+          ? _value.messageDescription
+          : messageDescription as String,
       repliedToMessage: repliedToMessage == freezed
           ? _value.repliedToMessage
           : repliedToMessage as MessageModel,
@@ -193,6 +201,7 @@ abstract class _$MessageModelCopyWith<$Res>
       MessageStatus status,
       String extraData,
       int viewCount,
+      String messageDescription,
       MessageModel repliedToMessage});
 
   @override
@@ -226,6 +235,7 @@ class __$MessageModelCopyWithImpl<$Res> extends _$MessageModelCopyWithImpl<$Res>
     Object status = freezed,
     Object extraData = freezed,
     Object viewCount = freezed,
+    Object messageDescription = freezed,
     Object repliedToMessage = freezed,
   }) {
     return _then(_MessageModel(
@@ -243,6 +253,9 @@ class __$MessageModelCopyWithImpl<$Res> extends _$MessageModelCopyWithImpl<$Res>
       status: status == freezed ? _value.status : status as MessageStatus,
       extraData: extraData == freezed ? _value.extraData : extraData as String,
       viewCount: viewCount == freezed ? _value.viewCount : viewCount as int,
+      messageDescription: messageDescription == freezed
+          ? _value.messageDescription
+          : messageDescription as String,
       repliedToMessage: repliedToMessage == freezed
           ? _value.repliedToMessage
           : repliedToMessage as MessageModel,
@@ -266,6 +279,7 @@ class _$_MessageModel implements _MessageModel {
       this.status,
       this.extraData,
       this.viewCount,
+      this.messageDescription,
       this.repliedToMessage});
 
   factory _$_MessageModel.fromJson(Map<String, dynamic> json) =>
@@ -294,11 +308,13 @@ class _$_MessageModel implements _MessageModel {
   @override
   final int viewCount;
   @override
+  final String messageDescription;
+  @override
   final MessageModel repliedToMessage;
 
   @override
   String toString() {
-    return 'MessageModel(id: $id, timestamp: $timestamp, body: $body, wasSeen: $wasSeen, messageType: $messageType, sender: $sender, likeCounts: $likeCounts, likeType: $likeType, status: $status, extraData: $extraData, viewCount: $viewCount, repliedToMessage: $repliedToMessage)';
+    return 'MessageModel(id: $id, timestamp: $timestamp, body: $body, wasSeen: $wasSeen, messageType: $messageType, sender: $sender, likeCounts: $likeCounts, likeType: $likeType, status: $status, extraData: $extraData, viewCount: $viewCount, messageDescription: $messageDescription, repliedToMessage: $repliedToMessage)';
   }
 
   @override
@@ -334,6 +350,9 @@ class _$_MessageModel implements _MessageModel {
             (identical(other.viewCount, viewCount) ||
                 const DeepCollectionEquality()
                     .equals(other.viewCount, viewCount)) &&
+            (identical(other.messageDescription, messageDescription) ||
+                const DeepCollectionEquality()
+                    .equals(other.messageDescription, messageDescription)) &&
             (identical(other.repliedToMessage, repliedToMessage) ||
                 const DeepCollectionEquality()
                     .equals(other.repliedToMessage, repliedToMessage)));
@@ -353,6 +372,7 @@ class _$_MessageModel implements _MessageModel {
       const DeepCollectionEquality().hash(status) ^
       const DeepCollectionEquality().hash(extraData) ^
       const DeepCollectionEquality().hash(viewCount) ^
+      const DeepCollectionEquality().hash(messageDescription) ^
       const DeepCollectionEquality().hash(repliedToMessage);
 
   @override
@@ -378,6 +398,7 @@ abstract class _MessageModel implements MessageModel {
       MessageStatus status,
       String extraData,
       int viewCount,
+      String messageDescription,
       MessageModel repliedToMessage}) = _$_MessageModel;
 
   factory _MessageModel.fromJson(Map<String, dynamic> json) =
@@ -405,6 +426,8 @@ abstract class _MessageModel implements MessageModel {
   String get extraData;
   @override
   int get viewCount;
+  @override
+  String get messageDescription;
   @override
   MessageModel get repliedToMessage;
   @override

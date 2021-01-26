@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:auto_route/auto_route.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:iconapp/core/compression.dart';
@@ -10,10 +11,12 @@ import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/likes.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/models/photo_model.dart';
+import 'package:iconapp/data/models/story_image.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/repositories/chat_repository.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/domain/core/errors.dart';
+import 'package:iconapp/routes/router.dart';
 import 'package:iconapp/stores/analytics/analytics_consts.dart';
 import 'package:iconapp/stores/chat/chat_state.dart';
 import 'package:iconapp/stores/chat/paging_config.dart';
@@ -27,6 +30,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:video_compress/video_compress.dart';
 import '../../widgets/story/story_list.dart';
+import 'package:iconapp/routes/router.gr.dart';
 import '../analytics/analytics_firebase.dart';
 import '../story/story_store.dart';
 
@@ -57,7 +61,7 @@ abstract class _ChatStoreBase with Store {
   Future<void> init([Conversation conversation]) async {
     // request microphone permissions
     await Permission.microphone.request();
-    
+
     if (_prefs.contains(StorageKey.fcmConversation)) {
       final conversation = Conversation.loadFCMFromCache();
       if (conversation != null) setConversation(conversation);
@@ -387,18 +391,27 @@ abstract class _ChatStoreBase with Store {
   @action
   Future sendPhotoMessage(ImageSource source) async {
     try {
-      final pickedFile = await sl<ImagePicker>().getImage(source: source, imageQuality: 70);
+      
+      final pickedFile = await sl<ImagePicker>().getImage(
+        source: source,
+        imageQuality: 70,
+      );
+
       if (pickedFile != null) {
+        final description = await ExtendedNavigator.named($Router.routerName)
+            .pushMediaDescriptionScreen(url: pickedFile.path, type: MediaType.photo);
+
         final msg = MessageModel(
           id: DateTime.now().millisecondsSinceEpoch,
           sender: _userStore.getUser,
           body: pickedFile.path,
+          messageDescription: description,
           status: MessageStatus.pending,
           likeCounts: LikesCount.initial(),
           timestamp: DateTime.now().millisecondsSinceEpoch,
           messageType: MessageType.photo,
         );
-
+      
         _messages.add(msg);
 
         // upload to firebase
@@ -424,11 +437,17 @@ abstract class _ChatStoreBase with Store {
       final pickedFile = await sl<ImagePicker>().getVideo(source: source);
       File file = File(pickedFile.path);
       if (file != null) {
-        final thumbnail = await VideoCompress.getFileThumbnail(file.path);
-
         _uploading = true;
 
+        final thumbnail = await VideoCompress.getFileThumbnail(file.path);
+
+        final description = await ExtendedNavigator.named($Router.routerName).pushMediaDescriptionScreen(
+          url: thumbnail.path,
+          type: MediaType.photo,
+        );
+
         final msg = MessageModel(
+          messageDescription: description,
           extraData: thumbnail.path ?? '',
           id: DateTime.now().millisecondsSinceEpoch,
           body: file.path,
@@ -480,15 +499,8 @@ abstract class _ChatStoreBase with Store {
 
       final appDocDirectory = await getApplicationDocumentsDirectory();
       final path = '${appDocDirectory.path}/${DateTime.now().millisecondsSinceEpoch}';
-
-      // if (_recorder == null) {
       _recorder = FlutterAudioRecorder(path, audioFormat: AudioFormat.AAC);
-      // }
-
       await _recorder.initialized;
-
-      // play sound
-
       await _recorder.start();
     } on ServerError catch (e) {
       Crash.report(e.message);

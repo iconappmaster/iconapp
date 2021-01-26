@@ -211,7 +211,7 @@ class ConversationSetPrice extends HookWidget {
                           labelStyle: chatMessageName)),
                   SizedBox(height: 20),
                   CustomText(
-                    'The price you set is measured in coins. you can get references from the items on store tab',
+                    'The price is in Icon credits. For reference, check the items in the "Store" tab.',
                     style: fieldLabel,
                   ),
                   SizedBox(height: 10),

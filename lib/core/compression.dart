@@ -18,10 +18,10 @@ Future<File> compressPhotoToFile(File file, String targetPath) async {
 Future<MediaInfo> compressVideo(File file) async {
   MediaInfo mediaInfo = await VideoCompress.compressVideo(
     file.path,
-    quality: VideoQuality.DefaultQuality,
+    quality: VideoQuality.MediumQuality,
     includeAudio: true,
     startTime: 0,
-    deleteOrigin: false,
+    deleteOrigin: true,
   );
   return mediaInfo;
 }

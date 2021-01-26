@@ -72,8 +72,6 @@ abstract class _PurchaseStoreBase with Store {
 
     final product = response.productDetails.firstWhere((p) => p.id == productId);
 
-    // final past = await _purchase.queryPastPurchases();
-
     _purchase.buyConsumable(
       purchaseParam: PurchaseParam(productDetails: product),
     );
@@ -90,7 +88,9 @@ abstract class _PurchaseStoreBase with Store {
             _loading = true;
             break;
           case PurchaseStatus.purchased:
+            print('before verify purchase');
             final valid = await _verifyPurchase(purchaseDetails);
+            print('after verify purchase');
             if (valid) {
               _showConffetiAnimation = true;
             }
@@ -144,6 +144,10 @@ abstract class _PurchaseStoreBase with Store {
   @action
   void setConffettiAnimation(bool show) {
     _showConffetiAnimation = show;
+  }
+
+  void dispose() {
+    _subscription?.cancel();
   }
 }
 

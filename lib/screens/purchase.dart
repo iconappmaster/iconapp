@@ -36,16 +36,14 @@ class Purchase extends HookWidget {
             animType: CoolAlertAnimType.scale,
             confirmBtnColor: cornflower,
             title: 'Thank you!',
-            text: 'You purchased ${getPackageText(details.productID)}',
+            text: 'You purchased the ${getPackageText(details.productID)}',
             onConfirmBtnTap: () {
               store.setConffettiAnimation(false);
               ExtendedNavigator.of(context).pop();
             });
       });
 
-      store
-        ..listenPurchaseEvents()
-        ..getProductsFromStore();
+      store.getProductsFromStore();
 
       return () {
         _subscription?.cancel();
@@ -83,11 +81,11 @@ class Purchase extends HookWidget {
 
   String getPackageText(String productId) {
     if (productId.contains('small')) {
-      return 'small pacakge';
+      return 'small package';
     } else if (productId.contains('medium')) {
-      return 'medium pacakge';
+      return 'medium package';
     } else if (productId.contains('big')) {
-      return 'big pacakge';
+      return 'big package';
     }
 
     return '';
