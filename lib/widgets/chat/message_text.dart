@@ -126,14 +126,13 @@ class _TextMessageState extends State<TextMessage> {
                       ),
                     ),
                     ConstrainedBox(
-                        constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width * .5),
+                        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .5),
                         child: AutoDirection(
                             text: widget.message?.body ?? '',
                             child: Linkify(
                                 linkStyle: TextStyle(color: Colors.blue),
                                 text: widget.message?.body ?? '',
-                                onOpen: _onOpen,
+                                onOpen: openUrl,
                                 style: chatMessageBody,
                                 maxLines: null))),
                     SizedBox(height: 8),
@@ -155,9 +154,7 @@ class _TextMessageState extends State<TextMessage> {
 
   CustomText _bubbleTime() {
     return CustomText(
-        widget.message.status == MessageStatus.pending
-            ? ''
-            : widget.message?.timestamp?.humanReadableTime() ?? '',
+        widget.message.status == MessageStatus.pending ? '' : widget.message?.timestamp?.humanReadableTime() ?? '',
         style: chatMessageBody.copyWith(fontSize: 9),
         textAlign: TextAlign.start);
   }
@@ -165,17 +162,16 @@ class _TextMessageState extends State<TextMessage> {
   _scrollToIndex() {
     final repliedMessage = widget.message.repliedToMessage;
     if (repliedMessage != null) {
-      final index =
-          _chat.getMessages.indexWhere((m) => m.id == repliedMessage.id);
+      final index = _chat.getMessages.indexWhere((m) => m.id == repliedMessage.id);
       widget.controller.scrollToIndex(index);
     }
   }
+}
 
-  Future<void> _onOpen(LinkableElement link) async {
-    if (await canLaunch(link.url)) {
-      await launch(link.url);
-    } else {
-      throw 'Could not launch $link';
-    }
+Future<void> openUrl(LinkableElement link) async {
+  if (await canLaunch(link.url)) {
+    await launch(link.url);
+  } else {
+    throw 'Could not launch $link';
   }
 }

@@ -17,6 +17,7 @@ import 'package:iconapp/data/repositories/chat_repository.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/domain/core/errors.dart';
 import 'package:iconapp/routes/router.dart';
+import 'package:iconapp/screens/media_descrioption_screen.dart';
 import 'package:iconapp/stores/analytics/analytics_consts.dart';
 import 'package:iconapp/stores/chat/chat_state.dart';
 import 'package:iconapp/stores/chat/paging_config.dart';
@@ -391,7 +392,6 @@ abstract class _ChatStoreBase with Store {
   @action
   Future sendPhotoMessage(ImageSource source) async {
     try {
-      
       final pickedFile = await sl<ImagePicker>().getImage(
         source: source,
         imageQuality: 70,
@@ -400,31 +400,33 @@ abstract class _ChatStoreBase with Store {
       if (pickedFile != null) {
         final description = await ExtendedNavigator.named($Router.routerName)
             .pushMediaDescriptionScreen(url: pickedFile.path, type: MediaType.photo);
+        
+        if (description != cancelled) {
+          final msg = MessageModel(
+            id: DateTime.now().millisecondsSinceEpoch,
+            sender: _userStore.getUser,
+            body: pickedFile.path,
+            messageDescription: description,
+            status: MessageStatus.pending,
+            likeCounts: LikesCount.initial(),
+            timestamp: DateTime.now().millisecondsSinceEpoch,
+            messageType: MessageType.photo,
+          );
 
-        final msg = MessageModel(
-          id: DateTime.now().millisecondsSinceEpoch,
-          sender: _userStore.getUser,
-          body: pickedFile.path,
-          messageDescription: description,
-          status: MessageStatus.pending,
-          likeCounts: LikesCount.initial(),
-          timestamp: DateTime.now().millisecondsSinceEpoch,
-          messageType: MessageType.photo,
-        );
-      
-        _messages.add(msg);
+          _messages.add(msg);
 
-        // upload to firebase
-        final url = await _mediaStore.uploadPhoto(
-          file: File(pickedFile.path),
-          messageId: msg.id,
-        );
+          // upload to firebase
+          final url = await _mediaStore.uploadPhoto(
+            file: File(pickedFile.path),
+            messageId: msg.id,
+          );
 
-        final remote = await _repository.sendMessage(conversation.id, msg.copyWith(body: url));
+          final remote = await _repository.sendMessage(conversation.id, msg.copyWith(body: url));
 
-        _updateId(remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
+          _updateId(remote.copyWith(status: MessageStatus.sent, id: msg.id), remote.id);
 
-        analytics.sendConversationEvent(SENT_PHOTO_MESSAGE, remote.id);
+          analytics.sendConversationEvent(SENT_PHOTO_MESSAGE, remote.id);
+        }
       }
     } on ServerError catch (e) {
       Crash.report(e.message);

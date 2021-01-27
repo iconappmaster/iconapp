@@ -16,7 +16,6 @@ import '../core/video/default_player/default_player.dart';
 import '../core/video/feed_player/feed_player.dart';
 import '../data/models/conversation_model.dart';
 import '../data/models/message_model.dart';
-import '../data/models/photo_model.dart';
 import '../data/models/story_image.dart';
 import '../data/models/story_model.dart';
 import '../screens/alerts_screen.dart';
@@ -220,8 +219,7 @@ class Router extends RouterBase {
       return MaterialPageRoute<dynamic>(
         builder: (context) => PhotoGalleryScreen(
           key: args.key,
-          photos: args.photos,
-          intialIndex: args.intialIndex,
+          message: args.message,
         ),
         settings: data,
       );
@@ -461,13 +459,11 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
 
   Future<dynamic> pushPhotoGalleryScreen({
     Key key,
-    @required List<PhotoModel> photos,
-    @required int intialIndex,
+    @required MessageModel message,
   }) =>
       push<dynamic>(
         Routes.photoGalleryScreen,
-        arguments: PhotoGalleryScreenArguments(
-            key: key, photos: photos, intialIndex: intialIndex),
+        arguments: PhotoGalleryScreenArguments(key: key, message: message),
       );
 
   Future<dynamic> pushVideoScreen({
@@ -642,10 +638,8 @@ class ChatScreenArguments {
 /// PhotoGalleryScreen arguments holder class
 class PhotoGalleryScreenArguments {
   final Key key;
-  final List<PhotoModel> photos;
-  final int intialIndex;
-  PhotoGalleryScreenArguments(
-      {this.key, @required this.photos, @required this.intialIndex});
+  final MessageModel message;
+  PhotoGalleryScreenArguments({this.key, @required this.message});
 }
 
 /// VideoScreen arguments holder class

@@ -8,6 +8,8 @@ import 'package:iconapp/screens/full_video_screen.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+const String cancelled = 'canceled';
+
 // This screen adds the ability to add an description for existing media [photo/video]
 class MediaDescriptionScreen extends StatefulWidget {
   final String url;
@@ -28,6 +30,7 @@ class _MediaDescriptionScreenState extends State<MediaDescriptionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -37,6 +40,8 @@ class _MediaDescriptionScreenState extends State<MediaDescriptionScreen> {
                   : Image.asset(
                       widget.url,
                       fit: BoxFit.cover,
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
                     )
               : VideoScreen(
                   url: widget.url,
@@ -71,6 +76,25 @@ class _MediaDescriptionScreenState extends State<MediaDescriptionScreen> {
             ),
           ),
           Positioned(
+            top: 36,
+            left: 16,
+            child: Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.black38,
+              ),
+              child: CloseButton(
+                color: white,
+                onPressed: () {
+                  _description = cancelled;
+                  ExtendedNavigator.of(context).pop(_description);
+                },
+              ),
+            ),
+          ),
+          Positioned(
             bottom: 30,
             right: 26.7,
             child: SizedBox(
@@ -79,8 +103,7 @@ class _MediaDescriptionScreenState extends State<MediaDescriptionScreen> {
               child: FloatingActionButton(
                 backgroundColor: cornflower,
                 child: RotatedBox(
-                  quarterTurns: 2,
-                  child: SvgPicture.asset('assets/images/send_icon.svg', width: 18.7, height: 18.7)),
+                    quarterTurns: 2, child: SvgPicture.asset('assets/images/send_icon.svg', width: 18.7, height: 18.7)),
                 onPressed: () => ExtendedNavigator.of(context).pop(_description),
               ),
             ),

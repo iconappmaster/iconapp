@@ -2,12 +2,9 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:iconapp/core/bus.dart';
-// import 'package:iconapp/core/bus.dart';
 import 'package:iconapp/core/compression.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
-// import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
-// import 'package:iconapp/data/sources/remote/firebase_consts.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../core/extensions/string_ext.dart';
 
@@ -63,7 +60,7 @@ class MediaRepositoryImpl implements MediaRepository {
 
     final uploadTask = storageRefOriginal.putFile(file);
 
-    _emitProgress(uploadTask, messageId);
+    _uploadProgress(uploadTask, messageId);
     await uploadTask;
     return await storageRefOriginal.getDownloadURL();
   }
@@ -80,7 +77,7 @@ class MediaRepositoryImpl implements MediaRepository {
     return compressed;
   }
 
-  void _emitProgress(UploadTask uploadTask, int messageId) {
+  void _uploadProgress(UploadTask uploadTask, int messageId) {
     uploadTask.snapshotEvents.listen((event) {
       final totalByteCount = event.totalBytes;
       final progressPercent = event.bytesTransferred / totalByteCount;

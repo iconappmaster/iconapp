@@ -5,8 +5,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:iconapp/stores/language/language_store.dart';
-import 'package:iconapp/widgets/global/cupertino_loader.dart';
+import 'package:iconapp/widgets/global/auto_direction.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import '../../core/bus.dart';
 import '../../core/dependencies/locator.dart';
@@ -17,6 +18,7 @@ import '../../data/repositories/media_repository.dart';
 import '../../routes/router.gr.dart';
 import '../../stores/chat/chat_store.dart';
 import 'chat_list.dart';
+import 'message_text.dart';
 import 'reply_slider.dart';
 import '../global/custom_text.dart';
 import '../global/slidable/slidable.dart';
@@ -99,12 +101,6 @@ class _PhotoMessageState extends State<PhotoMessage> {
                 IconBubble(
                   isMe: widget.isMe,
                   message: widget.message,
-                  onTap: () => store.conversationPhotos.length > 1
-                      ? ExtendedNavigator.of(context).pushPhotoGalleryScreen(
-                          photos: store.conversationPhotos,
-                          intialIndex: store.conversationPhotos.indexWhere((m) => m.id == widget.message.id),
-                        )
-                      : ExtendedNavigator.of(context).pushSingleImage(url: widget.message.body),
                   child: Stack(children: [
                     Hero(
                       tag: widget.index,
@@ -114,40 +110,46 @@ class _PhotoMessageState extends State<PhotoMessage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           widget.message.body.startsWith('http')
-                              ? SizedBox(
-                                  height: 230,
-                                  width: MediaQuery.of(context).size.width * .75,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(4.2),
-                                    child: CachedNetworkImage(
-                                      fadeInCurve: Curves.linear,
-                                      fit: BoxFit.cover,
-                                      progressIndicatorBuilder: (context, url, data) {
-                                        return Center(
-                                          child: SizedBox(
-                                            height: 20,
-                                            width: 20,
-                                            child: CircularProgressIndicator(
-                                              strokeWidth: 1,
-                                              value: data.progress,
-                                              valueColor: AlwaysStoppedAnimation(cornflower),
+                              ? GestureDetector(
+                                  onTap: () => _onPhotoTap(store, context),
+                                  child: SizedBox(
+                                    height: 230,
+                                    width: MediaQuery.of(context).size.width * .75,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(4.2),
+                                      child: CachedNetworkImage(
+                                        fadeInCurve: Curves.linear,
+                                        fit: BoxFit.cover,
+                                        progressIndicatorBuilder: (context, url, data) {
+                                          return Center(
+                                            child: SizedBox(
+                                              height: 20,
+                                              width: 20,
+                                              child: CircularProgressIndicator(
+                                                strokeWidth: 1,
+                                                value: data.progress,
+                                                valueColor: AlwaysStoppedAnimation(cornflower),
+                                              ),
                                             ),
-                                          ),
-                                        );
-                                      },
-                                      imageUrl: widget.message.body,
-                                      fadeOutDuration: const Duration(milliseconds: 250),
+                                          );
+                                        },
+                                        imageUrl: widget.message.body,
+                                        fadeOutDuration: const Duration(milliseconds: 250),
+                                      ),
                                     ),
                                   ),
                                 )
-                              : SizedBox(
-                                  height: 200,
-                                  width: 250,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(4.2),
-                                    child: Image.file(
-                                      File(widget.message.body),
-                                      fit: BoxFit.cover,
+                              : GestureDetector(
+                                  onTap: () => _onPhotoTap(store, context),
+                                  child: SizedBox(
+                                    height: 200,
+                                    width: 250,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(4.2),
+                                      child: Image.file(
+                                        File(widget.message.body),
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -156,9 +158,14 @@ class _PhotoMessageState extends State<PhotoMessage> {
                               width: MediaQuery.of(context).size.width * .7,
                               child: Padding(
                                 padding: const EdgeInsets.all(4.0),
-                                child: CustomText(
-                                  widget.message?.messageDescription ?? '',
-                                  style: chatMessageBody,
+                                child: AutoDirection(
+                                  text: widget.message?.messageDescription ?? '',
+                                  child: Linkify(
+                                    linkStyle: TextStyle(color: Colors.blue),
+                                    text: widget.message?.messageDescription ?? '',
+                                    style: chatMessageBody,
+                                    onOpen: openUrl,
+                                  ),
                                 ),
                               ),
                             ),
@@ -184,10 +191,19 @@ class _PhotoMessageState extends State<PhotoMessage> {
                 ),
                 if (widget.message.status == MessageStatus.pending)
                   Positioned(
-                    left: language.isLTR ? null : 110,
-                    right: language.isLTR ? 110 : null,
+                    left: language.isLTR ? null : 130,
+                    right: language.isLTR ? 130 : null,
                     top: 80,
-                    child: CupertinoLoader(),
+                    child: SizedBox(
+                      height: 80,
+                      width: 80,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 8.0,
+                        backgroundColor: white,
+                        value: _progress,
+                        valueColor: AlwaysStoppedAnimation(cornflower),
+                      ),
+                    ),
                   ),
               ],
             ),
@@ -195,6 +211,12 @@ class _PhotoMessageState extends State<PhotoMessage> {
         ),
       ),
     );
+  }
+
+  Future _onPhotoTap(ChatStore store, BuildContext context) {
+    return store.conversationPhotos.length > 1
+        ? ExtendedNavigator.of(context).pushPhotoGalleryScreen(message: widget.message)
+        : ExtendedNavigator.of(context).pushSingleImage(url: widget.message.body);
   }
 
   @override

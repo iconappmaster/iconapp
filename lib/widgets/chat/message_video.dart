@@ -3,10 +3,12 @@ import 'dart:ui';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:iconapp/core/video/caching_player.dart';
 import 'package:iconapp/core/video/feed_player/multi_manager/flick_multi_manager.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/language/language_store.dart';
+import 'package:iconapp/widgets/global/auto_direction.dart';
 import 'package:iconapp/widgets/global/cupertino_loader.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import '../../core/bus.dart';
@@ -19,6 +21,7 @@ import '../../stores/chat/chat_store.dart';
 import '../global/custom_text.dart';
 import '../global/slidable/slidable.dart';
 import '../global/slidable_widget.dart';
+import 'message_text.dart';
 import 'reply_slider.dart';
 import 'chat_list.dart';
 import 'icon_bubble.dart';
@@ -133,11 +136,17 @@ class _VideoMessageState extends SlidableStateWidget<VideoMessage> {
                 ),
                 if (widget.message?.messageDescription != null)
                   Align(
-                    
-                    child: CustomText(
-                      widget.message?.messageDescription ?? '',
-                      style: timeOfMessage,
-                      
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * .6,
+                      child: AutoDirection(
+                        text: widget.message?.messageDescription ?? '',
+                        child: Linkify(
+                          linkStyle: TextStyle(color: Colors.blue),
+                          text: widget.message?.messageDescription ?? '',
+                          style: chatMessageBody,
+                          onOpen: openUrl,
+                        ),
+                      ),
                     ),
                   ),
               ],
