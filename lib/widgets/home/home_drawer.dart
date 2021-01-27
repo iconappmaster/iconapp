@@ -5,6 +5,7 @@ import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/stores/language/language_store.dart';
 import 'package:iconapp/stores/verify_icon/verify_icon_store.dart';
+import 'package:lottie/lottie.dart';
 import '../../core/dependencies/locator.dart';
 import '../../core/theme.dart';
 import '../../screens/onboarding_profile.dart';
@@ -46,72 +47,70 @@ class HomeDrawer extends StatelessWidget {
     return Drawer(
       child: Container(
         decoration: BoxDecoration(gradient: dialogGradient),
-        child: Stack(
-            fit: StackFit.expand,
-            alignment: Alignment.topCenter,
-            children: [
-              ListView(
-                shrinkWrap: true,
-                padding: EdgeInsets.zero,
-                children: <Widget>[
-                  SizedBox(height: 39.3),
-                  DrawerHeader(
-                    child: Container(
-                      height: 280,
-                      child: Column(
-                        children: <Widget>[
-                          UserAvatar(
-                              showPlus: false,
-                              url: store.getUser?.photo?.url ?? '',
-                              onTap: () => ExtendedNavigator.of(context)
-                                  .pushOnboardingProfile(
-                                      mode: OnboardingMode.drawer)),
-                          SizedBox(height: 12.3),
-                          CustomText(store.getUser?.fullName ?? 'Name',
-                              style: drawerName)
+        child: Stack(fit: StackFit.expand, alignment: Alignment.topCenter, children: [
+          ListView(
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              SizedBox(height: 39.3),
+              DrawerHeader(
+                child: Container(
+                  height: 280,
+                  child: Column(
+                    children: <Widget>[
+                      if (store.getUser?.isIcon)
+                        CustomText(
+                          'You are ICON',
+                          style: fieldLabel.copyWith(color: lightMustard),
+                        ),
+                      Stack(
+                        fit: StackFit.loose,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: UserAvatar(
+                                showPlus: false,
+                                url: store.getUser?.photo?.url ?? '',
+                                onTap: () =>
+                                    ExtendedNavigator.of(context).pushOnboardingProfile(mode: OnboardingMode.drawer)),
+                          ),
+                          if (store.getUser?.isIcon)
+                            Positioned(
+                                bottom: 0,
+                                right: 0,
+                                child: LottieBuilder.asset(
+                                  'assets/animations/premium.json',
+                                  height: 40,
+                                  width: 40,
+                                )),
                         ],
                       ),
-                    ),
+                      SizedBox(height: 12.3),
+                      CustomText(store.getUser?.fullName ?? 'Name', style: drawerName)
+                    ],
                   ),
-                  _drawerDivider,
-                  DrawerItem(
-                      text: LocaleKeys.drawer_profile.tr(),
-                      onTap: () => ExtendedNavigator.of(context)
-                          .pushOnboardingProfile(mode: OnboardingMode.drawer)),
-                  if (!store.getUser.isIcon)
-                    DrawerItem(
-                      text: LocaleKeys.drawer_identifyAsIcon.tr(),
-                      onTap: () {
-                        sl<VerifyIconStore>().reset();
-                        ExtendedNavigator.of(context).pushVerifyWelcomeScreen();
-                      },
-                    ),
-                  DrawerItem(
-                      text: LocaleKeys.drawer_hidden.tr(),
-                      onTap: () =>
-                          ExtendedNavigator.of(context).pushArchiveScreen()),
-                  DrawerItem(
-                      text: LocaleKeys.drawer_settings.tr(),
-                      onTap: () => ExtendedNavigator.of(context)
-                          .pushSettingsScreen()),
-                ],
+                ),
               ),
-              // Positioned(
-              //   bottom: 22.7,
-              //   child: TransparentButton(
-              //     onPressed: () async {
-              //       Navigator.pop(context);
-              //       await showDialog(
-              //         context: context,
-              //         builder: (_) => DisconnectDialog(
-              //           height: 250,
-              //         ),
-              //       );
-              //     },
-              //     text: LocaleKeys.drawer_disconnect.tr(),
-              //   ),
-              // ),
-            ]),
+              _drawerDivider,
+              DrawerItem(
+                  text: LocaleKeys.drawer_profile.tr(),
+                  onTap: () => ExtendedNavigator.of(context).pushOnboardingProfile(mode: OnboardingMode.drawer)),
+              if (!store.getUser.isIcon)
+                DrawerItem(
+                  text: LocaleKeys.drawer_identifyAsIcon.tr(),
+                  onTap: () {
+                    sl<VerifyIconStore>().reset();
+                    ExtendedNavigator.of(context).pushVerifyWelcomeScreen();
+                  },
+                ),
+              DrawerItem(
+                  text: LocaleKeys.drawer_hidden.tr(), onTap: () => ExtendedNavigator.of(context).pushArchiveScreen()),
+              DrawerItem(
+                  text: LocaleKeys.drawer_settings.tr(),
+                  onTap: () => ExtendedNavigator.of(context).pushSettingsScreen()),
+            ],
+          ),
+        ]),
       ),
     );
   }

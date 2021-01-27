@@ -101,78 +101,79 @@ class _PhotoMessageState extends State<PhotoMessage> {
                 IconBubble(
                   isMe: widget.isMe,
                   message: widget.message,
-                  child: Stack(children: [
-                    Hero(
-                      tag: widget.index,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          widget.message.body.startsWith('http')
-                              ? GestureDetector(
-                                  onTap: () => _onPhotoTap(store, context),
-                                  child: SizedBox(
-                                    height: 230,
-                                    width: MediaQuery.of(context).size.width * .75,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(4.2),
-                                      child: CachedNetworkImage(
-                                        fadeInCurve: Curves.linear,
-                                        fit: BoxFit.cover,
-                                        progressIndicatorBuilder: (context, url, data) {
-                                          return Center(
-                                            child: SizedBox(
-                                              height: 20,
-                                              width: 20,
-                                              child: CircularProgressIndicator(
-                                                strokeWidth: 1,
-                                                value: data.progress,
-                                                valueColor: AlwaysStoppedAnimation(cornflower),
+                  child: Stack(
+                    children: [
+                      Hero(
+                        tag: widget.index,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            widget.message.body.startsWith('http')
+                                ? GestureDetector(
+                                    onTap: () => _onPhotoTap(store, context),
+                                    child: SizedBox(
+                                      height: 230,
+                                      width: MediaQuery.of(context).size.width * .75,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(4.2),
+                                        child: CachedNetworkImage(
+                                          fadeInCurve: Curves.linear,
+                                          fit: BoxFit.cover,
+                                          progressIndicatorBuilder: (context, url, data) {
+                                            return Center(
+                                              child: SizedBox(
+                                                height: 20,
+                                                width: 20,
+                                                child: CircularProgressIndicator(
+                                                  strokeWidth: 1,
+                                                  value: data.progress,
+                                                  valueColor: AlwaysStoppedAnimation(cornflower),
+                                                ),
                                               ),
-                                            ),
-                                          );
-                                        },
-                                        imageUrl: widget.message.body,
-                                        fadeOutDuration: const Duration(milliseconds: 250),
+                                            );
+                                          },
+                                          imageUrl: widget.message.body,
+                                          fadeOutDuration: const Duration(milliseconds: 250),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : GestureDetector(
+                                    onTap: () => _onPhotoTap(store, context),
+                                    child: SizedBox(
+                                      height: 200,
+                                      width: 250,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(4.2),
+                                        child: Image.file(
+                                          File(widget.message.body),
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                )
-                              : GestureDetector(
-                                  onTap: () => _onPhotoTap(store, context),
-                                  child: SizedBox(
-                                    height: 200,
-                                    width: 250,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(4.2),
-                                      child: Image.file(
-                                        File(widget.message.body),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                          if (widget.message?.messageDescription != null)
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * .7,
-                              child: Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: AutoDirection(
-                                  text: widget.message?.messageDescription ?? '',
-                                  child: Linkify(
-                                    linkStyle: TextStyle(color: Colors.blue),
+                            if (widget.message?.messageDescription != null)
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * .7,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: AutoDirection(
                                     text: widget.message?.messageDescription ?? '',
-                                    style: chatMessageBody,
-                                    onOpen: openUrl,
+                                    child: Linkify(
+                                      linkStyle: TextStyle(color: Colors.blue),
+                                      text: widget.message?.messageDescription ?? '',
+                                      style: chatMessageBody,
+                                      onOpen: openUrl,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    Positioned(
+                      Positioned(
                         top: 5,
                         bottom: 5,
                         child: CustomText(
@@ -180,14 +181,16 @@ class _PhotoMessageState extends State<PhotoMessage> {
                                 ? ''
                                 : widget.message?.timestamp?.humanReadableTime() ?? '',
                             style: chatMessageBody.copyWith(fontSize: 9),
-                            textAlign: TextAlign.start)),
-                    Positioned(
-                      right: 5,
-                      top: 5,
-                      child: CustomText(widget.message.sender?.fullName ?? '',
-                          style: chatMessageName, textAlign: TextAlign.start),
-                    ),
-                  ]),
+                            textAlign: TextAlign.start),
+                      ),
+                      Positioned(
+                        right: 5,
+                        top: 5,
+                        child: CustomText(widget.message.sender?.fullName ?? '',
+                            style: chatMessageName, textAlign: TextAlign.start),
+                      ),
+                    ],
+                  ),
                 ),
                 if (widget.message.status == MessageStatus.pending)
                   Positioned(
