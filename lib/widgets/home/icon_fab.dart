@@ -39,6 +39,11 @@ class IconFab extends StatelessWidget {
       fabElevation: 1,
       fabCloseColor: warmPurple,
       fabOpenColor: warmPurple,
+      onDisplayChange: (isOpen) {
+        final home = sl<HomeStore>();
+
+        home.setFabOpen(isOpen);
+      },
       fabColor: warmPurple,
       animationCurve: Curves.linearToEaseOut,
       fabCloseIcon: Icon(Icons.close, color: lightMustard, size: 20),
@@ -52,14 +57,13 @@ class IconFab extends StatelessWidget {
 
   List<Widget> _showViewer(BuildContext context) {
     final home = sl<HomeStore>();
-    final sp = sl<SharedPreferencesService>();
     return [
       Observer(builder: (_) {
         return FabTile(
             text: home.viewMode == ViewHomeMode.staggered ? LocaleKeys.fab_list.tr() : LocaleKeys.fab_staggered.tr(),
             onTap: () {
               _close();
-              _saveViewMode(home, sp);
+              persistViewMode(home);
               home.switchViewMode();
               home.setTabMode(TabMode.conversation);
             },
@@ -73,23 +77,15 @@ class IconFab extends StatelessWidget {
     ];
   }
 
-  void _saveViewMode(HomeStore home, SharedPreferencesService sp) {
-    final mode = home.viewMode == ViewHomeMode.staggered ? ViewHomeMode.list : ViewHomeMode.staggered;
-
-    // save mode
-    sp.setString(StorageKey.homeViewMode, mode.toString().parseEnum());
-  }
-
   List<Widget> _showIconMenu(BuildContext context) {
     final home = sl<HomeStore>();
-    final sp = sl<SharedPreferencesService>();
     return [
       Observer(builder: (_) {
         return FabTile(
             text: home.viewMode == ViewHomeMode.staggered ? LocaleKeys.fab_list.tr() : LocaleKeys.fab_staggered.tr(),
             onTap: () {
               _close();
-              _saveViewMode(home, sp);
+              persistViewMode(home);
               home.setTabMode(TabMode.conversation);
               home.switchViewMode();
             },
@@ -125,7 +121,12 @@ class FabTile extends StatelessWidget {
   final IconData iconData;
   final Function onTap;
 
-  const FabTile({Key key, @required this.text, @required this.onTap, @required this.iconData}) : super(key: key);
+  const FabTile({
+    Key key,
+    @required this.text,
+    @required this.onTap,
+    @required this.iconData,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -147,4 +148,12 @@ class FabTile extends StatelessWidget {
       ),
     );
   }
+}
+
+void persistViewMode(HomeStore home) {
+  final preferences = sl<SharedPreferencesService>();
+  final mode = home.viewMode == ViewHomeMode.staggered ? ViewHomeMode.list : ViewHomeMode.staggered;
+
+  // save mode
+  preferences.setString(StorageKey.homeViewMode, mode.toString().parseEnum());
 }

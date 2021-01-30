@@ -72,14 +72,12 @@ class PhotoGalleryScreen extends HookWidget {
                                 ) =>
                                     Center(
                                   child: SizedBox(
-                                    height: 20,
-                                    width: 20,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 1,
-                                      value: downloadProgress.progress,
-                                      valueColor: AlwaysStoppedAnimation(cornflower),
-                                    ),
-                                  ),
+                                      height: 20,
+                                      width: 20,
+                                      child: CircularProgressIndicator(
+                                          strokeWidth: 1,
+                                          value: downloadProgress.progress,
+                                          valueColor: AlwaysStoppedAnimation(cornflower))),
                                 ),
                                 fit: BoxFit.cover,
                                 imageUrl: url,

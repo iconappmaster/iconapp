@@ -24,9 +24,12 @@ class HomeFilter extends StatelessWidget {
       blurSize: 5.0,
       menuItemExtent: 45,
       menuBoxDecoration: BoxDecoration(
-          color: Colors.grey,
-          borderRadius: BorderRadius.all(Radius.circular(15.0))),
-      duration: Duration(milliseconds: 100),
+        color: Colors.grey,
+        borderRadius: BorderRadius.all(
+          const Radius.circular(15.0),
+        ),
+      ),
+      duration: const Duration(milliseconds: 100),
       animateMenuItems: true,
       blurBackgroundColor: Colors.black54,
       bottomOffsetHeight: 100,
@@ -69,16 +72,9 @@ class HomeFilter extends StatelessWidget {
 enum HomeFilterType { forYou, popular }
 
 extension HomeFilterExt on HomeFilterType {
-  static const filterMapEng = {
-    HomeFilterType.forYou: 'For You',
-    HomeFilterType.popular: 'Must Popular'
-  };
+  static const filterMapEng = {HomeFilterType.forYou: 'For You', HomeFilterType.popular: 'Must Popular'};
 
-  static const filterMapHe = {
-    HomeFilterType.forYou: 'For You',
-    HomeFilterType.popular: 'Must Popular'
-  };
+  static const filterMapHe = {HomeFilterType.forYou: 'For You', HomeFilterType.popular: 'Must Popular'};
 
-  String get description =>
-      language.isLTR ? filterMapEng[this] : filterMapHe[this];
+  String get description => language.isLTR ? filterMapEng[this] : filterMapHe[this];
 }

@@ -2,9 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/theme.dart';
-import 'package:iconapp/data/models/story_image.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
-import 'package:iconapp/screens/full_video_screen.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -13,12 +11,10 @@ const String cancelled = 'canceled';
 // This screen adds the ability to add an description for existing media [photo/video]
 class MediaDescriptionScreen extends StatefulWidget {
   final String url;
-  final MediaType type;
 
   const MediaDescriptionScreen({
     Key key,
     @required this.url,
-    @required this.type,
   }) : super(key: key);
 
   @override
@@ -34,17 +30,11 @@ class _MediaDescriptionScreenState extends State<MediaDescriptionScreen> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          widget.type == MediaType.photo
-              ? widget.url.startsWith('http')
-                  ? NetworkPhoto(imageUrl: widget.url)
-                  : Image.asset(
-                      widget.url,
-                      fit: BoxFit.cover,
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height,
-                    )
-              : VideoScreen(
-                  url: widget.url,
+          widget.url.startsWith('http')
+              ? NetworkPhoto(imageUrl: widget.url)
+              : Image.asset(
+                  widget.url,
+                  fit: BoxFit.scaleDown,
                 ),
           Positioned(
             bottom: 54,

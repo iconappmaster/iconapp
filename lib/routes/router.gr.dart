@@ -16,7 +16,6 @@ import '../core/video/default_player/default_player.dart';
 import '../core/video/feed_player/feed_player.dart';
 import '../data/models/conversation_model.dart';
 import '../data/models/message_model.dart';
-import '../data/models/story_image.dart';
 import '../data/models/story_model.dart';
 import '../screens/alerts_screen.dart';
 import '../screens/archive_screen.dart';
@@ -336,7 +335,6 @@ class Router extends RouterBase {
         builder: (context) => MediaDescriptionScreen(
           key: args.key,
           url: args.url,
-          type: args.type,
         ),
         settings: data,
       );
@@ -566,12 +564,10 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
   Future<dynamic> pushMediaDescriptionScreen({
     Key key,
     @required String url,
-    @required MediaType type,
   }) =>
       push<dynamic>(
         Routes.mediaDescriptionScreen,
-        arguments:
-            MediaDescriptionScreenArguments(key: key, url: url, type: type),
+        arguments: MediaDescriptionScreenArguments(key: key, url: url),
       );
 
   Future<dynamic> pushSingleImage({
@@ -720,9 +716,7 @@ class StoryScreenArguments {
 class MediaDescriptionScreenArguments {
   final Key key;
   final String url;
-  final MediaType type;
-  MediaDescriptionScreenArguments(
-      {this.key, @required this.url, @required this.type});
+  MediaDescriptionScreenArguments({this.key, @required this.url});
 }
 
 /// SingleImage arguments holder class

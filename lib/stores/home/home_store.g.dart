@@ -23,6 +23,13 @@ mixin _$HomeStore on _HomeStoreBase, Store {
       (_$typeComputed ??= Computed<HomeFilterType>(() => super.type,
               name: '_HomeStoreBase.type'))
           .value;
+  Computed<bool> _$isFabOpenComputed;
+
+  @override
+  bool get isFabOpen =>
+      (_$isFabOpenComputed ??= Computed<bool>(() => super.isFabOpen,
+              name: '_HomeStoreBase.isFabOpen'))
+          .value;
   Computed<List<Conversation>> _$conversationSubscribedComputed;
 
   @override
@@ -102,6 +109,21 @@ mixin _$HomeStore on _HomeStoreBase, Store {
           Computed<List<Conversation>>(() => super.conversations,
               name: '_HomeStoreBase.conversations'))
       .value;
+
+  final _$_isFabOpenAtom = Atom(name: '_HomeStoreBase._isFabOpen');
+
+  @override
+  bool get _isFabOpen {
+    _$_isFabOpenAtom.reportRead();
+    return super._isFabOpen;
+  }
+
+  @override
+  set _isFabOpen(bool value) {
+    _$_isFabOpenAtom.reportWrite(value, super._isFabOpen, () {
+      super._isFabOpen = value;
+    });
+  }
 
   final _$_tabModeAtom = Atom(name: '_HomeStoreBase._tabMode');
 
@@ -367,6 +389,17 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   }
 
   @override
+  void setFabOpen(bool isOpen) {
+    final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
+        name: '_HomeStoreBase.setFabOpen');
+    try {
+      return super.setFabOpen(isOpen);
+    } finally {
+      _$_HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setTabMode(TabMode tabMode) {
     final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
         name: '_HomeStoreBase.setTabMode');
@@ -492,6 +525,7 @@ mixin _$HomeStore on _HomeStoreBase, Store {
     return '''
 conversationCode: ${conversationCode},
 type: ${type},
+isFabOpen: ${isFabOpen},
 conversationSubscribed: ${conversationSubscribed},
 conversationPopular: ${conversationPopular},
 tabMode: ${tabMode},

@@ -40,6 +40,9 @@ abstract class _HomeStoreBase with Store {
   }
 
   @observable
+  bool _isFabOpen = false;
+
+  @observable
   TabMode _tabMode = TabMode.conversation;
 
   @observable
@@ -77,6 +80,9 @@ abstract class _HomeStoreBase with Store {
 
   @computed
   HomeFilterType get type => _type;
+
+  @computed
+  bool get isFabOpen => _isFabOpen;
 
   @computed
   List<Conversation> get conversationSubscribed => _conversationSubscribed;
@@ -135,6 +141,11 @@ abstract class _HomeStoreBase with Store {
       _loading = false;
     }
   }
+ @action
+  void setFabOpen(bool isOpen) {
+    _isFabOpen = isOpen;
+  }
+
 
   @action
   void setTabMode(TabMode tabMode) {

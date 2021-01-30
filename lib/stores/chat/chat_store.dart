@@ -11,7 +11,6 @@ import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/models/likes.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/models/photo_model.dart';
-import 'package:iconapp/data/models/story_image.dart';
 import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/repositories/chat_repository.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
@@ -398,9 +397,10 @@ abstract class _ChatStoreBase with Store {
       );
 
       if (pickedFile != null) {
-        final description = await ExtendedNavigator.named($Router.routerName)
-            .pushMediaDescriptionScreen(url: pickedFile.path, type: MediaType.photo);
-        
+        final description = await ExtendedNavigator.named($Router.routerName).pushMediaDescriptionScreen(
+          url: pickedFile.path,
+        );
+
         if (description != cancelled) {
           final msg = MessageModel(
             id: DateTime.now().millisecondsSinceEpoch,
@@ -445,7 +445,6 @@ abstract class _ChatStoreBase with Store {
 
         final description = await ExtendedNavigator.named($Router.routerName).pushMediaDescriptionScreen(
           url: thumbnail.path,
-          type: MediaType.photo,
         );
 
         final msg = MessageModel(
@@ -465,11 +464,11 @@ abstract class _ChatStoreBase with Store {
         // upload thumbnail and video
         final firbaseThumbnail = await _mediaStore.uploadPhoto(file: File(thumbnail.path));
 
-        final info = await compressVideo(file);
+        final compressed = await compressVideo(file);
 
         setMessageStatus(msg, MessageStatus.pending);
 
-        final firebaseVideo = await _mediaStore.uploadVideo(video: info.file, messageId: msg.id);
+        final firebaseVideo = await _mediaStore.uploadVideo(video: compressed, messageId: msg.id);
 
         // send message with firebase links
         final remote = await _repository.sendMessage(

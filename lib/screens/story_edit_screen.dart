@@ -82,9 +82,8 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                           final story = _edit.stories[index];
                           return GestureDetector(
                             onTap: () async {
-                              final description = await ExtendedNavigator.of(context).pushMediaDescriptionScreen(
-                                  type: story.imageType == "photo" ? MediaType.photo : MediaType.video,
-                                  url: story.photo?.url ?? '');
+                              final description = await ExtendedNavigator.of(context)
+                                  .pushMediaDescriptionScreen(url: story.photo?.url ?? '');
 
                               _edit.updateStory(story.copyWith(description: description));
                             },
@@ -116,7 +115,6 @@ class _StoryEditScreenState extends State<StoryEditScreen> {
                                         onPressed: () async {
                                           final description =
                                               await ExtendedNavigator.of(context).pushMediaDescriptionScreen(
-                                            type: story.imageType == "photo" ? MediaType.photo : MediaType.video,
                                             url: story.photo?.url ?? '',
                                           );
 

@@ -61,7 +61,7 @@ class _SendButtonState extends State<SendButton> {
                     if (isMessageMode()) {
                       widget.textEditcontroller.clear();
                       widget.scrollController.jumpTo(0);
-                      chat.sendTextMessage();
+                      sl<ChatStore>().sendTextMessage();
                     }
                     break;
 
