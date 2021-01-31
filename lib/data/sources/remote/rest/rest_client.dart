@@ -14,7 +14,6 @@ import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/models/create_group_req.dart';
 import 'package:retrofit/retrofit.dart';
 import 'header_interceptor.dart';
-import 'logger_interceptor.dart';
 
 part 'rest_client.g.dart';
 
@@ -265,7 +264,7 @@ Dio getDioClient() {
   dio.interceptors.addAll([
     DioCacheManager(CacheConfig(baseUrl: baseUrlProd, defaultMaxStale: const Duration(days: 7))).interceptor,
     HeaderInterceptor(dio),
-    LoggingInterceptors(),
+    // LoggingInterceptors(),
   ]);
   return dio;
 }

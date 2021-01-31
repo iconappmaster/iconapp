@@ -500,7 +500,7 @@ abstract class _ChatStoreBase with Store {
 
       final appDocDirectory = await getApplicationDocumentsDirectory();
       final path = '${appDocDirectory.path}/${DateTime.now().millisecondsSinceEpoch}';
-      _recorder = FlutterAudioRecorder(path, audioFormat: AudioFormat.AAC);
+      _recorder = FlutterAudioRecorder(path, audioFormat: AudioFormat.WAV);
       await _recorder.initialized;
       await _recorder.start();
     } on ServerError catch (e) {

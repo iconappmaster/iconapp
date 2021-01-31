@@ -41,10 +41,12 @@ class _SendButtonState extends State<SendButton> {
         width: SendButton.size,
         child: GestureDetector(
           onLongPress: () async {
-            final granted = await Permission.microphone.request().isGranted;
+            final granted = await Permission.microphone.isGranted;
             if (granted) {
               HapticFeedback.lightImpact();
               chat.startRecording();
+            } else {
+              context.showFlushbar(message: 'Microphone have no persmissions.');
             }
           },
           onLongPressEnd: (d) async {
@@ -114,8 +116,7 @@ class _SendButtonState extends State<SendButton> {
   Widget _sendIcon() {
     return RotatedBox(
       quarterTurns: language.isLTR ? 2 : 0,
-      child: SvgPicture.asset('assets/images/send_icon.svg',
-          key: const Key('send'), height: 15.3, width: 15.3),
+      child: SvgPicture.asset('assets/images/send_icon.svg', key: const Key('send'), height: 15.3, width: 15.3),
     );
   }
 

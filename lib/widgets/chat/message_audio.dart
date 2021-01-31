@@ -5,15 +5,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:iconapp/core/bus.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/models/user_model.dart';
-import 'package:iconapp/data/repositories/media_repository.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/widgets/chat/reply_slider.dart';
 import 'package:iconapp/widgets/global/bubble.dart';
+import 'package:iconapp/widgets/global/cupertino_loader.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/slidable/slidable.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
@@ -65,7 +64,7 @@ class _VoiceMessageState extends State<VoiceMessage> {
   SlidableController _controller;
   BuildContext _sliderContext;
   bool _isOpen = false;
-  double _progress = 0;
+
   StreamSubscription _progressSubscription;
 
   @override
@@ -73,12 +72,6 @@ class _VoiceMessageState extends State<VoiceMessage> {
     super.initState();
     _initSlidable();
     _initAudioPlayer();
-    _progressSubscription = sl<Bus>().on<ProgressEvent>().listen((event) {
-      if (mounted)
-        setState(() {
-          _progress = event.progress;
-        });
-    });
   }
 
   void _initSlidable() {
@@ -129,7 +122,12 @@ class _VoiceMessageState extends State<VoiceMessage> {
         },
         child: Container(
           child: IconBubble(
-            padding: BubbleEdges.only(left: 18, top: 5, right: 5, bottom: 5),
+            padding: BubbleEdges.only(
+              left: widget.isMe ? 8 : 18,
+              top: 2,
+              right: widget.isMe ? 18 : 8,
+              bottom: 2,
+            ),
             message: widget.message,
             isMe: widget.isMe,
             child: Column(
@@ -143,7 +141,7 @@ class _VoiceMessageState extends State<VoiceMessage> {
                       textDirection: TextDirection.ltr,
                       child: Slider(
                         inactiveColor: white,
-                        activeColor: cornflower,
+                        activeColor: warmPurple,
                         onChanged: (v) {
                           final position = v * _duration.inMilliseconds;
                           _audioPlayer.seek(Duration(milliseconds: position.round()));
@@ -157,31 +155,32 @@ class _VoiceMessageState extends State<VoiceMessage> {
                       ),
                     ),
                     widget.message.status == MessageStatus.pending
-                        ? CircularProgressIndicator(
-                            value: _progress,
-                            strokeWidth: 1,
-                            backgroundColor: cornflower,
-                            valueColor: AlwaysStoppedAnimation<Color>(white),
-                          )
+                        ? CupertinoLoader()
                         : SizedBox(
-                            height: 35,
-                            width: 35,
+                            height: 45,
+                            width: 45,
                             child: FloatingActionButton(
                               heroTag: widget.message.id.toString(),
                               onPressed: () => _isPlaying ? _pause() : _play(),
-                              elevation: 0,
+                              elevation: 3,
                               backgroundColor: white,
                               child: AnimatedSwitcher(
                                 duration: Duration(milliseconds: 250),
                                 transitionBuilder: (child, animation) =>
                                     ScaleTransition(scale: animation, child: child),
                                 child: _isPlaying
-                                    ? SvgPicture.asset('assets/images/pause.svg',
-                                        key: Key('pause_button'), height: 10, width: 10)
+                                    ? SvgPicture.asset(
+                                        'assets/images/pause.svg',
+                                        key: Key('pause_button'),
+                                        height: 20,
+                                        width: 20,
+                                        color: Colors.black,
+                                      )
                                     : SvgPicture.asset(
                                         'assets/images/play.svg',
-                                        height: 10,
-                                        width: 10,
+                                        height: 15,
+                                        width: 15,
+                                        color: Colors.black,
                                         key: Key('play_button'),
                                       ),
                               ),
@@ -189,20 +188,17 @@ class _VoiceMessageState extends State<VoiceMessage> {
                           ),
                   ],
                 ),
-                Visibility(
-                  visible: _position != null,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 4),
-                    child: CustomText(
-                      _position != null
-                          ? '${_durationText ?? ''} / ${_positionText ?? ''}'
-                          : _duration != null
-                              ? _durationText
-                              : '',
-                      style: newMessageNumber,
-                    ),
+                Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: CustomText(
+                    _position != null
+                        ? '${_positionText ?? ''} / ${_durationText ?? ''}'
+                        : _duration != null
+                            ? _durationText
+                            : '',
+                    style: myStoryCreate,
                   ),
-                ),
+                )
               ],
             ),
           ),

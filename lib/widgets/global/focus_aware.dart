@@ -10,6 +10,6 @@ class FocusAwareWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         child: child,
-        onTap: () => FocusScope.of(context).requestFocus(new FocusNode()));
+        onTap: () => FocusScope.of(context).requestFocus(FocusNode()));
   }
 }

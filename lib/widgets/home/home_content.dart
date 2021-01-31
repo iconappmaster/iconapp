@@ -56,9 +56,10 @@ class HomeContent extends StatelessWidget {
                           ),
                   ),
                   Positioned(
-                      bottom: 62,
-                      right: 12,
-                      child: Observer(builder: (_) {
+                    bottom: 62,
+                    right: 12,
+                    child: Observer(
+                      builder: (_) {
                         return CupertinoSlidingSegmentedControl(
                           thumbColor: lightishRed,
                           backgroundColor: blueberry2,
@@ -75,20 +76,10 @@ class HomeContent extends StatelessWidget {
                             home.setTabMode(TabMode.conversation);
                           },
                         );
-                      })),
-                  Observer(builder: (_) {
-                    return Visibility(
-                      visible: home.isFabOpen,
-                      child: Container(
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
-                          child: Container(
-                            decoration: BoxDecoration(color: Colors.black.withOpacity(.5)),
-                          ),
-                        ),
-                      ),
-                    );
-                  }),
+                      },
+                    ),
+                  ),
+                  BlueMask(home: home),
                 ],
               ),
             );
@@ -110,5 +101,26 @@ class HomeContent extends StatelessWidget {
         return Container();
       },
     );
+  }
+}
+
+class BlueMask extends StatelessWidget {
+  const BlueMask({
+    Key key,
+    @required this.home,
+  }) : super(key: key);
+
+  final HomeStore home;
+
+  @override
+  Widget build(BuildContext context) {
+    return Observer(builder: (_) {
+      return Visibility(
+          visible: home.isFabOpen,
+          child: Container(
+              child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+                  child: Container(decoration: BoxDecoration(color: Colors.black.withOpacity(.5))))));
+    });
   }
 }
