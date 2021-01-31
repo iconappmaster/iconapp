@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:cool_alert/cool_alert.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -9,6 +10,7 @@ import 'package:iconapp/core/bus.dart';
 import 'package:iconapp/data/models/product_model.dart';
 import 'package:iconapp/widgets/global/basic_tile.dart';
 import 'package:lottie/lottie.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../core/dependencies/locator.dart';
 import '../core/theme.dart';
 import '../generated/locale_keys.g.dart';
@@ -60,21 +62,24 @@ class Purchase extends HookWidget {
             ? Center(
                 child: CustomText(LocaleKeys.redemption_storeEmpty.tr(),
                     textAlign: TextAlign.center, style: redemptionEmptystyle))
-            : Stack(children: [
-                ListView.builder(
-                  physics: BouncingScrollPhysics(),
-                  itemCount: store.purchaseProducts?.length,
-                  itemBuilder: (context, index) {
-                    return PurchaseTile(
-                      product: store.purchaseProducts[index],
-                    );
-                  },
-                ),
-                if (store.showConffetiAnimation)
-                  Center(
-                    child: LottieBuilder.asset('assets/animations/confetti.json'),
+            : Stack(
+                children: [
+                  ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    itemCount: store.purchaseProducts?.length,
+                    itemBuilder: (context, index) {
+                      return PurchaseTile(
+                        product: store.purchaseProducts[index],
+                      );
+                    },
                   ),
-              ]);
+                  if (store.showConffetiAnimation)
+                    Center(
+                      child: LottieBuilder.asset('assets/animations/confetti.json'),
+                    ),
+                  ContactUs(),
+                ],
+              );
       },
     );
   }
@@ -89,6 +94,40 @@ class Purchase extends HookWidget {
     }
 
     return '';
+  }
+}
+
+class ContactUs extends StatelessWidget {
+  const ContactUs({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      right: 12,
+      bottom: 12,
+      child: CupertinoButton(
+        child: Row(
+          children: [
+            Icon(Icons.help, color: cornflower),
+            SizedBox(width: 3),
+            CustomText('Contact Us'),
+          ],
+        ),
+        onPressed: () {
+          final Uri _emailLaunchUri = Uri(
+            scheme: 'mailto',
+            path: 'office@icon-app.net',
+            queryParameters: {
+              'subject': 'IconApp',
+            },
+          );
+
+          launch(_emailLaunchUri.toString());
+        },
+      ),
+    );
   }
 }
 
