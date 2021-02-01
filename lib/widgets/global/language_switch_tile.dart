@@ -12,7 +12,7 @@ class LanguageSwitchTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(21),
-      height: context.heightPlusStatusbarPerc(.11),
+      height: context.heightPlusStatusbarPerc(.14),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

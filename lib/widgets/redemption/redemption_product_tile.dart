@@ -28,23 +28,26 @@ class RedemptionProductTile extends StatelessWidget {
 
     return BasicTile(
       onTap: () => _onProductTap(store, context),
-      left: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CustomText(product.name, style: dialogContent.copyWith(color: textColor)),
-          SizedBox(height: 3),
-          SizedBox(
-              width: MediaQuery.of(context).size.width * .7,
-              child: CustomText(
-                product.description,
-                maxLines: 3,
-                style: dialogContent.copyWith(
-                  color: textColor.withOpacity(.5),
-                  fontSize: 12,
-                ),
-              )),
-        ],
+      left: SizedBox(
+        width: MediaQuery.of(context).size.width * .6,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CustomText(product.name, style: dialogContent.copyWith(color: textColor)),
+            SizedBox(height: 3),
+            SizedBox(
+                width: MediaQuery.of(context).size.width * .7,
+                child: CustomText(
+                  product.description,
+                  maxLines: 3,
+                  style: dialogContent.copyWith(
+                    color: textColor.withOpacity(.5),
+                    fontSize: 12,
+                  ),
+                )),
+          ],
+        ),
       ),
       right: ProductPrice(
         store: store,
