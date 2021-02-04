@@ -7,7 +7,6 @@ import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/screens/alerts_screen.dart';
 import 'package:iconapp/screens/create_icons_screen.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/stores/alerts/alert_store.dart';
@@ -56,19 +55,7 @@ class IconFab extends StatelessWidget {
   }
 
   List<Widget> _showViewer(BuildContext context) {
-    final home = sl<HomeStore>();
     return [
-      Observer(builder: (_) {
-        return FabTile(
-            text: home.viewMode == ViewHomeMode.staggered ? LocaleKeys.fab_list.tr() : LocaleKeys.fab_staggered.tr(),
-            onTap: () {
-              _close();
-              persistViewMode(home);
-              home.switchViewMode();
-              home.setTabMode(TabMode.conversation);
-            },
-            iconData: home.viewMode == ViewHomeMode.staggered ? Icons.line_style : Icons.list);
-      }),
       BellAlert(onPressed: () {
         final alerts = sl<AlertStore>();
         alerts.markAlertsAsSeen();
@@ -78,19 +65,7 @@ class IconFab extends StatelessWidget {
   }
 
   List<Widget> _showIconMenu(BuildContext context) {
-    final home = sl<HomeStore>();
     return [
-      Observer(builder: (_) {
-        return FabTile(
-            text: home.viewMode == ViewHomeMode.staggered ? LocaleKeys.fab_list.tr() : LocaleKeys.fab_staggered.tr(),
-            onTap: () {
-              _close();
-              persistViewMode(home);
-              home.setTabMode(TabMode.conversation);
-              home.switchViewMode();
-            },
-            iconData: home.viewMode == ViewHomeMode.staggered ? Icons.list : Icons.line_style);
-      }),
       FabTile(
         iconData: Icons.add,
         text: LocaleKeys.fab_create.tr(),

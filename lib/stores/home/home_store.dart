@@ -15,7 +15,9 @@ import 'package:mobx/mobx.dart';
 part 'home_store.g.dart';
 
 class HomeStore = _HomeStoreBase with _$HomeStore;
+
 enum ViewHomeMode { staggered, list }
+
 enum TabMode { conversation, media }
 
 abstract class _HomeStoreBase with Store {
@@ -85,6 +87,9 @@ abstract class _HomeStoreBase with Store {
   bool get isFabOpen => _isFabOpen;
 
   @computed
+  int get selectedSwitchIndex => viewMode == ViewHomeMode.staggered ? 0 : 1;
+
+  @computed
   List<Conversation> get conversationSubscribed => _conversationSubscribed;
 
   @computed
@@ -141,15 +146,10 @@ abstract class _HomeStoreBase with Store {
       _loading = false;
     }
   }
- @action
-  void setFabOpen(bool isOpen) {
-    _isFabOpen = isOpen;
-  }
-
 
   @action
-  void setTabMode(TabMode tabMode) {
-    _tabMode = tabMode;
+  void setFabOpen(bool isOpen) {
+    _isFabOpen = isOpen;
   }
 
   @action
@@ -345,8 +345,15 @@ abstract class _HomeStoreBase with Store {
   }
 
   @action
+  void setTabMode(TabMode tabMode) {
+    _tabMode = tabMode;
+  }
+
+  @action
   void switchViewMode() {
-    _viewMode = _viewMode == ViewHomeMode.staggered ? ViewHomeMode.list : ViewHomeMode.staggered;
+    _viewMode = _viewMode == ViewHomeMode.staggered 
+        ? ViewHomeMode.list
+        : ViewHomeMode.staggered;
   }
 
   @action

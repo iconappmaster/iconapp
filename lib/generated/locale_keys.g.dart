@@ -182,5 +182,7 @@ abstract class  LocaleKeys {
   static const redemption_vaucherEmpty = 'redemption.vaucherEmpty';
   static const redemption_storeEmpty = 'redemption.storeEmpty';
   static const redemption = 'redemption';
+  static const toturial_homeViewSwitch = 'toturial.homeViewSwitch';
+  static const toturial = 'toturial';
 
 }

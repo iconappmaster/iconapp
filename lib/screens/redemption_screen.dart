@@ -36,7 +36,9 @@ class RedemptionScreen extends HookWidget {
                   children: [
                     Observer(
                         builder: (_) => AppBarWithDivider(
-                            widget: RedemptionScoreIndicator(openRedemptionScreen: false),
+                            widget: RedemptionScoreIndicator(
+                              openRedemptionScreen: false,
+                            ),
                             title: store.title,
                             isArrowDirectionDown: true,
                             subtitle: store.subtitle)),

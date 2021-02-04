@@ -217,6 +217,9 @@ class CodegenLoader extends AssetLoader{
     "actionsEmpty": "No redeem action has been taken",
     "vaucherEmpty": "No code, try to redeem a product first",
     "storeEmpty": "No products in the store"
+  },
+  "toturial": {
+    "homeViewSwitch": "Toggle between staggered view and list view"
   }
 };
 static const Map<String,dynamic> en_US = {
@@ -420,6 +423,9 @@ static const Map<String,dynamic> en_US = {
     "actionsEmpty": "No redeem action has been taken",
     "vaucherEmpty": "No code, try to redeem a product first",
     "storeEmpty": "No products in the store"
+  },
+  "toturial": {
+    "homeViewSwitch": "Toggle between staggered view and list view"
   }
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"he_HE": he_HE, "en_US": en_US};

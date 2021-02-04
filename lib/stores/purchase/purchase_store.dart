@@ -24,7 +24,7 @@ abstract class _PurchaseStoreBase with Store {
   StreamSubscription _subscription;
 
   @observable
-  bool _loading = false;
+  bool _loading = false;  
 
   @observable
   ObservableList<ProductModel> _purchaseProducts = ObservableList.of([]);
@@ -55,7 +55,7 @@ abstract class _PurchaseStoreBase with Store {
             productId: m.id,
           ));
 
-      _purchaseProducts
+       _purchaseProducts
         ..clear()
         ..addAll(productModels);
     } on Exception catch (e) {

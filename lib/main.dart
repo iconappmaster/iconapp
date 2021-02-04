@@ -24,6 +24,7 @@ import 'data/sources/local/shared_preferences.dart';
 import 'generated/codegen_loader.g.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 final logger = Logger();
 const appName = 'Icon';
@@ -131,43 +132,57 @@ class _MyAppState extends State<MyApp> {
       FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
     }
 
-    return MaterialApp(
-      navigatorKey: NavigationService.navigationKey,
-      debugShowCheckedModeBanner: false,
-      navigatorObservers: <NavigatorObserver>[_analytics.observer],
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      title: appName,
-      theme: ThemeData(primarySwatch: Colors.blue, visualDensity: VisualDensity.adaptivePlatformDensity),
-      onGenerateRoute: rGenerated.Router(),
-      builder: (context, child) {
-        return Stack(children: [
-          ExtendedNavigator(
-            name: router.$Router.routerName,
-            router: rGenerated.Router(),
-          ),
-          Observer(builder: (_) {
-            return Visibility(
-              visible: _coinStore.showCoins,
-              child: Positioned(
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height * .4,
-                  width: MediaQuery.of(context).size.height * .6,
-                  child: Lottie.asset(
-                    'assets/animations/coin_collect.json',
-                    onLoaded: (composition) => Timer(
-                      composition.duration - Duration(seconds: 2),
-                      () => _coinStore.setShowCoins(false),
-                    ),
-                  ),
+    return ShowCaseWidget(
+        onFinish: () => _finishTutorial(context),
+        builder: Builder(
+          builder: (context) => MaterialApp(
+            navigatorKey: NavigationService.navigationKey,
+            debugShowCheckedModeBanner: false,
+            navigatorObservers: <NavigatorObserver>[_analytics.observer],
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            title: appName,
+            theme: ThemeData(primarySwatch: Colors.blue, visualDensity: VisualDensity.adaptivePlatformDensity),
+            onGenerateRoute: rGenerated.Router(),
+            builder: (context, child) {
+              return Stack(children: [
+                ExtendedNavigator(
+                  name: router.$Router.routerName,
+                  router: rGenerated.Router(),
                 ),
-              ),
-            );
-          }),
-        ]);
-      },
-    );
+                Observer(builder: (_) {
+                  return Visibility(
+                    visible: _coinStore.showCoins,
+                    child: Positioned(
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height * .4,
+                        width: MediaQuery.of(context).size.height * .6,
+                        child: Lottie.asset(
+                          'assets/animations/coin_collect.json',
+                          onLoaded: (composition) => Timer(
+                            composition.duration - Duration(seconds: 2),
+                            () => _coinStore.setShowCoins(false),
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                }),
+              ]);
+            },
+          ),
+        ));
+  }
+
+  void _finishTutorial(BuildContext context) {
+    final sp = sl<SharedPreferencesService>();
+
+    final homeShowed = sp.contains(StorageKey.tutorialHome);
+
+    if (!homeShowed) {
+      sp.setBool(StorageKey.tutorialHome, true);
+    }
   }
 
   @override

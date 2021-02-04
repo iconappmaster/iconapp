@@ -16,6 +16,7 @@ enum StorageKey {
   homeViewMode,
   language,
   appForeground,
+  tutorialHome,
 }
 
 class SharedPreferencesService {

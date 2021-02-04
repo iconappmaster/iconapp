@@ -151,10 +151,16 @@ class PurchaseTile extends HookWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomText(product.name, style: dialogContent.copyWith(color: white)),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * .6,
+                child: CustomText(
+                  product?.name ?? '',
+                  style: dialogContent.copyWith(color: white),
+                ),
+              ),
               SizedBox(height: 3),
               CustomText(
-                product?.description,
+                product?.description ?? '',
                 style: dialogContent.copyWith(color: white.withOpacity(.5), fontSize: 12),
                 maxLines: 1,
               ),
@@ -173,7 +179,7 @@ class PurchaseTile extends HookWidget {
             borderRadius: BorderRadiusDirectional.circular(2),
           ),
           child: CustomText(
-            product.priceFormatted,
+            'Buy ${product?.priceFormatted}',
             style: dialogContent.copyWith(fontSize: 13),
           ),
         ),

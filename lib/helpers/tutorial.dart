@@ -1,3 +1,6 @@
-  import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
-final tutorialStoreKey = GlobalKey();
+final showcaseFilterButtonKey = GlobalKey();
+final showcaseRedemptionButtonKey = GlobalKey();
+final showcaseConversationSwitchKey = GlobalKey();
+final showcaseHomeViewSwitche = GlobalKey();

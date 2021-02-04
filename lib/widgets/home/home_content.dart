@@ -7,11 +7,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/core/video/feed_player/feed_player.dart';
+import 'package:iconapp/generated/locale_keys.g.dart';
+import 'package:iconapp/helpers/tutorial.dart';
 import 'package:iconapp/screens/home_screen.dart';
 import 'package:iconapp/stores/home/home_store.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'home_list.dart';
 import 'home_staggered.dart';
 import 'icon_fab.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class HomeContent extends StatelessWidget {
   final HomeStore home;
@@ -42,40 +46,23 @@ class HomeContent extends StatelessWidget {
                         ? ConversationsList(
                             controller: controller,
                             onTap: (model, index) => onTileTap(
-                              model,
-                              context,
-                              index,
-                            ),
-                          )
+                                  model,
+                                  context,
+                                  index,
+                                ))
                         : HomeStaggered(
                             onTap: (model, index) => onTileTap(
-                              model,
-                              context,
-                              index,
-                            ),
-                          ),
+                                  model,
+                                  context,
+                                  index,
+                                )),
                   ),
                   Positioned(
                     bottom: 62,
                     right: 12,
                     child: Observer(
                       builder: (_) {
-                        return CupertinoSlidingSegmentedControl(
-                          thumbColor: lightishRed,
-                          backgroundColor: blueberry2,
-                          groupValue: home?.viewMode == ViewHomeMode.list ? 1 : 0,
-                          children: {
-                            0: Icon(Icons.line_style, color: white),
-                            1: Icon(Icons.list, color: white),
-                          },
-                          onValueChanged: (index) {
-                            HapticFeedback.lightImpact();
-
-                            persistViewMode(home);
-                            home.switchViewMode();
-                            home.setTabMode(TabMode.conversation);
-                          },
-                        );
+                        return HomeViewModeSwitch(home: home);
                       },
                     ),
                   ),
@@ -101,6 +88,46 @@ class HomeContent extends StatelessWidget {
         return Container();
       },
     );
+  }
+}
+
+/// This switch can toggle views on the home list.
+/// The user will be able to choose between [ViewHomeMode.staggered] and [ViewHomeMode.list]
+class HomeViewModeSwitch extends StatelessWidget {
+  const HomeViewModeSwitch({
+    Key key,
+    @required this.home,
+  })  : assert(home != null),
+        super(key: key);
+
+  final HomeStore home;
+
+  @override
+  Widget build(BuildContext context) {
+    return Showcase(
+      description: LocaleKeys.toturial_homeViewSwitch.tr(),
+      key: showcaseHomeViewSwitche,
+      child: Observer(
+        builder: (_) => CupertinoSlidingSegmentedControl(
+          thumbColor: lightishRed,
+          backgroundColor: blueberry2,
+          groupValue: home.selectedSwitchIndex,
+          children: _children,
+          onValueChanged: (index) {
+            HapticFeedback.lightImpact();
+            persistViewMode(home);
+            home.switchViewMode();
+          },
+        ),
+      ),
+    );
+  }
+
+  Map<int, Widget> get _children {
+    return {
+      0: Icon(Icons.line_style, color: white),
+      1: Icon(Icons.list, color: white),
+    };
   }
 }
 

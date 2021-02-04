@@ -30,6 +30,13 @@ mixin _$HomeStore on _HomeStoreBase, Store {
       (_$isFabOpenComputed ??= Computed<bool>(() => super.isFabOpen,
               name: '_HomeStoreBase.isFabOpen'))
           .value;
+  Computed<int> _$selectedSwitchIndexComputed;
+
+  @override
+  int get selectedSwitchIndex => (_$selectedSwitchIndexComputed ??=
+          Computed<int>(() => super.selectedSwitchIndex,
+              name: '_HomeStoreBase.selectedSwitchIndex'))
+      .value;
   Computed<List<Conversation>> _$conversationSubscribedComputed;
 
   @override
@@ -400,17 +407,6 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   }
 
   @override
-  void setTabMode(TabMode tabMode) {
-    final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
-        name: '_HomeStoreBase.setTabMode');
-    try {
-      return super.setTabMode(tabMode);
-    } finally {
-      _$_HomeStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void addConversation(Conversation conversation) {
     final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
         name: '_HomeStoreBase.addConversation');
@@ -510,6 +506,17 @@ mixin _$HomeStore on _HomeStoreBase, Store {
   }
 
   @override
+  void setTabMode(TabMode tabMode) {
+    final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
+        name: '_HomeStoreBase.setTabMode');
+    try {
+      return super.setTabMode(tabMode);
+    } finally {
+      _$_HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void switchViewMode() {
     final _$actionInfo = _$_HomeStoreBaseActionController.startAction(
         name: '_HomeStoreBase.switchViewMode');
@@ -526,6 +533,7 @@ mixin _$HomeStore on _HomeStoreBase, Store {
 conversationCode: ${conversationCode},
 type: ${type},
 isFabOpen: ${isFabOpen},
+selectedSwitchIndex: ${selectedSwitchIndex},
 conversationSubscribed: ${conversationSubscribed},
 conversationPopular: ${conversationPopular},
 tabMode: ${tabMode},
