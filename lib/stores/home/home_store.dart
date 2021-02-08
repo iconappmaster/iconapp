@@ -93,6 +93,9 @@ abstract class _HomeStoreBase with Store {
   List<Conversation> get conversationSubscribed => _conversationSubscribed;
 
   @computed
+  bool get isConversationTab => tabMode == TabMode.conversation;
+
+  @computed
   List<Conversation> get conversationPopular => _conversationPopular;
 
   @computed

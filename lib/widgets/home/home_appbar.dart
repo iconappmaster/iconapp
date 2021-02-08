@@ -41,7 +41,7 @@ class HomeAppbar extends StatelessWidget {
             children: [
               DrawerIcon(scaffoldKey: _scaffoldKey),
               SizedBox(width: 5),
-              if (home.tabMode == TabMode.conversation) HomeFilter(),
+              if (home.isConversationTab) HomeFilter(),
             ],
           );
         }),

@@ -18,11 +18,16 @@ class _$AlertModelTearOff {
 
 // ignore: unused_element
   _AlertModel call(
-      {int id, String alertMessage, int timestamp, Conversation conversation}) {
+      {int id,
+      String alertMessage,
+      int timestamp,
+      @JsonKey(name: 'alertType') AlertType alertType,
+      Conversation conversation}) {
     return _AlertModel(
       id: id,
       alertMessage: alertMessage,
       timestamp: timestamp,
+      alertType: alertType,
       conversation: conversation,
     );
   }
@@ -42,6 +47,8 @@ mixin _$AlertModel {
   int get id;
   String get alertMessage;
   int get timestamp;
+  @JsonKey(name: 'alertType')
+  AlertType get alertType;
   Conversation get conversation;
 
   Map<String, dynamic> toJson();
@@ -54,7 +61,11 @@ abstract class $AlertModelCopyWith<$Res> {
           AlertModel value, $Res Function(AlertModel) then) =
       _$AlertModelCopyWithImpl<$Res>;
   $Res call(
-      {int id, String alertMessage, int timestamp, Conversation conversation});
+      {int id,
+      String alertMessage,
+      int timestamp,
+      @JsonKey(name: 'alertType') AlertType alertType,
+      Conversation conversation});
 
   $ConversationCopyWith<$Res> get conversation;
 }
@@ -72,6 +83,7 @@ class _$AlertModelCopyWithImpl<$Res> implements $AlertModelCopyWith<$Res> {
     Object id = freezed,
     Object alertMessage = freezed,
     Object timestamp = freezed,
+    Object alertType = freezed,
     Object conversation = freezed,
   }) {
     return _then(_value.copyWith(
@@ -80,6 +92,8 @@ class _$AlertModelCopyWithImpl<$Res> implements $AlertModelCopyWith<$Res> {
           ? _value.alertMessage
           : alertMessage as String,
       timestamp: timestamp == freezed ? _value.timestamp : timestamp as int,
+      alertType:
+          alertType == freezed ? _value.alertType : alertType as AlertType,
       conversation: conversation == freezed
           ? _value.conversation
           : conversation as Conversation,
@@ -104,7 +118,11 @@ abstract class _$AlertModelCopyWith<$Res> implements $AlertModelCopyWith<$Res> {
       __$AlertModelCopyWithImpl<$Res>;
   @override
   $Res call(
-      {int id, String alertMessage, int timestamp, Conversation conversation});
+      {int id,
+      String alertMessage,
+      int timestamp,
+      @JsonKey(name: 'alertType') AlertType alertType,
+      Conversation conversation});
 
   @override
   $ConversationCopyWith<$Res> get conversation;
@@ -125,6 +143,7 @@ class __$AlertModelCopyWithImpl<$Res> extends _$AlertModelCopyWithImpl<$Res>
     Object id = freezed,
     Object alertMessage = freezed,
     Object timestamp = freezed,
+    Object alertType = freezed,
     Object conversation = freezed,
   }) {
     return _then(_AlertModel(
@@ -133,6 +152,8 @@ class __$AlertModelCopyWithImpl<$Res> extends _$AlertModelCopyWithImpl<$Res>
           ? _value.alertMessage
           : alertMessage as String,
       timestamp: timestamp == freezed ? _value.timestamp : timestamp as int,
+      alertType:
+          alertType == freezed ? _value.alertType : alertType as AlertType,
       conversation: conversation == freezed
           ? _value.conversation
           : conversation as Conversation,
@@ -145,7 +166,11 @@ class __$AlertModelCopyWithImpl<$Res> extends _$AlertModelCopyWithImpl<$Res>
 /// @nodoc
 class _$_AlertModel implements _AlertModel {
   const _$_AlertModel(
-      {this.id, this.alertMessage, this.timestamp, this.conversation});
+      {this.id,
+      this.alertMessage,
+      this.timestamp,
+      @JsonKey(name: 'alertType') this.alertType,
+      this.conversation});
 
   factory _$_AlertModel.fromJson(Map<String, dynamic> json) =>
       _$_$_AlertModelFromJson(json);
@@ -157,11 +182,14 @@ class _$_AlertModel implements _AlertModel {
   @override
   final int timestamp;
   @override
+  @JsonKey(name: 'alertType')
+  final AlertType alertType;
+  @override
   final Conversation conversation;
 
   @override
   String toString() {
-    return 'AlertModel(id: $id, alertMessage: $alertMessage, timestamp: $timestamp, conversation: $conversation)';
+    return 'AlertModel(id: $id, alertMessage: $alertMessage, timestamp: $timestamp, alertType: $alertType, conversation: $conversation)';
   }
 
   @override
@@ -176,6 +204,9 @@ class _$_AlertModel implements _AlertModel {
             (identical(other.timestamp, timestamp) ||
                 const DeepCollectionEquality()
                     .equals(other.timestamp, timestamp)) &&
+            (identical(other.alertType, alertType) ||
+                const DeepCollectionEquality()
+                    .equals(other.alertType, alertType)) &&
             (identical(other.conversation, conversation) ||
                 const DeepCollectionEquality()
                     .equals(other.conversation, conversation)));
@@ -187,6 +218,7 @@ class _$_AlertModel implements _AlertModel {
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(alertMessage) ^
       const DeepCollectionEquality().hash(timestamp) ^
+      const DeepCollectionEquality().hash(alertType) ^
       const DeepCollectionEquality().hash(conversation);
 
   @override
@@ -204,6 +236,7 @@ abstract class _AlertModel implements AlertModel {
       {int id,
       String alertMessage,
       int timestamp,
+      @JsonKey(name: 'alertType') AlertType alertType,
       Conversation conversation}) = _$_AlertModel;
 
   factory _AlertModel.fromJson(Map<String, dynamic> json) =
@@ -215,6 +248,9 @@ abstract class _AlertModel implements AlertModel {
   String get alertMessage;
   @override
   int get timestamp;
+  @override
+  @JsonKey(name: 'alertType')
+  AlertType get alertType;
   @override
   Conversation get conversation;
   @override

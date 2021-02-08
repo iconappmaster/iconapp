@@ -1,8 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
 import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/models/alerts_model.dart';
 import 'package:iconapp/data/repositories/alert_repository.dart';
 import 'package:iconapp/domain/core/errors.dart';
+import 'package:iconapp/stores/home/home_store.dart';
 import 'package:mobx/mobx.dart';
 
 part 'alert_store.g.dart';
@@ -11,6 +13,7 @@ class AlertStore = _AlertStoreBase with _$AlertStore;
 
 abstract class _AlertStoreBase with Store {
   AlertRepository _repository;
+  final home = sl<HomeStore>();
 
   _AlertStoreBase() {
     _repository = sl<AlertRepository>();
@@ -55,7 +58,7 @@ abstract class _AlertStoreBase with Store {
   Future markAlertsAsSeen() async {
     try {
       await _repository.markAlertsAsSeen();
-    } on ServerError catch(e) {
+    } on ServerError catch (e) {
       Crash.report(e.message);
     }
   }
@@ -78,6 +81,28 @@ abstract class _AlertStoreBase with Store {
       await _repository.clearSpecificAlert(id);
       _alerts.removeWhere((alert) => alert.id == id);
     } on ServerError catch (e) {
+      Crash.report(e.message);
+    }
+  }
+
+  @action
+  Future acceptRequestToJoinConversation(int conversationId, int userAlertId) async {
+    try {
+      final conversation = await _repository.acceptRequestToJoinConversation(conversationId, userAlertId);
+      home.updateConversation(conversation);
+      _alerts.removeWhere((alert) => alert.id == userAlertId);
+    } on DioError catch (e) {
+      Crash.report(e.message);
+    }
+  }
+
+  @action
+  Future denyRequestToJoinConversation(int conversationId, int userAlertId) async {
+    try {
+      final conversation = await _repository.denyRequestToJoinConversation(conversationId, userAlertId);
+      home.updateConversation(conversation);
+      _alerts.removeWhere((alert) => alert.id == userAlertId);
+    } on DioError catch (e) {
       Crash.report(e.message);
     }
   }

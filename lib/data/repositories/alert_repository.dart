@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:iconapp/data/models/alerts_response.dart';
+import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/sources/remote/rest/rest_client.dart';
 
 abstract class AlertRepository {
@@ -7,6 +8,12 @@ abstract class AlertRepository {
   Future clearAllAlerts();
   Future markAlertsAsSeen();
   Future clearSpecificAlert(int id);
+  Future<Conversation> acceptRequestToJoinConversation(
+    int conversationId,
+    int userAlertId,
+  );
+
+  Future<Conversation> denyRequestToJoinConversation(int conversationId, int userAlertId);
 }
 
 class AlertRepositoryImpl implements AlertRepository {
@@ -18,21 +25,31 @@ class AlertRepositoryImpl implements AlertRepository {
 
   @override
   Future clearSpecificAlert(int id) async {
-    return await rest.clearSpecificAlert(id);
+    return rest.clearSpecificAlert(id);
   }
 
   @override
   Future clearAllAlerts() async {
-    return await rest.clearAllAlerts();
+    return rest.clearAllAlerts();
   }
 
   @override
   Future<AlertResponse> getAlerts() async {
-    return await rest.getAlerts();
+    return rest.getAlerts();
   }
 
   @override
   Future markAlertsAsSeen() async {
-    return await rest.markAlertAsSeen();
+    return rest.markAlertAsSeen();
+  }
+
+  @override
+  Future<Conversation> acceptRequestToJoinConversation(int conversationId, int userAlertId) async {
+    return rest.acceptRequestToJoinConversation(conversationId, userAlertId);
+  }
+
+  @override
+  Future<Conversation> denyRequestToJoinConversation(int conversationId, int userAlertId) async {
+    return rest.denyRequestToJoinConversation(conversationId, userAlertId);
   }
 }

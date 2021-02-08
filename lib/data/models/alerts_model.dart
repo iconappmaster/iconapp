@@ -10,9 +10,12 @@ abstract class AlertModel with _$AlertModel {
     int id,
     String alertMessage,
     int timestamp,
+    @JsonKey(name: 'alertType') AlertType alertType,
     Conversation conversation,
   }) = _AlertModel;
 
   factory AlertModel.fromJson(Map<String, dynamic> json) =>
       _$AlertModelFromJson(json);
 }
+
+enum AlertType { request_to_join_conversation, opened_conversation_for_comments }

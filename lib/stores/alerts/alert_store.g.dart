@@ -106,6 +106,26 @@ mixin _$AlertStore on _AlertStoreBase, Store {
         .run(() => super.clearSpecificAlert(id));
   }
 
+  final _$acceptRequestToJoinConversationAsyncAction =
+      AsyncAction('_AlertStoreBase.acceptRequestToJoinConversation');
+
+  @override
+  Future<dynamic> acceptRequestToJoinConversation(
+      int conversationId, int userAlertId) {
+    return _$acceptRequestToJoinConversationAsyncAction.run(() =>
+        super.acceptRequestToJoinConversation(conversationId, userAlertId));
+  }
+
+  final _$denyRequestToJoinConversationAsyncAction =
+      AsyncAction('_AlertStoreBase.denyRequestToJoinConversation');
+
+  @override
+  Future<dynamic> denyRequestToJoinConversation(
+      int conversationId, int userAlertId) {
+    return _$denyRequestToJoinConversationAsyncAction.run(
+        () => super.denyRequestToJoinConversation(conversationId, userAlertId));
+  }
+
   @override
   String toString() {
     return '''

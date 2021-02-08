@@ -398,15 +398,6 @@ mixin _$ChatStore on _ChatStoreBase, Store {
     return _$disposeAsyncAction.run(() => super.dispose());
   }
 
-  final _$acceptRequestToJoinConversationAsyncAction =
-      AsyncAction('_ChatStoreBase.acceptRequestToJoinConversation');
-
-  @override
-  Future<dynamic> acceptRequestToJoinConversation(String userAlertId) {
-    return _$acceptRequestToJoinConversationAsyncAction
-        .run(() => super.acceptRequestToJoinConversation(userAlertId));
-  }
-
   final _$requestToJoinConversationAsyncAction =
       AsyncAction('_ChatStoreBase.requestToJoinConversation');
 

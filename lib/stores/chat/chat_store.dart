@@ -685,15 +685,6 @@ abstract class _ChatStoreBase with Store {
   }
 
   @action
-  Future acceptRequestToJoinConversation(String userAlertId) async {
-    try {
-      await _repository.acceptRequestToJoinConversation(_conversation.id, userAlertId);
-    } on DioError catch (e) {
-      Crash.report(e.message);
-    }
-  }
-
-  @action
   Future requestToJoinConversation() async {
     try {
       await _repository.requestToJoinConversation(_conversation.id);

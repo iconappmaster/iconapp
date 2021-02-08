@@ -133,6 +133,7 @@ class _MyAppState extends State<MyApp> {
     }
 
     return ShowCaseWidget(
+      
         onFinish: () => _finishTutorial(context),
         builder: Builder(
           builder: (context) => MaterialApp(

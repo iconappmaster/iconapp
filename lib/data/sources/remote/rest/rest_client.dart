@@ -108,10 +108,16 @@ abstract class RestClient {
     @Path('conversationId') int conversationId,
   );
 
+  @POST('conversations/{conversationId}/deny_request_to_join_conversation')
+  Future denyRequestToJoinConversation(
+    @Path('conversationId') int conversationId,
+    @Query('userAlertId') int userAlertId,
+  );
+
   @POST('conversations/{conversationId}/accept_request_to_join_conversation')
   Future<Conversation> acceptRequestToJoinConversation(
     @Path('conversationId') int conversationId,
-    @Query('userAlertId') String userAlertId,
+    @Query('userAlertId') int userAlertId,
   );
 
   @POST('conversations/{conversationId}')

@@ -45,6 +45,13 @@ mixin _$HomeStore on _HomeStoreBase, Store {
               () => super.conversationSubscribed,
               name: '_HomeStoreBase.conversationSubscribed'))
           .value;
+  Computed<bool> _$isConversationTabComputed;
+
+  @override
+  bool get isConversationTab => (_$isConversationTabComputed ??= Computed<bool>(
+          () => super.isConversationTab,
+          name: '_HomeStoreBase.isConversationTab'))
+      .value;
   Computed<List<Conversation>> _$conversationPopularComputed;
 
   @override
@@ -535,6 +542,7 @@ type: ${type},
 isFabOpen: ${isFabOpen},
 selectedSwitchIndex: ${selectedSwitchIndex},
 conversationSubscribed: ${conversationSubscribed},
+isConversationTab: ${isConversationTab},
 conversationPopular: ${conversationPopular},
 tabMode: ${tabMode},
 getCurrentTabIndex: ${getCurrentTabIndex},

@@ -8,6 +8,7 @@ import 'package:iconapp/data/models/alerts_model.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
 import 'package:iconapp/stores/alerts/alert_store.dart';
 import 'package:iconapp/widgets/global/back_button.dart';
+import 'package:iconapp/widgets/global/basic_tile.dart';
 import 'package:iconapp/widgets/global/bouncing.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:iconapp/widgets/global/network_photo.dart';
@@ -49,10 +50,71 @@ class AlertList extends StatelessWidget {
                 separatorBuilder: (context, index) => AlertDivider(),
                 padding: EdgeInsets.all(16),
                 physics: BouncingScrollPhysics(),
-                itemBuilder: (context, index) => AlertTile(alert: store.alerts[index]),
+                itemBuilder: (context, index) {
+                  final alert = store.alerts[index];
+
+                  switch (alert.alertType) {
+                    case AlertType.request_to_join_conversation:
+                      return RequestToJoinTile(alert: store.alerts[index]);
+
+                    default:
+                      return AlertTile(alert: store.alerts[index]);
+                  }
+                },
                 itemCount: store.alerts.length,
               );
       }),
+    );
+  }
+}
+
+class RequestToJoinTile extends StatelessWidget {
+  final AlertModel alert;
+
+  const RequestToJoinTile({
+    Key key,
+    @required this.alert,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final store = sl<AlertStore>();
+    return BasicTile(
+      left: SizedBox(
+        width: MediaQuery.of(context).size.width * .5,
+        child: CustomText(alert.alertMessage, style: alertTileTitle),
+      ),
+      right: Row(
+        children: [
+          ElevatedButton(
+            child: CustomText('Accept'),
+            onPressed: () async {
+              final conversationId = alert.conversation.id;
+              final alertId = alert.id;
+              await store.acceptRequestToJoinConversation(
+                conversationId,
+                alertId,
+              );
+              context.showToast('You accepted the Request!');
+            },
+            style: ElevatedButton.styleFrom(primary: apple),
+          ),
+          SizedBox(width: 3),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(primary: cornflower),
+            child: CustomText('Deny'),
+            onPressed: () async {
+              final conversationId = alert.conversation.id;
+              final alertId = alert.id;
+              store.denyRequestToJoinConversation(
+                conversationId,
+                alertId,
+              );
+              context.showToast('You denied the request!');
+            },
+          )
+        ],
+      ),
     );
   }
 }
@@ -145,7 +207,7 @@ class AlertAppbar extends StatelessWidget {
                 onPressed: () => store.clearAll(),
                 color: Colors.transparent,
                 borderSide: BorderSide(color: blueberry2, width: .7),
-                child: CustomText(LocaleKeys.alerts_cleanAll.tr(), style: myStory),
+                child: CustomText(LocaleKeys.alerts_cleanAll.tr(), style: myStory.copyWith(color: white)),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2.7)),
               ),
             ),
@@ -186,7 +248,10 @@ class BellAlert extends StatelessWidget {
           ),
           CustomText(
             LocaleKeys.alerts_alert.tr(),
-            style: replayTitle.copyWith(color: lightMustard, fontSize: 10),
+            style: replayTitle.copyWith(
+              color: lightMustard,
+              fontSize: 10,
+            ),
           )
         ],
       ),

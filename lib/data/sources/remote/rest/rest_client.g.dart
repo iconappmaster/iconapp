@@ -441,6 +441,27 @@ class _RestClient implements RestClient {
   }
 
   @override
+  Future<dynamic> denyRequestToJoinConversation(
+      conversationId, userAlertId) async {
+    ArgumentError.checkNotNull(conversationId, 'conversationId');
+    ArgumentError.checkNotNull(userAlertId, 'userAlertId');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'userAlertId': userAlertId};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request(
+        'conversations/$conversationId/deny_request_to_join_conversation',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = _result.data;
+    return value;
+  }
+
+  @override
   Future<Conversation> acceptRequestToJoinConversation(
       conversationId, userAlertId) async {
     ArgumentError.checkNotNull(conversationId, 'conversationId');
