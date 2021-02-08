@@ -148,7 +148,7 @@
     "comments": {
         "noComments": "No Comments",
         "title": "Comments",
-        "groupOpened": "Conversation is open for comments",
+        "groupOpened": "Comments on",
         "open": "Open",
         "close": "Close",
         "closed": "Comments are not active right now"

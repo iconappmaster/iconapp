@@ -139,24 +139,15 @@ class SearchBar extends StatelessWidget {
                 SizedBox(width: 15),
                 Expanded(
                   child: InputText(
-                    onChange: (query) => store.search(query),
+                    onChange: (query) {
+                      if (query.length > 2) {
+                        store.search(query);
+                      }
+                    },
                     hint: store.getSearchMode == SearchMode.categories
                         ? LocaleKeys.search_categoryHint.tr()
                         : LocaleKeys.search_iconHint.tr(),
-                    hintStyle: flushbar.copyWith(
-                      color: white.withOpacity(.2),
-                    ),
-                    // : InputDecoration(
-                    //   enabledBorder: transparentBorder,
-                    //   border: transparentBorder,
-                    //   focusedBorder: transparentBorder,
-                    //   hintText: store.getSearchMode == SearchMode.categories
-                    //       ? LocaleKeys.search_categoryHint.tr()
-                    //       : LocaleKeys.search_iconHint.tr(),
-                    //   hintStyle: flushbar.copyWith(
-                    //     color: white.withOpacity(.4),
-                    //   ),
-                    // ),
+                    hintStyle: flushbar.copyWith(color: white.withOpacity(.2)),
                   ),
                 ),
                 SizedBox(width: 10),

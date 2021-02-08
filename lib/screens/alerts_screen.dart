@@ -49,8 +49,7 @@ class AlertList extends StatelessWidget {
                 separatorBuilder: (context, index) => AlertDivider(),
                 padding: EdgeInsets.all(16),
                 physics: BouncingScrollPhysics(),
-                itemBuilder: (context, index) =>
-                    AlertTile(alert: store.alerts[index]),
+                itemBuilder: (context, index) => AlertTile(alert: store.alerts[index]),
                 itemCount: store.alerts.length,
               );
       }),
@@ -105,13 +104,12 @@ class AlertTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CustomText(alert.alertMessage, style: alertTileTitle),
+                  SizedBox(
+                      width: MediaQuery.of(context).size.width * .7,
+                      child: CustomText(alert.alertMessage, style: alertTileTitle)),
                   SizedBox(height: 10),
                   CustomText(
-                    timeago.format(
-                        DateTime.fromMillisecondsSinceEpoch(
-                            alert.timestamp * 1000),
-                        locale: 'he'),
+                    timeago.format(DateTime.fromMillisecondsSinceEpoch(alert.timestamp * 1000), locale: 'he'),
                     style: loginSmallText.copyWith(color: iris),
                   ),
                 ],
@@ -147,10 +145,8 @@ class AlertAppbar extends StatelessWidget {
                 onPressed: () => store.clearAll(),
                 color: Colors.transparent,
                 borderSide: BorderSide(color: blueberry2, width: .7),
-                child:
-                    CustomText(LocaleKeys.alerts_cleanAll.tr(), style: myStory),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(2.7)),
+                child: CustomText(LocaleKeys.alerts_cleanAll.tr(), style: myStory),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2.7)),
               ),
             ),
           ],
@@ -183,8 +179,7 @@ class BellAlert extends StatelessWidget {
             width: 25,
             child: Stack(
               children: [
-                SvgPicture.asset('assets/images/bell.svg',
-                    height: 22, width: 22, color: lightMustard),
+                SvgPicture.asset('assets/images/bell.svg', height: 22, width: 22, color: lightMustard),
                 BellCountBubble(alerts: store),
               ],
             ),
@@ -238,7 +233,6 @@ class BellCountBubble extends StatelessWidget {
 class AlertDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Divider(
-        color: blueberry2, thickness: .3, indent: 0, endIndent: 0, height: 1);
+    return Divider(color: blueberry2, thickness: .3, indent: 0, endIndent: 0, height: 1);
   }
 }

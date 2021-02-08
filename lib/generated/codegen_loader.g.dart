@@ -110,7 +110,7 @@ class CodegenLoader extends AssetLoader{
     "exit": "יציאה מהקבוצה",
     "becomeManager": "הפוך למנהל/ת",
     "manager": "מנהל/ת",
-    "addManagers": "ניתן להוסיף עוד {} מנהלים",
+    "addManagers": "{}/5 מנהלים",
     "groupEditors": "עורכי הקבוצה",
     "joinGroupShowComments": "כדי להציג תגובות, הצטרפ/י לקבוצה",
     "renameHint": "הקלד/י נושא חדש",
@@ -372,7 +372,7 @@ static const Map<String,dynamic> en_US = {
   "comments": {
     "noComments": "No Comments",
     "title": "Comments",
-    "groupOpened": "Conversation is open for comments",
+    "groupOpened": "Comments on",
     "open": "Open",
     "close": "Close",
     "closed": "Comments are not active right now"

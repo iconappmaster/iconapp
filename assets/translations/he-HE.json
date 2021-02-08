@@ -94,7 +94,7 @@
         "exit": "יציאה מהקבוצה",
         "becomeManager": "הפוך למנהל/ת",
         "manager": "מנהל/ת",
-        "addManagers": "ניתן להוסיף עוד {} מנהלים",
+        "addManagers": "{}/5 מנהלים",
         "groupEditors": "עורכי הקבוצה",
         "joinGroupShowComments": "כדי להציג תגובות, הצטרפ/י לקבוצה",
         "renameHint": "הקלד/י נושא חדש",

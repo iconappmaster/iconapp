@@ -81,10 +81,7 @@ class ConversationCode extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            CustomText(
-              settings?.codeFormatted.toString() ?? '',
-              style: chatSettings
-            ),
+            CustomText(settings?.codeFormatted.toString() ?? '', style: chatSettings),
             Directionality(
                 textDirection: TextDirection.ltr,
                 child: SettingsButton(

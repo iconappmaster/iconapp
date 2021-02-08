@@ -24,6 +24,8 @@ abstract class ChatRepository {
   Future report(int conversationId, String text);
   Future deleteMessage(int conversationId, int messageId);
   Future viewedVideo(int messageId);
+  Future requestToJoinConversation(int conversationId);
+  Future acceptRequestToJoinConversation(int conversationId, String userAlertId);
   Stream<MessageModel> watchMessages();
   Stream<MessageModel> watchAddLike();
   Stream<MessageModel> watchRemoveLike();
@@ -147,5 +149,15 @@ class ChatRepositoryImpl implements ChatRepository {
   @override
   Future viewedVideo(int messageId) async {
     return await remote.viewedVideo(messageId);
+  }
+
+  @override
+  Future acceptRequestToJoinConversation(int conversationId, String userAlertId) async {
+    return await remote.acceptRequestToJoinConversation(conversationId, userAlertId);
+  }
+
+  @override
+  Future requestToJoinConversation(int conversationId) async {
+    return await remote.requestToJoinConversation(conversationId);
   }
 }

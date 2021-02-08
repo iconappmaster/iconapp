@@ -62,6 +62,13 @@ class ConversationTile extends StatelessWidget {
               ),
               child: Row(
                 children: [
+                  if (conversation.conversationType == ConversationType.private_premium)
+                    HomeTileAnimatedLogo(
+                      title: 'Premium',
+                      asset: 'assets/animations/premium.json',
+                      size: 50,
+                    ),
+                  SizedBox(width: 4),
                   Stack(
                     alignment: Alignment.center,
                     fit: StackFit.loose,
@@ -76,12 +83,6 @@ class ConversationTile extends StatelessWidget {
                       ),
                       if (conversation.conversationType == ConversationType.private_code && !conversation.isAllowedIn)
                         HomeTileLock(),
-                      if (conversation.conversationType == ConversationType.private_premium)
-                        HomeTileAnimatedLogo(
-                          title: 'Premium',
-                          asset: 'assets/animations/premium.json',
-                          size: 50,
-                        )
                     ],
                   ),
                   SizedBox(width: 10.7),

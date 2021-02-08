@@ -30,6 +30,14 @@ mixin _$ChatStore on _ChatStoreBase, Store {
           Computed<MessageModel>(() => super.replayMessage,
               name: '_ChatStoreBase.replayMessage'))
       .value;
+  Computed<bool> _$showAskJoinConversationButtonComputed;
+
+  @override
+  bool get showAskJoinConversationButton =>
+      (_$showAskJoinConversationButtonComputed ??= Computed<bool>(
+              () => super.showAskJoinConversationButton,
+              name: '_ChatStoreBase.showAskJoinConversationButton'))
+          .value;
   Computed<List<PhotoModel>> _$conversationPhotosComputed;
 
   @override
@@ -390,6 +398,24 @@ mixin _$ChatStore on _ChatStoreBase, Store {
     return _$disposeAsyncAction.run(() => super.dispose());
   }
 
+  final _$acceptRequestToJoinConversationAsyncAction =
+      AsyncAction('_ChatStoreBase.acceptRequestToJoinConversation');
+
+  @override
+  Future<dynamic> acceptRequestToJoinConversation(String userAlertId) {
+    return _$acceptRequestToJoinConversationAsyncAction
+        .run(() => super.acceptRequestToJoinConversation(userAlertId));
+  }
+
+  final _$requestToJoinConversationAsyncAction =
+      AsyncAction('_ChatStoreBase.requestToJoinConversation');
+
+  @override
+  Future<dynamic> requestToJoinConversation() {
+    return _$requestToJoinConversationAsyncAction
+        .run(() => super.requestToJoinConversation());
+  }
+
   final _$_ChatStoreBaseActionController =
       ActionController(name: '_ChatStoreBase');
 
@@ -521,6 +547,7 @@ dataReady: ${dataReady},
 isReplyMessage: ${isReplyMessage},
 uploading: ${uploading},
 replayMessage: ${replayMessage},
+showAskJoinConversationButton: ${showAskJoinConversationButton},
 conversationPhotos: ${conversationPhotos},
 conversationVideos: ${conversationVideos},
 getState: ${getState},

@@ -30,9 +30,7 @@ class ParticipentList extends StatelessWidget {
         child: Column(
           children: <Widget>[
             ParticipentsListTitle(),
-            ...settings.users
-                .map((user) => ParticipantTile(currentUser: user))
-                .toList(),
+            ...settings.users.map((user) => ParticipantTile(currentUser: user)).toList(),
             if (settings.isUserAdmin) ParticipentAddButton(),
             if (settings.showUnsubscribeButton) UnsubscribeButton(),
           ],
@@ -68,12 +66,9 @@ class UnsubscribeButton extends StatelessWidget {
             );
           },
           child: chat.getState.loading
-              ? SizedBox(
-                  height: 30,
-                  width: 30,
-                  child: CircularProgressIndicator(strokeWidth: 1))
+              ? SizedBox(height: 30, width: 30, child: CircularProgressIndicator(strokeWidth: 1))
               : CustomText(
-                  LocaleKeys.chat_exit.tr(),
+                  "Unsubscribe",
                   style: flushbar.copyWith(color: white),
                 ),
         ),
@@ -97,22 +92,18 @@ class ParticipentAddButton extends StatelessWidget {
               width: 45,
               child: Stack(children: [
                 if (settings.isLoadig)
-                  SizedBox(
-                      height: 45,
-                      width: 45,
-                      child: CircularProgressIndicator(backgroundColor: white)),
+                  SizedBox(height: 45, width: 45, child: CircularProgressIndicator(backgroundColor: white)),
                 FloatingActionButton(
                     heroTag: 'fab7',
                     elevation: 2,
                     backgroundColor: cornflower,
                     onPressed: () async {
                       sl<CreateIconStore>().clear();
-                      final id = await ExtendedNavigator.of(context)
-                          .pushSelectIconScreen(mode: SelectIconMode.fromChat);
+                      final id =
+                          await ExtendedNavigator.of(context).pushSelectIconScreen(mode: SelectIconMode.fromChat);
                       settings.addUser(id);
                     },
-                    child: SvgPicture.asset('assets/images/plus.svg',
-                        height: 18, width: 18)),
+                    child: SvgPicture.asset('assets/images/plus.svg', height: 18, width: 18)),
               ]),
             ),
             SizedBox(width: 16),
@@ -130,8 +121,7 @@ class ParticipentAddButton extends StatelessWidget {
 class ParticipantTile extends StatelessWidget {
   final UserModel currentUser;
 
-  const ParticipantTile({Key key, @required this.currentUser})
-      : super(key: key);
+  const ParticipantTile({Key key, @required this.currentUser}) : super(key: key);
 
   bool notMe(int myId) => myId != currentUser.id;
 
@@ -159,15 +149,13 @@ class ParticipantTile extends StatelessWidget {
               if (conversation.userRole == UserRole.admin)
                 Row(
                   children: <Widget>[
-                    if (currentUser?.userRole != UserRole.admin &&
-                        notMe(userStore.getUser?.id))
+                    if (currentUser?.userRole != UserRole.admin && notMe(userStore.getUser?.id))
                       Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
+                        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                         child: SettingsActionButton(
                           isAdminsLeft: settingsStore?.isAdminRemaining,
                           textStyle: settingsButton,
-                          onTap: () =>
-                              settingsStore.makeUserAdmin(currentUser.id),
+                          onTap: () => settingsStore.makeUserAdmin(currentUser.id),
                           text: LocaleKeys.chat_becomeManager.tr(),
                           width: 103,
                           borderColor: cornflower,
@@ -175,20 +163,16 @@ class ParticipantTile extends StatelessWidget {
                       ),
                     if (currentUser.userRole == UserRole.admin)
                       Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
+                        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                         child: Container(
                           alignment: Alignment.center,
                           width: 60.7,
                           height: 30.7,
-                          decoration: BoxDecoration(
-                              color: cornflower,
-                              borderRadius: BorderRadius.circular(2.7)),
-                          child: CustomText(LocaleKeys.chat_manager.tr(),
-                              style: settingsButton.copyWith(color: white)),
+                          decoration: BoxDecoration(color: cornflower, borderRadius: BorderRadius.circular(2.7)),
+                          child: CustomText(LocaleKeys.chat_manager.tr(), style: settingsButton.copyWith(color: white)),
                         ),
                       ),
-                    if (conversation.userRole == UserRole.admin &&
-                        notMe(userStore.getUser?.id))
+                    if (conversation.userRole == UserRole.admin && notMe(userStore.getUser?.id))
                       SettingsActionButton(
                         onTap: () => settingsStore.removeUser(currentUser?.id),
                         text: 'הסרה',
@@ -283,8 +267,7 @@ class ParticipentsListTitle extends StatelessWidget {
         children: [
           CustomText(LocaleKeys.chat_groupEditors.tr(), style: chatSettings),
           if (conversation.userRole != UserRole.viewer)
-            AdminsCounter(
-                adminsLeft: conversation?.numberOfAdminsRemaining ?? 0)
+            AdminsCounter(adminsLeft: conversation?.numberOfAdminsRemaining ?? 0)
         ],
       ),
     );
@@ -299,9 +282,8 @@ class AdminsCounter extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 18.7, vertical: 9),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(2.7),
-          border: Border.all(color: cornflower, width: .7)),
+      decoration:
+          BoxDecoration(borderRadius: BorderRadius.circular(2.7), border: Border.all(color: cornflower, width: .7)),
       child: CustomText(
         LocaleKeys.chat_addManagers.tr(args: [adminsLeft.toString()]),
         style: settingsButton,

@@ -62,16 +62,14 @@ class _StoriesListState extends State<StoriesList> {
                   scrollDirection: Axis.horizontal,
                   physics: BouncingScrollPhysics(),
                   children: [
-                    if (store.isUserIcon)
-                      StoryAddButton(
-                          onTap: () => ExtendedNavigator.of(context)
-                              .pushStoryEditScreen()),
+                    StoryAddButton(
+                      onTap: () => ExtendedNavigator.of(context).pushStoryEditScreen(),
+                    ),
                     ...store.storiesWithoutAds
                         .map((story) => StoryTile(
                             story: story,
-                            onTap: () => ExtendedNavigator.of(context)
-                                .pushStoryScreen(
-                                    story: story, isPublishedStory: false)))
+                            onTap: () =>
+                                ExtendedNavigator.of(context).pushStoryScreen(story: story, isPublishedStory: false)))
                         .toList()
                   ],
                 ),
@@ -105,8 +103,7 @@ class StoryAddButton extends StatelessWidget {
             height: 50,
             width: 50,
             margin: EdgeInsets.symmetric(horizontal: 5),
-            decoration: BoxDecoration(
-                shape: BoxShape.circle, color: Colors.transparent),
+            decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.transparent),
             child: Stack(
               children: [
                 Padding(
@@ -114,8 +111,7 @@ class StoryAddButton extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(100),
                     child: Container(
-                      decoration:
-                          BoxDecoration(shape: BoxShape.circle, color: white),
+                      decoration: BoxDecoration(shape: BoxShape.circle, color: white),
                       child: NetworkPhoto(
                         placeHolder: 'assets/images/user_icon.svg',
                         imageUrl: user.getUser?.photo?.url ?? '',
@@ -131,8 +127,7 @@ class StoryAddButton extends StatelessWidget {
           ),
         ),
         SizedBox(height: 3),
-        CustomText(LocaleKeys.story_title.tr(),
-            style: myStoryCreate.copyWith(color: white)),
+        CustomText(LocaleKeys.story_title.tr(), style: myStoryCreate.copyWith(color: white)),
       ],
     );
   }

@@ -1,3 +1,5 @@
+import 'package:cool_alert/cool_alert.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -7,6 +9,7 @@ import 'package:iconapp/stores/comments/comments_store.dart';
 import 'package:iconapp/widgets/chat/chat_dialogs.dart';
 import 'package:iconapp/widgets/chat/chat_fab.dart';
 import 'package:iconapp/widgets/chat/chat_story.dart';
+import 'package:iconapp/widgets/global/custom_text.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import '../widgets/chat/chat_list.dart';
 import '../widgets/global/focus_aware.dart';
@@ -133,6 +136,12 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
               ChatStory(story: _story, upDirection: _upDirection),
               ChatFab(chat: _chat),
               showWelcomeDialog(_chat.conversation?.name ?? ''),
+              Observer(
+                builder: (_) => Visibility(
+                  visible: _chat.showAskJoinConversationButton,
+                  child: AskJoinToConversationButton(),
+                ),
+              )
             ],
           ),
         ),
@@ -160,5 +169,44 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     _comments.dispose();
     _socket.unsubscribe(widget.conversation.id.toString());
     super.dispose();
+  }
+}
+
+class AskJoinToConversationButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final chat = sl<ChatStore>();
+    return Positioned(
+      bottom: 0,
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: 20,
+        color: cornflower,
+        child: CupertinoButton(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
+          color: cornflower,
+          child: CustomText('REQUEST TO JOIN AS A CONTRIBUTOR', style: timeOfMessage),
+          onPressed: () {
+            CoolAlert.show(
+              context: context,
+              lottieAsset: 'assets/animations/contributor.json',
+              backgroundColor: cornflower,
+              type: CoolAlertType.info,
+              confirmBtnText: 'REQUEST',
+              onConfirmBtnTap: () async {
+                await chat.requestToJoinConversation();
+                context.showFlushbar(message: 'REQUEST SENT');
+              },
+              cancelBtnText: 'CLOSE',
+              onCancelBtnTap: () => Navigator.of(context).pop(),
+              animType: CoolAlertAnimType.slideInUp,
+              text:
+                  'Request from the group\'s admins to join as a contributor, you will gain full access to upload media to the conversation.',
+              title: 'Join as a contributor',
+            );
+          },
+        ),
+      ),
+    );
   }
 }

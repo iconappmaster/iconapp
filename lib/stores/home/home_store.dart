@@ -351,9 +351,7 @@ abstract class _HomeStoreBase with Store {
 
   @action
   void switchViewMode() {
-    _viewMode = _viewMode == ViewHomeMode.staggered 
-        ? ViewHomeMode.list
-        : ViewHomeMode.staggered;
+    _viewMode = _viewMode == ViewHomeMode.staggered ? ViewHomeMode.list : ViewHomeMode.staggered;
   }
 
   @action

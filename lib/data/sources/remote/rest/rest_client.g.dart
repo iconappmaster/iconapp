@@ -9,7 +9,7 @@ part of 'rest_client.dart';
 class _RestClient implements RestClient {
   _RestClient(this._dio, {this.baseUrl}) {
     ArgumentError.checkNotNull(_dio, '_dio');
-    baseUrl ??= 'https://iconproduction.herokuapp.com/api/v1/';
+    baseUrl ??= 'https://iconstaging.herokuapp.com/api/v1/';
   }
 
   final Dio _dio;
@@ -418,6 +418,46 @@ class _RestClient implements RestClient {
     var value = _result.data
         .map((dynamic i) => Conversation.fromJson(i as Map<String, dynamic>))
         .toList();
+    return value;
+  }
+
+  @override
+  Future<dynamic> requestToJoinConversation(conversationId) async {
+    ArgumentError.checkNotNull(conversationId, 'conversationId');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request(
+        'conversations/$conversationId/request_to_join_conversation',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = _result.data;
+    return value;
+  }
+
+  @override
+  Future<Conversation> acceptRequestToJoinConversation(
+      conversationId, userAlertId) async {
+    ArgumentError.checkNotNull(conversationId, 'conversationId');
+    ArgumentError.checkNotNull(userAlertId, 'userAlertId');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'userAlertId': userAlertId};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'conversations/$conversationId/accept_request_to_join_conversation',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = Conversation.fromJson(_result.data);
     return value;
   }
 

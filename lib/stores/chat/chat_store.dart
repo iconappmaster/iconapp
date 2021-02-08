@@ -33,7 +33,7 @@ import '../../widgets/story/story_list.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import '../analytics/analytics_firebase.dart';
 import '../story/story_store.dart';
-
+import '../../core/extensions/int_ext.dart';
 part 'chat_store.g.dart';
 
 class ChatStore = _ChatStoreBase with _$ChatStore;
@@ -111,6 +111,16 @@ abstract class _ChatStoreBase with Store {
 
   @computed
   MessageModel get replayMessage => _replyMessage;
+
+  @computed
+  bool get showAskJoinConversationButton {
+    if (dataReady) {
+      final isIcon = _userStore.getUser.isIcon;
+      final activeMember = conversation.users?.any((u) => u.id.isMe);
+      return isIcon && !activeMember;
+    }
+    return false;
+  }
 
   @computed
   List<PhotoModel> get conversationPhotos => _messages
@@ -672,5 +682,23 @@ abstract class _ChatStoreBase with Store {
     _composerMode = ComposerMode.viewer;
     setConversationViewed();
     await recordTimer?.dispose();
+  }
+
+  @action
+  Future acceptRequestToJoinConversation(String userAlertId) async {
+    try {
+      await _repository.acceptRequestToJoinConversation(_conversation.id, userAlertId);
+    } on DioError catch (e) {
+      Crash.report(e.message);
+    }
+  }
+
+  @action
+  Future requestToJoinConversation() async {
+    try {
+      await _repository.requestToJoinConversation(_conversation.id);
+    } on DioError catch (e) {
+      Crash.report(e.message);
+    }
   }
 }

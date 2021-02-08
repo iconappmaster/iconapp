@@ -14,13 +14,14 @@ import 'package:iconapp/data/models/user_model.dart';
 import 'package:iconapp/data/models/create_group_req.dart';
 import 'package:retrofit/retrofit.dart';
 import 'header_interceptor.dart';
+import 'logger_interceptor.dart';
 
 part 'rest_client.g.dart';
 
 const String baseUrlProd = 'https://iconproduction.herokuapp.com/api/v1/';
 const String baseUrlStaging = 'https://iconstaging.herokuapp.com/api/v1/';
 
-@RestApi(baseUrl: baseUrlProd)
+@RestApi(baseUrl: baseUrlStaging)
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
@@ -101,6 +102,17 @@ abstract class RestClient {
 
   @GET('archived_conversations')
   Future<List<Conversation>> getArchiveConversations();
+
+  @POST('conversations/{conversationId}/request_to_join_conversation')
+  Future requestToJoinConversation(
+    @Path('conversationId') int conversationId,
+  );
+
+  @POST('conversations/{conversationId}/accept_request_to_join_conversation')
+  Future<Conversation> acceptRequestToJoinConversation(
+    @Path('conversationId') int conversationId,
+    @Query('userAlertId') String userAlertId,
+  );
 
   @POST('conversations/{conversationId}')
   Future<Conversation> updateConversation(
@@ -264,7 +276,7 @@ Dio getDioClient() {
   dio.interceptors.addAll([
     DioCacheManager(CacheConfig(baseUrl: baseUrlProd, defaultMaxStale: const Duration(days: 7))).interceptor,
     HeaderInterceptor(dio),
-    // LoggingInterceptors(),
+    LoggingInterceptors(),
   ]);
   return dio;
 }

@@ -20,8 +20,12 @@ class ChatStory extends StatelessWidget {
     return Visibility(
       visible: _story.isUserIcon || _story.storiesWithoutAds.isNotEmpty,
       child: Positioned(
-          top: context.heightPlusStatusbarPerc(.1),
-          child: StoriesList(mode: _story.mode, show: !_upDirection)),
+        top: context.heightPlusStatusbarPerc(.1),
+        child: StoriesList(
+          mode: _story.mode,
+          show: !_upDirection,
+        ),
+      ),
     );
   }
 }

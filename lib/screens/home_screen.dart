@@ -208,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   if (!_home.showForceUpdate)
                     Padding(
                       padding: EdgeInsets.only(bottom: 27),
-                      child: IconFab(user: _user),
+                      child: IconFab(),
                     ),
                 ],
               ),
@@ -218,7 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
+   
   Future _navigateToChatFromFCM() async {
     if (_sp.contains(StorageKey.fcmConversation)) {
       final conversation = Conversation.loadFCMFromCache();
