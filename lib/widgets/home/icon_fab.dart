@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:iconapp/core/bus.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/generated/locale_keys.g.dart';
-import 'package:iconapp/screens/alerts_screen.dart';
 import 'package:iconapp/screens/create_icons_screen.dart';
 import 'package:flutter/rendering.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
@@ -20,6 +19,7 @@ import 'package:easy_localization/easy_localization.dart';
 import '../../core/extensions/string_ext.dart';
 
 class IconFab extends StatelessWidget {
+  final alerts = sl<AlertStore>();
   @override
   Widget build(BuildContext context) {
     return SuperFab(
@@ -39,7 +39,7 @@ class IconFab extends StatelessWidget {
       fabCloseIcon: Icon(Icons.close, color: lightMustard, size: 20),
       fabSize: 50,
       ringDiameter: 350,
-      fabOpenIcon: SvgPicture.asset('assets/images/icon_star.svg', height: 20, width: 20),
+      fabOpenIcon: SvgPicture.asset('assets/images/plus.svg', height: 20, width: 20),
       ringColor: warmPurple,
       children: _showIconMenu(context),
     );
@@ -47,6 +47,7 @@ class IconFab extends StatelessWidget {
 
   List<Widget> _showIconMenu(BuildContext context) {
     return [
+      Spacer(),
       FabTile(
         iconData: Icons.add,
         text: LocaleKeys.fab_create.tr(),
@@ -59,11 +60,7 @@ class IconFab extends StatelessWidget {
           return ExtendedNavigator.of(context).pushSelectIconScreen(mode: SelectIconMode.fromGroup);
         },
       ),
-      BellAlert(onPressed: () {
-        final alerts = sl<AlertStore>();
-        alerts.markAlertsAsSeen();
-        ExtendedNavigator.of(context).pushAlertScreen();
-      }),
+      Spacer(),
     ];
   }
 

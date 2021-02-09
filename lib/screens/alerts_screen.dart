@@ -106,7 +106,7 @@ class RequestToJoinTile extends StatelessWidget {
             onPressed: () async {
               final conversationId = alert.conversation.id;
               final alertId = alert.id;
-              store.denyRequestToJoinConversation(
+              await store.denyRequestToJoinConversation(
                 conversationId,
                 alertId,
               );
@@ -276,10 +276,10 @@ class BellCountBubble extends StatelessWidget {
           left: 0,
           top: 0,
           child: Container(
-            height: 16,
-            width: 16,
+            height: 8,
+            width: 8,
             decoration: BoxDecoration(
-              gradient: redPinkGradient,
+              color: cornflower,
               shape: BoxShape.circle,
             ),
             child: Center(

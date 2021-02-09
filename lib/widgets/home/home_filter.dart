@@ -34,7 +34,6 @@ class HomeFilter extends StatelessWidget {
             const Radius.circular(15.0),
           ),
         ),
-        duration: const Duration(milliseconds: 100),
         animateMenuItems: true,
         blurBackgroundColor: Colors.black54,
         bottomOffsetHeight: 100,

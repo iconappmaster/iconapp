@@ -6,9 +6,11 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/data/models/conversation_model.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/routes/router.dart';
+import 'package:iconapp/stores/alerts/alert_store.dart';
 import 'package:iconapp/stores/auth/auth_store.dart';
 import 'package:iconapp/stores/chat/chat_store.dart';
 import 'package:iconapp/stores/home/home_store.dart';
@@ -59,15 +61,12 @@ class Fcm {
     return Future.value();
   }
 
-  void _handleFCMToken(
-      AuthStore auth, UserStore user, SharedPreferencesService sp) {
+  void _handleFCMToken(AuthStore auth, UserStore user, SharedPreferencesService sp) {
     messaging.getToken().then((token) => _updateToken(auth, user, token, sp));
-    tokenRefreshSubscription = messaging.onTokenRefresh
-        .listen((token) => _updateToken(auth, user, token, sp));
+    tokenRefreshSubscription = messaging.onTokenRefresh.listen((token) => _updateToken(auth, user, token, sp));
   }
 
-  void _updateToken(AuthStore auth, UserStore user, String token,
-      SharedPreferencesService sp) {
+  void _updateToken(AuthStore auth, UserStore user, String token, SharedPreferencesService sp) {
     if (auth.isSignedIn) user.updatePushToken((token));
     sp.setString(StorageKey.fcmToken, token);
   }
@@ -90,8 +89,7 @@ class Fcm {
         if (conversation != null) {
           await _saveConversation(conversation, sp);
 
-          ExtendedNavigator.named($Router.routerName)
-              .pushChatScreen(conversation: conversation);
+          ExtendedNavigator.named($Router.routerName).pushChatScreen(conversation: conversation);
         }
       } else {
         final home = sl<HomeStore>();
@@ -104,8 +102,7 @@ class Fcm {
     }
   }
 
-  Future _saveConversation(
-      Conversation conversation, SharedPreferencesService sp) async {
+  Future _saveConversation(Conversation conversation, SharedPreferencesService sp) async {
     final json = jsonEncode(conversation.toJson());
     await sp.setString(StorageKey.fcmConversation, json);
   }
@@ -136,6 +133,9 @@ void _showNotification({
   @required Map<String, dynamic> message,
   @required bool isConversationOpen,
 }) {
+  
+  getAlerts();
+
   final fcmConversationId = message['data']['conversationId'] as String;
 
   if (fcmConversationId == null) {
@@ -155,8 +155,15 @@ void _showNotification({
     if (currentOpenConversationId != int.tryParse(fcmConversationId)) {
       final body = message['data']['body'] as String;
       final conversationName = message['data']['conversationName'] as String;
-      showTextNotification(channelName, channelName, fcmConversationId,
-          conversationName, body, fcmConversationId);
+      showTextNotification(channelName, channelName, fcmConversationId, conversationName, body, fcmConversationId);
     }
+  }
+}
+
+void getAlerts() {
+  try {
+    sl<AlertStore>()?.getAlerts();
+  } on Exception catch (_) {
+    Crash.report('cant get alerts from notification');
   }
 }
