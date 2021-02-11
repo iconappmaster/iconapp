@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/helpers/tutorial.dart';
 import 'package:iconapp/stores/purchase/purchase_store.dart';
 import 'package:iconapp/stores/redemption/redemption_store.dart';
@@ -113,7 +114,9 @@ class _HomeScreenState extends State<HomeScreen> {
         _navigateToChatFromFCM();
         _sp.setBool(StorageKey.appForeground, true);
         final result = await _home.refreshData();
-        result.fold((e) {}, (d) {
+        result.fold((e) {
+          Crash.report(e.message);
+        }, (d) {
           _showTutorial();
         });
       }, suspendingCallBack: () {
