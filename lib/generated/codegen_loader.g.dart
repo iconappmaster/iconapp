@@ -330,7 +330,7 @@ static const Map<String,dynamic> en_US = {
   },
   "alerts": {
     "empty": "No new messages",
-    "messages": "Messages",
+    "messages": "Alerts",
     "cleanAll": "Clear All",
     "alert": "Alerts"
   },

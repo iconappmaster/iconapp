@@ -133,6 +133,9 @@ class _MyAppState extends State<MyApp> {
     }
 
     return ShowCaseWidget(
+        onComplete: (_, k) {},
+        onStart: (_, k) {},
+        autoPlayLockEnable: false,
         onFinish: () => _finishTutorial(context),
         builder: Builder(
           builder: (context) => MaterialApp(

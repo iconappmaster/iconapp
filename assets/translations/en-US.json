@@ -106,7 +106,7 @@
     },
     "alerts": {
         "empty": "No new messages",
-        "messages": "Messages",
+        "messages": "Alerts",
         "cleanAll": "Clear All",
         "alert": "Alerts"
     },

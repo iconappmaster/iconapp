@@ -14,7 +14,6 @@ import 'package:iconapp/stores/home/home_store.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'home_list.dart';
 import 'home_staggered.dart';
-import 'icon_fab.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class HomeContent extends StatelessWidget {
@@ -41,7 +40,7 @@ class HomeContent extends StatelessWidget {
                     color: white,
                     strokeWidth: 2,
                     backgroundColor: cornflower,
-                    onRefresh: () => refreshData(),
+                    onRefresh: () => home.refreshData(),
                     child: home.viewMode == ViewHomeMode.list
                         ? ConversationsList(
                             controller: controller,
@@ -115,7 +114,7 @@ class HomeViewModeSwitch extends StatelessWidget {
           children: _children,
           onValueChanged: (index) {
             HapticFeedback.lightImpact();
-            persistViewMode(home);
+            // persistViewMode(home);
             home.switchViewMode();
           },
         ),

@@ -20,7 +20,6 @@ import '../core/theme.dart';
 import '../data/models/conversation_model.dart';
 import '../data/sources/local/shared_preferences.dart';
 import '../routes/router.gr.dart';
-import '../stores/alerts/alert_store.dart';
 import '../stores/analytics/analytics_consts.dart';
 import '../stores/home/home_store.dart';
 import '../data/sources/socket/socket_manager.dart';
@@ -72,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _purchase = sl<PurchaseStore>();
     _initSocket();
 
-    refreshData();
+    _home.refreshData();
     _listenLifeCycle();
 
     _adMobs
@@ -83,23 +82,20 @@ class _HomeScreenState extends State<HomeScreen> {
       ..getProductsFromStore()
       ..listenPurchaseEvents();
 
-    _showTutorial();
-
     super.initState();
   }
 
   void _showTutorial() {
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) {
-        if (!_sp.contains(StorageKey.tutorialHome))
-          ShowCaseWidget.of(context).startShowCase([
-            showcaseFilterButtonKey,
-            showcaseRedemptionButtonKey,
-            showcaseConversationSwitchKey,
-            showcaseHomeViewSwitche
-          ]);
-      },
-    );
+    if (!_sp.contains(StorageKey.tutorialHome)) {
+      Future.delayed(const Duration(seconds: 1), () {
+        ShowCaseWidget.of(context).startShowCase([
+          showcaseFilterButtonKey,
+          showcaseRedemptionButtonKey,
+          showcaseConversationSwitchKey,
+          showcaseHomeViewSwitche
+        ]);
+      });
+    }
   }
 
   @override
@@ -110,13 +106,16 @@ class _HomeScreenState extends State<HomeScreen> {
     super.didChangeDependencies();
   }
 
-  void _listenLifeCycle() {
+  Future _listenLifeCycle() async {
     WidgetsBinding.instance.addObserver(
       LifecycleEventHandler(resumeCallBack: () async {
-        _home?.watchConversation();
+        _home.watchConversation();
         _navigateToChatFromFCM();
-        refreshData();
         _sp.setBool(StorageKey.appForeground, true);
+        final result = await _home.refreshData();
+        result.fold((e) {}, (d) {
+          _showTutorial();
+        });
       }, suspendingCallBack: () {
         _sp.setBool(StorageKey.appForeground, false);
         return Future.value();
@@ -206,8 +205,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     builder: (_) => Visibility(visible: _home.showForceUpdate, child: ForceUpdateDialog()),
                   ),
                   if (!_home.showForceUpdate)
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 27),
+                    Positioned(
+                      bottom: 27,
+                      left: 24,
                       child: IconFab(),
                     ),
                 ],
@@ -218,7 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-   
+
   Future _navigateToChatFromFCM() async {
     if (_sp.contains(StorageKey.fcmConversation)) {
       final conversation = Conversation.loadFCMFromCache();
@@ -244,15 +244,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _purchase?.dispose();
     super.dispose();
   }
-}
-
-Future refreshData() async {
-  final alerts = sl<AlertStore>();
-  final home = sl<HomeStore>();
-  final story = sl<StoryStore>();
-  alerts.getAlerts();
-  story.refreshStories();
-  await home.getConversations();
 }
 
 Future onTileTap(Conversation conversation, BuildContext context, int index, [bool withAds = false]) async {

@@ -9,6 +9,8 @@ import 'package:iconapp/data/models/message_model.dart';
 import 'package:iconapp/data/repositories/home_repository.dart';
 import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/domain/core/errors.dart';
+import 'package:iconapp/stores/alerts/alert_store.dart';
+import 'package:iconapp/stores/story/story_store.dart';
 import 'package:iconapp/widgets/home/home_filter.dart';
 import 'package:mobx/mobx.dart';
 
@@ -223,6 +225,16 @@ abstract class _HomeStoreBase with Store {
     } finally {
       _loading = false;
     }
+  }
+  
+  @action
+  Future<Either<ServerError, List<Conversation>>> refreshData() async {
+    final alerts = sl<AlertStore>();
+    final story = sl<StoryStore>();
+    alerts.getAlerts();
+    story.refreshStories();
+    final result = await getConversations();
+    return result;
   }
 
   @action

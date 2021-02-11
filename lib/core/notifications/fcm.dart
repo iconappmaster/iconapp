@@ -88,7 +88,6 @@ class Fcm {
         final conversation = await home.getCachedConversationById(id);
         if (conversation != null) {
           await _saveConversation(conversation, sp);
-
           ExtendedNavigator.named($Router.routerName).pushChatScreen(conversation: conversation);
         }
       } else {

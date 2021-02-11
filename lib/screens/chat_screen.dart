@@ -195,14 +195,15 @@ class AskJoinToConversationButton extends StatelessWidget {
               confirmBtnText: 'REQUEST',
               onConfirmBtnTap: () async {
                 await chat.requestToJoinConversation();
-                context.showFlushbar(message: 'REQUEST SENT');
+                Navigator.of(context).pop();
+                context.showFlushbar(message: 'REQUEST WAS SENT');
               },
               cancelBtnText: 'CLOSE',
               onCancelBtnTap: () => Navigator.of(context).pop(),
               animType: CoolAlertAnimType.slideInUp,
               text:
-                  'Request from the group\'s admins to join as a contributor, you will gain full access to upload media to the conversation.',
-              title: 'Join as a contributor',
+                  'Request from the group\'s admins to join as a content contributor, you will gain full access to upload media to the conversation.',
+              title: 'Join as a content contributor',
             );
           },
         ),

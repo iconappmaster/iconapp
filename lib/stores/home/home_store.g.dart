@@ -342,6 +342,13 @@ mixin _$HomeStore on _HomeStoreBase, Store {
     return _$getConversationsAsyncAction.run(() => super.getConversations());
   }
 
+  final _$refreshDataAsyncAction = AsyncAction('_HomeStoreBase.refreshData');
+
+  @override
+  Future<Either<ServerError, List<Conversation>>> refreshData() {
+    return _$refreshDataAsyncAction.run(() => super.refreshData());
+  }
+
   final _$getPopularConversationAsyncAction =
       AsyncAction('_HomeStoreBase.getPopularConversation');
 
