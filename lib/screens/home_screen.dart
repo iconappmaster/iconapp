@@ -72,7 +72,14 @@ class _HomeScreenState extends State<HomeScreen> {
     _purchase = sl<PurchaseStore>();
     _initSocket();
 
-    _home.refreshData();
+    _home.refreshData().then((result) {
+      result.fold((e) {
+        Crash.report(e.message);
+      }, (d) {
+        _showTutorial();
+      });
+    });
+
     _listenLifeCycle();
 
     _adMobs
@@ -88,14 +95,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _showTutorial() {
     if (!_sp.contains(StorageKey.tutorialHome)) {
-      Future.delayed(const Duration(seconds: 1), () {
-        ShowCaseWidget.of(context).startShowCase([
-          showcaseFilterButtonKey,
-          showcaseRedemptionButtonKey,
-          showcaseConversationSwitchKey,
-          showcaseHomeViewSwitche
-        ]);
-      });
+    Future.delayed(const Duration(seconds: 1), () {
+      ShowCaseWidget.of(context).startShowCase([
+        showcaseFilterButtonKey,
+        showcaseRedemptionButtonKey,
+        showcaseConversationSwitchKey,
+        showcaseHomeViewSwitche
+      ]);
+    });
     }
   }
 
@@ -113,12 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
         _home.watchConversation();
         _navigateToChatFromFCM();
         _sp.setBool(StorageKey.appForeground, true);
-        final result = await _home.refreshData();
-        result.fold((e) {
-          Crash.report(e.message);
-        }, (d) {
-          _showTutorial();
-        });
+        _home.refreshData();
       }, suspendingCallBack: () {
         _sp.setBool(StorageKey.appForeground, false);
         return Future.value();

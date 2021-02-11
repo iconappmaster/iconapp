@@ -226,7 +226,7 @@ abstract class _HomeStoreBase with Store {
       _loading = false;
     }
   }
-  
+
   @action
   Future<Either<ServerError, List<Conversation>>> refreshData() async {
     final alerts = sl<AlertStore>();
