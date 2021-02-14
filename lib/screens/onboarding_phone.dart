@@ -12,6 +12,7 @@ import 'package:iconapp/core/theme.dart';
 import 'package:iconapp/routes/router.gr.dart';
 import 'package:iconapp/screens/onboarding_profile.dart';
 import 'package:iconapp/stores/auth/auth_store.dart';
+import 'package:iconapp/stores/home/home_store.dart';
 import 'package:iconapp/stores/language/language_store.dart';
 import 'package:iconapp/stores/login/login_store.dart';
 import 'package:iconapp/widgets/global/custom_text.dart';
@@ -215,7 +216,8 @@ class _PinCode extends StatelessWidget {
                       serverError: () => context.showFlushbar(message: LocaleKeys.general_server_error).tr(),
                       wrongCode: () => context.showFlushbar(message: LocaleKeys.onboarding_wrongCode.tr())),
                   (success) => success.when(
-                    navigateHome: () {
+                    navigateHome: () async {
+                      await sl<HomeStore>().getConversations();
                       sl<AuthStore>()
                         ..setSignedIn()
                         ..validateAuthState();

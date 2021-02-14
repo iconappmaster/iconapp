@@ -22,15 +22,11 @@ const defaultCountTimeSec = 17;
 abstract class _LoginStoreBase with Store {
   LoginRepository _repository;
   UserStore _store;
-  // Timer _timer;
 
   _LoginStoreBase() {
     _repository = sl<LoginRepository>();
     _store = sl<UserStore>();
   }
-
-  // @observable
-  // int _currentCountDown = 0;
 
   @observable
   bool _agreeTerms = false;
@@ -40,13 +36,6 @@ abstract class _LoginStoreBase with Store {
 
   @observable
   LoginState _state = LoginState.initial();
-
-  // @computed
-  // String get displayCountdown =>
-  //     (defaultCountTimeSec - _currentCountDown).toString();
-
-  // @computed
-  // bool get counterReachedZero => _currentCountDown == 0;
 
   @computed
   bool get isPhoneMode => _state.phonePageState == PhoneOnboardingState.idle;

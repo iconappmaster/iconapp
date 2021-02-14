@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/helpers/tutorial.dart';
 import 'package:iconapp/stores/purchase/purchase_store.dart';
 import 'package:iconapp/stores/redemption/redemption_store.dart';
@@ -72,13 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _purchase = sl<PurchaseStore>();
     _initSocket();
 
-    _home.refreshData().then((result) {
-      result.fold((e) {
-        Crash.report(e.message);
-      }, (d) {
-        _showTutorial();
-      });
-    });
+    _home.refreshData();
 
     _listenLifeCycle();
 
@@ -95,14 +88,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _showTutorial() {
     if (!_sp.contains(StorageKey.tutorialHome)) {
-    Future.delayed(const Duration(seconds: 1), () {
-      ShowCaseWidget.of(context).startShowCase([
-        showcaseFilterButtonKey,
-        showcaseRedemptionButtonKey,
-        showcaseConversationSwitchKey,
-        showcaseHomeViewSwitche
-      ]);
-    });
+      Future.delayed(const Duration(seconds: 1), () {
+        ShowCaseWidget.of(context).startShowCase([
+          showcaseFilterButtonKey,
+          showcaseRedemptionButtonKey,
+          showcaseConversationSwitchKey,
+          showcaseHomeViewSwitche
+        ]);
+      });
     }
   }
 
@@ -204,7 +197,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   Observer(builder: (_) {
                     return Visibility(
                         visible: !_home.showForceUpdate && _home.showWelcomeDialog,
-                        child: WelcomeDialog(onTap: () => _home.saveWelcomeSeen()));
+                        child: WelcomeDialog(onTap: () {
+                          _showTutorial();
+                          _home.saveWelcomeSeen();
+                        }));
                   }),
                   Observer(
                     builder: (_) => Visibility(visible: _home.showForceUpdate, child: ForceUpdateDialog()),
