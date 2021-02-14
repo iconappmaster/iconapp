@@ -59,6 +59,9 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<UserModel> updatePushToken(String pushToken, String os) async {
-    return await restClient.updatePushToken(pushToken, os);
+    if (pushToken != null) {
+      return await restClient.updatePushToken(pushToken, os);
+    }
+    return null;
   }
 }

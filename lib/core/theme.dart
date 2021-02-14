@@ -394,5 +394,5 @@ final transparentBorder = UnderlineInputBorder(
   color: Colors.transparent,
 ));
 
-
-final redemptionEmptystyle = dialogTitle.copyWith(fontSize: 16, color: white.withOpacity(.3));
+final redemptionEmptystyle =
+    dialogTitle.copyWith(fontSize: 16, color: white.withOpacity(.3));

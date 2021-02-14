@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:iconapp/core/ads/provider_ads/store/custom_ads_store.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
+import 'package:iconapp/data/sources/local/shared_preferences.dart';
 import 'package:iconapp/screens/onboarding_phone.dart';
 import 'package:iconapp/screens/splash_screen.dart';
 import 'package:iconapp/stores/analytics/analytics_consts.dart';
@@ -24,6 +25,7 @@ class _MainNavigatorState extends State<MainNavigator> {
   final auth = sl<AuthStore>();
   final home = sl<HomeStore>();
   final ad = sl<CustomAdsStore>();
+  final sp = sl<SharedPreferencesService>();
 
   @override
   void didChangeDependencies() {
@@ -34,7 +36,7 @@ class _MainNavigatorState extends State<MainNavigator> {
   Future init() async {
     if (auth.isSignedIn) {
       await user.init();
-      if (!ad.addShown) {
+      if (sp.contains(StorageKey.tutorialHome) && !ad.addShown) {
         ExtendedNavigator.of(context).pushCustomAd();
       }
       await home.getConversations();
