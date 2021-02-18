@@ -71,8 +71,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _purchase = sl<PurchaseStore>();
     _initSocket();
 
-    _home.refreshData();
-
     _listenLifeCycle();
 
     _adMobs
@@ -88,14 +86,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _showTutorial() {
     if (!_sp.contains(StorageKey.tutorialHome)) {
-      Future.delayed(const Duration(seconds: 1), () {
-        ShowCaseWidget.of(context).startShowCase([
-          showcaseFilterButtonKey,
-          showcaseRedemptionButtonKey,
-          showcaseConversationSwitchKey,
-          showcaseHomeViewSwitche
-        ]);
-      });
+    Future.delayed(const Duration(seconds: 1), () {
+      ShowCaseWidget.of(context).startShowCase([
+        showcaseFilterButtonKey,
+        showcaseRedemptionButtonKey,
+        showcaseConversationSwitchKey,
+        showcaseHomeViewSwitche
+      ]);
+    });
     }
   }
 
@@ -103,7 +101,10 @@ class _HomeScreenState extends State<HomeScreen> {
   void didChangeDependencies() {
     _navigateToChatFromFCM();
     _handleDynamicLinks();
-
+    _home.refreshData().then((value) => value.fold((l) => null, (r) {
+          setState(() {});
+        }));
+    _showTutorial();
     super.didChangeDependencies();
   }
 
@@ -194,14 +195,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  Observer(builder: (_) {
-                    return Visibility(
-                        visible: !_home.showForceUpdate && _home.showWelcomeDialog,
-                        child: WelcomeDialog(onTap: () {
-                          _showTutorial();
-                          _home.saveWelcomeSeen();
-                        }));
-                  }),
+                  // Observer(builder: (_) {
+                  //   return Visibility(
+                  //       visible: !_home.showForceUpdate && _home.showWelcomeDialog,
+                  //       child: WelcomeDialog(onTap: () {
+                  //         _home.saveWelcomeSeen();
+                  //       }));
+                  // }),
                   Observer(
                     builder: (_) => Visibility(visible: _home.showForceUpdate, child: ForceUpdateDialog()),
                   ),
