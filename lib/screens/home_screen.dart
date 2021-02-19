@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:iconapp/core/firebase/crashlytics.dart';
 import 'package:iconapp/helpers/tutorial.dart';
 import 'package:iconapp/stores/purchase/purchase_store.dart';
 import 'package:iconapp/stores/redemption/redemption_store.dart';
@@ -31,7 +32,6 @@ import '../widgets/home/force_update_dialog.dart';
 import '../widgets/home/home_drawer.dart';
 import '../widgets/home/icon_fab.dart';
 import '../widgets/story/story_list.dart';
-import '../widgets/home/welcome_dialog.dart';
 import '../stores/analytics/analytics_firebase.dart';
 import '../core/extensions/context_ext.dart';
 import 'home_story.dart';
@@ -71,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _purchase = sl<PurchaseStore>();
     _initSocket();
 
-    _listenLifeCycle();
+    _lifecycleListener();
 
     _adMobs
       ..loadInterstital()
@@ -86,14 +86,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _showTutorial() {
     if (!_sp.contains(StorageKey.tutorialHome)) {
-    Future.delayed(const Duration(seconds: 1), () {
-      ShowCaseWidget.of(context).startShowCase([
-        showcaseFilterButtonKey,
-        showcaseRedemptionButtonKey,
-        showcaseConversationSwitchKey,
-        showcaseHomeViewSwitche
-      ]);
-    });
+      Future.delayed(const Duration(seconds: 1), () {
+        ShowCaseWidget.of(context).startShowCase([
+          showcaseFilterButtonKey,
+          showcaseRedemptionButtonKey,
+          showcaseConversationSwitchKey,
+          showcaseHomeViewSwitche
+        ]);
+      });
     }
   }
 
@@ -101,14 +101,18 @@ class _HomeScreenState extends State<HomeScreen> {
   void didChangeDependencies() {
     _navigateToChatFromFCM();
     _handleDynamicLinks();
-    _home.refreshData().then((value) => value.fold((l) => null, (r) {
-          setState(() {});
-        }));
+    _home.refreshData().then(
+          (value) => value.fold(
+            (r) => Crash.report(r.message),
+            (s) => setState(() => print('success'),
+            ),
+          ),
+        );
     _showTutorial();
     super.didChangeDependencies();
   }
 
-  Future _listenLifeCycle() async {
+  Future _lifecycleListener() async {
     WidgetsBinding.instance.addObserver(
       LifecycleEventHandler(resumeCallBack: () async {
         _home.watchConversation();

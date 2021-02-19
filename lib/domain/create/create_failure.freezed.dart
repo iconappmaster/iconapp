@@ -22,6 +22,11 @@ class _$CreateFailureTearOff {
   GeneralError generalError() {
     return const GeneralError();
   }
+
+// ignore: unused_element
+  NotAnIcon notAnIcon() {
+    return const NotAnIcon();
+  }
 }
 
 /// @nodoc
@@ -34,22 +39,26 @@ mixin _$CreateFailure {
   TResult when<TResult extends Object>({
     @required TResult wrongName(),
     @required TResult generalError(),
+    @required TResult notAnIcon(),
   });
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult wrongName(),
     TResult generalError(),
+    TResult notAnIcon(),
     @required TResult orElse(),
   });
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult wrongName(NameTaken value),
     @required TResult generalError(GeneralError value),
+    @required TResult notAnIcon(NotAnIcon value),
   });
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult wrongName(NameTaken value),
     TResult generalError(GeneralError value),
+    TResult notAnIcon(NotAnIcon value),
     @required TResult orElse(),
   });
 }
@@ -109,9 +118,11 @@ class _$NameTaken implements NameTaken {
   TResult when<TResult extends Object>({
     @required TResult wrongName(),
     @required TResult generalError(),
+    @required TResult notAnIcon(),
   }) {
     assert(wrongName != null);
     assert(generalError != null);
+    assert(notAnIcon != null);
     return wrongName();
   }
 
@@ -120,6 +131,7 @@ class _$NameTaken implements NameTaken {
   TResult maybeWhen<TResult extends Object>({
     TResult wrongName(),
     TResult generalError(),
+    TResult notAnIcon(),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -134,9 +146,11 @@ class _$NameTaken implements NameTaken {
   TResult map<TResult extends Object>({
     @required TResult wrongName(NameTaken value),
     @required TResult generalError(GeneralError value),
+    @required TResult notAnIcon(NotAnIcon value),
   }) {
     assert(wrongName != null);
     assert(generalError != null);
+    assert(notAnIcon != null);
     return wrongName(this);
   }
 
@@ -145,6 +159,7 @@ class _$NameTaken implements NameTaken {
   TResult maybeMap<TResult extends Object>({
     TResult wrongName(NameTaken value),
     TResult generalError(GeneralError value),
+    TResult notAnIcon(NotAnIcon value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -199,9 +214,11 @@ class _$GeneralError implements GeneralError {
   TResult when<TResult extends Object>({
     @required TResult wrongName(),
     @required TResult generalError(),
+    @required TResult notAnIcon(),
   }) {
     assert(wrongName != null);
     assert(generalError != null);
+    assert(notAnIcon != null);
     return generalError();
   }
 
@@ -210,6 +227,7 @@ class _$GeneralError implements GeneralError {
   TResult maybeWhen<TResult extends Object>({
     TResult wrongName(),
     TResult generalError(),
+    TResult notAnIcon(),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -224,9 +242,11 @@ class _$GeneralError implements GeneralError {
   TResult map<TResult extends Object>({
     @required TResult wrongName(NameTaken value),
     @required TResult generalError(GeneralError value),
+    @required TResult notAnIcon(NotAnIcon value),
   }) {
     assert(wrongName != null);
     assert(generalError != null);
+    assert(notAnIcon != null);
     return generalError(this);
   }
 
@@ -235,6 +255,7 @@ class _$GeneralError implements GeneralError {
   TResult maybeMap<TResult extends Object>({
     TResult wrongName(NameTaken value),
     TResult generalError(GeneralError value),
+    TResult notAnIcon(NotAnIcon value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -247,4 +268,98 @@ class _$GeneralError implements GeneralError {
 
 abstract class GeneralError implements CreateFailure {
   const factory GeneralError() = _$GeneralError;
+}
+
+/// @nodoc
+abstract class $NotAnIconCopyWith<$Res> {
+  factory $NotAnIconCopyWith(NotAnIcon value, $Res Function(NotAnIcon) then) =
+      _$NotAnIconCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class _$NotAnIconCopyWithImpl<$Res> extends _$CreateFailureCopyWithImpl<$Res>
+    implements $NotAnIconCopyWith<$Res> {
+  _$NotAnIconCopyWithImpl(NotAnIcon _value, $Res Function(NotAnIcon) _then)
+      : super(_value, (v) => _then(v as NotAnIcon));
+
+  @override
+  NotAnIcon get _value => super._value as NotAnIcon;
+}
+
+/// @nodoc
+class _$NotAnIcon implements NotAnIcon {
+  const _$NotAnIcon();
+
+  @override
+  String toString() {
+    return 'CreateFailure.notAnIcon()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is NotAnIcon);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object>({
+    @required TResult wrongName(),
+    @required TResult generalError(),
+    @required TResult notAnIcon(),
+  }) {
+    assert(wrongName != null);
+    assert(generalError != null);
+    assert(notAnIcon != null);
+    return notAnIcon();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object>({
+    TResult wrongName(),
+    TResult generalError(),
+    TResult notAnIcon(),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (notAnIcon != null) {
+      return notAnIcon();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object>({
+    @required TResult wrongName(NameTaken value),
+    @required TResult generalError(GeneralError value),
+    @required TResult notAnIcon(NotAnIcon value),
+  }) {
+    assert(wrongName != null);
+    assert(generalError != null);
+    assert(notAnIcon != null);
+    return notAnIcon(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object>({
+    TResult wrongName(NameTaken value),
+    TResult generalError(GeneralError value),
+    TResult notAnIcon(NotAnIcon value),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (notAnIcon != null) {
+      return notAnIcon(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class NotAnIcon implements CreateFailure {
+  const factory NotAnIcon() = _$NotAnIcon;
 }

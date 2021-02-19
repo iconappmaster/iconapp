@@ -156,15 +156,20 @@ abstract class _CreateDetailsStoreBase with Store {
       return right(unit);
     } on Exception catch (e) {
       if (e is DioError && e.response.data['error'] == 'Validation failed: Name has already been taken') {
-        return left(CreateFailure.wrongName());
+        return left(const CreateFailure.wrongName());
+      } else if (e is DioError && e.response.data['error'] == 'ERROR_NOT_AN_ICON') {
+        return left(const CreateFailure.notAnIcon());
       } else {
-        return left(CreateFailure.generalError());
+        return left(const CreateFailure.generalError());
       }
     } finally {
       isLoading = false;
     }
   }
 
+//  else if (e is DioError && e.response.data['error'] == 'ERROR_NOT_AN ICON') {
+//         return left(const CreateFailure.notAnIcon());
+//       }
   @action
   dispose() {
     _groupName = '';

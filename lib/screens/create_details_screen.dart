@@ -71,7 +71,7 @@ class CreateDetailsScreen extends HookWidget {
                       ConversationExperationButton(),
                     ])),
             ConversationSetPrice(),
-            CreateGroupNavigate(),
+            CreateGroupButton(),
           ],
         ),
       ),
@@ -270,7 +270,7 @@ class ConversationTypeDescription extends StatelessWidget {
   }
 }
 
-class CreateGroupNavigate extends StatelessWidget {
+class CreateGroupButton extends StatelessWidget {
   final store = sl<CreateDetailsStore>();
 
   @override
@@ -281,43 +281,53 @@ class CreateGroupNavigate extends StatelessWidget {
         child: Positioned(
           bottom: 25,
           child: CupertinoButton(
-              child: CustomText('CREATE'),
-              color: store.isLoading ? whiteOpacity30 : cornflower,
-              onPressed: () async {
-                if (store.getSelectedPhoto.isEmpty) {
-                  await context.showFlushbar(color: uiTintColorFill, message: LocaleKeys.create_addPhotoMandatory.tr());
-                }
+            child: CustomText('CREATE'),
+            color: store.isLoading ? whiteOpacity30 : cornflower,
+            onPressed: () async {
+              if (store.getSelectedPhoto.isEmpty) {
+                await context.showFlushbar(color: uiTintColorFill, message: LocaleKeys.create_addPhotoMandatory.tr());
+                return;
+              }
 
-                final canGoForward =
-                    store.groupName.isNotEmpty && store.getSelectedPhoto.isNotEmpty && !store.isLoading;
-                final isPremium = store.currentGroupTypeIndex == 2;
-                final userSetPrice = store.conversationPrice > 0;
+              final canGoForward = store.groupName.isNotEmpty && !store.isLoading;
+              final isPremium = store.currentGroupTypeIndex == 2;
+              final userSetPrice = store.conversationPrice > 0;
 
-                // handle premium
-                if (isPremium && userSetPrice && canGoForward) {
-                  _handleSuccess(store, context);
-                }
+              if (isPremium && userSetPrice && canGoForward) {
+                _createConversation(store, context);
+              }
 
-                if (isPremium && !userSetPrice) {
-                  context.showFlushbar(
-                      color: uiTintColorFill, message: "Pelase set a price before creating the conversation");
-                }
+              if (isPremium && !userSetPrice) {
+                context.showFlushbar(
+                    color: uiTintColorFill, message: "Pelase set a price before creating the conversation");
+              }
 
-                if (!isPremium && canGoForward) {
-                  _handleSuccess(store, context);
-                }
-              }),
+              if (!isPremium && canGoForward) {
+                _createConversation(store, context);
+              }
+            },
+          ),
         ),
       ),
     );
   }
 
-  Future _handleSuccess(CreateDetailsStore store, BuildContext context) async {
+  Future _createConversation(CreateDetailsStore store, BuildContext context) async {
     final res = await store.createGroup();
-    res.fold((e) => context.showFlushbar(message: '${store.groupName} exists'), (s) async {
-      await context.showFlushbar(color: uiTintColorFill, message: '${store.groupName} created');
-      ExtendedNavigator.of(context).popUntilPath(Routes.mainNavigator);
-    });
+    res.fold(
+      (error) {
+        error.when(
+          wrongName: () => context.showFlushbar(message: '${store.groupName} exists'),
+          generalError: () => context.showFlushbar(message: 'Server error'),
+          notAnIcon: () =>
+              context.showFlushbar(message: 'You are not an Icon. Only Icons can create a new conversation'),
+        );
+      },
+      (s) async {
+        await context.showFlushbar(color: uiTintColorFill, message: '${store.groupName} created');
+        ExtendedNavigator.of(context).popUntilPath(Routes.mainNavigator);
+      },
+    );
   }
 }
 
