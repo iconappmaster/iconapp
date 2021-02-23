@@ -47,7 +47,6 @@ class _HomeScreenState extends State<HomeScreen> {
   HomeStore _home;
   UserStore _user;
   StoryStore _story;
-  RedemptionStore _redemption;
   SharedPreferencesService _sp;
   DynamicLink _dynamicLink;
   String homeChannelName = 'home';
@@ -62,7 +61,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _home = sl<HomeStore>();
     _story = sl<StoryStore>();
     _user = sl<UserStore>();
-    _redemption = sl<RedemptionStore>();
     _sp = sl<SharedPreferencesService>();
     _sp.setBool(StorageKey.appForeground, true);
     _dynamicLink = sl<DynamicLink>();
@@ -145,7 +143,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ..bindHomeChangeEvent()
       ..bindStoryChangeEvent();
 
-    _redemption.getRedemptionProducts();
   }
 
   Future _handleDynamicLinks() async {
@@ -199,13 +196,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  // Observer(builder: (_) {
-                  //   return Visibility(
-                  //       visible: !_home.showForceUpdate && _home.showWelcomeDialog,
-                  //       child: WelcomeDialog(onTap: () {
-                  //         _home.saveWelcomeSeen();
-                  //       }));
-                  // }),
                   Observer(
                     builder: (_) => Visibility(visible: _home.showForceUpdate, child: ForceUpdateDialog()),
                   ),

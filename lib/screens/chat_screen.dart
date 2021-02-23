@@ -180,12 +180,12 @@ class AskJoinToConversationButton extends StatelessWidget {
       bottom: 0,
       child: Container(
         width: MediaQuery.of(context).size.width,
-        height: 20,
-        color: lightMustard,
+        height: 40,
+        color: cornflower,
         child: CupertinoButton(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
           color: cornflower,
-          child: CustomText('REQUEST TO JOIN AS A CONTENT CONTRIBUTOR', style: timeOfMessage),
+          child: CustomText('REQUEST TO JOIN AS A CONTENT CONTRIBUTOR', style: timeOfMessage.copyWith(color: lightMustard)),
           onPressed: () {
             CoolAlert.show(
               context: context,

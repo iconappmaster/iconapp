@@ -28,7 +28,7 @@ class ChatFab extends StatelessWidget {
         visible:
             _chat.dataReady && _chat.conversation.userRole == UserRole.viewer,
         child: Positioned(
-            bottom: 35,
+            bottom: 55,
             left: language.isLTR ? null : 16,
             right: language.isLTR ? 16 : null,
             child: CommentsFab(

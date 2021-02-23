@@ -33,7 +33,7 @@ class PanelSubscriber extends StatelessWidget {
             ignoring: store.isSubscribing,
             child: Container(
               color: darkIndigo2,
-              height: 65,
+              height: 85,
               child: Center(
                 child: FlatButton(
                   child: Shimmer.fromColors(

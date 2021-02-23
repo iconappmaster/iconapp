@@ -145,7 +145,7 @@ abstract class _RedemptionStoreBase with Store {
     try {
       _loading = true;
 
-      _user.getRemoteUser();
+      await _user.getRemoteUser();
 
       _products
         ..clear()

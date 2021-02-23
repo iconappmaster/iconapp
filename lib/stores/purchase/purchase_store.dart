@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:iconapp/core/bus.dart';
 import 'package:iconapp/core/dependencies/locator.dart';
@@ -24,7 +25,7 @@ abstract class _PurchaseStoreBase with Store {
   StreamSubscription _subscription;
 
   @observable
-  bool _loading = false;  
+  bool _loading = false;
 
   @observable
   ObservableList<ProductModel> _purchaseProducts = ObservableList.of([]);
@@ -55,7 +56,7 @@ abstract class _PurchaseStoreBase with Store {
             productId: m.id,
           ));
 
-       _purchaseProducts
+      _purchaseProducts
         ..clear()
         ..addAll(productModels);
     } on Exception catch (e) {
@@ -65,7 +66,6 @@ abstract class _PurchaseStoreBase with Store {
     }
   }
 
-  // When clicking on a product
   @action
   Future consumeProduct(String productId) async {
     final response = await _purchase.queryProductDetails(packages);
@@ -77,24 +77,22 @@ abstract class _PurchaseStoreBase with Store {
     );
   }
 
-  Future listenPurchaseEvents() async {
+  void listenPurchaseEvents() {
     _subscription ??= _purchase?.purchaseUpdatedStream?.listen((purchases) {
-      purchases.forEach((purchaseDetails) async {
+
+      purchases.forEach((purchaseDetails) {
         if (purchaseDetails.pendingCompletePurchase) {
-          await InAppPurchaseConnection.instance.completePurchase(purchaseDetails);
+          InAppPurchaseConnection.instance.completePurchase(purchaseDetails);
         }
         switch (purchaseDetails.status) {
           case PurchaseStatus.pending:
             _loading = true;
             break;
           case PurchaseStatus.purchased:
-            print('before verify purchase');
-            final valid = await _verifyPurchase(purchaseDetails);
-            print('after verify purchase');
-            if (valid) {
-              _showConffetiAnimation = true;
-            }
-            _bus.fire(valid ? PurchaseSuccess(purchaseDetails) : PurchaseError());
+            _verifyPurchase(purchaseDetails).then((valid) {
+              if (valid) _showConffetiAnimation = true;
+              _bus.fire(valid ? PurchaseSuccess(purchaseDetails) : PurchaseError());
+            });
             break;
           case PurchaseStatus.error:
             _bus.fire(PurchaseError());
@@ -104,12 +102,12 @@ abstract class _PurchaseStoreBase with Store {
     });
   }
 
-  // purchase was succesfull and now we are velidating with hte backendh
+  // purchase was good and now validating backend
   Future<bool> _verifyPurchase(PurchaseDetails purchaseDetails) async {
     try {
       _loading = true;
       final model = PurchaseModel(
-        orderId: purchaseDetails.billingClientPurchase.orderId,
+        orderId: Platform.isIOS ? purchaseDetails.purchaseID : purchaseDetails?.billingClientPurchase?.orderId ?? '',
         productId: purchaseDetails?.productID,
         purchaseToken: purchaseDetails.billingClientPurchase?.purchaseToken,
       );
