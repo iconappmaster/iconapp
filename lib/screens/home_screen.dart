@@ -76,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ..loadReward();
 
     _purchase
-      ..getProductsFromStore()
+      // ..getProductsFromStore()
       ..listenPurchaseEvents();
 
     super.initState();

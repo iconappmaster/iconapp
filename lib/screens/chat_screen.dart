@@ -178,36 +178,45 @@ class AskJoinToConversationButton extends StatelessWidget {
     final chat = sl<ChatStore>();
     return Positioned(
       bottom: 0,
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: 40,
-        color: cornflower,
-        child: CupertinoButton(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
+      child: Observer(builder: (_) {
+        return Container(
+          width: MediaQuery.of(context).size.width,
+          height: 40,
           color: cornflower,
-          child: CustomText('REQUEST TO JOIN AS A CONTENT CONTRIBUTOR', style: timeOfMessage.copyWith(color: lightMustard)),
-          onPressed: () {
-            CoolAlert.show(
-              context: context,
-              lottieAsset: 'assets/animations/contributor.json',
-              backgroundColor: cornflower,
-              type: CoolAlertType.info,
-              confirmBtnText: 'REQUEST',
-              onConfirmBtnTap: () async {
-                await chat.requestToJoinConversation();
-                Navigator.of(context).pop();
-                context.showFlushbar(message: 'REQUEST WAS SENT');
-              },
-              cancelBtnText: 'CLOSE',
-              onCancelBtnTap: () => Navigator.of(context).pop(),
-              animType: CoolAlertAnimType.slideInUp,
-              text:
-                  'Request from the group\'s admins to join as a content contributor, you will gain full access to upload media to the conversation.',
-              title: 'Join as a content contributor',
-            );
-          },
-        ),
-      ),
+          child: CupertinoButton(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
+            color: cornflower,
+            child: CustomText(
+                chat.conversation.didRequestToJoin
+                    ? 'REQUEST TO JOIN WAS SENT'
+                    : 'REQUEST TO JOIN AS A CONTENT CONTRIBUTOR',
+                style: timeOfMessage.copyWith(color: lightMustard)),
+            onPressed: () {
+              if (!chat.conversation.didRequestToJoin) {
+                CoolAlert.show(
+                  context: context,
+                  lottieAsset: 'assets/animations/contributor.json',
+                  backgroundColor: cornflower,
+                  type: CoolAlertType.info,
+                  confirmBtnText: 'REQUEST',
+                  onConfirmBtnTap: () async {
+                    await chat.requestToJoinConversation();
+                    chat.setConversation(chat.conversation.copyWith(didRequestToJoin: true));
+                    Navigator.of(context).pop();
+                    context.showFlushbar(message: 'REQUEST WAS SENT');
+                  },
+                  cancelBtnText: 'CLOSE',
+                  onCancelBtnTap: () => Navigator.of(context).pop(),
+                  animType: CoolAlertAnimType.slideInUp,
+                  text:
+                      'Request from the group\'s admins to join as a content contributor, you will gain full access to upload media to the conversation.',
+                  title: 'Join as a content contributor',
+                );
+              }
+            },
+          ),
+        );
+      }),
     );
   }
 }

@@ -46,7 +46,8 @@ class _$ConversationTearOff {
       bool isAllowedIn,
       int conversationPrice,
       int conversationExpirationInMonths,
-      bool canEveryoneContribute}) {
+      bool canEveryoneContribute,
+      bool didRequestToJoin}) {
     return _Conversation(
       id: id,
       backgroundColor: backgroundColor,
@@ -77,6 +78,7 @@ class _$ConversationTearOff {
       conversationPrice: conversationPrice,
       conversationExpirationInMonths: conversationExpirationInMonths,
       canEveryoneContribute: canEveryoneContribute,
+      didRequestToJoin: didRequestToJoin,
     );
   }
 
@@ -121,6 +123,7 @@ mixin _$Conversation {
   int get conversationPrice;
   int get conversationExpirationInMonths;
   bool get canEveryoneContribute;
+  bool get didRequestToJoin;
 
   Map<String, dynamic> toJson();
   $ConversationCopyWith<Conversation> get copyWith;
@@ -160,7 +163,8 @@ abstract class $ConversationCopyWith<$Res> {
       bool isAllowedIn,
       int conversationPrice,
       int conversationExpirationInMonths,
-      bool canEveryoneContribute});
+      bool canEveryoneContribute,
+      bool didRequestToJoin});
 
   $PhotoModelCopyWith<$Res> get backgroundPhoto;
   $UserModelCopyWith<$Res> get createdBy;
@@ -208,6 +212,7 @@ class _$ConversationCopyWithImpl<$Res> implements $ConversationCopyWith<$Res> {
     Object conversationPrice = freezed,
     Object conversationExpirationInMonths = freezed,
     Object canEveryoneContribute = freezed,
+    Object didRequestToJoin = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as int,
@@ -273,6 +278,9 @@ class _$ConversationCopyWithImpl<$Res> implements $ConversationCopyWith<$Res> {
       canEveryoneContribute: canEveryoneContribute == freezed
           ? _value.canEveryoneContribute
           : canEveryoneContribute as bool,
+      didRequestToJoin: didRequestToJoin == freezed
+          ? _value.didRequestToJoin
+          : didRequestToJoin as bool,
     ));
   }
 
@@ -363,7 +371,8 @@ abstract class _$ConversationCopyWith<$Res>
       bool isAllowedIn,
       int conversationPrice,
       int conversationExpirationInMonths,
-      bool canEveryoneContribute});
+      bool canEveryoneContribute,
+      bool didRequestToJoin});
 
   @override
   $PhotoModelCopyWith<$Res> get backgroundPhoto;
@@ -418,6 +427,7 @@ class __$ConversationCopyWithImpl<$Res> extends _$ConversationCopyWithImpl<$Res>
     Object conversationPrice = freezed,
     Object conversationExpirationInMonths = freezed,
     Object canEveryoneContribute = freezed,
+    Object didRequestToJoin = freezed,
   }) {
     return _then(_Conversation(
       id: id == freezed ? _value.id : id as int,
@@ -483,6 +493,9 @@ class __$ConversationCopyWithImpl<$Res> extends _$ConversationCopyWithImpl<$Res>
       canEveryoneContribute: canEveryoneContribute == freezed
           ? _value.canEveryoneContribute
           : canEveryoneContribute as bool,
+      didRequestToJoin: didRequestToJoin == freezed
+          ? _value.didRequestToJoin
+          : didRequestToJoin as bool,
     ));
   }
 }
@@ -520,7 +533,8 @@ class _$_Conversation implements _Conversation {
       this.isAllowedIn,
       this.conversationPrice,
       this.conversationExpirationInMonths,
-      this.canEveryoneContribute});
+      this.canEveryoneContribute,
+      this.didRequestToJoin});
 
   factory _$_Conversation.fromJson(Map<String, dynamic> json) =>
       _$_$_ConversationFromJson(json);
@@ -583,10 +597,12 @@ class _$_Conversation implements _Conversation {
   final int conversationExpirationInMonths;
   @override
   final bool canEveryoneContribute;
+  @override
+  final bool didRequestToJoin;
 
   @override
   String toString() {
-    return 'Conversation(id: $id, backgroundColor: $backgroundColor, backgroundPhoto: $backgroundPhoto, categoryId: $categoryId, createdBy: $createdBy, isPinned: $isPinned, createdAt: $createdAt, name: $name, photo: $photo, lastMessage: $lastMessage, shouldShowNewBadge: $shouldShowNewBadge, users: $users, messages: $messages, isSubscribed: $isSubscribed, numberOfAdminsRemaining: $numberOfAdminsRemaining, numberOfParticipants: $numberOfParticipants, shouldShowNewCommentsBadge: $shouldShowNewCommentsBadge, areNotificationsDisabled: $areNotificationsDisabled, areCommentsActivated: $areCommentsActivated, isPopular: $isPopular, commentsMaxUserCount: $commentsMaxUserCount, userRole: $userRole, conversationType: $conversationType, media: $media, entranceCode: $entranceCode, isAllowedIn: $isAllowedIn, conversationPrice: $conversationPrice, conversationExpirationInMonths: $conversationExpirationInMonths, canEveryoneContribute: $canEveryoneContribute)';
+    return 'Conversation(id: $id, backgroundColor: $backgroundColor, backgroundPhoto: $backgroundPhoto, categoryId: $categoryId, createdBy: $createdBy, isPinned: $isPinned, createdAt: $createdAt, name: $name, photo: $photo, lastMessage: $lastMessage, shouldShowNewBadge: $shouldShowNewBadge, users: $users, messages: $messages, isSubscribed: $isSubscribed, numberOfAdminsRemaining: $numberOfAdminsRemaining, numberOfParticipants: $numberOfParticipants, shouldShowNewCommentsBadge: $shouldShowNewCommentsBadge, areNotificationsDisabled: $areNotificationsDisabled, areCommentsActivated: $areCommentsActivated, isPopular: $isPopular, commentsMaxUserCount: $commentsMaxUserCount, userRole: $userRole, conversationType: $conversationType, media: $media, entranceCode: $entranceCode, isAllowedIn: $isAllowedIn, conversationPrice: $conversationPrice, conversationExpirationInMonths: $conversationExpirationInMonths, canEveryoneContribute: $canEveryoneContribute, didRequestToJoin: $didRequestToJoin)';
   }
 
   @override
@@ -658,7 +674,8 @@ class _$_Conversation implements _Conversation {
             (identical(other.isAllowedIn, isAllowedIn) || const DeepCollectionEquality().equals(other.isAllowedIn, isAllowedIn)) &&
             (identical(other.conversationPrice, conversationPrice) || const DeepCollectionEquality().equals(other.conversationPrice, conversationPrice)) &&
             (identical(other.conversationExpirationInMonths, conversationExpirationInMonths) || const DeepCollectionEquality().equals(other.conversationExpirationInMonths, conversationExpirationInMonths)) &&
-            (identical(other.canEveryoneContribute, canEveryoneContribute) || const DeepCollectionEquality().equals(other.canEveryoneContribute, canEveryoneContribute)));
+            (identical(other.canEveryoneContribute, canEveryoneContribute) || const DeepCollectionEquality().equals(other.canEveryoneContribute, canEveryoneContribute)) &&
+            (identical(other.didRequestToJoin, didRequestToJoin) || const DeepCollectionEquality().equals(other.didRequestToJoin, didRequestToJoin)));
   }
 
   @override
@@ -692,7 +709,8 @@ class _$_Conversation implements _Conversation {
       const DeepCollectionEquality().hash(isAllowedIn) ^
       const DeepCollectionEquality().hash(conversationPrice) ^
       const DeepCollectionEquality().hash(conversationExpirationInMonths) ^
-      const DeepCollectionEquality().hash(canEveryoneContribute);
+      const DeepCollectionEquality().hash(canEveryoneContribute) ^
+      const DeepCollectionEquality().hash(didRequestToJoin);
 
   @override
   _$ConversationCopyWith<_Conversation> get copyWith =>
@@ -734,7 +752,8 @@ abstract class _Conversation implements Conversation {
       bool isAllowedIn,
       int conversationPrice,
       int conversationExpirationInMonths,
-      bool canEveryoneContribute}) = _$_Conversation;
+      bool canEveryoneContribute,
+      bool didRequestToJoin}) = _$_Conversation;
 
   factory _Conversation.fromJson(Map<String, dynamic> json) =
       _$_Conversation.fromJson;
@@ -797,6 +816,8 @@ abstract class _Conversation implements Conversation {
   int get conversationExpirationInMonths;
   @override
   bool get canEveryoneContribute;
+  @override
+  bool get didRequestToJoin;
   @override
   _$ConversationCopyWith<_Conversation> get copyWith;
 }

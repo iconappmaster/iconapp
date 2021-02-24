@@ -33,17 +33,20 @@ class PanelSubscriber extends StatelessWidget {
             ignoring: store.isSubscribing,
             child: Container(
               color: darkIndigo2,
-              height: 85,
+              height: 105,
               child: Center(
                 child: FlatButton(
                   child: Shimmer.fromColors(
                     baseColor: white,
                     highlightColor: cornflower,
-                    child: CustomText(LocaleKeys.chat_subsribe.tr(),
-                        style: chatCompose.copyWith(
-                            color: store.isSubscribing
-                                ? Colors.grey
-                                : cornflower)),
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 32.0),
+                      child: CustomText(LocaleKeys.chat_subsribe.tr(),
+                          style: chatCompose.copyWith(
+                              color: store.isSubscribing
+                                  ? Colors.grey
+                                  : cornflower)),
+                    ),
                   ),
                   onPressed: () => store.subscribe(),
                 ),

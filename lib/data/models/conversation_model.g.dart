@@ -55,6 +55,7 @@ _$_Conversation _$_$_ConversationFromJson(Map<String, dynamic> json) {
     conversationExpirationInMonths:
         json['conversationExpirationInMonths'] as int,
     canEveryoneContribute: json['canEveryoneContribute'] as bool,
+    didRequestToJoin: json['didRequestToJoin'] as bool,
   );
 }
 
@@ -89,6 +90,7 @@ Map<String, dynamic> _$_$_ConversationToJson(_$_Conversation instance) =>
       'conversationPrice': instance.conversationPrice,
       'conversationExpirationInMonths': instance.conversationExpirationInMonths,
       'canEveryoneContribute': instance.canEveryoneContribute,
+      'didRequestToJoin': instance.didRequestToJoin,
     };
 
 T _$enumDecode<T>(
