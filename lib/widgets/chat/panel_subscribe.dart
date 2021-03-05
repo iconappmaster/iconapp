@@ -35,7 +35,7 @@ class PanelSubscriber extends StatelessWidget {
               color: darkIndigo2,
               height: 105,
               child: Center(
-                child: FlatButton(
+                child: TextButton(
                   child: Shimmer.fromColors(
                     baseColor: white,
                     highlightColor: cornflower,

@@ -10,11 +10,7 @@ class TransparentButton extends StatelessWidget {
   final Color color;
 
   const TransparentButton(
-      {Key key,
-      @required this.text,
-      @required this.onPressed,
-      this.color = cornflower,
-      this.isEnabled = true})
+      {Key key, @required this.text, @required this.onPressed, this.color = cornflower, this.isEnabled = true})
       : super(key: key);
 
   @override
@@ -26,11 +22,11 @@ class TransparentButton extends StatelessWidget {
       width: 250,
       padding: EdgeInsets.symmetric(vertical: 11),
       margin: EdgeInsets.symmetric(horizontal: 21.7),
-      child: FlatButton(
-          
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(6.7),
-              side: BorderSide(color: colorToUse)),
+      child: TextButton(
+          style: TextButton.styleFrom(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.7), side: BorderSide(color: colorToUse)),
+          ),
           onPressed: onPressed,
           child: CustomText(text, style: disconnectButton)),
     );

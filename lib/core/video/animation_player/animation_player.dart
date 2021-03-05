@@ -68,7 +68,7 @@ class _AnimationPlayerState extends State<AnimationPlayer> {
                     flickVideoWithControlsFullscreen: FlickVideoWithControls(
                         controls: AnimationPlayerLandscapeControls(
                             animationPlayerDataManager: dataManager)))),
-            RaisedButton(
+            ElevatedButton(
               child: Text('Next video'),
               onPressed: () => dataManager.playNextVideo(),
             ),

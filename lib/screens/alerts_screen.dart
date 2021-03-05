@@ -202,15 +202,16 @@ class AlertAppbar extends StatelessWidget {
             Spacer(),
             SizedBox(
               height: 30,
-              child: OutlineButton(
+              child: OutlinedButton(
+                style: OutlinedButton.styleFrom(
                 padding: EdgeInsets.only(top: 5, bottom: 5),
-                onPressed: () => store.clearAll(),
-                color: Colors.transparent,
-                borderSide: BorderSide(color: blueberry2, width: .7),
-                child: CustomText(LocaleKeys.alerts_cleanAll.tr(), style: myStory.copyWith(color: white)),
+                backgroundColor: Colors.transparent,
+                side: BorderSide(color: blueberry2, width: .7),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2.7)),
               ),
-            ),
+                child: CustomText(LocaleKeys.alerts_cleanAll.tr(), style: myStory.copyWith(color: white)),
+                onPressed: () => store.clearAll(),
+            ),),
           ],
         ),
       ),

@@ -39,7 +39,7 @@ part 'chat_store.g.dart';
 class ChatStore = _ChatStoreBase with _$ChatStore;
 
 abstract class _ChatStoreBase with Store {
-  final _socketSubscription = List<StreamSubscription<MessageModel>>();
+  final _socketSubscription = List<StreamSubscription<MessageModel>>.empty();
   StreamSubscription<int> _deleteMessageSubscribption;
 
   ChatRepository _repository;
@@ -117,7 +117,10 @@ abstract class _ChatStoreBase with Store {
     if (dataReady) {
       final isIcon = _userStore.getUser.isIcon;
       final activeMember = conversation.users?.any((u) => u.id.isMe);
-      return isIcon && !activeMember;
+
+      final isViewer = conversation.userRole == UserRole.viewer;
+
+      return isIcon && !activeMember && isViewer;
     }
     return false;
   }

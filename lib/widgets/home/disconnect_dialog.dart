@@ -49,7 +49,7 @@ class DisconnectDialog extends StatelessWidget {
             height: 45,
             title: LocaleKeys.dialogs_disconnect.tr(),
           ),
-          FlatButton(
+          TextButton(
             onPressed: () => ExtendedNavigator.of(context).pop(),
             child: CustomText(
               LocaleKeys.dialogs_dontDisconnect.tr(),

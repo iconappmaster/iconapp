@@ -56,15 +56,7 @@ class HomeContent extends StatelessWidget {
                                   index,
                                 )),
                   ),
-                  Positioned(
-                    bottom: 62,
-                    right: 12,
-                    child: Observer(
-                      builder: (_) {
-                        return HomeViewModeSwitch(home: home);
-                      },
-                    ),
-                  ),
+                  Positioned(bottom: 62, right: 12, child: HomeViewModeSwitch(home: home)),
                   BlueMask(home: home),
                 ],
               ),

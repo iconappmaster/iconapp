@@ -50,13 +50,11 @@ class UnsubscribeButton extends StatelessWidget {
         height: 50,
         margin: EdgeInsets.symmetric(horizontal: 21.3),
         width: double.infinity,
-        child: OutlineButton(
-          padding: EdgeInsets.symmetric(vertical: 12, horizontal: 90),
-          color: deepRed,
-          borderSide: BorderSide(
-            width: .8,
-            color: cornflower,
-          ),
+        child: OutlinedButton(
+          style: OutlinedButton.styleFrom(
+              padding: EdgeInsets.symmetric(vertical: 12, horizontal: 90),
+              backgroundColor: deepRed,
+              side: BorderSide(width: .8, color: cornflower)),
           onPressed: () async {
             await chat.unsubscribe();
             settings.setUnsubscribeButton(false);
@@ -215,13 +213,15 @@ class SettingsActionButton extends StatelessWidget {
     return SizedBox(
       height: 30,
       width: width,
-      child: OutlineButton(
-        padding: EdgeInsets.only(top: 5, bottom: 5),
+      child: OutlinedButton(
         onPressed: isAdminsLeft ? onTap : null,
-        color: backgroundColor ?? Colors.transparent,
-        borderSide: BorderSide(color: borderColor, width: .7),
+        style: OutlinedButton.styleFrom(
+          backgroundColor: backgroundColor ?? Colors.transparent,
+          side: BorderSide(color: borderColor, width: .7),
+          padding: const EdgeInsets.only(top: 5, bottom: 5),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2.7)),
+        ),
         child: CustomText(text, style: textStyle),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2.7)),
       ),
     );
   }

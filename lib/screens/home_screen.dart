@@ -102,8 +102,12 @@ class _HomeScreenState extends State<HomeScreen> {
     _home.refreshData().then(
           (value) => value.fold(
             (r) => Crash.report(r.message),
-            (s) => setState(() => print('success'),
-            ),
+            (s) {
+              if (mounted)
+                setState(
+                  () => print('success'),
+                );
+            },
           ),
         );
     _showTutorial();
@@ -142,7 +146,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ..bindCoinChangeEvent()
       ..bindHomeChangeEvent()
       ..bindStoryChangeEvent();
-
   }
 
   Future _handleDynamicLinks() async {
